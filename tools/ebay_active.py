@@ -184,7 +184,11 @@ def normalise_listing(summary, item):
         ("marketplace", "eBay"),
         ("source_url", summary.get("itemWebUrl")),
         ("image_url", image_of(summary)),
-        ("seller", ((summary.get("seller") or {}).get("username"))),
+        # The seller username is deliberately NOT kept. It is eBay user data,
+        # and holding it drags the whole catalogue into the Marketplace Account
+        # Deletion obligation - every closure notice would mean rebuilding and
+        # redeploying a static site to erase a name. The ask-vs-sold signal
+        # this file exists for does not need to know who is asking.
         # The whole point: this can never be mistaken for a sale.
         ("evidence_type", "active_listing"),
     ])

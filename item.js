@@ -496,7 +496,7 @@
         : '') +
       reading +
       '<div class="table-scroll" style="margin-top:14px"><table><thead><tr>' +
-      '<th class="num">Asking</th><th>Title</th><th>Condition</th><th>Seller</th>' +
+      '<th class="num">Asking</th><th>Title</th><th>Condition</th>' +
       '</tr></thead><tbody>' +
       listings.slice(0, 25).map(function (l) {
         var title = BC.esc(l.title || '');
@@ -505,8 +505,7 @@
                   '" target="_blank" rel="noopener">' + title + '</a>';
         }
         return '<tr><td class="num price">' + BC.exact(l.ask_price) + '</td><td>' + title +
-               '</td><td>' + BC.esc(l.condition || 'Unknown') + '</td><td class="fine">' +
-               BC.esc(l.seller || '—') + '</td></tr>';
+               '</td><td>' + BC.esc(l.condition || 'Unknown') + '</td></tr>';
       }).join('') + '</tbody></table></div>' +
       (BC.data.active_listings_fetched_at
         ? '<p class="fine" style="margin-top:10px">Fetched ' +

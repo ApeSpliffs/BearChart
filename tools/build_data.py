@@ -2515,6 +2515,10 @@ def merge_imported_sales(root):
     return merged
 
 
+# eBay user data. Never allowed into data.json - see load_active_listings.
+USER_DATA_FIELDS = ("seller", "seller_username", "username", "eiasToken", "userId")
+
+
 def load_active_listings(root):
     """Active eBay listings, kept in their own array.
 
@@ -2532,6 +2536,12 @@ def load_active_listings(root):
     for l in listings:
         assert l.get("evidence_type") == "active_listing", \
             "active_listings.json contained a non-listing row: %s" % l.get("id")
+        # data.json is published to a public static site, so no eBay user data
+        # may pass this point. ebay_active.py stopped collecting these, but a
+        # file written before that change still carries them, and a redeploy
+        # would otherwise publish names nobody agreed to publish.
+        for field in USER_DATA_FIELDS:
+            l.pop(field, None)
     return listings, payload.get("fetched_at")
 
 

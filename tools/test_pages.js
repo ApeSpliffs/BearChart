@@ -834,7 +834,7 @@ const listing = (id, price, extra) => Object.assign({
   id: 'active-' + id, item_id: 'original-pumpkin-kitty', listing_id: String(id),
   title: 'Build-A-Bear Pumpkin Kitty', ask_price: price, currency: 'USD',
   condition: 'Good', marketplace: 'eBay', evidence_type: 'active_listing',
-  source_url: 'https://www.ebay.com/itm/' + id, seller: 'aseller'
+  source_url: 'https://www.ebay.com/itm/' + id
 }, extra || {});
 
 test('an item page shows asking prices in their own clearly marked panel', () => {
@@ -1462,8 +1462,7 @@ const activeFor = (itemId, ask, condition) => ({
   id: 'active-' + ask, item_id: itemId, listing_id: String(ask),
   title: 'Build-A-Bear listing', ask_price: ask, currency: 'USD',
   condition: condition || 'Good', marketplace: 'eBay',
-  evidence_type: 'active_listing', source_url: 'https://www.ebay.com/itm/' + ask,
-  seller: 'aseller'
+  evidence_type: 'active_listing', source_url: 'https://www.ebay.com/itm/' + ask
 });
 
 test('the deals page renders without errors', () => {

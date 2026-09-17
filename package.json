@@ -6,7 +6,7 @@
   "scripts": {
     "build": "python3 tools/build_data.py",
     "sql": "python3 tools/export_sql.py",
-    "test": "npm run test:engine && npm run test:pages && npm run test:import && npm run test:ebay && npm run test:poll && npm run test:seo && npm run test:submissions && npm run test:audit",
+    "test": "npm run test:engine && npm run test:pages && npm run test:import && npm run test:ebay && npm run test:poll && npm run test:seo && npm run test:submissions && npm run test:deletion && npm run test:userdata && npm run test:audit",
     "test:engine": "node --test tools/test_engine.js",
     "test:pages": "node --test tools/test_pages.js",
     "start": "node tools/serve.js",
@@ -32,7 +32,9 @@
     "icons": "node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=192\" icons/icon-192.png --width=192 --height=192 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=512\" icons/icon-512.png --width=512 --height=512 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=512&safe=1\" icons/icon-maskable-512.png --width=512 --height=512 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=180\" icons/apple-touch-icon.png --width=180 --height=180 --dpr=1",
     "test:offline": "node tools/test_offline.js",
     "test:submissions": "python3 tools/test_submissions.py",
-    "build:site": "./tools/build_site.sh"
+    "build:site": "./tools/build_site.sh",
+    "test:deletion": "node --test tools/test_ebay_deletion.js",
+    "test:userdata": "python3 tools/test_user_data.py"
   },
   "devDependencies": {
     "jsdom": "^25.0.1"

@@ -74,7 +74,17 @@ class NormalisationTests(unittest.TestCase):
         self.assertEqual(rec["listing_id"], "111")
         self.assertEqual(rec["marketplace"], "eBay")
         self.assertEqual(rec["source_url"], "https://www.eb.com/itm/111")
-        self.assertEqual(rec["seller"], "someseller")
+
+    def test_seller_username_is_never_captured(self):
+        """eBay user data must not enter the pipeline at all.
+
+        The fixture supplies a seller username; holding it would put every
+        listing under the Marketplace Account Deletion obligation, on a site
+        that can only forget someone by rebuilding and redeploying.
+        """
+        rec = eb.normalise_listing(summary("111", "Build-A-Bear Lucky Kitty", 99.99), self.item)
+        self.assertNotIn("seller", rec)
+        self.assertNotIn("someseller", json.dumps(rec))
 
     def test_condition_is_normalised_from_ebay_wording(self):
         rec = eb.normalise_listing(
