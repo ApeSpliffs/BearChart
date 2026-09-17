@@ -36,9 +36,14 @@ module.exports = (req, res) => {
   // built from an undefined token would "succeed" with a wrong digest and
   // leave eBay reporting a validation failure with nothing to point at.
   if (!TOKEN || !ENDPOINT) {
-    console.error('ebay-deletion: EBAY_VERIFICATION_TOKEN and ' +
-                  'EBAY_DELETION_ENDPOINT must both be set.');
-    return res.status(500).json({ error: 'endpoint not configured' });
+    // Name the missing variables. Which names are unset is not a secret, and
+    // without it "not configured" is a guessing game across three Vercel
+    // environments. Values are never reported.
+    const missing = [];
+    if (!TOKEN) missing.push('EBAY_VERIFICATION_TOKEN');
+    if (!ENDPOINT) missing.push('EBAY_DELETION_ENDPOINT');
+    console.error('ebay-deletion: unset: %s', missing.join(', '));
+    return res.status(500).json({ error: 'endpoint not configured', missing: missing });
   }
 
   if (req.method === 'GET') {

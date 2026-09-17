@@ -69,3 +69,16 @@ test('other verbs are rejected', () => {
   handler({ method: 'DELETE' }, res);
   assert.strictEqual(res.statusCode, 405);
 });
+
+test('a missing variable is named, and no value is ever echoed', () => {
+  const saved = process.env.EBAY_VERIFICATION_TOKEN;
+  delete process.env.EBAY_VERIFICATION_TOKEN;
+  delete require.cache[require.resolve(path.join(__dirname, '..', 'api', 'ebay-deletion.js'))];
+  const fresh = require(path.join(__dirname, '..', 'api', 'ebay-deletion.js'));
+  const res = mockRes();
+  fresh({ method: 'GET', query: { challenge_code: 'abc123' } }, res);
+  assert.strictEqual(res.statusCode, 500);
+  assert.deepStrictEqual(res.body.missing, ['EBAY_VERIFICATION_TOKEN']);
+  assert.ok(!JSON.stringify(res.body).includes(saved), 'the token value must never be echoed');
+  process.env.EBAY_VERIFICATION_TOKEN = saved;
+});
