@@ -17,3 +17,7 @@ icon-sheet.png
 
 # Build output assembled by tools/build_site.sh.
 /dist/
+
+# Python bytecode.
+__pycache__/
+*.pyc
