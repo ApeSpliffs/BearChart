@@ -13,3 +13,7 @@ icon-sheet.png
 # every build. Deploy them; do not review them.
 /item/
 /sitemap.xml
+/robots.txt
+
+# Build output assembled by tools/build_site.sh.
+/dist/
