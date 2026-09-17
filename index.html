@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BearChart — Build-A-Bear Price Guide</title>
+<meta name="description" content="An independent Build-A-Bear collector and reseller price guide built on completed sold transactions, not asking prices.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
+<meta name="theme-color" content="#45301f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BearChart">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead"></header>
+<div class="disclaimer-bar" id="disclaimer-bar"></div>
+
+<main>
+  <div class="wrap">
+
+    <!-- The opening. Every number in it is read from the live catalogue by
+         app.js, so it can never drift into a claim the data does not support. -->
+    <section class="hero">
+      <span class="hero-eyebrow">Independent &middot; collector-run</span>
+      <h2 class="hero-title">What your bear is <em>actually</em> worth.</h2>
+      <p class="hero-lede">
+        Every value here is built from <strong>what bears really sold for</strong> &mdash;
+        never asking prices, never guesses. Where the evidence is thin we say so
+        instead of inventing a number.
+      </p>
+      <ul class="hero-proof" id="hero-proof"></ul>
+
+      <div class="searchbar">
+        <input type="search" id="q" placeholder="Search — try “brown teddy 1997”, “vanilla fudge bunny”, “WWF panda”, “axolotl”" autocomplete="off">
+        <button type="button" class="primary" id="clear-all">Reset</button>
+      </div>
+
+      <div class="hero-cast" id="hero-cast" aria-hidden="true"></div>
+    </section>
+
+    <button type="button" class="filter-toggle" id="filter-toggle">Show filters</button>
+
+    <div class="columns">
+
+      <aside class="sidebar" id="sidebar">
+        <!-- Above the filters, because the filter list runs to several hundred
+             pixels and anything below it is never seen. -->
+        <div id="sidebar-promo"></div>
+        <div class="panel">
+          <h2>Filters</h2>
+          <div id="filters"></div>
+        </div>
+      </aside>
+
+      <section>
+        <div class="stats" id="stats"></div>
+
+        <details class="panel" id="calc-panel">
+          <summary style="cursor:pointer;font-weight:600;color:var(--brown-deep)">Quick valuation calculator</summary>
+          <p class="fine" style="margin-top:10px">
+            Pick an item and describe the copy in front of you. The calculator adjusts the
+            item's sold-data baseline by condition and completeness. Only items with sold
+            comps are listed &mdash; without evidence there is no baseline to adjust.
+          </p>
+          <div class="row">
+            <div class="field" style="flex:2 1 260px">
+              <label for="calc-item">Item</label>
+              <select id="calc-item"></select>
+            </div>
+            <div class="field">
+              <label for="calc-cond">Condition</label>
+              <select id="calc-cond"></select>
+            </div>
+            <div class="field">
+              <label for="calc-comp">Completeness</label>
+              <select id="calc-comp"></select>
+            </div>
+          </div>
+          <div id="calc-out" style="margin-top:16px"></div>
+        </details>
+
+        <div class="toolbar">
+          <span class="result-count" id="result-count"></span>
+          <span class="grow"></span>
+          <span class="sortwrap">
+            <label for="sort">Sort</label>
+            <select id="sort">
+              <option value="relevance">Relevance</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+              <option value="rarity">Rarity</option>
+              <option value="comps">Most sold data</option>
+              <option value="name">Name A–Z</option>
+            </select>
+          </span>
+        </div>
+
+        <div class="grid" id="results"></div>
+        <button type="button" class="show-more" id="show-more" hidden></button>
+        <div class="empty" id="empty" hidden></div>
+
+        <!-- Below the results, because exporting is something you do after
+             finding what you wanted, not before. Both act on the full filtered
+             set, not just the page on screen. -->
+        <div class="exports">
+          <span class="fine">Export the current results:</span>
+          <button type="button" id="csv-items">Items CSV</button>
+          <button type="button" id="csv-sales">Sold comps CSV</button>
+        </div>
+
+        <!-- The sidebar is hidden below 860px, so the shop needs somewhere
+             else to live on a phone. Only one of the two is ever visible. -->
+        <div id="mobile-promo"></div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<footer class="site" id="site-footer"></footer>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="icons.js"></script>
+<script src="auth.js"></script>
+<script src="entitlements.js"></script>
+<script src="submissions.js"></script>
+<script src="common.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

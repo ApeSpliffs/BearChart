@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method — BearChart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
+<meta name="theme-color" content="#45301f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BearChart">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead"></header>
+<div class="disclaimer-bar" id="disclaimer-bar"></div>
+
+<main>
+  <div class="wrap">
+
+    <div class="panel">
+      <h2>How BearChart prices things</h2>
+      <p>BearChart is a research tool for collectors and resellers. It answers
+        <em>what did this actually sell for</em>, not <em>what is someone asking</em>.
+        Those are different questions, and conflating them is how people end up holding
+        a bear they paid $200 for because one listing said $200.</p>
+
+      <h3 style="margin-top:22px">The one rule</h3>
+      <p><strong>Completed sold transactions outrank active asking prices — always.</strong>
+        An asking price is a hope. A sold price is evidence. BearChart's engine refuses to
+        treat <span class="mono">active_listing</span> or <span class="mono">retail_reference</span>
+        rows as market evidence, and there is a test that fails the build if that ever changes.</p>
+
+      <h3 style="margin-top:22px">Where a number comes from</h3>
+      <ol class="why" style="padding-left:20px">
+        <li>Collect every sold observation for the exact item — versions and variants are
+          kept apart, never averaged together.</li>
+        <li>Normalise each sale to a common baseline (Good condition, no extras) using the
+          configured condition and completeness multipliers.</li>
+        <li>Drop outliers beyond 1.5× the interquartile range — but only once there are at
+          least five sales. With three, the odd one out is often the real market.</li>
+        <li>Take the <strong>median</strong>, never the mean and never a single sale.</li>
+        <li>Publish the 25th–75th percentile as the working range; below four comps, show the
+          full observed spread instead, because quartiles of three points are noise.</li>
+        <li>Derive buy, trade and high-end ask as configured percentages of that value.</li>
+        <li>Assign confidence from the number of comparable sales.</li>
+      </ol>
+
+      <h3 style="margin-top:22px">Confidence</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Comparable sales</th><th>Confidence</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td>10 or more</td><td><span class="conf conf-high">HIGH</span></td>
+            <td>A real market exists. Price with confidence.</td></tr>
+          <tr><td>4–9</td><td><span class="conf conf-medium">MEDIUM</span></td>
+            <td>Directionally sound. Check the condition split.</td></tr>
+          <tr><td>1–3</td><td><span class="conf conf-low">LOW</span></td>
+            <td>Anecdote, not a market. Treat as a starting point.</td></tr>
+          <tr><td>None</td><td><span class="conf conf-very-low">VERY LOW</span></td>
+            <td>No value is published at all.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3 style="margin-top:22px">What BearChart will not do</h3>
+      <ul class="why">
+        <li>Invent a price for an item with no sold data. Those items say
+          "no sold data yet" and stay that way until a sourced comp arrives.</li>
+        <li>Turn a current retail price into a resale value. Retail is shown separately,
+          labelled as a baseline only.</li>
+        <li>Average an original release together with a Vault reissue, or one version
+          with another.</li>
+        <li>Present a collector report as a verified completed sale. A sale only earns
+          <span class="mono">completed_sale</span> when it carries a date, a marketplace
+          and a listing id.</li>
+        <li>Blindly apply a rarity multiplier. A $250 vintage employee exclusive and a $12
+          Mini Bean do not obey the same formula.</li>
+      </ul>
+
+      <h3 style="margin-top:22px">Evidence types</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Type</th><th>Weight</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">completed_sale</td><td>Strongest</td>
+            <td>A confirmed sale with date, marketplace and listing id.</td></tr>
+          <tr><td class="mono">auction_result</td><td>Strong</td><td>A settled auction.</td></tr>
+          <tr><td class="mono">collector_report</td><td>Supporting</td>
+            <td>A sold price recorded during research without full provenance.</td></tr>
+          <tr><td class="mono">historical_archive</td><td>Supporting</td>
+            <td>An indexed historical sale, e.g. CollectionHero.</td></tr>
+          <tr><td class="mono">active_listing</td><td>Excluded</td>
+            <td>An asking price. Never enters a valuation.</td></tr>
+          <tr><td class="mono">retail_reference</td><td>Excluded</td>
+            <td>Current shop price. Context only.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="panel">
+      <h2>Condition and completeness</h2>
+      <p class="fine">Multipliers are configuration, not code. They live in
+        <span class="mono">config</span> in data.json and can be retuned as the database grows.</p>
+      <div class="columns columns-even">
+        <div><h3>Condition</h3><div class="table-scroll"><table id="cond-table"></table></div></div>
+        <div><h3>Completeness</h3><div class="table-scroll"><table id="comp-table"></table></div></div>
+      </div>
+    </div>
+
+    <div class="panel" id="conflicts-panel" hidden>
+      <h2>Where our money comes from</h2>
+      <div id="conflicts"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Sources</h2>
+      <div id="sources"></div>
+      <p class="fine" style="margin-top:14px">BearChart does not scrape marketplaces in
+        violation of their terms. Data arrives through manual verified entry, permitted
+        public historical sources, and official APIs where available.</p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site" id="site-footer"></footer>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="icons.js"></script>
+<script src="auth.js"></script>
+<script src="entitlements.js"></script>
+<script src="submissions.js"></script>
+<script src="common.js"></script>
+<script>
+(function () {
+  BC.renderChrome('about.html');
+  var CFG = BC.config;
+
+  document.getElementById('cond-table').innerHTML =
+    '<thead><tr><th>Grade</th><th class="num">Multiplier</th></tr></thead><tbody>' +
+    CFG.condition_order.map(function (c) {
+      return '<tr><td>' + c + '</td><td class="num">&times;' +
+             CFG.condition_multipliers[c] + '</td></tr>';
+    }).join('') + '</tbody>';
+
+  document.getElementById('comp-table').innerHTML =
+    '<thead><tr><th>State</th><th class="num">Multiplier</th></tr></thead><tbody>' +
+    Object.keys(CFG.completeness_multipliers).map(function (k) {
+      return '<tr><td>' + BC.esc(CFG.completeness_labels[k] || k) + '</td><td class="num">&times;' +
+             CFG.completeness_multipliers[k] + '</td></tr>';
+    }).join('') + '</tbody>';
+
+  // Only shown once something is actually earning - no point disclosing nothing.
+  var b = BC.business || {};
+  if (b.enabled || b.ebay_campaign_id) {
+    var bits = [];
+    if (b.enabled) {
+      bits.push('<p><strong>' + BC.esc(b.name) + ' buys and sells Build-A-Bear items, ' +
+        'and offers to buy the items this guide values.</strong></p><p>' +
+        BC.esc(b.disclosure) + '</p>');
+    }
+    if (b.ebay_campaign_id) {
+      bits.push('<p>' + BC.esc(b.affiliate_disclosure) + '</p>');
+    }
+    bits.push('<p class="fine">Neither affects a valuation. Every price on this site ' +
+      'comes from the sold data on the item page and nothing else, and there are tests ' +
+      'that fail the build if a valuation ever moves because of them.</p>');
+    document.getElementById('conflicts').innerHTML = bits.join('');
+    document.getElementById('conflicts-panel').hidden = false;
+  }
+
+  document.getElementById('sources').innerHTML = '<dl class="kv">' +
+    BC.data.sources.map(function (s) {
+      return '<dt><a href="' + BC.esc(s.url) + '" target="_blank" rel="noopener">' +
+             BC.esc(s.name) + '</a></dt><dd>' + BC.esc(s.role) + '</dd>';
+    }).join('') + '</dl>';
+})();
+</script>
+</body>
+</html>

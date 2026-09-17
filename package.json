@@ -1,0 +1,42 @@
+{
+  "name": "bearchart",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BearChart \u2014 an independent Build-A-Bear collector and reseller price guide built on completed sold transactions.",
+  "scripts": {
+    "build": "python3 tools/build_data.py",
+    "sql": "python3 tools/export_sql.py",
+    "test": "npm run test:engine && npm run test:pages && npm run test:import && npm run test:ebay && npm run test:poll && npm run test:seo && npm run test:submissions && npm run test:audit",
+    "test:engine": "node --test tools/test_engine.js",
+    "test:pages": "node --test tools/test_pages.js",
+    "start": "node tools/serve.js",
+    "serve": "node tools/serve.js",
+    "test:import": "python3 tools/test_import.py",
+    "import": "python3 tools/import_sales.py",
+    "images": "python3 tools/attach_images.py",
+    "test:ebay": "python3 tools/test_ebay.py",
+    "ebay": "python3 tools/ebay_active.py",
+    "daily": "./tools/daily_update.sh",
+    "icons:sheet": "node tools/icon_sheet.js icon-sheet.png",
+    "import:mine": "python3 tools/import_my_sales.py",
+    "audit": "python3 tools/audit_duplicates.py",
+    "test:audit": "python3 tools/audit_duplicates.py --strict",
+    "poll": "python3 tools/poll_engine.py",
+    "test:poll": "python3 tools/test_poll.py",
+    "wiki:fetch": "python3 tools/fetch_wiki.py",
+    "wiki:build": "python3 tools/build_wiki_catalogue.py",
+    "pages": "python3 tools/build_pages.py",
+    "test:seo": "python3 tools/test_pages_seo.py",
+    "shot": "node tools/shot.js",
+    "pwa": "python3 tools/build_pwa.py",
+    "icons": "node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=192\" icons/icon-192.png --width=192 --height=192 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=512\" icons/icon-512.png --width=512 --height=512 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=512&safe=1\" icons/icon-maskable-512.png --width=512 --height=512 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=180\" icons/apple-touch-icon.png --width=180 --height=180 --dpr=1",
+    "test:offline": "node tools/test_offline.js",
+    "test:submissions": "python3 tools/test_submissions.py"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.34.5"
+  }
+}

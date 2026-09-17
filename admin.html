@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — BearChart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
+<meta name="theme-color" content="#45301f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BearChart">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead"></header>
+<div class="disclaimer-bar" id="disclaimer-bar"></div>
+
+<main>
+  <div class="wrap">
+
+    <div class="panel">
+      <h2>Admin dashboard</h2>
+      <div class="notice" id="access-notice"></div>
+      <p class="fine" style="margin-top:12px">
+        Entries drafted here are held in this browser and exported as JSON or SQL. Once
+        the Supabase backend in <span class="mono">supabase_schema.sql</span> is deployed,
+        these same forms post directly to it — public read, admin-only write, enforced by
+        row-level security on the server rather than by this page.
+      </p>
+    </div>
+
+    <div class="stats" id="admin-stats"></div>
+
+    <div class="columns">
+      <aside class="sidebar">
+        <div class="panel">
+          <h2>Add a sold sale</h2>
+          <p class="fine">Sold transactions only. Never enter an asking price here.</p>
+          <div class="field"><label for="s-item">Item</label><select id="s-item"></select></div>
+          <div class="row" style="margin-top:10px">
+            <div class="field"><label for="s-price">Sold price (USD)</label>
+              <input type="number" id="s-price" step="0.01" min="0" placeholder="42.47"></div>
+            <div class="field"><label for="s-date">Sale date</label>
+              <input type="date" id="s-date"></div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div class="field"><label for="s-cond">Condition</label><select id="s-cond"></select></div>
+            <div class="field"><label for="s-comp">Completeness</label><select id="s-comp"></select></div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div class="field"><label for="s-market">Marketplace</label>
+              <input type="text" id="s-market" placeholder="eBay"></div>
+            <div class="field"><label for="s-listing">Listing id</label>
+              <input type="text" id="s-listing" placeholder="364353106238"></div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div class="field"><label for="s-evidence">Evidence type</label>
+              <select id="s-evidence"></select></div>
+            <div class="field"><label for="s-sample">Sales averaged</label>
+              <input type="number" id="s-sample" min="1" step="1" placeholder="1"></div>
+          </div>
+          <p class="fine">Leave "sales averaged" at 1 for a single transaction. If you
+            are recording a research summary — Terapeak's average sold price across N
+            sales — put N here. It counts toward confidence; the average contributes
+            one point to the median.</p>
+          <div class="field" style="margin-top:10px"><label for="s-url">Source URL</label>
+            <input type="url" id="s-url" placeholder="https://…"></div>
+          <div class="field" style="margin-top:10px"><label for="s-notes">Notes</label>
+            <textarea id="s-notes" rows="2"></textarea></div>
+          <p style="margin-top:12px"><button type="button" class="primary" id="s-add">Add sale</button></p>
+          <p class="fine" id="s-msg"></p>
+        </div>
+
+        <div class="panel">
+          <h2>Add an item</h2>
+          <div class="field"><label for="i-name">Canonical name</label>
+            <input type="text" id="i-name" placeholder="1997 Classic Brown Teddy"></div>
+          <div class="row" style="margin-top:10px">
+            <div class="field"><label for="i-cat">Category</label>
+              <input type="text" id="i-cat" value="Stuffed Animal"></div>
+            <div class="field"><label for="i-species">Animal / species</label>
+              <input type="text" id="i-species" placeholder="Bear"></div>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <div class="field"><label for="i-year">Release year</label>
+              <input type="number" id="i-year" placeholder="1997"></div>
+            <div class="field"><label for="i-franchise">Franchise</label>
+              <input type="text" id="i-franchise" placeholder="Pokemon"></div>
+          </div>
+          <div class="field" style="margin-top:10px"><label for="i-status">Release status</label>
+            <select id="i-status">
+              <option value="">Historical / not tracked</option>
+              <option value="current">Currently at retail</option>
+              <option value="upcoming">Announced, not yet released</option>
+            </select></div>
+          <div class="field" style="margin-top:10px"><label for="i-aliases">Aliases (one per line)</label>
+            <textarea id="i-aliases" rows="3"></textarea></div>
+          <div class="filter-group" style="margin-top:12px">
+            <h3>Attributes</h3>
+            <div class="checks" id="i-flags"></div>
+          </div>
+          <p style="margin-top:12px"><button type="button" class="primary" id="i-add">Add item</button></p>
+          <p class="fine" id="i-msg"></p>
+        </div>
+
+        <div class="panel">
+          <h2>Attach a photo</h2>
+          <p class="fine">Use your own photographs, or images you hold the rights to.
+            Do not hotlink official Build-A-Bear product photography — it is copyrighted.
+            Credit and source are recorded so image provenance survives like sale provenance.</p>
+          <div class="field"><label for="p-item">Item</label><select id="p-item"></select></div>
+          <div class="field" style="margin-top:10px"><label for="p-url">Image URL</label>
+            <input type="url" id="p-url" placeholder="https://… or /images/my-photo.jpg"></div>
+          <div class="row" style="margin-top:10px">
+            <div class="field"><label for="p-credit">Credit</label>
+              <input type="text" id="p-credit" placeholder="Jay's Retro Exchange"></div>
+            <div class="field"><label for="p-source">Source URL</label>
+              <input type="url" id="p-source" placeholder="https://…"></div>
+          </div>
+          <div id="p-preview" style="margin-top:12px"></div>
+          <p style="margin-top:12px"><button type="button" class="primary" id="p-add">Attach photo</button></p>
+          <p class="fine" id="p-msg"></p>
+        </div>
+      </aside>
+
+      <section>
+        <div class="panel">
+          <div class="toolbar">
+            <h2 style="margin:0">Pending entries</h2>
+            <span class="grow"></span>
+            <button type="button" id="export-json">Export JSON</button>
+            <button type="button" id="export-sql">Export SQL</button>
+            <button type="button" id="clear-draft">Discard</button>
+          </div>
+          <p class="fine">Export and hand these to <span class="mono">tools/build_data.py</span>
+            (JSON) or run them against Supabase (SQL) to make them permanent.</p>
+          <div id="draft-body"></div>
+        </div>
+
+        <!-- What readers have sent in. Empty until the Supabase migration in
+             supabase_migration_02_submissions.sql has been applied. -->
+        <div class="panel" id="queue-panel">
+          <div class="toolbar">
+            <h2 style="margin:0">Reader submissions</h2>
+            <span class="grow"></span>
+            <button type="button" id="queue-refresh">Refresh</button>
+            <button type="button" id="queue-csv">Accepted &rarr; CSV</button>
+          </div>
+          <p class="fine">Submitted sales and problem reports. Nothing here has
+            touched a valuation: accepting a sale only marks it for export through
+            <span class="mono">tools/import_sales.py</span>, the same importer every
+            other comp goes through.</p>
+          <div id="queue-body"><p class="fine">Loading…</p></div>
+        </div>
+
+        <div class="panel">
+          <h2>Data quality</h2>
+          <p class="fine">Where the database is thin. These are the gaps worth filling next.</p>
+          <div id="quality"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Recently added sold observations</h2>
+          <div id="recent"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Sources</h2>
+          <div id="sources"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="site" id="site-footer"></footer>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="icons.js"></script>
+<script src="auth.js"></script>
+<script src="entitlements.js"></script>
+<script src="submissions.js"></script>
+<script src="common.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

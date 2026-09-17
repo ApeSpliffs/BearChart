@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deal Finder — BearChart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
+<meta name="theme-color" content="#45301f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BearChart">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead"></header>
+<div class="disclaimer-bar" id="disclaimer-bar"></div>
+
+<main>
+  <div class="wrap">
+
+    <div class="panel">
+      <h2>Deal finder</h2>
+      <p class="fine">Current eBay listings priced below what the sold data says the item
+        is worth, after your fees and shipping come out. A gross discount is not profit —
+        the margin column is what you would actually keep.</p>
+      <div class="notice" id="how-it-works">
+        <strong>No sold data, no deal.</strong> An item nobody has a comp for cannot be
+        underpriced, because nobody knows what it is worth. Listings are also priced as
+        the condition they are actually in — a cheap ask on a played-with copy is not a
+        bargain because mint ones fetch more.
+        <br><br>
+        <strong>Asks are judged against a conservative floor, not the median.</strong>
+        The thinner the sold data, the further that floor sits below the middle, so an
+        item with three comps has to be a much better bargain than one with thirty before
+        it appears here. That is what stops rare items — the ones with the least data —
+        from filling this page with false alarms.
+      </div>
+    </div>
+
+    <div class="stats" id="deal-stats"></div>
+
+    <div class="panel">
+      <h2>Your numbers</h2>
+      <p class="fine">These are assumptions, not facts. Check them against your own
+        account — the margin figures are only as good as these.</p>
+      <div class="row">
+        <div class="field">
+          <label for="fee">Marketplace fee %</label>
+          <input type="number" id="fee" step="0.1" min="0" max="50">
+        </div>
+        <div class="field">
+          <label for="ship">Your shipping cost</label>
+          <input type="number" id="ship" step="0.5" min="0">
+        </div>
+        <div class="field">
+          <label for="min-margin">Min net margin</label>
+          <input type="number" id="min-margin" step="1" min="0">
+        </div>
+        <div class="field">
+          <label for="min-disc">Min discount %</label>
+          <input type="number" id="min-disc" step="1" min="0">
+        </div>
+        <div class="field">
+          <label for="min-conf">Min confidence</label>
+          <select id="min-conf">
+            <option value="LOW">LOW and above</option>
+            <option value="MEDIUM">MEDIUM and above</option>
+            <option value="HIGH">HIGH only</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="toolbar">
+        <h2 style="margin:0">Candidates</h2>
+        <span class="grow"></span>
+        <span class="result-count" id="deal-count"></span>
+        <button type="button" id="export-deals">Export CSV</button>
+      </div>
+      <div id="deals"></div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site" id="site-footer"></footer>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="icons.js"></script>
+<script src="auth.js"></script>
+<script src="entitlements.js"></script>
+<script src="submissions.js"></script>
+<script src="common.js"></script>
+<script src="deals.js"></script>
+</body>
+</html>

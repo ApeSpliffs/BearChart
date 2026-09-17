@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Membership — BearChart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
+<meta name="theme-color" content="#45301f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BearChart">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead"></header>
+<div class="disclaimer-bar" id="disclaimer-bar"></div>
+
+<main>
+  <div class="wrap">
+
+    <div class="panel">
+      <h2>Membership</h2>
+      <div id="status-notice"></div>
+    </div>
+
+    <div class="plan-grid" id="plans"></div>
+
+    <div class="panel">
+      <h2>Why the free tier is this generous</h2>
+      <p class="fine">BearChart is a static site. The whole catalogue and every sold
+        comp arrive in your browser as one file the moment the page loads. Anything
+        worked out from that file &mdash; a valuation, a checklist, a deal calculation
+        &mdash; is happening on your machine with data you already have, so putting it
+        behind a paywall would be a lock on a door with no wall attached. Anyone could
+        step around it from a developer console in a few seconds.</p>
+      <p class="fine">So the split is not <em>basic versus good</em>. It is
+        <strong>what your browser can do on its own</strong> against
+        <strong>what needs a server</strong>: keeping your collection somewhere other
+        than one browser, holding a schedule you can produce again years later, sending
+        a notification, spending API quota to find a listing. Those cost real money to
+        run, they can genuinely be enforced, and that is exactly the set worth charging
+        for.</p>
+    </div>
+
+    <div class="panel">
+      <h2>What a Power membership actually promises</h2>
+      <div class="notice warn" id="hot-slots"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Where each paid feature is enforced</h2>
+      <p class="fine">Listed plainly, because a feature the browser merely hides is not
+        the same as one the database refuses.</p>
+      <div id="enforcement"></div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site" id="site-footer"></footer>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="icons.js"></script>
+<script src="auth.js"></script>
+<script src="entitlements.js"></script>
+<script src="submissions.js"></script>
+<script src="common.js"></script>
+<script src="plans.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap — BearChart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
+<meta name="theme-color" content="#45301f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BearChart">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead"></header>
+<div class="disclaimer-bar" id="disclaimer-bar"></div>
+
+<main>
+  <div class="wrap">
+
+    <div class="panel">
+      <h2>Where BearChart is going</h2>
+      <p class="fine">What is built, what is planned, and — just as important — what the
+        available market data will not permit however much work is thrown at it. The full
+        technical blueprint with schemas and algorithms is a separate document; this page
+        is the summary in plain terms.</p>
+      <div class="stats" id="phase-stats" style="margin-top:18px"></div>
+    </div>
+
+    <div class="panel">
+      <h2>The constraint everything else follows from</h2>
+      <div class="notice warn">
+        <strong>Continuous sold-price data cannot be bought or fetched.</strong>
+        eBay's old completed-listings API is retired; sold data now sits behind an
+        application-only programme that is closed to non-partners, with a 90-day window
+        even if granted. Sold listings are behind a login wall, so scraping is both a
+        terms violation and technically blocked. Mercari has no public API.
+      </div>
+      <p class="fine">This is not a gap waiting to be coded around. It is the shape of the
+        problem, and every plan below is designed against it rather than through it. The
+        practical consequence: <strong>the sold data BearChart holds will always be data
+        somebody entered</strong> — from a Terapeak session, from an order export, or
+        from a sale you made yourself. That is slower than a scraper and it is also the
+        only part a competitor cannot copy.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Phase 2 — Valuation depth</h2>
+      <div id="p2"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Phase 3 — Alerts &amp; assembly</h2>
+      <div id="p3"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Phase 4 — Community</h2>
+      <div id="p4"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Deliberately not planned</h2>
+      <div id="never"></div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site" id="site-footer"></footer>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="icons.js"></script>
+<script src="auth.js"></script>
+<script src="entitlements.js"></script>
+<script src="submissions.js"></script>
+<script src="common.js"></script>
+<script src="roadmap.js"></script>
+</body>
+</html>

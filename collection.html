@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Collection — BearChart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
+<meta name="theme-color" content="#45301f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BearChart">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead"></header>
+<div class="disclaimer-bar" id="disclaimer-bar"></div>
+
+<main>
+  <div class="wrap">
+    <div class="panel">
+      <h2>My collection</h2>
+      <p class="fine">Stored in this browser only — nothing is uploaded. Each line is valued
+        from BearChart's sold data, adjusted for the condition and completeness you record.</p>
+      <div class="row">
+        <div class="field" style="flex:3 1 260px">
+          <label for="add-item">Add an item</label>
+          <select id="add-item"></select>
+        </div>
+        <div class="field">
+          <label for="add-cond">Condition</label>
+          <select id="add-cond"></select>
+        </div>
+        <div class="field">
+          <label for="add-comp">Completeness</label>
+          <select id="add-comp"></select>
+        </div>
+        <div class="field" style="flex:0 0 90px">
+          <label for="add-qty">Qty</label>
+          <input type="number" id="add-qty" value="1" min="1" step="1">
+        </div>
+        <div class="field" style="flex:0 0 auto">
+          <button type="button" class="primary" id="add-btn">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats" id="totals"></div>
+
+    <div class="panel" id="history-panel">
+      <div class="toolbar">
+        <h2 style="margin:0">Value over time</h2>
+        <span class="grow"></span>
+        <button type="button" id="export-history">Export history CSV</button>
+      </div>
+      <div id="history-body"></div>
+    </div>
+
+    <div class="panel">
+      <div class="toolbar">
+        <h2 style="margin:0">Items</h2>
+        <span class="grow"></span>
+        <button type="button" id="export-collection">Export CSV</button>
+        <button type="button" id="export-insurance">Insurance schedule</button>
+        <button type="button" id="export-cover">Cover statement</button>
+        <button type="button" id="clear-collection">Clear all</button>
+      </div>
+      <div id="collection-body"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="site" id="site-footer"></footer>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="icons.js"></script>
+<script src="auth.js"></script>
+<script src="entitlements.js"></script>
+<script src="submissions.js"></script>
+<script src="common.js"></script>
+<script src="collection.js"></script>
+</body>
+</html>

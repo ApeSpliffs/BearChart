@@ -1,0 +1,60 @@
+name: Daily refresh
+
+# Refreshes eBay ASKING prices only. Sold comps are not obtainable from any API
+# we can use, so valuations do not change here - see README, "Live data".
+on:
+  schedule:
+    - cron: '15 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: npm ci
+
+      - name: Refresh asking prices
+        env:
+          EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
+          EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
+        run: |
+          if [ -n "$EBAY_CLIENT_ID" ]; then
+            python3 tools/ebay_active.py --priced-only --limit 40 || \
+              echo "eBay fetch failed; keeping yesterday's listings"
+          else
+            echo "No eBay credentials configured; skipping fetch"
+          fi
+
+      - name: Rebuild
+        run: |
+          python3 tools/build_data.py
+          python3 tools/export_sql.py
+
+      # Nothing is committed unless the whole suite passes.
+      - name: Verify
+        run: npm test
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name  "bearchart-bot"
+          git config user.email "bearchart-bot@users.noreply.github.com"
+          git add data.json data.js seed.sql tools/active_listings.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Daily refresh: asking prices $(date -u +%Y-%m-%d)"
+            git push
+          fi

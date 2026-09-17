@@ -1,0 +1,120 @@
+# Running BearChart daily
+
+`tools/daily_update.sh` refreshes asking prices, rebuilds the data files, runs the
+full test suite, and only publishes if everything passes. If anything fails it
+restores the previous state, so an unattended run can never leave a broken site up.
+
+**What updates daily:** current eBay asking prices.
+**What does not:** sold prices, and therefore valuations. There is no API that
+will hand us sold comps — see the "Live data" section of the main README. Sold
+data arrives when you add it. Anything else would be inventing sales.
+
+---
+
+## Option 1 — cron (simplest)
+
+```bash
+chmod +x tools/daily_update.sh
+crontab -e
+```
+
+Add, adjusting the path:
+
+```cron
+# BearChart — refresh asking prices every morning at 06:15
+EBAY_CLIENT_ID=your-app-id
+EBAY_CLIENT_SECRET=your-cert-id
+15 6 * * * /home/jakebassett1030/bearchart/tools/daily_update.sh
+```
+
+Cron runs with a minimal environment, which is why the script forces
+`/usr/local/bin` onto `PATH` itself (that's where Node lives here).
+
+Logs land in `logs/daily-YYYY-MM-DD.log`, kept for 14 days.
+
+---
+
+## Option 2 — systemd timer (better logging, survives missed runs)
+
+`~/.config/systemd/user/bearchart.service`:
+
+```ini
+[Unit]
+Description=BearChart daily refresh
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/bearchart
+Environment=EBAY_CLIENT_ID=your-app-id
+Environment=EBAY_CLIENT_SECRET=your-cert-id
+ExecStart=%h/bearchart/tools/daily_update.sh
+```
+
+`~/.config/systemd/user/bearchart.timer`:
+
+```ini
+[Unit]
+Description=Run BearChart refresh daily
+
+[Timer]
+OnCalendar=*-*-* 06:15:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now bearchart.timer
+systemctl --user list-timers bearchart.timer
+journalctl --user -u bearchart.service -n 50
+```
+
+`Persistent=true` means a run missed while the machine was off happens at next boot.
+
+Storing secrets in a unit file means they're readable by your user — fine on a
+personal machine. For anything shared, use `EnvironmentFile=` pointing at a
+`chmod 600` file instead.
+
+---
+
+## Option 3 — GitHub Actions (runs in the cloud, no machine of your own)
+
+`.github/workflows/daily.yml` is included. Add two repository secrets under
+Settings → Secrets and variables → Actions:
+
+- `EBAY_CLIENT_ID`
+- `EBAY_CLIENT_SECRET`
+
+It runs at 06:15 UTC daily, commits the refreshed data files back to the repo, and
+can be triggered by hand from the Actions tab. If you deploy from that repo to
+Vercel, the site redeploys itself on every refresh — which is as close to "live
+daily" as this data honestly gets.
+
+---
+
+## Tuning
+
+| Variable | Default | What it does |
+|---|---|---|
+| `BEARCHART_ITEM_LIMIT` | 40 | How many catalogue items to search per run |
+| `BEARCHART_PER_ITEM` | 20 | Max listings kept per item |
+| `BEARCHART_LOG_DIR` | `./logs` | Where logs go |
+
+The Browse API is rate limited (roughly 5,000 calls/day on a default key), and the
+adapter sleeps between calls. 40 items/day is comfortable. Raising it much past a
+few hundred risks throttling, and the script will report it rather than silently
+truncating.
+
+Because it walks with `--priced-only`, it spends the budget on items that already
+have sold comps — the only ones where an ask-vs-sold spread means anything.
+
+---
+
+## Checking it worked
+
+```bash
+tail -40 logs/daily-$(date +%Y-%m-%d).log
+python3 -c "import json;d=json.load(open('data.json'));print(d.get('active_listings_fetched_at'), len(d.get('active_listings') or []))"
+```
