@@ -10,9 +10,24 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 DIST=dist
 
-# Netlify sets URL for the production site and DEPLOY_PRIME_URL for previews.
-# Without a base URL build_pages.py writes no sitemap, which is not an error.
-BASE="${DEPLOY_PRIME_URL:-${URL:-}}"
+command -v python3 >/dev/null || {
+  echo "build_site.sh needs python3 to generate the item pages." >&2
+  exit 1
+}
+
+# The sitemap needs absolute URLs, so the base address has to come from the
+# host. Each names it differently, and Vercel's carries no scheme.
+if [ -n "${DEPLOY_PRIME_URL:-}" ]; then
+  BASE="$DEPLOY_PRIME_URL"                       # Netlify deploy preview
+elif [ -n "${URL:-}" ]; then
+  BASE="$URL"                                    # Netlify production
+elif [ "${VERCEL_ENV:-}" = "production" ] && [ -n "${VERCEL_PROJECT_PRODUCTION_URL:-}" ]; then
+  BASE="https://$VERCEL_PROJECT_PRODUCTION_URL"  # Vercel production
+elif [ -n "${VERCEL_URL:-}" ]; then
+  BASE="https://$VERCEL_URL"                     # Vercel preview
+else
+  BASE=""                                        # local build; no sitemap, not an error
+fi
 
 if [ -n "$BASE" ]; then
   python3 tools/build_pages.py --base-url "$BASE"
