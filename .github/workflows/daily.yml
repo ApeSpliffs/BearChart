@@ -45,6 +45,10 @@ jobs:
           # item/*.html is gitignored, so a fresh checkout has none; the page
           # tests need them. Generate them here (they are not committed).
           python3 tools/build_pages.py
+          # Re-hash the offline cache. The service worker's cache name is a hash
+          # of what it precaches, so without this, installed visitors keep the
+          # old catalogue forever (tools/daily_update.sh does the same).
+          python3 tools/build_pwa.py
 
       # Nothing is committed unless the whole suite passes.
       - name: Verify
@@ -56,7 +60,7 @@ jobs:
           git config user.email "bearchart-bot@users.noreply.github.com"
           # tools/active_listings.json is gitignored (and may not exist), so it
           # is not staged here - the listings already ship inside data.json.
-          git add data.json data.js seed.sql
+          git add data.json data.js seed.sql sw.js manifest.webmanifest
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
