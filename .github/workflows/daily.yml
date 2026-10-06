@@ -42,6 +42,9 @@ jobs:
         run: |
           python3 tools/build_data.py
           python3 tools/export_sql.py
+          # item/*.html is gitignored, so a fresh checkout has none; the page
+          # tests need them. Generate them here (they are not committed).
+          python3 tools/build_pages.py
 
       # Nothing is committed unless the whole suite passes.
       - name: Verify
@@ -49,12 +52,14 @@ jobs:
 
       - name: Commit refreshed data
         run: |
-          git config user.name  "bearchart-bot"
+          git config user.name "bearchart-bot"
           git config user.email "bearchart-bot@users.noreply.github.com"
-          git add data.json data.js seed.sql tools/active_listings.json
+          # tools/active_listings.json is gitignored (and may not exist), so it
+          # is not staged here - the listings already ship inside data.json.
+          git add data.json data.js seed.sql
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Daily refresh: asking prices $(date -u +%Y-%m-%d)"
+            git commit -m "Daily refresh: rebuild data $(date -u +%Y-%m-%d)"
             git push
           fi
