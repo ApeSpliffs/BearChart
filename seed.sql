@@ -74518,6 +74518,528 @@ select i.id, '2026-09-27', 15.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https:/
       and s.listing_id is not distinct from '206564639085'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2024');
 
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-25', 79.67, null, 'USD', 'NWT', 'some_originals', 'eBay', 'https://www.ebay.com/itm/314390491726', '314390491726', 'collector_report', false, 31, null, 'Terapeak average across 31 units sold on one listing; matched by title and reviewed; shipping excluded; title: Build a Bear Cinnamoroll Sanrio Plush New With Tags, Includes Certificate' from items i where i.slug = 'cinnamoroll'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 79.67
+      and s.sale_date is not distinct from '2024-08-25'
+      and s.listing_id is not distinct from '314390491726'
+      and s.notes is not distinct from 'Terapeak average across 31 units sold on one listing; matched by title and reviewed; shipping excluded; title: Build a Bear Cinnamoroll Sanrio Plush New With Tags, Includes Certificate');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-22', 20.0, null, 'USD', 'Fair', 'unknown', 'eBay', 'https://www.ebay.com/itm/128017692778', '128017692778', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: "Build a Bear Hello Kitty Gingerbread 18" Original Sanrio Flawed No Return' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2026-08-22'
+      and s.listing_id is not distinct from '128017692778'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: "Build a Bear Hello Kitty Gingerbread 18" Original Sanrio Flawed No Return');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-28', 29.95, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/147004688100', '147004688100', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: HELLO KITTY BUILD A BEAR 2012 GINGERBREAD SCENTED PLUSH SANRIO LIMITED NO BOW' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.95
+      and s.sale_date is not distinct from '2025-12-28'
+      and s.listing_id is not distinct from '147004688100'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: HELLO KITTY BUILD A BEAR 2012 GINGERBREAD SCENTED PLUSH SANRIO LIMITED NO BOW');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-26', 30.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126968964817', '126968964817', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BAB Hello Kitty Gingerbread Brown Stuffed Plush Retired Sanrio 20”' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2025-12-26'
+      and s.listing_id is not distinct from '126968964817'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BAB Hello Kitty Gingerbread Brown Stuffed Plush Retired Sanrio 20”');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-08', 110.0, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/135598154595', '135598154595', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Gingerbread Build-a-Bear (2012) Excellent Condition' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 110.0
+      and s.sale_date is not distinct from '2025-03-08'
+      and s.listing_id is not distinct from '135598154595'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Gingerbread Build-a-Bear (2012) Excellent Condition');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-14', 60.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126721681181', '126721681181', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BABW Hello Kitty Gingerbread Brown Stuffed Plush Retired Sanrio' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.0
+      and s.sale_date is not distinct from '2024-12-14'
+      and s.listing_id is not distinct from '126721681181'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BABW Hello Kitty Gingerbread Brown Stuffed Plush Retired Sanrio');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-03', 40.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126743881538', '126743881538', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Build A Bear Gingerbread Tan Brown Plush Sanrio Retired 2012 18”' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2024-12-03'
+      and s.listing_id is not distinct from '126743881538'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Build A Bear Gingerbread Tan Brown Plush Sanrio Retired 2012 18”');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-14', 99.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/135095857476', '135095857476', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: HELLO KITTY GINGERBREAD 18" Plush BUILD-A-BEAR w/ bow -- (Retired)' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 99.0
+      and s.sale_date is not distinct from '2024-06-14'
+      and s.listing_id is not distinct from '135095857476'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: HELLO KITTY GINGERBREAD 18" Plush BUILD-A-BEAR w/ bow -- (Retired)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-31', 60.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135082919679', '135082919679', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Build A Bear Gingerbread Tan Brown Plush Sanrio Retired 2012' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.0
+      and s.sale_date is not distinct from '2024-05-31'
+      and s.listing_id is not distinct from '135082919679'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Build A Bear Gingerbread Tan Brown Plush Sanrio Retired 2012');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-14', 179.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/134870329708', '134870329708', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Work Shop Sanrio Gingerbread Tan Brown Hello Kitty Plush 18" NWT' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 179.99
+      and s.sale_date is not distinct from '2024-04-14'
+      and s.listing_id is not distinct from '134870329708'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Work Shop Sanrio Gingerbread Tan Brown Hello Kitty Plush 18" NWT');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-09', 77.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126411329772', '126411329772', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Hello Kitty Gingerbread Plush' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 77.0
+      and s.sale_date is not distinct from '2024-04-09'
+      and s.listing_id is not distinct from '126411329772'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Hello Kitty Gingerbread Plush');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-31', 74.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126398324377', '126398324377', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Build A Bear Gingerbread Tan Brown Plush Sanrio Retired 2012' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 74.99
+      and s.sale_date is not distinct from '2024-03-31'
+      and s.listing_id is not distinct from '126398324377'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Build A Bear Gingerbread Tan Brown Plush Sanrio Retired 2012');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-11', 40.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/155942339366', '155942339366', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Plush Build A Bear Workshop Gingerbread 2012 Sanrio Bow Brown XMas' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2023-12-11'
+      and s.listing_id is not distinct from '155942339366'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Plush Build A Bear Workshop Gingerbread 2012 Sanrio Bow Brown XMas');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-29', 124.86, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126198627525', '126198627525', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Plush Build A Bear Workshop Gingerbread 2012 Sanrio Bow Brown XMas' from items i where i.slug = 'gingerbread-hello-kitty'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 124.86
+      and s.sale_date is not distinct from '2023-11-29'
+      and s.listing_id is not distinct from '126198627525'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Plush Build A Bear Workshop Gingerbread 2012 Sanrio Bow Brown XMas');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-23', 177.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/178228177843', '178228177843', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Stuffed Sanrio JUMBO Cinnamoroll Plush 36”• Brand New' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 177.5
+      and s.sale_date is not distinct from '2026-06-23'
+      and s.listing_id is not distinct from '178228177843'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Stuffed Sanrio JUMBO Cinnamoroll Plush 36”• Brand New');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-15', 135.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/157991901360', '157991901360', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: NWT Build A Bear JUMBO Cinnamoroll Sanrio Plush 36 IN -Stuffed-' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 135.0
+      and s.sale_date is not distinct from '2026-06-15'
+      and s.listing_id is not distinct from '157991901360'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: NWT Build A Bear JUMBO Cinnamoroll Sanrio Plush 36 IN -Stuffed-');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-21', 120.0, null, 'USD', 'NWT', 'some_originals', 'eBay', 'https://www.ebay.com/itm/147213161468', '147213161468', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: NWT JUMBO Cinnamoroll Build-a-Bear Plush with Bow NO ORIGINAL STRINGS Sanrio' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 120.0
+      and s.sale_date is not distinct from '2026-04-21'
+      and s.listing_id is not distinct from '147213161468'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: NWT JUMBO Cinnamoroll Build-a-Bear Plush with Bow NO ORIGINAL STRINGS Sanrio');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-25', 130.0, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/167696433581', '167696433581', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: UNSTUFFED Build A Bear Sanrio Jumbo Cinnamoroll 36" Plush with Bow' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 130.0
+      and s.sale_date is not distinct from '2025-09-25'
+      and s.listing_id is not distinct from '167696433581'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: UNSTUFFED Build A Bear Sanrio Jumbo Cinnamoroll 36" Plush with Bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-14', 208.0, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/365335598312', '365335598312', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; shipping excluded; title: Sanrio Hello Kitty And Friends Build A Bear JUMBO Cinnamoroll UNSTUFFED' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 208.0
+      and s.sale_date is not distinct from '2025-02-14'
+      and s.listing_id is not distinct from '365335598312'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; shipping excluded; title: Sanrio Hello Kitty And Friends Build A Bear JUMBO Cinnamoroll UNSTUFFED');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-09', 279.0, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/135491018993', '135491018993', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Hello Kitty And Friends Build A Bear JUMBO Cinnamoroll UNSTUFFED 3ft 36in' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 279.0
+      and s.sale_date is not distinct from '2025-01-09'
+      and s.listing_id is not distinct from '135491018993'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Hello Kitty And Friends Build A Bear JUMBO Cinnamoroll UNSTUFFED 3ft 36in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-21', 200.0, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/135457353475', '135457353475', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Hello Kitty And Friends Build A Bear JUMBO Cinnamoroll UNSTUFFED 3ft 36in' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 200.0
+      and s.sale_date is not distinct from '2024-12-21'
+      and s.listing_id is not distinct from '135457353475'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Hello Kitty And Friends Build A Bear JUMBO Cinnamoroll UNSTUFFED 3ft 36in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-19', 225.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/387623828890', '387623828890', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; shipping excluded; title: Sanrio Build A Bear Jumbo Cinnamoroll BNWT Fast Free Shipping' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 225.0
+      and s.sale_date is not distinct from '2024-11-19'
+      and s.listing_id is not distinct from '387623828890'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; shipping excluded; title: Sanrio Build A Bear Jumbo Cinnamoroll BNWT Fast Free Shipping');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-02', 250.0, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/167000507251', '167000507251', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; shipping excluded; title: Build A Bear JUMBO Cinnamoroll Sanrio Plush W/bow NWT Unstuffed' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 250.0
+      and s.sale_date is not distinct from '2024-11-02'
+      and s.listing_id is not distinct from '167000507251'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; shipping excluded; title: Build A Bear JUMBO Cinnamoroll Sanrio Plush W/bow NWT Unstuffed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-10-05', 245.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126699926031', '126699926031', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Build A Bear Jumbo Cinnamoroll' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 245.0
+      and s.sale_date is not distinct from '2024-10-05'
+      and s.listing_id is not distinct from '126699926031'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Build A Bear Jumbo Cinnamoroll');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-19', 310.0, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/116163254105', '116163254105', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Jumbo Cinnamoroll Sanrio Plush 3ft BAB UNSTUFFED' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 310.0
+      and s.sale_date is not distinct from '2024-05-19'
+      and s.listing_id is not distinct from '116163254105'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Jumbo Cinnamoroll Sanrio Plush 3ft BAB UNSTUFFED');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-27', 200.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/156124922067', '156124922067', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Jumbo Sanrio Cinnamoroll Build A Bear Limited Edition Plush 36” NWT' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 200.0
+      and s.sale_date is not distinct from '2024-03-27'
+      and s.listing_id is not distinct from '156124922067'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Jumbo Sanrio Cinnamoroll Build A Bear Limited Edition Plush 36” NWT');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-27', 297.0, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/126302236984', '126302236984', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Jumbo Sanrio Cinnamoroll Build A Bear Limited Edition Plush 36” NWT UNSTUFFED' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 297.0
+      and s.sale_date is not distinct from '2024-01-27'
+      and s.listing_id is not distinct from '126302236984'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Jumbo Sanrio Cinnamoroll Build A Bear Limited Edition Plush 36” NWT UNSTUFFED');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-04', 185.0, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/186235100080', '186235100080', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Jumbo Sanrio Cinnamoroll Build A Bear Limited Edition Plush 36” NWT UNSTUFFED' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 185.0
+      and s.sale_date is not distinct from '2024-01-04'
+      and s.listing_id is not distinct from '186235100080'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Jumbo Sanrio Cinnamoroll Build A Bear Limited Edition Plush 36” NWT UNSTUFFED');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-21', 269.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/176118093686', '176118093686', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Jumbo Cinnamoroll Build A Bear Limited Edition 36" Sanrio' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 269.0
+      and s.sale_date is not distinct from '2023-12-21'
+      and s.listing_id is not distinct from '176118093686'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Jumbo Cinnamoroll Build A Bear Limited Edition 36" Sanrio');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-19', 222.5, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/186207246991', '186207246991', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: JUMBO Cinnamoroll Build A Bear Limited Edition New With Tags UNSTUFFED 36inches' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 222.5
+      and s.sale_date is not distinct from '2023-12-19'
+      and s.listing_id is not distinct from '186207246991'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: JUMBO Cinnamoroll Build A Bear Limited Edition New With Tags UNSTUFFED 36inches');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-08', 177.5, null, 'USD', 'NWT', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126188660322', '126188660322', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; shipping excluded; title: Jumbo Cinnamoroll Build A Bear 3 Ft 36 IN Limited Edition With Bow Sanrio NWT' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 177.5
+      and s.sale_date is not distinct from '2023-12-08'
+      and s.listing_id is not distinct from '126188660322'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; shipping excluded; title: Jumbo Cinnamoroll Build A Bear 3 Ft 36 IN Limited Edition With Bow Sanrio NWT');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-08', 245.0, null, 'USD', 'NWT', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126222351760', '126222351760', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Jumbo Cinnamoroll Stuffed Plush 36in NWT w/ Bow, Certificate' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 245.0
+      and s.sale_date is not distinct from '2023-12-08'
+      and s.listing_id is not distinct from '126222351760'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Jumbo Cinnamoroll Stuffed Plush 36in NWT w/ Bow, Certificate');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-08', 200.0, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/166488079673', '166488079673', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: IN HAND NEW 36” (3 Feet) Jumbo Cinnamoroll Plush Doll - Build A Bear - UNSTUFFED' from items i where i.slug = 'jumbo-cinnamoroll-36-inch'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 200.0
+      and s.sale_date is not distinct from '2023-12-08'
+      and s.listing_id is not distinct from '166488079673'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: IN HAND NEW 36” (3 Feet) Jumbo Cinnamoroll Plush Doll - Build A Bear - UNSTUFFED');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-21', 35.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/286956804455', '286956804455', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Pokemon Sylveon Cape & Sleeper NWT' from items i where i.slug = 'sylveon-cape-sleeper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2025-11-21'
+      and s.listing_id is not distinct from '286956804455'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Pokemon Sylveon Cape & Sleeper NWT');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-31', 89.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116180209347', '116180209347', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: RARE Build a Bear Pokemon SYLVEON Cape & Sleeper Very Clean' from items i where i.slug = 'sylveon-cape-sleeper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 89.95
+      and s.sale_date is not distinct from '2024-05-31'
+      and s.listing_id is not distinct from '116180209347'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: RARE Build a Bear Pokemon SYLVEON Cape & Sleeper Very Clean');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-29', 11.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/197644747720', '197644747720', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Pokemon Flareon Pajamas Clothes Outfit for Teddy Bear New' from items i where i.slug = 'flareon-pajamas'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.0
+      and s.sale_date is not distinct from '2025-11-29'
+      and s.listing_id is not distinct from '197644747720'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Pokemon Flareon Pajamas Clothes Outfit for Teddy Bear New');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-16', 39.04, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/356257150451', '356257150451', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Hello Kitty 25th Anniversary Pajamas Sanrio 2022' from items i where i.slug = 'hello-kitty-25th-anniversary-pajamas'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.04
+      and s.sale_date is not distinct from '2025-02-16'
+      and s.listing_id is not distinct from '356257150451'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Hello Kitty 25th Anniversary Pajamas Sanrio 2022');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-24', 37.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/395963005264', '395963005264', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Hello Kitty 25th Anniversary Pajamas Sanrio 2022' from items i where i.slug = 'hello-kitty-25th-anniversary-pajamas'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 37.0
+      and s.sale_date is not distinct from '2024-12-24'
+      and s.listing_id is not distinct from '395963005264'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Hello Kitty 25th Anniversary Pajamas Sanrio 2022');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-20', 48.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/177861526557', '177861526557', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Valentines Hello Kitty Hot Pink Hearts Limited Edition Plush 18”' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 48.0
+      and s.sale_date is not distinct from '2026-02-20'
+      and s.listing_id is not distinct from '177861526557'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Valentines Hello Kitty Hot Pink Hearts Limited Edition Plush 18”');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-18', 60.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/136087822954', '136087822954', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Build A Bear BAB Pink Hearts Valentines Plush W/ Bow CUTE!' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.0
+      and s.sale_date is not distinct from '2025-10-18'
+      and s.listing_id is not distinct from '136087822954'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Build A Bear BAB Pink Hearts Valentines Plush W/ Bow CUTE!');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-09', 120.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/205662931594', '205662931594', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Pink Hearts Build-A-Bear Plush 18” – 2013 Valentine’s Edition' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 120.0
+      and s.sale_date is not distinct from '2025-08-09'
+      and s.listing_id is not distinct from '205662931594'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Pink Hearts Build-A-Bear Plush 18” – 2013 Valentine’s Edition');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-12', 79.95, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/176766689672', '176766689672', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear 2013 Hello Kitty Valentine Pink Hearts Plush 18" LE Kitty NO BOW' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 79.95
+      and s.sale_date is not distinct from '2025-02-12'
+      and s.listing_id is not distinct from '176766689672'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear 2013 Hello Kitty Valentine Pink Hearts Plush 18" LE Kitty NO BOW');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-29', 83.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126649765934', '126649765934', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: 2013 Build a Bear Hello Kitty Limited Valentine Pink Hearts Plush w/ Bow' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 83.0
+      and s.sale_date is not distinct from '2024-08-29'
+      and s.listing_id is not distinct from '126649765934'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: 2013 Build a Bear Hello Kitty Limited Valentine Pink Hearts Plush w/ Bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-31', 125.85, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/145806622243', '145806622243', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: 2013 Build a Bear Hello Kitty Limited Valentine Pink Hearts Plush w/ Bow' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 125.85
+      and s.sale_date is not distinct from '2024-05-31'
+      and s.listing_id is not distinct from '145806622243'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: 2013 Build a Bear Hello Kitty Limited Valentine Pink Hearts Plush w/ Bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-13', 180.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116139384770', '116139384770', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: 2013 Build a Bear Hello Kitty Limited Valentine Pink Hearts Plush w/ Bow' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 180.0
+      and s.sale_date is not distinct from '2024-04-13'
+      and s.listing_id is not distinct from '116139384770'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: 2013 Build a Bear Hello Kitty Limited Valentine Pink Hearts Plush w/ Bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-25', 89.99, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/156025589919', '156025589919', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Hello Kitty Pink Hearts Valentine Toy No Bow Unstuffed' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 89.99
+      and s.sale_date is not distinct from '2024-01-25'
+      and s.listing_id is not distinct from '156025589919'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Hello Kitty Pink Hearts Valentine Toy No Bow Unstuffed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-13', 125.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/186251662713', '186251662713', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Sanrio Pink Hearts Valentine Limited Build a Bear' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 125.0
+      and s.sale_date is not distinct from '2024-01-13'
+      and s.listing_id is not distinct from '186251662713'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Sanrio Pink Hearts Valentine Limited Build a Bear');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-10', 79.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/155995529210', '155995529210', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Sanrio Pink Hearts Valentine Limited Build a Bear BAB 19" No Bow' from items i where i.slug = 'hello-kitty-valentine-pink-hearts'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 79.0
+      and s.sale_date is not distinct from '2024-01-10'
+      and s.listing_id is not distinct from '155995529210'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Hello Kitty Sanrio Pink Hearts Valentine Limited Build a Bear BAB 19" No Bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-30', 44.95, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/168458048927', '168458048927', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Hello Kitty 40th Anniversary Plush Confetti Sprinkle W/Bow' from items i where i.slug = 'hello-kitty-40th-anniversary-confetti-love'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 44.95
+      and s.sale_date is not distinct from '2026-09-30'
+      and s.listing_id is not distinct from '168458048927'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Hello Kitty 40th Anniversary Plush Confetti Sprinkle W/Bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-07', 28.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/128002394735', '128002394735', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Hello Kitty 40th Anniversary Plush Confetti Sprinkle 2014' from items i where i.slug = 'hello-kitty-40th-anniversary-confetti-love'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.0
+      and s.sale_date is not distinct from '2026-09-07'
+      and s.listing_id is not distinct from '128002394735'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Hello Kitty 40th Anniversary Plush Confetti Sprinkle 2014');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-27', 50.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/127416970086', '127416970086', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Build A Bear Hello Kitty 40th Anniversary Confetti W/Bow' from items i where i.slug = 'hello-kitty-40th-anniversary-confetti-love'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2025-10-27'
+      and s.listing_id is not distinct from '127416970086'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Build A Bear Hello Kitty 40th Anniversary Confetti W/Bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-07', 32.0, null, 'USD', 'Fair', 'unknown', 'eBay', 'https://www.ebay.com/itm/325838338756', '325838338756', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Keroppi Skechers USA Sneakers BAB RARE- FLAW' from items i where i.slug = 'keroppi-sneakers'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 32.0
+      and s.sale_date is not distinct from '2023-10-07'
+      and s.listing_id is not distinct from '325838338756'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Keroppi Skechers USA Sneakers BAB RARE- FLAW');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-06', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127318797586', '127318797586', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio My Melody White Shoes' from items i where i.slug = 'my-melody-shoes'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2025-10-06'
+      and s.listing_id is not distinct from '127318797586'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio My Melody White Shoes');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-17', 34.2, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/395105303659', '395105303659', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: My Melody Build A Bear Shoes' from items i where i.slug = 'my-melody-shoes'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.2
+      and s.sale_date is not distinct from '2024-01-17'
+      and s.listing_id is not distinct from '395105303659'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: My Melody Build A Bear Shoes');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-02', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126261254076', '126261254076', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear MY MELODY SHOES White' from items i where i.slug = 'my-melody-shoes'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2024-01-02'
+      and s.listing_id is not distinct from '126261254076'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear MY MELODY SHOES White');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-09', 35.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/287253817972', '287253817972', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sonic The Hedgehog 2 Shoes And Ring New' from items i where i.slug = 'sonic-gold-ring-and-shoes'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2026-04-09'
+      and s.listing_id is not distinct from '287253817972'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sonic The Hedgehog 2 Shoes And Ring New');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-12', 24.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/156323400048', '156323400048', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sonic The Hedgehog 2 Red White Shoes + Gold Ring New W'' Tags' from items i where i.slug = 'sonic-gold-ring-and-shoes'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2025-01-12'
+      and s.listing_id is not distinct from '156323400048'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sonic The Hedgehog 2 Red White Shoes + Gold Ring New W'' Tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-20', 34.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/286019981970', '286019981970', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sonic The Hedgehog 2 Sonic Shoes And Gold Ring Wrist Accessory Nwt' from items i where i.slug = 'sonic-gold-ring-and-shoes'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.0
+      and s.sale_date is not distinct from '2024-09-20'
+      and s.listing_id is not distinct from '286019981970'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sonic The Hedgehog 2 Sonic Shoes And Gold Ring Wrist Accessory Nwt');
+
 insert into valuation_config (key, value) values ('condition_multipliers', '{"NWT": 1.25, "Mint": 1.25, "Excellent": 1.1, "Good": 1.0, "Fair": 0.75, "Poor": 0.5, "Damaged": 0.35, "Incomplete": 0.6, "Unknown": 1.0}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('completeness_multipliers', '{"complete": 1.15, "packaged": 1.15, "some_originals": 1.05, "bare": 1.0, "unstuffed": 1.0, "altered": 0.85, "unknown": 1.0}'::jsonb)
