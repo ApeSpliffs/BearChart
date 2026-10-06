@@ -582,7 +582,7 @@ test('the admin dashboard renders its counts and gap lists', () => {
   assert.match(stats, /Total items/);
   assert.match(stats, /Items missing sales/);
   assert.match(p.doc.getElementById('quality').textContent, /no sold data/i);
-  assert.match(p.doc.getElementById('recent').textContent, /364353106238/);  // The recent list shows the newest dated sales, so look for whichever sale is
+ // The recent list shows the newest dated sales, so look for whichever sale is
   // newest in the data rather than one fixed listing that newer comps push out.
   const newest = loadData().sales
     .filter((s) => s.sale_date && s.listing_id)
