@@ -393,7 +393,11 @@ test('sorting by price puts the most valuable item first and unpriced items last
   sort.value = 'price-desc';
   sort.dispatchEvent(new p.win.Event('change'));
   const cards = showAll(p);
-  assert.match(cards[0].textContent, /Kennel Pals Calico Cat/);
+       // Whichever item the engine values highest should lead, not one fixed bear.
+     const top = loadData().items
+       .map((i) => [i.canonical_name, (p.win.BC.valuationFor(i.id) || {}).fair_market || 0])
+       .sort((a, b) => b[1] - a[1])[0];
+     assert.ok(cards[0].textContent.includes(top[0]), 'expected ' + top[0] + ' first');
   assert.match(cards[cards.length - 1].textContent, /No sold data yet/);
 });
 
