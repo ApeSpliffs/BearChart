@@ -967,15 +967,20 @@ test('the licensed franchise lines are catalogued without invented prices', () =
     assert.ok(items.length >= 7, franchise + ' should be catalogued, got ' + items.length);
     for (const i of items) assert.strictEqual(i.licensed, true);
   }
-  // The invariant that matters: anything catalogued from the index carries no
-  // price, because the index does not expose one.
+  // The invariant that matters: the index never supplied a price, so nothing
+  // catalogued from it may carry one that came from the index. A comp can attach
+  // later, but only as a sourced sale (marketplace + listing id) recorded on its own.
   const fromIndex = data.items.filter(
     (i) => i.notes && /Catalogued from the CollectionHero index/.test(i.notes));
   assert.ok(fromIndex.length >= 50,
     'expected the catalogue expansion, got ' + fromIndex.length);
   for (const i of fromIndex) {
-    assert.ok(!priced.has(i.id),
-      i.id + ' was catalogued from an index with no prices, so it must have no comps');
+    if (!priced.has(i.id)) continue;
+    for (const s of data.sales.filter((x) => x.item_id === i.id)) {
+      assert.ok(s.marketplace && s.listing_id,
+        i.id + ' was catalogued from an index with no prices; its comp ' + s.id +
+        ' must be a sourced sale, not an index figure');
+    }
   }
 });
 
@@ -1046,7 +1051,8 @@ test('the strip labels the range, never the padding either side of it', () => {
 });
 
 test('one comp draws one dot and says the range once', () => {
-  const p = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+  // Any item resting on exactly one comp will do; this one has a single sale.
+  const p = renderPage('item.html', 'item.html?id=employee-exclusive-holiday-moose');
   assert.strictEqual(p.doc.querySelectorAll('.ev-dot').length, 1);
   // range_low === range_high here, so printing it twice would read as two
   // different figures that happen to match.
