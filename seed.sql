@@ -68101,6 +68101,6423 @@ select i.id, null, 26.7, null, 'USD', 'Unknown', 'unknown', 'Mercari', null, nul
       and s.listing_id is not distinct from null
       and s.notes is not distinct from null);
 
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-28', 64.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115909742757', '115909742757', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 64.99
+      and s.sale_date is not distinct from '2023-11-28'
+      and s.listing_id is not distinct from '115909742757'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-02', 34.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126200911051', '126200911051', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.99
+      and s.sale_date is not distinct from '2023-12-02'
+      and s.listing_id is not distinct from '126200911051'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-08', 24.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116195148416', '116195148416', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.0
+      and s.sale_date is not distinct from '2024-06-08'
+      and s.listing_id is not distinct from '116195148416'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-06', 31.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135136228989', '135136228989', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 31.0
+      and s.sale_date is not distinct from '2024-07-06'
+      and s.listing_id is not distinct from '135136228989'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-03', 38.5, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/135178404197', '135178404197', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 38.5
+      and s.sale_date is not distinct from '2024-08-03'
+      and s.listing_id is not distinct from '135178404197'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-15', 39.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135135010780', '135135010780', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.95
+      and s.sale_date is not distinct from '2024-08-15'
+      and s.listing_id is not distinct from '135135010780'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-16', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135160084866', '135160084866', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2024-08-16'
+      and s.listing_id is not distinct from '135160084866'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-27', 30.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/146211175300', '146211175300', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2024-12-27'
+      and s.listing_id is not distinct from '146211175300'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-15', 15.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116332481971', '116332481971', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2025-01-15'
+      and s.listing_id is not distinct from '116332481971'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-05', 27.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146437742240', '146437742240', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 27.95
+      and s.sale_date is not distinct from '2025-04-05'
+      and s.listing_id is not distinct from '146437742240'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-12', 28.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/135757782347', '135757782347', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.0
+      and s.sale_date is not distinct from '2025-05-12'
+      and s.listing_id is not distinct from '135757782347'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-29', 32.1, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127397297764', '127397297764', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 32.1
+      and s.sale_date is not distinct from '2025-10-29'
+      and s.listing_id is not distinct from '127397297764'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-07', 30.29, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127931692005', '127931692005', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.29
+      and s.sale_date is not distinct from '2026-07-07'
+      and s.listing_id is not distinct from '127931692005'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-04', 26.1, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137667051597', '137667051597', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'alolan-vulpix-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 26.1
+      and s.sale_date is not distinct from '2026-09-04'
+      and s.listing_id is not distinct from '137667051597'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-09', 12.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/145766661828', '145766661828', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.5
+      and s.sale_date is not distinct from '2024-05-09'
+      and s.listing_id is not distinct from '145766661828'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-16', 34.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/355673383602', '355673383602', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; with sound' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.0
+      and s.sale_date is not distinct from '2024-05-16'
+      and s.listing_id is not distinct from '355673383602'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-28', 23.84, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/205164183201', '205164183201', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.84
+      and s.sale_date is not distinct from '2024-12-28'
+      and s.listing_id is not distinct from '205164183201'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-09', 33.45, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/205339389175', '205339389175', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 33.45
+      and s.sale_date is not distinct from '2025-04-09'
+      and s.listing_id is not distinct from '205339389175'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-06', 30.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/267077970360', '267077970360', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2025-07-06'
+      and s.listing_id is not distinct from '267077970360'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-10', 12.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/236372841113', '236372841113', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2025-10-10'
+      and s.listing_id is not distinct from '236372841113'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-03', 20.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/177784817758', '177784817758', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2026-02-03'
+      and s.listing_id is not distinct from '177784817758'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-25', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/168110010574', '168110010574', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2023' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2026-03-25'
+      and s.listing_id is not distinct from '168110010574'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2023');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-26', 22.49, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/257061995500', '257061995500', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.49
+      and s.sale_date is not distinct from '2026-04-26'
+      and s.listing_id is not distinct from '257061995500'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-29', 19.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137400445426', '137400445426', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2026-07-29'
+      and s.listing_id is not distinct from '137400445426'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-22', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/206265828902', '206265828902', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2024' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2026-08-22'
+      and s.listing_id is not distinct from '206265828902'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-04', 15.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/188939796162', '188939796162', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 16in' from items i where i.slug = 'bidoof'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2026-10-04'
+      and s.listing_id is not distinct from '188939796162'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-11', 26.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/145305135420', '145305135420', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 26.0
+      and s.sale_date is not distinct from '2023-10-11'
+      and s.listing_id is not distinct from '145305135420'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-27', 14.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/394895132386', '394895132386', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.0
+      and s.sale_date is not distinct from '2023-10-27'
+      and s.listing_id is not distinct from '394895132386'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-13', 24.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/256091444655', '256091444655', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2024-04-13'
+      and s.listing_id is not distinct from '256091444655'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-16', 19.44, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/405087350676', '405087350676', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.44
+      and s.sale_date is not distinct from '2024-07-16'
+      and s.listing_id is not distinct from '405087350676'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-23', 19.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/196605409379', '196605409379', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2024-09-23'
+      and s.listing_id is not distinct from '196605409379'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-12', 18.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/177016289825', '177016289825', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.99
+      and s.sale_date is not distinct from '2025-05-12'
+      and s.listing_id is not distinct from '177016289825'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-22', 28.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/395551086172', '395551086172', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.95
+      and s.sale_date is not distinct from '2025-07-22'
+      and s.listing_id is not distinct from '395551086172'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-09', 22.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/205076007334', '205076007334', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.49
+      and s.sale_date is not distinct from '2025-08-09'
+      and s.listing_id is not distinct from '205076007334'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-14', 15.2, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/365782612899', '365782612899', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in with tag' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.2
+      and s.sale_date is not distinct from '2025-08-14'
+      and s.listing_id is not distinct from '365782612899'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in with tag');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-18', 23.8, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/187561623556', '187561623556', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.8
+      and s.sale_date is not distinct from '2025-09-18'
+      and s.listing_id is not distinct from '187561623556'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-09', 18.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/235769197966', '235769197966', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.0
+      and s.sale_date is not distinct from '2025-12-09'
+      and s.listing_id is not distinct from '235769197966'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-27', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/227030213721', '227030213721', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2025-12-27'
+      and s.listing_id is not distinct from '227030213721'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-26', 27.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146794462293', '146794462293', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 27.0
+      and s.sale_date is not distinct from '2026-07-26'
+      and s.listing_id is not distinct from '146794462293'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-18', 13.96, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/286778394962', '286778394962', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in listed' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.96
+      and s.sale_date is not distinct from '2026-08-18'
+      and s.listing_id is not distinct from '286778394962'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-23', 19.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/257700868459', '257700868459', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'black-orange-halloween-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.95
+      and s.sale_date is not distinct from '2026-09-23'
+      and s.listing_id is not distinct from '257700868459'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-15', 22.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115937261480', '115937261480', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.0
+      and s.sale_date is not distinct from '2023-10-15'
+      and s.listing_id is not distinct from '115937261480'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-26', 34.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126067780234', '126067780234', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2017' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.99
+      and s.sale_date is not distinct from '2023-11-26'
+      and s.listing_id is not distinct from '126067780234'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-21', 10.0, null, 'USD', 'Fair', 'bare', 'eBay', 'https://www.ebay.com/itm/126285290596', '126285290596', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2024-01-21'
+      and s.listing_id is not distinct from '126285290596'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-21', 20.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126386440906', '126386440906', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2024-03-21'
+      and s.listing_id is not distinct from '126386440906'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-01', 36.17, null, 'USD', 'Excellent', 'bare', 'eBay', 'https://www.ebay.com/itm/116186672603', '116186672603', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 36.17
+      and s.sale_date is not distinct from '2024-06-01'
+      and s.listing_id is not distinct from '116186672603'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-20', 24.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116222930498', '116222930498', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2017' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2024-06-20'
+      and s.listing_id is not distinct from '116222930498'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-21', 4.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116249264345', '116249264345', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 4.99
+      and s.sale_date is not distinct from '2024-07-21'
+      and s.listing_id is not distinct from '116249264345'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-25', 14.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126743896062', '126743896062', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2017' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.0
+      and s.sale_date is not distinct from '2024-11-25'
+      and s.listing_id is not distinct from '126743896062'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-19', 24.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126996012121', '126996012121', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.0
+      and s.sale_date is not distinct from '2025-04-19'
+      and s.listing_id is not distinct from '126996012121'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-15', 9.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127224982480', '127224982480', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.99
+      and s.sale_date is not distinct from '2025-07-15'
+      and s.listing_id is not distinct from '127224982480'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-21', 19.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116774788290', '116774788290', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2017' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2025-09-21'
+      and s.listing_id is not distinct from '116774788290'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-08', 75.0, null, 'USD', 'Excellent', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115203639950', '115203639950', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 75.0
+      and s.sale_date is not distinct from '2025-10-08'
+      and s.listing_id is not distinct from '115203639950'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-24', 25.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116816294391', '116816294391', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2017' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2025-10-24'
+      and s.listing_id is not distinct from '116816294391'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-16', 19.7, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116883280502', '116883280502', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.7
+      and s.sale_date is not distinct from '2025-12-16'
+      and s.listing_id is not distinct from '116883280502'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-13', 23.74, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/157377591318', '157377591318', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; no working sound' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.74
+      and s.sale_date is not distinct from '2026-09-13'
+      and s.listing_id is not distinct from '157377591318'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-27', 14.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117422738036', '117422738036', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'bulbasaur-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.0
+      and s.sale_date is not distinct from '2026-09-27'
+      and s.listing_id is not distinct from '117422738036'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-25', 16.85, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/153443363175', '153443363175', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Commemorative 2002' from items i where i.slug = 'centennial-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.85
+      and s.sale_date is not distinct from '2023-10-25'
+      and s.listing_id is not distinct from '153443363175'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Commemorative 2002');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-29', 4.75, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115773098611', '115773098611', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2002 Collectibears' from items i where i.slug = 'centennial-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 4.75
+      and s.sale_date is not distinct from '2024-02-29'
+      and s.listing_id is not distinct from '115773098611'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2002 Collectibears');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-06', 9.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/146360725569', '146360725569', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'centennial-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.99
+      and s.sale_date is not distinct from '2025-02-06'
+      and s.listing_id is not distinct from '146360725569'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-05', 42.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/166560290308', '166560290308', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with tags' from items i where i.slug = 'centennial-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 42.99
+      and s.sale_date is not distinct from '2025-03-05'
+      and s.listing_id is not distinct from '166560290308'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-08', 16.97, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127209556431', '127209556431', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2002 Collectibears' from items i where i.slug = 'centennial-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.97
+      and s.sale_date is not distinct from '2025-09-08'
+      and s.listing_id is not distinct from '127209556431'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2002 Collectibears');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-19', 18.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126077523261', '126077523261', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.99
+      and s.sale_date is not distinct from '2023-10-19'
+      and s.listing_id is not distinct from '126077523261'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-31', 21.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115839590997', '115839590997', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2016' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 21.0
+      and s.sale_date is not distinct from '2023-10-31'
+      and s.listing_id is not distinct from '115839590997'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-30', 18.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/125622926174', '125622926174', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.0
+      and s.sale_date is not distinct from '2023-11-30'
+      and s.listing_id is not distinct from '125622926174'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-25', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126186567259', '126186567259', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2016' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2023-12-25'
+      and s.listing_id is not distinct from '126186567259'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-29', 28.35, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116063065865', '116063065865', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.35
+      and s.sale_date is not distinct from '2024-02-29'
+      and s.listing_id is not distinct from '116063065865'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-06', 11.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116213656350', '116213656350', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2018' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.99
+      and s.sale_date is not distinct from '2024-07-06'
+      and s.listing_id is not distinct from '116213656350'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-22', 16.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116299474740', '116299474740', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2024-08-22'
+      and s.listing_id is not distinct from '116299474740'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-13', 11.62, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156589466659', '156589466659', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 16in; 2016' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.62
+      and s.sale_date is not distinct from '2025-02-13'
+      and s.listing_id is not distinct from '156589466659'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 16in; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-02', 9.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116495543755', '116495543755', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2016' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.99
+      and s.sale_date is not distinct from '2025-03-02'
+      and s.listing_id is not distinct from '116495543755'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-30', 15.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116528403441', '116528403441', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.5
+      and s.sale_date is not distinct from '2025-03-30'
+      and s.listing_id is not distinct from '116528403441'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-19', 14.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116806340947', '116806340947', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.0
+      and s.sale_date is not distinct from '2025-10-19'
+      and s.listing_id is not distinct from '116806340947'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-15', 26.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115495521012', '115495521012', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2017' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 26.95
+      and s.sale_date is not distinct from '2026-02-15'
+      and s.listing_id is not distinct from '115495521012'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-29', 16.98, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/117113792382', '117113792382', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.98
+      and s.sale_date is not distinct from '2026-03-29'
+      and s.listing_id is not distinct from '117113792382'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-09', 28.49, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/318132185334', '318132185334', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; no working sound' from items i where i.slug = 'charmander-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.49
+      and s.sale_date is not distinct from '2026-08-09'
+      and s.listing_id is not distinct from '318132185334'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-21', 29.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/396793306474', '396793306474', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'chococat-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.5
+      and s.sale_date is not distinct from '2025-07-21'
+      and s.listing_id is not distinct from '396793306474'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-29', 24.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/396911975023', '396911975023', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 8.5in' from items i where i.slug = 'chococat-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.95
+      and s.sale_date is not distinct from '2025-07-29'
+      and s.listing_id is not distinct from '396911975023'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 8.5in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-31', 26.25, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/396982609860', '396982609860', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded' from items i where i.slug = 'chococat-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 26.25
+      and s.sale_date is not distinct from '2025-08-31'
+      and s.listing_id is not distinct from '396982609860'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-08', 45.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/197626232278', '197626232278', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'chococat-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2025-09-08'
+      and s.listing_id is not distinct from '197626232278'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-19', 24.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/397047307274', '397047307274', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded' from items i where i.slug = 'chococat-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.5
+      and s.sale_date is not distinct from '2025-09-19'
+      and s.listing_id is not distinct from '397047307274'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-07', 30.75, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/197747797437', '197747797437', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'chococat-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.75
+      and s.sale_date is not distinct from '2025-10-07'
+      and s.listing_id is not distinct from '197747797437'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-25', 13.46, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126233337463', '126233337463', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Spring 2000 3rd in series' from items i where i.slug = 'chocolate-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.46
+      and s.sale_date is not distinct from '2024-03-25'
+      and s.listing_id is not distinct from '126233337463'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Spring 2000 3rd in series');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-23', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116001486872', '116001486872', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Spring 2000 3rd in series' from items i where i.slug = 'chocolate-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2024-06-23'
+      and s.listing_id is not distinct from '116001486872'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Spring 2000 3rd in series');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-25', 11.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127379075898', '127379075898', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in, title says 1997 classic' from items i where i.slug = 'classic-brown-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.5
+      and s.sale_date is not distinct from '2025-09-25'
+      and s.listing_id is not distinct from '127379075898'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in, title says 1997 classic');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-23', 3.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127867774744', '127867774744', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in long-legged, title says 1997 classic' from items i where i.slug = 'classic-brown-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 3.0
+      and s.sale_date is not distinct from '2026-05-23'
+      and s.listing_id is not distinct from '127867774744'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in long-legged, title says 1997 classic');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-28', 5.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/306740311009', '306740311009', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'dino-mite-t-rex-green-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2026-03-28'
+      and s.listing_id is not distinct from '306740311009'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-21', 18.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/236700377771', '236700377771', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'dino-mite-t-rex-green-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.99
+      and s.sale_date is not distinct from '2026-05-21'
+      and s.listing_id is not distinct from '236700377771'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-02', 10.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/358618969835', '358618969835', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'dino-mite-t-rex-green-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2026-08-02'
+      and s.listing_id is not distinct from '358618969835'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-16', 8.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/307018958947', '307018958947', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'dino-mite-t-rex-green-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 8.99
+      and s.sale_date is not distinct from '2026-09-16'
+      and s.listing_id is not distinct from '307018958947'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-03', 16.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266449167795', '266449167795', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.99
+      and s.sale_date is not distinct from '2023-11-03'
+      and s.listing_id is not distinct from '266449167795'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-16', 16.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266493636296', '266493636296', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.99
+      and s.sale_date is not distinct from '2023-11-16'
+      and s.listing_id is not distinct from '266493636296'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-22', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266514851922', '266514851922', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2023-11-22'
+      and s.listing_id is not distinct from '266514851922'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-24', 16.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266525211542', '266525211542', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.99
+      and s.sale_date is not distinct from '2023-11-24'
+      and s.listing_id is not distinct from '266525211542'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-13', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266536782771', '266536782771', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2024-01-13'
+      and s.listing_id is not distinct from '266536782771'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-22', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266616445723', '266616445723', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2024-02-22'
+      and s.listing_id is not distinct from '266616445723'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-22', 19.71, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/314254352498', '314254352498', 'collector_report', false, 14, null, 'Terapeak average across 14 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.71
+      and s.sale_date is not distinct from '2024-02-22'
+      and s.listing_id is not distinct from '314254352498'
+      and s.notes is not distinct from 'Terapeak average across 14 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-23', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266686517421', '266686517421', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2024-03-23'
+      and s.listing_id is not distinct from '266686517421'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-10', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266737460303', '266737460303', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2024-04-10'
+      and s.listing_id is not distinct from '266737460303'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-11', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266764593532', '266764593532', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2024-09-11'
+      and s.listing_id is not distinct from '266764593532'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-12', 24.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/133871431745', '133871431745', 'collector_report', false, 6, null, 'Terapeak average across 6 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2024-11-12'
+      and s.listing_id is not distinct from '133871431745'
+      and s.notes is not distinct from 'Terapeak average across 6 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-18', 25.21, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/235795200434', '235795200434', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 16in; 2017' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.21
+      and s.sale_date is not distinct from '2024-11-18'
+      and s.listing_id is not distinct from '235795200434'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 16in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-01', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266987515902', '266987515902', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2025-02-01'
+      and s.listing_id is not distinct from '266987515902'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-21', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/267206890684', '267206890684', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2025-04-21'
+      and s.listing_id is not distinct from '267206890684'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-19', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/267228639444', '267228639444', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2025-07-19'
+      and s.listing_id is not distinct from '267228639444'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-17', 19.78, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/315672228661', '315672228661', 'collector_report', false, 9, null, 'Terapeak average across 9 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.78
+      and s.sale_date is not distinct from '2025-11-17'
+      and s.listing_id is not distinct from '315672228661'
+      and s.notes is not distinct from 'Terapeak average across 9 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-30', 19.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/267609498978', '267609498978', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2026-04-30'
+      and s.listing_id is not distinct from '267609498978'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-12', 24.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/137354568025', '137354568025', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded' from items i where i.slug = 'eevee-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2026-09-12'
+      and s.listing_id is not distinct from '137354568025'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-21', 11.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134726791920', '134726791920', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.99
+      and s.sale_date is not distinct from '2023-10-21'
+      and s.listing_id is not distinct from '134726791920'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-03', 8.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115750225628', '115750225628', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 8.0
+      and s.sale_date is not distinct from '2023-12-03'
+      and s.listing_id is not distinct from '115750225628'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-07', 15.97, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116001149988', '116001149988', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 19in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.97
+      and s.sale_date is not distinct from '2023-12-07'
+      and s.listing_id is not distinct from '116001149988'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 19in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-20', 17.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134178712017', '134178712017', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 talking version' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 17.0
+      and s.sale_date is not distinct from '2023-12-20'
+      and s.listing_id is not distinct from '134178712017'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 talking version');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-19', 14.24, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/155503811331', '155503811331', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 2004 19in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.24
+      and s.sale_date is not distinct from '2024-01-19'
+      and s.listing_id is not distinct from '155503811331'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 2004 19in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-19', 6.5, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/156095466800', '156095466800', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 18in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 6.5
+      and s.sale_date is not distinct from '2024-04-19'
+      and s.listing_id is not distinct from '156095466800'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-13', 7.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156044591884', '156044591884', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 19in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 7.95
+      and s.sale_date is not distinct from '2024-11-13'
+      and s.listing_id is not distinct from '156044591884'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 19in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-09', 12.39, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116351295804', '116351295804', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.39
+      and s.sale_date is not distinct from '2024-12-09'
+      and s.listing_id is not distinct from '116351295804'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-06', 12.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/166299331927', '166299331927', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 19in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.99
+      and s.sale_date is not distinct from '2025-02-06'
+      and s.listing_id is not distinct from '166299331927'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 19in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-17', 20.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126789709574', '126789709574', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.99
+      and s.sale_date is not distinct from '2025-03-17'
+      and s.listing_id is not distinct from '126789709574'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-02', 9.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/125445588948', '125445588948', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.0
+      and s.sale_date is not distinct from '2025-05-02'
+      and s.listing_id is not distinct from '125445588948'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-23', 5.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127376482046', '127376482046', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2025-09-23'
+      and s.listing_id is not distinct from '127376482046'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-01', 8.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127403118773', '127403118773', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 19in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 8.0
+      and s.sale_date is not distinct from '2025-10-01'
+      and s.listing_id is not distinct from '127403118773'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 19in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-19', 5.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127488381229', '127488381229', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2025-11-19'
+      and s.listing_id is not distinct from '127488381229'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-15', 26.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/147365428544', '147365428544', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 26.99
+      and s.sale_date is not distinct from '2026-07-15'
+      and s.listing_id is not distinct from '147365428544'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-15', 12.0, null, 'USD', 'Good', 'unknown', 'eBay', 'https://www.ebay.com/itm/137527378707', '137527378707', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2026-08-15'
+      and s.listing_id is not distinct from '137527378707'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-04', 30.0, null, 'USD', 'Good', 'unknown', 'eBay', 'https://www.ebay.com/itm/147447060376', '147447060376', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in' from items i where i.slug = 'elmo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2026-10-04'
+      and s.listing_id is not distinct from '147447060376'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-17', 70.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126142029011', '126142029011', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'espeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 70.0
+      and s.sale_date is not distinct from '2023-10-17'
+      and s.listing_id is not distinct from '126142029011'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-04', 75.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126165647521', '126165647521', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'espeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 75.0
+      and s.sale_date is not distinct from '2023-11-04'
+      and s.listing_id is not distinct from '126165647521'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-27', 46.75, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126699897813', '126699897813', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'espeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 46.75
+      and s.sale_date is not distinct from '2024-11-27'
+      and s.listing_id is not distinct from '126699897813'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-06', 60.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126073612586', '126073612586', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.0
+      and s.sale_date is not distinct from '2023-10-06'
+      and s.listing_id is not distinct from '126073612586'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-23', 50.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126142605194', '126142605194', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2023-10-23'
+      and s.listing_id is not distinct from '126142605194'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-05', 55.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126063618150', '126063618150', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 55.0
+      and s.sale_date is not distinct from '2023-11-05'
+      and s.listing_id is not distinct from '126063618150'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-08', 45.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126159664389', '126159664389', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2023-11-08'
+      and s.listing_id is not distinct from '126159664389'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-15', 39.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116036884067', '116036884067', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2024-01-15'
+      and s.listing_id is not distinct from '116036884067'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-21', 29.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/116143709922', '116143709922', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.99
+      and s.sale_date is not distinct from '2024-04-21'
+      and s.listing_id is not distinct from '116143709922'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-15', 45.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126426097298', '126426097298', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.99
+      and s.sale_date is not distinct from '2024-05-15'
+      and s.listing_id is not distinct from '126426097298'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-28', 12.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126583193843', '126583193843', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2024-07-28'
+      and s.listing_id is not distinct from '126583193843'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-10-20', 18.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/166968468903', '166968468903', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; no working sound; 2020' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.0
+      and s.sale_date is not distinct from '2024-10-20'
+      and s.listing_id is not distinct from '166968468903'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; no working sound; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-04', 29.59, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126737907455', '126737907455', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.59
+      and s.sale_date is not distinct from '2024-12-04'
+      and s.listing_id is not distinct from '126737907455'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-26', 40.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126839927253', '126839927253', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2025-01-26'
+      and s.listing_id is not distinct from '126839927253'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-07', 24.85, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127035873659', '127035873659', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.85
+      and s.sale_date is not distinct from '2025-04-07'
+      and s.listing_id is not distinct from '127035873659'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-04', 25.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127274725713', '127274725713', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2025-08-04'
+      and s.listing_id is not distinct from '127274725713'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-08', 25.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127295395904', '127295395904', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2025-08-08'
+      and s.listing_id is not distinct from '127295395904'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-03', 16.95, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127335379895', '127335379895', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.95
+      and s.sale_date is not distinct from '2025-09-03'
+      and s.listing_id is not distinct from '127335379895'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-20', 21.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127280413994', '127280413994', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2019' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 21.99
+      and s.sale_date is not distinct from '2025-11-20'
+      and s.listing_id is not distinct from '127280413994'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-21', 23.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117084714850', '117084714850', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.0
+      and s.sale_date is not distinct from '2026-03-21'
+      and s.listing_id is not distinct from '117084714850'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-18', 18.9, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/117342572185', '117342572185', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in' from items i where i.slug = 'flareon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.9
+      and s.sale_date is not distinct from '2026-08-18'
+      and s.listing_id is not distinct from '117342572185'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-25', 1.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115981819612', '115981819612', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 1.0
+      and s.sale_date is not distinct from '2023-11-25'
+      and s.listing_id is not distinct from '115981819612'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-10', 7.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156278313322', '156278313322', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 7.0
+      and s.sale_date is not distinct from '2024-07-10'
+      and s.listing_id is not distinct from '156278313322'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-10-07', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156444271449', '156444271449', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2024-10-07'
+      and s.listing_id is not distinct from '156444271449'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-15', 14.99, null, 'USD', 'Good', 'unknown', 'eBay', 'https://www.ebay.com/itm/135442737372', '135442737372', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2024-12-15'
+      and s.listing_id is not distinct from '135442737372'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-04', 15.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156349553729', '156349553729', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.99
+      and s.sale_date is not distinct from '2025-02-04'
+      and s.listing_id is not distinct from '156349553729'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-21', 7.8, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126734195129', '126734195129', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 7.8
+      and s.sale_date is not distinct from '2025-02-21'
+      and s.listing_id is not distinct from '126734195129'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-24', 5.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116533289538', '116533289538', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.99
+      and s.sale_date is not distinct from '2025-03-24'
+      and s.listing_id is not distinct from '116533289538'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-24', 9.47, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156851009409', '156851009409', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.47
+      and s.sale_date is not distinct from '2025-07-24'
+      and s.listing_id is not distinct from '156851009409'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-14', 16.55, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127350696913', '127350696913', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.55
+      and s.sale_date is not distinct from '2025-11-14'
+      and s.listing_id is not distinct from '127350696913'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-28', 14.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137119169288', '137119169288', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2026-03-28'
+      and s.listing_id is not distinct from '137119169288'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-23', 9.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127691984712', '127691984712', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 18in' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.0
+      and s.sale_date is not distinct from '2026-04-23'
+      and s.listing_id is not distinct from '127691984712'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-02', 18.74, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/117243772616', '117243772616', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new without tag, unstuffed' from items i where i.slug = 'friendly-frog'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.74
+      and s.sale_date is not distinct from '2026-07-02'
+      and s.listing_id is not distinct from '117243772616'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new without tag, unstuffed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-06', 99.99, null, 'USD', 'NWT', 'complete', 'eBay', 'https://www.ebay.com/itm/116027019301', '116027019301', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new with tags, with sound' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 99.99
+      and s.sale_date is not distinct from '2024-01-06'
+      and s.listing_id is not distinct from '116027019301'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new with tags, with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-03', 16.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126505748557', '126505748557', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.5
+      and s.sale_date is not distinct from '2024-06-03'
+      and s.listing_id is not distinct from '126505748557'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-23', 10.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/145848993134', '145848993134', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; without sound' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2024-06-23'
+      and s.listing_id is not distinct from '145848993134'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; without sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-29', 39.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116304171978', '116304171978', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2024-08-29'
+      and s.listing_id is not distinct from '116304171978'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-29', 40.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/145902123580', '145902123580', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2024-09-29'
+      and s.listing_id is not distinct from '145902123580'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-05', 29.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146149688592', '146149688592', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; cut tag' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.95
+      and s.sale_date is not distinct from '2024-11-05'
+      and s.listing_id is not distinct from '146149688592'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; cut tag');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-24', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116485046180', '116485046180', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2025-02-24'
+      and s.listing_id is not distinct from '116485046180'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-12', 39.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116517356434', '116517356434', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; sound not working' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2025-03-12'
+      and s.listing_id is not distinct from '116517356434'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; sound not working');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-12', 34.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/167005756025', '167005756025', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.95
+      and s.sale_date is not distinct from '2025-03-12'
+      and s.listing_id is not distinct from '167005756025'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-22', 49.95, null, 'USD', 'Mint', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116508873748', '116508873748', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new without tags, sound working' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.95
+      and s.sale_date is not distinct from '2025-04-22'
+      and s.listing_id is not distinct from '116508873748'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new without tags, sound working');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-18', 21.51, null, 'USD', 'Good', 'unknown', 'eBay', 'https://www.ebay.com/itm/136002378476', '136002378476', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 21.51
+      and s.sale_date is not distinct from '2025-06-18'
+      and s.listing_id is not distinct from '136002378476'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-10', 35.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/136040787354', '136040787354', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2025-07-10'
+      and s.listing_id is not distinct from '136040787354'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-01', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127257671987', '127257671987', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2025-08-01'
+      and s.listing_id is not distinct from '127257671987'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-24', 18.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116713834562', '116713834562', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.0
+      and s.sale_date is not distinct from '2025-08-24'
+      and s.listing_id is not distinct from '116713834562'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-23', 17.99, null, 'USD', 'Good', 'bare', 'eBay', 'https://www.ebay.com/itm/127488986032', '127488986032', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no tags' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 17.99
+      and s.sale_date is not distinct from '2025-11-23'
+      and s.listing_id is not distinct from '127488986032'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-03', 44.95, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116847011735', '116847011735', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 44.95
+      and s.sale_date is not distinct from '2025-12-03'
+      and s.listing_id is not distinct from '116847011735'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-05', 24.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116918194784', '116918194784', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no sound' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2026-02-05'
+      and s.listing_id is not distinct from '116918194784'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-23', 30.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127701755891', '127701755891', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2026-03-23'
+      and s.listing_id is not distinct from '127701755891'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-31', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137104248173', '137104248173', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2026-05-31'
+      and s.listing_id is not distinct from '137104248173'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-03', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117238391187', '117238391187', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'gengar'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2026-07-03'
+      and s.listing_id is not distinct from '117238391187'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-15', 130.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/256459541229', '256459541229', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 130.0
+      and s.sale_date is not distinct from '2024-05-15'
+      and s.listing_id is not distinct from '256459541229'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-16', 110.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126470677998', '126470677998', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 110.0
+      and s.sale_date is not distinct from '2024-05-16'
+      and s.listing_id is not distinct from '126470677998'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-19', 189.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/186321915672', '186321915672', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 189.0
+      and s.sale_date is not distinct from '2024-05-19'
+      and s.listing_id is not distinct from '186321915672'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-24', 180.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/186428499233', '186428499233', 'collector_report', false, 5, null, 'Terapeak average across 5 units sold on one listing; shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 180.0
+      and s.sale_date is not distinct from '2024-06-24'
+      and s.listing_id is not distinct from '186428499233'
+      and s.notes is not distinct from 'Terapeak average across 5 units sold on one listing; shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-29', 200.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/226314188922', '226314188922', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 200.0
+      and s.sale_date is not distinct from '2024-08-29'
+      and s.listing_id is not distinct from '226314188922'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-18', 229.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/235455871298', '235455871298', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 229.99
+      and s.sale_date is not distinct from '2024-09-18'
+      and s.listing_id is not distinct from '235455871298'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-28', 230.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/166651976157', '166651976157', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 230.0
+      and s.sale_date is not distinct from '2024-09-28'
+      and s.listing_id is not distinct from '166651976157'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-24', 200.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/235803772184', '235803772184', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 200.0
+      and s.sale_date is not distinct from '2024-11-24'
+      and s.listing_id is not distinct from '235803772184'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-02', 159.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/235934076386', '235934076386', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 159.99
+      and s.sale_date is not distinct from '2025-04-02'
+      and s.listing_id is not distinct from '235934076386'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-24', 100.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/157255764565', '157255764565', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 100.0
+      and s.sale_date is not distinct from '2025-10-24'
+      and s.listing_id is not distinct from '157255764565'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-29', 107.96, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/187587521308', '187587521308', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 107.96
+      and s.sale_date is not distinct from '2025-10-29'
+      and s.listing_id is not distinct from '187587521308'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-27', 74.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116594720535', '116594720535', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 74.99
+      and s.sale_date is not distinct from '2025-12-27'
+      and s.listing_id is not distinct from '116594720535'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-27', 99.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/177668538205', '177668538205', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 99.99
+      and s.sale_date is not distinct from '2025-12-27'
+      and s.listing_id is not distinct from '177668538205'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-13', 32.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/227166320655', '227166320655', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 32.0
+      and s.sale_date is not distinct from '2026-01-13'
+      and s.listing_id is not distinct from '227166320655'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-09', 125.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/177653167681', '177653167681', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 125.0
+      and s.sale_date is not distinct from '2026-09-09'
+      and s.listing_id is not distinct from '177653167681'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-03', 100.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/147600445467', '147600445467', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024' from items i where i.slug = 'giant-sized-charizard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 100.0
+      and s.sale_date is not distinct from '2026-10-03'
+      and s.listing_id is not distinct from '147600445467'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 22in 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-14', 55.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126142600683', '126142600683', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 55.0
+      and s.sale_date is not distinct from '2023-11-14'
+      and s.listing_id is not distinct from '126142600683'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-25', 44.85, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115868651639', '115868651639', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 13in' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 44.85
+      and s.sale_date is not distinct from '2023-11-25'
+      and s.listing_id is not distinct from '115868651639'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 13in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-08', 62.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/115898370469', '115898370469', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 62.0
+      and s.sale_date is not distinct from '2023-12-08'
+      and s.listing_id is not distinct from '115898370469'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-10', 68.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126161089189', '126161089189', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 68.0
+      and s.sale_date is not distinct from '2023-12-10'
+      and s.listing_id is not distinct from '126161089189'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-17', 45.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126480991595', '126480991595', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2024-05-17'
+      and s.listing_id is not distinct from '126480991595'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-27', 42.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116188849871', '116188849871', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 42.0
+      and s.sale_date is not distinct from '2024-05-27'
+      and s.listing_id is not distinct from '116188849871'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-03', 64.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116230354355', '116230354355', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 64.0
+      and s.sale_date is not distinct from '2024-07-03'
+      and s.listing_id is not distinct from '116230354355'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-17', 28.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126724129326', '126724129326', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.0
+      and s.sale_date is not distinct from '2024-11-17'
+      and s.listing_id is not distinct from '126724129326'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-09', 20.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126925156409', '126925156409', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2025-02-09'
+      and s.listing_id is not distinct from '126925156409'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-04', 27.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116481536473', '116481536473', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 27.0
+      and s.sale_date is not distinct from '2025-03-04'
+      and s.listing_id is not distinct from '116481536473'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-21', 36.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126993570500', '126993570500', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 36.0
+      and s.sale_date is not distinct from '2025-03-21'
+      and s.listing_id is not distinct from '126993570500'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-03', 30.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127019550225', '127019550225', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2025-04-03'
+      and s.listing_id is not distinct from '127019550225'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-27', 35.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127275226495', '127275226495', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in; 2021' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2025-09-27'
+      and s.listing_id is not distinct from '127275226495'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in; 2021');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-15', 39.99, null, 'USD', 'Excellent', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116926629715', '116926629715', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 17in; 2021' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2025-12-15'
+      and s.listing_id is not distinct from '116926629715'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 17in; 2021');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-21', 32.5, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127187552537', '127187552537', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in; 2021' from items i where i.slug = 'glaceon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 32.5
+      and s.sale_date is not distinct from '2025-12-21'
+      and s.listing_id is not distinct from '127187552537'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in; 2021');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-25', 99.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115988463379', '115988463379', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 99.95
+      and s.sale_date is not distinct from '2023-12-25'
+      and s.listing_id is not distinct from '115988463379'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-12', 115.0, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/126261223998', '126261223998', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 115.0
+      and s.sale_date is not distinct from '2024-01-12'
+      and s.listing_id is not distinct from '126261223998'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-26', 144.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116048395631', '116048395631', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 144.49
+      and s.sale_date is not distinct from '2024-01-26'
+      and s.listing_id is not distinct from '116048395631'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-24', 90.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126411176032', '126411176032', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 90.0
+      and s.sale_date is not distinct from '2024-04-24'
+      and s.listing_id is not distinct from '126411176032'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-30', 100.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126458447199', '126458447199', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in listed' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 100.0
+      and s.sale_date is not distinct from '2024-04-30'
+      and s.listing_id is not distinct from '126458447199'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-10', 65.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126468960549', '126468960549', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 65.0
+      and s.sale_date is not distinct from '2024-05-10'
+      and s.listing_id is not distinct from '126468960549'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-10', 89.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126496245699', '126496245699', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 89.99
+      and s.sale_date is not distinct from '2024-06-10'
+      and s.listing_id is not distinct from '126496245699'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-24', 63.74, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116219695494', '116219695494', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 63.74
+      and s.sale_date is not distinct from '2024-06-24'
+      and s.listing_id is not distinct from '116219695494'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-30', 100.79, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/126530871831', '126530871831', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in with flower bow' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 100.79
+      and s.sale_date is not distinct from '2024-06-30'
+      and s.listing_id is not distinct from '126530871831'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in with flower bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-28', 160.0, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/126530213404', '126530213404', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower bow' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 160.0
+      and s.sale_date is not distinct from '2024-07-28'
+      and s.listing_id is not distinct from '126530213404'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-26', 45.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116298669791', '116298669791', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2024-08-26'
+      and s.listing_id is not distinct from '116298669791'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-23', 84.99, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/116329087292', '116329087292', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 84.99
+      and s.sale_date is not distinct from '2024-09-23'
+      and s.listing_id is not distinct from '116329087292'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-08', 84.95, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/126744684761', '126744684761', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 84.95
+      and s.sale_date is not distinct from '2024-11-08'
+      and s.listing_id is not distinct from '126744684761'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-13', 49.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116380835861', '116380835861', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.99
+      and s.sale_date is not distinct from '2024-11-13'
+      and s.listing_id is not distinct from '116380835861'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-26', 50.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116326342855', '116326342855', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2024-11-26'
+      and s.listing_id is not distinct from '116326342855'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-08', 65.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126667018365', '126667018365', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 65.99
+      and s.sale_date is not distinct from '2024-12-08'
+      and s.listing_id is not distinct from '126667018365'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-21', 47.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/276531820949', '276531820949', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 18in' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 47.0
+      and s.sale_date is not distinct from '2024-12-21'
+      and s.listing_id is not distinct from '276531820949'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-08', 44.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126913773351', '126913773351', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 44.99
+      and s.sale_date is not distinct from '2025-02-08'
+      and s.listing_id is not distinct from '126913773351'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-17', 33.98, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/396310775633', '396310775633', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 17in' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 33.98
+      and s.sale_date is not distinct from '2025-03-17'
+      and s.listing_id is not distinct from '396310775633'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-27', 80.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116500338659', '116500338659', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 80.0
+      and s.sale_date is not distinct from '2025-03-27'
+      and s.listing_id is not distinct from '116500338659'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-27', 68.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/127013905991', '127013905991', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; pink bow, 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 68.0
+      and s.sale_date is not distinct from '2025-03-27'
+      and s.listing_id is not distinct from '127013905991'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; pink bow, 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-11', 36.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116615652663', '116615652663', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 36.99
+      and s.sale_date is not distinct from '2025-06-11'
+      and s.listing_id is not distinct from '116615652663'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-19', 31.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127149094206', '127149094206', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 31.0
+      and s.sale_date is not distinct from '2025-06-19'
+      and s.listing_id is not distinct from '127149094206'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-15', 42.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116675466521', '116675466521', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 42.0
+      and s.sale_date is not distinct from '2025-07-15'
+      and s.listing_id is not distinct from '116675466521'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-28', 39.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116707999992', '116707999992', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2025-07-28'
+      and s.listing_id is not distinct from '116707999992'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-19', 39.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127317481572', '127317481572', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2025-08-19'
+      and s.listing_id is not distinct from '127317481572'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-20', 400.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127380834135', '127380834135', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010; far above other sales - check listing' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 400.0
+      and s.sale_date is not distinct from '2025-09-20'
+      and s.listing_id is not distinct from '127380834135'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010; far above other sales - check listing');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-02', 30.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117213282044', '117213282044', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2026-08-02'
+      and s.listing_id is not distinct from '117213282044'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-13', 79.99, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/117394655149', '117394655149', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower, 2010' from items i where i.slug = 'hello-kitty-hawaiian-sun-kissed-tan'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 79.99
+      and s.sale_date is not distinct from '2026-09-13'
+      and s.listing_id is not distinct from '117394655149'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with flower, 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-12', 18.05, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/176005214568', '176005214568', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in + 8in puppy' from items i where i.slug = 'husky-mama-puppy-magnetic-mouth'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.05
+      and s.sale_date is not distinct from '2024-02-12'
+      and s.listing_id is not distinct from '176005214568'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in + 8in puppy');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-10-22', 29.99, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/166899801833', '166899801833', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; mom + pup set' from items i where i.slug = 'husky-mama-puppy-magnetic-mouth'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.99
+      and s.sale_date is not distinct from '2024-10-22'
+      and s.listing_id is not distinct from '166899801833'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; mom + pup set');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-01', 24.99, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/205208008980', '205208008980', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in mama + puppy' from items i where i.slug = 'husky-mama-puppy-magnetic-mouth'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2025-02-01'
+      and s.listing_id is not distinct from '205208008980'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in mama + puppy');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-30', 19.99, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/156398341889', '156398341889', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; mom + pup set' from items i where i.slug = 'husky-mama-puppy-magnetic-mouth'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2025-04-30'
+      and s.listing_id is not distinct from '156398341889'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; mom + pup set');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-13', 25.95, null, 'USD', 'Mint', 'complete', 'eBay', 'https://www.ebay.com/itm/196110123209', '196110123209', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new without tags' from items i where i.slug = 'husky-mama-puppy-magnetic-mouth'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.95
+      and s.sale_date is not distinct from '2025-11-13'
+      and s.listing_id is not distinct from '196110123209'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new without tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-30', 29.95, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/136661163840', '136661163840', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in mama + puppy' from items i where i.slug = 'husky-mama-puppy-magnetic-mouth'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.95
+      and s.sale_date is not distinct from '2025-11-30'
+      and s.listing_id is not distinct from '136661163840'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in mama + puppy');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-05', 31.34, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/205198865220', '205198865220', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; mom + pup set' from items i where i.slug = 'husky-mama-puppy-magnetic-mouth'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 31.34
+      and s.sale_date is not distinct from '2026-02-05'
+      and s.listing_id is not distinct from '205198865220'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; mom + pup set');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-28', 24.0, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/137186910809', '137186910809', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; mom + pup set' from items i where i.slug = 'husky-mama-puppy-magnetic-mouth'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.0
+      and s.sale_date is not distinct from '2026-04-28'
+      and s.listing_id is not distinct from '137186910809'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; mom + pup set');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-08', 29.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115962375419', '115962375419', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 11in' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.99
+      and s.sale_date is not distinct from '2023-11-08'
+      and s.listing_id is not distinct from '115962375419'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 11in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-14', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126135603811', '126135603811', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2023-11-14'
+      and s.listing_id is not distinct from '126135603811'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-19', 26.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116066189068', '116066189068', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 26.0
+      and s.sale_date is not distinct from '2024-02-19'
+      and s.listing_id is not distinct from '116066189068'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-01', 25.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/134956331161', '134956331161', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2024-03-01'
+      and s.listing_id is not distinct from '134956331161'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-22', 34.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126366905249', '126366905249', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in; 2018' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.0
+      and s.sale_date is not distinct from '2024-03-22'
+      and s.listing_id is not distinct from '126366905249'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-07', 7.81, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116123101584', '116123101584', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 7.81
+      and s.sale_date is not distinct from '2024-04-07'
+      and s.listing_id is not distinct from '116123101584'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-19', 39.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126437028521', '126437028521', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2024-05-19'
+      and s.listing_id is not distinct from '126437028521'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-04', 39.97, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135034392567', '135034392567', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.97
+      and s.sale_date is not distinct from '2024-06-04'
+      and s.listing_id is not distinct from '135034392567'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-13', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126171836542', '126171836542', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2024-06-13'
+      and s.listing_id is not distinct from '126171836542'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-01', 50.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126148003060', '126148003060', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 12in' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2024-07-01'
+      and s.listing_id is not distinct from '126148003060'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 12in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-10', 24.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/135134804189', '135134804189', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in; 2018' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2024-07-10'
+      and s.listing_id is not distinct from '135134804189'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-10-29', 18.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126735228037', '126735228037', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in; 2018' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.0
+      and s.sale_date is not distinct from '2024-10-29'
+      and s.listing_id is not distinct from '126735228037'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-31', 16.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116816295202', '116816295202', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2025-10-31'
+      and s.listing_id is not distinct from '116816295202'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-27', 24.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/117004182910', '117004182910', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.0
+      and s.sale_date is not distinct from '2026-01-27'
+      and s.listing_id is not distinct from '117004182910'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-13', 17.98, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137064924561', '137064924561', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 17.98
+      and s.sale_date is not distinct from '2026-03-13'
+      and s.listing_id is not distinct from '137064924561'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-31', 37.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126869867686', '126869867686', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 37.0
+      and s.sale_date is not distinct from '2026-07-31'
+      and s.listing_id is not distinct from '126869867686'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-03', 12.98, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/128008541396', '128008541396', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'jigglypuff-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.98
+      and s.sale_date is not distinct from '2026-08-03'
+      and s.listing_id is not distinct from '128008541396'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-14', 45.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134766708775', '134766708775', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2023-10-14'
+      and s.listing_id is not distinct from '134766708775'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-09', 45.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115951787294', '115951787294', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2020' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2023-11-09'
+      and s.listing_id is not distinct from '115951787294'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-26', 35.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115983111384', '115983111384', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2023-11-26'
+      and s.listing_id is not distinct from '115983111384'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-08', 54.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115909748279', '115909748279', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 54.0
+      and s.sale_date is not distinct from '2023-12-08'
+      and s.listing_id is not distinct from '115909748279'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-29', 50.54, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/134843720536', '134843720536', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.54
+      and s.sale_date is not distinct from '2023-12-29'
+      and s.listing_id is not distinct from '134843720536'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-11', 49.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134878777395', '134878777395', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.99
+      and s.sale_date is not distinct from '2024-01-11'
+      and s.listing_id is not distinct from '134878777395'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-27', 41.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134909337246', '134909337246', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 41.99
+      and s.sale_date is not distinct from '2024-01-27'
+      and s.listing_id is not distinct from '134909337246'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-16', 54.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116043677511', '116043677511', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 54.99
+      and s.sale_date is not distinct from '2024-03-16'
+      and s.listing_id is not distinct from '116043677511'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-23', 69.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116088482742', '116088482742', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 69.5
+      and s.sale_date is not distinct from '2024-03-23'
+      and s.listing_id is not distinct from '116088482742'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-10', 45.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134977985063', '134977985063', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2024-04-10'
+      and s.listing_id is not distinct from '134977985063'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-12', 84.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/134991836421', '134991836421', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 84.99
+      and s.sale_date is not distinct from '2024-04-12'
+      and s.listing_id is not distinct from '134991836421'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-27', 14.5, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126436846813', '126436846813', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.5
+      and s.sale_date is not distinct from '2024-04-27'
+      and s.listing_id is not distinct from '126436846813'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-19', 50.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126581532349', '126581532349', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2024-07-19'
+      and s.listing_id is not distinct from '126581532349'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-07', 35.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116456069092', '116456069092', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2025-02-07'
+      and s.listing_id is not distinct from '116456069092'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-13', 29.9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116598828027', '116598828027', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.9
+      and s.sale_date is not distinct from '2025-05-13'
+      and s.listing_id is not distinct from '116598828027'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-30', 33.49, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/136010678372', '136010678372', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 33.49
+      and s.sale_date is not distinct from '2025-06-30'
+      and s.listing_id is not distinct from '136010678372'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-10', 28.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127207451652', '127207451652', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in' from items i where i.slug = 'jolteon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.0
+      and s.sale_date is not distinct from '2025-07-10'
+      and s.listing_id is not distinct from '127207451652'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-09', 69.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/117348011723', '117348011723', 'collector_report', false, 6, null, 'Terapeak average across 6 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 69.95
+      and s.sale_date is not distinct from '2026-08-09'
+      and s.listing_id is not distinct from '117348011723'
+      and s.notes is not distinct from 'Terapeak average across 6 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-10', 64.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/267752019868', '267752019868', 'collector_report', false, 6, null, 'Terapeak average across 6 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 64.99
+      and s.sale_date is not distinct from '2026-08-10'
+      and s.listing_id is not distinct from '267752019868'
+      and s.notes is not distinct from 'Terapeak average across 6 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-14', 54.67, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/168608631681', '168608631681', 'collector_report', false, 9, null, 'Terapeak average across 9 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 54.67
+      and s.sale_date is not distinct from '2026-08-14'
+      and s.listing_id is not distinct from '168608631681'
+      and s.notes is not distinct from 'Terapeak average across 9 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-21', 54.98, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/257680614164', '257680614164', 'collector_report', false, 5, null, 'Terapeak average across 5 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 54.98
+      and s.sale_date is not distinct from '2026-08-21'
+      and s.listing_id is not distinct from '257680614164'
+      and s.notes is not distinct from 'Terapeak average across 5 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-26', 49.7, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/257678484382', '257678484382', 'collector_report', false, 11, null, 'Terapeak average across 11 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.7
+      and s.sale_date is not distinct from '2026-08-26'
+      and s.listing_id is not distinct from '257678484382'
+      and s.notes is not distinct from 'Terapeak average across 11 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-29', 54.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/237006831462', '237006831462', 'collector_report', false, 5, null, 'Terapeak average across 5 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 54.5
+      and s.sale_date is not distinct from '2026-08-29'
+      and s.listing_id is not distinct from '237006831462'
+      and s.notes is not distinct from 'Terapeak average across 5 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-31', 44.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/298605097408', '298605097408', 'collector_report', false, 5, null, 'Terapeak average across 5 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 44.99
+      and s.sale_date is not distinct from '2026-08-31'
+      and s.listing_id is not distinct from '298605097408'
+      and s.notes is not distinct from 'Terapeak average across 5 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-01', 48.18, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/267762195980', '267762195980', 'collector_report', false, 28, null, 'Terapeak average across 28 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 48.18
+      and s.sale_date is not distinct from '2026-09-01'
+      and s.listing_id is not distinct from '267762195980'
+      and s.notes is not distinct from 'Terapeak average across 28 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-17', 38.91, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/198627749021', '198627749021', 'collector_report', false, 24, null, 'Terapeak average across 24 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 38.91
+      and s.sale_date is not distinct from '2026-09-17'
+      and s.listing_id is not distinct from '198627749021'
+      and s.notes is not distinct from 'Terapeak average across 24 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-21', 38.4, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/227478946217', '227478946217', 'collector_report', false, 5, null, 'Terapeak average across 5 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 38.4
+      and s.sale_date is not distinct from '2026-09-21'
+      and s.listing_id is not distinct from '227478946217'
+      and s.notes is not distinct from 'Terapeak average across 5 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-28', 48.32, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/257678460747', '257678460747', 'collector_report', false, 20, null, 'Terapeak average across 20 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 48.32
+      and s.sale_date is not distinct from '2026-09-28'
+      and s.listing_id is not distinct from '257678460747'
+      and s.notes is not distinct from 'Terapeak average across 20 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-29', 44.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/287531521136', '287531521136', 'collector_report', false, 8, null, 'Terapeak average across 8 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 44.99
+      and s.sale_date is not distinct from '2026-09-29'
+      and s.listing_id is not distinct from '287531521136'
+      and s.notes is not distinct from 'Terapeak average across 8 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-30', 60.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/237041512878', '237041512878', 'collector_report', false, 7, null, 'Terapeak average across 7 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.0
+      and s.sale_date is not distinct from '2026-09-30'
+      and s.listing_id is not distinct from '237041512878'
+      and s.notes is not distinct from 'Terapeak average across 7 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-01', 59.7, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/158184844519', '158184844519', 'collector_report', false, 12, null, 'Terapeak average across 12 units sold on one listing; shipping excluded; new 2026 release, prices still settling' from items i where i.slug = 'jumping-spider-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 59.7
+      and s.sale_date is not distinct from '2026-10-01'
+      and s.listing_id is not distinct from '158184844519'
+      and s.notes is not distinct from 'Terapeak average across 12 units sold on one listing; shipping excluded; new 2026 release, prices still settling');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-23', 149.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/285827519040', '285827519040', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $10.50' from items i where i.slug = 'kennel-pals-calico-cat'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 149.99
+      and s.sale_date is not distinct from '2024-04-23'
+      and s.listing_id is not distinct from '285827519040'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $10.50');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-21', 9.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/326686654501', '326686654501', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2025' from items i where i.slug = 'kuromi-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.5
+      and s.sale_date is not distinct from '2025-07-21'
+      and s.listing_id is not distinct from '326686654501'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2025');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-13', 11.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/366151344967', '366151344967', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 9in listed' from items i where i.slug = 'kuromi-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.0
+      and s.sale_date is not distinct from '2026-02-13'
+      and s.listing_id is not distinct from '366151344967'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 9in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-21', 19.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/198244025056', '198244025056', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 9in listed' from items i where i.slug = 'kuromi-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.95
+      and s.sale_date is not distinct from '2026-04-21'
+      and s.listing_id is not distinct from '198244025056'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 9in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-10', 3.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/147530026645', '147530026645', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'kuromi-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 3.5
+      and s.sale_date is not distinct from '2026-09-10'
+      and s.listing_id is not distinct from '147530026645'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-06', 23.04, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126168624876', '126168624876', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.04
+      and s.sale_date is not distinct from '2023-11-06'
+      and s.listing_id is not distinct from '126168624876'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-08', 42.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126165650412', '126165650412', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 42.0
+      and s.sale_date is not distinct from '2023-11-08'
+      and s.listing_id is not distinct from '126165650412'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-02', 46.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/314896199745', '314896199745', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 46.5
+      and s.sale_date is not distinct from '2023-12-02'
+      and s.listing_id is not distinct from '314896199745'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-12', 52.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115887170022', '115887170022', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 17in' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 52.0
+      and s.sale_date is not distinct from '2024-01-12'
+      and s.listing_id is not distinct from '115887170022'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-05', 20.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126355307899', '126355307899', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2022' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.5
+      and s.sale_date is not distinct from '2024-03-05'
+      and s.listing_id is not distinct from '126355307899'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2022');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-15', 37.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126265355429', '126265355429', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 37.99
+      and s.sale_date is not distinct from '2024-03-15'
+      and s.listing_id is not distinct from '126265355429'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-19', 39.9, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126347360995', '126347360995', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 17in' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.9
+      and s.sale_date is not distinct from '2024-03-19'
+      and s.listing_id is not distinct from '126347360995'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-20', 42.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116160681384', '116160681384', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 42.99
+      and s.sale_date is not distinct from '2024-06-20'
+      and s.listing_id is not distinct from '116160681384'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-29', 35.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126592130266', '126592130266', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2024-08-29'
+      and s.listing_id is not distinct from '126592130266'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-18', 75.88, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/267081614986', '267081614986', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 75.88
+      and s.sale_date is not distinct from '2024-12-18'
+      and s.listing_id is not distinct from '267081614986'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-18', 65.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126878418167', '126878418167', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 65.0
+      and s.sale_date is not distinct from '2025-01-18'
+      and s.listing_id is not distinct from '126878418167'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-08', 45.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116478232012', '116478232012', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 16in' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2025-03-08'
+      and s.listing_id is not distinct from '116478232012'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-03', 44.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116530317622', '116530317622', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 44.99
+      and s.sale_date is not distinct from '2025-04-03'
+      and s.listing_id is not distinct from '116530317622'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-15', 69.88, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/267223301434', '267223301434', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 69.88
+      and s.sale_date is not distinct from '2025-06-15'
+      and s.listing_id is not distinct from '267223301434'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-04', 69.88, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/267292908728', '267292908728', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 69.88
+      and s.sale_date is not distinct from '2025-07-04'
+      and s.listing_id is not distinct from '267292908728'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-30', 30.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116636183352', '116636183352', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 13in' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2025-10-30'
+      and s.listing_id is not distinct from '116636183352'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 13in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-13', 18.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/117353933105', '117353933105', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.0
+      and s.sale_date is not distinct from '2026-08-13'
+      and s.listing_id is not distinct from '117353933105'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-02', 30.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117440074269', '117440074269', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'leafeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2026-10-02'
+      and s.listing_id is not distinct from '117440074269'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-15', 35.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/317848416529', '317848416529', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'litten'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2026-02-15'
+      and s.listing_id is not distinct from '317848416529'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-08', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/188881395471', '188881395471', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'litten'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2026-09-08'
+      and s.listing_id is not distinct from '188881395471'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-28', 41.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/393854307635', '393854307635', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 41.99
+      and s.sale_date is not distinct from '2024-02-28'
+      and s.listing_id is not distinct from '393854307635'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-04', 20.15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/335164222861', '335164222861', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.15
+      and s.sale_date is not distinct from '2024-03-04'
+      and s.listing_id is not distinct from '335164222861'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-24', 33.33, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/125375688000', '125375688000', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 33.33
+      and s.sale_date is not distinct from '2024-03-24'
+      and s.listing_id is not distinct from '125375688000'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-19', 19.8, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/144993050856', '144993050856', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.8
+      and s.sale_date is not distinct from '2024-05-19'
+      and s.listing_id is not distinct from '144993050856'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-13', 14.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/176479718474', '176479718474', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.0
+      and s.sale_date is not distinct from '2024-08-13'
+      and s.listing_id is not distinct from '176479718474'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-27', 21.96, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/365056957811', '365056957811', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 21.96
+      and s.sale_date is not distinct from '2024-12-27'
+      and s.listing_id is not distinct from '365056957811'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-14', 21.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135190941914', '135190941914', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 21.99
+      and s.sale_date is not distinct from '2025-01-14'
+      and s.listing_id is not distinct from '135190941914'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-13', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/365068286622', '365068286622', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2025-04-13'
+      and s.listing_id is not distinct from '365068286622'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-24', 38.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/177042616942', '177042616942', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 38.0
+      and s.sale_date is not distinct from '2025-05-24'
+      and s.listing_id is not distinct from '177042616942'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-11', 19.85, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/267306084344', '267306084344', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.85
+      and s.sale_date is not distinct from '2025-07-11'
+      and s.listing_id is not distinct from '267306084344'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-25', 49.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/275158118374', '275158118374', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.99
+      and s.sale_date is not distinct from '2025-10-25'
+      and s.listing_id is not distinct from '275158118374'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-13', 23.98, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/365983303100', '365983303100', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.98
+      and s.sale_date is not distinct from '2026-01-13'
+      and s.listing_id is not distinct from '365983303100'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-28', 24.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/267384084511', '267384084511', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2026-01-28'
+      and s.listing_id is not distinct from '267384084511'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-15', 15.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/389657409506', '389657409506', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no bow' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2026-03-15'
+      and s.listing_id is not distinct from '389657409506'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no bow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-30', 24.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/276889945704', '276889945704', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.0
+      and s.sale_date is not distinct from '2026-03-30'
+      and s.listing_id is not distinct from '276889945704'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-12', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/358480669775', '358480669775', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'mcbearish'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2026-05-12'
+      and s.listing_id is not distinct from '358480669775'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-04', 18.5, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126309534431', '126309534431', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 2016' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.5
+      and s.sale_date is not distinct from '2024-02-04'
+      and s.listing_id is not distinct from '126309534431'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-11', 23.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126321638222', '126321638222', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 18in' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.0
+      and s.sale_date is not distinct from '2024-02-11'
+      and s.listing_id is not distinct from '126321638222'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-15', 32.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126326113802', '126326113802', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 18in' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 32.0
+      and s.sale_date is not distinct from '2024-05-15'
+      and s.listing_id is not distinct from '126326113802'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-11', 24.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116119032926', '116119032926', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 18in; 2016' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2024-08-11'
+      and s.listing_id is not distinct from '116119032926'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 18in; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-21', 19.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/176309443650', '176309443650', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.5
+      and s.sale_date is not distinct from '2024-08-21'
+      and s.listing_id is not distinct from '176309443650'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-26', 19.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126660419317', '126660419317', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.95
+      and s.sale_date is not distinct from '2024-09-26'
+      and s.listing_id is not distinct from '126660419317'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-17', 23.29, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116600313121', '116600313121', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.29
+      and s.sale_date is not distinct from '2025-06-17'
+      and s.listing_id is not distinct from '116600313121'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-16', 55.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126824101716', '126824101716', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 55.95
+      and s.sale_date is not distinct from '2025-08-16'
+      and s.listing_id is not distinct from '126824101716'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-26', 27.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116388688568', '116388688568', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 27.99
+      and s.sale_date is not distinct from '2025-08-26'
+      and s.listing_id is not distinct from '116388688568'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-06', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126869865435', '126869865435', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2025-09-06'
+      and s.listing_id is not distinct from '126869865435'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-15', 22.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127280478959', '127280478959', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.5
+      and s.sale_date is not distinct from '2025-09-15'
+      and s.listing_id is not distinct from '127280478959'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-02', 22.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/276999425617', '276999425617', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 18in' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.5
+      and s.sale_date is not distinct from '2026-02-02'
+      and s.listing_id is not distinct from '276999425617'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-17', 12.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117101870144', '117101870144', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in' from items i where i.slug = 'meowth-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2026-06-17'
+      and s.listing_id is not distinct from '117101870144'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-20', 16.09, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/145779661510', '145779661510', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; cape costume' from items i where i.slug = 'minions-vampire-costume'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.09
+      and s.sale_date is not distinct from '2024-09-20'
+      and s.listing_id is not distinct from '145779661510'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; cape costume');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-10', 11.0, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/317627920456', '317627920456', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'minions-vampire-costume'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.0
+      and s.sale_date is not distinct from '2026-07-10'
+      and s.listing_id is not distinct from '317627920456'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-16', 14.99, null, 'USD', 'NWT', 'complete', 'eBay', 'https://www.ebay.com/itm/187874348466', '187874348466', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new' from items i where i.slug = 'minions-vampire-costume'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2026-08-16'
+      and s.listing_id is not distinct from '187874348466'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-10', 28.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/397065602433', '397065602433', 'collector_report', false, 5, null, 'Terapeak average across 5 units sold on one listing; shipping excluded' from items i where i.slug = 'mothman-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.99
+      and s.sale_date is not distinct from '2025-10-10'
+      and s.listing_id is not distinct from '397065602433'
+      and s.notes is not distinct from 'Terapeak average across 5 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-06', 20.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/397375681066', '397375681066', 'collector_report', false, 5, null, 'Terapeak average across 5 units sold on one listing; shipping excluded; 7in with moth charm' from items i where i.slug = 'mothman-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.95
+      and s.sale_date is not distinct from '2026-01-06'
+      and s.listing_id is not distinct from '397375681066'
+      and s.notes is not distinct from 'Terapeak average across 5 units sold on one listing; shipping excluded; 7in with moth charm');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-10', 20.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/397396490218', '397396490218', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; 7in' from items i where i.slug = 'mothman-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.95
+      and s.sale_date is not distinct from '2026-01-10'
+      and s.listing_id is not distinct from '397396490218'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-10', 20.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/157601089267', '157601089267', 'collector_report', false, 5, null, 'Terapeak average across 5 units sold on one listing; shipping excluded; 7in with moth charm' from items i where i.slug = 'mothman-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.95
+      and s.sale_date is not distinct from '2026-02-10'
+      and s.listing_id is not distinct from '157601089267'
+      and s.notes is not distinct from 'Terapeak average across 5 units sold on one listing; shipping excluded; 7in with moth charm');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-16', 24.62, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/177602261333', '177602261333', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; 7in' from items i where i.slug = 'mothman-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.62
+      and s.sale_date is not distinct from '2026-02-16'
+      and s.listing_id is not distinct from '177602261333'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-19', 20.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/157605505186', '157605505186', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; 7in' from items i where i.slug = 'mothman-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.95
+      and s.sale_date is not distinct from '2026-02-19'
+      and s.listing_id is not distinct from '157605505186'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-30', 11.0, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/334385158159', '334385158159', 'collector_report', false, 12, null, 'Terapeak average across 12 units sold on one listing; shipping excluded' from items i where i.slug = 'pawlette-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.0
+      and s.sale_date is not distinct from '2024-06-30'
+      and s.listing_id is not distinct from '334385158159'
+      and s.notes is not distinct from 'Terapeak average across 12 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-18', 12.32, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/254900384809', '254900384809', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded' from items i where i.slug = 'pawlette-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.32
+      and s.sale_date is not distinct from '2024-07-18'
+      and s.listing_id is not distinct from '254900384809'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-02', 14.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266939926374', '266939926374', 'collector_report', false, 13, null, 'Terapeak average across 13 units sold on one listing; shipping excluded; catalogue year 1997 looks wrong - Pawlette is a modern bunny' from items i where i.slug = 'pawlette-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2026-03-02'
+      and s.listing_id is not distinct from '266939926374'
+      and s.notes is not distinct from 'Terapeak average across 13 units sold on one listing; shipping excluded; catalogue year 1997 looks wrong - Pawlette is a modern bunny');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-04', 13.91, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/296633322384', '296633322384', 'collector_report', false, 23, null, 'Terapeak average across 23 units sold on one listing; shipping excluded' from items i where i.slug = 'pawlette-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.91
+      and s.sale_date is not distinct from '2026-08-04'
+      and s.listing_id is not distinct from '296633322384'
+      and s.notes is not distinct from 'Terapeak average across 23 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-17', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/196248239597', '196248239597', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2024-03-17'
+      and s.listing_id is not distinct from '196248239597'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-10', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126541055295', '126541055295', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2024-07-10'
+      and s.listing_id is not distinct from '126541055295'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-11', 13.14, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/196164942517', '196164942517', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.14
+      and s.sale_date is not distinct from '2024-07-11'
+      and s.listing_id is not distinct from '196164942517'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-26', 19.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156302201065', '156302201065', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2024-07-26'
+      and s.listing_id is not distinct from '156302201065'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-23', 12.59, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/167230347502', '167230347502', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2019' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.59
+      and s.sale_date is not distinct from '2025-04-23'
+      and s.listing_id is not distinct from '167230347502'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-08', 19.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146626459551', '146626459551', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in; 2019' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2025-06-08'
+      and s.listing_id is not distinct from '146626459551'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-06', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/157297983612', '157297983612', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2026-02-06'
+      and s.listing_id is not distinct from '157297983612'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-12', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156591772359', '156591772359', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2026-02-12'
+      and s.listing_id is not distinct from '156591772359'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-26', 12.0, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/157705874773', '157705874773', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2019' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2026-03-26'
+      and s.listing_id is not distinct from '157705874773'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-29', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/177825376767', '177825376767', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2026-03-29'
+      and s.listing_id is not distinct from '177825376767'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-03', 16.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127688352425', '127688352425', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2026-04-03'
+      and s.listing_id is not distinct from '127688352425'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-10', 19.09, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137033477527', '137033477527', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.09
+      and s.sale_date is not distinct from '2026-05-10'
+      and s.listing_id is not distinct from '137033477527'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-31', 23.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126839937782', '126839937782', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'pichu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.0
+      and s.sale_date is not distinct from '2026-07-31'
+      and s.listing_id is not distinct from '126839937782'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-26', 12.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126087674017', '126087674017', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.99
+      and s.sale_date is not distinct from '2023-10-26'
+      and s.listing_id is not distinct from '126087674017'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-30', 5.54, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/124245002383', '124245002383', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 20in listed' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.54
+      and s.sale_date is not distinct from '2023-10-30'
+      and s.listing_id is not distinct from '124245002383'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 20in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-11', 5.0, null, 'USD', 'Fair', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115973217924', '115973217924', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); speaker does not work' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2023-11-11'
+      and s.listing_id is not distinct from '115973217924'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); speaker does not work');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-15', 13.75, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115968446640', '115968446640', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in, 2021' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.75
+      and s.sale_date is not distinct from '2023-11-15'
+      and s.listing_id is not distinct from '115968446640'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in, 2021');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-29', 6.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115989288406', '115989288406', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in, 2017' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 6.0
+      and s.sale_date is not distinct from '2023-11-29'
+      and s.listing_id is not distinct from '115989288406'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in, 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-04', 15.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115939151611', '115939151611', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 17in with voice box' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2024-01-04'
+      and s.listing_id is not distinct from '115939151611'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 17in with voice box');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-14', 15.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126208922217', '126208922217', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 16in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.99
+      and s.sale_date is not distinct from '2024-01-14'
+      and s.listing_id is not distinct from '126208922217'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-15', 16.97, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116004245554', '116004245554', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in, 2017' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.97
+      and s.sale_date is not distinct from '2024-01-15'
+      and s.listing_id is not distinct from '116004245554'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in, 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-25', 9.0, null, 'USD', 'Mint', 'some_originals', 'eBay', 'https://www.ebay.com/itm/124998250655', '124998250655', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); new without tags, sound' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.0
+      and s.sale_date is not distinct from '2024-01-25'
+      and s.listing_id is not distinct from '124998250655'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); new without tags, sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-11', 9.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116036697132', '116036697132', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 15in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.99
+      and s.sale_date is not distinct from '2024-02-11'
+      and s.listing_id is not distinct from '116036697132'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-16', 20.0, null, 'USD', 'Mint', 'unknown', 'eBay', 'https://www.ebay.com/itm/126250215838', '126250215838', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); new without tags' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2024-02-16'
+      and s.listing_id is not distinct from '126250215838'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); new without tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-25', 7.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116056015282', '116056015282', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 7.49
+      and s.sale_date is not distinct from '2024-03-25'
+      and s.listing_id is not distinct from '116056015282'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-07', 9.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116056015298', '116056015298', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.0
+      and s.sale_date is not distinct from '2024-04-07'
+      and s.listing_id is not distinct from '116056015298'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-09', 18.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116036191174', '116036191174', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.99
+      and s.sale_date is not distinct from '2024-04-09'
+      and s.listing_id is not distinct from '116036191174'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-12', 5.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126516445270', '126516445270', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2024-06-12'
+      and s.listing_id is not distinct from '126516445270'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-15', 4.66, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/166603212554', '166603212554', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; standard release (excl. 25th anniversary); 15in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 4.66
+      and s.sale_date is not distinct from '2024-07-15'
+      and s.listing_id is not distinct from '166603212554'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; standard release (excl. 25th anniversary); 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-20', 16.92, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126499345621', '126499345621', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.92
+      and s.sale_date is not distinct from '2024-07-20'
+      and s.listing_id is not distinct from '126499345621'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-28', 2.25, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126583193846', '126583193846', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 2.25
+      and s.sale_date is not distinct from '2024-07-28'
+      and s.listing_id is not distinct from '126583193846'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-17', 2.65, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/204434022233', '204434022233', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; standard release (excl. 25th anniversary); 18in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 2.65
+      and s.sale_date is not distinct from '2024-09-17'
+      and s.listing_id is not distinct from '204434022233'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; standard release (excl. 25th anniversary); 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-09', 20.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115458271471', '115458271471', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in with sound' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2025-02-09'
+      and s.listing_id is not distinct from '115458271471'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-23', 9.78, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116405931093', '116405931093', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 17in talking' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.78
+      and s.sale_date is not distinct from '2025-02-23'
+      and s.listing_id is not distinct from '116405931093'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 17in talking');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-23', 5.0, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/116520901789', '116520901789', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in, 2016/2017' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2025-03-23'
+      and s.listing_id is not distinct from '116520901789'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in, 2016/2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-02', 8.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116542856089', '116542856089', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 8.0
+      and s.sale_date is not distinct from '2025-04-02'
+      and s.listing_id is not distinct from '116542856089'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-04', 11.92, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116851844963', '116851844963', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.92
+      and s.sale_date is not distinct from '2025-11-04'
+      and s.listing_id is not distinct from '116851844963'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-30', 24.99, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/318048974924', '318048974924', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; standard release (excl. 25th anniversary); new with tags' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2026-03-30'
+      and s.listing_id is not distinct from '318048974924'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; standard release (excl. 25th anniversary); new with tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-05', 9.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115868090501', '115868090501', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); with sound' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.99
+      and s.sale_date is not distinct from '2026-06-05'
+      and s.listing_id is not distinct from '115868090501'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary); with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-12', 9.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117279149937', '117279149937', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)' from items i where i.slug = 'pikachu-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.5
+      and s.sale_date is not distinct from '2026-07-12'
+      and s.listing_id is not distinct from '117279149937'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (excl. 25th anniversary)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-14', 17.5, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116029968617', '116029968617', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 17.5
+      and s.sale_date is not distinct from '2024-01-14'
+      and s.listing_id is not distinct from '116029968617'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-01', 33.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126107085805', '126107085805', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 33.0
+      and s.sale_date is not distinct from '2024-04-01'
+      and s.listing_id is not distinct from '126107085805'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-20', 40.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126530984059', '126530984059', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2024-06-20'
+      and s.listing_id is not distinct from '126530984059'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-23', 19.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116184107624', '116184107624', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.0
+      and s.sale_date is not distinct from '2024-06-23'
+      and s.listing_id is not distinct from '116184107624'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-10-01', 49.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116212670570', '116212670570', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.99
+      and s.sale_date is not distinct from '2024-10-01'
+      and s.listing_id is not distinct from '116212670570'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-01', 27.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126742238352', '126742238352', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 27.0
+      and s.sale_date is not distinct from '2024-11-01'
+      and s.listing_id is not distinct from '126742238352'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-22', 35.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116446864221', '116446864221', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2025-01-22'
+      and s.listing_id is not distinct from '116446864221'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-24', 29.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126895761437', '126895761437', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.49
+      and s.sale_date is not distinct from '2025-01-24'
+      and s.listing_id is not distinct from '126895761437'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-14', 38.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126914015070', '126914015070', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 38.0
+      and s.sale_date is not distinct from '2025-02-14'
+      and s.listing_id is not distinct from '126914015070'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-02', 10.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126962350294', '126962350294', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.99
+      and s.sale_date is not distinct from '2025-03-02'
+      and s.listing_id is not distinct from '126962350294'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-27', 31.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127261896480', '127261896480', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 31.5
+      and s.sale_date is not distinct from '2025-07-27'
+      and s.listing_id is not distinct from '127261896480'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-09', 27.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116816293590', '116816293590', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2018' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 27.0
+      and s.sale_date is not distinct from '2025-11-09'
+      and s.listing_id is not distinct from '116816293590'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in; 2018');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-17', 24.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127795889203', '127795889203', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.0
+      and s.sale_date is not distinct from '2026-04-17'
+      and s.listing_id is not distinct from '127795889203'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-29', 22.61, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127794342925', '127794342925', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'piplup-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.61
+      and s.sale_date is not distinct from '2026-04-29'
+      and s.listing_id is not distinct from '127794342925'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-17', 110.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115684539566', '115684539566', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says V2 20in' from items i where i.slug = 'polar-bear-v2'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 110.99
+      and s.sale_date is not distinct from '2023-11-17'
+      and s.listing_id is not distinct from '115684539566'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says V2 20in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-05', 25.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134897079437', '134897079437', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says V2' from items i where i.slug = 'polar-bear-v2'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.99
+      and s.sale_date is not distinct from '2024-02-05'
+      and s.listing_id is not distinct from '134897079437'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says V2');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-13', 49.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156584336400', '156584336400', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says V2' from items i where i.slug = 'polar-bear-v2'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.95
+      and s.sale_date is not distinct from '2025-01-13'
+      and s.listing_id is not distinct from '156584336400'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says V2');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-28', 49.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156657314516', '156657314516', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says V2' from items i where i.slug = 'polar-bear-v2'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.95
+      and s.sale_date is not distinct from '2025-06-28'
+      and s.listing_id is not distinct from '156657314516'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says V2');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-21', 49.47, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115900829135', '115900829135', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.47
+      and s.sale_date is not distinct from '2023-10-21'
+      and s.listing_id is not distinct from '115900829135'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-12', 49.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126364810881', '126364810881', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2019' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.99
+      and s.sale_date is not distinct from '2024-03-12'
+      and s.listing_id is not distinct from '126364810881'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-18', 35.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126370760342', '126370760342', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2019' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2024-03-18'
+      and s.listing_id is not distinct from '126370760342'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-22', 50.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126386954064', '126386954064', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2019' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2024-03-22'
+      and s.listing_id is not distinct from '126386954064'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-08', 25.5, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126419422332', '126419422332', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.5
+      and s.sale_date is not distinct from '2024-04-08'
+      and s.listing_id is not distinct from '126419422332'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-14', 40.0, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/126428308538', '126428308538', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2019' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2024-04-14'
+      and s.listing_id is not distinct from '126428308538'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-05', 49.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116140917134', '116140917134', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.99
+      and s.sale_date is not distinct from '2024-05-05'
+      and s.listing_id is not distinct from '116140917134'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-23', 35.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126485941042', '126485941042', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2019' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2024-05-23'
+      and s.listing_id is not distinct from '126485941042'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-15', 45.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116251757689', '116251757689', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2024-07-15'
+      and s.listing_id is not distinct from '116251757689'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-01', 45.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126642226256', '126642226256', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2024-09-01'
+      and s.listing_id is not distinct from '126642226256'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-10-04', 22.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126686841556', '126686841556', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.49
+      and s.sale_date is not distinct from '2024-10-04'
+      and s.listing_id is not distinct from '126686841556'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-13', 35.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126487733739', '126487733739', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2019' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2024-11-13'
+      and s.listing_id is not distinct from '126487733739'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-27', 49.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126526616359', '126526616359', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2019' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 49.99
+      and s.sale_date is not distinct from '2025-02-27'
+      and s.listing_id is not distinct from '126526616359'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-24', 45.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/176411861147', '176411861147', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; no working sound; 2019' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2025-05-24'
+      and s.listing_id is not distinct from '176411861147'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; no working sound; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-07', 39.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126747169716', '126747169716', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2025-12-07'
+      and s.listing_id is not distinct from '126747169716'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-08', 29.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117151790705', '117151790705', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.99
+      and s.sale_date is not distinct from '2026-06-08'
+      and s.listing_id is not distinct from '117151790705'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-30', 95.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117361919331', '117361919331', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in' from items i where i.slug = 'psyduck-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 95.0
+      and s.sale_date is not distinct from '2026-09-30'
+      and s.listing_id is not distinct from '117361919331'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-27', 18.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/298265188627', '298265188627', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2026 7in sparkles' from items i where i.slug = 'rainbow-unicorn-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.99
+      and s.sale_date is not distinct from '2026-04-27'
+      and s.listing_id is not distinct from '298265188627'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2026 7in sparkles');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-07', 18.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/306966570399', '306966570399', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2026 7in sparkles' from items i where i.slug = 'rainbow-unicorn-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.99
+      and s.sale_date is not distinct from '2026-07-07'
+      and s.listing_id is not distinct from '306966570399'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2026 7in sparkles');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-20', 14.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/168628983870', '168628983870', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 2026 7in' from items i where i.slug = 'rainbow-unicorn-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2026-09-20'
+      and s.listing_id is not distinct from '168628983870'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 2026 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-23', 77.81, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/276783979574', '276783979574', 'collector_report', false, 7, null, 'Terapeak average across 7 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 77.81
+      and s.sale_date is not distinct from '2024-12-23'
+      and s.listing_id is not distinct from '276783979574'
+      and s.notes is not distinct from 'Terapeak average across 7 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-29', 149.47, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/316060947776', '316060947776', 'collector_report', false, 55, null, 'Terapeak average across 55 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 149.47
+      and s.sale_date is not distinct from '2024-12-29'
+      and s.listing_id is not distinct from '316060947776'
+      and s.notes is not distinct from 'Terapeak average across 55 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-31', 87.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/116713701420', '116713701420', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 87.5
+      and s.sale_date is not distinct from '2025-07-31'
+      and s.listing_id is not distinct from '116713701420'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-12', 83.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/136269842438', '136269842438', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 83.99
+      and s.sale_date is not distinct from '2025-08-12'
+      and s.listing_id is not distinct from '136269842438'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-25', 32.9, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/336100889899', '336100889899', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 32.9
+      and s.sale_date is not distinct from '2025-11-25'
+      and s.listing_id is not distinct from '336100889899'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-09', 52.37, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/406130288908', '406130288908', 'collector_report', false, 8, null, 'Terapeak average across 8 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 52.37
+      and s.sale_date is not distinct from '2025-12-09'
+      and s.listing_id is not distinct from '406130288908'
+      and s.notes is not distinct from 'Terapeak average across 8 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-11', 50.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/167778469029', '167778469029', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2025-12-11'
+      and s.listing_id is not distinct from '167778469029'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-14', 112.98, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/317132954976', '317132954976', 'collector_report', false, 7, null, 'Terapeak average across 7 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 112.98
+      and s.sale_date is not distinct from '2025-12-14'
+      and s.listing_id is not distinct from '317132954976'
+      and s.notes is not distinct from 'Terapeak average across 7 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-15', 66.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/326722046184', '326722046184', 'collector_report', false, 6, null, 'Terapeak average across 6 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 66.5
+      and s.sale_date is not distinct from '2025-12-15'
+      and s.listing_id is not distinct from '326722046184'
+      and s.notes is not distinct from 'Terapeak average across 6 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-17', 60.06, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/127555902582', '127555902582', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.06
+      and s.sale_date is not distinct from '2025-12-17'
+      and s.listing_id is not distinct from '127555902582'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-24', 59.3, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/127571495171', '127571495171', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 59.3
+      and s.sale_date is not distinct from '2025-12-24'
+      and s.listing_id is not distinct from '127571495171'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-25', 61.09, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/257050884850', '257050884850', 'collector_report', false, 24, null, 'Terapeak average across 24 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 61.09
+      and s.sale_date is not distinct from '2025-12-25'
+      and s.listing_id is not distinct from '257050884850'
+      and s.notes is not distinct from 'Terapeak average across 24 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-07', 64.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/297525540571', '297525540571', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 64.99
+      and s.sale_date is not distinct from '2026-01-07'
+      and s.listing_id is not distinct from '297525540571'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-09', 65.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/127292655407', '127292655407', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 65.99
+      and s.sale_date is not distinct from '2026-01-09'
+      and s.listing_id is not distinct from '127292655407'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-06', 60.51, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/168002027145', '168002027145', 'collector_report', false, 4, null, 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.51
+      and s.sale_date is not distinct from '2026-04-06'
+      and s.listing_id is not distinct from '168002027145'
+      and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-16', 76.74, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/167729057261', '167729057261', 'collector_report', false, 8, null, 'Terapeak average across 8 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release' from items i where i.slug = 'shadow-the-hedgehog-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 76.74
+      and s.sale_date is not distinct from '2026-07-16'
+      and s.listing_id is not distinct from '167729057261'
+      and s.notes is not distinct from 'Terapeak average across 8 units sold on one listing; shipping excluded; Sonic 3 movie (2024) release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-30', 7.5, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/404523703990', '404523703990', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 2003 16in' from items i where i.slug = 'shaggy-teddy'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 7.5
+      and s.sale_date is not distinct from '2024-01-30'
+      and s.listing_id is not distinct from '404523703990'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 2003 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-29', 13.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/286893821430', '286893821430', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 6in listed' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.0
+      and s.sale_date is not distinct from '2025-10-29'
+      and s.listing_id is not distinct from '286893821430'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 6in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-05', 13.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/157508754591', '157508754591', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 6in listed' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.0
+      and s.sale_date is not distinct from '2025-12-05'
+      and s.listing_id is not distinct from '157508754591'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 6in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-04', 12.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/406654046990', '406654046990', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2026-03-04'
+      and s.listing_id is not distinct from '406654046990'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-08', 35.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/236650257293', '236650257293', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2026-03-08'
+      and s.listing_id is not distinct from '236650257293'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-17', 22.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/389586676093', '389586676093', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.0
+      and s.sale_date is not distinct from '2026-03-17'
+      and s.listing_id is not distinct from '389586676093'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-10', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/377082017240', '377082017240', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2026-04-10'
+      and s.listing_id is not distinct from '377082017240'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-21', 14.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117129434672', '117129434672', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2026-05-21'
+      and s.listing_id is not distinct from '117129434672'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-02', 11.12, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/377354589800', '377354589800', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.12
+      and s.sale_date is not distinct from '2026-08-02'
+      and s.listing_id is not distinct from '377354589800'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-06', 21.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/287456016121', '287456016121', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 21.95
+      and s.sale_date is not distinct from '2026-08-06'
+      and s.listing_id is not distinct from '287456016121'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-06', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/327140191841', '327140191841', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2026-08-06'
+      and s.listing_id is not distinct from '327140191841'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-12', 30.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/257675045580', '257675045580', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2026-08-12'
+      and s.listing_id is not distinct from '257675045580'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-17', 21.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/278262819448', '278262819448', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 21.5
+      and s.sale_date is not distinct from '2026-08-17'
+      and s.listing_id is not distinct from '278262819448'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-18', 21.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/287513726242', '287513726242', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 21.95
+      and s.sale_date is not distinct from '2026-08-18'
+      and s.listing_id is not distinct from '287513726242'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-21', 34.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/147571041369', '147571041369', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in' from items i where i.slug = 'skelebara-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.99
+      and s.sale_date is not distinct from '2026-09-21'
+      and s.listing_id is not distinct from '147571041369'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 7in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-28', 44.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116027012804', '116027012804', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); with sound; 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 44.99
+      and s.sale_date is not distinct from '2024-02-28'
+      and s.listing_id is not distinct from '116027012804'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); with sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-29', 19.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126566888677', '126566888677', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 16in; 2019' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2024-08-29'
+      and s.listing_id is not distinct from '126566888677'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 16in; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-28', 38.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135276792967', '135276792967', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 38.95
+      and s.sale_date is not distinct from '2024-11-28'
+      and s.listing_id is not distinct from '135276792967'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-09', 26.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/135389298220', '135389298220', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 26.99
+      and s.sale_date is not distinct from '2025-05-09'
+      and s.listing_id is not distinct from '135389298220'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-14', 27.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116580712692', '116580712692', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 27.0
+      and s.sale_date is not distinct from '2025-05-14'
+      and s.listing_id is not distinct from '116580712692'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-01', 18.5, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/135824133503', '135824133503', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.5
+      and s.sale_date is not distinct from '2025-06-01'
+      and s.listing_id is not distinct from '135824133503'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-02', 19.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/135951129196', '135951129196', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2025-07-02'
+      and s.listing_id is not distinct from '135951129196'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-20', 20.46, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116651135063', '116651135063', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.46
+      and s.sale_date is not distinct from '2025-07-20'
+      and s.listing_id is not distinct from '116651135063'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-12', 25.98, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116816288499', '116816288499', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in; 2019' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.98
+      and s.sale_date is not distinct from '2025-12-12'
+      and s.listing_id is not distinct from '116816288499'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in; 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-31', 34.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116713823178', '116713823178', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 2019' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.99
+      and s.sale_date is not distinct from '2025-12-31'
+      and s.listing_id is not distinct from '116713823178'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 2019');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-26', 29.99, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/137157568016', '137157568016', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017)' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.99
+      and s.sale_date is not distinct from '2026-03-26'
+      and s.listing_id is not distinct from '137157568016'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-28', 57.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/115655709539', '115655709539', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 57.5
+      and s.sale_date is not distinct from '2026-07-28'
+      and s.listing_id is not distinct from '115655709539'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; 16in standard (titles say 2019; catalogue says 2017); 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-15', 29.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126878825074', '126878825074', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in' from items i where i.slug = 'snorlax-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.99
+      and s.sale_date is not distinct from '2026-08-15'
+      and s.listing_id is not distinct from '126878825074'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in standard (titles say 2019; catalogue says 2017); no working sound; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-17', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126144967451', '126144967451', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2023-11-17'
+      and s.listing_id is not distinct from '126144967451'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-25', 25.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115938915023', '115938915023', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2023-11-25'
+      and s.listing_id is not distinct from '115938915023'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-15', 16.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116004937171', '116004937171', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.5
+      and s.sale_date is not distinct from '2023-12-15'
+      and s.listing_id is not distinct from '116004937171'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-28', 35.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126246845975', '126246845975', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in; 2021' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2023-12-28'
+      and s.listing_id is not distinct from '126246845975'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in; 2021');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-10', 14.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126382336237', '126382336237', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in; 2017' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2024-05-10'
+      and s.listing_id is not distinct from '126382336237'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-20', 17.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126491144873', '126491144873', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 17.5
+      and s.sale_date is not distinct from '2024-05-20'
+      and s.listing_id is not distinct from '126491144873'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-01', 15.0, null, 'USD', 'Excellent', 'bare', 'eBay', 'https://www.ebay.com/itm/126508808903', '126508808903', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2016' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2024-06-01'
+      and s.listing_id is not distinct from '126508808903'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-18', 31.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126437086910', '126437086910', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 31.0
+      and s.sale_date is not distinct from '2024-06-18'
+      and s.listing_id is not distinct from '126437086910'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-22', 10.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126735239149', '126735239149', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in; 2016' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2024-11-22'
+      and s.listing_id is not distinct from '126735239149'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-28', 12.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126815829472', '126815829472', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2024-12-28'
+      and s.listing_id is not distinct from '126815829472'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-02', 9.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116495543754', '116495543754', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in; 2017' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.99
+      and s.sale_date is not distinct from '2025-03-02'
+      and s.listing_id is not distinct from '116495543754'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 14in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-09', 18.74, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126777342226', '126777342226', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2016' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.74
+      and s.sale_date is not distinct from '2025-04-09'
+      and s.listing_id is not distinct from '126777342226'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2016');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-03', 15.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116755206547', '116755206547', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2017' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.99
+      and s.sale_date is not distinct from '2026-02-03'
+      and s.listing_id is not distinct from '116755206547'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 16in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-06', 24.55, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/117073953026', '117073953026', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in; 2017' from items i where i.slug = 'squirtle-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.55
+      and s.sale_date is not distinct from '2026-03-06'
+      and s.listing_id is not distinct from '117073953026'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 14in; 2017');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-17', 39.98, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116421867960', '116421867960', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow; with sound' from items i where i.slug = 'super-sonic'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.98
+      and s.sale_date is not distinct from '2024-12-17'
+      and s.listing_id is not distinct from '116421867960'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-12', 112.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135603696716', '135603696716', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow' from items i where i.slug = 'super-sonic'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 112.49
+      and s.sale_date is not distinct from '2025-03-12'
+      and s.listing_id is not distinct from '135603696716'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-11', 100.0, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/116517491491', '116517491491', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow' from items i where i.slug = 'super-sonic'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 100.0
+      and s.sale_date is not distinct from '2025-04-11'
+      and s.listing_id is not distinct from '116517491491'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-02', 116.78, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/316038345382', '316038345382', 'collector_report', false, 28, null, 'Terapeak average across 28 units sold on one listing; shipping excluded; 17in yellow' from items i where i.slug = 'super-sonic'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 116.78
+      and s.sale_date is not distinct from '2025-08-02'
+      and s.listing_id is not distinct from '316038345382'
+      and s.notes is not distinct from 'Terapeak average across 28 units sold on one listing; shipping excluded; 17in yellow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-14', 65.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/127243846370', '127243846370', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow; with sound' from items i where i.slug = 'super-sonic'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 65.0
+      and s.sale_date is not distinct from '2025-08-14'
+      and s.listing_id is not distinct from '127243846370'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-17', 46.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116782506346', '116782506346', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow' from items i where i.slug = 'super-sonic'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 46.99
+      and s.sale_date is not distinct from '2025-09-17'
+      and s.listing_id is not distinct from '116782506346'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in yellow');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-25', 20.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/257401950886', '257401950886', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2026 new' from items i where i.slug = 'swirly-clouds-lamb-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2026-04-25'
+      and s.listing_id is not distinct from '257401950886'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2026 new');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-06', 5.0, null, 'USD', 'Good', 'bare', 'eBay', 'https://www.ebay.com/itm/127893314357', '127893314357', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; tags missing' from items i where i.slug = 'swirly-clouds-lamb-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2026-07-06'
+      and s.listing_id is not distinct from '127893314357'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; tags missing');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-21', 26.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/336517551921', '336517551921', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2026 new with tags' from items i where i.slug = 'swirly-clouds-lamb-mini-beans'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 26.95
+      and s.sale_date is not distinct from '2026-07-21'
+      and s.listing_id is not distinct from '336517551921'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2026 new with tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-24', 39.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/375263268922', '375263268922', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; standard release (online-exclusive sound version excluded); with sound' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2024-03-24'
+      and s.listing_id is not distinct from '375263268922'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; standard release (online-exclusive sound version excluded); with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-04', 69.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/116112429037', '116112429037', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded)' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 69.99
+      and s.sale_date is not distinct from '2024-04-04'
+      and s.listing_id is not distinct from '116112429037'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-11-24', 14.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116392189193', '116392189193', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded)' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.0
+      and s.sale_date is not distinct from '2024-11-24'
+      and s.listing_id is not distinct from '116392189193'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-07', 45.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116470045838', '116470045838', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); no working sound; 14in' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 45.0
+      and s.sale_date is not distinct from '2025-02-07'
+      and s.listing_id is not distinct from '116470045838'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); no working sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-03', 40.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116543411245', '116543411245', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); no working sound' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2025-04-03'
+      and s.listing_id is not distinct from '116543411245'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-13', 42.99, null, 'USD', 'Excellent', 'bare', 'eBay', 'https://www.ebay.com/itm/116553681788', '116553681788', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); no working sound; 14in' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 42.99
+      and s.sale_date is not distinct from '2025-04-13'
+      and s.listing_id is not distinct from '116553681788'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); no working sound; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-14', 32.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116568168972', '116568168972', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded)' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 32.0
+      and s.sale_date is not distinct from '2025-05-14'
+      and s.listing_id is not distinct from '116568168972'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-04', 71.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/116566463715', '116566463715', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded)' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 71.99
+      and s.sale_date is not distinct from '2025-07-04'
+      and s.listing_id is not distinct from '116566463715'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-28', 32.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116793902780', '116793902780', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); no working sound; 17in' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 32.0
+      and s.sale_date is not distinct from '2025-09-28'
+      and s.listing_id is not distinct from '116793902780'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); no working sound; 17in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-12', 61.74, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116926635950', '116926635950', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); with sound' from items i where i.slug = 'sylveon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 61.74
+      and s.sale_date is not distinct from '2026-04-12'
+      and s.listing_id is not distinct from '116926635950'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; standard release (online-exclusive sound version excluded); with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-07', 113.49, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/396204254382', '396204254382', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; Sonic 3 movie release; with sound' from items i where i.slug = 'tails-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 113.49
+      and s.sale_date is not distinct from '2025-03-07'
+      and s.listing_id is not distinct from '396204254382'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; Sonic 3 movie release; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-21', 147.62, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/335838926953', '335838926953', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; Sonic 3 movie release' from items i where i.slug = 'tails-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 147.62
+      and s.sale_date is not distinct from '2025-08-21'
+      and s.listing_id is not distinct from '335838926953'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; Sonic 3 movie release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-23', 125.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146964892530', '146964892530', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Sonic 3 movie release' from items i where i.slug = 'tails-movie'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 125.0
+      and s.sale_date is not distinct from '2025-11-23'
+      and s.listing_id is not distinct from '146964892530'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Sonic 3 movie release');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-20', 36.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/134774547464', '134774547464', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in, no sound' from items i where i.slug = 'umbreon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 36.0
+      and s.sale_date is not distinct from '2023-10-20'
+      and s.listing_id is not distinct from '134774547464'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in, no sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-25', 59.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126122489444', '126122489444', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound (talking)' from items i where i.slug = 'umbreon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 59.99
+      and s.sale_date is not distinct from '2023-11-25'
+      and s.listing_id is not distinct from '126122489444'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound (talking)');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-16', 55.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126235545247', '126235545247', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'umbreon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 55.0
+      and s.sale_date is not distinct from '2023-12-16'
+      and s.listing_id is not distinct from '126235545247'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-29', 74.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/126123844128', '126123844128', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in, no sound' from items i where i.slug = 'umbreon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 74.99
+      and s.sale_date is not distinct from '2023-12-29'
+      and s.listing_id is not distinct from '126123844128'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in, no sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-22', 50.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126505216835', '126505216835', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in, with sound' from items i where i.slug = 'umbreon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2024-06-22'
+      and s.listing_id is not distinct from '126505216835'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in, with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-10-01', 40.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126638685946', '126638685946', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'umbreon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2024-10-01'
+      and s.listing_id is not distinct from '126638685946'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-07', 55.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126622786721', '126622786721', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in, with sound' from items i where i.slug = 'umbreon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 55.99
+      and s.sale_date is not distinct from '2024-12-07'
+      and s.listing_id is not distinct from '126622786721'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in, with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-14', 39.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/145717073803', '145717073803', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.95
+      and s.sale_date is not distinct from '2024-05-14'
+      and s.listing_id is not distinct from '145717073803'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-29', 59.88, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126595961984', '126595961984', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012 18in' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 59.88
+      and s.sale_date is not distinct from '2024-07-29'
+      and s.listing_id is not distinct from '126595961984'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-08', 28.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126616321164', '126616321164', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no tags' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.0
+      and s.sale_date is not distinct from '2024-08-08'
+      and s.listing_id is not distinct from '126616321164'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-24', 35.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126895762058', '126895762058', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012 18in' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.0
+      and s.sale_date is not distinct from '2025-02-24'
+      and s.listing_id is not distinct from '126895762058'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012 18in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-10', 39.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126986585321', '126986585321', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no tags' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.0
+      and s.sale_date is not distinct from '2025-04-10'
+      and s.listing_id is not distinct from '126986585321'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no tags');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-02', 40.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116483627880', '116483627880', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2025-06-02'
+      and s.listing_id is not distinct from '116483627880'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-28', 69.99, null, 'USD', 'Mint', 'unknown', 'eBay', 'https://www.ebay.com/itm/136336277508', '136336277508', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012 pristine' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 69.99
+      and s.sale_date is not distinct from '2026-02-28'
+      and s.listing_id is not distinct from '136336277508'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012 pristine');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-10', 28.04, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/117134833635', '117134833635', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.04
+      and s.sale_date is not distinct from '2026-05-10'
+      and s.listing_id is not distinct from '117134833635'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-07', 55.0, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/156731836377', '156731836377', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012' from items i where i.slug = 'vanilla-cream-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 55.0
+      and s.sale_date is not distinct from '2026-06-07'
+      and s.listing_id is not distinct from '156731836377'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2012');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-25', 35.6, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116004874445', '116004874445', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; check version - low vs marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 35.6
+      and s.sale_date is not distinct from '2023-12-25'
+      and s.listing_id is not distinct from '116004874445'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; check version - low vs marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-24', 40.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156080267688', '156080267688', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; check version - low vs marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2024-02-24'
+      and s.listing_id is not distinct from '156080267688'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; check version - low vs marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-14', 36.45, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116073563207', '116073563207', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; check version - low vs marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 36.45
+      and s.sale_date is not distinct from '2024-03-14'
+      and s.listing_id is not distinct from '116073563207'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; check version - low vs marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-03', 31.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116168605456', '116168605456', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Beary Limited Edition 2005' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 31.99
+      and s.sale_date is not distinct from '2024-05-03'
+      and s.listing_id is not distinct from '116168605456'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Beary Limited Edition 2005');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-12', 100.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135144737893', '135144737893', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 100.0
+      and s.sale_date is not distinct from '2024-07-12'
+      and s.listing_id is not distinct from '135144737893'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-16', 175.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135150943637', '135150943637', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says Version 2' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 175.0
+      and s.sale_date is not distinct from '2024-07-16'
+      and s.listing_id is not distinct from '135150943637'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says Version 2');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-04', 207.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/145916562880', '145916562880', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 207.5
+      and s.sale_date is not distinct from '2024-08-04'
+      and s.listing_id is not distinct from '145916562880'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-14', 199.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135246808995', '135246808995', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 199.0
+      and s.sale_date is not distinct from '2024-09-14'
+      and s.listing_id is not distinct from '135246808995'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-02', 64.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135478875757', '135478875757', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 64.95
+      and s.sale_date is not distinct from '2025-01-02'
+      and s.listing_id is not distinct from '135478875757'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-12', 139.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135486100681', '135486100681', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 139.49
+      and s.sale_date is not distinct from '2025-01-12'
+      and s.listing_id is not distinct from '135486100681'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-02', 113.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135496837776', '135496837776', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 113.99
+      and s.sale_date is not distinct from '2025-02-02'
+      and s.listing_id is not distinct from '135496837776'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-05', 211.4, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/146428357972', '146428357972', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2005 V1' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 211.4
+      and s.sale_date is not distinct from '2025-03-05'
+      and s.listing_id is not distinct from '146428357972'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2005 V1');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-09', 180.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135651645642', '135651645642', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 180.0
+      and s.sale_date is not distinct from '2025-04-09'
+      and s.listing_id is not distinct from '135651645642'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 18in marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-01', 150.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127087040037', '127087040037', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 150.0
+      and s.sale_date is not distinct from '2025-05-01'
+      and s.listing_id is not distinct from '127087040037'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-28', 120.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135855012851', '135855012851', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; original 2005' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 120.0
+      and s.sale_date is not distinct from '2025-05-28'
+      and s.listing_id is not distinct from '135855012851'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; original 2005');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-15', 120.0, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/116627635340', '116627635340', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 120.0
+      and s.sale_date is not distinct from '2025-06-15'
+      and s.listing_id is not distinct from '116627635340'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-01', 207.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127264344669', '127264344669', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says v1' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 207.0
+      and s.sale_date is not distinct from '2025-08-01'
+      and s.listing_id is not distinct from '127264344669'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title says v1');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-02', 115.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127272074534', '127272074534', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 115.0
+      and s.sale_date is not distinct from '2025-08-02'
+      and s.listing_id is not distinct from '127272074534'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-22', 200.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127260189529', '127260189529', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 200.0
+      and s.sale_date is not distinct from '2025-10-22'
+      and s.listing_id is not distinct from '127260189529'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-21', 118.96, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/127433673615', '127433673615', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 118.96
+      and s.sale_date is not distinct from '2025-12-21'
+      and s.listing_id is not distinct from '127433673615'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-18', 110.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116763051659', '116763051659', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 110.0
+      and s.sale_date is not distinct from '2026-01-18'
+      and s.listing_id is not distinct from '116763051659'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-12', 14.24, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117111056491', '117111056491', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.24
+      and s.sale_date is not distinct from '2026-05-12'
+      and s.listing_id is not distinct from '117111056491'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-10', 175.0, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/127914582304', '127914582304', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2005' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 175.0
+      and s.sale_date is not distinct from '2026-06-10'
+      and s.listing_id is not distinct from '127914582304'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2005');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-08', 144.91, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137488894791', '137488894791', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 144.91
+      and s.sale_date is not distinct from '2026-07-08'
+      and s.listing_id is not distinct from '137488894791'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-27', 140.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127954077354', '127954077354', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 140.0
+      and s.sale_date is not distinct from '2026-07-27'
+      and s.listing_id is not distinct from '127954077354'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-05', 150.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/128067403479', '128067403479', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled' from items i where i.slug = 'vanilla-fudge-bunny'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 150.0
+      and s.sale_date is not distinct from '2026-10-05'
+      and s.listing_id is not distinct from '128067403479'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; marbled');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-16', 103.7, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266495089044', '266495089044', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 103.7
+      and s.sale_date is not distinct from '2023-11-16'
+      and s.listing_id is not distinct from '266495089044'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-22', 122.0, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266512679824', '266512679824', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 122.0
+      and s.sale_date is not distinct from '2023-11-22'
+      and s.listing_id is not distinct from '266512679824'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-27', 103.7, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/266526434776', '266526434776', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 103.7
+      and s.sale_date is not distinct from '2023-11-27'
+      and s.listing_id is not distinct from '266526434776'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-25', 102.29, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116076066181', '116076066181', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 102.29
+      and s.sale_date is not distinct from '2024-02-25'
+      and s.listing_id is not distinct from '116076066181'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-01', 70.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116145920658', '116145920658', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 70.0
+      and s.sale_date is not distinct from '2024-05-01'
+      and s.listing_id is not distinct from '116145920658'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-01', 99.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116208150370', '116208150370', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 99.99
+      and s.sale_date is not distinct from '2024-07-01'
+      and s.listing_id is not distinct from '116208150370'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-12', 76.56, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116218281120', '116218281120', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2020' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 76.56
+      and s.sale_date is not distinct from '2024-07-12'
+      and s.listing_id is not distinct from '116218281120'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-19', 89.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116284616779', '116284616779', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 89.99
+      and s.sale_date is not distinct from '2024-08-19'
+      and s.listing_id is not distinct from '116284616779'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-09', 60.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/146211220366', '146211220366', 'collector_report', false, 2, null, 'Terapeak average across 2 units sold on one listing; shipping excluded; no working sound' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.0
+      and s.sale_date is not distinct from '2024-12-09'
+      and s.listing_id is not distinct from '146211220366'
+      and s.notes is not distinct from 'Terapeak average across 2 units sold on one listing; shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-28', 75.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116417637649', '116417637649', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2020' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 75.0
+      and s.sale_date is not distinct from '2024-12-28'
+      and s.listing_id is not distinct from '116417637649'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-10', 75.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116447914290', '116447914290', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2020' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 75.0
+      and s.sale_date is not distinct from '2025-02-10'
+      and s.listing_id is not distinct from '116447914290'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-09', 50.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116619120237', '116619120237', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2020' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.0
+      and s.sale_date is not distinct from '2025-06-09'
+      and s.listing_id is not distinct from '116619120237'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-09', 90.0, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/116756634572', '116756634572', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 90.0
+      and s.sale_date is not distinct from '2025-09-09'
+      and s.listing_id is not distinct from '116756634572'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-08', 95.0, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/116773370003', '116773370003', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 95.0
+      and s.sale_date is not distinct from '2025-10-08'
+      and s.listing_id is not distinct from '116773370003'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-14', 56.48, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116751875172', '116751875172', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 56.48
+      and s.sale_date is not distinct from '2025-10-14'
+      and s.listing_id is not distinct from '116751875172'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-04', 60.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116636424777', '116636424777', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 2020' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 60.0
+      and s.sale_date is not distinct from '2025-12-04'
+      and s.listing_id is not distinct from '116636424777'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-24', 40.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116846881227', '116846881227', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2020' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2025-12-24'
+      and s.listing_id is not distinct from '116846881227'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-02', 59.95, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116758073812', '116758073812', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2020' from items i where i.slug = 'vaporeon-pokemon'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 59.95
+      and s.sale_date is not distinct from '2026-01-02'
+      and s.listing_id is not distinct from '116758073812'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2020');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-10', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/186085482429', '186085482429', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2023-10-10'
+      and s.listing_id is not distinct from '186085482429'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-17', 12.75, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/186162311307', '186162311307', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in listed' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.75
+      and s.sale_date is not distinct from '2023-11-17'
+      and s.listing_id is not distinct from '186162311307'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-24', 13.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/155892007191', '155892007191', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.5
+      and s.sale_date is not distinct from '2023-12-24'
+      and s.listing_id is not distinct from '155892007191'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-09', 4.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/155716107146', '155716107146', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 4.95
+      and s.sale_date is not distinct from '2024-01-09'
+      and s.listing_id is not distinct from '155716107146'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-28', 4.25, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/114770723729', '114770723729', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in listed' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 4.25
+      and s.sale_date is not distinct from '2024-01-28'
+      and s.listing_id is not distinct from '114770723729'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-01', 2.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/176346042018', '176346042018', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in listed' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 2.49
+      and s.sale_date is not distinct from '2024-09-01'
+      and s.listing_id is not distinct from '176346042018'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 17in listed');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-01', 19.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115934844498', '115934844498', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2025-06-01'
+      and s.listing_id is not distinct from '115934844498'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-20', 12.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/127028320840', '127028320840', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new with tag' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2025-06-20'
+      and s.listing_id is not distinct from '127028320840'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; new with tag');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-13', 5.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/157152366236', '157152366236', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2025-07-13'
+      and s.listing_id is not distinct from '157152366236'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-10', 11.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/113960140809', '113960140809', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15.5in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.99
+      and s.sale_date is not distinct from '2025-10-10'
+      and s.listing_id is not distinct from '113960140809'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15.5in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-17', 11.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127502548303', '127502548303', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010 16in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.99
+      and s.sale_date is not distinct from '2025-11-17'
+      and s.listing_id is not distinct from '127502548303'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2010 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-25', 11.04, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116827614999', '116827614999', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.04
+      and s.sale_date is not distinct from '2026-01-25'
+      and s.listing_id is not distinct from '116827614999'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-04', 17.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127365410727', '127365410727', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 17.99
+      and s.sale_date is not distinct from '2026-02-04'
+      and s.listing_id is not distinct from '127365410727'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-22', 8.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117000878791', '117000878791', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 8.0
+      and s.sale_date is not distinct from '2026-02-22'
+      and s.listing_id is not distinct from '117000878791'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-20', 16.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/174696151882', '174696151882', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in' from items i where i.slug = 'wizards-of-waverly-place-purple-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2026-04-20'
+      and s.listing_id is not distinct from '174696151882'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 16in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-03', 12.99, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/125967500048', '125967500048', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with hat' from items i where i.slug = 'woody-costume'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.99
+      and s.sale_date is not distinct from '2023-12-03'
+      and s.listing_id is not distinct from '125967500048'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with hat');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-21', 23.69, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/126245560607', '126245560607', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'woody-costume'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 23.69
+      and s.sale_date is not distinct from '2024-01-21'
+      and s.listing_id is not distinct from '126245560607'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-02', 12.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126949453991', '126949453991', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no shoes' from items i where i.slug = 'woody-costume'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2025-03-02'
+      and s.listing_id is not distinct from '126949453991'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no shoes');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-27', 12.99, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/116524412052', '116524412052', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shirt + pants' from items i where i.slug = 'woody-costume'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.99
+      and s.sale_date is not distinct from '2025-06-27'
+      and s.listing_id is not distinct from '116524412052'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shirt + pants');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-15', 9.5, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/117407601628', '117407601628', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shirt + pants' from items i where i.slug = 'woody-costume'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.5
+      and s.sale_date is not distinct from '2026-09-15'
+      and s.listing_id is not distinct from '117407601628'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shirt + pants');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-19', 80.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/197748169645', '197748169645', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wooloo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 80.0
+      and s.sale_date is not distinct from '2025-11-19'
+      and s.listing_id is not distinct from '197748169645'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-21', 47.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/267545256979', '267545256979', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'wooloo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 47.0
+      and s.sale_date is not distinct from '2026-01-21'
+      and s.listing_id is not distinct from '267545256979'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-28', 75.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/136986569431', '136986569431', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wooloo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 75.0
+      and s.sale_date is not distinct from '2026-03-28'
+      and s.listing_id is not distinct from '136986569431'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-28', 65.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/147229097087', '147229097087', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wooloo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 65.0
+      and s.sale_date is not distinct from '2026-04-28'
+      and s.listing_id is not distinct from '147229097087'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-15', 68.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/397793518099', '397793518099', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'wooloo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 68.99
+      and s.sale_date is not distinct from '2026-06-15'
+      and s.listing_id is not distinct from '397793518099'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-17', 100.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/157294955697', '157294955697', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'wooloo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 100.0
+      and s.sale_date is not distinct from '2026-06-17'
+      and s.listing_id is not distinct from '157294955697'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-21', 75.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137283872260', '137283872260', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wooloo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 75.0
+      and s.sale_date is not distinct from '2026-06-21'
+      and s.listing_id is not distinct from '137283872260'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-16', 40.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/168482324113', '168482324113', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'wooloo'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2026-08-16'
+      and s.listing_id is not distinct from '168482324113'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-13', 29.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/197496530831', '197496530831', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2025' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.0
+      and s.sale_date is not distinct from '2025-07-13'
+      and s.listing_id is not distinct from '197496530831'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2025');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-09', 53.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/187590176802', '187590176802', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 13in' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 53.95
+      and s.sale_date is not distinct from '2025-10-09'
+      and s.listing_id is not distinct from '187590176802'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 13in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-31', 29.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116823143553', '116823143553', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2025' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.0
+      and s.sale_date is not distinct from '2025-10-31'
+      and s.listing_id is not distinct from '116823143553'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2025');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-18', 85.0, null, 'USD', 'NWT', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/116593392389', '116593392389', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2024' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 85.0
+      and s.sale_date is not distinct from '2025-11-18'
+      and s.listing_id is not distinct from '116593392389'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2024');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-28', 50.4, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/157427521619', '157427521619', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 50.4
+      and s.sale_date is not distinct from '2025-11-28'
+      and s.listing_id is not distinct from '157427521619'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-01', 114.0, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/156815291354', '156815291354', 'collector_report', false, 3, null, 'Terapeak average across 3 units sold on one listing; shipping excluded; with sound' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 114.0
+      and s.sale_date is not distinct from '2025-12-01'
+      and s.listing_id is not distinct from '156815291354'
+      and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-05', 82.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/177121688641', '177121688641', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 82.0
+      and s.sale_date is not distinct from '2025-12-05'
+      and s.listing_id is not distinct from '177121688641'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-17', 160.0, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/157524919544', '157524919544', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 160.0
+      and s.sale_date is not distinct from '2025-12-17'
+      and s.listing_id is not distinct from '157524919544'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-22', 40.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/197969732652', '197969732652', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2025' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2025-12-22'
+      and s.listing_id is not distinct from '197969732652'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in; 2025');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-01-28', 100.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/227169109219', '227169109219', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 100.0
+      and s.sale_date is not distinct from '2026-01-28'
+      and s.listing_id is not distinct from '227169109219'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-01', 70.0, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/157660246932', '157660246932', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 70.0
+      and s.sale_date is not distinct from '2026-03-01'
+      and s.listing_id is not distinct from '157660246932'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-11', 55.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/137085161977', '137085161977', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 55.0
+      and s.sale_date is not distinct from '2026-04-11'
+      and s.listing_id is not distinct from '137085161977'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-11', 34.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/227279380012', '227279380012', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 34.99
+      and s.sale_date is not distinct from '2026-04-11'
+      and s.listing_id is not distinct from '227279380012'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-02', 55.0, null, 'USD', 'Excellent', 'bare', 'eBay', 'https://www.ebay.com/itm/168646419943', '168646419943', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 55.0
+      and s.sale_date is not distinct from '2026-09-02'
+      and s.listing_id is not distinct from '168646419943'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-02', 30.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/117440082663', '117440082663', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in' from items i where i.slug = 'wooper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 30.0
+      and s.sale_date is not distinct from '2026-10-02'
+      and s.listing_id is not distinct from '117440082663'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 15in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-01', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116452413307', '116452413307', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title states 2002' from items i where i.slug = 'wwf-cheetah'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2025-05-01'
+      and s.listing_id is not distinct from '116452413307'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; title states 2002');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-03', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/266426208367', '266426208367', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2024-02-03'
+      and s.listing_id is not distinct from '266426208367'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-05', 5.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/185403566160', '185403566160', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2024-02-05'
+      and s.listing_id is not distinct from '185403566160'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-28', 22.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/166598962881', '166598962881', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.99
+      and s.sale_date is not distinct from '2024-02-28'
+      and s.listing_id is not distinct from '166598962881'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-24', 13.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/166728912114', '166728912114', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.99
+      and s.sale_date is not distinct from '2024-04-24'
+      and s.listing_id is not distinct from '166728912114'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-10', 12.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/186416378772', '186416378772', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.99
+      and s.sale_date is not distinct from '2024-05-10'
+      and s.listing_id is not distinct from '186416378772'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-08-30', 12.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135175016871', '135175016871', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2024-08-30'
+      and s.listing_id is not distinct from '135175016871'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-16', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/204973808085', '204973808085', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2024-09-16'
+      and s.listing_id is not distinct from '204973808085'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-03', 10.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/196942117987', '196942117987', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.5
+      and s.sale_date is not distinct from '2025-02-03'
+      and s.listing_id is not distinct from '196942117987'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-31', 13.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/167399906714', '167399906714', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.0
+      and s.sale_date is not distinct from '2025-05-31'
+      and s.listing_id is not distinct from '167399906714'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-08-30', 10.79, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146057261673', '146057261673', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.79
+      and s.sale_date is not distinct from '2025-08-30'
+      and s.listing_id is not distinct from '146057261673'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-13', 13.59, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/267025573785', '267025573785', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.59
+      and s.sale_date is not distinct from '2026-02-13'
+      and s.listing_id is not distinct from '267025573785'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-19', 13.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/157651303064', '157651303064', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.0
+      and s.sale_date is not distinct from '2026-03-19'
+      and s.listing_id is not distinct from '157651303064'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-23', 12.75, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/256772824099', '256772824099', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.75
+      and s.sale_date is not distinct from '2026-03-23'
+      and s.listing_id is not distinct from '256772824099'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-19', 10.2, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/168398966565', '168398966565', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.2
+      and s.sale_date is not distinct from '2026-06-19'
+      and s.listing_id is not distinct from '168398966565'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-23', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/178164886008', '178164886008', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2026-06-23'
+      and s.listing_id is not distinct from '178164886008'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-23', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116468562799', '116468562799', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'wwf-giraffe'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2026-08-23'
+      and s.listing_id is not distinct from '116468562799'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-02', 14.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115970993671', '115970993671', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-timber-wolf; 2009' from items i where i.slug = 'wwf-gray-wolf'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2023-12-02'
+      and s.listing_id is not distinct from '115970993671'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-timber-wolf; 2009');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-08-02', 24.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117320859639', '117320859639', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-timber-wolf; 2009' from items i where i.slug = 'wwf-gray-wolf'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2026-08-02'
+      and s.listing_id is not distinct from '117320859639'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-timber-wolf; 2009');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-19', 8.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/113809290714', '113809290714', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Collectibears 2002 13in' from items i where i.slug = 'wwf-leopard'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 8.99
+      and s.sale_date is not distinct from '2025-05-19'
+      and s.listing_id is not distinct from '113809290714'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; Collectibears 2002 13in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-10', 16.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126117939040', '126117939040', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2003' from items i where i.slug = 'wwf-lion'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2023-12-10'
+      and s.listing_id is not distinct from '126117939040'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2003');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-23', 24.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134901336394', '134901336394', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in; 2003' from items i where i.slug = 'wwf-lion'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.95
+      and s.sale_date is not distinct from '2024-05-23'
+      and s.listing_id is not distinct from '134901336394'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in; 2003');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-28', 15.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/145912979290', '145912979290', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2003' from items i where i.slug = 'wwf-lion'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.99
+      and s.sale_date is not distinct from '2024-07-28'
+      and s.listing_id is not distinct from '145912979290'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 15in; 2003');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-26', 20.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146467994629', '146467994629', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2003' from items i where i.slug = 'wwf-lion'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.0
+      and s.sale_date is not distinct from '2025-03-26'
+      and s.listing_id is not distinct from '146467994629'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2003');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-07-09', 25.9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116645196169', '116645196169', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2003' from items i where i.slug = 'wwf-lion'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.9
+      and s.sale_date is not distinct from '2025-07-09'
+      and s.listing_id is not distinct from '116645196169'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2003');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-18', 24.9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146840493382', '146840493382', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2003' from items i where i.slug = 'wwf-lion'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.9
+      and s.sale_date is not distinct from '2025-10-18'
+      and s.listing_id is not distinct from '146840493382'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2003');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-02', 18.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146669025547', '146669025547', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2003' from items i where i.slug = 'wwf-lion'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.0
+      and s.sale_date is not distinct from '2026-04-02'
+      and s.listing_id is not distinct from '146669025547'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2003');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-29', 14.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/147339041496', '147339041496', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in; 2003' from items i where i.slug = 'wwf-lion'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2026-05-29'
+      and s.listing_id is not distinct from '147339041496'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 12in; 2003');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-06', 24.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/204476393402', '204476393402', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2023-10-06'
+      and s.listing_id is not distinct from '204476393402'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-22', 15.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/185814498172', '185814498172', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2004' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2023-12-22'
+      and s.listing_id is not distinct from '185814498172'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2004');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-01-19', 12.75, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/166181545577', '166181545577', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.75
+      and s.sale_date is not distinct from '2024-01-19'
+      and s.listing_id is not distinct from '166181545577'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-29', 15.98, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116020789469', '116020789469', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.98
+      and s.sale_date is not distinct from '2024-02-29'
+      and s.listing_id is not distinct from '116020789469'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-07-12', 12.95, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/145861407104', '145861407104', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2004' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.95
+      and s.sale_date is not distinct from '2024-07-12'
+      and s.listing_id is not distinct from '145861407104'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in; 2004');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-12-13', 20.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135431872576', '135431872576', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.5
+      and s.sale_date is not distinct from '2024-12-13'
+      and s.listing_id is not distinct from '135431872576'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-03', 12.14, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/176825096734', '176825096734', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.14
+      and s.sale_date is not distinct from '2025-09-03'
+      and s.listing_id is not distinct from '176825096734'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-22', 13.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/147121173493', '147121173493', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.0
+      and s.sale_date is not distinct from '2026-02-22'
+      and s.listing_id is not distinct from '147121173493'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-04', 31.5, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/188239923357', '188239923357', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 31.5
+      and s.sale_date is not distinct from '2026-04-04'
+      and s.listing_id is not distinct from '188239923357'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 2004');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-17', 24.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/147190683628', '147190683628', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in' from items i where i.slug = 'wwf-polar-bear'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2026-04-17'
+      and s.listing_id is not distinct from '147190683628'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 14in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-06', 12.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/196005989862', '196005989862', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.55' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.99
+      and s.sale_date is not distinct from '2023-10-06'
+      and s.listing_id is not distinct from '196005989862'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.55');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-31', 17.39, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115870426799', '115870426799', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $0.00' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 17.39
+      and s.sale_date is not distinct from '2023-10-31'
+      and s.listing_id is not distinct from '115870426799'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $0.00');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-11-18', 29.96, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/144015300027', '144015300027', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $12.05' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 29.96
+      and s.sale_date is not distinct from '2023-11-18'
+      and s.listing_id is not distinct from '144015300027'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $12.05');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-12', 19.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/155703816343', '155703816343', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $31.62' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.95
+      and s.sale_date is not distinct from '2023-12-12'
+      and s.listing_id is not distinct from '155703816343'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $31.62');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-14', 19.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134805335301', '134805335301', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.99' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.99
+      and s.sale_date is not distinct from '2023-12-14'
+      and s.listing_id is not distinct from '134805335301'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.99');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-12-28', 11.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/204560647499', '204560647499', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.07' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.5
+      and s.sale_date is not distinct from '2023-12-28'
+      and s.listing_id is not distinct from '204560647499'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.07');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-06', 10.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/176222742700', '176222742700', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.75' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.0
+      and s.sale_date is not distinct from '2024-02-06'
+      and s.listing_id is not distinct from '176222742700'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.75');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-03-09', 14.94, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116072817415', '116072817415', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $9.50' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.94
+      and s.sale_date is not distinct from '2024-03-09'
+      and s.listing_id is not distinct from '116072817415'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $9.50');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-23', 5.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/186233567699', '186233567699', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $10.10' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.99
+      and s.sale_date is not distinct from '2024-04-23'
+      and s.listing_id is not distinct from '186233567699'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $10.10');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-24', 24.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135007825617', '135007825617', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $0.00' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 24.99
+      and s.sale_date is not distinct from '2024-04-24'
+      and s.listing_id is not distinct from '135007825617'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $0.00');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-04-25', 14.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/204512207463', '204512207463', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.85' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.0
+      and s.sale_date is not distinct from '2024-04-25'
+      and s.listing_id is not distinct from '204512207463'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.85');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-09', 8.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/204519503867', '204519503867', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $15.55' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 8.0
+      and s.sale_date is not distinct from '2024-05-09'
+      and s.listing_id is not distinct from '204519503867'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $15.55');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-20', 16.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/225968501213', '225968501213', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $7.16' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2024-06-20'
+      and s.listing_id is not distinct from '225968501213'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $7.16');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-09', 18.9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/186632104856', '186632104856', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.20' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 18.9
+      and s.sale_date is not distinct from '2024-09-09'
+      and s.listing_id is not distinct from '186632104856'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.20');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-09-21', 16.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126615131447', '126615131447', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $9.50' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2024-09-21'
+      and s.listing_id is not distinct from '126615131447'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $9.50');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-16', 11.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/196942117985', '196942117985', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $9.99' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.99
+      and s.sale_date is not distinct from '2025-01-16'
+      and s.listing_id is not distinct from '196942117985'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $9.99');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-01-17', 10.18, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/226463804604', '226463804604', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $7.95' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 10.18
+      and s.sale_date is not distinct from '2025-01-17'
+      and s.listing_id is not distinct from '226463804604'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $7.95');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-13', 12.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156338489012', '156338489012', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $12.65' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.95
+      and s.sale_date is not distinct from '2025-02-13'
+      and s.listing_id is not distinct from '156338489012'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $12.65');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-03-10', 16.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/125381643639', '125381643639', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.71' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.99
+      and s.sale_date is not distinct from '2025-03-10'
+      and s.listing_id is not distinct from '125381643639'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.71');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-04-15', 14.35, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/205409148496', '205409148496', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $5.63' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.35
+      and s.sale_date is not distinct from '2025-04-15'
+      and s.listing_id is not distinct from '205409148496'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $5.63');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-06', 16.62, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/144390954648', '144390954648', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.58' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.62
+      and s.sale_date is not distinct from '2025-05-06'
+      and s.listing_id is not distinct from '144390954648'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.58');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-06', 9.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/156940300314', '156940300314', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $9.45' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.99
+      and s.sale_date is not distinct from '2025-05-06'
+      and s.listing_id is not distinct from '156940300314'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $9.45');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-06', 14.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/176734451995', '176734451995', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.53' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2025-05-06'
+      and s.listing_id is not distinct from '176734451995'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.53');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-05-16', 9.78, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146576205205', '146576205205', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.99' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 9.78
+      and s.sale_date is not distinct from '2025-05-16'
+      and s.listing_id is not distinct from '146576205205'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.99');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-06-20', 20.9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135529628433', '135529628433', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.36' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 20.9
+      and s.sale_date is not distinct from '2025-06-20'
+      and s.listing_id is not distinct from '135529628433'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.36');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-10-24', 19.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/146787044061', '146787044061', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.95' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.95
+      and s.sale_date is not distinct from '2025-10-24'
+      and s.listing_id is not distinct from '146787044061'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.95');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-05', 39.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/136536736906', '136536736906', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.00' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.0
+      and s.sale_date is not distinct from '2025-12-05'
+      and s.listing_id is not distinct from '136536736906'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.00');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-24', 19.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/167983761207', '167983761207', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $11.95' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 19.95
+      and s.sale_date is not distinct from '2026-02-24'
+      and s.listing_id is not distinct from '167983761207'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $11.95');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-13', 4.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/137038278096', '137038278096', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $10.00' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 4.0
+      and s.sale_date is not distinct from '2026-03-13'
+      and s.listing_id is not distinct from '137038278096'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $10.00');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-05-03', 13.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/227289837193', '227289837193', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.51' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.0
+      and s.sale_date is not distinct from '2026-05-03'
+      and s.listing_id is not distinct from '227289837193'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $8.51');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-03', 16.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/168368653060', '168368653060', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $10.15' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2026-06-03'
+      and s.listing_id is not distinct from '168368653060'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $10.15');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-06-09', 5.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127898943356', '127898943356', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $3.47' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 5.0
+      and s.sale_date is not distinct from '2026-06-09'
+      and s.listing_id is not distinct from '127898943356'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $3.47');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-01', 12.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/206249937944', '206249937944', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.80' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2026-10-01'
+      and s.listing_id is not distinct from '206249937944'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $6.80');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-10-05', 11.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/158157684698', '158157684698', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $5.90' from items i where i.slug = 'wwf-tiger'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 11.0
+      and s.sale_date is not distinct from '2026-10-05'
+      and s.listing_id is not distinct from '158157684698'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; shipping $5.90');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2023-10-12', 14.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126013397439', '126013397439', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 16in; 2010' from items i where i.slug = 'wwf-timber-wolf'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.95
+      and s.sale_date is not distinct from '2023-10-12'
+      and s.listing_id is not distinct from '126013397439'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 16in; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-02-09', 12.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115665438445', '115665438445', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 2010' from items i where i.slug = 'wwf-timber-wolf'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 12.0
+      and s.sale_date is not distinct from '2024-02-09'
+      and s.listing_id is not distinct from '115665438445'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-05-19', 16.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/125742418552', '125742418552', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 16in; 2010' from items i where i.slug = 'wwf-timber-wolf'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 16.0
+      and s.sale_date is not distinct from '2024-05-19'
+      and s.listing_id is not distinct from '125742418552'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 16in; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2024-06-19', 13.66, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126247335779', '126247335779', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 16in; 2010' from items i where i.slug = 'wwf-timber-wolf'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 13.66
+      and s.sale_date is not distinct from '2024-06-19'
+      and s.listing_id is not distinct from '126247335779'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 16in; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-02-13', 17.96, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116467293247', '116467293247', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 2010' from items i where i.slug = 'wwf-timber-wolf'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 17.96
+      and s.sale_date is not distinct from '2025-02-13'
+      and s.listing_id is not distinct from '116467293247'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-16', 22.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117010227585', '117010227585', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 2010' from items i where i.slug = 'wwf-timber-wolf'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.0
+      and s.sale_date is not distinct from '2026-03-16'
+      and s.listing_id is not distinct from '117010227585'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; assigned by year in title; may be same product as wwf-gray-wolf; 2010');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-09-02', 40.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/336102861959', '336102861959', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 40.0
+      and s.sale_date is not distinct from '2025-09-02'
+      and s.listing_id is not distinct from '336102861959'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-11-29', 36.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/267464941921', '267464941921', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 36.49
+      and s.sale_date is not distinct from '2025-11-29'
+      and s.listing_id is not distinct from '267464941921'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-03', 28.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/205785478422', '205785478422', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.0
+      and s.sale_date is not distinct from '2025-12-03'
+      and s.listing_id is not distinct from '205785478422'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2025-12-18', 39.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/227124634135', '227124634135', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 10in' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 39.99
+      and s.sale_date is not distinct from '2025-12-18'
+      and s.listing_id is not distinct from '227124634135'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 10in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-17', 36.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116986837632', '116986837632', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 10in' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 36.0
+      and s.sale_date is not distinct from '2026-02-17'
+      and s.listing_id is not distinct from '116986837632'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; 10in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-02-20', 25.0, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/236636462721', '236636462721', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2026-02-20'
+      and s.listing_id is not distinct from '236636462721'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-01', 28.5, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/227236527635', '227236527635', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 28.5
+      and s.sale_date is not distinct from '2026-03-01'
+      and s.listing_id is not distinct from '227236527635'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-20', 22.5, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/117086514724', '117086514724', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 22.5
+      and s.sale_date is not distinct from '2026-03-20'
+      and s.listing_id is not distinct from '117086514724'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-03-28', 27.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/127760330961', '127760330961', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 27.99
+      and s.sale_date is not distinct from '2026-03-28'
+      and s.listing_id is not distinct from '127760330961'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-08', 52.36, null, 'USD', 'Unknown', 'complete', 'eBay', 'https://www.ebay.com/itm/306796284552', '306796284552', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 52.36
+      and s.sale_date is not distinct from '2026-04-08'
+      and s.listing_id is not distinct from '306796284552'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; with sound');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-04-24', 25.0, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/277687348668', '277687348668', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 25.0
+      and s.sale_date is not distinct from '2026-04-24'
+      and s.listing_id is not distinct from '277687348668'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-07-03', 14.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/206366140812', '206366140812', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 14.99
+      and s.sale_date is not distinct from '2026-07-03'
+      and s.listing_id is not distinct from '206366140812'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 10in');
+
+insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
+select i.id, '2026-09-27', 15.0, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/206564639085', '206564639085', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2024' from items i where i.slug = 'yamper'
+  and not exists (
+    select 1 from sales s where s.item_id = i.id
+      and s.sold_price = 15.0
+      and s.sale_date is not distinct from '2026-09-27'
+      and s.listing_id is not distinct from '206564639085'
+      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; item price, shipping excluded; no working sound; 2024');
+
 insert into valuation_config (key, value) values ('condition_multipliers', '{"NWT": 1.25, "Mint": 1.25, "Excellent": 1.1, "Good": 1.0, "Fair": 0.75, "Poor": 0.5, "Damaged": 0.35, "Incomplete": 0.6, "Unknown": 1.0}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('completeness_multipliers', '{"complete": 1.15, "packaged": 1.15, "some_originals": 1.05, "bare": 1.0, "unstuffed": 1.0, "altered": 0.85, "unknown": 1.0}'::jsonb)
