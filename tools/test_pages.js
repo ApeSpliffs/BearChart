@@ -394,7 +394,7 @@ test('sorting by price puts the most valuable item first and unpriced items last
   sort.dispatchEvent(new p.win.Event('change'));
   const cards = showAll(p);
        // Whichever item the engine values highest should lead, not one fixed bear.
-     const top = loadData().items
+          const top = p.win.BEARCHART_DATA.items
        .map((i) => [i.canonical_name, (p.win.BC.valuationFor(i.id) || {}).fair_market || 0])
        .sort((a, b) => b[1] - a[1])[0];
      assert.ok(cards[0].textContent.includes(top[0]), 'expected ' + top[0] + ' first');
