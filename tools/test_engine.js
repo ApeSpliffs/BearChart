@@ -207,9 +207,13 @@ test('the calculator declines to price an item with no comps', () => {
 // ---- history and collections ----------------------------------------------
 
 test('price history only uses dated sales', () => {
-  const h = E.priceHistory(salesFor('vanilla-fudge-bunny'), CFG);
-  assert.strictEqual(h.length, 1);
-  assert.strictEqual(h[0].year, 2025);
+  // Expect one point per year that has a dated sale - and none for undated ones.
+  const sales = salesFor('vanilla-fudge-bunny');
+  const years = [...new Set(sales.filter((s) => s.sale_date)
+    .map((s) => Number(String(s.sale_date).slice(0, 4))))].sort();
+  const h = E.priceHistory(sales, CFG);
+  assert.ok(years.length > 0);
+  assert.deepStrictEqual(h.map((p) => p.year), years);
 });
 
 test('undated research yields no chartable history', () => {
@@ -805,14 +809,14 @@ test('the calculator scales the floor with the median', () => {
 // ---- deals are judged against the floor -------------------------------------
 
 test('a thin-evidence item must be a better bargain to qualify', () => {
-  // Kennel Pals has one comp. Against the median it looks like a 40% discount;
+  // The Holiday Moose has one comp. Against the median it looks like a 40% discount;
   // against the floor it is not cheap enough, which is the correct answer.
   const listing = (ask) => ({ evidence_type: 'active_listing',
-    item_id: 'kennel-pals-calico-cat', ask_price: ask, condition: 'Good', title: 't' });
+    item_id: 'employee-exclusive-holiday-moose', ask_price: ask, condition: 'Good', title: 't' });
   const ctx = (ask) => ({ config: CFG, listings: [listing(ask)],
     itemById: itemById, valuationFor: valueOf });
 
-  const v = valueOf('kennel-pals-calico-cat');
+  const v = valueOf('employee-exclusive-holiday-moose');
   assert.ok(v.lower_bound < v.fair_market * 0.8, 'one comp should widen the gap');
   assert.strictEqual(E.findDeals(ctx(v.fair_market * 0.6)).length, 0,
     '40% off the median is not enough when there is one comp behind it');
