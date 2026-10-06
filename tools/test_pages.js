@@ -485,13 +485,7 @@ test('a fully sourced sale shows its provenance', () => {
   const p = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
   const text = p.doc.getElementById('item-root').textContent;
   assert.match(text, /2023-07-18/);
-  assert.match(text, /eBay/);     // The recent list shows the newest dated sales, so look for whichever sale is
-     // newest in the data rather than one fixed listing that newer comps push out.
-     const newest = loadData().sales
-       .filter((s) => s.sale_date && s.listing_id)
-       .sort((x, y) => String(y.sale_date).localeCompare(String(x.sale_date)))[0];
-     assert.ok(newest, 'expected at least one dated, sourced sale');
-     assert.match(p.doc.getElementById('recent').textContent, new RegExp(newest.sale_date));
+       assert.match(text, /364353106238/);
   assert.match(text, /completed sale/);
 });
 
@@ -588,8 +582,13 @@ test('the admin dashboard renders its counts and gap lists', () => {
   assert.match(stats, /Total items/);
   assert.match(stats, /Items missing sales/);
   assert.match(p.doc.getElementById('quality').textContent, /no sold data/i);
-  assert.match(p.doc.getElementById('recent').textContent, /364353106238/);
-});
+  assert.match(p.doc.getElementById('recent').textContent, /364353106238/);  // The recent list shows the newest dated sales, so look for whichever sale is
+  // newest in the data rather than one fixed listing that newer comps push out.
+  const newest = loadData().sales
+    .filter((s) => s.sale_date && s.listing_id)
+    .sort((x, y) => String(y.sale_date).localeCompare(String(x.sale_date)))[0];
+  assert.ok(newest, 'expected at least one dated, sourced sale');
+  assert.match(p.doc.getElementById('recent').textContent, new RegExp(newest.sale_date));});
 
 test('admin refuses a completed_sale without full provenance', () => {
   const p = renderPage('admin.html');
