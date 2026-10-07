@@ -608,7 +608,6 @@
           '<a class="brand" href="' + rel('index.html') + '">' +
             '<h1>BearChart</h1>' +
             '<div class="sub">Build-A-Bear Price Guide</div>' +
-            '<div class="tagline">Collector</div>' +
           '</a>' +
           '<nav class="nav">' + NAV.map(function (n) {
             var label = n[1];
@@ -696,3 +695,100 @@
     r2: r2, stamp: stamp, renderChrome: renderChrome
   };
 })(window);
+
+/* Welcome pop-up: invites first-time visitors to make a free account and
+   points at the Power perk. Shown once, never to signed-in members, never on
+   the sign-in or membership pages themselves, and never inside tests. */
+(function () {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  if (/jsdom/i.test(navigator.userAgent || '')) return;
+
+  var KEY = 'bc_welcome_seen';
+  var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  if (page === 'account.html' || page === 'plans.html' || page === 'admin.html') return;
+
+  function seenRecently() {
+    try {
+      var at = Number(localStorage.getItem(KEY) || 0);
+      return at && (Date.now() - at) < 14 * 24 * 3600 * 1000;
+    } catch (e) { return true; } // no storage: don't nag on every page
+  }
+  function markSeen() {
+    try { localStorage.setItem(KEY, String(Date.now())); } catch (e) { /* blocked */ }
+  }
+  function rel(p) {
+    return window.BC && BC.rel ? BC.rel(p) : p;
+  }
+  function signedIn() {
+    var A = window.BearChartAuth;
+    if (!A || !A.state) return false;
+    var s = A.state();
+    return !!(s && s.signedIn);
+  }
+  function authReady() {
+    var A = window.BearChartAuth;
+    return !!(A && A.configured && A.configured());
+  }
+
+  if (seenRecently()) return;
+
+  var shown = false;
+  var lastFocus = null;
+
+  function close() {
+    var el = document.getElementById('welcome-pop');
+    if (el) el.parentNode.removeChild(el);
+    document.removeEventListener('keydown', onKey);
+    markSeen();
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+  }
+
+  function show() {
+    if (shown || seenRecently() || signedIn() || !authReady()) return;
+    shown = true;
+    lastFocus = document.activeElement;
+    var wrap = document.createElement('div');
+    wrap.id = 'welcome-pop';
+    wrap.className = 'welcome-backdrop';
+    wrap.innerHTML =
+      '<div class="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title">' +
+        '<button type="button" class="welcome-x" aria-label="Close">&times;</button>' +
+        '<p class="welcome-kicker">Free for collectors</p>' +
+        '<h2 id="welcome-title">Join BearChart</h2>' +
+        '<p class="welcome-lead">A free account lets you add the first photo of a bear ' +
+          'we are missing and send in sold prices you have seen.</p>' +
+        '<div class="welcome-perk">' +
+          '<span class="welcome-badge">Power</span>' +
+          '<p><strong>10% off one bear every month</strong> at Jay\'s Retro Exchange, ' +
+          'plus a monthly email with what your collection is worth and everything in Pro.' +
+          '<span class="fine">Memberships open soon. Make an account now and you will hear first.</span></p>' +
+        '</div>' +
+        '<div class="welcome-actions">' +
+          '<a class="btn btn-primary" id="welcome-join" href="' + rel('account.html') + '">Create a free account</a>' +
+          '<a class="btn" id="welcome-plans" href="' + rel('plans.html') + '">See Power membership</a>' +
+        '</div>' +
+        '<button type="button" class="link-btn welcome-later">Not now</button>' +
+      '</div>';
+    document.body.appendChild(wrap);
+
+    wrap.addEventListener('click', function (e) {
+      if (e.target === wrap || e.target.classList.contains('welcome-x') ||
+          e.target.classList.contains('welcome-later')) {
+        close();
+      }
+    });
+    // Following a link counts as having seen it, too.
+    ['welcome-join', 'welcome-plans'].forEach(function (id) {
+      document.getElementById(id).addEventListener('click', markSeen);
+    });
+    document.addEventListener('keydown', onKey);
+    document.getElementById('welcome-join').focus();
+  }
+
+  // Give the page a moment first: nobody wants a pop-up before they have seen
+  // what the site is. Auth needs that moment too, to know who is signed in.
+  window.setTimeout(show, 6000);
+})();

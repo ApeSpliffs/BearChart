@@ -22,8 +22,15 @@
       shipping_cost: num(saved.shipping_cost, base.shipping_cost),
       min_net_margin: num(saved.min_net_margin, base.min_net_margin),
       min_discount_pct: num(saved.min_discount_pct, base.min_discount_pct),
-      min_confidence: saved.min_confidence || base.min_confidence || 'LOW'
+      min_confidence: atLeastMedium(saved.min_confidence || base.min_confidence)
     };
+  }
+
+  // Deals only lean on sold records we trust. A bear with one or two recorded
+  // sales can look 70% off when it is just thinly traded, so Medium is the
+  // floor on this page whatever was saved before.
+  function atLeastMedium(level) {
+    return level === 'HIGH' ? 'HIGH' : 'MEDIUM';
   }
 
   function num(v, fallback) {
@@ -169,7 +176,7 @@
   bind('min-disc', 'min_discount_pct');
 
   $('min-conf').addEventListener('change', function (e) {
-    tuned.min_confidence = e.target.value;
+    tuned.min_confidence = atLeastMedium(e.target.value);
     save();
     render();
   });
