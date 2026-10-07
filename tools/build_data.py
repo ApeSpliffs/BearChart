@@ -2324,13 +2324,12 @@ PLANS = OrderedDict([
         ("features", [
             "Your collection synced across phone, tablet and computer",
             "Collection value history that is never lost",
-            "A monthly email with what your collection is worth now",
             "Wishlist alerts - an email when a bear you want is listed",
             "Insurance-ready valuation report, with the evidence behind every figure",
             "Bear identification help, answered first",
         ]),
         ("entitlements", [
-            "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
+            "collection_sync", "hosted_history", "wishlist_alerts",
             "insurance_archive", "id_priority", "shop_discount",
         ]),
     ])),
@@ -2342,11 +2341,16 @@ PLANS = OrderedDict([
         ("perk", "10% off one bear a month from Jay's Retro Exchange"),
         ("blurb", "Find underpriced bears before anyone else does."),
         ("features", [
-            "Everything in Pro",
             "Instant deal alerts by push and email when a bear lists below its value, after fees",
             "Your watched bears checked first in the scanning queue",
+            "A monthly email with what your collection is worth now",
             "Outfit and complete-set valuations",
             "Export and API access to your own data",
+            "Your collection synced across phone, tablet and computer",
+            "Collection value history that is never lost",
+            "Wishlist alerts - an email when a bear you want is listed",
+            "Insurance-ready valuation report, with the evidence behind every figure",
+            "Bear identification help, answered first",
         ]),
         ("entitlements", [
             "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
