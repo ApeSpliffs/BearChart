@@ -297,19 +297,16 @@ def _phrase(text):
 # Aliases that name a product line rather than one bear. "Kennel Pals" is an
 # alias of the Calico Cat and part of the name of thirty-odd other items, so a
 # Kennel Pals dog, a pet coat and a food set all "named the item" and showed up
-# as Calico Cat deals. Filled from the catalogue by load_items(); while it is
-# empty no alias is skipped.
-GENERIC_ALIASES = set()
-
+# as Calico Cat deals. load_items() marks each item's line-wide aliases on the
+# item itself (like _has_sales), so one catalogue never leaks into another
+# check; an item that was never marked skips nothing.
 def mark_generic_aliases(items):
     names = [_phrase(i.get("canonical_name")) for i in items]
-    GENERIC_ALIASES.clear()
     for item in items:
         own = _phrase(item.get("canonical_name"))
-        for alias in item.get("aliases") or []:
-            p = _phrase(alias)
-            if p.strip() and sum(1 for n in names if n != own and p in n) >= 2:
-                GENERIC_ALIASES.add(p)
+        item["_generic_aliases"] = sorted(
+            p for p in (_phrase(a) for a in item.get("aliases") or [])
+            if p.strip() and sum(1 for n in names if n != own and p in n) >= 2)
 
 
 def title_confirms(item, title, loose=False):
@@ -347,9 +344,10 @@ def title_confirms(item, title, loose=False):
     if canonical and (_phrase(canonical) in title_words
                       or (len(normalise(canonical)) >= 10 and normalise(canonical) in norm)):
         return True, "names the item"
+    generic = set(item.get("_generic_aliases") or ())
     for alias in item.get("aliases") or []:
         p = _phrase(alias)
-        if p.strip() and p not in GENERIC_ALIASES and p in title_words:
+        if p.strip() and p not in generic and p in title_words:
             return True, "names the item"
     missing = need - _words(title)
     if missing:
