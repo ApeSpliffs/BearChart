@@ -1493,22 +1493,22 @@ test('with no listings loaded the deals page explains how to get some', () => {
 });
 
 test('an underpriced listing appears with its net margin', () => {
-  const win = renderDeals([activeFor('kennel-pals-calico-cat', 50)]);
+  const win = renderDeals([activeFor('my-little-pony-muffins', 50)]);
   const text = win.document.getElementById('deals').textContent;
-  assert.match(text, /Kennel Pals Calico Cat/);
+  assert.match(text, /My Little Pony Muffins/);
   assert.match(text, /Net after fees/);
   const rows = win.document.querySelectorAll('#deals tbody tr');
   assert.strictEqual(rows.length, 1);
 });
 
 test('a fairly priced listing is not shown as a deal', () => {
-  const win = renderDeals([activeFor('kennel-pals-calico-cat', 250)]);
+  const win = renderDeals([activeFor('my-little-pony-muffins', 250)]);
   assert.match(win.document.getElementById('deals').textContent,
     /Nothing under your thresholds/);
 });
 
 test('tightening the margin threshold removes marginal deals', () => {
-  const win = renderDeals([activeFor('kennel-pals-calico-cat', 50)]);
+  const win = renderDeals([activeFor('my-little-pony-muffins', 50)]);
   assert.strictEqual(win.document.querySelectorAll('#deals tbody tr').length, 1);
 
   const input = win.document.getElementById('min-margin');
@@ -1519,7 +1519,7 @@ test('tightening the margin threshold removes marginal deals', () => {
 });
 
 test('raising the fee assumption reduces the reported margin', () => {
-  const win = renderDeals([activeFor('kennel-pals-calico-cat', 50)]);
+  const win = renderDeals([activeFor('my-little-pony-muffins', 50)]);
   const marginOf = () => win.document.querySelectorAll('#deals tbody tr td')[4].textContent;
   const before = marginOf();
   const fee = win.document.getElementById('fee');
