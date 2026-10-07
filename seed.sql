@@ -10829,7 +10829,7 @@ on conflict (slug) do update set
   image_source = excluded.image_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
-values ('happy-hugs-iv-teddy', 'Happy Hugs IV Teddy', '{}', 'Stuffed Animal', 'Bear', null, null, 'IV', null, false, null, false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Light brown. One of a numbered Happy Hugs series - earlier versions are not yet catalogued. Catalogued from the CollectionHero index; no sourced price captured yet.', null, null, null)
+values ('happy-hugs-iv-teddy', 'Happy Hugs IV Teddy', array['Happy Hugs Teddy IV'], 'Stuffed Animal', 'Bear', 2018, null, 'IV', null, false, null, false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Light brown. One of a numbered Happy Hugs series - earlier versions are not yet catalogued. Catalogued from the CollectionHero index; no sourced price captured yet.', null, null, null)
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -17165,7 +17165,7 @@ on conflict (slug) do update set
   image_source = excluded.image_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
-values ('hello-kitty-35th-anniversary', 'Hello Kitty 35th Anniversary', '{}', 'Stuffed Animal', 'Character', 2009, null, null, null, true, 'Sanrio', true, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from the CollectionHero index; no sourced price captured yet.', null, null, null)
+values ('hello-kitty-35th-anniversary', 'Hello Kitty 35th Anniversary', array['35th Anniversary Hello Kitty'], 'Stuffed Animal', 'Character', 2009, null, null, null, true, 'Sanrio', true, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from the CollectionHero index; no sourced price captured yet.', null, null, null)
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -18716,7 +18716,7 @@ on conflict (slug) do update set
   image_source = excluded.image_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
-values ('jumbo-snorlax-24-inch', 'Jumbo Snorlax (24-inch)', '{}', 'Stuffed Animal', 'Character', 2020, null, null, null, true, 'Pokemon', false, null, false, false, false, false, true, false, null, false, false, true, null, null, null, 'Jumbo size online exclusive, priced apart from the standard Snorlax. Catalogued from the CollectionHero index; no sourced price captured yet.', null, null, null)
+values ('jumbo-snorlax-24-inch', 'Jumbo Snorlax (24-inch)', array['Pokémon Jumbo Snorlax'], 'Stuffed Animal', 'Character', 2020, null, null, null, true, 'Pokemon', false, null, false, false, false, false, true, false, null, false, false, true, null, null, null, 'Jumbo size online exclusive, priced apart from the standard Snorlax. Catalogued from the CollectionHero index; no sourced price captured yet.', null, null, null)
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -20630,7 +20630,7 @@ on conflict (slug) do update set
   image_source = excluded.image_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
-values ('zombie-axolotl-mini-beans', 'Zombie Axolotl (Mini Beans)', '{}', 'Mini Bean', 'Axolotl', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide. No sold comps captured yet.', null, null, null)
+values ('zombie-axolotl-mini-beans', 'Zombie Axolotl (Mini Beans)', array['Mini Beans Zombie Axolotl'], 'Mini Bean', 'Axolotl', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide. No sold comps captured yet.', null, null, null)
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -22116,39 +22116,6 @@ on conflict (slug) do update set
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
 values ('25th-silver-celebration-bear', '25th Silver Celebration Bear', '{}', 'Stuffed Animal', 'Bear', 2022, null, null, null, false, null, false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). Identification only - no sold comps recorded yet.', null, null, null)
-on conflict (slug) do update set
-  canonical_name = excluded.canonical_name,
-  aliases = excluded.aliases,
-  category = excluded.category,
-  species = excluded.species,
-  release_year = excluded.release_year,
-  release_month = excluded.release_month,
-  version = excluded.version,
-  variant = excluded.variant,
-  licensed = excluded.licensed,
-  franchise = excluded.franchise,
-  limited_edition = excluded.limited_edition,
-  edition_size = excluded.edition_size,
-  employee_exclusive = excluded.employee_exclusive,
-  store_exclusive = excluded.store_exclusive,
-  event_exclusive = excluded.event_exclusive,
-  vault_release = excluded.vault_release,
-  original_release = excluded.original_release,
-  mini_bean = excluded.mini_bean,
-  retired = excluded.retired,
-  is_lot = excluded.is_lot,
-  international_exclusive = excluded.international_exclusive,
-  online_exclusive = excluded.online_exclusive,
-  sound = excluded.sound,
-  scent = excluded.scent,
-  rarity = excluded.rarity,
-  notes = excluded.notes,
-  image_url = excluded.image_url,
-  image_credit = excluded.image_credit,
-  image_source = excluded.image_source;
-
-insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
-values ('35th-anniversary-hello-kitty', '35th Anniversary Hello Kitty', '{}', 'Stuffed Animal', 'Cat', 2009, null, null, null, true, 'Sanrio', false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). Identification only - no sold comps recorded yet.', null, null, null)
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -36701,39 +36668,6 @@ on conflict (slug) do update set
   image_source = excluded.image_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
-values ('happy-hugs-teddy-iv', 'Happy Hugs Teddy IV', '{}', 'Stuffed Animal', 'Bear', 2018, null, null, null, false, null, false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). Identification only - no sold comps recorded yet.', null, null, null)
-on conflict (slug) do update set
-  canonical_name = excluded.canonical_name,
-  aliases = excluded.aliases,
-  category = excluded.category,
-  species = excluded.species,
-  release_year = excluded.release_year,
-  release_month = excluded.release_month,
-  version = excluded.version,
-  variant = excluded.variant,
-  licensed = excluded.licensed,
-  franchise = excluded.franchise,
-  limited_edition = excluded.limited_edition,
-  edition_size = excluded.edition_size,
-  employee_exclusive = excluded.employee_exclusive,
-  store_exclusive = excluded.store_exclusive,
-  event_exclusive = excluded.event_exclusive,
-  vault_release = excluded.vault_release,
-  original_release = excluded.original_release,
-  mini_bean = excluded.mini_bean,
-  retired = excluded.retired,
-  is_lot = excluded.is_lot,
-  international_exclusive = excluded.international_exclusive,
-  online_exclusive = excluded.online_exclusive,
-  sound = excluded.sound,
-  scent = excluded.scent,
-  rarity = excluded.rarity,
-  notes = excluded.notes,
-  image_url = excluded.image_url,
-  image_credit = excluded.image_credit,
-  image_source = excluded.image_source;
-
-insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
 values ('harry-potter-bear', 'Harry Potter Bear', '{}', 'Stuffed Animal', 'Bear', 2020, null, null, null, true, 'Harry Potter', false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). Identification only - no sold comps recorded yet.', null, null, null)
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
@@ -50033,39 +49967,6 @@ on conflict (slug) do update set
   image_source = excluded.image_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
-values ('mini-beans-zombie-axolotl', 'Mini Beans Zombie Axolotl', '{}', 'Mini Bean', 'Axolotl', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). Identification only - no sold comps recorded yet.', null, null, null)
-on conflict (slug) do update set
-  canonical_name = excluded.canonical_name,
-  aliases = excluded.aliases,
-  category = excluded.category,
-  species = excluded.species,
-  release_year = excluded.release_year,
-  release_month = excluded.release_month,
-  version = excluded.version,
-  variant = excluded.variant,
-  licensed = excluded.licensed,
-  franchise = excluded.franchise,
-  limited_edition = excluded.limited_edition,
-  edition_size = excluded.edition_size,
-  employee_exclusive = excluded.employee_exclusive,
-  store_exclusive = excluded.store_exclusive,
-  event_exclusive = excluded.event_exclusive,
-  vault_release = excluded.vault_release,
-  original_release = excluded.original_release,
-  mini_bean = excluded.mini_bean,
-  retired = excluded.retired,
-  is_lot = excluded.is_lot,
-  international_exclusive = excluded.international_exclusive,
-  online_exclusive = excluded.online_exclusive,
-  sound = excluded.sound,
-  scent = excluded.scent,
-  rarity = excluded.rarity,
-  notes = excluded.notes,
-  image_url = excluded.image_url,
-  image_credit = excluded.image_credit,
-  image_source = excluded.image_source;
-
-insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
 values ('mini-brown-bear', 'Mini Brown Bear', '{}', 'Mini Bean', 'Bear', 1998, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). Identification only - no sold comps recorded yet.', null, null, null)
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
@@ -55413,39 +55314,6 @@ on conflict (slug) do update set
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
 values ('pochacco', 'Pochacco', '{}', 'Stuffed Animal', 'Dog', 2024, null, null, null, true, 'Sanrio', false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). Identification only - no sold comps recorded yet.', null, null, null)
-on conflict (slug) do update set
-  canonical_name = excluded.canonical_name,
-  aliases = excluded.aliases,
-  category = excluded.category,
-  species = excluded.species,
-  release_year = excluded.release_year,
-  release_month = excluded.release_month,
-  version = excluded.version,
-  variant = excluded.variant,
-  licensed = excluded.licensed,
-  franchise = excluded.franchise,
-  limited_edition = excluded.limited_edition,
-  edition_size = excluded.edition_size,
-  employee_exclusive = excluded.employee_exclusive,
-  store_exclusive = excluded.store_exclusive,
-  event_exclusive = excluded.event_exclusive,
-  vault_release = excluded.vault_release,
-  original_release = excluded.original_release,
-  mini_bean = excluded.mini_bean,
-  retired = excluded.retired,
-  is_lot = excluded.is_lot,
-  international_exclusive = excluded.international_exclusive,
-  online_exclusive = excluded.online_exclusive,
-  sound = excluded.sound,
-  scent = excluded.scent,
-  rarity = excluded.rarity,
-  notes = excluded.notes,
-  image_url = excluded.image_url,
-  image_credit = excluded.image_credit,
-  image_source = excluded.image_source;
-
-insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source)
-values ('pok-mon-jumbo-snorlax', 'Pokémon Jumbo Snorlax', '{}', 'Stuffed Animal', null, 2019, null, null, 'Jumbo', true, 'Pokemon', false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). Identification only - no sold comps recorded yet.', null, null, null)
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
