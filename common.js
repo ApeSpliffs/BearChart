@@ -608,7 +608,7 @@
           '<a class="brand" href="' + rel('index.html') + '">' +
             '<h1>BearChart</h1>' +
             '<div class="sub">Build-A-Bear Price Guide</div>' +
-            '<div class="tagline">Collector &bull; Buy &bull; Sell &bull; Trade</div>' +
+            '<div class="tagline">Collector</div>' +
           '</a>' +
           '<nav class="nav">' + NAV.map(function (n) {
             var label = n[1];
