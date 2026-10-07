@@ -201,12 +201,11 @@ globalThis.BEARCHART_DATA = {
         "price_monthly": 7,
         "audience": "For collectors",
         "badge": "Recommended",
-        "perk": "10% off one bear a month from Jay's Retro Exchange",
+        "perk": "5% off one bear a month from Jay's Retro Exchange",
         "blurb": "Know what your collection is worth - on every device, every month.",
         "features": [
           "Your collection synced across phone, tablet and computer",
           "Collection value history that is never lost",
-          "A monthly email with what your collection is worth now",
           "Wishlist alerts - an email when a bear you want is listed",
           "Insurance-ready valuation report, with the evidence behind every figure",
           "Bear identification help, answered first"
@@ -214,7 +213,6 @@ globalThis.BEARCHART_DATA = {
         "entitlements": [
           "collection_sync",
           "hosted_history",
-          "value_digest",
           "wishlist_alerts",
           "insurance_archive",
           "id_priority",
@@ -229,11 +227,16 @@ globalThis.BEARCHART_DATA = {
         "perk": "10% off one bear a month from Jay's Retro Exchange",
         "blurb": "Find underpriced bears before anyone else does.",
         "features": [
-          "Everything in Pro",
           "Instant deal alerts by push and email when a bear lists below its value, after fees",
           "Your watched bears checked first in the scanning queue",
+          "A monthly email with what your collection is worth now",
           "Outfit and complete-set valuations",
-          "Export and API access to your own data"
+          "Export and API access to your own data",
+          "Your collection synced across phone, tablet and computer",
+          "Collection value history that is never lost",
+          "Wishlist alerts - an email when a bear you want is listed",
+          "Insurance-ready valuation report, with the evidence behind every figure",
+          "Bear identification help, answered first"
         ],
         "entitlements": [
           "collection_sync",
@@ -277,7 +280,7 @@ globalThis.BEARCHART_DATA = {
         "enforced": "server"
       },
       "shop_discount": {
-        "label": "10% off one bear a month at Jay's Retro Exchange",
+        "label": "Monthly discount at Jay's Retro Exchange (5% Pro, 10% Power)",
         "enforced": "shop"
       },
       "alerts_push": {
