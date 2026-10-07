@@ -2082,6 +2082,22 @@ for nm, sp in GUIDE_2025:
       notes="Listed in the official 2025 Mini Beans collector guide. "
             "No sold comps captured yet.")
 
+# Wiki titles for items already curated above. Registering each as an alias
+# makes load_wiki_catalogue skip the wiki's copy, so one bear is one item and
+# its sold comps are not split between two pages.
+WIKI_DUPLICATES = [
+    ("hello-kitty-35th-anniversary", "35th Anniversary Hello Kitty"),
+    ("jumbo-snorlax-24-inch", "Pokémon Jumbo Snorlax"),
+    ("happy-hugs-iv-teddy", "Happy Hugs Teddy IV"),
+    ("zombie-axolotl-mini-beans", "Mini Beans Zombie Axolotl"),
+]
+for _id, _alias in WIKI_DUPLICATES:
+    _item = next(i for i in ITEMS if i["id"] == _id)
+    if _alias not in _item["aliases"]:
+        _item["aliases"].append(_alias)
+# The wiki dates Happy Hugs Teddy IV to 2018; keep that now its row is skipped.
+next(i for i in ITEMS if i["id"] == "happy-hugs-iv-teddy")["release_year"] = 2018
+
 # ---------------------------------------------------------------------------
 # Config and reference data
 # ---------------------------------------------------------------------------
