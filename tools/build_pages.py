@@ -222,7 +222,7 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%(title)s</title>
 <meta name="description" content="%(desc)s">
-%(canonical)s<meta name="theme-color" content="#45301f">
+%(canonical)s<meta name="theme-color" content="#b3131c">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">

@@ -74,8 +74,8 @@ def write_manifest(data):
         "scope": "./",
         "display": "standalone",
         "orientation": "any",
-        "background_color": "#fbf4e6",
-        "theme_color": "#45301f",
+        "background_color": "#fff6f2",
+        "theme_color": "#b3131c",
         "categories": ["shopping", "utilities", "lifestyle"],
         "icons": [
             {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png",
