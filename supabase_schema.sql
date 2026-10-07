@@ -313,10 +313,12 @@ as $$
   select case current_tier()
     when 'power' then feature in (
       'collection_sync','hosted_history','insurance_archive','id_priority',
-      'alerts_push','alerts_discord','alerts_email','poll_priority',
+      'value_digest','wishlist_alerts',
+      'alerts_push','alerts_email','poll_priority',
       'outfit_assembly','api_access')
     when 'pro' then feature in (
-      'collection_sync','hosted_history','insurance_archive','id_priority')
+      'collection_sync','hosted_history','insurance_archive','id_priority',
+      'value_digest','wishlist_alerts')
     else false
   end;
 $$;

@@ -39,6 +39,9 @@
         name: p.name,
         price_monthly: p.price_monthly,
         blurb: p.blurb,
+        audience: p.audience || null,
+        badge: p.badge || null,
+        perk: p.perk || null,
         features: p.features || [],
         entitlements: p.entitlements || []
       };

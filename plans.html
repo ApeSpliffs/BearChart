@@ -20,45 +20,47 @@
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
 <main>
-  <div class="wrap">
+<div class="wrap">
 
-    <div class="panel">
-      <h2>Membership</h2>
-      <div id="status-notice"></div>
-    </div>
+<div class="panel plans-hero">
+<h2>Membership</h2>
+<p class="plans-lead">The price guide is free and stays free. Membership adds the things
+that run behind the scenes: your collection on every device, alerts that find bears for
+you, and 10% off a bear every month at Jay's Retro Exchange.</p>
+<div id="status-notice"></div>
+</div>
 
-    <div class="plan-grid" id="plans"></div>
+<div class="plan-grid" id="plans"></div>
 
-    <div class="panel">
-      <h2>Why the free tier is this generous</h2>
-      <p class="fine">BearChart is a static site. The whole catalogue and every sold
-        comp arrive in your browser as one file the moment the page loads. Anything
-        worked out from that file &mdash; a valuation, a checklist, a deal calculation
-        &mdash; is happening on your machine with data you already have, so putting it
-        behind a paywall would be a lock on a door with no wall attached. Anyone could
-        step around it from a developer console in a few seconds.</p>
-      <p class="fine">So the split is not <em>basic versus good</em>. It is
-        <strong>what your browser can do on its own</strong> against
-        <strong>what needs a server</strong>: keeping your collection somewhere other
-        than one browser, holding a schedule you can produce again years later, sending
-        a notification, spending API quota to find a listing. Those cost real money to
-        run, they can genuinely be enforced, and that is exactly the set worth charging
-        for.</p>
-    </div>
+<div class="panel faq">
+<h2>Questions</h2>
+<dl>
+<dt>Will the price guide stay free?</dt>
+<dd>Yes. Every value, checklist and calculator on BearChart is free for everyone.
+Membership pays for the work our servers do for you: syncing, alerts, reports and
+scanning eBay.</dd>
+<dt>How does the Jay's Retro Exchange discount work?</dt>
+<dd>Once each calendar month, take 10% off one Build-A-Bear you buy from Jay's Retro
+Exchange. Order with the email on your membership and the discount is applied.</dd>
+<dt>Does being a member change what a bear is worth?</dt>
+<dd>No. Members and non-members see exactly the same values, worked out from the same
+sold prices.</dd>
+<dt>Can I cancel any time?</dt>
+<dd>Yes, in one click from your account page. No emails, no phone calls.</dd>
+</dl>
+</div>
 
-    <div class="panel">
-      <h2>What a Power membership actually promises</h2>
-      <div class="notice warn" id="hot-slots"></div>
-    </div>
+<details class="panel fineprint">
+<summary>The fine print</summary>
+<h3>How fast are deal alerts?</h3>
+<div class="notice" id="hot-slots"></div>
+<h3>Where each paid feature is checked</h3>
+<p class="fine">Listed plainly, because a feature the page merely hides is not the same
+as one the database refuses.</p>
+<div id="enforcement"></div>
+</details>
 
-    <div class="panel">
-      <h2>Where each paid feature is enforced</h2>
-      <p class="fine">Listed plainly, because a feature the browser merely hides is not
-        the same as one the database refuses.</p>
-      <div id="enforcement"></div>
-    </div>
-
-  </div>
+</div>
 </main>
 
 <footer class="site" id="site-footer"></footer>

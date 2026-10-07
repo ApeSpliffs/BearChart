@@ -18,11 +18,9 @@
     var el = $('status-notice');
     if (!P.configured()) {
       el.className = 'notice';
-      el.innerHTML = '<strong>Nothing is for sale yet.</strong> No payment provider is ' +
-        'connected, so every feature that can run in your browser is simply on, for ' +
-        'everyone, with no account needed. The plans below are what would be offered ' +
-        'once a provider is wired up &mdash; they are shown now so the pricing can be ' +
-        'argued with before anybody is charged.';
+      el.innerHTML = '<strong>Nothing is for sale yet.</strong> Memberships open soon. ' +
+        'Until then, every feature that runs in your browser is free for everyone, ' +
+        'no account needed.';
       return;
     }
     var s = session();
@@ -33,11 +31,21 @@
       : '<a href="account.html">Sign in</a> to manage your membership.';
   }
 
+  // "Everything in Pro" heads a higher tier's list, styled as the line it
+  // builds on rather than as one more tick.
+  function featureItem(f) {
+    var inherit = /^Everything in /.test(f);
+    return '<li' + (inherit ? ' class="plan-inherit"' : '') + '>' + BC.esc(f) + '</li>';
+  }
+
   function renderPlans() {
     var current = P.currentTier(session());
     $('plans').innerHTML = P.plans().map(function (p) {
       var isCurrent = P.configured() && p.id === current;
-      return '<div class="plan' + (isCurrent ? ' is-current' : '') + '">' +
+      var cls = 'plan' + (p.badge ? ' is-featured' : '') + (isCurrent ? ' is-current' : '');
+      return '<div class="' + cls + '">' +
+        (p.badge ? '<span class="plan-badge">' + BC.esc(p.badge) + '</span>' : '') +
+        (p.audience ? '<p class="plan-audience">' + BC.esc(p.audience) + '</p>' : '') +
         '<h3 class="plan-name">' + BC.esc(p.name) + '</h3>' +
         '<div class="plan-price">' +
           (p.price_monthly === 0
@@ -45,37 +53,46 @@
             : '<span class="amount">$' + p.price_monthly + '</span>' +
               '<span class="per">/month</span>') +
         '</div>' +
-        '<p class="fine">' + BC.esc(p.blurb) + '</p>' +
-        '<ul class="plan-features">' +
-          p.features.map(function (f) {
-            return '<li>' + BC.esc(f) + '</li>';
-          }).join('') +
-        '</ul>' +
+        '<p class="plan-blurb">' + BC.esc(p.blurb) + '</p>' +
+        (p.perk
+          ? '<div class="plan-perk"><strong>Member perk</strong>' + BC.esc(p.perk) + '</div>'
+          : '') +
+        '<ul class="plan-features">' + p.features.map(featureItem).join('') + '</ul>' +
         (p.price_monthly === 0
-          ? '<p class="fine plan-foot">Always available. No sign-up.</p>'
+          ? '<p class="fine plan-foot">Always free. No sign-up.</p>'
           : (P.configured()
               ? '<button type="button" class="primary" data-plan="' + BC.esc(p.id) +
                 '">' + (isCurrent ? 'Current plan' : 'Choose ' + BC.esc(p.name)) +
                 '</button>'
-              : '<p class="fine plan-foot">Not purchasable yet.</p>')) +
-        '</div>';
+              : '<p class="fine plan-foot">Not purchasable yet &mdash; opening soon.</p>')) +
+      '</div>';
     }).join('');
   }
 
   function renderHotSlots() {
-    // The honest version of the headline feature, stated where somebody deciding
-    // whether to pay will read it rather than in a footnote after they have.
+    // Still stated before anyone pays - just in the fine print rather than
+    // ahead of the plans.
     $('hot-slots').innerHTML =
-      '<strong>Polling priority is shared, not personal.</strong> ' +
-      'Finding new listings costs API quota, and the budget affords about ' +
-      '<strong>' + P.hotSlots + ' continuously-polled searches for the whole site</strong> ' +
-      '&mdash; not three each. So a Power membership does not buy 60-second polling on ' +
-      'anything you like; that is a promise that breaks at the fourth customer. ' +
+      '<strong>Alert speed is shared, not personal.</strong> ' +
+      'Scanning eBay for new listings costs API quota, and the budget covers about ' +
+      '<strong>' + P.hotSlots + ' continuously-scanned searches for the whole site</strong> ' +
+      '&mdash; not ' + P.hotSlots + ' each. So Power cannot promise 60-second checks on ' +
+      'anything you like; that is a promise that breaks at the fourth customer.' +
       '<br><br>' + BC.esc(P.hotSlotNote) +
-      '<br><br>In practice this works in your favour on the items people actually chase: ' +
-      'a hundred members watching the same bear share one fast query and all get told at ' +
-      'once. It works against you on something obscure that only you want.';
+      '<br><br>In practice this works in your favour on the bears people chase: everyone ' +
+      'watching the same bear shares one fast search and hears about a deal at the same ' +
+      'moment.';
   }
+
+  var ENFORCED = {
+    server: ['vintage', 'Server',
+      'The database refuses this without a live membership, however the request is made.'],
+    ux: ['limited', 'Interface only',
+      'The page hides it. Nothing stops a determined person doing the same sum ' +
+      'themselves, and pretending otherwise would be theatre.'],
+    shop: ['current', "Jay's Retro Exchange",
+      'The shop checks your membership when you order. Nothing on this site applies it.']
+  };
 
   function renderEnforcement() {
     var rows = [];
@@ -87,20 +104,14 @@
     });
 
     $('enforcement').innerHTML = '<div class="table-scroll"><table><thead><tr>' +
-      '<th>Feature</th><th>From</th><th>Enforced by</th><th>Meaning</th>' +
+      '<th>Feature</th><th>From</th><th>Checked by</th><th>Meaning</th>' +
       '</tr></thead><tbody>' +
       rows.map(function (r) {
-        var server = r.where === 'server';
+        var kind = ENFORCED[r.where] || ENFORCED.ux;
         return '<tr><td>' + BC.esc(r.label) + '</td>' +
           '<td>' + BC.esc(r.plan) + '</td>' +
-          '<td><span class="tag ' + (server ? 'vintage' : 'limited') + '">' +
-          (server ? 'Server' : 'Interface only') + '</span></td>' +
-          '<td class="fine">' + (server
-            ? 'The database refuses this without a live membership, however the ' +
-              'request is made.'
-            : 'The page hides it. Nothing stops a determined person doing the same ' +
-              'sum themselves, and pretending otherwise would be theatre.') +
-          '</td></tr>';
+          '<td><span class="tag ' + kind[0] + '">' + BC.esc(kind[1]) + '</span></td>' +
+          '<td class="fine">' + BC.esc(kind[2]) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
   }
 

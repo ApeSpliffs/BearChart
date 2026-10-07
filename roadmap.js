@@ -62,7 +62,7 @@
        'thousand people watching it cost the same quota, which is the only way this ' +
        'works at more than three users.'],
       ['next', 'Alert delivery',
-       'Push, Discord and email digests, with quiet hours and a volume ceiling. One ' +
+       'Push and email digests, with quiet hours and a volume ceiling. One ' +
        'noisy night trains someone to mute the app permanently.'],
       ['next', 'Outfit assembly',
        'Group clothing, shoes and accessories onto a specific bear and value the ' +

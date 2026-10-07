@@ -403,6 +403,40 @@ img.hero {
 }
 .plan-foot { margin-top: auto; padding-top: 6px; }
 .plan button { margin-top: auto; }
+.plan-grid { padding-top: 12px; }
+.plan { position: relative; }
+.plan.is-featured { border-color: var(--honey); box-shadow: 0 0 0 1px var(--honey), var(--shadow-lift); }
+.plan-badge {
+  position: absolute; top: -12px; left: 22px;
+  background: var(--honey); color: #fff; border-radius: 999px; padding: 4px 11px;
+  font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+}
+.plan-audience {
+  margin: 0; font-size: 11.5px; font-weight: 800; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--honey-deep);
+}
+.plan-blurb { margin: 0; font-size: 14.5px; line-height: 1.45; color: var(--ink); }
+.plan-perk {
+  background: var(--berry-wash); border: 1px solid rgba(232, 79, 138, .25);
+  border-radius: var(--radius-sm); padding: 10px 12px; font-size: 13.5px; color: var(--ink);
+}
+.plan-perk strong {
+  display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  color: #c23674; margin-bottom: 2px;
+}
+.plan-features li.plan-inherit { color: var(--ink); font-weight: 700; }
+.plan-features li.plan-inherit::before { content: "+"; color: var(--honey-deep); }
+.plans-lead { font-size: 16px; line-height: 1.55; color: var(--ink-soft); max-width: 62ch; margin: 0 0 14px; }
+.faq dl { margin: 0; }
+.faq dt { font-weight: 800; color: var(--ink); margin-top: 16px; }
+.faq dt:first-child { margin-top: 0; }
+.faq dd { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--ink-soft); max-width: 70ch; }
+details.fineprint > summary {
+  cursor: pointer; font-family: var(--serif); font-size: 18px; font-weight: 600;
+  color: var(--brown-deep);
+}
+details.fineprint[open] > summary { margin-bottom: 6px; }
+details.fineprint h3 { margin: 18px 0 8px; }
 
 /* ---------- roadmap ---------- */
 
