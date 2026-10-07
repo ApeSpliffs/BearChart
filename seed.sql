@@ -194132,33 +194132,6 @@ select i.id, '2024-08-14', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue Stripes T-Rex Dinosaur 16" Plush Stuffed Animal BAB 2022');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-10-29', 35, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135134754805', '135134754805', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BAB Build-A-Bear Workshop Blue Striped T-Rex Dinosaur Plush Stuffed Animal trex' from items i where i.slug = 'blue-stripes-t-rex'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 35
-      and s.sale_date is not distinct from '2024-10-29'
-      and s.listing_id is not distinct from '135134754805'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BAB Build-A-Bear Workshop Blue Striped T-Rex Dinosaur Plush Stuffed Animal trex');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-03-09', 22, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/226527247150', '226527247150', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BAB Build-A-Bear Workshop Blue Striped T-Rex Dinosaur Plush Stuffed Animal trex' from items i where i.slug = 'blue-stripes-t-rex'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 22
-      and s.sale_date is not distinct from '2025-03-09'
-      and s.listing_id is not distinct from '226527247150'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BAB Build-A-Bear Workshop Blue Striped T-Rex Dinosaur Plush Stuffed Animal trex');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-10-31', 11.39, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/197686187260', '197686187260', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue And Orange Striped T-Rex' from items i where i.slug = 'blue-stripes-t-rex'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 11.39
-      and s.sale_date is not distinct from '2025-10-31'
-      and s.listing_id is not distinct from '197686187260'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue And Orange Striped T-Rex');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-11-09', 16.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/236322239227', '236322239227', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue Stripes T-Rex Dinosaur Plush Stuffed Animal BAB 2022' from items i where i.slug = 'blue-stripes-t-rex'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -194177,15 +194150,6 @@ select i.id, '2026-01-03', 19.99, null, 'USD', 'Unknown', 'some_originals', 'eBa
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; with sound; title: Build A Bear Blue Stripes T-Rex Dinosaur Plush Stuffed Animal BABW 2022 w/ Sound');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-01-21', 12.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127621576655', '127621576655', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue And Orange Striped T-Rex' from items i where i.slug = 'blue-stripes-t-rex'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 12.5
-      and s.sale_date is not distinct from '2026-01-21'
-      and s.listing_id is not distinct from '127621576655'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue And Orange Striped T-Rex');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-02-28', 11.33, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/198143985824', '198143985824', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue Stripes T-Rex Dinosaur Plush Stuffed Animal BABW 2022 Dino' from items i where i.slug = 'blue-stripes-t-rex'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -194193,15 +194157,6 @@ select i.id, '2026-02-28', 11.33, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.sale_date is not distinct from '2026-02-28'
       and s.listing_id is not distinct from '198143985824'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue Stripes T-Rex Dinosaur Plush Stuffed Animal BABW 2022 Dino');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-03-26', 8, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/377019070781', '377019070781', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BABW / Build a Bear Workshop Dinosaur BLUE STRIPED T- REX 15" Plush Toy' from items i where i.slug = 'blue-stripes-t-rex'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 8
-      and s.sale_date is not distinct from '2026-03-26'
-      and s.listing_id is not distinct from '377019070781'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BABW / Build a Bear Workshop Dinosaur BLUE STRIPED T- REX 15" Plush Toy');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-08-08', 16.14, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/178143479389', '178143479389', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blue Stripes T-Rex Dinosaur Plush Stuffed Animal BABW 2022 Dino' from items i where i.slug = 'blue-stripes-t-rex'
@@ -197561,15 +197516,6 @@ select i.id, '2026-02-15', 13.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'htt
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear 18" Care Bears Purple Lollipop Share Bear Plush, 2015 Soft Teddy');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-03-13', 20, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/198133576410', '198133576410', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILDABEAR BAB CAREBEAR SHARE BEAR STUFFED ANIMAL PLUSH W/tag' from items i where i.slug = 'care-bears-share-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 20
-      and s.sale_date is not distinct from '2026-03-13'
-      and s.listing_id is not distinct from '198133576410'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILDABEAR BAB CAREBEAR SHARE BEAR STUFFED ANIMAL PLUSH W/tag');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-05-02', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/236781405552', '236781405552', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear 18" Care Bears Purple Lollipop Share Bear Plush Toy 2015 BAB' from items i where i.slug = 'care-bears-share-bear'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -197577,15 +197523,6 @@ select i.id, '2026-05-02', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.sale_date is not distinct from '2026-05-02'
       and s.listing_id is not distinct from '236781405552'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear 18" Care Bears Purple Lollipop Share Bear Plush Toy 2015 BAB');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-05-12', 30, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/236262896143', '236262896143', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILDABEAR BAB CAREBEAR SHARE BEAR STUFFED ANIMAL PLUSH' from items i where i.slug = 'care-bears-share-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 30
-      and s.sale_date is not distinct from '2026-05-12'
-      and s.listing_id is not distinct from '236262896143'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILDABEAR BAB CAREBEAR SHARE BEAR STUFFED ANIMAL PLUSH');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-06-12', 16.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/257537404788', '257537404788', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop Care Bears Purple Share Bear 18" Plush from 2015 Retired' from items i where i.slug = 'care-bears-share-bear'
@@ -202140,15 +202077,6 @@ select i.id, '2023-12-30', 10, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.sale_date is not distinct from '2023-12-30'
       and s.listing_id is not distinct from '155938466626'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop Pink Pig 18” Fuzzy Tutu Dress Plush Stuffed Animal');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-02-07', 9.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126285040887', '126285040887', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop 16" Pinky Pig Hog Friends Fuzzy Soft Stuffed Plush Animal' from items i where i.slug = 'fuzzy-pink-pig'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 9.99
-      and s.sale_date is not distinct from '2024-02-07'
-      and s.listing_id is not distinct from '126285040887'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop 16" Pinky Pig Hog Friends Fuzzy Soft Stuffed Plush Animal');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2024-05-16', 9.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135050435898', '135050435898', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear 17" Pink Pig Plush Stuffed Animal Soft Fuzzy Heavy' from items i where i.slug = 'fuzzy-pink-pig'
@@ -206723,15 +206651,6 @@ select i.id, '2026-06-25', 175, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'ht
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Hello kitty build a bear LA Exclusive denim set Bab New Sanrio 2025 Unstuffed');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-04-06', 199, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/276964309694', '276964309694', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: LAS VEGAS RAIDERS Build a Bear NFL uniform CABBAGE PATCH KIDS pacifier doll NATE' from items i where i.slug = 'las-vegas-raiders-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 199
-      and s.sale_date is not distinct from '2025-04-06'
-      and s.listing_id is not distinct from '276964309694'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: LAS VEGAS RAIDERS Build a Bear NFL uniform CABBAGE PATCH KIDS pacifier doll NATE');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-01-05', 139, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/277617968224', '277617968224', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Las Vegas Raiders Build a Bear' from items i where i.slug = 'las-vegas-raiders-bear'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -207452,15 +207371,6 @@ select i.id, '2025-08-19', 6, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https:
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear Blue Vest Retail Theme Walmart Lowe’s');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-07-31', 6.78, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/187935087095', '187935087095', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear Workshop Zombie Bear Youth Slippers Size XL 3/4 – Halloween Shoes' from items i where i.slug = 'lowes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 6.78
-      and s.sale_date is not distinct from '2026-07-31'
-      and s.listing_id is not distinct from '187935087095'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear Workshop Zombie Bear Youth Slippers Size XL 3/4 – Halloween Shoes');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2024-03-03', 15.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/204393863489', '204393863489', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR Plush LUCKY CLOVER Teddy 17” Shamrock Green St Patrick''s Bear' from items i where i.slug = 'lucky-teddy'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -207749,42 +207659,6 @@ select i.id, '2026-05-13', 7.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'htt
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear USA Spirit Teddy Bear Mall of America Red White Blue Stars 15"');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-08-13', 199.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/355948914662', '355948914662', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear Workshop Vanilla Fudge Bunny Original Marbled Fur HTF Rare' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 199.99
-      and s.sale_date is not distinct from '2024-08-13'
-      and s.listing_id is not distinct from '355948914662'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear Workshop Vanilla Fudge Bunny Original Marbled Fur HTF Rare');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-09-10', 159.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/395666926365', '395666926365', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear Workshop Vanilla Fudge Bunny Original Marbled Fur HTF Rare' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 159.99
-      and s.sale_date is not distinct from '2024-09-10'
-      and s.listing_id is not distinct from '395666926365'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear Workshop Vanilla Fudge Bunny Original Marbled Fur HTF Rare');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-12-13', 144.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/395974398497', '395974398497', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rare V1 2005 BAB Rabbit Marbled Beans Denmark' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 144.99
-      and s.sale_date is not distinct from '2024-12-13'
-      and s.listing_id is not distinct from '395974398497'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rare V1 2005 BAB Rabbit Marbled Beans Denmark');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-01-15', 107.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/396110563097', '396110563097', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rare V1 2005 BAB Rabbit Marbled Beans' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 107.5
-      and s.sale_date is not distinct from '2025-01-15'
-      and s.listing_id is not distinct from '396110563097'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rare V1 2005 BAB Rabbit Marbled Beans');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-03-20', 199.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/356683856783', '356683856783', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rare BAB Rabbit Plush Stuffed Animal Tan Marble' from items i where i.slug = 'marble-bunny'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -207839,15 +207713,6 @@ select i.id, '2025-08-14', 150, null, 'USD', 'Unknown', 'unknown', 'eBay', 'http
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny BAB Rabbit Plush 2012 Coquette Tan Marble Rare');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-11-03', 89.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/397213656942', '397213656942', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Marbled Rare BAB Rabbit Plush Stuffed Animal' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 89.99
-      and s.sale_date is not distinct from '2025-11-03'
-      and s.listing_id is not distinct from '397213656942'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Marbled Rare BAB Rabbit Plush Stuffed Animal');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-11-19', 190, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/297731695221', '297731695221', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rare BAB Rabbit Plush Stuffed Animal Tan Marble' from items i where i.slug = 'marble-bunny'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -207857,15 +207722,6 @@ select i.id, '2025-11-19', 190, null, 'USD', 'Unknown', 'unknown', 'eBay', 'http
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rare BAB Rabbit Plush Stuffed Animal Tan Marble');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-12-07', 101.15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/397245869716', '397245869716', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Marbled BAB Rabbit Plush Stuffed Denmark Beans' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 101.15
-      and s.sale_date is not distinct from '2025-12-07'
-      and s.listing_id is not distinct from '397245869716'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Marbled BAB Rabbit Plush Stuffed Denmark Beans');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-02-05', 75, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/358087757566', '358087757566', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny BAB Rabbit Plush 2012 Coquette Tan Marble Rare' from items i where i.slug = 'marble-bunny'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -207873,51 +207729,6 @@ select i.id, '2026-02-05', 75, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.sale_date is not distinct from '2026-02-05'
       and s.listing_id is not distinct from '358087757566'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny BAB Rabbit Plush 2012 Coquette Tan Marble Rare');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-03-09', 160, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/227247551529', '227247551529', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rabbit Rare BAB Marbled Plush Stuffed Animal' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 160
-      and s.sale_date is not distinct from '2026-03-09'
-      and s.listing_id is not distinct from '227247551529'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rabbit Rare BAB Marbled Plush Stuffed Animal');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-06-12', 175, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/157908117826', '157908117826', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rabbit Rare BAB Marbled Plush Stuffed Animal' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 175
-      and s.sale_date is not distinct from '2026-06-12'
-      and s.listing_id is not distinct from '157908117826'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rabbit Rare BAB Marbled Plush Stuffed Animal');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-06-27', 148.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/336658581929', '336658581929', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rabbit Rare BAB Marbled Plush Stuffed Animal' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 148.5
-      and s.sale_date is not distinct from '2026-06-27'
-      and s.listing_id is not distinct from '336658581929'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rabbit Rare BAB Marbled Plush Stuffed Animal');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-07-15', 195, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/406972088649', '406972088649', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-a-Bear Vanilla Fudge Bunny Rabbit Marbled Plush BAB 2005 18" Rare - Nice' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 195
-      and s.sale_date is not distinct from '2026-07-15'
-      and s.listing_id is not distinct from '406972088649'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-a-Bear Vanilla Fudge Bunny Rabbit Marbled Plush BAB 2005 18" Rare - Nice');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-07-17', 118.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/158071828053', '158071828053', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rabbit Rare BAB Marbled Plush Stuffed Animal' from items i where i.slug = 'marble-bunny'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 118.5
-      and s.sale_date is not distinct from '2026-07-17'
-      and s.listing_id is not distinct from '158071828053'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vanilla Fudge Bunny Rabbit Rare BAB Marbled Plush Stuffed Animal');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2023-11-16', 16.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/204511325426', '204511325426', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Tinsel The Speedster Deer Blue Reindeer Merry Mission Plush BAB' from items i where i.slug = 'merry-mission-tinsel-2017'
@@ -212996,15 +212807,6 @@ select i.id, '2026-04-12', 6.39, null, 'USD', 'Unknown', 'unknown', 'eBay', 'htt
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: Build a Bear 14'' Royal Blue Peace Sign Friendship Plush Stuffed Bear');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-04-15', 12, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117127309204', '117127309204', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Vintage 1985 Xavier Roberts Cabbage Patch Kids Doll W/ Build A Bear Peace Shirt' from items i where i.slug = 'peace-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 12
-      and s.sale_date is not distinct from '2026-04-15'
-      and s.listing_id is not distinct from '117127309204'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Vintage 1985 Xavier Roberts Cabbage Patch Kids Doll W/ Build A Bear Peace Shirt');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-04-17', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/114930198219', '114930198219', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Black W/Multi-Color Peace Signs 15" Plush Stuffed Animal' from items i where i.slug = 'peace-bear'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -213921,15 +213723,6 @@ select i.id, '2025-04-20', 25, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.sale_date is not distinct from '2025-04-20'
       and s.listing_id is not distinct from '115998315121'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Pink Poodle Dog 20”plush stuffed Animal In Fashionable Skirt');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-06-22', 12, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126138091205', '126138091205', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Pinky Poodle- Build-a-Bear- ''2007''- 20 in.' from items i where i.slug = 'pink-poodle'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 12
-      and s.sale_date is not distinct from '2025-06-22'
-      and s.listing_id is not distinct from '126138091205'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Pinky Poodle- Build-a-Bear- ''2007''- 20 in.');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-08-30', 12.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116750417088', '116750417088', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Pink Poodle RETIRED Dressed 18” Plush' from items i where i.slug = 'pink-poodle'
@@ -216362,15 +216155,6 @@ select i.id, '2025-12-02', 14.12, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear 17" Leopard Cheetah Sparkle Rainbow Friends Colorful Pastel Plush');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-01-03', 7.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/134870894600', '134870894600', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Heartable Multicolor Rainbow Striped Glitter accents Stuffed Bear' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 7.99
-      and s.sale_date is not distinct from '2024-01-03'
-      and s.listing_id is not distinct from '134870894600'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Heartable Multicolor Rainbow Striped Glitter accents Stuffed Bear');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2024-03-09', 5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/125459576665', '125459576665', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Plush Rainbow Stripe Polka Dot Ears in Sequin Dress' from items i where i.slug = 'rainbow-stripes-bear'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -216378,15 +216162,6 @@ select i.id, '2024-03-09', 5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https:
       and s.sale_date is not distinct from '2024-03-09'
       and s.listing_id is not distinct from '125459576665'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Plush Rainbow Stripe Polka Dot Ears in Sequin Dress');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-05-03', 12, null, 'USD', 'Mint', 'unknown', 'eBay', 'https://www.ebay.com/itm/135036949432', '135036949432', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: NWOT Build-A-Bear Dr. Seuss Oh the Places You''ll Go 17" Rainbow Striped Plush' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 12
-      and s.sale_date is not distinct from '2024-05-03'
-      and s.listing_id is not distinct from '135036949432'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: NWOT Build-A-Bear Dr. Seuss Oh the Places You''ll Go 17" Rainbow Striped Plush');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2024-05-09', 6.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116025265818', '116025265818', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop 2021 Crayola Teddy Cub 16" Plush Rainbow Stripe' from items i where i.slug = 'rainbow-stripes-bear'
@@ -216398,33 +216173,6 @@ select i.id, '2024-05-09', 6.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'http
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop 2021 Crayola Teddy Cub 16" Plush Rainbow Stripe');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-10-13', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/125922995664', '125922995664', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Rainbow Flower Bunny plush with christmas striped peppermint dress' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 15
-      and s.sale_date is not distinct from '2024-10-13'
-      and s.listing_id is not distinct from '125922995664'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Rainbow Flower Bunny plush with christmas striped peppermint dress');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-11-05', 8, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/125787836382', '125787836382', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Rainbow Swirl 16" Plush Bear Pastel Neon Striped Stuffed Animal Toy' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 8
-      and s.sale_date is not distinct from '2024-11-05'
-      and s.listing_id is not distinct from '125787836382'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Rainbow Swirl 16" Plush Bear Pastel Neon Striped Stuffed Animal Toy');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-11-16', 10, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135316527947', '135316527947', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: NEW Build A Bear Dr Seuss Oh The Places You''ll Go 16" Rainbow Striped Bear Plush' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 10
-      and s.sale_date is not distinct from '2024-11-16'
-      and s.listing_id is not distinct from '135316527947'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: NEW Build A Bear Dr Seuss Oh The Places You''ll Go 16" Rainbow Striped Bear Plush');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-04-01', 10.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/135663415895', '135663415895', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Rainbow Tie Dye Stripes Plush Stuffed Animal 17”' from items i where i.slug = 'rainbow-stripes-bear'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -216432,15 +216180,6 @@ select i.id, '2025-04-01', 10.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'htt
       and s.sale_date is not distinct from '2025-04-01'
       and s.listing_id is not distinct from '135663415895'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Rainbow Tie Dye Stripes Plush Stuffed Animal 17”');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-06-16', 12.95, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127166343337', '127166343337', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Crayola Collab Bear Rainbow Color Striped BAB Great condition rare' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 12.95
-      and s.sale_date is not distinct from '2025-06-16'
-      and s.listing_id is not distinct from '127166343337'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Crayola Collab Bear Rainbow Color Striped BAB Great condition rare');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-09-02', 13.92, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116709965024', '116709965024', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Plush 17" White Rainbow Ears Sweet Stripes Bunny F1' from items i where i.slug = 'rainbow-stripes-bear'
@@ -216452,24 +216191,6 @@ select i.id, '2025-09-02', 13.92, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Plush 17" White Rainbow Ears Sweet Stripes Bunny F1');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-09-07', 9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127318037122', '127318037122', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Striped Pink Purple Yellow Rainbow Popsicle Bear' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 9
-      and s.sale_date is not distinct from '2025-09-07'
-      and s.listing_id is not distinct from '127318037122'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Striped Pink Purple Yellow Rainbow Popsicle Bear');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-10-13', 12, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/127264233644', '127264233644', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: New With Tag Build A Bear Rainbow Striped KITTY CAT Plush 17” Animal BAB' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 12
-      and s.sale_date is not distinct from '2025-10-13'
-      and s.listing_id is not distinct from '127264233644'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: New With Tag Build A Bear Rainbow Striped KITTY CAT Plush 17” Animal BAB');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-12-06', 35.1, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'https://www.ebay.com/itm/116905162994', '116905162994', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Plush 17" White Rainbow Ears Sweet Stripes Bunny Unstuffed NEW TAGS' from items i where i.slug = 'rainbow-stripes-bear'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -216477,15 +216198,6 @@ select i.id, '2025-12-06', 35.1, null, 'USD', 'Unknown', 'unstuffed', 'eBay', 'h
       and s.sale_date is not distinct from '2025-12-06'
       and s.listing_id is not distinct from '116905162994'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Plush 17" White Rainbow Ears Sweet Stripes Bunny Unstuffed NEW TAGS');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-04-20', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127766145904', '127766145904', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear BAB Dr. Suess Oh The Places You’ll Go Rainbow Striped Plush 17"' from items i where i.slug = 'rainbow-stripes-bear'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 15
-      and s.sale_date is not distinct from '2026-04-20'
-      and s.listing_id is not distinct from '127766145904'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear BAB Dr. Suess Oh The Places You’ll Go Rainbow Striped Plush 17"');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-06-02', 7.18, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/266425929320', '266425929320', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (4 sold); title: Build-A-Bear Workshop Rainbow Stripe Sandal- NEW WITH TAGS' from items i where i.slug = 'rainbow-stripes-bear'
@@ -217694,15 +217406,6 @@ select i.id, '2026-07-04', 15.3, null, 'USD', 'Unknown', 'unknown', 'eBay', 'htt
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR Pink Yorkie Collar Tag 15" Plush Toy Dog Puppy BAB Scottie');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-05-09', 610.73, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/274811868249', '274811868249', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (11 sold); title: Complete Set Build a Bear Pokemon 14 Cards SEALED NEW' from items i where i.slug = 'seal'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 610.73
-      and s.sale_date is not distinct from '2026-05-09'
-      and s.listing_id is not distinct from '274811868249'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (11 sold); title: Complete Set Build a Bear Pokemon 14 Cards SEALED NEW');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2023-10-20', 23.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/325702482313', '325702482313', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Seashell Myrtle Beach 16" Teddy Bear Brown Sand Shell Pink' from items i where i.slug = 'seashell-bear'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -218358,15 +218061,6 @@ select i.id, '2025-03-30', 4, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https:
       and s.sale_date is not distinct from '2025-03-30'
       and s.listing_id is not distinct from '135620458149'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Bear Plush Build A Bear Brown Shaggy Teddy 16" Stuffed Pre-Loved B-A-B-W');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-04-05', 7, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126922294118', '126922294118', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear BAB Workshop Shaggy Pale Pink White 15”Teddy Bear Stuffed Plush' from items i where i.slug = 'shaggy-teddy'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 7
-      and s.sale_date is not distinct from '2025-04-05'
-      and s.listing_id is not distinct from '126922294118'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear BAB Workshop Shaggy Pale Pink White 15”Teddy Bear Stuffed Plush');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-04-07', 12, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127033609602', '127033609602', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: 16” Build A Bear Plush Shaggy Teddy Bear With Jeans And Top Light Brown Tan' from items i where i.slug = 'shaggy-teddy'
@@ -220250,24 +219944,6 @@ select i.id, '2026-07-05', 18, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: 18" Build A Bear Star Wars Boba Fett Mandalorian Plush Rare Retired 2016');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2023-11-13', 9.99, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/115946617664', '115946617664', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD-A-BEAR Plush Brown Teddy Bear Patchwork Heart Stitches Sz 15"L EUC' from items i where i.slug = 'stitch-disney'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 9.99
-      and s.sale_date is not distinct from '2023-11-13'
-      and s.listing_id is not distinct from '115946617664'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD-A-BEAR Plush Brown Teddy Bear Patchwork Heart Stitches Sz 15"L EUC');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2023-11-17', 7, null, 'USD', 'Excellent', 'unknown', 'eBay', 'https://www.ebay.com/itm/404462582556', '404462582556', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (3 sold); title: Build a Bear Champ Calico Teddy Bear Stitched Heart Patch 16" Stuffed Plush-EUC!' from items i where i.slug = 'stitch-disney'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 7
-      and s.sale_date is not distinct from '2023-11-17'
-      and s.listing_id is not distinct from '404462582556'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (3 sold); title: Build a Bear Champ Calico Teddy Bear Stitched Heart Patch 16" Stuffed Plush-EUC!');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2024-01-28', 15.82, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116036186728', '116036186728', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Plush Teddy Champ Brown White Heart Patch Raised Stitch 17" BAB Z2' from items i where i.slug = 'stitch-disney'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -220275,24 +219951,6 @@ select i.id, '2024-01-28', 15.82, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.sale_date is not distinct from '2024-01-28'
       and s.listing_id is not distinct from '116036186728'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Plush Teddy Champ Brown White Heart Patch Raised Stitch 17" BAB Z2');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-02-01', 12, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116036573444', '116036573444', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop Tan Bear Patchwork Stitched Paws Ears Red Heart 16"' from items i where i.slug = 'stitch-disney'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 12
-      and s.sale_date is not distinct from '2024-02-01'
-      and s.listing_id is not distinct from '116036573444'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop Tan Bear Patchwork Stitched Paws Ears Red Heart 16"');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-03-07', 14.45, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115925700346', '115925700346', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear 17" Sparkle Penguin Black Stitched Eyes BAB Plush Stuffed Animal' from items i where i.slug = 'stitch-disney'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 14.45
-      and s.sale_date is not distinct from '2024-03-07'
-      and s.listing_id is not distinct from '115925700346'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear 17" Sparkle Penguin Black Stitched Eyes BAB Plush Stuffed Animal');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2024-03-21', 10.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115888313216', '115888313216', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Champ Tan w/ Plaid Heart Stitch Patch Stuffed Plush Bear 15"' from items i where i.slug = 'stitch-disney'
@@ -221762,15 +221420,6 @@ select i.id, '2024-03-15', 17, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; no working sound; title: Pokemon Build A Bear Collaberation 13" Vulpix 2017 Plush Fox No Sound');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-03-22', 55, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126378172224', '126378172224', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Pokémon Build a Bear Vulpix Plush With Pajamas And Sealed Exclusive Pokémon Card' from items i where i.slug = 'vulpix-employee-exclusive'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 55
-      and s.sale_date is not distinct from '2024-03-22'
-      and s.listing_id is not distinct from '126378172224'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Pokémon Build a Bear Vulpix Plush With Pajamas And Sealed Exclusive Pokémon Card');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2024-04-14', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126421429761', '126421429761', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Pokémon Orange Vulpix Plush Fox Rare Discontinued' from items i where i.slug = 'vulpix-employee-exclusive'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -221823,15 +221472,6 @@ select i.id, '2024-07-30', 34.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.sale_date is not distinct from '2024-07-30'
       and s.listing_id is not distinct from '126570710366'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build-A-Bear Vulpix Fire Pokemon Plush Orange W/ Sleeper Outfit');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2024-08-28', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116044586617', '116044586617', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Pokemon Card Vulpix 20/160 Build-a-Bear Workshop Promo Sealed Stamped' from items i where i.slug = 'vulpix-employee-exclusive'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 15
-      and s.sale_date is not distinct from '2024-08-28'
-      and s.listing_id is not distinct from '116044586617'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Pokemon Card Vulpix 20/160 Build-a-Bear Workshop Promo Sealed Stamped');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2024-09-10', 14.88, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116309633225', '116309633225', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Vulpix Pokemon Plush Build A Bear Workshop Doll 2017' from items i where i.slug = 'vulpix-employee-exclusive'
@@ -221897,15 +221537,6 @@ select i.id, '2025-06-13', 8, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https:
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: VULPIX 20/160 BUILD A BEAR WORKSHOP POKEMON LP');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2025-07-21', 19.66, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/277051687563', '277051687563', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (3 sold); title: Vulpix (Build-A-Bear Workshop Exclusive) 020/160 Sealed Pokemon Card' from items i where i.slug = 'vulpix-employee-exclusive'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 19.66
-      and s.sale_date is not distinct from '2025-07-21'
-      and s.listing_id is not distinct from '277051687563'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (3 sold); title: Vulpix (Build-A-Bear Workshop Exclusive) 020/160 Sealed Pokemon Card');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2025-11-08', 18.99, null, 'USD', 'Unknown', 'bare', 'eBay', 'https://www.ebay.com/itm/116774789968', '116774789968', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; no working sound; title: BAB Build a Bear Pokémon Orange Vulpix Plush Fox Retired Stuffed NO Sound 13"' from items i where i.slug = 'vulpix-employee-exclusive'
   and not exists (
     select 1 from sales s where s.item_id = i.id
@@ -221931,15 +221562,6 @@ select i.id, '2026-03-07', 35, null, 'USD', 'Unknown', 'some_originals', 'eBay',
       and s.sale_date is not distinct from '2026-03-07'
       and s.listing_id is not distinct from '126406586128'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; with sound; title: Build-A-Bear Vulpix Fire Pokemon Plush Orange w/ Sound - WORKS');
-
-insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
-select i.id, '2026-03-23', 15, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/117091071712', '117091071712', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Vulpix 20/160 Build A Bear Promo Primal Clash XY Pokemon Card Light Play' from items i where i.slug = 'vulpix-employee-exclusive'
-  and not exists (
-    select 1 from sales s where s.item_id = i.id
-      and s.sold_price = 15
-      and s.sale_date is not distinct from '2026-03-23'
-      and s.listing_id is not distinct from '117091071712'
-      and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Vulpix 20/160 Build A Bear Promo Primal Clash XY Pokemon Card Light Play');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes)
 select i.id, '2026-08-16', 30, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/117260451853', '117260451853', 'completed_sale', false, null, null, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; with sound; title: Build A Bear Pokemon Vulpix Plush 2017 Nintendo Stuffed Animal w/ Sound Works' from items i where i.slug = 'vulpix-employee-exclusive'
