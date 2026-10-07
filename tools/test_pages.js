@@ -552,7 +552,7 @@ test('the item calculator recalculates on condition change', () => {
 });
 
 test('a price history chart is drawn only where dated sales support one', () => {
-  const withHistory = renderPage('item.html', 'item.html?id=pudgie-pink-pig');
+  const withHistory = renderPage('item.html', 'item.html?id=loveable-lamb');
   assert.match(withHistory.doc.getElementById('item-root').textContent,
     /no trend to chart yet/);
 });
@@ -1061,7 +1061,7 @@ test('the strip labels the range, never the padding either side of it', () => {
 
 test('one comp draws one dot and says the range once', () => {
   // Any item resting on exactly one comp will do; this one has a single sale.
-  const p = renderPage('item.html', 'item.html?id=employee-exclusive-holiday-moose');
+  const p = renderPage('item.html', 'item.html?id=polar-bear-ii-20-inch');
   assert.strictEqual(p.doc.querySelectorAll('.ev-dot').length, 1);
   // range_low === range_high here, so printing it twice would read as two
   // different figures that happen to match.
