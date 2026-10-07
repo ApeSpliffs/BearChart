@@ -885,7 +885,7 @@ test('asking prices below the sold data flag stale comps', () => {
 });
 
 test('no asking panel is rendered when there are no listings', () => {
-  const p = renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
+  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   assert.doesNotMatch(p.doc.getElementById('item-root').textContent, /Current asking prices/);
 });
 
