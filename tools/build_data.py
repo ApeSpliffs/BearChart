@@ -2320,7 +2320,7 @@ PLANS = OrderedDict([
         # A shop perk, honoured by Jay's Retro Exchange at the till rather than by
         # anything on this site - see ENTITLEMENTS["shop_discount"].
         ("perk", "5% off one bear a month from Jay's Retro Exchange"),
-        ("blurb", "Know what your collection is worth - on every device, every month."),
+        ("blurb", "Know what your collection is worth, on every device."),
         ("features", [
             "Your collection synced across phone, tablet and computer",
             "Collection value history that is never lost",
