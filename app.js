@@ -565,19 +565,13 @@
       return '<li><b>' + BC.esc(f[0]) + '</b> ' + BC.esc(f[1]) + '</li>';
     }).join('');
 
-    // Three of the catalogue's own illustrations, picked for variety rather
-    // than at random so the opening does not show three brown bears.
+    // Three real bears from Jay's Retro Exchange, photographed and cut out
+    // onto fresh backgrounds - decoration, so they carry no alt text.
     var cast = $('hero-cast');
     if (!cast) return;
-    var wanted = ['Bunny', 'Dinosaur', 'Unicorn', 'Cat', 'Dog', 'Bear'];
-    var picks = [];
-    wanted.forEach(function (sp) {
-      if (picks.length >= 3) return;
-      var hit = D.items.find(function (i) { return i.species === sp; });
-      if (hit) picks.push(hit);
-    });
-    cast.innerHTML = picks.map(function (i) {
-      return '<img src="' + BC.placeholderImage(i) + '" alt="">';
+    cast.innerHTML = ['stars', 'rainbow', 'hearts'].map(function (name) {
+      return '<img src="images/home/' + name + '.webp" alt="" width="150" height="195" ' +
+        'decoding="async">';
     }).join('');
   }
 
