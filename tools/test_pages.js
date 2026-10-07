@@ -348,7 +348,8 @@ test('search narrows the results', () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const after = p.doc.querySelectorAll('#results .card').length;
-      assert.ok(after > 0 && after < before, 'axolotl search returned ' + after + ' of ' + before);
+               const total = p.win.BEARCHART_DATA.items.length;
+         assert.ok(after > 0 && after < total, 'axolotl search returned ' + after + ' of ' + total);
       assert.match(p.doc.querySelector('#results .card').textContent, /Axolotl/i);
       resolve();
     }, 900);
