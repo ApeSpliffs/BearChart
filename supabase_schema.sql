@@ -318,7 +318,7 @@ as $$
       'outfit_assembly','api_access')
     when 'pro' then feature in (
       'collection_sync','hosted_history','insurance_archive','id_priority',
-      'value_digest','wishlist_alerts')
+      'wishlist_alerts')
     else false
   end;
 $$;
