@@ -2496,16 +2496,22 @@ def load_wiki_catalogue():
 WIKI_ADDED, WIKI_SKIPPED = load_wiki_catalogue()
 
 SOURCES = [
-    {"name": "Official Build-A-Bear", "url": "https://www.buildabear.com/",
-     "role": "Retail baseline and identification"},
-    {"name": "Official pricing", "url": "https://www.buildabear.com/prices",
-     "role": "Current retail reference only"},
-    {"name": "Mini Beans collector guide", "url": "https://www.buildabear.com/mini-beans-collector-guide.html",
-     "role": "Identification / checklist reference"},
+    {"name": "eBay sold listings (Terapeak Product Research)",
+     "url": "https://www.ebay.com/sh/research",
+     "role": "Main price source: completed eBay sales from the last three years, each matched "
+             "to a bear by its title and checked by hand. Item price only, shipping left out"},
+    {"name": "eBay Browse API",
+     "url": "https://developer.ebay.com/api-docs/buy/browse/overview.html",
+     "role": "Live asking prices for the Deal finder, refreshed daily. An asking price is never "
+             "used to set a value"},
     {"name": "CollectionHero (Build-A-Bear)", "url": "https://buildabear.collectionhero.com/",
-     "role": "Secondary historical sales index - corroborating evidence, not sole authority"},
+     "role": "Historical sales index used in early research - corroborating evidence, not sole authority"},
     {"name": "The Build-A-Bear Wiki", "url": "https://buildabearwiki.info/",
      "role": "Catalogue identification only (CC BY-SA 4.0) - never a price source"},
+    {"name": "Official Build-A-Bear", "url": "https://www.buildabear.com/",
+     "role": "Retail prices and product identification - never a resale value"},
+    {"name": "Mini Beans collector guide", "url": "https://www.buildabear.com/mini-beans-collector-guide.html",
+     "role": "Identification and checklist reference"},
 ]
 
 

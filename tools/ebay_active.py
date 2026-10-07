@@ -240,6 +240,45 @@ LOT_RE = re.compile(
     r"|your\s+choice|choose\s+\w+|pick\s+\d)\b")
 BRAND_RE = re.compile(r"buildabear|babw")
 
+# Things sold *for* or *alongside* a bear that carry its name in the title.
+# Kennel Pals food bowls, pet carriers, McDonald's Happy Meal versions and
+# keychains all arrived attached to $150+ bears and showed up as 90%-off deals.
+JUNK_RE = re.compile(
+    r"mcdonald|happy\s*meal|\bbowls?\b|\bmats?\b|pet\s*(?:house|bed|carrier)|carrying\s*case"
+    r"|\bcarrier\b|key\s*chain|keychain|key\s*ring|ornament|magnet|sticker|figurine"
+    r"|cookie\s*cutter|trading\s*card|\bpins?\b|\bbook\b"
+    r"|(?:outfit|clothes|clothing|shoes|accessor(?:y|ies)|costume|box|tags?|certificate)\s+only"
+    r"|no\s+bear\b|bear\s+not\s+included|empty\s+box|for\s+parts")
+# A smaller version shares the name and nothing like the price. "Lil" alone is
+# not on this list: "Lil' Bunny Big Ears" is the full-size 16-inch bunny.
+SMALL_RE = re.compile(
+    r"lil'?\s+bearemy|\bsmall\s?frys?\b|\bwristies?\b|\bmini\b"
+    r"|(?:^|\s)[4-9]\s*(?:\"|\u201d|''|in\b|inch)")
+# Clothing sold to fit a bear, rather than a bear wearing clothes.
+CLOTHING_RE = re.compile(
+    r"\b(?:outfits?|costumes?|clothes|clothing|shoes|sneakers|boots|pajamas?|pjs|sleeper"
+    r"|dress|skirt|shirt|hoodie|jacket|hat)\s+(?:set|only|\d+\s*(?:pc|piece))")
+FITS_RE = re.compile(
+    r"\b(?:fits|for)\s+(?:most\s+|all\s+)?(?:build|bab|babw|\d{2}|stuffed|plush|bears?\b|teddy)")
+BRAND_STRIP_RE = re.compile(r"build[\s-]*a[\s-]*bear(?:\s*workshop)?|buildabear|babw|\bbab\b")
+
+
+def _not_the_bear(item, title):
+    """An accessory, a smaller version or an outfit sold under the bear's name."""
+    low = str(title or "").lower()
+    own = str(item.get("canonical_name") or "").lower()
+    junk = JUNK_RE.search(low)
+    if junk and junk.group(0).strip() not in own:
+        return "accessory or other product (%s)" % junk.group(0).strip()
+    small = SMALL_RE.search(low)
+    if small and not item.get("mini_bean") and small.group(0).strip("' ") not in own:
+        return "smaller version (%s)" % small.group(0).strip()
+    if item.get("category") != "Clothing & Accessories":
+        bare = BRAND_STRIP_RE.sub(" ", low)
+        if FITS_RE.search(bare) or CLOTHING_RE.search(bare):
+            return "clothing or accessory, not the bear"
+    return None
+
 
 def _stem(word):
     return word[:-1] if len(word) > 3 and word.endswith("s") else word
@@ -258,6 +297,9 @@ def title_confirms(item, title, loose=False):
     norm = normalise(title)
     if LOT_RE.search(str(title or "").lower()):
         return False, "multi-item lot"
+    other = _not_the_bear(item, title)
+    if other:
+        return False, other
     if not loose and not BRAND_RE.search(norm):
         return False, "no Build-A-Bear branding in title"
 
