@@ -53,7 +53,7 @@ STATE = os.path.join(ROOT, "tools", "poll_state.json")
 WATCHLIST = os.path.join(ROOT, "tools", "watchlist.json")
 LISTINGS = os.path.join(ROOT, "tools", "active_listings.json")
 
-HEAT_INTERVALS = {"hot": 60, "warm": 900, "cold": 86400}
+HEAT_INTERVALS = {"hot": 60, "warm": 1800, "cold": 86400}
 HEAT_RANK = {"hot": 0, "warm": 1, "cold": 2}
 
 DEFAULTS = {
