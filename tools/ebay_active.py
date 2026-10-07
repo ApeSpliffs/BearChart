@@ -288,6 +288,30 @@ def _words(text):
     return {_stem(w) for w in re.sub(r"[^a-z0-9 ]", " ", str(text or "").lower()).split()}
 
 
+def _phrase(text):
+    """Whole words, single-spaced, with a space at each end, so a name is found
+    as a phrase. A squashed-substring test let "Otter" match "Harry Potter" and
+    "Bob" match "bobblehead"."""
+    return " %s " % " ".join(re.sub(r"[^a-z0-9]+", " ", str(text or "").lower()).split())
+
+# Aliases that name a product line rather than one bear. "Kennel Pals" is an
+# alias of the Calico Cat and part of the name of thirty-odd other items, so a
+# Kennel Pals dog, a pet coat and a food set all "named the item" and showed up
+# as Calico Cat deals. Filled from the catalogue by load_items(); while it is
+# empty no alias is skipped.
+GENERIC_ALIASES = set()
+
+def mark_generic_aliases(items):
+    names = [_phrase(i.get("canonical_name")) for i in items]
+    GENERIC_ALIASES.clear()
+    for item in items:
+        own = _phrase(item.get("canonical_name"))
+        for alias in item.get("aliases") or []:
+            p = _phrase(alias)
+            if p.strip() and sum(1 for n in names if n != own and p in n) >= 2:
+                GENERIC_ALIASES.add(p)
+
+
 def title_confirms(item, title, loose=False):
     """Does this listing title actually name this item? -> (ok, reason)
 
@@ -317,9 +341,15 @@ def title_confirms(item, title, loose=False):
         # a match. Checked before containment, or "Bear" would match everything.
         return False, "item name too generic to confirm"
 
-    # An alias or the canonical name appearing whole is proof enough.
-    for name in [item.get("canonical_name")] + list(item.get("aliases") or []):
-        if name and normalise(name) in norm:
+    # The canonical name, or a specific alias, appearing whole is proof enough.
+    title_words = _phrase(title)
+    canonical = item.get("canonical_name")
+    if canonical and (_phrase(canonical) in title_words
+                      or (len(normalise(canonical)) >= 10 and normalise(canonical) in norm)):
+        return True, "names the item"
+    for alias in item.get("aliases") or []:
+        p = _phrase(alias)
+        if p.strip() and p not in GENERIC_ALIASES and p in title_words:
             return True, "names the item"
     missing = need - _words(title)
     if missing:
@@ -333,6 +363,7 @@ def title_confirms(item, title, loose=False):
 
 def load_items(args, data):
     items = data["items"]
+    mark_generic_aliases(items)
     if args.item:
         picked = [i for i in items if i["id"] == args.item]
         if not picked:
