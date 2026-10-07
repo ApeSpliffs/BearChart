@@ -41,7 +41,7 @@ python3 tools/build_pwa.py
 
 rm -rf "$DIST"
 mkdir -p "$DIST"
-cp -r item icons "$DIST"/
+cp -r item icons images "$DIST"/
 cp ./*.html ./*.js ./*.css manifest.webmanifest robots.txt "$DIST"/
 [ -f sitemap.xml ] && cp sitemap.xml "$DIST"/
 
