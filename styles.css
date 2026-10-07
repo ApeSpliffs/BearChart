@@ -12,27 +12,27 @@
   color-scheme: light;
 
   /* Paper and ink - the warm neutral ground everything sits on. */
-  --paper:        #fbf4e6;
-  --paper-2:      #fffcf5;
-  --card:         #fffdf8;
-  --ink:          #2a2320;
-  --ink-soft:     #5a4d44;
-  --ink-faint:    #8a7a6c;
-  --brown:        #6b4a2f;
-  --brown-deep:   #45301f;
-  --tan:          #c8a87c;
-  --rule:         #ece0c9;
-  --rule-strong:  #d8c39c;
+  --paper:        #fff6f2;
+  --paper-2:      #fffdfb;
+  --card:         #ffffff;
+  --ink:          #2b1f22;
+  --ink-soft:     #5b4548;
+  --ink-faint:    #8a7175;
+  --brown:        #9e1b22;
+  --brown-deep:   #5c0f14;
+  --tan:          #e7a9a4;
+  --rule:         #f3e0dc;
+  --rule-strong:  #e8c3bd;
 
   /* Accents. Honey carries the brand, berry is saved for the few genuinely
      warm moments (a deal, a favourite), sky keeps it from going syrupy. */
-  --honey:        #e9a03b;
-  --honey-deep:   #c67f1c;
-  --honey-wash:   #fdf0d8;
-  --berry:        #d4485e;
-  --berry-wash:   #fce8ea;
-  --sky:          #3e8ba8;
-  --sky-wash:     #e4f0f4;
+  --honey:        #e0242f;
+  --honey-deep:   #b3131c;
+  --honey-wash:   #fde7e8;
+  --berry:        #e84f8a;
+  --berry-wash:   #fde6ef;
+  --sky:          #1e6fd1;
+  --sky-wash:     #e3eefc;
 
   --green:        #4a7c4f;
   --amber:        #9a6b1f;
@@ -42,8 +42,8 @@
   --radius:    14px;
   --radius-sm: 10px;
   --radius-lg: 22px;
-  --shadow:    0 1px 2px rgba(74, 50, 32, .05), 0 8px 22px rgba(74, 50, 32, .06);
-  --shadow-lift: 0 4px 10px rgba(74, 50, 32, .10), 0 18px 40px rgba(74, 50, 32, .10);
+  --shadow:    0 1px 2px rgba(92, 15, 20, .05), 0 8px 22px rgba(92, 15, 20, .06);
+  --shadow-lift: 0 4px 10px rgba(92, 15, 20, .10), 0 18px 40px rgba(92, 15, 20, .10);
 
   --mono:  ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
   /* Fraunces has a softness axis and a little wobble in its serifs - warm
@@ -70,9 +70,9 @@ body {
   /* Soft light coming from two corners - the warmth of a shop window, drawn
      rather than loaded, so the page still costs one request. */
   background-image:
-    radial-gradient(1100px 620px at 12% -6%, rgba(233, 160, 59, .20), transparent 62%),
-    radial-gradient(900px 520px at 92% 4%, rgba(212, 72, 94, .10), transparent 58%),
-    radial-gradient(800px 600px at 70% 96%, rgba(62, 139, 168, .09), transparent 60%);
+    radial-gradient(1100px 620px at 12% -6%, rgba(224, 36, 47, .20), transparent 62%),
+    radial-gradient(900px 520px at 92% 4%, rgba(232, 79, 138, .10), transparent 58%),
+    radial-gradient(800px 600px at 70% 96%, rgba(30, 111, 209, .09), transparent 60%);
   background-attachment: fixed;
 }
 
@@ -85,7 +85,7 @@ a:hover { color: var(--brown-deep); }
 
 .masthead {
   border-bottom: 1px solid var(--rule);
-  background: linear-gradient(180deg, #fffdf7 0%, rgba(255, 253, 247, .72) 100%);
+  background: linear-gradient(180deg, #fffdfb 0%, rgba(255, 253, 251, .72) 100%);
   backdrop-filter: blur(6px);
 }
 .masthead .wrap {
@@ -136,7 +136,7 @@ a:hover { color: var(--brown-deep); }
 /* Independence, stated under the masthead on every page. Warm rather than
    alarming, but never decorative enough to skim past. */
 .disclaimer-bar {
-  background: linear-gradient(90deg, var(--honey-wash), rgba(253, 240, 216, .45));
+  background: linear-gradient(90deg, var(--honey-wash), rgba(253, 231, 232, .45));
   border-bottom: 1px solid var(--rule-strong);
   font-size: 12.5px; color: var(--ink-soft); font-weight: 600;
 }
@@ -213,10 +213,10 @@ button:active, .btn:active { transform: translateY(1px); }
 .btn-primary, button.primary {
   background: linear-gradient(180deg, var(--honey) 0%, var(--honey-deep) 100%);
   border-color: var(--honey-deep); color: #fff;
-  box-shadow: 0 2px 0 rgba(155, 100, 18, .35);
+  box-shadow: 0 2px 0 rgba(150, 16, 24, .35);
 }
 .btn-primary:hover, button.primary:hover {
-  background: linear-gradient(180deg, #f0ac4d 0%, #b8760f 100%);
+  background: linear-gradient(180deg, #ee3a44 0%, #b3131c 100%);
   border-color: var(--honey-deep);
 }
 
@@ -344,7 +344,7 @@ img.hero {
 .tag {
   font-size: 10.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
   padding: 4px 9px; border-radius: 999px;
-  background: rgba(107, 74, 47, .08); color: var(--brown); border: 1px solid rgba(107, 74, 47, .14);
+  background: rgba(158, 27, 34, .08); color: var(--brown); border: 1px solid rgba(158, 27, 34, .14);
 }
 .tag.licensed { background: rgba(85, 96, 107, .1); color: var(--slate); border-color: rgba(85,96,107,.18); }
 .tag.limited  { background: rgba(154, 107, 31, .12); color: var(--amber); border-color: rgba(154,107,31,.2); }
@@ -367,7 +367,7 @@ img.hero {
 }
 .conf-high     { background: rgba(74,124,79,.15);  color: #35633a; border-color: rgba(74,124,79,.28); }
 .conf-medium   { background: rgba(233,160,59,.20); color: #8a5a10; border-color: rgba(198,127,28,.32); }
-.conf-low      { background: rgba(212,72,94,.13);  color: #a8354a; border-color: rgba(212,72,94,.26); }
+.conf-low      { background: rgba(212,72,94,.13);  color: #c23674; border-color: rgba(212,72,94,.26); }
 .conf-very-low { background: rgba(138,122,108,.14); color: #6f6155; border-color: rgba(138,122,108,.24); }
 
 /* ---------- plans ---------- */
@@ -430,7 +430,7 @@ img.hero {
 /* ---------- checklists ---------- */
 
 .progress {
-  height: 8px; border-radius: 999px; background: rgba(107, 74, 47, .12);
+  height: 8px; border-radius: 999px; background: rgba(158, 27, 34, .12);
   overflow: hidden; margin: 4px 0 14px;
 }
 .progress span {
@@ -590,9 +590,9 @@ section.hero {
   border: 1px solid var(--rule);
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(560px 320px at 88% 8%, rgba(233, 160, 59, .26), transparent 66%),
-    radial-gradient(460px 300px at 6% 96%, rgba(62, 139, 168, .18), transparent 62%),
-    linear-gradient(160deg, #fffdf7 0%, #fdf3e0 100%);
+    radial-gradient(560px 320px at 88% 8%, rgba(224, 36, 47, .26), transparent 66%),
+    radial-gradient(460px 300px at 6% 96%, rgba(30, 111, 209, .18), transparent 62%),
+    linear-gradient(160deg, #fffdfb 0%, #fdf3e0 100%);
   box-shadow: var(--shadow);
 }
 
@@ -682,7 +682,7 @@ section.hero {
   border-radius: 999px;
   border-color: var(--rule-strong);
   background: #fff;
-  box-shadow: 0 1px 2px rgba(74, 50, 32, .05);
+  box-shadow: 0 1px 2px rgba(92, 15, 20, .05);
 }
 .hero .searchbar button { padding: 14px 22px; }
 
@@ -695,7 +695,7 @@ section.hero {
    reserved for moments like this one. */
 
 .promo {
-  background: linear-gradient(165deg, #fffdf7 0%, var(--berry-wash) 100%);
+  background: linear-gradient(165deg, #fffdfb 0%, var(--berry-wash) 100%);
   border: 1px solid var(--rule-strong);
   border-top: 3px solid var(--berry);
   border-radius: var(--radius);
@@ -781,8 +781,8 @@ section.hero {
 
 .unpriced {
   background:
-    radial-gradient(520px 260px at 90% -20%, rgba(62, 139, 168, .13), transparent 65%),
-    linear-gradient(165deg, #fffdf7 0%, #fbf4e6 100%);
+    radial-gradient(520px 260px at 90% -20%, rgba(30, 111, 209, .13), transparent 65%),
+    linear-gradient(165deg, #fffdfb 0%, #fff6f2 100%);
   border-color: var(--rule-strong);
 }
 .unpriced-eyebrow {
