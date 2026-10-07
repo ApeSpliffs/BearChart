@@ -171,7 +171,7 @@ test('a valuation always explains itself', () => {
 });
 
 test('comps lacking provenance are flagged as weaker evidence', () => {
-  const v = valueOf('pudgie-pink-pig');
+     const v = valueOf('loveable-lamb');
   assert.strictEqual(v.strong_evidence_count, 0);
   assert.ok(v.caveats.includes('no-strong-evidence'));
 });
@@ -217,7 +217,7 @@ test('price history only uses dated sales', () => {
 });
 
 test('undated research yields no chartable history', () => {
-  assert.strictEqual(E.priceHistory(salesFor('pudgie-pink-pig'), CFG).length, 0);
+     assert.strictEqual(E.priceHistory(salesFor('loveable-lamb'), CFG).length, 0);
 });
 
 test('collection totals separate priced from unpriced items', () => {
