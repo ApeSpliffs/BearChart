@@ -1075,3 +1075,10 @@ details.owner-help > summary {
   .welcome-backdrop, .welcome-modal { animation: none; }
 }
 @media print { .welcome-backdrop { display: none !important; } }
+
+/* --- privacy and terms -------------------------------------------------------- */
+.legal { max-width: 780px; }
+.legal h3 { margin: 24px 0 8px; }
+.legal ul { padding-left: 20px; margin: 0 0 10px; }
+.legal li { margin: 6px 0; }
+.site .legal-links a { margin-right: 14px; }

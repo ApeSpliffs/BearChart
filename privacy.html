@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — BearChart</title>
+<meta name="description" content="What BearChart collects, why, and how to have it deleted.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
+<meta name="theme-color" content="#b3131c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BearChart">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead"></header>
+<div class="disclaimer-bar" id="disclaimer-bar"></div>
+
+<main>
+<div class="wrap">
+<div class="panel legal">
+<h2>Privacy policy</h2>
+<p class="fine">Last updated October 7, 2026</p>
+
+<p>BearChart is a Build-A-Bear price guide run by Jay's Retro Exchange. This page
+explains what we collect, why, and what you can ask us to do with it. The short
+version: you can use the whole guide without an account, we never sell your
+information, and we do not show ads.</p>
+
+<h3>If you just browse</h3>
+<ul>
+<li><strong>Your collection, checklists and settings stay on your device.</strong> They are
+saved in your browser's storage and are not sent to us.</li>
+<li><strong>Visit statistics.</strong> We use PostHog to count which pages are visited and
+which buttons are used, so we know what to improve. It records the page, your browser
+and device type, and a rough location worked out from your internet address. It keeps
+a random ID in your browser's storage so repeat visits are not counted twice. It does
+not use advertising cookies, and it is switched off if your browser sends
+&ldquo;Do Not Track&rdquo;.</li>
+<li><strong>Problem reports</strong> (&ldquo;something is wrong on this page&rdquo;) can be sent
+without an account. We keep what you type and the page you were on.</li>
+</ul>
+
+<h3>If you make an account</h3>
+<ul>
+<li><strong>Your email address and password.</strong> Accounts are handled by Supabase. Your
+password is stored scrambled by them; we never see it.</li>
+<li><strong>What you send us</strong> &mdash; bear photos, sold prices and problem reports
+&mdash; is linked to your account so we can follow up on it.</li>
+<li><strong>Photos.</strong> A photo stays private until we approve it. An approved photo is
+shown publicly on that bear's page credited &ldquo;Photo by a BearChart member&rdquo;
+&mdash; never with your name or email. A rejected photo is deleted.</li>
+<li><strong>Memberships</strong>, once they open, are paid through Stripe. We never see or
+store your card number.</li>
+</ul>
+
+<h3>Who helps us run the site</h3>
+<p>Vercel hosts the site. Supabase stores accounts, submissions and photos. PostHog
+counts visits. Stripe will take membership payments. Each only gets what it needs for
+that job. Links to eBay listings take you to eBay, where eBay's own privacy policy
+applies.</p>
+
+<h3>What we never do</h3>
+<ul>
+<li>Sell or rent your information.</li>
+<li>Show ads or share your data with advertisers.</li>
+<li>Send email for other companies. We only email account holders about their account and about BearChart itself (for example, when memberships open), and you can opt out of the second kind.</li>
+</ul>
+
+<h3>Seeing, changing or deleting your information</h3>
+<p>You can ask us for a copy of what we hold about you, or ask us to delete your
+account and everything linked to it. Send the request through
+<a href="https://jaysretroexchange.com" target="_blank" rel="noopener">jaysretroexchange.com</a>
+from the email address on the account and we will do it within 30 days. An approved
+photo can stay on the site without any link to you, or be removed too &mdash; your choice.</p>
+
+<h3>Children</h3>
+<p>BearChart is for collectors and resellers. Accounts are not for anyone under 13.
+If you think a child has made an account, tell us and we will delete it.</p>
+
+<h3>Changes</h3>
+<p>If this policy changes, the date at the top changes with it. Anything that changes
+how your information is used will also be announced on the site.</p>
+</div>
+</div>
+</main>
+
+<footer class="site" id="site-footer"></footer>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="icons.js"></script>
+<script src="auth.js"></script>
+<script src="entitlements.js"></script>
+<script src="submissions.js"></script>
+<script src="common.js"></script>
+<script>BC.renderChrome('privacy.html');</script>
+</body>
+</html>

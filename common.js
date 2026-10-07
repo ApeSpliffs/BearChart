@@ -609,7 +609,13 @@
             '<h1>BearChart</h1>' +
             '<div class="sub">Build-A-Bear Price Guide</div>' +
           '</a>' +
-          '<nav class="nav">' + NAV.map(function (n) {
+          '<nav class="nav">' + NAV.filter(function (n) {
+            // Admin is a tool, not a destination: only admins see it in the menu.
+            // The page itself still works by address, and refuses non-admins.
+            if (n[0] !== 'admin.html' || current === 'admin.html') return true;
+            var A = root.BearChartAuth;
+            return !!(A && A.configured && A.configured() && A.state().isAdmin);
+          }).map(function (n) {
             var label = n[1];
             // The account link doubles as the session indicator.
             if (n[0] === 'account.html') {
@@ -648,6 +654,9 @@
           ? '<a href="' + esc(BUSINESS.shop_url) + '" target="_blank" rel="noopener">' +
             esc(BUSINESS.name) + '</a>'
           : esc(BUSINESS.name)) + '.</p>' +
+        '<p class="fine legal-links"><a href="' + rel('privacy.html') + '">Privacy</a>' +
+        '<a href="' + rel('terms.html') + '">Terms</a>' +
+        '<a href="' + rel('about.html') + '">How prices work</a></p>' +
         '<p class="fine">Database: ' + DATA.items.length + ' items, ' + DATA.sales.length +
         ' sold observations. Schema v' + DATA.meta.schema_version + '.</p>' +
         '</div>';
@@ -696,6 +705,37 @@
   };
 })(window);
 
+/* Visit statistics (PostHog). Counts pages and a few key clicks so we can see
+   what people use. No advertising cookies: the random visitor id lives in
+   localStorage, Do Not Track is honoured, and nothing runs in tests, from a
+   file:// path or on a local dev server. Disclosed on privacy.html. */
+(function () {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  window.bcTrack = function (name, props) {
+    try { if (window.posthog && window.posthog.capture) window.posthog.capture(name, props || {}); }
+    catch (e) { /* statistics must never break the page */ }
+  };
+  if (/jsdom/i.test(navigator.userAgent || '')) return;
+  if (location.protocol === 'file:') return;
+  if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return;
+  var dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+  if (dnt === '1' || dnt === 'yes') return;
+
+  var KEY = 'phc_xYXLmfqEVM324GUuzn474TPp8fGd7N65yRvbToCNZCMt';
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  window.posthog.init(KEY, {
+    api_host: 'https://us.i.posthog.com',
+    persistence: 'localStorage',
+    person_profiles: 'identified_only',
+    respect_dnt: true,
+    disable_session_recording: true,
+    capture_pageview: true,
+    capture_pageleave: true
+  });
+  // The same PostHog project also hears from other sites; tag every event.
+  window.posthog.register({ site: 'bearchart' });
+})();
+
 /* Welcome pop-up: invites first-time visitors to make a free account and
    points at the Power perk. Shown once, never to signed-in members, never on
    the sign-in or membership pages themselves, and never inside tests. */
@@ -733,12 +773,17 @@
   if (seenRecently()) return;
 
   var shown = false;
+  var followed = false;
   var lastFocus = null;
+  function track(name, props) {
+    if (window.bcTrack) window.bcTrack(name, props);
+  }
 
   function close() {
     var el = document.getElementById('welcome-pop');
     if (el) el.parentNode.removeChild(el);
     document.removeEventListener('keydown', onKey);
+    if (!followed) track('welcome_popup_dismissed');
     markSeen();
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
@@ -782,8 +827,13 @@
     });
     // Following a link counts as having seen it, too.
     ['welcome-join', 'welcome-plans'].forEach(function (id) {
-      document.getElementById(id).addEventListener('click', markSeen);
+      document.getElementById(id).addEventListener('click', function () {
+        followed = true;
+        track(id === 'welcome-join' ? 'welcome_popup_join_clicked' : 'welcome_popup_plans_clicked');
+        markSeen();
+      });
     });
+    track('welcome_popup_shown');
     document.addEventListener('keydown', onKey);
     document.getElementById('welcome-join').focus();
   }

@@ -620,7 +620,7 @@
         '<h1>' + BC.esc(item.canonical_name) + '</h1>' +
         '<p class="fine" style="margin:0 0 10px">' +
         [item.release_year || 'Year unknown', BC.era(item), item.species, item.category]
-          .filter(Boolean).map(BC.esc).join(' &middot; ') + '</p>' +
+          .filter(function (v, i, all) { return v && all.indexOf(v) === i; }).map(BC.esc).join(' &middot; ') + '</p>' +
         BC.tagsHtml(item) +
         // What collectors and sellers actually call it. This is identification
         // data a price guide should lead with - the same bear is listed under
@@ -674,7 +674,8 @@
     box.innerHTML = '<label class="btn btn-primary photo-btn" for="photo-file">' +
       'Add a photo of this bear</label>' +
       '<input type="file" id="photo-file" accept="image/*" class="sr-only">' +
-      '<p class="fine" id="photo-msg">Photos are checked before they appear.</p>';
+      '<p class="fine" id="photo-msg">Photos are checked before they appear. Only send a photo you ' +
+        'took yourself (<a href="' + BC.rel('terms.html') + '">terms</a>).</p>';
     document.getElementById('photo-file').addEventListener('change', function (e) {
       var file = e.target.files && e.target.files[0];
       if (!file) return;
