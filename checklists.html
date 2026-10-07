@@ -20,41 +20,37 @@
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
 <main>
-  <div class="wrap">
+<div class="wrap">
 
-    <div class="panel">
-      <h2>Collector checklists</h2>
-      <p class="fine">Tick what you own. Ticking adds the item to
-        <a href="collection.html">your collection</a>, so the totals there stay in step.
-        Stored in this browser only — nothing is uploaded.</p>
-    </div>
+<div class="panel page-intro">
+<h2>Collector checklists</h2>
+<p class="lead">Pick a set, then tick the bears you own. We keep count of what you're
+missing and what your bears are worth. Everything you tick also appears in
+<a href="collection.html">My collection</a>.</p>
+<p class="fine">Saved on this device. No account needed.</p>
+</div>
 
-    <div class="stats" id="overall"></div>
+<div class="stats" id="overall"></div>
 
-    <div class="columns">
-      <aside class="sidebar" id="sidebar">
-        <div class="panel">
-          <h2>Checklists</h2>
-          <div id="set-list"></div>
-        </div>
-      </aside>
+<div class="panel">
+<h2 class="step-title"><span class="step">1</span> Choose a checklist</h2>
+<div id="set-list" class="set-picker"></div>
+</div>
 
-      <section>
-        <div class="panel">
-          <div class="toolbar">
-            <h2 style="margin:0" id="set-title">&nbsp;</h2>
-            <span class="grow"></span>
-            <span class="check"><input type="checkbox" id="hide-owned">
-              <label for="hide-owned">Show only what I'm missing</label></span>
-            <button type="button" id="export-set">Export CSV</button>
-          </div>
-          <div id="set-progress"></div>
-          <div id="set-body"></div>
-        </div>
-      </section>
-    </div>
+<div class="panel" id="set-panel">
+<p class="step-title step-kicker"><span class="step">2</span> Tick the bears you own</p>
+<h2 id="set-title">&nbsp;</h2>
+<div id="set-progress"></div>
+<div class="toolbar set-tools">
+<input type="search" id="set-search" placeholder="Find a bear in this set" aria-label="Find a bear in this set">
+<span class="check"><input type="checkbox" id="hide-owned">
+<label for="hide-owned">Hide bears I have</label></span>
+<button type="button" id="export-set">Download list</button>
+</div>
+<div id="set-body"></div>
+</div>
 
-  </div>
+</div>
 </main>
 
 <footer class="site" id="site-footer"></footer>

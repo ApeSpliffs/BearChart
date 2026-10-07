@@ -20,57 +20,70 @@
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
 <main>
-  <div class="wrap">
-    <div class="panel">
-      <h2>My collection</h2>
-      <p class="fine">Stored in this browser only — nothing is uploaded. Each line is valued
-        from BearChart's sold data, adjusted for the condition and completeness you record.</p>
-      <div class="row">
-        <div class="field" style="flex:3 1 260px">
-          <label for="add-item">Add an item</label>
-          <select id="add-item"></select>
-        </div>
-        <div class="field">
-          <label for="add-cond">Condition</label>
-          <select id="add-cond"></select>
-        </div>
-        <div class="field">
-          <label for="add-comp">Completeness</label>
-          <select id="add-comp"></select>
-        </div>
-        <div class="field" style="flex:0 0 90px">
-          <label for="add-qty">Qty</label>
-          <input type="number" id="add-qty" value="1" min="1" step="1">
-        </div>
-        <div class="field" style="flex:0 0 auto">
-          <button type="button" class="primary" id="add-btn">Add</button>
-        </div>
-      </div>
-    </div>
+<div class="wrap">
 
-    <div class="stats" id="totals"></div>
+<div class="panel page-intro">
+<h2>My collection</h2>
+<p class="lead">Add the bears you own and see what they are worth today. Values come from
+real sold prices and adjust for each bear's condition.</p>
+<p class="fine">Saved on this device. No account needed. You can also tick bears off on the
+<a href="checklists.html">Checklists</a> page.</p>
+</div>
 
-    <div class="panel" id="history-panel">
-      <div class="toolbar">
-        <h2 style="margin:0">Value over time</h2>
-        <span class="grow"></span>
-        <button type="button" id="export-history">Export history CSV</button>
-      </div>
-      <div id="history-body"></div>
-    </div>
+<div class="stats" id="totals"></div>
 
-    <div class="panel">
-      <div class="toolbar">
-        <h2 style="margin:0">Items</h2>
-        <span class="grow"></span>
-        <button type="button" id="export-collection">Export CSV</button>
-        <button type="button" id="export-insurance">Insurance schedule</button>
-        <button type="button" id="export-cover">Cover statement</button>
-        <button type="button" id="clear-collection">Clear all</button>
-      </div>
-      <div id="collection-body"></div>
-    </div>
-  </div>
+<div class="panel add-panel">
+<h2>Add a bear</h2>
+<div class="row">
+<div class="field add-find">
+<label for="add-item">Find your bear</label>
+<select id="add-item"></select>
+</div>
+<div class="field">
+<label for="add-cond">Condition</label>
+<select id="add-cond"></select>
+</div>
+<div class="field">
+<label for="add-comp">What's included</label>
+<select id="add-comp"></select>
+</div>
+<div class="field add-qty">
+<label for="add-qty">How many</label>
+<input type="number" id="add-qty" value="1" min="1" step="1">
+</div>
+<div class="field add-go">
+<button type="button" class="primary" id="add-btn">Add to collection</button>
+</div>
+</div>
+<p class="fine add-help"><strong>NWT</strong> means new with tags. <strong>Mint</strong> means
+like new without tags. Not sure? Choose Good.</p>
+<p class="add-msg" id="add-msg" role="status" aria-live="polite"></p>
+</div>
+
+<div class="panel">
+<div class="toolbar">
+<h2 style="margin:0">Your bears</h2>
+<span class="grow"></span>
+<details class="menu">
+<summary class="btn">Download</summary>
+<div class="menu-list">
+<button type="button" id="export-collection">Spreadsheet (CSV)</button>
+<button type="button" id="export-insurance">Insurance schedule (CSV)</button>
+<button type="button" id="export-cover">Insurance cover letter</button>
+<button type="button" id="export-history">Value history (CSV)</button>
+</div>
+</details>
+</div>
+<div id="collection-body"></div>
+<p class="clear-row"><button type="button" class="link-btn" id="clear-collection">Remove every bear</button></p>
+</div>
+
+<div class="panel" id="history-panel">
+<h2>Value over time</h2>
+<div id="history-body"></div>
+</div>
+
+</div>
 </main>
 
 <footer class="site" id="site-footer"></footer>

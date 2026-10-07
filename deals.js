@@ -63,19 +63,17 @@
 
   function renderStats(deals) {
     var listings = (D.active_listings || []).length;
-    var totalMargin = deals.reduce(function (a, d) { return a + d.margin; }, 0);
     var best = deals.length ? deals[0].margin : null;
+    var asOf = D.active_listings_fetched_at ? D.active_listings_fetched_at.slice(0, 10) : '--';
 
     $('deal-stats').innerHTML = [
-      [listings, 'Listings scanned'],
-      [deals.length, 'Worth a look'],
-      [best == null ? '--' : BC.money(best), 'Best single margin'],
-      [deals.length ? BC.money(totalMargin) : '--', 'Combined margin'],
-      [BC.esc(D.active_listings_fetched_at ? D.active_listings_fetched_at.slice(0, 10) : '--'),
-        'Listings as of']
+      [listings, 'Listings checked'],
+      [deals.length, 'Deals found'],
+      [best == null ? '--' : BC.money(best), 'Best profit'],
+      [BC.esc(asOf), 'Last checked']
     ].map(function (c) {
       return '<div class="stat"><div class="v">' + c[0] + '</div><div class="k">' +
-             BC.esc(c[1]) + '</div></div>';
+        BC.esc(c[1]) + '</div></div>';
     }).join('');
   }
 
@@ -83,25 +81,29 @@
     if (!(D.active_listings || []).length) {
       return '<div class="empty">' +
         '<p><strong>No active listings loaded yet.</strong></p>' +
-        '<p class="fine">The deal finder compares live asking prices against your sold ' +
-        'data. Fetch some listings first:</p>' +
-        '<p class="mono" style="margin-top:12px">export EBAY_CLIENT_ID=…  EBAY_CLIENT_SECRET=…<br>' +
+        '<p>Deals appear here once today\'s eBay listings have been checked. ' +
+        'Check back soon.</p>' +
+        '<details class="owner-help"><summary>Site owner: how to turn this on</summary>' +
+        '<p class="fine">Add <span class="mono">EBAY_CLIENT_ID</span> and ' +
+        '<span class="mono">EBAY_CLIENT_SECRET</span> as repository secrets on GitHub and ' +
+        'the daily refresh fetches listings automatically. To fetch them by hand:</p>' +
+        '<p class="mono">export EBAY_CLIENT_ID=\u2026 EBAY_CLIENT_SECRET=\u2026<br>' +
         'npm run ebay -- --priced-only --limit 40<br>npm run build</p>' +
-        '<p class="fine">A free key takes a few minutes at developer.ebay.com — the ' +
-        'Browse API is general release.</p></div>';
+        '<p class="fine">A free key takes a few minutes at developer.ebay.com.</p>' +
+        '</details></div>';
     }
     return '<div class="empty">' +
       '<p><strong>Nothing under your thresholds right now.</strong></p>' +
-      '<p class="fine">That is a normal answer, and a useful one — it means nobody is ' +
-      'currently underselling an item you have data on. Loosen the numbers above to ' +
-      'see marginal candidates.</p></div>';
+      '<p class="fine">Nobody is underselling a bear we have prices for at the moment. ' +
+      'To see closer calls, lower the minimum profit under ' +
+      '\u201cAdjust fees and filters\u201d.</p></div>';
   }
 
   function render() {
     var deals = findDeals();
     renderStats(deals);
     $('deal-count').textContent = deals.length
-      ? deals.length + ' candidate' + (deals.length === 1 ? '' : 's')
+      ? deals.length + ' deal' + (deals.length === 1 ? '' : 's')
       : '';
 
     if (!deals.length) {
@@ -110,37 +112,39 @@
       return;
     }
 
-    $('deals').innerHTML = '<div class="table-scroll"><table><thead><tr>' +
-      '<th>Item</th><th class="num">Ask</th><th class="num">Median</th>' +
-      '<th class="num">Conservative</th><th class="num">Net after fees</th>' +
-      '<th class="num">Margin</th><th class="num">Below floor</th>' +
-      '<th>Confidence</th><th>Watch out for</th>' +
+    // Column order matters to the tests: the fifth cell is the profit, which
+    // moves when the fee assumption does.
+    $('deals').innerHTML = '<div class="table-scroll"><table class="stack-table deal-table">' +
+      '<thead><tr>' +
+      '<th>Listing</th><th class="num">Asking</th><th class="num">Usually sells for</th>' +
+      '<th class="num">Net after fees</th><th class="num">Your profit</th>' +
+      '<th>How sure</th>' +
       '</tr></thead><tbody>' +
       deals.map(function (d) {
         var title = BC.esc(d.listing.title || d.item_name);
         if (d.listing.source_url) {
           title = '<a href="' + BC.esc(BC.affiliate(d.listing.source_url)) +
-                  '" target="_blank" rel="noopener">' + title + '</a>';
+            '" target="_blank" rel="noopener">' + title + '</a>';
         }
         return '<tr>' +
-          '<td>' + title +
-          '<div class="fine"><a href="' + BC.itemUrl(d.item_id) + '">' +
-          BC.esc(d.item_name) + '</a> &middot; ' + BC.esc(d.condition) + '</div></td>' +
-          '<td class="num price">' + BC.exact(d.ask) + '</td>' +
-          '<td class="num" style="color:var(--ink-faint)">' + BC.money(d.gross_value) +
+          '<td data-label="Listing"><div class="deal-title">' + title + '</div>' +
+            '<div class="fine">Matched to <a href="' + BC.itemUrl(d.item_id) + '">' +
+            BC.esc(d.item_name) + '</a> &middot; ' + BC.esc(d.condition) + '</div>' +
+            (d.risks.length
+              ? '<div class="risk">Watch out: ' + d.risks.map(BC.esc).join('; ') + '</div>'
+              : '') +
           '</td>' +
-          '<td class="num">' + BC.money(d.floor_value) +
-          '<div class="fine">' + BC.esc(d.floor_basis || '') + '</div></td>' +
-          '<td class="num">' + BC.money(d.net_proceeds) + '</td>' +
-          '<td class="num price"><strong>' + BC.money(d.margin) + '</strong>' +
-          '<div class="fine">' + Math.round(d.margin_pct) + '% on cost</div></td>' +
-          '<td class="num">' + Math.round(d.discount_pct) + '%</td>' +
-          '<td><span class="' + BC.confClass(d.confidence) + '">' + d.confidence +
-          '</span><div class="fine">' + d.comparable_count + ' comp' +
-          (d.comparable_count === 1 ? '' : 's') + '</div></td>' +
-          '<td class="fine">' + (d.risks.length
-            ? d.risks.map(BC.esc).join('<br>')
-            : '&mdash;') + '</td>' +
+          '<td class="num price" data-label="Asking">' + BC.exact(d.ask) + '</td>' +
+          '<td class="num" data-label="Usually sells for">' + BC.money(d.gross_value) +
+            '<div class="fine">safe value ' + BC.money(d.floor_value) + '</div></td>' +
+          '<td class="num" data-label="Net after fees">' + BC.money(d.net_proceeds) + '</td>' +
+          '<td class="num price" data-label="Your profit"><strong class="profit">' +
+            BC.money(d.margin) + '</strong>' +
+            '<div class="fine">' + Math.round(d.margin_pct) + '% on cost &middot; ' +
+            Math.round(d.discount_pct) + '% below value</div></td>' +
+          '<td data-label="How sure"><span class="' + BC.confClass(d.confidence) + '">' +
+            d.confidence + '</span><div class="fine">' + d.comparable_count + ' sale' +
+            (d.comparable_count === 1 ? '' : 's') + ' on record</div></td>' +
           '</tr>';
       }).join('') + '</tbody></table></div>';
 

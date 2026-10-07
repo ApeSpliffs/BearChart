@@ -3,9 +3,12 @@
 (function () {
   'use strict';
 
-  var D = BC.data, E = BC.engine, CFG = BC.config;
+  var D = BC.data;
   var $ = function (id) { return document.getElementById(id); };
   var KEY = 'bearchart.collection';
+  // How many franchise sets show before "Show all" - the long tail of small
+  // franchises buried the useful ones.
+  var FRANCHISE_PREVIEW = 12;
 
   BC.renderChrome('checklists.html');
 
@@ -33,35 +36,33 @@
     var sets = [];
 
     sets.push({
-      id: 'mini-beans', name: 'Mini Beans', group: 'Lines',
-      blurb: 'Every Mini Bean in the catalogue, across the 2025 and 2026 collector ' +
-             'guides and beyond.',
+      id: 'mini-beans', name: 'Mini Beans', group: 'Collections',
+      blurb: 'Every Mini Bean, from the 1998 originals to this year\'s releases.',
       items: bySet(function (i) { return i.mini_bean; })
     });
 
     sets.push({
-      id: 'vault', name: 'Vault reissues', group: 'Lines',
-      blurb: 'Vault Collection releases. These are reissues - an original is a ' +
-             'different item and a different market.',
+      id: 'vault', name: 'Vault reissues', group: 'Collections',
+      blurb: 'Vault Collection re-releases. The original version is a separate bear.',
       items: bySet(function (i) { return i.vault_release; })
     });
 
     sets.push({
-      id: 'vintage', name: 'Vintage (1997-1999)', group: 'Eras',
+      id: 'vintage', name: 'Vintage (1997-1999)', group: 'By era',
       blurb: 'The founding years.',
       items: bySet(function (i) { return BC.isVintage(i); })
     });
 
     ['Early 2000s', '2010s', 'Modern'].forEach(function (era) {
       sets.push({
-        id: 'era-' + era.toLowerCase().replace(/\s+/g, '-'), name: era, group: 'Eras',
+        id: 'era-' + era.toLowerCase().replace(/\s+/g, '-'), name: era, group: 'By era',
         items: bySet(function (i) { return BC.era(i) === era; })
       });
     });
 
     sets.push({
       id: 'employee', name: 'Employee exclusives', group: 'Exclusives',
-      blurb: 'Never sold to the public. The hardest set here to finish.',
+      blurb: 'Given to staff, never sold in stores. The hardest set here to finish.',
       items: bySet(function (i) { return i.employee_exclusive; })
     });
     sets.push({
@@ -104,12 +105,12 @@
       });
 
     sets.push({
-      id: 'accessories', name: 'Clothing & accessories', group: 'Other',
+      id: 'accessories', name: 'Clothing & accessories', group: 'More',
       items: bySet(function (i) { return i.category === 'Clothing & Accessories'; })
     });
     sets.push({
-      id: 'current', name: 'Out now at retail', group: 'Other',
-      blurb: 'Still buyable new - the easiest gaps to close.',
+      id: 'current', name: 'In stores now', group: 'More',
+      blurb: 'Still on sale new - the easiest gaps to fill.',
       items: bySet(function (i) { return i.release_status === 'current'; })
     });
 
@@ -118,96 +119,150 @@
 
   var SETS = buildSets();
   var current = SETS[0];
+  var showAllFranchises = false;
 
-  // ---- rendering ------------------------------------------------------------
+  // ---- helpers --------------------------------------------------------------
 
-  function progressFor(set) {
-    var have = ownedIds();
+  function progressFor(set, have) {
+    have = have || ownedIds();
     var got = set.items.filter(function (i) { return have.has(i.id); });
     return { got: got.length, total: set.items.length,
-             pct: set.items.length ? (got.length / set.items.length) * 100 : 0 };
+      pct: set.items.length ? (got.length / set.items.length) * 100 : 0 };
   }
 
   function bar(pct) {
     return '<div class="progress"><span style="width:' +
-           Math.max(0, Math.min(100, pct)).toFixed(1) + '%"></span></div>';
+      Math.max(0, Math.min(100, pct)).toFixed(1) + '%"></span></div>';
   }
 
-  function renderSetList() {
-    var groups = {};
-    SETS.forEach(function (s) { (groups[s.group] = groups[s.group] || []).push(s); });
+  /** Tags every item in the set shares say nothing on a row, so they are dropped. */
+  function sharedTags(set) {
+    var shared = null;
+    set.items.forEach(function (i) {
+      var t = BC.tagsFor(i).map(function (x) { return x.text; });
+      shared = shared === null ? t : shared.filter(function (x) { return t.indexOf(x) !== -1; });
+    });
+    return shared || [];
+  }
 
-    $('set-list').innerHTML = Object.keys(groups).map(function (g) {
-      return '<div class="filter-group"><h3>' + BC.esc(g) + '</h3><div class="checks">' +
-        groups[g].map(function (s) {
-          var p = progressFor(s);
-          return '<label class="setrow' + (s.id === current.id ? ' is-active' : '') +
+  // ---- rendering ------------------------------------------------------------
+
+  function renderSetList() {
+    var have = ownedIds();
+    var groups = {}, order = [];
+    SETS.forEach(function (s) {
+      if (!groups[s.group]) { groups[s.group] = []; order.push(s.group); }
+      groups[s.group].push(s);
+    });
+
+    $('set-list').innerHTML = order.map(function (g) {
+      var sets = groups[g];
+      var collapsible = g === 'Franchises' && sets.length > FRANCHISE_PREVIEW;
+      var collapsed = collapsible && !showAllFranchises;
+      return '<div class="set-group' + (collapsed ? ' is-collapsed' : '') + '">' +
+        '<h3>' + BC.esc(g) + '</h3><div class="set-chips">' +
+        sets.map(function (s, idx) {
+          var p = progressFor(s, have);
+          var extra = collapsible && idx >= FRANCHISE_PREVIEW && s.id !== current.id;
+          return '<button type="button" class="set-chip' +
+            (s.id === current.id ? ' is-active' : '') +
+            (p.total && p.got === p.total ? ' is-done' : '') +
+            (extra ? ' is-extra' : '') +
             '" data-set="' + BC.esc(s.id) + '">' +
-            '<span>' + BC.esc(s.name) + '</span>' +
-            '<span class="count">' + p.got + '/' + p.total + '</span></label>';
-        }).join('') + '</div></div>';
+            '<span class="set-chip-name">' + BC.esc(s.name) + '</span>' +
+            '<span class="set-chip-count">' + p.got + ' / ' + p.total + '</span>' +
+            '<span class="set-chip-bar"><span style="width:' + p.pct.toFixed(1) +
+            '%"></span></span></button>';
+        }).join('') + '</div>' +
+        (collapsible
+          ? '<button type="button" class="link-btn set-more" data-more="1">' +
+            (collapsed ? 'Show all ' + sets.length + ' franchises' : 'Show fewer') +
+            '</button>'
+          : '') +
+        '</div>';
     }).join('');
   }
 
   function renderOverall() {
     var have = ownedIds();
-    var total = D.items.length;
     var valued = 0;
     have.forEach(function (id) {
       var v = BC.valuationFor(id);
       if (v.has_value) valued += v.fair_market;
     });
+    var started = 0, done = 0;
+    SETS.forEach(function (s) {
+      var p = progressFor(s, have);
+      if (p.got) started++;
+      if (p.total && p.got === p.total) done++;
+    });
     $('overall').innerHTML = [
-      [have.size + ' / ' + total, 'Items owned'],
-      [Math.round((have.size / total) * 100) + '%', 'Of the catalogue'],
-      [SETS.length, 'Checklists'],
-      [valued ? BC.money(valued) : '--', 'Value of what you own']
+      [have.size, 'Bears ticked'],
+      [started, 'Sets started'],
+      [done, 'Sets complete'],
+      [valued ? BC.money(valued) : '--', 'Worth about']
     ].map(function (c) {
       return '<div class="stat"><div class="v">' + c[0] + '</div><div class="k">' +
-             BC.esc(c[1]) + '</div></div>';
+        BC.esc(c[1]) + '</div></div>';
     }).join('');
   }
 
   function renderSet() {
     var have = ownedIds();
-    var p = progressFor(current);
+    var p = progressFor(current, have);
     var hideOwned = $('hide-owned').checked;
+    var needle = ($('set-search').value || '').trim().toLowerCase();
 
     $('set-title').textContent = current.name;
     $('set-progress').innerHTML =
-      '<p class="fine">' + (current.blurb ? BC.esc(current.blurb) + ' ' : '') +
-      '<strong>' + p.got + ' of ' + p.total + '</strong> (' + Math.round(p.pct) + '%).</p>' +
-      bar(p.pct);
+      '<p class="set-progress-text"><strong>' + p.got + ' of ' + p.total + '</strong> collected' +
+      ' &middot; ' + Math.round(p.pct) + '%</p>' +
+      bar(p.pct) +
+      (current.blurb ? '<p class="fine set-blurb">' + BC.esc(current.blurb) + '</p>' : '');
 
     var items = current.items.slice().sort(function (a, b) {
       return (a.release_year || 9999) - (b.release_year || 9999) ||
-             a.canonical_name.localeCompare(b.canonical_name);
+        a.canonical_name.localeCompare(b.canonical_name);
     });
     if (hideOwned) items = items.filter(function (i) { return !have.has(i.id); });
+    if (needle) {
+      items = items.filter(function (i) {
+        return i.canonical_name.toLowerCase().indexOf(needle) !== -1 ||
+          (i.aliases || []).some(function (a) { return a.toLowerCase().indexOf(needle) !== -1; });
+      });
+    }
 
     if (!items.length) {
-      $('set-body').innerHTML = '<div class="empty"><p><strong>' +
-        (hideOwned ? 'Nothing missing here — set complete.' : 'Nothing in this set.') +
-        '</strong></p></div>';
+      var msg = needle ? 'No bears in this set match \u201c' + BC.esc(needle) + '\u201d.'
+        : hideOwned ? 'Nothing missing here \u2014 set complete!'
+        : 'Nothing in this set yet.';
+      $('set-body').innerHTML = '<div class="empty"><p><strong>' + msg + '</strong></p></div>';
       return;
     }
 
-    $('set-body').innerHTML = '<div class="table-scroll"><table><thead><tr>' +
-      '<th style="width:34px"></th><th>Item</th><th class="num">Year</th>' +
-      '<th class="num">Value</th><th>Confidence</th></tr></thead><tbody>' +
+    var skip = sharedTags(current);
+    $('set-body').innerHTML = '<div class="table-scroll"><table class="check-table"><thead><tr>' +
+      '<th class="own-col"><span class="sr-only">Own it</span></th><th>Bear</th>' +
+      '<th class="num">Value</th></tr></thead><tbody>' +
       items.map(function (i) {
         var v = BC.valuationFor(i.id);
         var has = have.has(i.id);
+        var meta = [i.release_year || 'Year unknown'].concat(
+          BC.tagsFor(i).map(function (t) { return t.text; })
+            .filter(function (t) { return skip.indexOf(t) === -1; }).slice(0, 2));
+        var sales = v.comparable_count || 0;
         return '<tr' + (has ? ' class="owned"' : '') + '>' +
-          '<td><input type="checkbox" data-own="' + BC.esc(i.id) + '"' +
-          (has ? ' checked' : '') + ' aria-label="Own ' + BC.esc(i.canonical_name) + '"></td>' +
-          '<td><a href="' + BC.itemUrl(i.id) + '">' + BC.esc(i.canonical_name) + '</a>' +
-          (BC.tagsFor(i).length ? BC.tagsHtml(i) : '') + '</td>' +
-          '<td class="num">' + (i.release_year || '&mdash;') + '</td>' +
-          '<td class="num price">' + (v.has_value ? BC.money(v.fair_market) :
-            '<span class="fine">no data</span>') + '</td>' +
-          '<td><span class="' + BC.confClass(v.confidence) + '">' + v.confidence +
-          '</span></td></tr>';
+          '<td class="own-col"><input type="checkbox" class="own-box" data-own="' +
+          BC.esc(i.id) + '"' + (has ? ' checked' : '') +
+          ' aria-label="I own ' + BC.esc(i.canonical_name) + '"></td>' +
+          '<td><a class="bear-link" href="' + BC.itemUrl(i.id) + '">' +
+          BC.esc(i.canonical_name) + '</a>' +
+          '<div class="bear-meta">' + meta.map(BC.esc).join(' &middot; ') + '</div></td>' +
+          '<td class="num">' + (v.has_value
+            ? '<span class="price">' + BC.money(v.fair_market) + '</span>' +
+              '<div class="val-note">' + sales + ' sale' + (sales === 1 ? '' : 's') + '</div>'
+            : '<span class="val-note">no data yet</span>') +
+          '</td></tr>';
       }).join('') + '</tbody></table></div>';
   }
 
@@ -217,32 +272,61 @@
     renderSet();
   }
 
+  function setOwned(id, yes) {
+    owned = owned.filter(function (x) { return x.item_id !== id; });
+    // Ticking a checklist adds a default entry; refine it in the collection.
+    if (yes) owned.push({ item_id: id, condition: 'Good', completeness: 'unknown', qty: 1 });
+    if (!saveOwned(owned)) {
+      alert('This browser is blocking local storage, so the checklist cannot be saved.');
+    }
+    renderAll();
+  }
+
   // ---- events ---------------------------------------------------------------
 
   $('set-list').addEventListener('click', function (e) {
+    if (e.target.closest('[data-more]')) {
+      showAllFranchises = !showAllFranchises;
+      renderSetList();
+      return;
+    }
     var row = e.target.closest('[data-set]');
     if (!row) return;
     e.preventDefault();
     var next = SETS.find(function (s) { return s.id === row.dataset.set; });
-    if (next) { current = next; renderAll(); }
+    if (!next) return;
+    current = next;
+    $('set-search').value = '';
+    renderAll();
+    // On a phone the list is below the picker; take the reader to it.
+    var panel = $('set-panel');
+    if (panel && typeof panel.scrollIntoView === 'function' && window.innerWidth < 860) {
+      try { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (err) { /* old browser */ }
+    }
   });
 
   $('set-body').addEventListener('change', function (e) {
     var id = e.target.dataset.own;
     if (!id) return;
-    if (e.target.checked) {
-      // Ticking a checklist adds a default entry; refine it in the collection.
-      owned.push({ item_id: id, condition: 'Good', completeness: 'unknown', qty: 1 });
-    } else {
-      owned = owned.filter(function (x) { return x.item_id !== id; });
-    }
-    if (!saveOwned(owned)) {
-      alert('This browser is blocking local storage, so the checklist cannot be saved.');
-    }
-    renderAll();
+    setOwned(id, e.target.checked);
+  });
+
+  // The whole row is a tap target, not just the small box.
+  $('set-body').addEventListener('click', function (e) {
+    if (e.target.closest('a, input, button')) return;
+    var tr = e.target.closest('tr');
+    var box = tr && tr.querySelector('input[data-own]');
+    if (!box) return;
+    setOwned(box.dataset.own, !box.checked);
   });
 
   $('hide-owned').addEventListener('change', renderSet);
+
+  var debounce;
+  $('set-search').addEventListener('input', function () {
+    clearTimeout(debounce);
+    debounce = setTimeout(renderSet, 120);
+  });
 
   $('export-set').addEventListener('click', function () {
     var have = ownedIds();

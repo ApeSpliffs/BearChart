@@ -135,11 +135,9 @@
     var snaps = state.snaps, flows = state.flows;
 
     if (snaps.length < 2) {
-      body.innerHTML = '<div class="empty">' +
-        '<p><strong>History starts today.</strong></p>' +
-        '<p class="fine">A value is recorded each day you open this page. Come back ' +
-        'tomorrow and there will be a line to draw. Past values cannot be ' +
-        'reconstructed after the fact, so the chart only ever grows forwards.</p></div>';
+      body.innerHTML = '<p class="history-start"><strong>History starts today.</strong> ' +
+        'Each day you open this page we note what your collection is worth. Come back ' +
+        'tomorrow and a chart will start to appear here.</p>';
       return;
     }
 
@@ -173,8 +171,12 @@
   // You can own a bear nobody has sold yet, so this lists the whole catalogue -
   // searched rather than scrolled.
   BC.itemChooser($('add-item'), D.items, function (i) {
-    return i.canonical_name + (BC.valuationFor(i.id).has_value ? '' : ' (no sold data)');
+    return i.canonical_name + (BC.valuationFor(i.id).has_value ? '' : ' (no sold data yet)');
   });
+  (function () {
+    var search = $('add-item').parentNode.querySelector('.item-search');
+    if (search) search.placeholder = 'Type a bear\'s name, e.g. Lucky Kitty';
+  })();
 
   function condOptions(sel) {
     return CFG.condition_order.map(function (c) {
@@ -202,10 +204,12 @@
   function render() {
     renderHistory(recordSnapshot());
     var body = $('collection-body');
+    $('clear-collection').hidden = !list.length;
 
     if (!list.length) {
       body.innerHTML = '<div class="empty"><p><strong>Your collection is empty.</strong></p>' +
-        '<p>Add items above, or from any item page in the price guide.</p></div>';
+        '<p>Find a bear above and press <strong>Add to collection</strong>, or tick the bears ' +
+        'you own on the <a href="checklists.html">Checklists</a> page.</p></div>';
       $('totals').innerHTML = '';
       return;
     }
@@ -214,52 +218,69 @@
       var item = BC.itemById(e.item_id);
       if (!item) return '';
       var p = priced(e);
-      var each = p.adjusted ? BC.money(p.adjusted.fair_market) : '<span class="fine">No sold data</span>';
+      var sales = p.valuation.comparable_count || 0;
+      var each = p.adjusted
+        ? '<span class="price">' + BC.money(p.adjusted.fair_market) + '</span>' +
+          '<div class="val-note">' + sales + ' sale' + (sales === 1 ? '' : 's') + '</div>'
+        : '<span class="val-note">No sold data yet</span>';
       var line = p.adjusted ? BC.money(p.adjusted.fair_market * p.qty) : '&mdash;';
       return '<tr data-idx="' + idx + '">' +
-        '<td><a href="' + BC.itemUrl(item.id) + '">' + BC.esc(item.canonical_name) + '</a>' +
-        '<div class="fine">' + (item.release_year || 'Year unknown') + '</div></td>' +
-        '<td><select data-field="condition">' + condOptions(e.condition) + '</select></td>' +
-        '<td><select data-field="completeness">' + compOptions(e.completeness) + '</select></td>' +
-        '<td style="width:80px"><input type="number" min="1" step="1" data-field="qty" value="' +
-        (e.qty || 1) + '"></td>' +
-        '<td class="num price">' + each + '</td>' +
-        '<td class="num price">' + line + '</td>' +
-        '<td><span class="' + BC.confClass(p.valuation.confidence) + '">' +
-        p.valuation.confidence + '</span></td>' +
-        '<td><button type="button" data-remove="' + idx + '">Remove</button></td>' +
+        '<td data-label="Bear"><a class="bear-link" href="' + BC.itemUrl(item.id) + '">' +
+          BC.esc(item.canonical_name) + '</a>' +
+          '<div class="bear-meta">' + (item.release_year || 'Year unknown') + '</div></td>' +
+        '<td data-label="Condition"><select data-field="condition" aria-label="Condition">' +
+          condOptions(e.condition) + '</select></td>' +
+        '<td data-label="What\'s included"><select data-field="completeness" ' +
+          'aria-label="What\'s included">' + compOptions(e.completeness) + '</select></td>' +
+        '<td class="qty-cell" data-label="How many"><input type="number" min="1" step="1" ' +
+          'data-field="qty" aria-label="How many" value="' + (e.qty || 1) + '"></td>' +
+        '<td class="num" data-label="Worth each">' + each + '</td>' +
+        '<td class="num price" data-label="Total">' + line + '</td>' +
+        '<td class="remove-cell"><button type="button" class="link-btn" data-remove="' + idx +
+          '" aria-label="Remove ' + BC.esc(item.canonical_name) + '">Remove</button></td>' +
         '</tr>';
     }).join('');
 
-    body.innerHTML = '<div class="table-scroll"><table><thead><tr>' +
-      '<th>Item</th><th>Condition</th><th>Completeness</th><th class="num">Qty</th>' +
-      '<th class="num">Each</th><th class="num">Line total</th><th>Confidence</th><th></th>' +
+    body.innerHTML = '<div class="table-scroll"><table class="stack-table coll-table"><thead><tr>' +
+      '<th>Bear</th><th>Condition</th><th>What\'s included</th><th class="num">How many</th>' +
+      '<th class="num">Worth each</th><th class="num">Total</th><th></th>' +
       '</tr></thead><tbody>' + rows + '</tbody></table></div>';
 
     var totals = E.collectionValue(list.map(priced));
+    var count = list.reduce(function (n, e) { return n + (e.qty || 1); }, 0);
     $('totals').innerHTML = [
-      [totals.priced, 'Items valued'],
-      [BC.money(totals.conservative), 'Conservative'],
-      [BC.money(totals.median), 'Median value'],
-      [BC.money(totals.high), 'High-end'],
-      [totals.unpriced, 'Awaiting comps']
+      [count, 'Bears', 'In your collection'],
+      [BC.money(totals.median), 'Median value', 'What they usually sell for'],
+      [BC.money(totals.conservative), 'Conservative', 'If you sold them quickly'],
+      [BC.money(totals.high), 'High-end', 'With a patient sale'],
+      [totals.unpriced, 'No price yet', 'Not enough sales to value']
     ].map(function (c) {
       return '<div class="stat"><div class="v">' + c[0] + '</div><div class="k">' +
-             BC.esc(c[1]) + '</div></div>';
+        BC.esc(c[1]) + '</div><div class="h">' + BC.esc(c[2]) + '</div></div>';
     }).join('');
   }
 
   // --- events ---------------------------------------------------------------
 
   $('add-btn').addEventListener('click', function () {
+    var id = $('add-item').value;
+    var item = BC.itemById(id);
+    if (!item) {
+      $('add-msg').textContent = 'Type a name above and pick your bear from the list first.';
+      return;
+    }
+    var qty = Math.max(1, parseInt($('add-qty').value, 10) || 1);
     list.push({
-      item_id: $('add-item').value,
+      item_id: id,
       condition: $('add-cond').value,
       completeness: $('add-comp').value,
-      qty: Math.max(1, parseInt($('add-qty').value, 10) || 1)
+      qty: qty
     });
     if (!save(list)) alert('This browser is blocking local storage, so the collection cannot be saved.');
     render();
+    $('add-msg').textContent = 'Added ' + (qty > 1 ? qty + ' \u00d7 ' : '') +
+      item.canonical_name + ' to your collection.';
+    $('add-qty').value = 1;
   });
 
   $('collection-body').addEventListener('change', function (e) {
@@ -284,7 +305,7 @@
   });
 
   $('clear-collection').addEventListener('click', function () {
-    if (!list.length || !confirm('Remove every item from your collection?')) return;
+    if (!list.length || !confirm('Remove every bear from your collection? This cannot be undone.')) return;
     list = [];
     save(list);
     render();

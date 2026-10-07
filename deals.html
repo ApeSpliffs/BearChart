@@ -20,72 +20,67 @@
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
 <main>
-  <div class="wrap">
+<div class="wrap">
 
-    <div class="panel">
-      <h2>Deal finder</h2>
-      <p class="fine">Current eBay listings priced below what the sold data says the item
-        is worth, after your fees and shipping come out. A gross discount is not profit —
-        the margin column is what you would actually keep.</p>
-      <div class="notice" id="how-it-works">
-        <strong>No sold data, no deal.</strong> An item nobody has a comp for cannot be
-        underpriced, because nobody knows what it is worth. Listings are also priced as
-        the condition they are actually in — a cheap ask on a played-with copy is not a
-        bargain because mint ones fetch more.
-        <br><br>
-        <strong>Asks are judged against a conservative floor, not the median.</strong>
-        The thinner the sold data, the further that floor sits below the middle, so an
-        item with three comps has to be a much better bargain than one with thirty before
-        it appears here. That is what stops rare items — the ones with the least data —
-        from filling this page with false alarms.
-      </div>
-    </div>
+<div class="panel page-intro">
+<h2>Deal finder</h2>
+<p class="lead">Bears listed on eBay right now for less than they usually sell for. Fees and
+shipping are already taken out, so the profit you see is what you would actually keep.</p>
+<ul class="how-list" id="how-it-works">
+<li><strong>No sold data, no deal.</strong> If we don't know what a bear sells for, we
+can't call it cheap.</li>
+<li><strong>Condition counts.</strong> A played-with bear is compared with other
+played-with bears, not mint ones.</li>
+<li><strong>Fewer false alarms.</strong> Bears with only a few recorded sales need a bigger
+discount before they show up here.</li>
+</ul>
+</div>
 
-    <div class="stats" id="deal-stats"></div>
+<div class="stats" id="deal-stats"></div>
 
-    <div class="panel">
-      <h2>Your numbers</h2>
-      <p class="fine">These are assumptions, not facts. Check them against your own
-        account — the margin figures are only as good as these.</p>
-      <div class="row">
-        <div class="field">
-          <label for="fee">Marketplace fee %</label>
-          <input type="number" id="fee" step="0.1" min="0" max="50">
-        </div>
-        <div class="field">
-          <label for="ship">Your shipping cost</label>
-          <input type="number" id="ship" step="0.5" min="0">
-        </div>
-        <div class="field">
-          <label for="min-margin">Min net margin</label>
-          <input type="number" id="min-margin" step="1" min="0">
-        </div>
-        <div class="field">
-          <label for="min-disc">Min discount %</label>
-          <input type="number" id="min-disc" step="1" min="0">
-        </div>
-        <div class="field">
-          <label for="min-conf">Min confidence</label>
-          <select id="min-conf">
-            <option value="LOW">LOW and above</option>
-            <option value="MEDIUM">MEDIUM and above</option>
-            <option value="HIGH">HIGH only</option>
-          </select>
-        </div>
-      </div>
-    </div>
+<div class="panel">
+<div class="toolbar">
+<h2 style="margin:0">Deals right now</h2>
+<span class="grow"></span>
+<span class="result-count" id="deal-count"></span>
+<button type="button" id="export-deals">Download (CSV)</button>
+</div>
 
-    <div class="panel">
-      <div class="toolbar">
-        <h2 style="margin:0">Candidates</h2>
-        <span class="grow"></span>
-        <span class="result-count" id="deal-count"></span>
-        <button type="button" id="export-deals">Export CSV</button>
-      </div>
-      <div id="deals"></div>
-    </div>
+<details class="settings" id="deal-settings">
+<summary>Adjust fees and filters</summary>
+<p class="fine">Set these to match your own selling costs. They are saved on this device.</p>
+<div class="row">
+<div class="field">
+<label for="fee">eBay fees (%)</label>
+<input type="number" id="fee" step="0.1" min="0" max="50">
+</div>
+<div class="field">
+<label for="ship">Your shipping cost ($)</label>
+<input type="number" id="ship" step="0.5" min="0">
+</div>
+<div class="field">
+<label for="min-margin">Minimum profit ($)</label>
+<input type="number" id="min-margin" step="1" min="0">
+</div>
+<div class="field">
+<label for="min-disc">Minimum discount (%)</label>
+<input type="number" id="min-disc" step="1" min="0">
+</div>
+<div class="field">
+<label for="min-conf">How sure we need to be</label>
+<select id="min-conf">
+<option value="LOW">Low or better (more deals)</option>
+<option value="MEDIUM">Medium or better</option>
+<option value="HIGH">High only (fewest, safest)</option>
+</select>
+</div>
+</div>
+</details>
 
-  </div>
+<div id="deals"></div>
+</div>
+
+</div>
 </main>
 
 <footer class="site" id="site-footer"></footer>
