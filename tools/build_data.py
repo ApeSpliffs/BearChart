@@ -2299,62 +2299,80 @@ PLANS = OrderedDict([
     ("free", OrderedDict([
         ("name", "Free"),
         ("price_monthly", 0),
-        ("blurb", "Everything the site itself can do. No account needed."),
+        ("audience", "For looking things up"),
+        ("badge", None),
+        ("perk", None),
+        ("blurb", "Price any bear, any time. No account needed."),
         ("features", [
-            "Full catalogue and item pages",
-            "Condition-aware valuations with confidence and evidence",
-            "Collection tracking and checklists, stored in your browser",
-            "Deal finder over whatever listings are loaded",
-            "CSV exports",
+            "Values for every bear in the guide, built from real sold prices",
+            "Condition calculator - NWT, played-with, missing outfit",
+            "Track your collection on this device",
+            "Collector checklists",
+            "Deal finder over the listings we have loaded",
         ]),
         ("entitlements", []),
     ])),
     ("pro", OrderedDict([
         ("name", "Pro"),
         ("price_monthly", 7),
-        ("blurb", "Your collection lives on the server instead of in one browser."),
+        ("audience", "For collectors"),
+        ("badge", "Recommended"),
+        # A shop perk, honoured by Jay's Retro Exchange at the till rather than by
+        # anything on this site - see ENTITLEMENTS["shop_discount"].
+        ("perk", "10% off one bear a month from Jay's Retro Exchange"),
+        ("blurb", "Know what your collection is worth - on every device, every month."),
         ("features", [
-            "Collection and checklists synced across devices",
-            "Portfolio history kept server-side, surviving a cleared browser",
-            "Insurance schedule with the full evidence trail, archived and re-servable",
-            "Priority on the identification queue",
+            "Your collection synced across phone, tablet and computer",
+            "Collection value history that is never lost",
+            "A monthly email with what your collection is worth now",
+            "Wishlist alerts - an email when a bear you want is listed",
+            "Insurance-ready valuation report, with the evidence behind every figure",
+            "Bear identification help, answered first",
         ]),
         ("entitlements", [
-            "collection_sync", "hosted_history", "insurance_archive", "id_priority",
+            "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
+            "insurance_archive", "id_priority", "shop_discount",
         ]),
     ])),
     ("power", OrderedDict([
         ("name", "Power"),
         ("price_monthly", 14),
-        ("blurb", "For sourcing. Alerts cost money to send and quota to find."),
+        ("audience", "For resellers"),
+        ("badge", None),
+        ("perk", "10% off one bear a month from Jay's Retro Exchange"),
+        ("blurb", "Find underpriced bears before anyone else does."),
         ("features", [
-            "Deal alerts by push, Discord and email",
-            "Priority in the polling queue for the items you watch",
-            "Outfit assembly and complete-set valuation",
-            "Read API access to your own data",
+            "Everything in Pro",
+            "Instant deal alerts by push and email when a bear lists below its value, after fees",
+            "Your watched bears checked first in the scanning queue",
+            "Outfit and complete-set valuations",
+            "Export and API access to your own data",
         ]),
         ("entitlements", [
-            "collection_sync", "hosted_history", "insurance_archive", "id_priority",
-            "alerts_push", "alerts_discord", "alerts_email",
-            "poll_priority", "outfit_assembly", "api_access",
+            "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
+            "insurance_archive", "id_priority", "shop_discount",
+            "alerts_push", "alerts_email", "poll_priority", "outfit_assembly", "api_access",
         ]),
     ])),
 ])
 
 # What each entitlement actually unlocks, and where it is enforced. "server"
 # means the database or an edge function refuses without it; "ux" means the
-# client only hides a prompt and enforcement is impossible or pointless.
+# client only hides a prompt and enforcement is impossible or pointless; "shop"
+# means Jay's Retro Exchange checks the membership when an order is placed.
 ENTITLEMENTS = OrderedDict([
-    ("collection_sync",   OrderedDict([("label", "Collection sync"), ("enforced", "server")])),
-    ("hosted_history",    OrderedDict([("label", "Server-side portfolio history"), ("enforced", "server")])),
-    ("insurance_archive", OrderedDict([("label", "Archived insurance schedules"), ("enforced", "server")])),
-    ("id_priority",       OrderedDict([("label", "Identification queue priority"), ("enforced", "server")])),
-    ("alerts_push",       OrderedDict([("label", "Push alerts"), ("enforced", "server")])),
-    ("alerts_discord",    OrderedDict([("label", "Discord alerts"), ("enforced", "server")])),
-    ("alerts_email",      OrderedDict([("label", "Email alerts"), ("enforced", "server")])),
-    ("poll_priority",     OrderedDict([("label", "Polling priority"), ("enforced", "server")])),
-    ("outfit_assembly",   OrderedDict([("label", "Outfit assembly"), ("enforced", "ux")])),
-    ("api_access",        OrderedDict([("label", "API access"), ("enforced", "server")])),
+    ("collection_sync", OrderedDict([("label", "Collection sync"), ("enforced", "server")])),
+    ("hosted_history", OrderedDict([("label", "Server-side collection history"), ("enforced", "server")])),
+    ("value_digest", OrderedDict([("label", "Monthly collection value email"), ("enforced", "server")])),
+    ("wishlist_alerts", OrderedDict([("label", "Wishlist alerts"), ("enforced", "server")])),
+    ("insurance_archive", OrderedDict([("label", "Insurance valuation reports"), ("enforced", "server")])),
+    ("id_priority", OrderedDict([("label", "Identification help, answered first"), ("enforced", "server")])),
+    ("shop_discount", OrderedDict([("label", "10% off one bear a month at Jay's Retro Exchange"), ("enforced", "shop")])),
+    ("alerts_push", OrderedDict([("label", "Push deal alerts"), ("enforced", "server")])),
+    ("alerts_email", OrderedDict([("label", "Email deal alerts"), ("enforced", "server")])),
+    ("poll_priority", OrderedDict([("label", "Scanning priority"), ("enforced", "server")])),
+    ("outfit_assembly", OrderedDict([("label", "Outfit and set valuations"), ("enforced", "ux")])),
+    ("api_access", OrderedDict([("label", "Export and API access"), ("enforced", "server")])),
 ])
 
 MEMBERSHIP = OrderedDict([
@@ -2378,7 +2396,7 @@ MEMBERSHIP = OrderedDict([
     ("hot_slot_note",
      "Hot slots are shared. The most-watched items across all members get the "
      "60-second queue; watching an item nobody else watches puts it in the "
-     "15-minute tier."),
+     "30-minute tier."),
 ])
 
 # ---------------------------------------------------------------------------
