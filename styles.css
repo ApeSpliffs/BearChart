@@ -1011,3 +1011,22 @@ details.owner-help > summary {
 @media print {
   .menu, .set-picker, .set-tools, .clear-row, details.settings { display: none !important; }
 }
+
+/* --- member photos ---------------------------------------------------------- */
+.photo-add { margin-top: 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+.photo-add .fine { margin: 0; }
+.photo-btn { cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+#photo-file:focus-visible + .fine, .photo-btn:focus-within { outline: 2px solid var(--accent, #b3131c); outline-offset: 2px; }
+.photo-thanks {
+  margin: 0; padding: 10px 12px; border-radius: var(--radius-sm);
+  background: var(--card); border: 1px solid var(--rule); font-size: 14px;
+}
+.photo-review { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.photo-card {
+  border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  background: var(--card); padding: 10px; display: flex; flex-direction: column; gap: 4px;
+}
+.photo-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--radius-sm); background: var(--rule); }
+.photo-card p { margin: 0; }
+.photo-actions { display: flex; gap: 8px; margin-top: 6px !important; }
+.photo-actions button { flex: 1; }

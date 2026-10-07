@@ -591,6 +591,137 @@
     });
   }
 
+  // --- member photos ----------------------------------------------------------
+  // Photos members sent for bears with none. They sit in a private bucket until
+  // approved here; approving copies the file into the public bucket and records
+  // it in item_photos, which the item pages and cards read at run time.
+
+  var photoQueue = { rows: [], error: null, loaded: false };
+
+  function loadPhotoQueue() {
+    if (!$('photo-queue-body')) return;
+    var c = supa();
+    if (!c) {
+      photoQueue = { rows: [], error: 'Not connected to the database. Sign in as an admin.',
+        loaded: true };
+      renderPhotoQueue();
+      return;
+    }
+    c.from('photo_submissions').select('*').eq('status', 'pending')
+      .order('created_at', { ascending: true }).limit(100)
+      .then(function (res) {
+        if (res.error) throw res.error;
+        // A private bucket: previews need short-lived signed links.
+        return Promise.all((res.data || []).map(function (r) {
+          return c.storage.from('photo-submissions').createSignedUrl(r.storage_path, 3600)
+            .then(function (s) { r.preview = s && s.data ? s.data.signedUrl : null; return r; })
+            .catch(function () { return r; });
+        }));
+      })
+      .then(function (rows) {
+        photoQueue = { rows: rows, error: null, loaded: true };
+        renderPhotoQueue();
+      })
+      .catch(function (err) {
+        var msg = (err && err.message) || 'Could not load photos.';
+        photoQueue = { rows: [], loaded: true,
+          error: /does not exist|schema cache/i.test(msg)
+            ? 'The photo tables are not in the database yet. Apply supabase_migration_03_photos.sql.'
+            : msg };
+        renderPhotoQueue();
+      });
+  }
+
+  function renderPhotoQueue() {
+    var el = $('photo-queue-body');
+    if (!el) return;
+    if (!photoQueue.loaded) { el.innerHTML = '<p class="fine">Loading\u2026</p>'; return; }
+    if (photoQueue.error) {
+      el.innerHTML = '<div class="notice warn">' + BC.esc(photoQueue.error) + '</div>';
+      return;
+    }
+    if (!photoQueue.rows.length) {
+      el.innerHTML = '<p class="fine">No photos waiting for review.</p>';
+      return;
+    }
+    el.innerHTML = '<div class="photo-review">' + photoQueue.rows.map(function (r) {
+      var item = BC.itemById(r.item_slug);
+      return '<div class="photo-card">' +
+        (r.preview
+          ? '<img src="' + BC.esc(r.preview) + '" alt="Photo submitted for ' +
+            BC.esc(item ? item.canonical_name : r.item_slug) + '">'
+          : '<div class="empty"><p>No preview</p></div>') +
+        '<p><strong>' + (item
+          ? '<a href="' + BC.itemUrl(item.id) + '" target="_blank" rel="noopener">' +
+            BC.esc(item.canonical_name) + '</a>'
+          : BC.esc(r.item_slug)) + '</strong></p>' +
+        '<p class="fine">Sent ' + BC.esc(String(r.created_at || '').slice(0, 10)) + '</p>' +
+        '<p class="photo-actions">' +
+        '<button type="button" class="primary" data-approve="' + BC.esc(r.id) + '">Approve</button> ' +
+        '<button type="button" data-reject-photo="' + BC.esc(r.id) + '">Reject</button></p>' +
+        '</div>';
+    }).join('') + '</div>';
+  }
+
+  function approvePhoto(row) {
+    var c = supa();
+    var target = row.item_slug + '.jpg';
+    return c.storage.from('photo-submissions').download(row.storage_path)
+      .then(function (res) {
+        if (res.error) throw res.error;
+        return c.storage.from('bear-photos')
+          .upload(target, res.data, { contentType: 'image/jpeg', upsert: true });
+      })
+      .then(function (res) {
+        if (res.error) throw res.error;
+        var pub = c.storage.from('bear-photos').getPublicUrl(target).data.publicUrl;
+        return c.from('item_photos').upsert({
+          item_slug: row.item_slug,
+          // Versioned, so a replaced photo is never served stale from a cache.
+          image_url: pub + '?v=' + Date.now(),
+          credit: 'Photo by a BearChart member',
+          submission_id: row.id,
+          approved_at: new Date().toISOString()
+        });
+      })
+      .then(function (res) {
+        if (res.error) throw res.error;
+        return c.from('photo_submissions')
+          .update({ status: 'approved', reviewed_at: new Date().toISOString() })
+          .eq('id', row.id);
+      })
+      .then(function (res) { if (res && res.error) throw res.error; });
+  }
+
+  function rejectPhoto(row) {
+    var c = supa();
+    return c.from('photo_submissions')
+      .update({ status: 'rejected', reviewed_at: new Date().toISOString() })
+      .eq('id', row.id)
+      .then(function (res) {
+        if (res.error) throw res.error;
+        // The file is not kept once it has been turned down.
+        return c.storage.from('photo-submissions').remove([row.storage_path]);
+      });
+  }
+
+  if ($('photo-queue-body')) {
+    $('photo-queue-body').addEventListener('click', function (e) {
+      var d = e.target.dataset || {};
+      var id = d.approve || d.rejectPhoto;
+      if (!id) return;
+      var row = photoQueue.rows.filter(function (r) { return r.id === id; })[0];
+      if (!row) return;
+      e.target.disabled = true;
+      (d.approve ? approvePhoto(row) : rejectPhoto(row)).then(loadPhotoQueue)
+        .catch(function (err) {
+          e.target.disabled = false;
+          window.alert('Could not update that photo: ' + ((err && err.message) || err));
+        });
+    });
+    $('photo-queue-refresh').addEventListener('click', loadPhotoQueue);
+  }
+
   function render() {
     renderAccess();
     renderStats();
@@ -603,4 +734,13 @@
 
   render();
   loadQueue();
+  loadPhotoQueue();
+  // The account client loads after this script; reload the photo queue once
+  // it is there, so an admin does not see "not connected" on a cold load.
+  if (window.BearChartAuth && window.BearChartAuth.onChange) {
+    var photoQueueSeen = false;
+    window.BearChartAuth.onChange(function (s) {
+      if (s && s.signedIn && !photoQueueSeen) { photoQueueSeen = true; loadPhotoQueue(); }
+    });
+  }
 })();

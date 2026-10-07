@@ -578,4 +578,12 @@
   renderHero();
   initCalculator();
   render();
+
+  // Photos members have added since the last build are fetched at run time
+  // and folded into the cards; a failure just leaves the illustrations.
+  if (window.BearChartSubmissions && window.BearChartSubmissions.applyMemberPhotos) {
+    window.BearChartSubmissions.applyMemberPhotos(D.items).then(function (n) {
+      if (n) render();
+    });
+  }
 })();

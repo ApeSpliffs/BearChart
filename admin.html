@@ -157,6 +157,20 @@
           <div id="queue-body"><p class="fine">Loading…</p></div>
         </div>
 
+<!-- Member photos: uploads from signed-in members for bears with no photo.
+     Nothing is public until approved here. Needs supabase_migration_03_photos.sql. -->
+<div class="panel" id="photo-queue-panel">
+<div class="toolbar">
+<h2 style="margin:0">Member photos</h2>
+<span class="grow"></span>
+<button type="button" id="photo-queue-refresh">Refresh</button>
+</div>
+<p class="fine">Photos members sent for bears that have none. Approving one
+copies it into the public photo store and shows it on the bear's page as
+"Photo by a BearChart member". Rejecting deletes the upload.</p>
+<div id="photo-queue-body"><p class="fine">Loading…</p></div>
+</div>
+
         <div class="panel">
           <h2>Data quality</h2>
           <p class="fine">Where the database is thin. These are the gaps worth filling next.</p>

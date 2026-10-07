@@ -613,8 +613,8 @@
     '<div class="panel item-head">' +
       '<div class="item-hero">' + BC.imageHtml(item, 'hero') + BC.imageCredit(item) +
         (BC.hasImage(item) ? '' :
-          '<p class="fine img-credit">No photo on file. Add one from the ' +
-          '<a href="' + BC.rel('admin.html') + '">admin tools</a>.</p>') +
+          '<p class="fine img-credit">No photo on file yet.</p>' +
+          '<div id="photo-add" class="photo-add"></div>') +
       '</div>' +
       '<div class="item-headtext">' +
         '<h1>' + BC.esc(item.canonical_name) + '</h1>' +
@@ -653,6 +653,65 @@
     reportPanel();
 
   bindSubmissions();
+
+  // --- member photos --------------------------------------------------------
+  // A signed-in member can send the first photo of a bear that has none. It is
+  // reviewed before it appears; see submissions.js and migration 03.
+
+  var photoBusy = false, photoSent = false;
+
+  function renderPhotoAdd() {
+    var box = document.getElementById('photo-add');
+    if (!box || photoBusy || photoSent) return;
+    var Sub = S();
+    if (!Sub || !Sub.configured() || !Sub.submitPhoto) { box.innerHTML = ''; return; }
+    if (!Sub.signedIn()) {
+      box.innerHTML = '<a class="btn photo-btn" href="' + BC.rel('account.html') + '">' +
+        'Sign in to add a photo</a>' +
+        '<p class="fine">Have this bear? Members can add the first photo.</p>';
+      return;
+    }
+    box.innerHTML = '<label class="btn btn-primary photo-btn" for="photo-file">' +
+      'Add a photo of this bear</label>' +
+      '<input type="file" id="photo-file" accept="image/*" class="sr-only">' +
+      '<p class="fine" id="photo-msg">Photos are checked before they appear.</p>';
+    document.getElementById('photo-file').addEventListener('change', function (e) {
+      var file = e.target.files && e.target.files[0];
+      if (!file) return;
+      var msg = document.getElementById('photo-msg');
+      photoBusy = true;
+      msg.textContent = 'Uploading\u2026';
+      S().submitPhoto(item.id, file).then(function (res) {
+        photoBusy = false;
+        if (res.ok) {
+          photoSent = true;
+          box.innerHTML = '<p class="photo-thanks"><strong>Thanks!</strong> Your photo is ' +
+            'waiting for review and will appear here once it is approved.</p>';
+        } else {
+          msg.textContent = res.message;
+          e.target.value = '';
+        }
+      });
+    });
+  }
+
+  renderPhotoAdd();
+  if (window.BearChartAuth && window.BearChartAuth.onChange) {
+    window.BearChartAuth.onChange(renderPhotoAdd);
+  }
+
+  // An approved member photo is not in the static catalogue until the next
+  // build, so it is asked for at run time.
+  if (!BC.hasImage(item) && S() && S().applyMemberPhotos) {
+    S().applyMemberPhotos([item]).then(function (n) {
+      if (!n) return;
+      var hero = document.querySelector('.item-hero');
+      if (hero) {
+        hero.innerHTML = BC.imageHtml(item, 'hero') +
+          '<p class="fine img-credit">' + BC.esc(S().photoCredit) + '</p>';
+      }
+    });
+  }
 
   // --- behaviour ------------------------------------------------------------
 
