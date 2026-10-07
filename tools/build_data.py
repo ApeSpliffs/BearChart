@@ -2319,7 +2319,7 @@ PLANS = OrderedDict([
         ("badge", "Recommended"),
         # A shop perk, honoured by Jay's Retro Exchange at the till rather than by
         # anything on this site - see ENTITLEMENTS["shop_discount"].
-        ("perk", "10% off one bear a month from Jay's Retro Exchange"),
+        ("perk", "5% off one bear a month from Jay's Retro Exchange"),
         ("blurb", "Know what your collection is worth - on every device, every month."),
         ("features", [
             "Your collection synced across phone, tablet and computer",
@@ -2367,7 +2367,7 @@ ENTITLEMENTS = OrderedDict([
     ("wishlist_alerts", OrderedDict([("label", "Wishlist alerts"), ("enforced", "server")])),
     ("insurance_archive", OrderedDict([("label", "Insurance valuation reports"), ("enforced", "server")])),
     ("id_priority", OrderedDict([("label", "Identification help, answered first"), ("enforced", "server")])),
-    ("shop_discount", OrderedDict([("label", "10% off one bear a month at Jay's Retro Exchange"), ("enforced", "shop")])),
+    ("shop_discount", OrderedDict([("label", "Monthly discount at Jay's Retro Exchange (5% Pro, 10% Power)"), ("enforced", "shop")])),
     ("alerts_push", OrderedDict([("label", "Push deal alerts"), ("enforced", "server")])),
     ("alerts_email", OrderedDict([("label", "Email deal alerts"), ("enforced", "server")])),
     ("poll_priority", OrderedDict([("label", "Scanning priority"), ("enforced", "server")])),
