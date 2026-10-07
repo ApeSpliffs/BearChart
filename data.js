@@ -183,50 +183,67 @@ globalThis.BEARCHART_DATA = {
       "free": {
         "name": "Free",
         "price_monthly": 0,
-        "blurb": "Everything the site itself can do. No account needed.",
+        "audience": "For looking things up",
+        "badge": null,
+        "perk": null,
+        "blurb": "Price any bear, any time. No account needed.",
         "features": [
-          "Full catalogue and item pages",
-          "Condition-aware valuations with confidence and evidence",
-          "Collection tracking and checklists, stored in your browser",
-          "Deal finder over whatever listings are loaded",
-          "CSV exports"
+          "Values for every bear in the guide, built from real sold prices",
+          "Condition calculator - NWT, played-with, missing outfit",
+          "Track your collection on this device",
+          "Collector checklists",
+          "Deal finder over the listings we have loaded"
         ],
         "entitlements": []
       },
       "pro": {
         "name": "Pro",
         "price_monthly": 7,
-        "blurb": "Your collection lives on the server instead of in one browser.",
+        "audience": "For collectors",
+        "badge": "Recommended",
+        "perk": "10% off one bear a month from Jay's Retro Exchange",
+        "blurb": "Know what your collection is worth - on every device, every month.",
         "features": [
-          "Collection and checklists synced across devices",
-          "Portfolio history kept server-side, surviving a cleared browser",
-          "Insurance schedule with the full evidence trail, archived and re-servable",
-          "Priority on the identification queue"
+          "Your collection synced across phone, tablet and computer",
+          "Collection value history that is never lost",
+          "A monthly email with what your collection is worth now",
+          "Wishlist alerts - an email when a bear you want is listed",
+          "Insurance-ready valuation report, with the evidence behind every figure",
+          "Bear identification help, answered first"
         ],
         "entitlements": [
           "collection_sync",
           "hosted_history",
+          "value_digest",
+          "wishlist_alerts",
           "insurance_archive",
-          "id_priority"
+          "id_priority",
+          "shop_discount"
         ]
       },
       "power": {
         "name": "Power",
         "price_monthly": 14,
-        "blurb": "For sourcing. Alerts cost money to send and quota to find.",
+        "audience": "For resellers",
+        "badge": null,
+        "perk": "10% off one bear a month from Jay's Retro Exchange",
+        "blurb": "Find underpriced bears before anyone else does.",
         "features": [
-          "Deal alerts by push, Discord and email",
-          "Priority in the polling queue for the items you watch",
-          "Outfit assembly and complete-set valuation",
-          "Read API access to your own data"
+          "Everything in Pro",
+          "Instant deal alerts by push and email when a bear lists below its value, after fees",
+          "Your watched bears checked first in the scanning queue",
+          "Outfit and complete-set valuations",
+          "Export and API access to your own data"
         ],
         "entitlements": [
           "collection_sync",
           "hosted_history",
+          "value_digest",
+          "wishlist_alerts",
           "insurance_archive",
           "id_priority",
+          "shop_discount",
           "alerts_push",
-          "alerts_discord",
           "alerts_email",
           "poll_priority",
           "outfit_assembly",
@@ -240,44 +257,52 @@ globalThis.BEARCHART_DATA = {
         "enforced": "server"
       },
       "hosted_history": {
-        "label": "Server-side portfolio history",
+        "label": "Server-side collection history",
+        "enforced": "server"
+      },
+      "value_digest": {
+        "label": "Monthly collection value email",
+        "enforced": "server"
+      },
+      "wishlist_alerts": {
+        "label": "Wishlist alerts",
         "enforced": "server"
       },
       "insurance_archive": {
-        "label": "Archived insurance schedules",
+        "label": "Insurance valuation reports",
         "enforced": "server"
       },
       "id_priority": {
-        "label": "Identification queue priority",
+        "label": "Identification help, answered first",
         "enforced": "server"
+      },
+      "shop_discount": {
+        "label": "10% off one bear a month at Jay's Retro Exchange",
+        "enforced": "shop"
       },
       "alerts_push": {
-        "label": "Push alerts",
-        "enforced": "server"
-      },
-      "alerts_discord": {
-        "label": "Discord alerts",
+        "label": "Push deal alerts",
         "enforced": "server"
       },
       "alerts_email": {
-        "label": "Email alerts",
+        "label": "Email deal alerts",
         "enforced": "server"
       },
       "poll_priority": {
-        "label": "Polling priority",
+        "label": "Scanning priority",
         "enforced": "server"
       },
       "outfit_assembly": {
-        "label": "Outfit assembly",
+        "label": "Outfit and set valuations",
         "enforced": "ux"
       },
       "api_access": {
-        "label": "API access",
+        "label": "Export and API access",
         "enforced": "server"
       }
     },
     "hot_slots_total": 3,
-    "hot_slot_note": "Hot slots are shared. The most-watched items across all members get the 60-second queue; watching an item nobody else watches puts it in the 15-minute tier."
+    "hot_slot_note": "Hot slots are shared. The most-watched items across all members get the 60-second queue; watching an item nobody else watches puts it in the 30-minute tier."
   },
   "sources": [
     {
