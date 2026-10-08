@@ -185,7 +185,8 @@
   }
 
   /** Shrink a phone photo before upload: smaller, faster, and EXIF-free. */
-  function shrinkPhoto(file) {
+  function shrinkPhoto(file, maxSide, quality) {
+    var side = maxSide || PHOTO_MAX_SIDE;
     return new Promise(function (resolve, reject) {
       if (!file || !/^image\//.test(file.type || '')) {
         reject(new Error('Choose a photo file (JPEG, PNG or WebP).'));
@@ -194,7 +195,7 @@
       var url = URL.createObjectURL(file);
       var img = new Image();
       img.onload = function () {
-        var scale = Math.min(1, PHOTO_MAX_SIDE / Math.max(img.naturalWidth, img.naturalHeight));
+        var scale = Math.min(1, side / Math.max(img.naturalWidth, img.naturalHeight));
         var canvas = document.createElement('canvas');
         canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
         canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
@@ -203,7 +204,7 @@
         canvas.toBlob(function (blob) {
           if (blob) resolve(blob);
           else reject(new Error('That photo could not be read. Try a JPEG or PNG.'));
-        }, 'image/jpeg', 0.86);
+        }, 'image/jpeg', quality || 0.86);
       };
       img.onerror = function () {
         URL.revokeObjectURL(url);

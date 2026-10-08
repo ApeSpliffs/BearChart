@@ -230,7 +230,9 @@
     if (!c || !S || !S.shrinkPhoto) { msg.textContent = 'Photo uploads are not available right now.'; return; }
     msg.textContent = 'Uploading photo\u2026';
     var path = null;
-    S.shrinkPhoto(file).then(function (blob) {
+    // Showcase pages and the list can show many photos at once, so these are
+    // kept smaller than the photos sent in for review.
+    S.shrinkPhoto(file, 1080, 0.8).then(function (blob) {
       var uid = A.state().user && A.state().user.id;
       if (!uid) throw new Error('Please sign in first.');
       path = uid + '/' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10) + '.jpg';
@@ -250,6 +252,21 @@
         ? 'Photos are part of <a href="' + BC.rel('plans.html') + '">Power membership</a>.'
         : /too large|exceed|payload/i.test(m) ? 'That photo is too big. Try a smaller one.' : esc(m);
     });
+  }
+
+  // Remove photos in this member's folder that the saved showcase no longer
+  // uses (replaced, or for a bear taken off the list), so they do not pile up.
+  function tidyPhotos(details) {
+    var c = client();
+    var uid = A.state().user && A.state().user.id;
+    if (!c || !uid) return;
+    var keep = {};
+    Object.keys(details || {}).forEach(function (k) { if (details[k] && details[k].photo) keep[details[k].photo] = true; });
+    c.storage.from(BUCKET).list(uid, { limit: 200 }).then(function (r) {
+      var drop = ((r && r.data) || []).map(function (f) { return uid + '/' + f.name; })
+        .filter(function (p) { return /\.jpg$/.test(p) && !keep[p]; });
+      if (drop.length) c.storage.from(BUCKET).remove(drop).then(function () {}, function () {});
+    }, function () {});
   }
 
   function upsell() {
@@ -363,6 +380,7 @@
           return;
         }
         $('sc-msg').innerHTML = 'Saved. <a href="' + BC.rel('showcase.html') + '?u=' + encodeURIComponent(r.data) + '">View your showcase</a>';
+        tidyPhotos(details);
         if (window.bcTrack) window.bcTrack('showcase_saved', { bears: draft.bears.length, photos: Object.keys(details).filter(function (k) { return details[k].photo; }).length });
         load();
       });
