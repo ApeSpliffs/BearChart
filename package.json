@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "BearChart \u2014 an independent Build-A-Bear collector and reseller price guide built on completed sold transactions.",
+  "engines": {
+    "node": ">=22.18"
+  },
   "scripts": {
     "build": "python3 tools/build_data.py",
     "sql": "python3 tools/export_sql.py",
@@ -34,7 +37,11 @@
     "test:submissions": "python3 tools/test_submissions.py",
     "build:site": "./tools/build_site.sh",
     "test:deletion": "node --test tools/test_ebay_deletion.js",
-    "test:userdata": "python3 tools/test_user_data.py"
+    "test:userdata": "python3 tools/test_user_data.py",
+    "build:ci": "python3 tools/build_pages.py",
+    "build:daily": "python3 tools/build_data.py && python3 tools/export_sql.py && python3 tools/build_pages.py && python3 tools/build_pwa.py",
+    "test:db": "supabase test db",
+    "test:functions": "deno task --cwd supabase/functions ci"
   },
   "devDependencies": {
     "jsdom": "^25.0.1"
