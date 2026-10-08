@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Assemble the deployable site into dist/.
 #
-# The 2,042 item pages, sitemap.xml and sw.js are generated, not committed
+# The item pages, sitemap.xml and sw.js are generated, not committed
 # (see .gitignore), so a host that deploys straight from the repo serves a
 # site with no item pages at all. This rebuilds them and copies only what a
 # browser should ever see - no tools/, no *.sql, no data.json, no node_modules.
@@ -16,12 +16,8 @@ command -v python3 >/dev/null || {
 }
 
 # The sitemap needs absolute URLs, so the base address has to come from the
-# host. Each names it differently, and Vercel's carries no scheme.
-if [ -n "${DEPLOY_PRIME_URL:-}" ]; then
-  BASE="$DEPLOY_PRIME_URL"                       # Netlify deploy preview
-elif [ -n "${URL:-}" ]; then
-  BASE="$URL"                                    # Netlify production
-elif [ "${VERCEL_ENV:-}" = "production" ] && [ -n "${VERCEL_PROJECT_PRODUCTION_URL:-}" ]; then
+# host (Vercel). Vercel's carries no scheme.
+if [ "${VERCEL_ENV:-}" = "production" ] && [ -n "${VERCEL_PROJECT_PRODUCTION_URL:-}" ]; then
   BASE="https://$VERCEL_PROJECT_PRODUCTION_URL"  # Vercel production
 elif [ -n "${VERCEL_URL:-}" ]; then
   BASE="https://$VERCEL_URL"                     # Vercel preview
@@ -44,6 +40,11 @@ mkdir -p "$DIST"
 cp -r item icons images "$DIST"/
 cp ./*.html ./*.js ./*.css favicon.ico manifest.webmanifest robots.txt "$DIST"/
 [ -f sitemap.xml ] && cp sitemap.xml "$DIST"/
+
+# Per-environment runtime config (accounts, error reporting, analytics) replaces
+# the inert committed copy. A preview with no staging settings gets accounts
+# switched off. See docs/ENVIRONMENTS.md.
+python3 tools/build_runtime_config.py > "$DIST/config.js"
 
 # Link previews (Facebook, iMessage, Discord) need an absolute image address,
 # which only the host knows. The pages carry a root-relative one for local use.
