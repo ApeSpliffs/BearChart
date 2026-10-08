@@ -2351,7 +2351,7 @@ PLANS = OrderedDict([
             "Wishlist alerts - an email when a bear you want is listed",
             "Insurance-ready valuation report, with the evidence behind every figure",
             "Bear identification help, answered first",
-            "A public showcase page for your top 12 bears",
+            "A showcase of your top 12 bears, shared with other members",
         ]),
         ("entitlements", [
             "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",

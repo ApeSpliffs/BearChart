@@ -53,7 +53,7 @@ SCRIPTS = ["data.js", "engine.js", "icons.js", "auth.js", "entitlements.js",
 
 # Pages that are not items but still belong in the sitemap.
 TOP_LEVEL = ["index.html", "deals.html", "checklists.html", "collection.html",
-             "about.html", "roadmap.html", "plans.html", "showcase.html",
+             "about.html", "plans.html", "showcase.html",
              "privacy.html", "terms.html"]
 
 
