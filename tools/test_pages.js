@@ -2331,3 +2331,33 @@ test('a deploy can switch accounts off through config.js, overriding data.json',
   dom.window.eval(fs.readFileSync(path.join(ROOT, 'auth.js'), 'utf8'));
   assert.strictEqual(dom.window.BearChartAuth.configured(), false);
 });
+
+test('member photos follow the deploy override: accounts off means no request at all', async () => {
+  // A browser-like window (not jsdom's UA), so only the config can stop the fetch.
+  const dom = track(new JSDOM('<!doctype html><html><head></head><body></body></html>', {
+    url: 'https://preview.bearchart.test/item/x.html', runScripts: 'outside-only',
+    resources: new OfflineLoader({ userAgent: 'Mozilla/5.0 (BearChart test browser)' })
+  }));
+  const win = dom.window;
+  const data = JSON.parse(JSON.stringify(loadData()));
+  data.config = Object.assign({}, data.config, { auth: { enabled: true,
+    supabase_url: 'https://prod.supabase.co', supabase_anon_key: 'prod-anon' } });
+  win.BEARCHART_DATA = data;
+  win.BEARCHART_RUNTIME = { auth: { enabled: false } };
+  const fetched = [];
+  win.fetch = (url) => { fetched.push(String(url)); return Promise.resolve({ ok: true, json: () => [] }); };
+  for (const f of ['config.js', 'auth.js', 'submissions.js']) {
+    win.eval(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+  }
+  assert.strictEqual(win.BearChartAuth.config().enabled, false);
+  const photos = await win.BearChartSubmissions.memberPhotos();
+  assert.strictEqual(JSON.stringify(photos), '{}');
+  assert.deepStrictEqual(fetched, [], 'a preview must not query the production database');
+
+  // Control: without the override the same window does query the configured project.
+  win.BEARCHART_RUNTIME = {};
+  for (const f of ['auth.js', 'submissions.js']) win.eval(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+  await win.BearChartSubmissions.memberPhotos();
+  assert.strictEqual(fetched.length, 1);
+  assert.match(fetched[0], /^https:\/\/prod\.supabase\.co\/rest\/v1\/item_photos/);
+});

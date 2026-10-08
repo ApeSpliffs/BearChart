@@ -135,8 +135,11 @@
   var PHOTO_CREDIT = 'Photo by a BearChart member';
   var PHOTO_MAX_SIDE = 1400;
 
+  // Through auth.js, so a deploy's config.js override (e.g. a preview with
+  // accounts off) applies here too. Without auth.js: nothing is configured.
   function authCfg() {
-    return ((root.BEARCHART_DATA || {}).config || {}).auth || {};
+    var A = root.BearChartAuth;
+    return A && typeof A.config === 'function' ? A.config() : {};
   }
 
   /**

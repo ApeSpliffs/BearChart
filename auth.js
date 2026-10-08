@@ -26,6 +26,9 @@
 
   var SUPABASE_CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
 
+  // The one place the auth settings are resolved: data.json's config.auth with
+  // the deploy's config.js (BEARCHART_RUNTIME.auth) on top. Everything else that
+  // talks to Supabase reads them through BearChartAuth.config().
   var dataCfg = ((root.BEARCHART_DATA || {}).config || {}).auth || {};
   var cfg = Object.assign({}, dataCfg, (root.BEARCHART_RUNTIME || {}).auth || {});
   var client = null;
@@ -222,6 +225,8 @@
     ready: ready,
     state: state,
     configured: configured,
+    /** The merged auth settings (a copy). */
+    config: function () { return Object.assign({}, cfg); },
     signUp: signUp,
     signIn: signIn,
     signInWithLink: signInWithLink,
