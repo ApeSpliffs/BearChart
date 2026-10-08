@@ -1,5 +1,7 @@
 /* Member showcases: Power members pick up to 12 bears, add their own photo and
-   a note to each, choose a colour, and share the page with other members.
+   a note to each, choose a page colour, and share the page with other members.
+   Any member can like another member's showcase once; the total is kept on
+   the showcase by the database.
    Browsing needs a free account. Saving goes through save_showcase() and
    photos through the showcase-photos bucket, both of which check the
    membership on the server - this page only decides what to show. */
@@ -85,7 +87,64 @@
     '</article>';
   }
 
-  function renderOne(sc) {
+  // --- likes ---------------------------------------------------------------
+
+  function likeLabel(n) { return n + ' like' + (n === 1 ? '' : 's'); }
+
+  function likeButton(sc, liked) {
+    var n = sc.like_count || 0;
+    var mine = A.state().user && A.state().user.id === sc.user_id;
+    if (mine) {
+      return '<div class="sc-like is-mine" title="Members who liked your showcase">' +
+        '<span aria-hidden="true">&hearts;</span> ' + likeLabel(n) + '</div>';
+    }
+    return '<button type="button" class="sc-like" id="sc-like" aria-pressed="' + !!liked + '">' +
+      '<span aria-hidden="true">' + (liked ? '&hearts;' : '&#9825;') + '</span> ' +
+      '<span id="sc-like-text">' + (liked ? 'Liked' : 'Like') + ' &middot; ' + n + '</span></button>';
+  }
+
+  function wireLike(sc) {
+    var btn = $('sc-like');
+    var c = client();
+    if (!btn || !c) return;
+    var liked = btn.getAttribute('aria-pressed') === 'true';
+    var busy = false;
+    btn.addEventListener('click', function () {
+      if (busy) return;
+      busy = true;
+      var want = !liked;
+      // Show it straight away; put it back if the server says no.
+      liked = want;
+      sc.like_count = Math.max(0, (sc.like_count || 0) + (want ? 1 : -1));
+      paint();
+      var q = want
+        ? c.from('showcase_likes').insert({ showcase_user: sc.user_id })
+        : c.from('showcase_likes').delete().eq('showcase_user', sc.user_id);
+      q.then(function (r) {
+        // 23505: already liked on another tab - that is the state we wanted.
+        if (r && r.error && r.error.code !== '23505') {
+          liked = !want;
+          sc.like_count = Math.max(0, (sc.like_count || 0) + (want ? -1 : 1));
+          paint();
+        } else if (want && window.bcTrack) {
+          window.bcTrack('showcase_liked', {});
+        }
+        busy = false;
+      }, function () {
+        liked = !want;
+        sc.like_count = Math.max(0, (sc.like_count || 0) + (want ? -1 : 1));
+        paint();
+        busy = false;
+      });
+    });
+    function paint() {
+      btn.setAttribute('aria-pressed', String(liked));
+      btn.innerHTML = '<span aria-hidden="true">' + (liked ? '&hearts;' : '&#9825;') + '</span> ' +
+        '<span id="sc-like-text">' + (liked ? 'Liked' : 'Like') + ' &middot; ' + (sc.like_count || 0) + '</span>';
+    }
+  }
+
+  function renderOne(sc, liked) {
     var bears = known(sc.bears);
     var details = sc.details || {};
     var theme = themeOf(sc.theme);
@@ -100,6 +159,7 @@
           '<h2>' + esc(sc.display_name) + '</h2>' +
           '<p class="sc-handle">@' + esc(sc.handle) + '</p>' +
           (sc.bio ? '<p class="sc-bio">' + esc(sc.bio) + '</p>' : '') +
+          likeButton(sc, liked) +
         '</div>' +
         '<div class="sc-stats">' +
           '<div><strong>' + bears.length + '</strong><span>bears</span></div>' +
@@ -113,6 +173,7 @@
         : '<div class="panel"><p class="fine">No bears picked yet.</p></div>') +
       '<p class="fine" style="margin-top:14px">Values are BearChart\'s current estimates from recorded sold prices. ' +
         'Photos marked &ldquo;Their photo&rdquo; were taken by this member.</p>';
+    wireLike(sc);
   }
 
   // --- all showcases --------------------------------------------------------
@@ -121,19 +182,21 @@
     var sortBy = ($('sc-sort') && $('sc-sort').value) || 'new';
     rows = rows.slice();
     if (sortBy === 'value') rows.sort(function (a, b) { return totalOf(b.bears) - totalOf(a.bears); });
+    if (sortBy === 'liked') rows.sort(function (a, b) { return (b.like_count || 0) - (a.like_count || 0); });
     $('sc-list-body').innerHTML = rows.length ? '<div class="sc-list">' + rows.map(function (sc) {
       var bears = known(sc.bears);
       return '<a class="sc-card theme-' + themeOf(sc.theme) + '" href="' + BC.rel('showcase.html') + '?u=' + encodeURIComponent(sc.handle) + '">' +
         '<div class="sc-thumbs">' + bears.slice(0, 4).map(function (id) { return picture(id, sc.details, 'thumb'); }).join('') + '</div>' +
         '<strong>' + esc(sc.display_name) + '</strong>' +
         '<span class="fine">' + bears.length + ' bear' + (bears.length === 1 ? '' : 's') + ' &middot; worth about ' + BC.money(totalOf(bears)) + '</span>' +
+        '<span class="sc-card-likes"><span aria-hidden="true">&hearts;</span> ' + likeLabel(sc.like_count || 0) + '</span>' +
         '</a>';
     }).join('') + '</div>'
       : '<p class="fine">No showcases yet. Power members can be the first to share their top bears.</p>';
   }
 
   var listRows = [];
-  var COLS = 'handle,display_name,bio,bears,details,theme,updated_at';
+  var COLS = 'user_id,handle,display_name,bio,bears,details,theme,like_count,updated_at';
   function load() {
     var c = client();
     if (!c) {
@@ -163,7 +226,12 @@
             '<a href="' + BC.rel('showcase.html') + '">See all showcases</a>.</p></div>';
           return;
         }
-        signPhotos(photoPaths([r.data])).then(function () { renderOne(r.data); });
+        var sc = r.data;
+        var mine = A.state().user && A.state().user.id === sc.user_id;
+        var likedQ = mine ? Promise.resolve(false)
+          : c.from('showcase_likes').select('showcase_user').eq('showcase_user', sc.user_id).maybeSingle()
+              .then(function (x) { return !!(x && x.data); }, function () { return false; });
+        Promise.all([likedQ, signPhotos(photoPaths([sc]))]).then(function (res) { renderOne(sc, res[0]); });
       });
       return;
     }
@@ -210,7 +278,9 @@
   }
 
   function themePicker() {
-    return '<div class="field"><span class="label">Colour</span><div class="sc-themes" role="radiogroup" aria-label="Showcase colour">' +
+    return '<div class="field"><span class="label">Page colour</span>' +
+      '<p class="fine sc-hint">Sets the colour of your whole showcase &mdash; the banner on your page and your card in the showcase list.</p>' +
+      '<div class="sc-themes" role="radiogroup" aria-label="Page colour">' +
       THEMES.map(function (t) {
         return '<button type="button" role="radio" class="sc-swatch theme-' + t[0] + '" data-theme="' + t[0] + '" ' +
           'aria-checked="' + (draft.theme === t[0]) + '" title="' + t[1] + '"><span class="sr-only">' + t[1] + '</span></button>';
@@ -272,7 +342,7 @@
   function upsell() {
     return '<h2>Share your own showcase</h2>' +
       '<p>Power members get a showcase page with up to ' + MAX + ' of their favourite bears &mdash; ' +
-      'in their own photos, with a note on each, a featured bear and their own colour &mdash; ' +
+      'in their own photos, with a note on each, a featured bear and their own page colour &mdash; ' +
       'shared with every BearChart member.</p>' +
       '<p><a class="btn btn-primary" href="' + BC.rel('plans.html') + '">See Power membership</a></p>';
   }

@@ -715,8 +715,20 @@
       document.body.appendChild(card);
       if (root.bcTrack) root.bcTrack('members_gate_shown', { page: current });
     }
+    // Until the account service has checked the saved sign-in, go by whether
+    // this browser holds one. auth.js reports "signed out" to every listener
+    // the moment it is registered - before it has looked - so acting on that
+    // early report flashed this card at signed-in members on every page.
     paint(storedSession());
-    A.onChange(function (s) { paint(!!(s && s.signedIn)); });
+    var settled = false;
+    function settle(s) {
+      settled = true;
+      // No account service (it failed to load): keep the stored-session guess.
+      if (A.getClient && A.getClient()) paint(!!(s && s.signedIn));
+    }
+    if (A.ready && typeof A.ready.then === 'function') A.ready.then(settle, function () { settled = true; });
+    else settled = true;
+    A.onChange(function (s) { if (settled) paint(!!(s && s.signedIn)); });
   }
 
   // ---- member cloud: collection sync, value history, saved reports ----------
@@ -954,8 +966,11 @@
       head.innerHTML =
         '<div class="wrap">' +
           '<a class="brand" href="' + rel('index.html') + '">' +
-            '<h1>BearChart</h1>' +
-            '<div class="sub">Build-A-Bear Price Guide</div>' +
+            '<img class="brand-mark" src="' + rel('icons/icon-192.png') + '" alt="" width="52" height="52">' +
+            '<div class="brand-text">' +
+              '<h1>BearChart</h1>' +
+              '<div class="sub">Build-A-Bear Price Guide</div>' +
+            '</div>' +
           '</a>' +
           '<nav class="nav">' + NAV.filter(function (n) {
             // Admin tools (and the roadmap, for now) are not destinations: only

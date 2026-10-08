@@ -92,7 +92,16 @@ a:hover { color: var(--brown-deep); }
   display: flex; align-items: center; justify-content: space-between;
   gap: 20px; flex-wrap: wrap; padding-top: 16px; padding-bottom: 14px;
 }
-.brand { text-decoration: none; color: inherit; display: block; }
+.brand { text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; }
+/* The site icon beside the wordmark: the same bear the browser tab and home
+   screen show, so the header and the tab read as one brand. */
+.brand-mark {
+  width: 52px; height: 52px; flex: none; display: block;
+  border-radius: 14px; box-shadow: 0 2px 6px rgba(74, 42, 20, .16);
+  transition: transform .18s ease;
+}
+.brand:hover .brand-mark { transform: rotate(-6deg) scale(1.04); }
+.brand-text { display: block; min-width: 0; }
 .brand h1 {
   font-family: var(--serif);
   font-size: 36px; line-height: .95; letter-spacing: -.02em;
@@ -552,6 +561,8 @@ footer.site p { margin: 0 0 6px; max-width: 65ch; }
   .sidebar { display: none; }
   .sidebar.open { display: block; }
   .brand h1 { font-size: 27px; }
+  .brand { gap: 10px; }
+  .brand-mark { width: 42px; height: 42px; border-radius: 11px; }
   .headline .big { font-size: 31px; }
   .masthead .wrap { align-items: flex-start; }
 }
@@ -1188,3 +1199,17 @@ details.owner-help > summary {
 .sc-thumbs img.thumb { width: 100%; aspect-ratio: 1 / 1; border-radius: 6px; }
 .sc-edit-pic img.thumb { width: 88px; height: 88px; aspect-ratio: 1 / 1; border-radius: 8px; }
 .sc-pic img.thumb { width: 100%; }
+
+/* Showcase likes */
+.sc-like {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+  padding: 6px 14px; border-radius: 999px; border: 2px solid rgba(255, 255, 255, .75);
+  background: transparent; color: #fff; font: inherit; font-weight: 700; cursor: pointer;
+}
+.sc-like:hover { background: rgba(255, 255, 255, .15); }
+.sc-like[aria-pressed="true"] { background: #fff; color: var(--sc-a); border-color: #fff; }
+.sc-like:focus-visible { outline: 3px solid var(--sc-b); outline-offset: 2px; }
+.sc-like.is-mine { cursor: default; border-style: dashed; }
+.sc-card-likes { font-size: 13px; font-weight: 700; color: var(--sc-a, var(--accent, #b3131c)); }
+.sc-hint { margin: 2px 0 6px; }
+@media (prefers-reduced-motion: reduce) { .brand-mark { transition: none; } .brand:hover .brand-mark { transform: none; } }
