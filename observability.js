@@ -42,10 +42,23 @@
       ignoreErrors: ['ResizeObserver loop limit exceeded', 'ResizeObserver loop completed'],
       denyUrls: [/^chrome-extension:\/\//, /^moz-extension:\/\//, /^safari-extension:\/\//],
       beforeSend: function (e) {
-        if (e.request) { e.request.url = scrubUrl(e.request.url); delete e.request.cookies; }
+        if (e.request) {
+          e.request.url = scrubUrl(e.request.url);
+          delete e.request.cookies;
+          delete e.request.query_string;
+          if (e.request.headers) {   // the Referer can carry the previous page's token
+            delete e.request.headers.Referer; delete e.request.headers.referer;
+          }
+        }
         return e;
       },
-      beforeBreadcrumb: function (b) { if (b.data && b.data.url) b.data.url = scrubUrl(b.data.url); return b; }
+      // Fetch/xhr crumbs carry data.url; navigation crumbs carry data.from/to.
+      beforeBreadcrumb: function (b) {
+        if (b.data) {
+          ['url', 'from', 'to'].forEach(function (k) { if (b.data[k]) b.data[k] = scrubUrl(b.data[k]); });
+        }
+        return b;
+      }
     });
     loaded = true; api.enabled = true;
     api.captureException = function (e, c) { S.captureException(e, c); };

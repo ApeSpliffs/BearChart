@@ -2296,11 +2296,22 @@ test('with a DSN the pinned SDK loads with SRI, and reports carry no tokens or e
   assert.deepStrictEqual(calls.captured, [early]);
 
   const ev = calls.init.beforeSend({ request: {
-    url: 'https://preview.bearchart.test/account.html?x=1#access_token=secret', cookies: 'sb=1' } });
+    url: 'https://preview.bearchart.test/account.html?x=1#access_token=secret', cookies: 'sb=1',
+    query_string: 'x=1',
+    headers: { Referer: 'https://preview.bearchart.test/account.html#access_token=secret',
+               'User-Agent': 'ua' } } });
   assert.strictEqual(ev.request.url, 'https://preview.bearchart.test/account.html');
   assert.strictEqual(ev.request.cookies, undefined);
+  assert.strictEqual(ev.request.query_string, undefined);
+  assert.strictEqual(ev.request.headers.Referer, undefined);
+  assert.strictEqual(ev.request.headers['User-Agent'], 'ua');
   const crumb = calls.init.beforeBreadcrumb({ data: { url: '/a?b=c#d' } });
   assert.strictEqual(crumb.data.url, '/a');
+  const nav = calls.init.beforeBreadcrumb({ category: 'navigation', data: {
+    from: '/account.html#access_token=x&refresh_token=y', to: '/collection.html?ref=mail#access_token=x' } });
+  assert.strictEqual(nav.data.from, '/account.html');
+  assert.strictEqual(nav.data.to, '/collection.html');
+  assert.doesNotMatch(JSON.stringify(nav), /access_token/);
 
   win.bcObs.setUser('user-1');
   win.bcObs.setUser(null);
