@@ -4,7 +4,7 @@
   "private": true,
   "description": "BearChart \u2014 an independent Build-A-Bear collector and reseller price guide built on completed sold transactions.",
   "engines": {
-    "node": ">=22.18"
+    "node": "22.x"
   },
   "scripts": {
     "build": "python3 tools/build_data.py",

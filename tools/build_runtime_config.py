@@ -19,8 +19,8 @@ Environment (see docs/ENVIRONMENTS.md):
   VERCEL_GIT_COMMIT_SHA         release tag for error reports
 
 A preview (VERCEL_ENV=preview, whatever BEARCHART_ENV says) with no Supabase
-settings gets accounts switched OFF: a preview must
-never talk to the production database. Production with none falls back to
+settings gets accounts switched OFF: a preview must never talk to the
+production database. Production with none falls back to
 data.json's config (the behaviour before this file existed).
 """
 

@@ -98,6 +98,10 @@ lockfile is version 4 so the edge runtime's Deno (2.1.4, pinned as
 that version (`deno check --frozen=false ...`). `compilerOptions.types` names
 `npm:@types/node@*` only so Deno 2.1 records it in the lockfile.
 
+`_shared/package.json` (`{"type": "module"}`) lets Node's type stripping import the
+pure `_shared/*.ts` modules as ES modules, so `npm test` can exercise them without
+Deno (the security workstream's billing tests rely on it).
+
 `_shared/observability.ts` wraps each handler: an unhandled error becomes a
 bare 500, and is reported to Sentry only when `SENTRY_DSN` is set.
 `_shared/env.ts` refuses a live Stripe key outside `BEARCHART_ENV=production`
