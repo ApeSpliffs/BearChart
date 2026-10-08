@@ -18,7 +18,11 @@
     try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
   }
   function saveOwned(list) {
-    try { localStorage.setItem(KEY, JSON.stringify(list)); return true; }
+    try {
+      localStorage.setItem(KEY, JSON.stringify(list));
+      if (BC.cloud) BC.cloud.soon();
+      return true;
+    }
     catch (e) { return false; }
   }
   var owned = loadOwned();

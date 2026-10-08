@@ -92,15 +92,11 @@
       '</div>' +
       '<div class="panel">' +
         '<h2>Your collection</h2>' +
-        '<p class="fine">Signed in, your collection is stored against your account. ' +
-        'This browser currently holds <strong>' + local.length + '</strong> item' +
-        (local.length === 1 ? '' : 's') + '.</p>' +
-        (local.length
-          ? '<p style="margin-top:12px"><button type="button" class="primary" ' +
-            'id="do-push">Copy this browser\'s collection to my account</button></p>' +
-            '<p class="fine">This adds them to your account. Nothing already on the ' +
-            'account is removed.</p>'
-          : '<p class="fine">Nothing to upload from this browser.</p>') +
+        '<p class="fine">Pro and Power members\' collections sync to the account automatically, ' +
+        'so they follow you to every device. This browser currently holds <strong>' + local.length +
+        '</strong> item' + (local.length === 1 ? '' : 's') + '.</p>' +
+        '<p style="margin-top:12px"><button type="button" class="primary" ' +
+        'id="do-push">Sync my collection now</button></p>' +
         '<div id="sync-out" style="margin-top:14px"></div>' +
       '</div>' +
       (s.isAdmin
@@ -172,8 +168,22 @@
     }
   }
 
-  /** Copy this browser's collection onto the account. Additive, never destructive. */
+  /** Sync this browser's collection with the account (Pro and Power). Never deletes on a first sync. */
   function pushCollection() {
+    if (BC.cloud) {
+      var box = document.getElementById('sync-out');
+      box.innerHTML = '<p class="fine">Syncing\u2026</p>';
+      BC.cloud.sync().then(function () {
+        var st = BC.cloud.state();
+        box.innerHTML = st.entitled === false
+          ? '<div class="notice">Syncing across devices is part of <a href="' + BC.rel('plans.html') + '">Pro and Power</a>. ' +
+            'Your collection is safe in this browser.</div>'
+          : st.error
+            ? '<div class="notice warn">Could not sync: ' + BC.esc(st.error) + '<br>Your collection is still safe in this browser.</div>'
+            : '<div class="notice">Synced. Your collection is on your account.</div>';
+      });
+      return;
+    }
     var out = document.getElementById('sync-out');
     var client = A.getClient();
     var s = A.state();

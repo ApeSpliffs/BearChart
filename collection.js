@@ -12,7 +12,11 @@
     try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; }
   }
   function save(list) {
-    try { localStorage.setItem(KEY, JSON.stringify(list)); return true; }
+    try {
+      localStorage.setItem(KEY, JSON.stringify(list));
+      if (BC.cloud) BC.cloud.soon();
+      return true;
+    }
     catch (e) { return false; }
   }
 
@@ -457,13 +461,17 @@
 
   $('export-insurance').addEventListener('click', function () {
     if (!list.length) return;
-    BC.download('bearchart-insurance-schedule-' + BC.stamp() + '.csv',
-      BC.toCsv(insuranceRows()));
+    var name = 'bearchart-insurance-schedule-' + BC.stamp() + '.csv';
+    var csv = BC.toCsv(insuranceRows());
+    BC.download(name, csv);
+    keepReport('insurance_schedule', name, csv);
   });
 
   $('export-cover').addEventListener('click', function () {
-    BC.download('bearchart-schedule-cover-' + BC.stamp() + '.txt',
-      coverStatement(), 'text/plain');
+    var name = 'bearchart-schedule-cover-' + BC.stamp() + '.txt';
+    var text = coverStatement();
+    BC.download(name, text, 'text/plain');
+    keepReport('cover_letter', name, text);
   });
 
   $('export-history').addEventListener('click', function () {
@@ -513,6 +521,78 @@
     if (window.BearChartAuth && window.BearChartAuth.onChange) {
       window.BearChartAuth.onChange(renderWishlist);
     }
+  }
+
+  // ---- account sync and saved reports (Pro and Power) ----------------------
+
+  function cloudStatus() {
+    var el = $('cloud-status');
+    if (!el || !BC.cloud) return;
+    var A = window.BearChartAuth;
+    var signedIn = !!(A && A.configured && A.configured() && A.state().signedIn);
+    var st = BC.cloud.state();
+    if (!signedIn || st.entitled === null) { el.hidden = true; return; }
+    el.hidden = false;
+    if (!st.entitled) {
+      el.innerHTML = 'Want it on every device? <a href="' + BC.rel('plans.html') + '">Pro and Power</a> ' +
+        'keep your collection and its value history on your account.';
+    } else if (st.syncing) {
+      el.textContent = 'Syncing with your account…';
+    } else if (st.error) {
+      el.textContent = 'Could not reach your account just now. Your collection is safe on this device ' +
+        'and will sync next time.';
+    } else {
+      el.textContent = 'Synced to your account — it follows you to every device you sign in on.';
+    }
+  }
+
+  function keepReport(kind, name, body) {
+    if (!BC.cloud) return;
+    BC.cloud.saveReport(kind, name, body).then(function (ok) { if (ok) renderReports(); });
+  }
+
+  function renderReports() {
+    var panel = $('reports-panel');
+    if (!panel || !BC.cloud) return;
+    BC.cloud.listReports().then(function (rows) {
+      var st = BC.cloud.state();
+      if (!rows || (!rows.length && !st.entitled)) { panel.hidden = true; return; }
+      panel.hidden = false;
+      $('reports-body').innerHTML = rows.length
+        ? '<div class="table-scroll"><table><thead><tr><th>Saved</th><th>Report</th><th></th></tr></thead><tbody>' +
+          rows.map(function (r) {
+            return '<tr><td>' + BC.esc(String(r.created_at || '').slice(0, 10)) + '</td><td>' +
+              (r.kind === 'cover_letter' ? 'Cover letter' : 'Insurance schedule') +
+              ' <span class="fine">' + BC.esc(r.filename) + '</span></td>' +
+              '<td><button type="button" class="link-btn" data-report="' + BC.esc(r.id) + '">Download</button></td></tr>';
+          }).join('') + '</tbody></table></div>'
+        : '<p class="fine">None yet. Download an insurance schedule or cover letter above and a copy is kept here.</p>';
+    });
+  }
+
+  if ($('reports-body')) {
+    $('reports-body').addEventListener('click', function (e) {
+      var id = e.target && e.target.getAttribute && e.target.getAttribute('data-report');
+      if (!id || !BC.cloud) return;
+      BC.cloud.getReport(id).then(function (r) {
+        if (r) BC.download(r.filename, r.body, r.kind === 'cover_letter' ? 'text/plain' : undefined);
+      });
+    });
+  }
+
+  if (BC.cloud) {
+    var reportsShown = false;
+    BC.cloud.onChange(function (st) {
+      cloudStatus();
+      if (st.entitled !== null && !reportsShown) { reportsShown = true; renderReports(); }
+      if (st.entitled === null) reportsShown = false;
+      if (st.changed && !st.syncing) {
+        st.changed = false;
+        list = load();
+        render();
+        renderWishlist();
+      }
+    });
   }
 
   render();

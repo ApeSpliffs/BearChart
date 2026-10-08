@@ -719,12 +719,231 @@
     A.onChange(function (s) { paint(!!(s && s.signedIn)); });
   }
 
+  // ---- member cloud: collection sync, value history, saved reports ----------
+  // Pro and Power members' collections and value history are kept on their
+  // account so they follow them between devices and are never lost with a
+  // browser. Everything still works from this browser's storage first; the
+  // account copy is merged in the background. The database refuses all of
+  // this without a live membership, so the checks here only decide what to
+  // try - they are not what keeps it paid.
+
+  var CLOUD = {
+    coll: 'bearchart.collection',
+    snaps: 'bearchart.snapshots',
+    flows: 'bearchart.flows',
+    meta: 'bearchart.cloud'
+  };
+  var cloudListeners = [];
+  var cloudState = { uid: null, entitled: null, syncing: false, lastSync: null, error: null };
+  var cloudTimer = null;
+
+  function cloudRead(key, fallback) {
+    try { var v = JSON.parse(localStorage.getItem(key) || 'null'); return v == null ? fallback : v; }
+    catch (e) { return fallback; }
+  }
+  function cloudWrite(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); return true; } catch (e) { return false; }
+  }
+  function cloudId() {
+    if (root.crypto && typeof root.crypto.randomUUID === 'function') return root.crypto.randomUUID();
+    return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+  }
+  // Order-independent fingerprint of an entry, for "changed since last sync".
+  function cloudHash(entry) {
+    var keys = Object.keys(entry).filter(function (k) { return k !== 'uid'; }).sort();
+    return JSON.stringify(keys.map(function (k) { return [k, entry[k]]; }));
+  }
+  function cloudNotify() {
+    cloudListeners.forEach(function (fn) { try { fn(cloudState); } catch (e) { /* listener */ } });
+  }
+  function cloudClient() {
+    var A = root.BearChartAuth;
+    if (!A || !A.configured || !A.configured()) return null;
+    var s = A.state();
+    return s && s.signedIn && s.user ? { c: A.getClient(), uid: s.user.id } : null;
+  }
+
+  function cloudEntitled(cc) {
+    if (cloudState.uid === cc.uid && cloudState.entitled !== null) return Promise.resolve(cloudState.entitled);
+    return Promise.resolve().then(function () {
+      return cc.c.rpc('has_entitlement', { feature: 'collection_sync' });
+    }).then(function (r) {
+      cloudState.uid = cc.uid;
+      cloudState.entitled = !!(r && !r.error && r.data === true);
+      return cloudState.entitled;
+    }, function () { return false; });
+  }
+
+  function syncCollection(cc) {
+    var local = cloudRead(CLOUD.coll, []);
+    if (!Array.isArray(local)) return Promise.resolve();
+    var meta = cloudRead(CLOUD.meta, {});
+    // A different member signed in on this browser: treat it as a first sync,
+    // which only ever adds - nothing is deleted on either side.
+    var known = meta.uid === cc.uid ? (meta.entries || {}) : {};
+    local.forEach(function (e) { if (e && !e.uid) e.uid = cloudId(); });
+
+    return cc.c.from('collection_entries').select('id,entry').then(function (r) {
+      if (r.error) throw r.error;
+      var remote = {};
+      (r.data || []).forEach(function (row) { remote[row.id] = row.entry; });
+
+      var merged = [], ups = [], dels = [];
+      local.forEach(function (e) {
+        if (!e || !e.item_id) return;
+        var h = cloudHash(e);
+        if (remote[e.uid]) {
+          if (known[e.uid] && known[e.uid] !== h) { merged.push(e); ups.push(e); }      // edited here
+          else if (!known[e.uid] && cloudHash(remote[e.uid]) !== h) { merged.push(e); ups.push(e); }
+          else merged.push(Object.assign({}, remote[e.uid], { uid: e.uid }));           // take account copy
+        } else if (known[e.uid]) {
+          // Synced before and now gone from the account: removed on another device.
+        } else {
+          merged.push(e); ups.push(e);                                                     // new here
+        }
+      });
+      Object.keys(remote).forEach(function (id) {
+        if (local.some(function (e) { return e && e.uid === id; })) return;
+        if (known[id]) dels.push(id);                                                    // removed here
+        else merged.push(Object.assign({}, remote[id], { uid: id }));                    // added elsewhere
+      });
+
+      var jobs = [];
+      if (ups.length) {
+        jobs.push(cc.c.from('collection_entries').upsert(ups.map(function (e) {
+          var entry = Object.assign({}, e); delete entry.uid;
+          return { id: e.uid, entry: entry, updated_at: new Date().toISOString() };
+        }), { onConflict: 'user_id,id' }).then(function (x) { if (x && x.error) throw x.error; }));
+      }
+      if (dels.length) {
+        jobs.push(cc.c.from('collection_entries').delete().in('id', dels)
+          .then(function (x) { if (x && x.error) throw x.error; }));
+      }
+      return Promise.all(jobs).then(function () {
+        var entries = {};
+        merged.forEach(function (e) { entries[e.uid] = cloudHash(e); });
+        cloudWrite(CLOUD.coll, merged);
+        cloudWrite(CLOUD.meta, { uid: cc.uid, entries: entries });
+        return JSON.stringify(merged) !== JSON.stringify(local);
+      });
+    });
+  }
+
+  function syncHistory(cc) {
+    var snaps = cloudRead(CLOUD.snaps, []);
+    var flows = cloudRead(CLOUD.flows, []);
+    if (!Array.isArray(snaps) || !Array.isArray(flows)) return Promise.resolve(false);
+    return cc.c.from('value_history').select('day,snap,flows').then(function (r) {
+      if (r.error) throw r.error;
+      var remote = {};
+      (r.data || []).forEach(function (row) { remote[row.day] = row; });
+      var have = {};
+      snaps.forEach(function (s) { if (s && s.d) have[s.d] = s; });
+      var ups = snaps.filter(function (s) {
+        return s && s.d && (!remote[s.d] || JSON.stringify(remote[s.d].snap) !== JSON.stringify(s));
+      }).map(function (s) {
+        return { day: s.d, snap: s, flows: flows.filter(function (f) { return f && f.d === s.d; }),
+                 updated_at: new Date().toISOString() };
+      });
+      var changed = false;
+      Object.keys(remote).forEach(function (d) {
+        if (have[d]) return;
+        snaps.push(remote[d].snap);
+        (remote[d].flows || []).forEach(function (f) { flows.push(f); });
+        changed = true;
+      });
+      if (changed) {
+        snaps.sort(function (a, b) { return a.d < b.d ? -1 : 1; });
+        flows.sort(function (a, b) { return a.d < b.d ? -1 : 1; });
+        cloudWrite(CLOUD.snaps, snaps);
+        cloudWrite(CLOUD.flows, flows);
+      }
+      if (!ups.length) return changed;
+      return cc.c.from('value_history').upsert(ups, { onConflict: 'user_id,day' })
+        .then(function (x) { if (x && x.error) throw x.error; return changed; });
+    });
+  }
+
+  function cloudSync() {
+    var cc = cloudClient();
+    if (!cc || cloudState.syncing) return Promise.resolve(false);
+    return cloudEntitled(cc).then(function (ok) {
+      if (!ok) { cloudNotify(); return false; }
+      cloudState.syncing = true; cloudState.error = null; cloudNotify();
+      var changed = false;
+      return syncCollection(cc)
+        .then(function (c) { changed = changed || c; return syncHistory(cc); })
+        .then(function (h) {
+          changed = changed || h;
+          cloudState.lastSync = new Date();
+        })
+        .catch(function (err) {
+          // The local copy is never touched when the account cannot be reached.
+          cloudState.error = (err && err.message) || 'Could not reach your account.';
+        })
+        .then(function () {
+          cloudState.syncing = false;
+          cloudState.changed = changed;
+          cloudNotify();
+          return changed;
+        });
+    }).catch(function () { cloudState.syncing = false; return false; });
+  }
+
+  // Called after every local change; batches a burst of edits into one sync.
+  function cloudSoon() {
+    if (cloudTimer) clearTimeout(cloudTimer);
+    cloudTimer = setTimeout(function () { cloudTimer = null; cloudSync(); }, 1200);
+  }
+
+  function saveReport(kind, filename, body) {
+    var cc = cloudClient();
+    if (!cc) return Promise.resolve(false);
+    return Promise.resolve().then(function () {
+      return cc.c.rpc('has_entitlement', { feature: 'insurance_archive' });
+    }).then(function (r) {
+      if (!r || r.error || r.data !== true) return false;
+      return cc.c.from('saved_reports').insert({ kind: kind, filename: filename, body: body })
+        .then(function (x) { return !(x && x.error); });
+    }).catch(function () { return false; });
+  }
+
+  function listReports() {
+    var cc = cloudClient();
+    if (!cc) return Promise.resolve(null);
+    return Promise.resolve().then(function () {
+      return cc.c.from('saved_reports').select('id,kind,filename,created_at')
+        .order('created_at', { ascending: false }).limit(50);
+    }).then(function (r) { return r && !r.error ? (r.data || []) : null; }, function () { return null; });
+  }
+
+  function getReport(id) {
+    var cc = cloudClient();
+    if (!cc) return Promise.resolve(null);
+    return cc.c.from('saved_reports').select('filename,body,kind').eq('id', id).maybeSingle()
+      .then(function (r) { return r && !r.error ? r.data : null; }, function () { return null; });
+  }
+
+  var cloud = {
+    sync: cloudSync,
+    soon: cloudSoon,
+    state: function () { return cloudState; },
+    onChange: function (fn) { cloudListeners.push(fn); },
+    saveReport: saveReport,
+    listReports: listReports,
+    getReport: getReport
+  };
+
   function renderChrome(current) {
     var A = root.BearChartAuth;
     if (A && !renderChrome._bound) {
       renderChrome._bound = true;
       A.onChange(function () { renderChrome(current); });
       A.onChange(function (s) { if (s && s.signedIn) wlSync(); else wlSynced = false; });
+      A.onChange(function (s) {
+        if (s && s.signedIn) cloudSync();
+        else { cloudState.uid = null; cloudState.entitled = null; cloudNotify(); }
+      });
       A.init();
     }
     membersGate(current);
@@ -828,7 +1047,7 @@
     hasImage: hasImage, imageHtml: imageHtml, imageCredit: imageCredit,
     placeholderImage: placeholderImage,
     toCsv: toCsv, download: download, itemsCsv: itemsCsv, salesCsv: salesCsv,
-    r2: r2, stamp: stamp, renderChrome: renderChrome, wishlist: wishlist
+    r2: r2, stamp: stamp, renderChrome: renderChrome, wishlist: wishlist, cloud: cloud
   };
 })(window);
 

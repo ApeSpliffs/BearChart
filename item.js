@@ -769,6 +769,7 @@
       list.push(entry);
       try {
         localStorage.setItem(key, JSON.stringify(list));
+        if (BC.cloud) BC.cloud.soon();
         document.getElementById('add-note').innerHTML =
           'Added. <a href="' + BC.rel('collection.html') + '">View my collection &rarr;</a>';
       } catch (e) {
