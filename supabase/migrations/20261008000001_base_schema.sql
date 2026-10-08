@@ -4,7 +4,7 @@
 -- Public users may read. Only authenticated admins may write. There is no
 -- unrestricted write path anywhere in this file.
 --
--- Apply with:  supabase db push (see supabase/README / README "Database migrations")
+-- Apply with:  supabase db push (see README, "Database migrations")
 -- ============================================================================
 
 create extension if not exists pgcrypto;
