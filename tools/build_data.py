@@ -2251,10 +2251,11 @@ BUSINESS = OrderedDict([
     ("shop_url", "https://jaysretroexchange.com"),
     ("shop_eyebrow", "The shop behind BearChart"),
     ("shop_headline", "Buying and selling Build-A-Bear all week"),
-    ("shop_blurb", "BearChart is built and run by Jay's Retro Exchange. Browse what "
-                   "is in stock, or send us a collection and we will make an offer "
+    ("shop_blurb", "BearChart is built and run by Jay's Retro Exchange. Shop what is "
+                   "in stock, sell your own bears on the Jay's Retro Exchange "
+                   "marketplace, or send us a collection and we will make an offer "
                    "on it."),
-    ("shop_cta", "Visit the shop"),
+    ("shop_cta", "Shop or sell your bears"),
     # Said plainly, because the site's whole argument is that its numbers are
     # not for sale. A reader who works out for themselves that the person
     # publishing the valuations also buys at them will trust nothing else here.
