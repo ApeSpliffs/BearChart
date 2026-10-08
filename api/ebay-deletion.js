@@ -54,17 +54,19 @@ module.exports = (req, res) => {
   }
 
   if (req.method === 'POST') {
-    // Acknowledge first. eBay retries on anything slow or non-2xx and will
-    // disable the keyset if this endpoint looks flaky, so no deletion work
-    // happens on the request thread.
-    res.status(204).end();
-
     const data = (req.body && req.body.notification && req.body.notification.data) || {};
     // Usernames are the only eBay user data BearChart holds, and they are not
     // a key anything is filed under - so record the request for the operator
     // rather than pretending to complete a deletion we cannot do from here.
+    // Logged BEFORE responding: Vercel may freeze the function as soon as the
+    // response is sent, and a log line written after that can be lost.
     console.log('ebay-deletion: closure notification for userId=%s eiasToken=%s',
                 data.userId || 'unknown', data.eiasToken || 'unknown');
+
+    // Acknowledge straight away. eBay retries on anything slow or non-2xx and
+    // will disable the keyset if this endpoint looks flaky, so no deletion work
+    // happens on the request thread.
+    res.status(204).end();
     return;
   }
 
