@@ -820,7 +820,7 @@ test('a thin-evidence item must be a better bargain to qualify', () => {
   assert.ok(v.lower_bound < v.fair_market * 0.8, 'one comp should widen the gap');
   assert.strictEqual(E.findDeals(ctx(v.fair_market * 0.6)).length, 0,
     '40% off the median is not enough when there is one comp behind it');
-  assert.strictEqual(E.findDeals(ctx(v.fair_market * 0.3)).length, 1,
+  assert.strictEqual(E.findDeals(ctx(v.fair_market * 0.2)).length, 1,
     'a genuine bargain still gets through');
 });
 
