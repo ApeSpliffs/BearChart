@@ -109,6 +109,7 @@
     if (!box || handle) return;
     var c = client();
     if (!c) { box.hidden = true; return; }
+    box.hidden = false;
     var s = A.state();
     if (!s.signedIn) {
       box.innerHTML = '<h2>Show off your top bears</h2>' +
