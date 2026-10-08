@@ -656,7 +656,8 @@
           : esc(BUSINESS.name)) + '.</p>' +
         '<p class="fine legal-links"><a href="' + rel('privacy.html') + '">Privacy</a>' +
         '<a href="' + rel('terms.html') + '">Terms</a>' +
-        '<a href="' + rel('about.html') + '">How prices work</a></p>' +
+        '<a href="' + rel('about.html') + '">How prices work</a>' +
+          '<a href="' + rel('showcase.html') + '">Member showcases</a></p>' +
         '<p class="fine">Database: ' + DATA.items.length + ' items, ' + DATA.sales.length +
         ' sold observations. Schema v' + DATA.meta.schema_version + '.</p>' +
         '</div>';

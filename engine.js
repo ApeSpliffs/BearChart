@@ -220,11 +220,45 @@
    * Returns a result object that always carries its own reasoning, so the UI
    * can explain why the number is what it is rather than just asserting it.
    */
+  /** 'YYYY-MM-DD' moved by a number of days, still 'YYYY-MM-DD'. */
+  function shiftDate(iso, days) {
+    var d = new Date(iso + 'T00:00:00Z');
+    if (isNaN(d.getTime())) return null;
+    d.setUTCDate(d.getUTCDate() + days);
+    return d.toISOString().slice(0, 10);
+  }
+
+  /**
+   * Prefer what a bear sells for now. When an item has enough sales in the
+   * twelve months up to its most recent one, older sales are left out of the
+   * value: a hyped release that crashed, or a retired bear that climbed, should
+   * not be priced by what it did three years ago. Anchored on the item's own
+   * latest sale rather than today's date, so the same data always gives the
+   * same answer. Below the threshold every sale is used, because thin recent
+   * data is worse than old data.
+   */
+  function recentOnly(usable, config) {
+    var rc = config.recency || {};
+    var windowDays = rc.window_days || 365;
+    var minRecent = rc.min_recent || 10;
+    var latest = '';
+    usable.forEach(function (s) { if (s.sale_date && s.sale_date > latest) latest = s.sale_date; });
+    if (!latest) return null;
+    var since = shiftDate(latest, -windowDays);
+    if (!since) return null;
+    var recent = usable.filter(function (s) { return s.sale_date && s.sale_date >= since; });
+    var n = recent.reduce(function (a, s) { return a + sampleSize(s); }, 0);
+    if (recent.length === usable.length || n < minRecent) return null;
+    return { sales: recent, since: since, dropped: usable.length - recent.length };
+  }
+
   function valuate(item, sales, config) {
     var why = [];
     var usable = (sales || []).filter(function (s) {
       return isMarketEvidence(s, config) && effectivePrice(s) != null;
     });
+    var recency = usable.length ? recentOnly(usable, config) : null;
+    if (recency) usable = recency.sales;
 
     var result = {
       item_id: item.id,
@@ -382,6 +416,14 @@
     why.unshift('Fair market value is the median of ' + points_n + ' sold observation' +
                 (points_n === 1 ? '' : 's') + ', each adjusted to a baseline of Good ' +
                 'condition with no extras.');
+
+    if (recency) {
+      result.recent_since = recency.since;
+      why.push('Uses the sales from the twelve months up to the latest one (since ' +
+               recency.since + '). ' + recency.dropped + ' older sale' +
+               (recency.dropped === 1 ? ' is' : 's are') + ' listed below but left out of ' +
+               'the value, because prices move.');
+    }
 
     if (result.aggregate_count) {
       result.caveats.push('aggregate');
@@ -841,6 +883,7 @@
     confidenceFor: confidenceFor,
     sampleSize: sampleSize,
     valuate: valuate,
+    recentOnly: recentOnly,
     adjust: adjust,
     modifierChain: modifierChain,
     priceHistory: priceHistory,
