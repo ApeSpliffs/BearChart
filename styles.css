@@ -1213,3 +1213,11 @@ details.owner-help > summary {
 .sc-card-likes { font-size: 13px; font-weight: 700; color: var(--sc-a, var(--accent, #b3131c)); }
 .sc-hint { margin: 2px 0 6px; }
 @media (prefers-reduced-motion: reduce) { .brand-mark { transition: none; } .brand:hover .brand-mark { transform: none; } }
+
+/* The Power-only export */
+.tag-power {
+  display: inline-block; margin-left: 4px; padding: 1px 7px; border-radius: 999px;
+  background: var(--brown-deep); color: #fff; font-size: 10.5px; font-weight: 800;
+  letter-spacing: .04em; text-transform: uppercase; vertical-align: 1px;
+}
+.exports-note { margin: 8px 0 0; }

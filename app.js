@@ -527,8 +527,40 @@
   $('csv-items').addEventListener('click', function () {
     BC.download('bearchart-items-' + BC.stamp() + '.csv', BC.itemsCsv(window.__lastResults));
   });
+  // The full sold-price records are BearChart's most valuable data, so the
+  // one-click download of them is a Power feature. This is a convenience
+  // lock, not a security one: the same records are in the page for anyone who
+  // looks. Admins can always download them.
+  var compsAllowed = null;   // null until the account service has answered
+  function compsAccess() {
+    var A = window.BearChartAuth;
+    var c = A && A.configured && A.configured() && A.getClient ? A.getClient() : null;
+    var s = A && A.state ? A.state() : null;
+    if (!c || !s || !s.signedIn) return Promise.resolve(false);
+    if (compsAllowed !== null) return Promise.resolve(compsAllowed);
+    return Promise.all([
+      c.rpc('has_entitlement', { feature: 'api_access' }).then(function (r) { return !!(r && r.data === true); }, function () { return false; }),
+      c.rpc('is_admin').then(function (r) { return !!(r && r.data === true); }, function () { return false; })
+    ]).then(function (res) { compsAllowed = res[0] || res[1]; return compsAllowed; });
+  }
+  if (window.BearChartAuth && window.BearChartAuth.onChange) {
+    window.BearChartAuth.onChange(function () { compsAllowed = null; });
+  }
   $('csv-sales').addEventListener('click', function () {
-    BC.download('bearchart-sales-' + BC.stamp() + '.csv', BC.salesCsv(window.__lastResults));
+    var note = $('exports-note');
+    compsAccess().then(function (ok) {
+      if (ok) {
+        if (note) note.hidden = true;
+        BC.download('bearchart-sales-' + BC.stamp() + '.csv', BC.salesCsv(window.__lastResults));
+        return;
+      }
+      if (!note) return;
+      note.hidden = false;
+      note.innerHTML = 'Downloading the sold comps is part of ' +
+        '<a href="' + BC.rel('plans.html') + '">Power membership</a>. ' +
+        'Every sale is still listed on each bear\'s page for free.';
+      if (window.bcTrack) window.bcTrack('comps_export_locked', {});
+    });
   });
 
   // Restore state from the URL so searches are shareable.
