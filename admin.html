@@ -10,6 +10,18 @@
 <meta name="theme-color" content="#b3131c">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="description" content="BearChart admin.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BearChart">
+<meta property="og:title" content="Admin — BearChart">
+<meta property="og:description" content="BearChart admin.">
+<meta property="og:image" content="/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BearChart">
 <link rel="stylesheet" href="styles.css">
@@ -156,6 +168,18 @@
             other comp goes through.</p>
           <div id="queue-body"><p class="fine">Loading…</p></div>
         </div>
+
+<!-- Member showcases: hide one that breaks the rules. Hidden showcases vanish
+     from the public list; the member still sees their own with a note. -->
+<div class="panel" id="showcase-admin-panel">
+<div class="toolbar">
+<h2 style="margin:0">Member showcases</h2>
+<span class="grow"></span>
+<button type="button" id="showcase-admin-refresh">Refresh</button>
+</div>
+<p class="fine">Every showcase, newest first. Hide one that is offensive or spammy; unhide it any time.</p>
+<div id="showcase-admin-body"><p class="fine">Loading&hellip;</p></div>
+</div>
 
 <!-- Member photos: uploads from signed-in members for bears with no photo.
      Nothing is public until approved here. Needs supabase_migration_03_photos.sql. -->

@@ -741,6 +741,70 @@
     $('photo-queue-refresh').addEventListener('click', loadPhotoQueue);
   }
 
+  // --- member showcases ----------------------------------------------------
+
+  var showcaseAdmin = { rows: [], loaded: false, error: null };
+
+  function loadShowcaseAdmin() {
+    if (!$('showcase-admin-body')) return;
+    var c = supa();
+    if (!c) {
+      showcaseAdmin = { rows: [], loaded: true, error: 'Not connected to the database. Sign in as an admin.' };
+      renderShowcaseAdmin();
+      return;
+    }
+    c.from('showcases').select('user_id,handle,display_name,bears,is_public,hidden_by_admin,updated_at')
+      .order('updated_at', { ascending: false }).limit(200)
+      .then(function (res) {
+        showcaseAdmin = res.error
+          ? { rows: [], loaded: true, error: res.error.message }
+          : { rows: res.data || [], loaded: true, error: null };
+        renderShowcaseAdmin();
+      });
+  }
+
+  function renderShowcaseAdmin() {
+    var el = $('showcase-admin-body');
+    if (!el) return;
+    if (!showcaseAdmin.loaded) { el.innerHTML = '<p class="fine">Loading\u2026</p>'; return; }
+    if (showcaseAdmin.error) {
+      el.innerHTML = '<div class="notice warn">' + BC.esc(showcaseAdmin.error) + '</div>';
+      return;
+    }
+    if (!showcaseAdmin.rows.length) { el.innerHTML = '<p class="fine">No showcases yet.</p>'; return; }
+    el.innerHTML = '<div class="table-scroll"><table><thead><tr><th>Showcase</th><th>Bears</th>' +
+      '<th>Status</th><th>Updated</th><th></th></tr></thead><tbody>' +
+      showcaseAdmin.rows.map(function (r) {
+        var status = r.hidden_by_admin ? 'Hidden by admin' : (r.is_public ? 'Public' : 'Private');
+        return '<tr><td><a href="' + BC.rel('showcase.html') + '?u=' + encodeURIComponent(r.handle) + '">' +
+          BC.esc(r.display_name) + '</a> <span class="fine">@' + BC.esc(r.handle) + '</span></td>' +
+          '<td>' + ((r.bears || []).length) + '</td><td>' + status + '</td>' +
+          '<td>' + BC.esc(String(r.updated_at || '').slice(0, 10)) + '</td>' +
+          '<td><button type="button" data-sc-user="' + BC.esc(r.user_id) + '" data-sc-hide="' +
+          (r.hidden_by_admin ? '0' : '1') + '">' + (r.hidden_by_admin ? 'Unhide' : 'Hide') + '</button></td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  if ($('showcase-admin-body')) {
+    $('showcase-admin-body').addEventListener('click', function (e) {
+      var d = e.target.dataset || {};
+      if (!d.scUser) return;
+      var c = supa();
+      if (!c) return;
+      e.target.disabled = true;
+      c.from('showcases').update({ hidden_by_admin: d.scHide === '1' }).eq('user_id', d.scUser)
+        .then(function (res) {
+          if (res.error) {
+            e.target.disabled = false;
+            window.alert('Could not update that showcase: ' + res.error.message);
+            return;
+          }
+          loadShowcaseAdmin();
+        });
+    });
+    $('showcase-admin-refresh').addEventListener('click', loadShowcaseAdmin);
+  }
+
   function render() {
     renderAccess();
     renderStats();
@@ -755,12 +819,13 @@
   render();
   loadQueue();
   loadPhotoQueue();
+  loadShowcaseAdmin();
   // The account client loads after this script; reload the photo queue once
   // it is there, so an admin does not see "not connected" on a cold load.
   if (window.BearChartAuth && window.BearChartAuth.onChange) {
     var photoQueueSeen = false;
     window.BearChartAuth.onChange(function (s) {
-      if (s && s.signedIn && !photoQueueSeen) { photoQueueSeen = true; loadPhotoQueue(); }
+      if (s && s.signedIn && !photoQueueSeen) { photoQueueSeen = true; loadPhotoQueue(); loadShowcaseAdmin(); }
     });
   }
 })();
