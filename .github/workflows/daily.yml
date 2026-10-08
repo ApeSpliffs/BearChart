@@ -27,7 +27,7 @@ jobs:
   refresh:
     if: github.repository == 'ApeSpliffs/BearChart'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50                     # fetch + build + npm test (~16 min locally)
     permissions:
       contents: read
     outputs:

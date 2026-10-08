@@ -54,7 +54,8 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # npm test takes ~16 min on a laptop (test_pages.js dominates); runners are slower.
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -113,13 +114,16 @@ jobs:
 
   ci-ok:
     if: always()
-    needs: [test, db, functions]
+    needs: [changes, test, db, functions]
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
+      # A failed path diff would skip db/functions; skipped must not read as green then.
       - env:
           RESULTS: ${{ needs.test.result }} ${{ needs.db.result }} ${{ needs.functions.result }}
           TEST: ${{ needs.test.result }}
+          CHANGES: ${{ needs.changes.result }}
         run: |
+          [ "$CHANGES" = success ] || exit 1
           [ "$TEST" = success ] || exit 1
           for r in $RESULTS; do case "$r" in success|skipped) ;; *) exit 1 ;; esac; done

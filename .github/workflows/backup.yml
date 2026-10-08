@@ -48,7 +48,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail; umask 077
-          sudo apt-get install -y -qq age
+          sudo apt-get update -qq && sudo apt-get install -y -qq age
           d="$RUNNER_TEMP/bk"; mkdir -p "$d"
           supabase db dump --db-url "$DB_URL" -f "$d/roles.sql" --role-only
           supabase db dump --db-url "$DB_URL" -f "$d/schema.sql"
