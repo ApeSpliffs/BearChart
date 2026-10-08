@@ -25,6 +25,13 @@ class RuntimeConfig(unittest.TestCase):
         self.assertEqual(out["auth"], {"enabled": False})
         self.assertIs(out["posthog_enabled"], False)
 
+    def test_a_vercel_preview_is_a_preview_whatever_bearchart_env_says(self):
+        out = rc.build({"VERCEL_ENV": "preview", "BEARCHART_ENV": "production"})
+        self.assertEqual(out["auth"], {"enabled": False})
+        self.assertIs(out["posthog_enabled"], False)
+        out = rc.build(dict(SUPA, VERCEL_ENV="preview", BEARCHART_ENV="production"))
+        self.assertEqual(out["auth"]["supabase_url"], "https://staging.supabase.co")
+
     def test_production_without_settings_falls_back_to_data_json(self):
         out = rc.build({"VERCEL_ENV": "production"})
         self.assertNotIn("auth", out)

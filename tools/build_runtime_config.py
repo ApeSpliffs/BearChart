@@ -18,7 +18,8 @@ Environment (see docs/ENVIRONMENTS.md):
   BEARCHART_POSTHOG_ON_PREVIEW  "1" to keep analytics on for previews
   VERCEL_GIT_COMMIT_SHA         release tag for error reports
 
-A preview with no Supabase settings gets accounts switched OFF: a preview must
+A preview (VERCEL_ENV=preview, whatever BEARCHART_ENV says) with no Supabase
+settings gets accounts switched OFF: a preview must
 never talk to the production database. Production with none falls back to
 data.json's config (the behaviour before this file existed).
 """
@@ -42,6 +43,14 @@ def deploy_env(environ):
     return "development"
 
 
+def is_preview(environ):
+    """A Vercel preview build is a preview whatever BEARCHART_ENV says: a
+    mis-scoped BEARCHART_ENV=production must not point a preview at the
+    production database."""
+    vercel = (environ.get("VERCEL_ENV") or "").strip().lower()
+    return vercel == "preview" or deploy_env(environ) == "preview"
+
+
 def _local_url(url):
     return url.startswith(("http://localhost", "http://127.0.0.1"))
 
@@ -49,6 +58,7 @@ def _local_url(url):
 def build(environ):
     """The runtime object for this environment (a plain dict)."""
     env = deploy_env(environ)
+    preview = is_preview(environ)
     runtime = {"env": env}
 
     url = (environ.get("BEARCHART_SUPABASE_URL") or "").strip()
@@ -59,7 +69,7 @@ def build(environ):
         runtime["auth"] = {"enabled": True, "supabase_url": url, "supabase_anon_key": key}
     elif url or key:
         raise ConfigError("set both BEARCHART_SUPABASE_URL and BEARCHART_SUPABASE_ANON_KEY, or neither")
-    elif env == "preview":
+    elif preview:
         runtime["auth"] = {"enabled": False}
 
     dsn = (environ.get("BEARCHART_SENTRY_DSN") or "").strip()
@@ -68,7 +78,7 @@ def build(environ):
     posthog_key = (environ.get("BEARCHART_POSTHOG_KEY") or "").strip()
     if posthog_key:
         runtime["posthog_key"] = posthog_key
-    if env == "preview" and environ.get("BEARCHART_POSTHOG_ON_PREVIEW") != "1":
+    if preview and environ.get("BEARCHART_POSTHOG_ON_PREVIEW") != "1":
         runtime["posthog_enabled"] = False
     release = (environ.get("VERCEL_GIT_COMMIT_SHA") or "").strip()
     if release:
