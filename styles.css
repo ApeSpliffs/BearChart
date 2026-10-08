@@ -1115,3 +1115,76 @@ details.owner-help > summary {
 .members-gate-card h2 { margin: 2px 0 10px; font-size: 22px; }
 .members-gate-card p { margin: 0 0 14px; }
 @media print { .members-gate main { filter: none; max-height: none; } .members-gate-card { display: none; } }
+
+/* --- showcases, v2: themes, featured bear, members' own photos ------------------ */
+.theme-rose  { --sc-a: #b3131c; --sc-b: #f6c3c0; }
+.theme-honey { --sc-a: #b4690e; --sc-b: #f7deb0; }
+.theme-mint  { --sc-a: #1f7a5a; --sc-b: #c4ead8; }
+.theme-sky   { --sc-a: #1f5fa8; --sc-b: #c8dcf5; }
+.theme-plum  { --sc-a: #6b2a7a; --sc-b: #e2c8ea; }
+.theme-night { --sc-a: #23233a; --sc-b: #b9b9d6; }
+.sc-hero {
+  display: grid; grid-template-columns: auto 1fr; gap: 14px 18px; align-items: center;
+  padding: 22px; border-radius: 18px; margin-bottom: 16px; color: #fff;
+  background: var(--sc-a);
+  background: linear-gradient(135deg, var(--sc-a), color-mix(in srgb, var(--sc-a) 55%, #000));
+  box-shadow: 0 10px 30px rgba(40, 10, 14, .18);
+}
+.sc-hero h2 { margin: 2px 0 2px; color: #fff; font-size: 28px; }
+.sc-hero .sc-kicker { color: var(--sc-b); }
+.sc-handle { margin: 0; opacity: .85; font-weight: 700; }
+.sc-bio { margin: 8px 0 0; max-width: 60ch; }
+.sc-avatar {
+  width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--sc-b); color: var(--sc-a); font-size: 30px; font-weight: 800;
+  border: 3px solid rgba(255, 255, 255, .7);
+}
+.sc-hero .sc-stats { grid-column: 1 / -1; margin-top: 4px; }
+.sc-hero .sc-stats span { color: rgba(255, 255, 255, .8); }
+.sc-tile {
+  display: flex; flex-direction: column; border: 1px solid var(--rule); border-radius: 14px;
+  background: var(--card); overflow: hidden;
+}
+.sc-tile.is-featured { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); margin-bottom: 14px; }
+.sc-pic { position: relative; display: block; }
+.sc-pic img, .sc-pic img.thumb, .sc-pic img.hero { width: 100%; height: auto; max-width: none; aspect-ratio: 1 / 1; object-fit: cover; display: block; border-radius: 0; margin: 0; }
+.is-featured .sc-pic img, .is-featured .sc-pic img.hero { aspect-ratio: 4 / 3; max-height: 420px; }
+.sc-own {
+  position: absolute; left: 8px; top: 8px; background: rgba(0, 0, 0, .62); color: #fff;
+  font-size: 11px; font-weight: 800; letter-spacing: .04em; border-radius: 999px; padding: 3px 8px;
+}
+.sc-body { display: flex; flex-direction: column; gap: 4px; padding: 12px; }
+.is-featured .sc-body { padding: 20px; justify-content: center; gap: 6px; }
+.is-featured .sc-name { font-size: 22px; }
+.is-featured .sc-val { font-size: 24px; }
+.sc-note { margin: 4px 0; font-style: italic; color: var(--ink-soft); }
+.sc-body .tags { margin: 2px 0; }
+.sc-grid { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+.sc-card { border-top: 5px solid var(--sc-a, var(--rule)); }
+.sc-edit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.sc-edit-tile { display: flex; gap: 10px; border: 1px solid var(--rule); border-radius: 12px; padding: 10px; background: var(--card); }
+.sc-edit-pic { position: relative; flex: none; width: 88px; }
+.sc-edit-pic img { width: 88px; height: 88px; object-fit: cover; border-radius: 8px; }
+.sc-edit-body { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
+.sc-photo-btn { align-self: flex-start; font-size: 13px; padding: 6px 10px; cursor: pointer; }
+.sc-note-in { width: 100%; }
+.sc-edit-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.sc-edit-actions button[disabled] { opacity: .35; cursor: default; }
+.sc-themes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.sc-swatch {
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer; padding: 0;
+  border: 3px solid #fff; box-shadow: 0 0 0 1px var(--rule);
+  background: linear-gradient(135deg, var(--sc-a) 50%, var(--sc-b) 50%);
+}
+.sc-swatch[aria-checked="true"] { box-shadow: 0 0 0 3px var(--sc-a); }
+@media (max-width: 640px) {
+  .sc-tile.is-featured { grid-template-columns: 1fr; }
+  .sc-hero h2 { font-size: 24px; }
+  .sc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+.sc-thumbs img.thumb, .sc-edit-pic img.thumb, .sc-pic img.thumb {
+  margin: 0; border-bottom: 0; max-width: 100%;
+}
+.sc-thumbs img.thumb { width: 100%; aspect-ratio: 1 / 1; border-radius: 6px; }
+.sc-edit-pic img.thumb { width: 88px; height: 88px; aspect-ratio: 1 / 1; border-radius: 8px; }
+.sc-pic img.thumb { width: 100%; }

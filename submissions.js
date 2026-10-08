@@ -267,6 +267,7 @@
     submitComp: submitComp,
     reportItem: reportItem,
     submitPhoto: submitPhoto,
+    shrinkPhoto: shrinkPhoto,
     applyMemberPhotos: applyMemberPhotos,
     memberPhotos: memberPhotos,
     photoCredit: PHOTO_CREDIT,
