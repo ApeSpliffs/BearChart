@@ -45,4 +45,10 @@ cp -r item icons images "$DIST"/
 cp ./*.html ./*.js ./*.css manifest.webmanifest robots.txt "$DIST"/
 [ -f sitemap.xml ] && cp sitemap.xml "$DIST"/
 
+# Link previews (Facebook, iMessage, Discord) need an absolute image address,
+# which only the host knows. The pages carry a root-relative one for local use.
+if [ -n "$BASE" ]; then
+  sed -i "s#content=\"/icons/og-image.png\"#content=\"${BASE%/}/icons/og-image.png\"#" "$DIST"/*.html
+fi
+
 echo "dist/: $(find "$DIST" -type f | wc -l) files"

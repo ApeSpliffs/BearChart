@@ -53,7 +53,8 @@ SCRIPTS = ["data.js", "engine.js", "icons.js", "auth.js", "entitlements.js",
 
 # Pages that are not items but still belong in the sitemap.
 TOP_LEVEL = ["index.html", "deals.html", "checklists.html", "collection.html",
-             "about.html", "roadmap.html", "plans.html"]
+             "about.html", "roadmap.html", "plans.html", "showcase.html",
+             "privacy.html", "terms.html"]
 
 
 def e(text):
@@ -225,13 +226,15 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 %(canonical)s<meta name="theme-color" content="#b3131c">
 <link rel="manifest" href="../manifest.webmanifest">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="../icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BearChart">
 <meta property="og:type" content="article">
 <meta property="og:title" content="%(title)s">
 <meta property="og:description" content="%(desc)s">
 <meta property="og:site_name" content="BearChart">
-<meta name="twitter:card" content="summary">
+%(social)s
 %(fonts)s
 <link rel="stylesheet" href="../styles.css">
 <script type="application/ld+json">
@@ -269,6 +272,13 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
         "title": e(title_for(item, val)),
         "desc": e(desc),
         "canonical": ('<link rel="canonical" href="%s">\n' % e(url)) if url else "",
+        # The large preview card needs an absolute image address, so it only
+        # appears when the site address is known.
+        "social": ('<meta property="og:image" content="%s/icons/og-image.png">\n'
+                   '<meta property="og:image:width" content="1200">\n'
+                   '<meta property="og:image:height" content="630">\n'
+                   '<meta name="twitter:card" content="summary_large_image">'
+                   % e(base_url.rstrip("/"))) if base_url else '<meta name="twitter:card" content="summary">',
         "fonts": FONTS,
         "jsonld": json_ld(item, val, url),
         "name": e(item["canonical_name"]),
@@ -322,7 +332,9 @@ def write_sitemap(data, base_url):
 
 
 def write_robots(base_url):
-    lines = ["User-agent: *", "Allow: /", ""]
+    # Sign-in and admin pages have nothing for a search engine to show.
+    lines = ["User-agent: *", "Allow: /", "Disallow: /admin.html",
+             "Disallow: /account.html", ""]
     if base_url:
         lines.append("Sitemap: %s/sitemap.xml" % base_url.rstrip("/"))
         lines.append("")
