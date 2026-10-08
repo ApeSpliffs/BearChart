@@ -29,6 +29,7 @@
 
 import Stripe from "https://esm.sh/stripe@14.21.0?target=deno";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { withObservability } from "../_shared/observability.ts";
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
   apiVersion: "2024-06-20",
@@ -86,7 +87,7 @@ async function upsert(row: Record<string, unknown>) {
   if (error) throw new Error(`subscriptions upsert failed: ${error.message}`);
 }
 
-Deno.serve(async (req) => {
+Deno.serve(withObservability("stripe-webhook", async (req) => {
   if (req.method !== "POST") {
     return new Response("method not allowed", { status: 405 });
   }
@@ -215,4 +216,4 @@ Deno.serve(async (req) => {
     status: 200,
     headers: { "content-type": "application/json" },
   });
-});
+}));

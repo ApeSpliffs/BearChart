@@ -84,3 +84,21 @@ None of the above has been run against live Stripe from this repo. The code
 follows Stripe's documented contract and the security-critical shape is covered
 by tests in `tools/test_pages.js`, but the first real payment is still ahead of
 it — do the test-mode pass before pointing anyone at a checkout page.
+
+## Local checks
+
+```bash
+cd supabase/functions && deno task ci   # deno check + deno lint + deno test
+```
+
+Tests run with no permissions (`--no-prompt`), so a module that reads
+`Deno.env` at load time fails them: pass settings in, don't fetch them. The
+lockfile is version 4 so the edge runtime's Deno (2.1.4, pinned as
+`DENO_VERSION` in `.github/workflows/ci.yml`) can read it; regenerate it with
+that version (`deno check --frozen=false ...`). `compilerOptions.types` names
+`npm:@types/node@*` only so Deno 2.1 records it in the lockfile.
+
+`_shared/observability.ts` wraps each handler: an unhandled error becomes a
+bare 500, and is reported to Sentry only when `SENTRY_DSN` is set.
+`_shared/env.ts` refuses a live Stripe key outside `BEARCHART_ENV=production`
+and a test key inside it.

@@ -1,0 +1,79 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@std/assert@1": "1.0.19",
+    "jsr:@std/internal@^1.0.12": "1.0.14",
+    "npm:@sentry/deno@11.5.0": "11.5.0",
+    "npm:@types/node@*": "22.5.4"
+  },
+  "jsr": {
+    "@std/assert@1.0.19": {
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.14": {
+      "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
+    }
+  },
+  "npm": {
+    "@opentelemetry/api@1.9.1": {
+      "integrity": "sha512-gLyJlPHPZYdAk1JENA9LeHejZe1Ti77/pTeFm/nMXmQH/HFZlcS/O2XJB+L8fkbrNSqhdtlvjBVjxwUYanNH5Q=="
+    },
+    "@sentry/conventions@0.26.0": {
+      "integrity": "sha512-ttSRcoLf2kIENDIFzH12aJaVMdxnidMYLvVNwEX/JjXfXaQot8u5M47QmgAFOOhVJ4nQ2uU8wTCh+fwSPrrCfg=="
+    },
+    "@sentry/core@11.5.0": {
+      "integrity": "sha512-flEMRAfk8t3JW7w32shN6piuLJESkuryF90WzMn75ZGEiVoXkhStOvLT8qX8SQaLeFll4vLp7nDPdTsdJe1APw==",
+      "dependencies": [
+        "@sentry/conventions"
+      ]
+    },
+    "@sentry/deno@11.5.0": {
+      "integrity": "sha512-VwZam7tKnW6rHqwCRt+eSqGKwtPygWpsylAfidGswUK3bd5g1V5E/ureK5osRIQtyO1kjB8hDVmqAz8gZaabnA==",
+      "dependencies": [
+        "@opentelemetry/api",
+        "@sentry/conventions",
+        "@sentry/core",
+        "@sentry/server-runtime-injection",
+        "@sentry/server-utils"
+      ]
+    },
+    "@sentry/server-runtime-injection@11.5.0": {
+      "integrity": "sha512-6hmiiFJanSKDfUNBdrwRm47g8CBgFdDcxFguMh3QaRmIim0c5V0eMUfMRJuWhk+NKuI/rsFyj8B5qdBD+5h4Kg==",
+      "dependencies": [
+        "@sentry/core",
+        "@sentry/server-utils"
+      ]
+    },
+    "@sentry/server-utils@11.5.0": {
+      "integrity": "sha512-cUALUPgVW2jND2RGWyNH9v3epsKz5Ce3QujfnpFAdHKFVj4tjjZMU0FYlbFo9SBxosWPTnZzjIuNO6GROQwR1Q==",
+      "dependencies": [
+        "@opentelemetry/api",
+        "@sentry/conventions",
+        "@sentry/core"
+      ]
+    },
+    "@types/node@22.5.4": {
+      "integrity": "sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
+    "undici-types@6.19.8": {
+      "integrity": "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="
+    }
+  },
+  "remote": {
+    "https://esm.sh/@supabase/supabase-js@2.45.0": "36ae57c3f2dc3f94fd122a846b40a87114d29bb2f47e910cb46bee5575febf2e",
+    "https://esm.sh/stripe@14.21.0?target=deno": "c68b76780452938e9bbae9e312323e97869ccbdafeb83ddf372746ffa52f6b66"
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@1",
+      "npm:@sentry/deno@11.5.0",
+      "npm:@types/node@*"
+    ]
+  }
+}
