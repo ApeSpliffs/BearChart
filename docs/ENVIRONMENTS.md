@@ -30,6 +30,12 @@ every other script; `auth.js` merges its `auth` block over the one in `data.json
 
 Check a deploy with `curl https://<deploy>/config.js`.
 
+**Returning visitors see a config change one page load late.** The service worker
+precaches `config.js` and serves it stale-while-revalidate: the first load after a
+deploy uses the cached copy and refreshes it in the background, and the next load
+uses the new one. (The paywall/data workstream's service-worker rewrite makes the
+runtime config network-first.) A brand-new visitor always gets the current file.
+
 ## Vercel variables
 
 Set separately for the **Preview** and **Production** scopes.
@@ -48,6 +54,13 @@ Set separately for the **Preview** and **Production** scopes.
 Vercel provides `VERCEL_ENV`, `VERCEL_URL`, `VERCEL_PROJECT_PRODUCTION_URL` and
 `VERCEL_GIT_COMMIT_SHA` (used as the error-report `release`) itself. The Node version
 comes from `engines.node` in `package.json`.
+
+## Sentry project settings
+
+In each Sentry project, turn on **Settings → Security & Privacy → Prevent Storing of
+IP Addresses** (owner TODO). The browser SDK already sends no default PII, scrubs
+query strings and hashes, and identifies a signed-in user by account ID only; the
+privacy page promises exactly that.
 
 ## Supabase function secrets (per project)
 
