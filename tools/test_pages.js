@@ -1911,9 +1911,11 @@ test('a shipped claim drops to planned if the capability is missing', () => {
   assert.match(src, /if \(state === 'shipped' && entry\.length > 3 && !entry\[3\]\)/);
 });
 
-test('the roadmap is reachable from the rest of the site', () => {
+test('the roadmap is in the menu for admins only, for now', () => {
   const p = renderPage('index.html');
-  assert.match(p.doc.getElementById('masthead').innerHTML, /roadmap\.html/);
+  assert.doesNotMatch(p.doc.getElementById('masthead').innerHTML, /roadmap\.html/);
+  const r = renderPage('roadmap.html');
+  assert.match(r.doc.getElementById('masthead').innerHTML, /roadmap\.html/);
 });
 
 // ---- insurance schedule -----------------------------------------------------
