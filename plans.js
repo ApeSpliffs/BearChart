@@ -91,7 +91,7 @@
       'The page hides it. Nothing stops a determined person doing the same sum ' +
       'themselves, and pretending otherwise would be theatre.'],
     shop: ['current', "Jay's Retro Exchange",
-      'The shop checks your monthly discount code when you order. Nothing on this site applies it.']
+      'The shop checks your monthly coupon code when you order. Nothing on this site applies it.']
   };
 
   function renderEnforcement() {
