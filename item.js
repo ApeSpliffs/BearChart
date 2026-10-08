@@ -586,6 +586,7 @@
       '</div>' +
       '<div id="c-out" style="margin-top:16px"></div>' +
       '<p style="margin-top:14px"><button type="button" id="add-collection">Add to my collection</button> ' +
+      '<button type="button" id="add-wishlist" aria-pressed="false">Add to wishlist</button> ' +
       '<span class="fine" id="add-note"></span></p>' +
       '</div>';
   }
@@ -736,6 +737,24 @@
     document.getElementById('c-cond').addEventListener('change', runCalc);
     document.getElementById('c-comp').addEventListener('change', runCalc);
     runCalc();
+
+    var wlBtn = document.getElementById('add-wishlist');
+    if (wlBtn && BC.wishlist) {
+      var wlPaint = function () {
+        var on = BC.wishlist.has(item.id);
+        wlBtn.textContent = on ? '♥ On your wishlist' : 'Add to wishlist';
+        wlBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      };
+      wlPaint();
+      BC.wishlist.onChange(wlPaint);
+      wlBtn.addEventListener('click', function () {
+        var on = BC.wishlist.toggle(item.id);
+        wlPaint();
+        document.getElementById('add-note').innerHTML = on
+          ? 'Added to your wishlist. <a href="' + BC.rel('collection.html') + '#wishlist-panel">See your wishlist &rarr;</a>'
+          : 'Removed from your wishlist.';
+      });
+    }
 
     document.getElementById('add-collection').addEventListener('click', function () {
       var entry = {

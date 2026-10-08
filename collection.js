@@ -475,5 +475,46 @@
     BC.download('bearchart-history-' + BC.stamp() + '.csv', BC.toCsv(rows));
   });
 
+  // ---- wishlist ----------------------------------------------------------
+
+  function renderWishlist() {
+    var box = $('wishlist-body');
+    if (!box || !BC.wishlist) return;
+    var A = window.BearChartAuth;
+    var signedIn = !!(A && A.configured && A.configured() && A.state().signedIn);
+    var note = $('wishlist-note');
+    if (note && !signedIn && A && A.configured && A.configured()) {
+      note.innerHTML = 'Bears you are hunting for. Saved in this browser &mdash; ' +
+        '<a href="' + BC.rel('account.html') + '">sign in</a> to keep it on every device.';
+    }
+    var ids = BC.wishlist.list().filter(function (id) { return BC.itemById(id); });
+    if (!ids.length) {
+      box.innerHTML = '<p class="fine">Nothing on your wishlist yet.</p>';
+      return;
+    }
+    box.innerHTML = '<div class="table-scroll"><table><thead><tr><th>Bear</th>' +
+      '<th class="num">Typical price</th><th></th></tr></thead><tbody>' +
+      ids.map(function (id) {
+        var it = BC.itemById(id);
+        var v = BC.valuationFor(id);
+        return '<tr><td><a href="' + BC.itemUrl(id) + '">' + BC.esc(it.canonical_name) + '</a>' +
+          (it.release_year ? ' <span class="fine">' + BC.esc(String(it.release_year)) + '</span>' : '') + '</td>' +
+          '<td class="num">' + (v && v.has_value ? BC.money(v.fair_market) : '<span class="fine">No sold data yet</span>') + '</td>' +
+          '<td><button type="button" class="link-btn" data-unwish="' + BC.esc(id) + '">Remove</button></td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  if ($('wishlist-body') && BC.wishlist) {
+    $('wishlist-body').addEventListener('click', function (e) {
+      var id = e.target && e.target.getAttribute && e.target.getAttribute('data-unwish');
+      if (id) BC.wishlist.toggle(id);
+    });
+    BC.wishlist.onChange(renderWishlist);
+    if (window.BearChartAuth && window.BearChartAuth.onChange) {
+      window.BearChartAuth.onChange(renderWishlist);
+    }
+  }
+
   render();
+  renderWishlist();
 })();

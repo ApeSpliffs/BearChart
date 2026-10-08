@@ -594,11 +594,85 @@
     ['account.html', 'Account']
   ];
 
+  // ---- wishlist ------------------------------------------------------------
+  // Kept in this browser for everyone, and also saved to the member's account
+  // when signed in, so it follows them between devices. The account copy is
+  // also what a future "Most Wanted" report would count - only ever in
+  // aggregate, never one person's list.
+
+  var WL_KEY = 'bearchart.wishlist';
+  var wlListeners = [];
+  var wlSynced = false;
+
+  function wlLoad() {
+    try {
+      var v = JSON.parse(localStorage.getItem(WL_KEY) || '[]');
+      return Array.isArray(v) ? v.filter(function (x) { return typeof x === 'string'; }) : [];
+    } catch (e) { return []; }
+  }
+  function wlSave(list) {
+    try { localStorage.setItem(WL_KEY, JSON.stringify(list)); } catch (e) { /* storage blocked */ }
+  }
+  function wlNotify() {
+    var list = wlLoad();
+    wlListeners.forEach(function (fn) { try { fn(list); } catch (e) { /* listener failed */ } });
+  }
+  function wlClient() {
+    var A = root.BearChartAuth;
+    if (!A || !A.configured || !A.configured()) return null;
+    var s = A.state();
+    return s && s.signedIn ? A.getClient() : null;
+  }
+  // Merge this browser's list with the account's once per sign-in. Nothing is
+  // ever deleted by a merge: a bear on either list ends up on both.
+  function wlSync() {
+    var c = wlClient();
+    if (!c || wlSynced) return;
+    wlSynced = true;
+    c.from('wishlists').select('item_id').then(function (r) {
+      if (r.error) { wlSynced = false; return; }
+      var remote = (r.data || []).map(function (x) { return x.item_id; });
+      var local = wlLoad();
+      var merged = local.slice();
+      remote.forEach(function (id) { if (merged.indexOf(id) === -1) merged.push(id); });
+      wlSave(merged);
+      wlNotify();
+      var push = local.filter(function (id) { return remote.indexOf(id) === -1; });
+      if (push.length) {
+        c.from('wishlists').upsert(push.map(function (id) { return { item_id: id }; }),
+          { onConflict: 'user_id,item_id', ignoreDuplicates: true }).then(function () {});
+      }
+    });
+  }
+  function wlToggle(id) {
+    var list = wlLoad();
+    var at = list.indexOf(id);
+    var on = at === -1;
+    if (on) list.unshift(id); else list.splice(at, 1);
+    wlSave(list);
+    var c = wlClient();
+    if (c) {
+      (on ? c.from('wishlists').upsert({ item_id: id }, { onConflict: 'user_id,item_id', ignoreDuplicates: true })
+          : c.from('wishlists').delete().eq('item_id', id)).then(function () {});
+    }
+    if (root.bcTrack) root.bcTrack(on ? 'wishlist_add' : 'wishlist_remove', { item: id });
+    wlNotify();
+    return on;
+  }
+  var wishlist = {
+    list: wlLoad,
+    has: function (id) { return wlLoad().indexOf(id) !== -1; },
+    toggle: wlToggle,
+    onChange: function (fn) { wlListeners.push(fn); },
+    sync: wlSync
+  };
+
   function renderChrome(current) {
     var A = root.BearChartAuth;
     if (A && !renderChrome._bound) {
       renderChrome._bound = true;
       A.onChange(function () { renderChrome(current); });
+      A.onChange(function (s) { if (s && s.signedIn) wlSync(); else wlSynced = false; });
       A.init();
     }
     var head = document.getElementById('masthead');
@@ -702,7 +776,7 @@
     hasImage: hasImage, imageHtml: imageHtml, imageCredit: imageCredit,
     placeholderImage: placeholderImage,
     toCsv: toCsv, download: download, itemsCsv: itemsCsv, salesCsv: salesCsv,
-    r2: r2, stamp: stamp, renderChrome: renderChrome
+    r2: r2, stamp: stamp, renderChrome: renderChrome, wishlist: wishlist
   };
 })(window);
 
