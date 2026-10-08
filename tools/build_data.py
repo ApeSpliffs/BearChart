@@ -2438,6 +2438,14 @@ def load_wiki_catalogue():
     with open(path) as f:
         payload = json.load(f)
 
+    # Names listed in catalogue_exclude.json are never catalogued - the way to
+    # take back a bad entry that the weekly wiki check added.
+    exclude_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "catalogue_exclude.json")
+    exclude = set()
+    if os.path.exists(exclude_path):
+        with open(exclude_path) as f:
+            exclude = {str(n).strip().lower() for n in json.load(f)}
+
     def key(text):
         return re.sub(r"[^a-z0-9]", "", str(text or "").lower())
 
@@ -2474,6 +2482,9 @@ def load_wiki_catalogue():
     added = skipped = 0
     for e in payload["items"]:
         name = e["canonical_name"]
+        if name.strip().lower() in exclude:
+            skipped += 1
+            continue
         if key(name) in known or loose(name) in curated_loose or slug(name) in taken:
             skipped += 1
             continue
