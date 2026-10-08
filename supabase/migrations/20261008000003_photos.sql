@@ -1,6 +1,6 @@
 -- BearChart migration 03: member photo submissions.
 --
---   psql "$DATABASE_URL" -f supabase_migration_03_photos.sql
+--   supabase db push
 --
 -- Signed-in members can send a photo for a bear that has none. It lands in a
 -- private bucket and a 'pending' row; nothing is public until an admin approves

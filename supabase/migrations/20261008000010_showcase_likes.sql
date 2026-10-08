@@ -18,10 +18,12 @@ revoke all on public.showcase_likes from anon;
 revoke all on public.showcase_likes from authenticated;
 grant select, insert, delete on public.showcase_likes to authenticated;
 
+drop policy if exists showcase_likes_read on public.showcase_likes;
 create policy showcase_likes_read on public.showcase_likes
   for select to authenticated
   using (user_id = (select auth.uid()));
 
+drop policy if exists showcase_likes_add on public.showcase_likes;
 create policy showcase_likes_add on public.showcase_likes
   for insert to authenticated
   with check (
@@ -33,6 +35,7 @@ create policy showcase_likes_add on public.showcase_likes
     )
   );
 
+drop policy if exists showcase_likes_remove on public.showcase_likes;
 create policy showcase_likes_remove on public.showcase_likes
   for delete to authenticated
   using (user_id = (select auth.uid()));
@@ -53,6 +56,7 @@ begin
 end $$;
 revoke execute on function public.showcase_like_tally() from public, anon, authenticated;
 
+drop trigger if exists showcase_likes_tally on public.showcase_likes;
 create trigger showcase_likes_tally
   after insert or delete on public.showcase_likes
   for each row execute function public.showcase_like_tally();

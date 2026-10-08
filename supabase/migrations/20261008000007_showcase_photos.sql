@@ -33,6 +33,7 @@ create policy showcase_photos_remove on storage.objects for delete to authentica
   using (bucket_id = 'showcase-photos'
     and ((storage.foldername(name))[1] = (select auth.uid())::text or (select public.is_admin())));
 
+-- DRIFT: the 7-argument save_showcase lives only in production. See README "Database migrations" (owner TODO).
 -- save_showcase gains p_details (per-bear photo path and note) and p_theme.
 -- The full function body is in the live project; it validates that photo
 -- paths sit in the member's own folder and notes are at most 80 characters.

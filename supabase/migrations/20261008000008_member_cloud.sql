@@ -16,14 +16,18 @@ create table if not exists public.collection_entries (
   primary key (user_id, id)
 );
 alter table public.collection_entries enable row level security;
+drop policy if exists collection_entries_read on public.collection_entries;
 create policy collection_entries_read on public.collection_entries for select to authenticated
   using (user_id = (select auth.uid()));
+drop policy if exists collection_entries_add on public.collection_entries;
 create policy collection_entries_add on public.collection_entries for insert to authenticated
   with check (user_id = (select auth.uid()) and (select public.has_entitlement('collection_sync'))
     and (select count(*) from public.collection_entries c where c.user_id = (select auth.uid())) < 5000);
+drop policy if exists collection_entries_change on public.collection_entries;
 create policy collection_entries_change on public.collection_entries for update to authenticated
   using (user_id = (select auth.uid()))
   with check (user_id = (select auth.uid()) and (select public.has_entitlement('collection_sync')));
+drop policy if exists collection_entries_remove on public.collection_entries;
 create policy collection_entries_remove on public.collection_entries for delete to authenticated
   using (user_id = (select auth.uid()));
 grant select, insert, update, delete on public.collection_entries to authenticated;
@@ -37,10 +41,13 @@ create table if not exists public.value_history (
   primary key (user_id, day)
 );
 alter table public.value_history enable row level security;
+drop policy if exists value_history_read on public.value_history;
 create policy value_history_read on public.value_history for select to authenticated
   using (user_id = (select auth.uid()));
+drop policy if exists value_history_add on public.value_history;
 create policy value_history_add on public.value_history for insert to authenticated
   with check (user_id = (select auth.uid()) and (select public.has_entitlement('hosted_history')));
+drop policy if exists value_history_change on public.value_history;
 create policy value_history_change on public.value_history for update to authenticated
   using (user_id = (select auth.uid()))
   with check (user_id = (select auth.uid()) and (select public.has_entitlement('hosted_history')));
@@ -56,11 +63,14 @@ create table if not exists public.saved_reports (
 );
 create index if not exists saved_reports_user_idx on public.saved_reports (user_id, created_at desc);
 alter table public.saved_reports enable row level security;
+drop policy if exists saved_reports_read on public.saved_reports;
 create policy saved_reports_read on public.saved_reports for select to authenticated
   using (user_id = (select auth.uid()));
+drop policy if exists saved_reports_add on public.saved_reports;
 create policy saved_reports_add on public.saved_reports for insert to authenticated
   with check (user_id = (select auth.uid()) and (select public.has_entitlement('insurance_archive'))
     and (select count(*) from public.saved_reports r where r.user_id = (select auth.uid())) < 200);
+drop policy if exists saved_reports_remove on public.saved_reports;
 create policy saved_reports_remove on public.saved_reports for delete to authenticated
   using (user_id = (select auth.uid()));
 grant select, insert, delete on public.saved_reports to authenticated;

@@ -1,8 +1,8 @@
 -- ===========================================================================
 -- BearChart migration 02: collector submissions and problem reports
 --
--- Apply after supabase_schema.sql:
---   psql "$DATABASE_URL" -f supabase_migration_02_submissions.sql
+-- Apply after the base schema (20261008000001):
+--   supabase db push
 --
 -- THE RULE THIS WHOLE FILE EXISTS TO ENFORCE
 --   A submission is not a comp. Nothing here can move a valuation.
@@ -65,13 +65,16 @@ alter table comp_submissions enable row level security;
 -- A submitter sees their own history and nothing else. The queue is not a
 -- public feed: unreviewed prices on display would be exactly the thing this
 -- design is avoiding.
+drop policy if exists comp_sub_read_own on comp_submissions;
 create policy comp_sub_read_own on comp_submissions for select
   using (user_id = auth.uid() or is_admin());
 
 -- No direct inserts. Everything goes through submit_comp(), which stamps the
 -- user and refuses a claim it cannot accept from an untrusted caller.
+drop policy if exists comp_sub_admin_write on comp_submissions;
 create policy comp_sub_admin_write on comp_submissions for update
   using (is_admin()) with check (is_admin());
+drop policy if exists comp_sub_admin_delete on comp_submissions;
 create policy comp_sub_admin_delete on comp_submissions for delete
   using (is_admin());
 
@@ -110,10 +113,13 @@ alter table item_reports enable row level security;
 
 -- Read is admin-only. A public report table is a message board, and this one
 -- would be a message board anybody can post to.
+drop policy if exists item_reports_admin_read on item_reports;
 create policy item_reports_admin_read on item_reports for select
   using (is_admin());
+drop policy if exists item_reports_admin_write on item_reports;
 create policy item_reports_admin_write on item_reports for update
   using (is_admin()) with check (is_admin());
+drop policy if exists item_reports_admin_delete on item_reports;
 create policy item_reports_admin_delete on item_reports for delete
   using (is_admin());
 

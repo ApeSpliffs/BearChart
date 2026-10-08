@@ -12,13 +12,16 @@ create table if not exists public.wishlists (
 
 alter table public.wishlists enable row level security;
 
+drop policy if exists wishlists_read_own on public.wishlists;
 create policy wishlists_read_own on public.wishlists for select
   using (user_id = (select auth.uid()));
 -- 500 bears per member is far more than anyone hunts for at once, and stops a
 -- script from filling the table.
+drop policy if exists wishlists_add_own on public.wishlists;
 create policy wishlists_add_own on public.wishlists for insert
   with check (user_id = (select auth.uid())
     and (select count(*) from public.wishlists w where w.user_id = (select auth.uid())) < 500);
+drop policy if exists wishlists_remove_own on public.wishlists;
 create policy wishlists_remove_own on public.wishlists for delete
   using (user_id = (select auth.uid()));
 
