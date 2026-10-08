@@ -87,10 +87,33 @@ Settings → Secrets and variables → Actions:
 - `EBAY_CLIENT_ID`
 - `EBAY_CLIENT_SECRET`
 
-It runs at 06:15 UTC daily, commits the refreshed data files back to the repo, and
-can be triggered by hand from the Actions tab. If you deploy from that repo to
-Vercel, the site redeploys itself on every refresh — which is as close to "live
-daily" as this data honestly gets.
+It runs at 06:15 UTC daily and can be triggered by hand from the Actions tab.
+Without the eBay secrets it still runs green and simply skips the fetch.
+
+It is two jobs:
+
+1. **refresh** — read-only checkout with no stored credentials. Fetches asking
+   prices (`tools/ci/daily_fetch.sh`, credentials from env only), runs the Monday
+   wiki check, `npm run build:daily`, then `npm test`. The changed files that
+   appear in `tools/daily_outputs.txt` are uploaded as a checksummed artifact.
+2. **publish** — the only job that can write. It runs no npm and no Python: it
+   checks the artifact against the allow-list, commits it on top of the exact
+   commit that was tested, and pushes to `main` **fast-forward only**. If someone
+   pushed to `main` while the refresh was running, the push fails and nothing is
+   published; re-run the workflow or wait for tomorrow.
+
+Optional extras:
+
+- **Bot app.** A GitHub App ("bearchart-bot", Contents read/write, this repo only)
+  that is the only bypass actor on a protected `main`. Store `BOT_APP_ID` as a
+  variable and `BOT_APP_PRIVATE_KEY` as a secret in a `production-data`
+  environment limited to `main`. Without it the job uses the workflow token.
+- **Deploy hook.** `VERCEL_DEPLOY_HOOK_URL` (secret) is called after publishing.
+  Vercel redeploys on every push to `main` anyway; the hook matters once the data
+  is produced at build time and nothing is committed.
+
+If you deploy from that repo to Vercel, the site redeploys itself on every
+refresh — which is as close to "live daily" as this data honestly gets.
 
 ---
 

@@ -18,8 +18,8 @@ An asking price is a hope; a sold price is evidence. The engine refuses to treat
 `active_listing` or `retail_reference` rows as market evidence, and a test fails the
 build if that ever changes.
 
-Its corollary: **no evidence, no price.** 1974 of the 2042 catalogued items have no sold
-comps yet. They say "No sold data yet" and stay that way until a sourced sale arrives.
+Its corollary: **no evidence, no price.** Most catalogued items have no sold comps yet.
+They say "No sold data yet" and stay that way until a sourced sale arrives.
 
 ---
 
@@ -33,7 +33,7 @@ No build step and no dependencies at runtime. `index.html` also opens straight o
 filesystem — the data ships as both `data.json` and `data.js` so it loads either way.
 
 ```bash
-npm test           # 371 tests + the duplicate audit, which fails the build
+npm test           # full suite + duplicate audit, which fails the build
                    # if any name identifies two items
 npm run icons:sheet # render every illustration to one PNG and look at it
 npm run daily      # refresh asking prices, rebuild, verify, publish
@@ -65,9 +65,11 @@ npm run sql        # regenerate seed.sql from data.json
 | `engine.js` | The valuation engine. Pure functions, no DOM — ports unchanged to a backend |
 | `common.js` | Shared formatting, search, CSV, page chrome |
 | `icons.js` | 28 species illustrations, drawn as inline SVG |
-| `data.json` / `data.js` | The database: 2042 items, 79 sold observations |
+| `data.json` / `data.js` | The database: every catalogued item and its sold observations |
 | `item/*.html` | One generated page per item — what a search engine reads (`npm run pages`) |
-| `supabase_schema.sql` | Postgres schema with RLS |
+| `supabase/migrations/` | Postgres schema with RLS, as ordered migrations (see "Database migrations") |
+| `supabase/tests/database/` | pgTAP row-level-security tests (`npm run test:db`) |
+| `config.js` / `observability.js` | Per-deploy runtime settings (inert as committed) and error reporting (inert without a DSN) |
 | `seed.sql` | The research, as idempotent SQL inserts |
 | `tools/build_data.py` | **The source of truth for the data.** Edit here, not in data.json |
 | `tools/import_sales.py` | Bulk CSV importer for sold comps (Terapeak, hand-kept sheets) |
@@ -76,13 +78,13 @@ npm run sql        # regenerate seed.sql from data.json
 | `tools/attach_images.py` | Bulk photo attachment |
 | `tools/ebay_active.py` | eBay Browse API adapter — current asking prices |
 | `tools/poll_engine.py` | Scheduled polling: shared query pool, heat tiers, quota budget |
-| `tools/test_poll.py` | 23 scheduler tests (no network) |
+| `tools/test_poll.py` | Scheduler tests (no network) |
 | `tools/daily_update.sh` | Daily refresh: fetch, rebuild, verify, publish or roll back |
 | `tools/README-automation.md` | cron / systemd / GitHub Actions setup |
-| `tools/test_engine.js` | 114 engine + data-integrity tests |
-| `tools/test_pages.js` | 150 page tests, rendered in jsdom |
-| `tools/test_import.py` | 56 importer tests |
-| `tools/test_ebay.py` | 28 eBay adapter tests (fixtures, no network) |
+| `tools/test_engine.js` | Engine + data-integrity tests |
+| `tools/test_pages.js` | Page tests, rendered in jsdom |
+| `tools/test_import.py` | Importer tests |
+| `tools/test_ebay.py` | eBay adapter tests (fixtures, no network) |
 
 ---
 
@@ -118,8 +120,9 @@ the `valuation_config` table. Retune them without touching the engine.
 
 ## The data
 
-113 items, 79 sold observations, transcribed from the research in `BuildaBear1.md`
-§9–§12. Nothing was invented and nothing was thrown away.
+The original seed was transcribed from the research in `BuildaBear1.md` §9–§12; the
+figures below describe it at the time of that research. Nothing was invented and
+nothing was thrown away.
 
 - **5 sales are `completed_sale`** — full provenance: date, marketplace and eBay listing
   id. These are the five CollectionHero finds (Kennel Pals Calico Cat $250, Employee
@@ -165,7 +168,7 @@ rejection. A comp the median ignored is never drawn as if it counted.
 
 ## The page with no price
 
-1,974 of 2,042 items have no sold data, which makes this the most-viewed panel on
+Most items have no sold data, which makes this the most-viewed panel on
 the site and the one a search result most often lands on. It used to be a warning
 box and an apology.
 
@@ -176,7 +179,7 @@ refuses to publish a price, and a test asserts there is no `$` anywhere on it.
 ## Collector submissions and problem reports
 
 ```
-psql "$DATABASE_URL" -f supabase_migration_02_submissions.sql
+supabase db push   # applies supabase/migrations/20261008000002_submissions.sql
 ```
 
 Two ways for a reader to put something back: a sold price they know about, and a
@@ -227,14 +230,14 @@ that needs a connection is no use at the moment you need it. The whole catalogue
 is 82KB gzipped and the site is static files, so it all fits in a cache.
 
 Installed from the browser ("Add to Home Screen"), BearChart opens, searches and
-prices any of the 2,042 bears in aeroplane mode.
+prices any bear in the catalogue in aeroplane mode.
 
-**How the offline item pages work.** Precaching 2,042 generated pages would be
-8MB, so they are cached as they are visited — but the thrift-shop case is
+**How the offline item pages work.** Precaching every generated page would be
+megabytes, so they are cached as they are visited — but the thrift-shop case is
 precisely a bear you have *never* visited. So the service worker serves
 `item/_offline.html` for any uncached `/item/<slug>.html`. The address bar still
 says which bear, `item.js` reads the slug from the path, and it renders from the
-cached catalogue. One extra file covers all 2,042.
+cached catalogue. One extra file covers every item.
 
 **`npm run test:offline` is not part of `npm test`.** It drives a real Chrome over
 the DevTools Protocol, cuts the network with `Network.emulateNetworkConditions`,
@@ -272,7 +275,7 @@ and node has had a global `WebSocket` since v22.
 ## One page per bear
 
 Every item used to live at `item.html?id=<slug>` and be drawn by JavaScript after
-the page loaded. To a search engine that is **one** page — a catalogue of 2,042
+the page loaded. To a search engine that is **one** page — a whole catalogue of
 bears that Google saw as a single empty document. People searching *"1997 build a
 bear brown teddy value"* were typing the exact question this site answers and
 could not find it.
@@ -301,7 +304,7 @@ straight off disk and from a subdirectory.
 canonical link is emitted, deliberately — a sitemap full of wrong URLs is worse
 than no sitemap.
 
-**Catalogue expansion (2042 items).** Built in two passes. First, 529 item identities
+**Catalogue expansion.** Built in two passes. First, 529 item identities
 from the CollectionHero index, which §12 of the handoff names as a secondary reference.
 Then 1400 more from [The Build-A-Bear Wiki](https://buildabearwiki.info/) (CC BY-SA 4.0),
 read through its MediaWiki API in ~45 bulk requests rather than crawled page by page —
@@ -445,8 +448,8 @@ never go behind it — that is the traffic engine and the differentiator.
 
 **It is not complete, and it cannot be made complete from here.** Build-A-Bear has
 produced somewhere in the region of 2,000-2,500 distinct Furry Friends since 1997. The
-catalogue now holds **2042** of them — every year 1997–2026, 98 franchises — which is
-the whole known line rather than a sample of it. It is
+catalogue now holds the whole known line — every year from 1997 on — rather than a
+sample of it. It is
 Build-A-Bear has produced thousands of SKUs across 28 years and there is no source that
 lists them all.
 
@@ -706,7 +709,7 @@ real money to run, they can genuinely be enforced, and that is exactly the set w
 charging for. Tier by marginal cost, not by feature niceness.
 
 `entitlements.js` decides what to **show**. It never decides what is **safe** — the file
-says so at the top. Enforcement lives in `supabase_schema.sql`: `current_tier()`,
+says so at the top. Enforcement lives in `supabase/migrations/`: `current_tier()`,
 `has_entitlement()`, and policies that refuse the request however it arrives. Collection
 sync raises `collection sync requires a Pro membership` inside the function itself.
 
@@ -771,7 +774,7 @@ policy references or the policy stops evaluating. Both return nothing useful to 
 stranger. `stripe_events` shows "RLS enabled, no policy", which is the deny-all intent.
 
 **The catalogue is not seeded into Postgres.** `data.js` remains the source of truth for
-the site, and the 2042 items only need to exist in the database for `collections` to
+the site, and the items only need to exist in the database for `collections` to
 reference them. To load them, run `seed.sql` (1.3 MB) with the CLI:
 
 ```bash
@@ -803,7 +806,7 @@ link, and password reset are all supported.
 
 **The page is not the security.** Admin status is asked of the server (`admins` table),
 never assumed, and every read and write is enforced by the row-level security policies in
-`supabase_schema.sql`. If someone skips the UI and calls the API directly, RLS still stops
+`supabase/migrations/`. If someone skips the UI and calls the API directly, RLS still stops
 them. The admin page says as much to a signed-in non-admin: *"the database will refuse
 writes from this account, whatever this page shows."*
 
@@ -886,8 +889,11 @@ and exits non-zero. That rollback is tested: a deliberately failing suite was ru
 a live tree and `data.json` came out byte-identical to where it started.
 
 Set it up as a cron job, a systemd timer, or the included GitHub Actions workflow —
-`tools/README-automation.md` has all three. On Actions it commits the refreshed data back
-to the repo, so a Vercel deployment redeploys itself daily.
+`tools/README-automation.md` has all three. On Actions (`.github/workflows/daily.yml`) a
+read-only job fetches, builds (`npm run build:daily`) and runs `npm test`; only if that
+passes does a separate job — which runs no repo code — commit the files listed in
+`tools/daily_outputs.txt` to `main`, fast-forward only, so a Vercel deployment
+redeploys itself daily. If `main` moved during the run, nothing is published.
 
 **What refreshes daily: asking prices. What does not: sold prices, and therefore
 valuations.** There is no API that will give us sold comps. A price guide that quietly
@@ -940,24 +946,49 @@ when the listing ends, so your own inventory photographs remain the durable answ
 
 ## Deploying
 
-**Vercel (static):** point a project at this directory. No build command, output
-directory `.`. It's plain HTML/CSS/JS — nothing to compile.
+**Vercel** (the only host). The project builds with `npm run build:site` into `dist/`
+(vercel.json); `api/ebay-deletion.js` is deployed as a serverless function. Item pages,
+sitemap and service worker are generated at build time, so deploying the repo without
+the build command serves a site with no item pages. Environment variables:
+`docs/ENVIRONMENTS.md`.
 
 **Supabase:**
 
-1. Run `supabase_schema.sql` (tables, indexes, RLS policies, `valuation_config` seed).
+1. Apply `supabase/migrations/` with `supabase db push` (tables, indexes, RLS policies,
+   `valuation_config` seed) — read "Database migrations" below first.
 2. Run `seed.sql` to load the researched data. Re-running is safe — items upsert on
    `slug`, sales are guarded against duplicates.
 3. Add yourself to `admins` with role `owner`.
-4. Point the frontend at Supabase by replacing the `data.js` load in each page with a
-   fetch of `items` + `sales` + `valuation_config`. `engine.js` needs no changes — it
-   takes plain objects and knows nothing about where they came from.
 
 Security posture: RLS is on for every table. Public gets `select` on items, sales and
 config. Writes are admin-only, one policy per verb so nothing is granted by accident.
 Collections are readable and writable only by their owner. A `completed_sale` row is
 rejected by a CHECK constraint unless it carries date, marketplace and listing id — the
 same rule the admin form enforces, so it holds even if a bad client gets through.
+
+### Database migrations
+
+All SQL lives in `supabase/migrations/`, applied in filename order by the Supabase CLI
+(`supabase db push`; locally `supabase start` applies them). Every migration is
+idempotent — re-running one leaves the same end state, and CI re-applies them all and
+re-runs the tests to prove it. `supabase/tests/database/` holds the pgTAP
+row-level-security suite (`npm run test:db` against a local `supabase start`).
+
+| Range | Owner |
+|---|---|
+| `20261008000001`–`000010` | The original schema and migrations 02–10, moved here unchanged in effect |
+| `20261008000011`–`000099` | Operations (`000011_save_showcase_details.sql` is reserved for the owner-exported function) |
+| `20261008000100`+ | Security |
+| `20261008000200`+ | Paywall / data |
+| `20261008000300`+ | UX / waitlist |
+
+**Before the first `supabase db push` to production:** production was built by pasting
+these files, so it has no migration history. `supabase link --project-ref
+stfkxfhffblajqbbyqze`; `supabase db pull` into a throwaway branch and diff it against
+`supabase/migrations/` (known drift: the 7-argument `save_showcase` from migration 07);
+commit any missing definitions as a new migration in the 000011–000099 range; then
+`supabase migration repair --status applied 20261008000001 … 20261008000010` so only
+newer migrations are pushed. Push to staging first.
 
 ### Moving to Next.js
 
@@ -976,10 +1007,10 @@ version works *today*. The port is not a rewrite:
 
 Everything below was run, not assumed:
 
-- **371/371 tests pass** (`npm test`) — the engine, the data's integrity, all five pages
+- **The full suite passes** (`npm test`) — the engine, the data's integrity, every page
   rendered in a real DOM with console errors treated as failures, the CSV importer, and
   the eBay adapter against fixtures.
-- Every one of the 298 items was checked to produce well-formed, non-empty SVG, and all
+- Every item renders well-formed, non-empty SVG, and all
   28 illustrations were rendered to a PNG and reviewed by eye.
 - The daily refresh script was run end to end, and its rollback was verified by
   deliberately failing the suite: it exited non-zero and left `data.json` untouched.
@@ -993,11 +1024,14 @@ Everything below was run, not assumed:
 - Every internal link and asset reference resolves; every card links to a real item.
 - The dev server returns 200 for every page.
 
-**Not verified, and worth saying:** no browser or Postgres was available in this
-environment, so the visual layout was never rendered to a screen and `supabase_schema.sql`
-/ `seed.sql` were never executed against a live database. The eBay adapter has never run
+**Postgres is now exercised in CI:** every migration is applied to a local Supabase
+stack, re-applied to prove it is idempotent, and checked by the pgTAP RLS suite in
+`supabase/tests/database/` (known gaps are recorded there as `todo` tests). `seed.sql`
+is still not loaded in CI.
+
+**Not verified, and worth saying:** The eBay adapter has never run
 against the live API — there are no credentials here — so its request shapes are written
 to eBay's documented contract and tested against fixtures, but the first real call is
-still ahead of it. The mobile breakpoints, the
-vintage palette and the SQL are written with care but unproven — check them in a browser
-and against a Supabase instance before treating them as done.
+still ahead of it. The mobile breakpoints and the vintage palette are written with care
+but unproven — check them in a browser before treating them as done. The migrations have
+not been reconciled with production yet (see "Database migrations").
