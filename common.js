@@ -668,6 +668,57 @@
     sync: wlSync
   };
 
+  // ---- free-account pages ----------------------------------------------------
+  // The price guide is open to everyone. These tools need a free account. The
+  // page still renders underneath (the data is in data.js for anyone who looks),
+  // so this is an invitation, not a lock - which is also why it costs nothing to
+  // get wrong for a moment while the account service loads.
+  var MEMBERS_ONLY = {
+    'deals.html': 'the deal finder',
+    'checklists.html': 'checklists',
+    'collection.html': 'your collection and wishlist'
+  };
+
+  function storedSession() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i) || '';
+        if (/^sb-.*-auth-token$/.test(k) && localStorage.getItem(k)) return true;
+      }
+    } catch (e) { /* storage blocked */ }
+    return false;
+  }
+
+  function membersGate(current) {
+    var what = MEMBERS_ONLY[current];
+    var A = root.BearChartAuth;
+    if (!what || !A || !A.configured || !A.configured() || membersGate._bound) return;
+    membersGate._bound = true;
+    function paint(signedIn) {
+      document.body.classList.toggle('members-gate', !signedIn);
+      var card = document.getElementById('members-gate-card');
+      if (signedIn) { if (card) card.parentNode.removeChild(card); return; }
+      if (card) return;
+      card = document.createElement('div');
+      card.id = 'members-gate-card';
+      card.className = 'members-gate-card';
+      card.setAttribute('role', 'region');
+      card.setAttribute('aria-label', 'Free account needed');
+      card.innerHTML =
+        '<p class="welcome-kicker">Free for members</p>' +
+        '<h2>Make a free account to use ' + esc(what) + '</h2>' +
+        '<p>It takes a minute and costs nothing. The price guide stays open to everyone, no account needed.</p>' +
+        '<div class="welcome-actions">' +
+          '<a class="btn btn-primary" href="' + rel('account.html') + '">Sign in or create a free account</a>' +
+          '<a class="btn" href="' + rel('index.html') + '">Back to the price guide</a>' +
+        '</div>';
+      document.body.appendChild(card);
+      if (root.bcTrack) root.bcTrack('members_gate_shown', { page: current });
+    }
+    paint(storedSession());
+    A.onChange(function (s) { paint(!!(s && s.signedIn)); });
+  }
+
   function renderChrome(current) {
     var A = root.BearChartAuth;
     if (A && !renderChrome._bound) {
@@ -676,6 +727,7 @@
       A.onChange(function (s) { if (s && s.signedIn) wlSync(); else wlSynced = false; });
       A.init();
     }
+    membersGate(current);
     var head = document.getElementById('masthead');
     if (head) {
       head.innerHTML =
@@ -821,6 +873,8 @@
   var KEY = 'bc_welcome_seen';
   var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
   if (page === 'account.html' || page === 'plans.html' || page === 'admin.html') return;
+  // These pages already ask visitors to sign in.
+  if (page === 'deals.html' || page === 'checklists.html' || page === 'collection.html') return;
 
   function seenRecently() {
     try {
