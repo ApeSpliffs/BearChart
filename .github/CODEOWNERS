@@ -1,0 +1,7 @@
+# Advisory until branch protection is available (GitHub Pro / Team).
+*                      @ApeSpliffs @JXSan
+/.github/              @ApeSpliffs @JXSan
+/supabase/migrations/  @ApeSpliffs @JXSan
+/supabase/functions/   @ApeSpliffs @JXSan
+/api/                  @ApeSpliffs
+/vercel.json           @ApeSpliffs

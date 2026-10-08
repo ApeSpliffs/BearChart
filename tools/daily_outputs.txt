@@ -1,0 +1,10 @@
+# Paths the daily workflow may commit to main. One per line. The data
+# workstream owns this list; an empty list means "commit nothing" (artifacts
+# are produced at build time) and the workflow only pings the deploy hook.
+data.json
+data.js
+seed.sql
+sw.js
+manifest.webmanifest
+tools/catalogue_wiki.json
+recent_bears.js

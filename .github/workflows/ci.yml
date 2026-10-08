@@ -1,0 +1,125 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  SUPABASE_CLI_VERSION: 2.120.0
+  # The Deno inside the Supabase edge runtime that CLI 2.120.0 runs
+  # (supabase/edge-runtime:v1.77.4 reports "deno 2.1.4"). Exact, not a range:
+  # re-check when the CLI pin moves (docs/ENVIRONMENTS.md, quarterly).
+  DENO_VERSION: "2.1.4"
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      db: ${{ steps.diff.outputs.db }}
+      functions: ${{ steps.diff.outputs.functions }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - id: diff
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          base="$PR_BASE"; [ "$EVENT" = pull_request ] || base="$BEFORE"
+          if [ -z "$base" ] || [ "$base" = 0000000000000000000000000000000000000000 ] \
+             || ! git cat-file -e "${base}^{commit}" 2>/dev/null; then
+            echo "db=true" >> "$GITHUB_OUTPUT"; echo "functions=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          files=$(git diff --name-only "$base" HEAD)
+          grep -qE '^(supabase/(migrations|tests)/|supabase/config\.toml|\.github/)' <<<"$files" \
+            && echo "db=true" >> "$GITHUB_OUTPUT" || echo "db=false" >> "$GITHUB_OUTPUT"
+          grep -qE '^(supabase/functions/|\.github/)' <<<"$files" \
+            && echo "functions=true" >> "$GITHUB_OUTPUT" || echo "functions=false" >> "$GITHUB_OUTPUT"
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Build generated inputs (item pages are gitignored)
+        run: npm run build:ci
+      - run: npm test
+
+  db:
+    needs: changes
+    if: needs.changes.outputs.db == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
+        with:
+          version: ${{ env.SUPABASE_CLI_VERSION }}
+      - name: Start Supabase (db, auth, storage, rest only) and apply migrations
+        run: supabase start -x realtime,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+      - name: Lint PL/pgSQL
+        run: supabase db lint --level error
+      - name: RLS tests
+        run: supabase test db
+      - name: Re-apply every migration (must be idempotent)
+        env:
+          DB: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+        run: |
+          for f in supabase/migrations/*.sql; do
+            echo "::group::$f"; psql "$DB" -v ON_ERROR_STOP=1 -q -f "$f"; echo "::endgroup::"
+          done
+      - name: RLS tests after re-apply (end state unchanged)
+        run: supabase test db
+      - if: always()
+        run: supabase stop --no-backup
+
+  functions:
+    needs: changes
+    if: needs.changes.outputs.functions == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        with:
+          deno-version: ${{ env.DENO_VERSION }}
+          cache: true
+      - name: Type-check, lint, test
+        working-directory: supabase/functions
+        run: deno task ci
+
+  ci-ok:
+    if: always()
+    needs: [test, db, functions]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - env:
+          RESULTS: ${{ needs.test.result }} ${{ needs.db.result }} ${{ needs.functions.result }}
+          TEST: ${{ needs.test.result }}
+        run: |
+          [ "$TEST" = success ] || exit 1
+          for r in $RESULTS; do case "$r" in success|skipped) ;; *) exit 1 ;; esac; done

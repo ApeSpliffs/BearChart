@@ -1,0 +1,59 @@
+name: Database backup
+# Nightly logical dump of production, encrypted with age before it leaves the
+# runner, copied off-platform to S3-compatible storage. Does nothing (and
+# finishes green with a notice) until the secrets exist. See docs/BACKUPS.md.
+on:
+  schedule:
+    - cron: '45 7 * * *'
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: db-backup
+  cancel-in-progress: false
+jobs:
+  dump:
+    if: github.repository == 'ApeSpliffs/BearChart'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: backups
+    permissions:
+      contents: read
+    steps:
+      - id: gate
+        env:
+          DB_URL: ${{ secrets.BACKUP_DATABASE_URL }}
+          S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+          S3_ENDPOINT: ${{ secrets.BACKUP_S3_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.BACKUP_S3_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKUP_S3_SECRET_ACCESS_KEY }}
+          AGE_RECIPIENT: ${{ vars.BACKUP_AGE_RECIPIENT }}
+        shell: bash
+        run: |
+          for v in DB_URL S3_BUCKET S3_ENDPOINT AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AGE_RECIPIENT; do
+            [ -n "${!v}" ] || { echo "::notice::Backups not configured ($v unset); skipping"; echo "enabled=false" >> "$GITHUB_OUTPUT"; exit 0; }
+          done
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+      - if: steps.gate.outputs.enabled == 'true'
+        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.1
+        with:
+          version: 2.120.0
+      - if: steps.gate.outputs.enabled == 'true'
+        env:
+          DB_URL: ${{ secrets.BACKUP_DATABASE_URL }}   # session pooler URL (IPv4), see docs/BACKUPS.md
+          S3_BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+          S3_ENDPOINT: ${{ secrets.BACKUP_S3_ENDPOINT }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.BACKUP_S3_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.BACKUP_S3_SECRET_ACCESS_KEY }}
+          AGE_RECIPIENT: ${{ vars.BACKUP_AGE_RECIPIENT }}
+        shell: bash
+        run: |
+          set -euo pipefail; umask 077
+          sudo apt-get install -y -qq age
+          d="$RUNNER_TEMP/bk"; mkdir -p "$d"
+          supabase db dump --db-url "$DB_URL" -f "$d/roles.sql" --role-only
+          supabase db dump --db-url "$DB_URL" -f "$d/schema.sql"
+          supabase db dump --db-url "$DB_URL" -f "$d/data.sql" --use-copy --data-only
+          f="bearchart-$(date -u +%Y%m%dT%H%MZ).tar.gz.age"
+          tar -C "$d" -czf - roles.sql schema.sql data.sql | age -r "$AGE_RECIPIENT" > "$RUNNER_TEMP/$f"
+          rm -rf "$d"
+          aws s3 cp "$RUNNER_TEMP/$f" "s3://$S3_BUCKET/db/$f" --endpoint-url "$S3_ENDPOINT" --only-show-errors
