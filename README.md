@@ -179,7 +179,8 @@ refuses to publish a price, and a test asserts there is no `$` anywhere on it.
 ## Collector submissions and problem reports
 
 ```
-supabase db push   # applies supabase/migrations/20261008000002_submissions.sql
+supabase db push   # applies every pending migration in supabase/migrations/,
+                   # including 20261008000002_submissions.sql
 ```
 
 Two ways for a reader to put something back: a sold price they know about, and a
@@ -969,9 +970,10 @@ same rule the admin form enforces, so it holds even if a bad client gets through
 ### Database migrations
 
 All SQL lives in `supabase/migrations/`, applied in filename order by the Supabase CLI
-(`supabase db push`; locally `supabase start` applies them). Every migration is
-idempotent — re-running one leaves the same end state, and CI re-applies them all and
-re-runs the tests to prove it. `supabase/tests/database/` holds the pgTAP
+(`supabase db push`; locally `supabase start` applies them). Re-running the
+whole set in filename order is idempotent — it leaves the same end state, and CI
+re-applies them all and re-runs the tests to prove it. Re-running a single older file on
+its own is not guaranteed safe (a later migration may have altered what it creates). `supabase/tests/database/` holds the pgTAP
 row-level-security suite (`npm run test:db` against a local `supabase start`).
 
 | Range | Owner |
