@@ -38,6 +38,18 @@ jobs:
             echo "No eBay credentials configured; skipping fetch"
           fi
 
+      # Mondays: add any bears newly listed on The Build-A-Bear Wiki. It only
+      # ever adds (never removes) and keeps the catalogue as-is if the wiki is
+      # down. New bears show "No sold data yet" and appear in the admin page's
+      # "Recently added" list for review.
+      - name: Weekly new-bear check
+        run: |
+          if [ "$(date -u +%u)" = "1" ]; then
+            python3 tools/update_wiki_catalogue.py
+          else
+            echo "Not Monday; skipping the wiki check"
+          fi
+
       - name: Rebuild
         run: |
           python3 tools/build_data.py
@@ -60,7 +72,7 @@ jobs:
           git config user.email "bearchart-bot@users.noreply.github.com"
           # tools/active_listings.json is gitignored (and may not exist), so it
           # is not staged here - the listings already ship inside data.json.
-          git add data.json data.js seed.sql sw.js manifest.webmanifest
+          git add data.json data.js seed.sql sw.js manifest.webmanifest tools/catalogue_wiki.json recent_bears.js
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
