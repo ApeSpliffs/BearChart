@@ -1432,9 +1432,9 @@ test('turning the business on does not move any valuation', () => {
 });
 
 test('affiliate ids are only applied to eBay links, and only when configured', () => {
-  const p = renderPage('index.html');
-  const ebay = 'https://www.ebay.com/itm/123';
-  assert.strictEqual(p.win.BC.affiliate(ebay), ebay, 'inert with no campaign id');
+    const ebay = 'https://www.ebay.com/itm/123';
+  const off = renderWithBusiness('kennel-pals-calico-cat', { ebay_campaign_id: null });
+  assert.strictEqual(off.BC.affiliate(ebay), ebay, 'inert with no campaign id');
 
   const win = renderWithBusiness('kennel-pals-calico-cat', { ebay_campaign_id: '5338000000' });
   assert.match(win.BC.affiliate(ebay), /campid=5338000000/);
