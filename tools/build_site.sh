@@ -42,7 +42,7 @@ python3 tools/build_pwa.py
 rm -rf "$DIST"
 mkdir -p "$DIST"
 cp -r item icons images "$DIST"/
-cp ./*.html ./*.js ./*.css manifest.webmanifest robots.txt "$DIST"/
+cp ./*.html ./*.js ./*.css favicon.ico manifest.webmanifest robots.txt "$DIST"/
 [ -f sitemap.xml ] && cp sitemap.xml "$DIST"/
 
 # Link previews (Facebook, iMessage, Discord) need an absolute image address,

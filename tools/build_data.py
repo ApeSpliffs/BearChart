@@ -2270,7 +2270,7 @@ BUSINESS = OrderedDict([
                    "valuation because we want to buy it. You are free to sell "
                    "elsewhere, and the guide will tell you the same number if you do."),
     # eBay Partner Network campaign id. When set, outbound listing links carry it.
-    ("ebay_campaign_id", None),
+    ("ebay_campaign_id", "5339219665"),
     ("affiliate_disclosure", "Some links to eBay listings are affiliate links. They do "
                              "not affect any valuation on this site, and they never "
                              "influence which listings are shown."),
