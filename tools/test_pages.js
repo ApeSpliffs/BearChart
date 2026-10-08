@@ -53,6 +53,19 @@ function loadData() {
   return DATA_CACHE;
 }
 
+// The database schema is the migrations in supabase/migrations/, applied in
+// filename order. Joining them all means a "no such policy" assertion also
+// covers every future migration, not just the base file.
+let SCHEMA_CACHE = null;
+function readSchema() {
+  if (SCHEMA_CACHE === null) {
+    const dir = path.join(ROOT, 'supabase', 'migrations');
+    SCHEMA_CACHE = fs.readdirSync(dir).filter((f) => f.endsWith('.sql')).sort()
+      .map((f) => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n');
+  }
+  return SCHEMA_CACHE;
+}
+
 /**
  * Reveal everything the grid is holding back.
  *
@@ -1837,7 +1850,7 @@ test('a failed upload keeps the local collection intact', async () => {
 });
 
 test('the schema stamps the user id server-side rather than trusting the client', () => {
-  const sql = fs.readFileSync(path.join(ROOT, 'supabase_schema.sql'), 'utf8');
+  const sql = readSchema();
   assert.match(sql, /create or replace function add_collection_items/);
   assert.match(sql, /auth\.uid\(\),\s*--\s*never taken from the caller/);
   assert.match(sql, /raise exception 'not signed in'/);
@@ -2062,7 +2075,7 @@ test('no checkout button appears while nothing is purchasable', () => {
 });
 
 test('paid server features are gated in the database, not just the page', () => {
-  const sql = fs.readFileSync(path.join(ROOT, 'supabase_schema.sql'), 'utf8');
+  const sql = readSchema();
   assert.match(sql, /create or replace function current_tier/);
   assert.match(sql, /create or replace function has_entitlement/);
   // Collection sync must be refused by the function itself.
@@ -2072,14 +2085,14 @@ test('paid server features are gated in the database, not just the page', () => 
 });
 
 test('a client cannot write its own subscription row', () => {
-  const sql = fs.readFileSync(path.join(ROOT, 'supabase_schema.sql'), 'utf8');
+  const sql = readSchema();
   assert.match(sql, /create policy subs_read_own on subscriptions for select/);
   assert.doesNotMatch(sql, /create policy \w+ on subscriptions for (all|insert|update)/,
     'a client that could write this table could grant itself the top tier');
 });
 
 test('a lapsed subscription reads as free', () => {
-  const sql = fs.readFileSync(path.join(ROOT, 'supabase_schema.sql'), 'utf8');
+  const sql = readSchema();
   assert.match(sql, /current_period_end is null or s\.current_period_end > now\(\)/);
   assert.match(sql, /status in \('active','trialing'\)/);
 });
@@ -2087,7 +2100,7 @@ test('a lapsed subscription reads as free', () => {
 test('a lapsed member can still read their own history', () => {
   // Losing access to data you already created would be punitive, and is a
   // different decision from losing the ability to add more.
-  const sql = fs.readFileSync(path.join(ROOT, 'supabase_schema.sql'), 'utf8');
+  const sql = readSchema();
   assert.match(sql, /snapshots_read_own on holding_snapshots for select\s+using \(auth\.uid\(\) = user_id\)/);
 });
 
@@ -2141,7 +2154,7 @@ test('the webhook is idempotent, because Stripe delivers at least once', () => {
 test('the webhook writes with the service role, which no client holds', () => {
   const src = edgeFn('stripe-webhook');
   assert.match(src, /SUPABASE_SERVICE_ROLE_KEY/);
-  const sql = fs.readFileSync(path.join(ROOT, 'supabase_schema.sql'), 'utf8');
+  const sql = readSchema();
   assert.match(sql, /alter table stripe_events enable row level security/);
   assert.doesNotMatch(sql, /create policy \w+ on stripe_events/,
     'RLS on with no policies denies every client, which is the intent');

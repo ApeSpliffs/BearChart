@@ -9,7 +9,7 @@
  * Instead this wraps Supabase Auth, which runs from the browser against
  * Supabase's servers. Sessions are real JWTs, and every read and write is
  * enforced server-side by the row-level security policies in
- * supabase_schema.sql - not by this file. If someone bypasses this UI entirely
+ * the migrations in supabase/migrations/ - not by this file. If someone bypasses this UI entirely
  * and calls the API directly, RLS still stops them.
  *
  * Until config.auth is filled in, BearChart runs exactly as it does today:

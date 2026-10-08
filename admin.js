@@ -10,7 +10,7 @@
   BC.renderChrome('admin.html');
 
   // Access notice. The real protection is the row-level security in
-  // supabase_schema.sql, which the server enforces however the API is called -
+  // supabase/migrations/, which the server enforces however the API is called -
   // hiding a form in the browser protects nothing on its own.
   function renderAccess() {
     var el = $('access-notice');
@@ -266,7 +266,7 @@
 
   $('export-sql').addEventListener('click', function () {
     var lines = ['-- BearChart pending entries, generated ' + BC.stamp(),
-      '-- Run against the schema in supabase_schema.sql.', ''];
+      '-- Run against the schema in supabase/migrations/.', ''];
 
     draft.items.forEach(function (i) {
       lines.push('insert into items (slug, canonical_name, aliases, category, species, ' +
@@ -486,7 +486,7 @@
         // Postgres string to somebody who has simply not run the migration.
         queue.error = /does not exist|schema cache/i.test(bad.error.message)
           ? 'The submissions tables are not in the database yet. Apply ' +
-            'supabase_migration_02_submissions.sql.'
+            'the migrations in supabase/migrations/.'
           : bad.error.message;
       } else {
         queue.comps = res[0].data || [];
@@ -645,7 +645,7 @@
         var msg = (err && err.message) || 'Could not load photos.';
         photoQueue = { rows: [], loaded: true,
           error: /does not exist|schema cache/i.test(msg)
-            ? 'The photo tables are not in the database yet. Apply supabase_migration_03_photos.sql.'
+            ? 'The photo tables are not in the database yet. Apply the migrations in supabase/migrations/.'
             : msg };
         renderPhotoQueue();
       });

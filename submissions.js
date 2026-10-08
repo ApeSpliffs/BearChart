@@ -129,7 +129,7 @@
   // ---- member photos --------------------------------------------------------
   // A signed-in member can send a photo for a bear that has none. It goes to a
   // private bucket and a review queue; only an approved copy is ever public.
-  // The database enforces all of that (supabase_migration_03_photos.sql) -
+  // The database enforces all of that (supabase/migrations/20261008000003_photos.sql) -
   // these functions only make it pleasant to use.
 
   var PHOTO_CREDIT = 'Photo by a BearChart member';

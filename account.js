@@ -34,11 +34,11 @@
       '<h3 style="margin-top:22px">Turning accounts on</h3>' +
       '<p class="fine">Accounts run on Supabase Auth, which works from the browser, so ' +
       'the site can stay static. The database schema is already written for it: ' +
-      '<span class="mono">supabase_schema.sql</span> has an <span class="mono">admins</span> ' +
+      'the migrations in <span class="mono">supabase/migrations/</span> have an <span class="mono">admins</span> ' +
       'table and row-level security policies keyed on the signed-in user.</p>' +
       '<ol class="why" style="padding-left:20px">' +
-      '<li>Create a project at supabase.com and run ' +
-      '<span class="mono">supabase_schema.sql</span>, then <span class="mono">seed.sql</span>.</li>' +
+      '<li>Create a project at supabase.com and apply the migrations in ' +
+      '<span class="mono">supabase/migrations/</span>, then <span class="mono">seed.sql</span>.</li>' +
       '<li>Put the project URL and the <strong>anon</strong> key into ' +
       '<span class="mono">AUTH</span> in <span class="mono">tools/build_data.py</span> ' +
       'and set <span class="mono">enabled</span> to true.</li>' +

@@ -39,7 +39,7 @@
       <div class="notice" id="access-notice"></div>
       <p class="fine" style="margin-top:12px">
         Entries drafted here are held in this browser and exported as JSON or SQL. Once
-        the Supabase backend in <span class="mono">supabase_schema.sql</span> is deployed,
+        the Supabase backend (the migrations in <span class="mono">supabase/migrations/</span>) is deployed,
         these same forms post directly to it — public read, admin-only write, enforced by
         row-level security on the server rather than by this page.
       </p>
@@ -154,7 +154,7 @@
         </div>
 
         <!-- What readers have sent in. Empty until the Supabase migration in
-             supabase_migration_02_submissions.sql has been applied. -->
+             supabase/migrations/20261008000002_submissions.sql has been applied. -->
         <div class="panel" id="queue-panel">
           <div class="toolbar">
             <h2 style="margin:0">Reader submissions</h2>
@@ -182,7 +182,7 @@
 </div>
 
 <!-- Member photos: uploads from signed-in members for bears with no photo.
-     Nothing is public until approved here. Needs supabase_migration_03_photos.sql. -->
+     Nothing is public until approved here. Needs supabase/migrations/20261008000003_photos.sql. -->
 <div class="panel" id="photo-queue-panel">
 <div class="toolbar">
 <h2 style="margin:0">Member photos</h2>
