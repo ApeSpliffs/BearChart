@@ -237,7 +237,7 @@ globalThis.BEARCHART_DATA = {
           "Wishlist alerts - an email when a bear you want is listed",
           "Insurance-ready valuation report, with the evidence behind every figure",
           "Bear identification help, answered first",
-          "A public showcase page for your top 12 bears"
+          "A showcase of your top 12 bears, shared with other members"
         ],
         "entitlements": [
           "collection_sync",
@@ -392783,62 +392783,6 @@ globalThis.BEARCHART_DATA = {
   ],
   "active_listings": [
     {
-      "id": "active-v1|920011256651|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "920011256651",
-      "title": "Build-A-Bear Classic Brown Teddy Bear Plush Stuffed Animal BABW",
-      "ask_price": 17.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/920011256651?_skw=build-a-bear+Classic+Brown+Teddy&hash=itemd634f1b34b:g:eMEAAeSwtChqw~~h",
-      "image_url": "https://i.ebayimg.com/images/g/eMEAAeSwtChqw~~h/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|820158966518|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "820158966518",
-      "title": "Build a Bear Workshop 14\" Classic Brown Teddy Plush ",
-      "ask_price": 19.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/820158966518?_skw=build-a-bear+Classic+Brown+Teddy&hash=itembef548aaf6:g:mcMAAeSwDNdn5Nsb&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZgL%2FTzHLhlMBV09p8KhrnRcy2xKXIo7--8v8l4KHGrC4jEjLYEkzR09ecVZAL8rp3Ze6xGJmmXfEJ7wSM%2Fur0ZxQMCiES57FEwSQzvOY33sH2%2BhtiX6ZzW4K0c0w7IHz%2BN7GtuR0XS7NAKoIGun6pAzdcfuQ3ofrk1lwFD5%2FftK5EFoNrxYUYjiIFHiSRBKmgO6%2BH6nKTNwLUVqRn%2Ft9y7zSAupUglW3UVFz4ARSsbg%2FuXIe2i3LtLT4JUg8ugJcPyKfdnf1v3IYITY5JxgZ5S4Vg4lhmhSUmQZ86%2F8sJP0RFvucaI1DdPDnJOWbrbKWY%3D",
-      "image_url": "https://i.ebayimg.com/images/g/mcMAAeSwDNdn5Nsb/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|327027047536|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "327027047536",
-      "title": "Build a Bear Classic Brown Teddy Bear Plush Stuffed Animal 2018 CC On Foot",
-      "ask_price": 21.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/327027047536?_skw=build-a-bear+Classic+Brown+Teddy&hash=item4c2454bc70:g:1vIAAeSw20xppsVt&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZuzO10tD98BHg%2FHfhlys7ZrgqTY81JYMs54qtYiYRHvS8OQbDEdl%2FVTETb0akKfKJT5PfkvkKyRphXyDO8fGq%2BriRqh%2FkDNGtyVyanIoEIVyJY4fOc9rO9EE%2FsV88s6TjnPSDLBFuM74STLtch0wIYGx3RcWJw01MBSKqC7vy6xDnHYn313pby9KgVHfnvmwaiTcs8KvG68U0aSfxrfvWOSeMrL%2FVmFzNVfFud3wd7o4bjHXmnrslmlYZOg77Cb83X%2BaBmxUSXVGfFqqdMzXtcmR4Gx8VXU2cWx%2FN6Fku17m5TlPeeX%2FZb3%2F%2BuxIL9Wqo%3D",
-      "image_url": "https://i.ebayimg.com/images/g/1vIAAeSw20xppsVt/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|398293121929|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "398293121929",
-      "title": "VTG 1997 Build A Bear Classic Brown Teddy Bear 17\" BABW Retired Original",
-      "ask_price": 19.88,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/398293121929?_skw=build-a-bear+Classic+Brown+Teddy&hash=item5cbc1ebb89:g:09sAAeSwWUhqgfpp&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYtCy%2FBBJZJby4nayb5rctwPGhVYkdYH0dk95G7Qr04f1rK53nfxSvJVEspfPhuBpXbrXrmF11xkfRLdxxKjEGqihpVlDiV9k8Vi4w5k4r44%2B8qzUpRImfLZoMGpEX4yzl4GA%2FNUdScqgvZjcraqGE4yt6XYOJm4l%2FlmYiB4%2BZqL7HAWE0TvScdVAVr8EBrVd%2FE5YQH%2BeLJYIW56RoUMhcMkRNjbab%2FAWg7eyQLLu7q7zwzlqh7w7TtMz47U2L%2Bb7GyVyoiSAzJBqkX9huXK%2B2aWNmNrEcfRqodU02y8d894uwTxuMWeEs2kCYwgKSNEP8%3D",
-      "image_url": "https://i.ebayimg.com/images/g/09sAAeSwWUhqgfpp/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|860017763589|0",
       "item_id": "classic-brown-teddy",
       "listing_id": "860017763589",
@@ -392853,6 +392797,48 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|820158966518|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "820158966518",
+      "title": "Build a Bear Workshop 14\" Classic Brown Teddy Plush ",
+      "ask_price": 19.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/820158966518?_skw=build-a-bear+Classic+Brown+Teddy&hash=itembef548aaf6:g:mcMAAeSwDNdn5Nsb&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZgL%2FTzHLhlMBV09p8KhrnRcy2xKXIo7--8v8l4KHGrC4jEjLYEkzR09ecVZAL8rp3Ze6xGJmmXfEJ7wSM%2Fur0ZxQMCiES57FEwSQzvOY33sH2%2BhtiX6ZzW4K0c0w7IHz9QIdplebBtOGll1opSsK8ND31ICji82G5E%2BYTawKKfppbv4eYV0vK2qt6flYIqYSGSnQ3Gjn8c0hG8AGDz088mFv0kbT5yRKEcyy2C7O9GgG7CRdeY7QWYcDVkfUv1eE%2BALawD7shgOYUrRPpr8yrLq83jbK93ZaBmcWN%2B8OHKFu8zC702VgVmkBnj5Dlyo5w%3D",
+      "image_url": "https://i.ebayimg.com/images/g/mcMAAeSwDNdn5Nsb/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|327027047536|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "327027047536",
+      "title": "Build a Bear Classic Brown Teddy Bear Plush Stuffed Animal 2018 CC On Foot",
+      "ask_price": 21.95,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/327027047536?_skw=build-a-bear+Classic+Brown+Teddy&hash=item4c2454bc70:g:1vIAAeSw20xppsVt&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZuzO10tD98BHg%2FHfhlys7ZrgqTY81JYMs54qtYiYRHvS8OQbDEdl%2FVTETb0akKfKJT5PfkvkKyRphXyDO8fGq%2BriRqh%2FkDNGtyVyanIoEIVyJY4fOc9rO9EE%2FsV88s6Tj1Qs29Tkv%2Fvli%2FUp7MQgdy70gh6%2BCEaPC%2FI2LqwvJikMflRfCuk9Dql4LQi1HZTN0yaf2a829%2BPUy6OpIdoea%2BNSYJkCK8QOLXpoT%2Be3kQSpVeDS0PgNaqQ4pMEONUn9QA9FrgQmr8zLpntCf7RFC%2B9HtvyMY%2BxkbuRtJoxKMAaM8QqNPlwlIaLc7wIakgCN4%3D",
+      "image_url": "https://i.ebayimg.com/images/g/1vIAAeSw20xppsVt/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|398293121929|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "398293121929",
+      "title": "VTG 1997 Build A Bear Classic Brown Teddy Bear 17\" BABW Retired Original",
+      "ask_price": 19.88,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/398293121929?_skw=build-a-bear+Classic+Brown+Teddy&hash=item5cbc1ebb89:g:09sAAeSwWUhqgfpp&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYtCy%2FBBJZJby4nayb5rctwPGhVYkdYH0dk95G7Qr04f1rK53nfxSvJVEspfPhuBpXbrXrmF11xkfRLdxxKjEGqihpVlDiV9k8Vi4w5k4r44%2B8qzUpRImfLZoMGpEX4yzl7%2BTxjqcbLQaG4QcCqsep%2BVAoO%2Fgm3UuKbRxtWubUj9FR5Z7qyUDI%2BRnYyug6ijJi%2BrN8lOdWd7m4rY802Xu3K2qYECG1Bsy147UJVwm%2FPzJrXPtmzA9ZBFvPMOzxKeC8OfNkFUzbaAa%2FpFGm0wbSnApHdXdAfBw8GoQ%2Bx67tr5dcrmQorLHiIcILS6p5LooM%3D",
+      "image_url": "https://i.ebayimg.com/images/g/09sAAeSwWUhqgfpp/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|157110176798|0",
       "item_id": "classic-brown-teddy",
       "listing_id": "157110176798",
@@ -392864,6 +392850,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/157110176798?_skw=build-a-bear+Classic+Brown+Teddy&hash=item24947f0c1e:g:kEwAAeSwwnlqcjUE",
       "image_url": "https://i.ebayimg.com/images/g/kEwAAeSwwnlqcjUE/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|920011256651|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "920011256651",
+      "title": "Build-A-Bear Classic Brown Teddy Bear Plush Stuffed Animal BABW",
+      "ask_price": 17.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/920011256651?_skw=build-a-bear+Classic+Brown+Teddy&hash=itemd634f1b34b:g:eMEAAeSwtChqw~~h",
+      "image_url": "https://i.ebayimg.com/images/g/eMEAAeSwtChqw~~h/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -392923,6 +392923,90 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|178440306798|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "178440306798",
+      "title": "Build-A-Bear Classic Brown Teddy Bear Plush 16\u201d Soft Stuffed Animal",
+      "ask_price": 12.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/178440306798?_skw=build-a-bear+Classic+Brown+Teddy&hash=item298bdf006e:g:vHwAAeSwk1JqjcGt",
+      "image_url": "https://i.ebayimg.com/images/g/vHwAAeSwk1JqjcGt/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|186762064914|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "186762064914",
+      "title": "Build a Bear Workshop Build a Bear 16 inch Classic Brown Teddy Bear Plush",
+      "ask_price": 18.85,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/186762064914?_skw=build-a-bear+Classic+Brown+Teddy&hash=item2b7be2f412:g:LtYAAOSwUdZlgcag",
+      "image_url": "https://i.ebayimg.com/images/g/LtYAAOSwUdZlgcag/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|295036881832|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "295036881832",
+      "title": "Build a Bear Classic Brown Teddy Bear Plush Stuffed Toy 15 Inch",
+      "ask_price": 14.98,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/295036881832?_skw=build-a-bear+Classic+Brown+Teddy&hash=item44b1918ba8:g:2pMAAOSwOLxllyZ2",
+      "image_url": "https://i.ebayimg.com/images/g/2pMAAOSwOLxllyZ2/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|398363078984|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "398363078984",
+      "title": "New Vintage 1997 Build a Bear Workshop 11\"Classic Brown Teddy Bear W/ Sunglasses",
+      "ask_price": 39.99,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/398363078984?_skw=build-a-bear+Classic+Brown+Teddy&hash=item5cc04a3148:g:VlUAAeSwFLNqnGZa&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYJzagYpm4XH4qJlSYcZJvpr78SY5N0HieGUjqcSbKfX75fF6oBi0jQ7jssM4XeQ60qq75pTEBmBJd3ROK1PPt%2FXbk7tuUGM9IOZslBUjmaCxrkj77oDBNtQPpKoP%2BzUVvWHoaJT48VnMBVnG0%2FGpH0DLyK0itcql45rGrvhhRSMElgbJf72FAdUOjW1kXSd3Jdtc467JxZbQ%2Fn6gfP0ihxezf1GiRCJrJucNXV5ssgraomYSZznJnC8vPwk7Yp%2BRxRfJhittWL06RDykAaL6cme37F2lRfOu9Fl6iZX4Pjw4LfSJ8Eaxquq6PttG32QO4%3D",
+      "image_url": "https://i.ebayimg.com/images/g/VlUAAeSwFLNqnGZa/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|257504385698|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "257504385698",
+      "title": "Vintage 1997 Build a Bear Workshop 14\u201d Classic Brown Teddy Bear EUC",
+      "ask_price": 15.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/257504385698?_skw=build-a-bear+Classic+Brown+Teddy&hash=item3bf4751aa2:g:5wQAAeSwkuZqBHIP&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYkSl8TQC0u9J8lk%2FoiLrG8I6pVKHnIuD%2BQmvSQlHADDAz0b9b9nUU3T%2FZ0dy%2B7jr3TMGB9JX8tvu13MrzjzJhFTWZ6UwZTTX%2BK0MiXPJSPjE5Eybrby90TycDQ0U52h88S4r3S7VkDZMJDQrf3SrWRfV%2FYp1OdgcNwXidSRAZqZQWxMgtREJW%2BuCxHWr1PcX0BAEvzy109at%2BpkcrcIBx33Jc4kxsV8GV%2F1nWz8RdoT6ReDmoRSxn46%2FyHmJkmIYr5KPPHF%2BMxz62Pngul%2FI4YwYsqVgk7W2mUhtaox3oe9QR4T%2FhhjgSvdc7SIFO7r6U%3D",
+      "image_url": "https://i.ebayimg.com/images/g/5wQAAeSwkuZqBHIP/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|227553768535|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "227553768535",
+      "title": "Build-A-Bear Plush Unisex 14in Brown Teddy Bear Classic Shaggy Fur Stuffed Toy",
+      "ask_price": 19.79,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/227553768535?_skw=build-a-bear+Classic+Brown+Teddy&hash=item34fb42f457:g:tuQAAeSwAuNppiOf&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZxmp9WL%2FiEeMy7M3t1nHpBEF6l%2F0n7RwuhR%2Br1gp0zq34Y9HMGLTqAKeh2sunX8Yk629eGIPIS6DbVlQrU5UilnSXiNASnHzJ8pckhnT04KApagl6wxYI2H0uaxclmg3q2wEpnLbMIRYQngf5w%2FLt5u47DfSZW%2FJaVZWIqqA%2FhM%2Fu8S4R3dgzi32rTL%2B8gHMArZxtCTT6tTQuhFUFLMytRK2zKi%2BS2a338xagvKQ5nepijU4QxnnT%2BL5oHUC9PliOelT7jSTENLGVxgfFTo3IjEds%2FxYAi9RwXj8MnC5cB7qh3u9OKq%2FYA2UpAzS9CW8Q%3D",
+      "image_url": "https://i.ebayimg.com/images/g/tuQAAeSwAuNppiOf/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|860018814872|0",
       "item_id": "classic-brown-teddy",
       "listing_id": "860018814872",
@@ -392951,17 +393035,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|295036881832|0",
+      "id": "active-v1|267512608349|0",
       "item_id": "classic-brown-teddy",
-      "listing_id": "295036881832",
-      "title": "Build a Bear Classic Brown Teddy Bear Plush Stuffed Toy 15 Inch",
-      "ask_price": 14.98,
+      "listing_id": "267512608349",
+      "title": "Vintage Build a Bear Workshop 10\" Classic Brown Teddy Plush Red Bow",
+      "ask_price": 17.5,
       "currency": "USD",
-      "condition": "Good",
+      "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/295036881832?_skw=build-a-bear+Classic+Brown+Teddy&hash=item44b1918ba8:g:2pMAAOSwOLxllyZ2",
-      "image_url": "https://i.ebayimg.com/images/g/2pMAAOSwOLxllyZ2/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/267512608349?_skw=build-a-bear+Classic+Brown+Teddy&hash=item3e48fe765d:g:0U0AAOSweTdnXrTD&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYo53vcS0wuz9xKzxedYnYNZpgkDgG8H5rA0fOMhfrhCVgak6VSiFP7Y64Z3J2Z01LNkWQR8RLAPNCwilk4Rvqz8Qvu4UCAUO9GRMomzZxVyrVWuiZ6F34KU2Lvkob7QBcLh%2FlQd6P25gclhIwyOPtGnlxUL1KVNtCZVDdH64XeOKAkYSaVcV%2B42NOfszYj25MUbcNYRE12i028etPT4HAE5h60mDL9Z3itR4YIylkUx%2BKYaWyCOw2lud7ugH5EP7HmsCm6ueRDvKBSVnZP7XpBrsdzTUzt5iBwomgfBDe3HPvUOpmo1yksnbuyyQ2Cgzs%3D",
+      "image_url": "https://i.ebayimg.com/images/g/0U0AAOSweTdnXrTD/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -392974,92 +393058,8 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168694515732?_skw=build-a-bear+Classic+Brown+Teddy&hash=item2746fa0814:g:xkIAAeSwINFqq2Ws&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZfBjVoaTiwgRBbUJXWO6ECE3iEmg%2B7eNAvHKFXo3lKUsNjZMgXWK1taqj8va9qFeYVZxQGbbuUIqa1WcElfbCif9M2SmiT1h5nWOjlMV1Z0r6UMawPjc2njDHIOZobtKOlv8S0nQCJsMFukU8Tom%2BNv%2B4T6CzpfrlltX%2BrH%2B1CPp03yIhmWuV8r%2Ft5zWerX1PhDbab3fKJgGZBF9zeahVix7rkDrX79qG4l9QQ0JaXCXM%2B%2FfPeofrJVhtgCnJJDXw80HgsqNdu2bnlIrZWPNCUi89LeVm3vd25m%2FjcWR9fvivsqeBz7DQ25evY1f5p2Pw%3D",
+      "source_url": "https://www.ebay.com/itm/168694515732?_skw=build-a-bear+Classic+Brown+Teddy&hash=item2746fa0814:g:xkIAAeSwINFqq2Ws&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZfBjVoaTiwgRBbUJXWO6ECE3iEmg%2B7eNAvHKFXo3lKUsNjZMgXWK1taqj8va9qFeYVZxQGbbuUIqa1WcElfbCif9M2SmiT1h5nWOjlMV1Z0r6UMawPjc2njDHIOZobtKNi%2BBmpBrmvS67elJ3xfVCAGbgiLq1On1PLe2XaVz5OVvTQXbfTySo%2BQgWgzG%2FEWot1dEup3H7cEV7Cptr2nuj0bwKFo0fn5js2yPJQLyKguWfPgOFLLORci5pYq%2BApkKDNMoGPByMV3YO04FSeEGBZawYJzmmldQ6DlcsWipB1xoRc4LFX4IGvdiMeXYTqbWw%3D",
       "image_url": "https://i.ebayimg.com/images/g/xkIAAeSwINFqq2Ws/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|398363078984|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "398363078984",
-      "title": "New Vintage 1997 Build a Bear Workshop 11\"Classic Brown Teddy Bear W/ Sunglasses",
-      "ask_price": 39.99,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/398363078984?_skw=build-a-bear+Classic+Brown+Teddy&hash=item5cc04a3148:g:VlUAAeSwFLNqnGZa&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYJzagYpm4XH4qJlSYcZJvpr78SY5N0HieGUjqcSbKfX75fF6oBi0jQ7jssM4XeQ60qq75pTEBmBJd3ROK1PPt%2FXbk7tuUGM9IOZslBUjmaCxrkj77oDBNtQPpKoP%2BzUVuKde8GUYYsayWpP6g2vLl4wSzoiz2LL3gFhISKXHoMpjkZ4Rp%2BAYS8m3bcdsWTa0MpQa6MSRfsW8usVjT0h%2BZ8g%2FZW0nwDMOxGXMNo%2Bc8eUQh80oAvhrEvOzW16O797AgHDe7fKnj2MkVaRdhaiU7pYEMtyZTEkvIUPqqFN9pW%2B%2BK9y2bVrMgBwvQCBrMAHpI%3D",
-      "image_url": "https://i.ebayimg.com/images/g/VlUAAeSwFLNqnGZa/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|227553768535|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "227553768535",
-      "title": "Build-A-Bear Plush Unisex 14in Brown Teddy Bear Classic Shaggy Fur Stuffed Toy",
-      "ask_price": 19.79,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/227553768535?_skw=build-a-bear+Classic+Brown+Teddy&hash=item34fb42f457:g:tuQAAeSwAuNppiOf&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZxmp9WL%2FiEeMy7M3t1nHpBEF6l%2F0n7RwuhR%2Br1gp0zq34Y9HMGLTqAKeh2sunX8Yk629eGIPIS6DbVlQrU5UilnSXiNASnHzJ8pckhnT04KApagl6wxYI2H0uaxclmg3qgLTh2PeBK7dRECMDW8NGbROr05u5zE8%2FNIemhP%2FUJYQMa37E4bj1KophkoUl5XgyfWGX7TBFpvscQItZPtk20%2F%2BAPI6CdBFOs5oLu0s6y150jicgzKor4SoOLdMf6hOx0BmweWWEtXpQI%2FT52auXeXym7VqnwLhDJ0VIgD0Y8HVOzAHs4N9iiMwQ6RK7rwkQ%3D",
-      "image_url": "https://i.ebayimg.com/images/g/tuQAAeSwAuNppiOf/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|178440306798|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "178440306798",
-      "title": "Build-A-Bear Classic Brown Teddy Bear Plush 16\u201d Soft Stuffed Animal",
-      "ask_price": 12.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178440306798?_skw=build-a-bear+Classic+Brown+Teddy&hash=item298bdf006e:g:vHwAAeSwk1JqjcGt",
-      "image_url": "https://i.ebayimg.com/images/g/vHwAAeSwk1JqjcGt/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|267512608349|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "267512608349",
-      "title": "Vintage Build a Bear Workshop 10\" Classic Brown Teddy Plush Red Bow",
-      "ask_price": 17.5,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267512608349?_skw=build-a-bear+Classic+Brown+Teddy&hash=item3e48fe765d:g:0U0AAOSweTdnXrTD&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYo53vcS0wuz9xKzxedYnYNZpgkDgG8H5rA0fOMhfrhCVgak6VSiFP7Y64Z3J2Z01LNkWQR8RLAPNCwilk4Rvqz8Qvu4UCAUO9GRMomzZxVyrVWuiZ6F34KU2Lvkob7QBdxs7n9HDV7vX3dvVziIIO20E34OGiLemSnGf39r%2FFP45eGRsI7Tm81I3bWQSOyLsLgb4WqRPx6c0UCQEaV3LwPoVvbjTxiPbzfaRBrPNOMb1xTlMDqZnBvrjA47MbzxQ9yTRrXalyK4ZJdu3vXPUnPcJAA95Pteb91O0Fme7ITLor6l%2BXgZu2mRKyZ1GaQ0tM%3D",
-      "image_url": "https://i.ebayimg.com/images/g/0U0AAOSweTdnXrTD/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|257504385698|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "257504385698",
-      "title": "Vintage 1997 Build a Bear Workshop 14\u201d Classic Brown Teddy Bear EUC",
-      "ask_price": 15.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257504385698?_skw=build-a-bear+Classic+Brown+Teddy&hash=item3bf4751aa2:g:5wQAAeSwkuZqBHIP&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYkSl8TQC0u9J8lk%2FoiLrG8I6pVKHnIuD%2BQmvSQlHADDAz0b9b9nUU3T%2FZ0dy%2B7jr3TMGB9JX8tvu13MrzjzJhFTWZ6UwZTTX%2BK0MiXPJSPjE5Eybrby90TycDQ0U52h88xuESjfsRh%2BZVQONYM9V8nwCuhtJ4h71Efn6hVnQ1qkwRrRlZiReSIUFjKrxfZuBvGY9wsbAoJ1jNvH75tPAr%2FMRZVD7iGnkac3vPbiyMEo9cU9HhHEqekbWVMFwewK5M%2FlFrrADMTJOguIoTbk1G5Bp0VMK5JPVxdJqQXMyIQ%2BbrEA0zNPhFS9aC028UGDVA%3D",
-      "image_url": "https://i.ebayimg.com/images/g/5wQAAeSwkuZqBHIP/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|800661832689|0",
-      "item_id": "shaggy-dog",
-      "listing_id": "800661832689",
-      "title": "Build a Bear Plush Scruffy Puppy Brown Cream Shaggy Dog 17\u201d",
-      "ask_price": 7.49,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/800661832689?_skw=build-a-bear+Shaggy+Dog&hash=itemba6b2a03f1:g:APsAAeSwtPNpZ--p",
-      "image_url": "https://i.ebayimg.com/images/g/APsAAeSwtPNpZ--p/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393072,7 +393072,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/920003560555?_skw=build-a-bear+Shaggy+Dog&hash=itemd6347c446b:g:8NAAAeSwlOZqUnO0&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbgPbbilmBr%2BuPqvHbbR6dB8LNIafdikViquS4UERrVqRPkbwgqUWojoC0vNqXIshwT%2Fon0UTtlD1NWxxG35dSZ6Vt3k%2BfMlMcjhqIItZowZUBKKnDi8g4YQiCAGIxtpRqCyUIS%2BCwSj956De8Deik2gZytUE4ZLeeTMT9Ed2pxJ4sjZ2M4suMy438nLFPkVSSVKHu1o%2BFfHT7%2B%2F3X3kvCIuH%2FuLXEaesLVT%2Fb5KiDgZZbapEy2WaHQevWFw9AXETXrWmR3QvdWgLUbRIVDtsBCalOX13J2%2FUkuSvOvnhzC8g%3D%3D",
+      "source_url": "https://www.ebay.com/itm/920003560555?_skw=build-a-bear+Shaggy+Dog&hash=itemd6347c446b:g:8NAAAeSwlOZqUnO0",
       "image_url": "https://i.ebayimg.com/images/g/8NAAAeSwlOZqUnO0/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393086,7 +393086,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298740858424?_skw=build-a-bear+Shaggy+Dog&hash=item458e57be38:g:kRkAAeSwPspqxn4s&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbjXq14BRKLIP%2FymDknjSK5bs2UQrcBiGSwKEBEdAYhaBuHFRYq42YoW6ci987A6VQExZordAM2Urce2MGz32W7N2KZz9rDTASe772DeAGWOsSwL5Hmmuh7GTIM6O%2FCE1gyMI3S0LjRhW0qGQqWciUW%2FrJMjjrBbt4%2BUhInMAt36JyuMjyzFke4bkDn%2B53eZV%2BXP%2FHTrcP6qGIMalM1L7CBPR3JKa5Y3uLKlu2MpRl3AvkIczj%2BdBF7jpABno%2B%2BInt%2F7yu7KpQ7PxWmCJxjuL0i8EYA7tnm%2Bkho6zSpUYwedA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/298740858424?_skw=build-a-bear+Shaggy+Dog&hash=item458e57be38:g:kRkAAeSwPspqxn4s&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbjXq14BRKLIP%2FymDknjSK5bs2UQrcBiGSwKEBEdAYhaBuHFRYq42YoW6ci987A6VQExZordAM2Urce2MGz32W7N2KZz9rDTASe772DeAGWOsSwL5Hmmuh7GTIM6O%2FCE1hub4qmnyVnxv%2FkBxUs0LtdQmojyitPOShdI1w8KYt2KaSZZkLcU3%2BhClER%2BYdxBzGVUan5ZwQ0mWGhHrXyunxhLMls3AQz1BPv%2B1q%2FWXpLytTNTAYo7iWs3f0fhJhEw3%2Ft12FUo3sxU0y57NUrTb2HmRBRHj4k%2FtZQwuPmbj8vTw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/kRkAAeSwPspqxn4s/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393100,8 +393100,22 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/126293631930?_skw=build-a-bear+Shaggy+Dog&hash=item1d67afe3ba:g:C4AAAOSwm09lrd2i&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZYSAa5b1kAWnwwb%2F%2B3D40lnHDScQiG0bhxvczA%2BrPOlEcJ6zd0iXp89rgfMZeHYqYM%2BBmCtioyDRCLlqCw08YctjsR9zc9b9glN8PAe5Kx6qfZRnZ%2FEU97iMMfdy7q6GBP1GDvYSjts3hSXptaH2d0wtkhYJK2dGTrZO8B6wgVEtYKumybbgWMRQshYSFc%2BCuSvZAPdCzMVauYiPaxkvDaCWk6grd6SNs3XpG%2BZYp%2FWC8NokmBAaJY0hHe2PF%2BeAwQ92%2BUfmrMOYX3HGc8XQBaFLd93n8nU4v2c1PbnUJ5jw%3D%3D",
+      "source_url": "https://www.ebay.com/itm/126293631930?_skw=build-a-bear+Shaggy+Dog&hash=item1d67afe3ba:g:C4AAAOSwm09lrd2i&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZYSAa5b1kAWnwwb%2F%2B3D40lnHDScQiG0bhxvczA%2BrPOlEcJ6zd0iXp89rgfMZeHYqYM%2BBmCtioyDRCLlqCw08YctjsR9zc9b9glN8PAe5Kx6qfZRnZ%2FEU97iMMfdy7q6GD%2BJXjzQdh86yJbX3O5U6WOnU80Xnqmi9sjP6p9iW2Twth25r7K06MKBOF1%2BKCSMYH85cjgL15KSWY1T1kACWtlUj%2FMbKR0JmvsVFQzK1Lpr7Hj2kmbr8U9sOIwquGg0SS2NlbUYST%2F0HFXnrfDGMZWx9v5rRpdUAggCGhYaR3gng%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/C4AAAOSwm09lrd2i/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|128081854580|0",
+      "item_id": "shaggy-dog",
+      "listing_id": "128081854580",
+      "title": "Build A Bear Plush Dog Light Brown Shaggy Curly Hair Patch Eye Paw Print Stuffed",
+      "ask_price": 16.95,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/128081854580?_skw=build-a-bear+Shaggy+Dog&hash=item1dd2460074:g:peEAAeSwS95qMMaJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZT6md%2BkhVp98eZjNeW6ksiTOIeMl8S4CPSotxVfzLMEpReaGYjI6h6tC2ZTz7Lf46vLqzYrMMxtNhlPI8lRSttUm4VTedao48dd12gJnkFyAm%2FzpUGKkMPls4h8DD3LRpb60ORovi%2FoEyYM7hzlnvIm4ex57qvC9QxmCDYUN72PLVnIF3uL2J25szNdrAmQHysP4ENJQVMg0ykMua9q8Ljl1wPpsfrq%2F8R30FE7Swq3%2FxS%2Bxrb2731bQBV8g96rmjv3h9oOChpVfvDS1vAggDaos3Wq9EAWQZgEyTn7z8cOA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/peEAAeSwS95qMMaJ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393116,6 +393130,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/366704376648?_skw=build-a-bear+Shaggy+Dog&hash=item556148bb48:g:JQQAAeSwxARqTmUD",
       "image_url": "https://i.ebayimg.com/images/g/JQQAAeSwxARqTmUD/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|800661832689|0",
+      "item_id": "shaggy-dog",
+      "listing_id": "800661832689",
+      "title": "Build a Bear Plush Scruffy Puppy Brown Cream Shaggy Dog 17\u201d",
+      "ask_price": 7.49,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/800661832689?_skw=build-a-bear+Shaggy+Dog&hash=itemba6b2a03f1:g:APsAAeSwtPNpZ--p",
+      "image_url": "https://i.ebayimg.com/images/g/APsAAeSwtPNpZ--p/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393189,20 +393217,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|800765722630|0",
-      "item_id": "shaggy-dog",
-      "listing_id": "800765722630",
-      "title": "Build a Bear Plush Scruffy Shaggy Puppy Dog Brown Cream- Pink Tongue-  16\u201d- EUC",
-      "ask_price": 19.5,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/800765722630?_skw=build-a-bear+Shaggy+Dog&hash=itemba715b4006:g:s0gAAeSwSPhnzJrx",
-      "image_url": "https://i.ebayimg.com/images/g/s0gAAeSwSPhnzJrx/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|298259242591|0",
       "item_id": "shaggy-dog",
       "listing_id": "298259242591",
@@ -393217,20 +393231,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|128081854580|0",
-      "item_id": "shaggy-dog",
-      "listing_id": "128081854580",
-      "title": "Build A Bear Plush Dog Light Brown Shaggy Curly Hair Patch Eye Paw Print Stuffed",
-      "ask_price": 16.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/128081854580?_skw=build-a-bear+Shaggy+Dog&hash=item1dd2460074:g:peEAAeSwS95qMMaJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZT6md%2BkhVp98eZjNeW6ksiTOIeMl8S4CPSotxVfzLMEpReaGYjI6h6tC2ZTz7Lf46vLqzYrMMxtNhlPI8lRSttUm4VTedao48dd12gJnkFyAm%2FzpUGKkMPls4h8DD3LRrstvR0Pt985hM0%2FxzeE6Zwm9WyvNq8YgKoetJOhDGsCU9OgTlhUToFmaN3vgyg4b8xal1CnFjtJJVm%2BxtwpWBu8bYujD5ZE33TGxDEzAQ6hJwuG29a%2BUsgCIpyFdnBV9cJySkFlzOPynUxBnIs8AnVT4O%2F0IFdTR2xAg2cu2E9kw%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/peEAAeSwS95qMMaJ/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|336778873242|0",
       "item_id": "shaggy-dog",
       "listing_id": "336778873242",
@@ -393240,7 +393240,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336778873242?_skw=build-a-bear+Shaggy+Dog&hash=item4e6995c99a:g:ABcAAeSw5N9qmz3K&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYrQbW9E3yOL7mSQ06KFCw4z9g96s4Ok%2FF3rKr%2B18y1RXhj0X60OdfLWtsO3HcWPAedQDa5KBBVvx%2Fi5kCcaI1GIA6p%2BREi3wi8XaMilycXmnYL8W8%2BAsdzvRcTUr2%2B9BXMm7sC4l%2FdPNdaO4U5n8ewqbmSQrFcy5pc6YtsvW9mq%2FOZVBNRdMuSxl7%2FqK2APubsUbx9pR9vKx7avWnaHqHyQ9g82ZBvdeLG0tfEvdli337Kfd3L%2F9YHRYcWSd5ArsLBFLl9uztZW4klpu8D7bZYfv1tbQvB354YlZkzICKhKg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/336778873242?_skw=build-a-bear+Shaggy+Dog&hash=item4e6995c99a:g:ABcAAeSw5N9qmz3K&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYrQbW9E3yOL7mSQ06KFCw4z9g96s4Ok%2FF3rKr%2B18y1RXhj0X60OdfLWtsO3HcWPAedQDa5KBBVvx%2Fi5kCcaI1GIA6p%2BREi3wi8XaMilycXmnYL8W8%2BAsdzvRcTUr2%2B9BVkb5UZzMBxSffKTLWx7aBHpv%2FjEPomfPL1lij1VWOM9sxHZdyZdHaW8dAFhqUsy95fO96%2FdItnREFpPQB0LK2FKHBWh%2F7C7L0Kk7M9TWPDVhHcfnFkt02k7nEHadDM0jpPZrrsJy%2FKTzxmkE6%2BNSvqVdPTZ6C9Bp0psjNFnRHgLw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/ABcAAeSw5N9qmz3K/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393254,8 +393254,36 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/405452093624?_skw=build-a-bear+Shaggy+Dog&hash=item5e66d3f8b8:g:hRMAAOSwXDVndb3r&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ%2BAphngjaDiB2%2ByyveXlxzmFDtIVpUqmOeJJNwCCJ%2FrRo6W9%2FnOMuzino7NgDroKubbhEdAZawfHHw8%2FNB%2FiBdqmNsvRndhyOuz2%2FqtawxZsEDkGnR31en6O9%2BH7bbpVWc40ng%2BpYg2JfktmgNteLD14rpjrBpk3HDgV1zhEiDqaMy3DuWDN3u0rM93mc7FFACS81Rj4oo5dCTh9kpE4MJo0J9bsRlprJufsqcerYPtqSeQK44GnMyW6Yx9BLW4C5KK2%2Bymn8fShkPA8VKhHkuXEs0PN7mycCJwbVl1ifzhA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/405452093624?_skw=build-a-bear+Shaggy+Dog&hash=item5e66d3f8b8:g:hRMAAOSwXDVndb3r&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ%2BAphngjaDiB2%2ByyveXlxzmFDtIVpUqmOeJJNwCCJ%2FrRo6W9%2FnOMuzino7NgDroKubbhEdAZawfHHw8%2FNB%2FiBdqmNsvRndhyOuz2%2FqtawxZsEDkGnR31en6O9%2BH7bbpVW4J5Ltwap5pz%2FGwpGp5P2B0kRmO%2FkMVk0BNhq8V4yyGiGG%2F4V6Sd%2B%2FaGxqOE7X2HmQYPqOJGel8XWAVsRsww1I%2Bx9cBiJQlKQK6oFmjNM4hyLtBsgzqqyBvxhZWMZF%2FuoNamQhtM2cM48dxTJ%2Fx67aFCDupNhVABe%2FeeXya79DEw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/hRMAAOSwXDVndb3r/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|398395083926|0",
+      "item_id": "shaggy-dog",
+      "listing_id": "398395083926",
+      "title": "Build A Bear Vtg 2001 Fluffy Puppy Shaggy Scruffy Dog Plush Stuffed Animal",
+      "ask_price": 16.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/398395083926?_skw=build-a-bear+Shaggy+Dog&hash=item5cc2328c96:g:bTUAAeSwQ59qqHPq&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaQyNkTkR2uc%2BypOEmo%2FUfyKd%2Fzvk5jeq6fFtVFqabs0zU9b7s71wtKXWsKW90hOgrgD%2FC7Au6Yl8z95Kys%2FJYTO4Z2EpiFvG7JymFQ432u1CGa%2BEZ5Pq7AW0N96CcLly0M4BfjKBgB7oTdoPAtwajByZqxx2HObh7KuXC5Fy9uBonFD%2B5NMIZ%2BQmSH%2BnWa3yku81sQkFNtr9IYwXgA0J9i%2FRv7MCMy5wWslhuY4V5JZipqp4krhw6nJYzF%2Fbk8j9qBTQ%2BhAxSNNf%2FGIQcTAeY%2Fi4mvdl%2BqrF3D8GX5MmQsiQ%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/bTUAAeSwQ59qqHPq/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|800765722630|0",
+      "item_id": "shaggy-dog",
+      "listing_id": "800765722630",
+      "title": "Build a Bear Plush Scruffy Shaggy Puppy Dog Brown Cream- Pink Tongue-  16\u201d- EUC",
+      "ask_price": 19.5,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/800765722630?_skw=build-a-bear+Shaggy+Dog&hash=itemba715b4006:g:s0gAAeSwSPhnzJrx",
+      "image_url": "https://i.ebayimg.com/images/g/s0gAAeSwSPhnzJrx/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393273,45 +393301,31 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|147401640435|0",
+      "id": "active-v1|318294590735|0",
       "item_id": "shaggy-dog",
-      "listing_id": "147401640435",
-      "title": "1997 Retired Build A Bear White Shaggy Dog Preowned",
-      "ask_price": 12.0,
+      "listing_id": "318294590735",
+      "title": "Vtg 90s BAB Build-A-Bear Dog White Brown Shaggy Floppy 19\" Plush Laying Down",
+      "ask_price": 24.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/318294590735?_skw=build-a-bear+Shaggy+Dog&hash=item4a1bd6050f:g:HuwAAeSwX9xqBAVV&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYCbKHxjvX8EBPm8XUS6PGEkO9Zwlh%2Bli9xFROfj4xj6pFLKh6n%2FnwTB4ht5Z6ObvkH4ws9YUVwPMKdgs0SPT1Gy54U7QkHrXO9qmv6EVMR0JguHQX%2F4JbdatKVmQsDEnXSEEI86BkszokFpjUBB9G1deH%2FaUfvSRRy1N0NVcS4Va1dmcLIaQXGkj28GqJjaFvfmk%2BlwoBJsQbBPfbDQw3pkIyEg5SfPSj9ADBpBo2sbD6k0V18V0mgURvghwA%2FaZkY15q7XiuZGawIDyFD9HNQnxkaPLLlLaRfu%2B%2FiGGGapA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/HuwAAeSwX9xqBAVV/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|257728454044|0",
+      "item_id": "shaggy-dog",
+      "listing_id": "257728454044",
+      "title": "Build A Bear Puppy Dog 13\" Plush Black Brown Shaggy Standing Stuffed Animal",
+      "ask_price": 37.99,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147401640435?_skw=build-a-bear+Shaggy+Dog&hash=item2251d289f3:g:SUsAAeSwonJqQEQj",
-      "image_url": "https://i.ebayimg.com/images/g/SUsAAeSwonJqQEQj/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|375168017530|0",
-      "item_id": "shaggy-dog",
-      "listing_id": "375168017530",
-      "title": "Build A Bear Classic  Beige/Tan Shaggy Dog",
-      "ask_price": 18.97,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/375168017530?_skw=build-a-bear+Shaggy+Dog&hash=item5759c1a47a:g:ly0AAOSw8vhlmDsV&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZRZ85LlEWd8Eb8ymDhqRzrF%2BneEbtz1iK2zXnlgewU8Lnl%2Bo688byy2JZCrnbAg0s5i78JLg4SeSpnkcBPBJY180D%2FoYIohVFUyLoeyn2i%2FryStuI5DhOJdZEQpw09jIP3BeAVtls4AYCuDqeZ%2FZOBn%2F70nCDG5j66eX0%2Bkxsx8eCVi3cjdyxp2%2FOtRJLpu0Ftm3KJhdC8BUGNp7C4V7CHpExfahHD2T3Oai4rdGIdWwQpKS8hOo5pHo%2BT4JBLJuU6px06yr6RZjcmE02KXnb7Cqs4xnbPaRGjXBk0S2uoEA%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/ly0AAOSw8vhlmDsV/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|205883696035|0",
-      "item_id": "shaggy-dog",
-      "listing_id": "205883696035",
-      "title": "Rare Build-A-Bear Shaggy Dog Plush Brown Spot and tan 16\" BABW W/Fishing Outfit",
-      "ask_price": 15.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/205883696035?_skw=build-a-bear+Shaggy+Dog&hash=item2fef9fe3a3:g:qaMAAeSwWUhodX9x&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYqj66X3oWHowA4dYTqpF2%2BqnZ7hHG18dNrpP2XvgAde6f%2FYD0rNfKQNtrdl0ADBAvXLY3OLMiMyKohiLAfXX6kU3QaFOi8xO9xeH7P1wAOdYQ%2FMi9p6sTf3AQJpLpj9ATrZLcnHacNzomt9gr%2BeQtk2H0ittghj42N3sp5IsVGMXXqGQdWtynzeTPiXuVShhhLF0i4AYpmfhDQjuLFCUPiSUm0%2B4Ls0CYUas5lf94BWl%2B8T0bFUCLehs49B1%2FHg2jpRwu5bhdrOGjsdl9zkGfwKWFBjMrxOyaLCoTEqjRjaA%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/qaMAAeSwWUhodX9x/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/257728454044?_skw=build-a-bear+Shaggy+Dog&hash=item3c01d01d9c:g:YYUAAOSwHrhmZ2eH&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYXrj8rERGvn4ZDDMSx9nlSp1FZF7RzlE25LNzP6O0xI8EyWKFrdpo6kp9nGtHwxk17ohz4kfDfkBqCgUpRZMRbDCOEbIylPYTqBxXb6ScPwzWz9L0ubh7TPYphEVuPIvDJzHmC2o%2FiFTWcHXhcPdHjTwnXwUbGaXwMWtNk4Bd6XCNVIeL5n5yvGsvseZ8t2qcUGEOhkqwXtjVEhaj6oEPThWDjHmelI8KJUPwZDZzJZAPzjpuxQ%2FWHJTk6P3Jp31qHWLwRS5ppgDVTBWakKgsO2ffznkIMXoLnisCxUNdVQA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/YYUAAOSwHrhmZ2eH/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393357,6 +393371,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|236372983869|0",
+      "item_id": "black-orange-halloween-teddy",
+      "listing_id": "236372983869",
+      "title": "Build a Bear Ghost Halloween White Black Orange Dress Satin Teddy Clothes Outfit",
+      "ask_price": 29.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/236372983869?_skw=build-a-bear+Black+Orange+Halloween+Teddy&hash=item3708ed803d:g:G8AAAeSwt~Bo5G13",
+      "image_url": "https://i.ebayimg.com/images/g/G8AAAeSwt~Bo5G13/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|236306590836|0",
       "item_id": "black-orange-halloween-teddy",
       "listing_id": "236306590836",
@@ -393385,20 +393413,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|236372983869|0",
-      "item_id": "black-orange-halloween-teddy",
-      "listing_id": "236372983869",
-      "title": "Build a Bear Ghost Halloween White Black Orange Dress Satin Teddy Clothes Outfit",
-      "ask_price": 29.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/236372983869?_skw=build-a-bear+Black+Orange+Halloween+Teddy&hash=item3708ed803d:g:G8AAAeSwt~Bo5G13",
-      "image_url": "https://i.ebayimg.com/images/g/G8AAAeSwt~Bo5G13/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|307202990442|0",
       "item_id": "black-orange-halloween-teddy",
       "listing_id": "307202990442",
@@ -393413,20 +393427,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|158353278871|0",
-      "item_id": "black-orange-halloween-teddy",
-      "listing_id": "158353278871",
-      "title": "Build a Bear BAB Skeleteddy Halloween Skeleton Black Orange Spooky Teddy Bear",
-      "ask_price": 17.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/158353278871?_skw=build-a-bear+Black+Orange+Halloween+Teddy&hash=item24de974797:g:RjUAAeSw56xpHVZ1",
-      "image_url": "https://i.ebayimg.com/images/g/RjUAAeSw56xpHVZ1/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|168695637009|0",
       "item_id": "black-orange-halloween-teddy",
       "listing_id": "168695637009",
@@ -393436,7 +393436,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168695637009?_skw=build-a-bear+Black+Orange+Halloween+Teddy&hash=item27470b2411:g:OokAAeSwR-Fn0M6-&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY1NZgi2I0iW44bYOp9L%2FhtqUW9oI2bADOfWJuIdewF0mMgswgNuw1vXMllotBybYOL%2FDnirMOzwFHkz%2F2G8fIlMp2jRpHk%2FLwA6H6Jr%2Ffdpua4N0cDcy58YhU9ID%2FkrJqSdrgXcsJK3BFjGjCigrAWPmvp1w%2Byuv6C2BlwWkAij6cDmiJSDAY1IXMDdNIOKAeOn1XvWzuV9U68l85xkqlFdAhYEwOVTcRzK2t6wOxEM2bqC0ke%2BAYC49lIq9CvsZwbLa98CyAqIWL7yxNmO8rG7TZrHUgbp39CBD6xgCAZWmzp6s0C0mnLcxfd3xyTaLc%3D",
+      "source_url": "https://www.ebay.com/itm/168695637009?_skw=build-a-bear+Black+Orange+Halloween+Teddy&hash=item27470b2411:g:OokAAeSwR-Fn0M6-&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY1NZgi2I0iW44bYOp9L%2FhtqUW9oI2bADOfWJuIdewF0mMgswgNuw1vXMllotBybYOL%2FDnirMOzwFHkz%2F2G8fIlMp2jRpHk%2FLwA6H6Jr%2Ffdpua4N0cDcy58YhU9ID%2FkrJoHaK%2BiyBUWUy5W7aGm7tvb6s1l1aJGBa6hibsyEBLYc0UCohr%2FmskFZVgkuJxUMN4emo0t8EJUT28tLOpWZlvTSCAuFSVXfx52ANDQHzmTHSUvnwvbnY6exJVc5n6lIb2%2BQ%2BML0%2F6CCiamR5fAjvJzfkrKWlHLezu%2BqahLFTfm8S6ZCqBCrrmEyOTl%2FPBGSWA%3D",
       "image_url": "https://i.ebayimg.com/images/g/OokAAeSwR-Fn0M6-/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393464,7 +393464,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168631497000?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item2743387128:g:8aUAAeSw2o5qiNIU&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZ3QkMCTCobZjMIGIp7L%2F1PdAiuh8RzgcuJkWrX7y3PLqqTR%2BPDanpRHb4V%2BRLNRmM1HMfxQlWvP8pUEQF5gLYxCAGab7uUnlYDZ59ECwe%2FnIuSkm6fUxUDzXLUKqkEOwIbrTHn%2BrpskKjY%2BZ%2BGLXbG0aIYNxJ24wed15so%2Fpj80SL5PmrvznHCmy%2FsldpCS7syOg5ikdhRa7W%2BsVRHXsa6RS7jpfg2muvd%2B4Kxv39Sal6hW2i0nMf6K3hj%2BDCTVkIfvvim3T8vzWijpdtL55JwlroqMOTSjn70hEpiZq2mXsA5Mn9LZNzSX3kakYNnIc4%3D",
+      "source_url": "https://www.ebay.com/itm/168631497000?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item2743387128:g:8aUAAeSw2o5qiNIU&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZ3QkMCTCobZjMIGIp7L%2F1PdAiuh8RzgcuJkWrX7y3PLqqTR%2BPDanpRHb4V%2BRLNRmM1HMfxQlWvP8pUEQF5gLYxCAGab7uUnlYDZ59ECwe%2FnIuSkm6fUxUDzXLUKqkEOwJeLsr5m0wwuOJOsdKm570lrf2SlzHQiK31gi%2FY9hxSYU3ktk%2Bt1TLWzXmrcAF6PoNYK%2Bvr8Ye4XJhWGQsOwCyCqpRRHgsMG%2BVw9AbKDC5tR%2F%2B%2FOoKPCuJHEpPB9QWhBhX3zobzWYlZET2u3X2xoFJHg6UFvVpwiFR8EIL9HxHkg7DQUM0uesqBR%2FsGkQijYCQ%3D",
       "image_url": "https://i.ebayimg.com/images/g/8aUAAeSw2o5qiNIU/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393478,7 +393478,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/117396136353?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item1b555ae1a1:g:B0wAAeSwNhhqmyv1&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaFoiqQQBlfMGiAI2ucNnUdmJOoiObAJTl4B1np93g7cn7Dut%2BcTAQSXuuRwWbxsHkopccz6OOVwUIi1ytlMk4Z%2BRT18U1dLP9Iy%2FmjQt53PbF31eS1tT%2BbHWlYl04h9et%2FltPy4xWt0I5bgVbJXcNCuGOtOBdUix6vD02jUGvQDfs%2FRT%2F3YDaVFtqMPIDMDQTGoV8vzwCc7UiDwhGxsjYcWzCcI58YsnBv2GLrEj3h0rlqIhBoVBBQfnUI2sjjBmRcb7IiBPUFPKrS%2Bbb%2B0Tuv97cOlw509yK9Vuxfh9VdMABNOlMlzBb7QpK20N%2BM2dc%3D",
+      "source_url": "https://www.ebay.com/itm/117396136353?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item1b555ae1a1:g:B0wAAeSwNhhqmyv1&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaFoiqQQBlfMGiAI2ucNnUdmJOoiObAJTl4B1np93g7cn7Dut%2BcTAQSXuuRwWbxsHkopccz6OOVwUIi1ytlMk4Z%2BRT18U1dLP9Iy%2FmjQt53PbF31eS1tT%2BbHWlYl04h9esnIuf7YzknLPQFQj0%2Fg%2BM3a7Ho6pFvapdxalqN%2B9O7PhbZtRSZb%2BL9aLxDxHa%2BuwELhsL1y11%2Bs3cQJbjuslun7Yq2EmyezqgBRxat1JpjzZ0zjhS7FWwp7BwafaEb5kRWyzHAIm%2BL7raau3DOzf0E1nHPFyct4Ia%2BL61ZacKJaGYvzs%2BP4eb5GblSj2fC5Mg%3D",
       "image_url": "https://i.ebayimg.com/images/g/B0wAAeSwNhhqmyv1/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393492,22 +393492,8 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/297984233090?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item45613e8e82:g:rVYAAeSw9aBpfO5Q&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZkTBF3XdhzfBBsGgiYZWyFdWdhigy%2BwCaKQuq557v0YI%2FAJdY6TQDtEiJv6o19fxAEz3fkbO9ZGsYFIJT%2BzlEupDQ8SQFp92EzEqy7aVdMoZR1agUyAndO0%2FrEnQT4kbYYn0DDLt0%2FJDf9i1nDZTWnoMtvxKLeah%2F7yeQVLQgjXREHnmBI1v68nTjswr1ONvrnXFRTU1FyYGMFQfTQjKKzQw1JMfqH6ywMwf8UWANeWXWFysi%2F0pJv%2BB1xr%2B7sKRnAhFUJXUhu%2FMK7tt5AH0Lqm4oQ95%2B06fMrWqJNe4INc7VIy%2FTmYE94X1gNZozVFM8%3D",
+      "source_url": "https://www.ebay.com/itm/297984233090?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item45613e8e82:g:rVYAAeSw9aBpfO5Q&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZkTBF3XdhzfBBsGgiYZWyFdWdhigy%2BwCaKQuq557v0YI%2FAJdY6TQDtEiJv6o19fxAEz3fkbO9ZGsYFIJT%2BzlEupDQ8SQFp92EzEqy7aVdMoZR1agUyAndO0%2FrEnQT4kbYedBDEbFC--4utmNuR3LJR6ydzbrb0vQtde25rKOOnIE7m78Efy92cE57hwRv0c48C1Rab15insJcMx%2FTyTjCuQX0VzceZEMpHA9JWCPZAstQL2AptTX3TJ2V6yTtp4F0jyAnYp0AnSzWms79ykHzmxbn5Y6JLODfQ8bCmTuux0q9ICHFM43jjSt33Jsd7iJk%3D",
       "image_url": "https://i.ebayimg.com/images/g/rVYAAeSw9aBpfO5Q/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|297698970449|0",
-      "item_id": "aviator-pilot-bear",
-      "listing_id": "297698970449",
-      "title": "Build a Bear Teddy Bear Groom Plush Bear Aviator Pilot Stuffed Animal BABW",
-      "ask_price": 20.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/297698970449?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item45503dcb51:g:ficAAeSwZhNo9oxy",
-      "image_url": "https://i.ebayimg.com/images/g/ficAAeSwZhNo9oxy/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393522,6 +393508,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/168713257371?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item274818019b:g:zgsAAeSw5eRqYgSW",
       "image_url": "https://i.ebayimg.com/images/g/zgsAAeSw5eRqYgSW/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|297698970449|0",
+      "item_id": "aviator-pilot-bear",
+      "listing_id": "297698970449",
+      "title": "Build a Bear Teddy Bear Groom Plush Bear Aviator Pilot Stuffed Animal BABW",
+      "ask_price": 20.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/297698970449?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item45503dcb51:g:ficAAeSwZhNo9oxy",
+      "image_url": "https://i.ebayimg.com/images/g/ficAAeSwZhNo9oxy/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393581,34 +393581,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|276567235930|0",
-      "item_id": "pawlette-bunny",
-      "listing_id": "276567235930",
-      "title": "Build A Bear Workshop Pawlette The Brown Bunny Rabbit Plush New Unstuffed NWT",
-      "ask_price": 14.95,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/276567235930?_skw=build-a-bear+Pawlette+Bunny&hash=item4064b11d5a:g:95wAAOSwDPJmovvA",
-      "image_url": "https://i.ebayimg.com/images/g/95wAAOSwDPJmovvA/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|128100458365|0",
-      "item_id": "pawlette-bunny",
-      "listing_id": "128100458365",
-      "title": "Build-A-Bear Pumpkin Spice Sparkle Pawlette Bunny Plush with Snowman Dress ",
-      "ask_price": 30.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/128100458365?_skw=build-a-bear+Pawlette+Bunny&hash=item1dd361df7d:g:RWoAAeSwdQ5quC5g&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNsILuWm%2B8ENK7XMGdHZGhq2izoKLsSYu2W72E%2F9Vi9d3EAXZn3dvpw58Mxuy3lsaRAx%2FxyfYvPZx%2FpEj%2BVaDztfVFv8H5pzPf%2FsUdUIAnRIoXJqZgjeX6OOiGvbqL4CYE%2Bf1leau5b%2FppWLq1XmgIP4ZAiix8Dk3ZSIF2%2Fibc6P3II1%2BhBFAkgGO7Y%2B1PwimHzMsCDFE2DbSLEtVf0PLKiMuSBxyQg%2Bn1gNvdYRPUeFzhIZ540%2Fu8XOGqGvd7xXPgzOwbYYLMhEh0r%2BmJULGj77NZizuCiQG7l%2BNIexTGlQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/RWoAAeSwdQ5quC5g/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|327390187119|0",
       "item_id": "pawlette-bunny",
       "listing_id": "327390187119",
@@ -393623,17 +393595,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|298741735813|0",
+      "id": "active-v1|276567235930|0",
       "item_id": "pawlette-bunny",
-      "listing_id": "298741735813",
-      "title": "Build A Bear Pawlette Bunny Plush Tan Pink Long Ear Rabbit Stuffed Animal 16in",
-      "ask_price": 18.0,
+      "listing_id": "276567235930",
+      "title": "Build A Bear Workshop Pawlette The Brown Bunny Rabbit Plush New Unstuffed NWT",
+      "ask_price": 14.95,
       "currency": "USD",
-      "condition": "Good",
+      "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298741735813?_skw=build-a-bear+Pawlette+Bunny&hash=item458e652185:g:ft4AAeSwymFqxwQI",
-      "image_url": "https://i.ebayimg.com/images/g/ft4AAeSwymFqxwQI/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/276567235930?_skw=build-a-bear+Pawlette+Bunny&hash=item4064b11d5a:g:95wAAOSwDPJmovvA",
+      "image_url": "https://i.ebayimg.com/images/g/95wAAOSwDPJmovvA/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393651,20 +393623,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|178554280228|0",
-      "item_id": "pawlette-bunny",
-      "listing_id": "178554280228",
-      "title": "Build A Bear Workshop Pawlette Bunny Tan Plush16in w/ Pajamas & bunny slippers ",
-      "ask_price": 29.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178554280228?_skw=build-a-bear+Pawlette+Bunny&hash=item2992aa1924:g:bVEAAeSwe1BqwXqi",
-      "image_url": "https://i.ebayimg.com/images/g/bVEAAeSwe1BqwXqi/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|366650059707|0",
       "item_id": "pawlette-bunny",
       "listing_id": "366650059707",
@@ -393679,17 +393637,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|820209937259|0",
+      "id": "active-v1|178554280228|0",
       "item_id": "pawlette-bunny",
-      "listing_id": "820209937259",
-      "title": "Build-A-Bear Pawlette Bunny Plush Tan Pink Long Ear Rabbit Stuffed Animal 17\"",
-      "ask_price": 18.0,
+      "listing_id": "178554280228",
+      "title": "Build A Bear Workshop Pawlette Bunny Tan Plush16in w/ Pajamas & bunny slippers ",
+      "ask_price": 29.99,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/820209937259?_skw=build-a-bear+Pawlette+Bunny&hash=itembef8526b6b:g:2ooAAeSw5q1qS7Bj",
-      "image_url": "https://i.ebayimg.com/images/g/2ooAAeSw5q1qS7Bj/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/178554280228?_skw=build-a-bear+Pawlette+Bunny&hash=item2992aa1924:g:bVEAAeSwe1BqwXqi",
+      "image_url": "https://i.ebayimg.com/images/g/bVEAAeSwe1BqwXqi/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393721,31 +393679,59 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|257432749018|0",
+      "id": "active-v1|227555166488|0",
       "item_id": "pawlette-bunny",
-      "listing_id": "257432749018",
-      "title": "Build A Bear Workshop Pawlette Bunny Rabbit Plush Tan/ Pink 21\u201d 2012",
-      "ask_price": 14.99,
+      "listing_id": "227555166488",
+      "title": "2017 Build A Bear BAB Pawlette Bunny Rabbit Brown & Pink Plush Stuffed Toy 14\"",
+      "ask_price": 9.99,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257432749018?_skw=build-a-bear+Pawlette+Bunny&hash=item3bf03003da:g:Sy4AAeSwRL1pyeud",
-      "image_url": "https://i.ebayimg.com/images/g/Sy4AAeSwRL1pyeud/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/227555166488?_skw=build-a-bear+Pawlette+Bunny&hash=item34fb584918:g:1xkAAeSwTb5paRqW",
+      "image_url": "https://i.ebayimg.com/images/g/1xkAAeSwTb5paRqW/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|800750301628|0",
+      "id": "active-v1|820209937259|0",
       "item_id": "pawlette-bunny",
-      "listing_id": "800750301628",
-      "title": "Build A Bear Bunny Rabbit Pawlette Beige Pink Plush Stuffed Animal & dress",
-      "ask_price": 29.99,
+      "listing_id": "820209937259",
+      "title": "Build-A-Bear Pawlette Bunny Plush Tan Pink Long Ear Rabbit Stuffed Animal 17\"",
+      "ask_price": 18.0,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/800750301628?_skw=build-a-bear+Pawlette+Bunny&hash=itemba706ff1bc:g:xaMAAeSwurdpeDnp&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZAw5bNJFQmZsEOaBSK%2BIh09c2oLJ1FSwhbcNyDcGS%2FogODbAt0QNyObYYMXQToggNY3gAtEkQFmDi8W6gkoANQC4%2By%2B1YENPWC9mX4sGJ739fuU4UejFIBD5HGCcln3d%2Ff9RTRQnorXPyb31fi0jsOuU%2B0wH%2FLmEalPNS4Gn%2FQn5ark734fkuSkq4SYuzUFhh6IkQwEtpU2%2BL%2BEN6cCX%2BgGQxen1KPtrrA%2FaB2BNnCm%2BV5K2Ko8szPkWGQaw6eBu8zPcCNxU4VWTkxGtEbtEWU2Rk4t5bWbiaIg29fUv0J8Q%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/xaMAAeSwurdpeDnp/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/820209937259?_skw=build-a-bear+Pawlette+Bunny&hash=itembef8526b6b:g:2ooAAeSw5q1qS7Bj",
+      "image_url": "https://i.ebayimg.com/images/g/2ooAAeSw5q1qS7Bj/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|298741735813|0",
+      "item_id": "pawlette-bunny",
+      "listing_id": "298741735813",
+      "title": "Build A Bear Pawlette Bunny Plush Tan Pink Long Ear Rabbit Stuffed Animal 16in",
+      "ask_price": 18.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/298741735813?_skw=build-a-bear+Pawlette+Bunny&hash=item458e652185:g:ft4AAeSwymFqxwQI",
+      "image_url": "https://i.ebayimg.com/images/g/ft4AAeSwymFqxwQI/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|128100458365|0",
+      "item_id": "pawlette-bunny",
+      "listing_id": "128100458365",
+      "title": "Build-A-Bear Pumpkin Spice Sparkle Pawlette Bunny Plush with Snowman Dress ",
+      "ask_price": 30.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/128100458365?_skw=build-a-bear+Pawlette+Bunny&hash=item1dd361df7d:g:RWoAAeSwdQ5quC5g&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNsILuWm%2B8ENK7XMGdHZGhq2izoKLsSYu2W72E%2F9Vi9d3EAXZn3dvpw58Mxuy3lsaRAx%2FxyfYvPZx%2FpEj%2BVaDztfVFv8H5pzPf%2FsUdUIAnRIoXJqZgjeX6OOiGvbqL4CZupJ4sRnnYequAnIV%2B19hUCkpiqqs3M9%2BCcLZHeDzLlbbeulkE%2B2ayARwMg4cbPIe5SP8%2FSrThdNjpMS9fFzq6m9gQ9qrggiOLBI4JmqCt6FD9%2BSeX2O0f1cfl6o0XwqHm%2FjNZRj8iPRWJ%2FJLvPlAXfy0VwuN5Gax0qVS1GD7qXA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/RWoAAeSwdQ5quC5g/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393758,22 +393744,36 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278430386828?_skw=build-a-bear+Pawlette+Bunny&hash=item40d3be8a8c:g:3UIAAeSwL0Rolelt&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb8bowyheptBrnNTNomGWYIKaNsXvJ4jWoX1TC8pBFe5aav1FDYN0IPuWqAww%2BjqvsrLRzfMxPARdhgHBq9SFBBCDGOY4mREjfL%2BWUgAjj%2B1aSk4JPhFMT4qFKa0YaHgrLeOVHrFD8kY4LCztNsLMSyupcU%2BFUR%2BhcbWY1cionH5bCFzqyVhCaPRS%2BB6G1J7j4%2B0qtnkkozesBQzCYMuMA7cPqSicJun0Qg%2BbU6Tyb6uwikY8OD1V1CQPOGg%2BcPVi0Z1pUiF2RvJd7VyMXIsdi1ZZ7P1Q4m%2FHvwlzYJf77vWQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/278430386828?_skw=build-a-bear+Pawlette+Bunny&hash=item40d3be8a8c:g:3UIAAeSwL0Rolelt&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb8bowyheptBrnNTNomGWYIKaNsXvJ4jWoX1TC8pBFe5aav1FDYN0IPuWqAww%2BjqvsrLRzfMxPARdhgHBq9SFBBCDGOY4mREjfL%2BWUgAjj%2B1aSk4JPhFMT4qFKa0YaHgrItSlW91tIEcFIcvcriaJPwyiGNbhcfueHKla%2FmKQGUVbx9O0hBVRlQmgeTmEjYMAXxOwBRw4ToxUz3z%2BH%2FGaX2SUhLBllUt6BZiNn2wWplHn7KzguwTFFPzs7r5KV4TG5PQZDkUVqLT1jvlT2GdTmrcB9pIbGHV%2FUzStZb5AGyUA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/3UIAAeSwL0Rolelt/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|296633421830|0",
+      "id": "active-v1|800750301628|0",
       "item_id": "pawlette-bunny",
-      "listing_id": "296633421830",
-      "title": "Build A Bear Workshop Buffalo Check Pawlette Bunny Rabbit 16\" Unstuffed Animal",
-      "ask_price": 19.95,
+      "listing_id": "800750301628",
+      "title": "Build A Bear Bunny Rabbit Pawlette Beige Pink Plush Stuffed Animal & dress",
+      "ask_price": 29.99,
       "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/296633421830?_skw=build-a-bear+Pawlette+Bunny&hash=item4510bad006:g:0lwAAOSwWaVmvjs2",
-      "image_url": "https://i.ebayimg.com/images/g/0lwAAOSwWaVmvjs2/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/800750301628?_skw=build-a-bear+Pawlette+Bunny&hash=itemba706ff1bc:g:xaMAAeSwurdpeDnp&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZAw5bNJFQmZsEOaBSK%2BIh09c2oLJ1FSwhbcNyDcGS%2FogODbAt0QNyObYYMXQToggNY3gAtEkQFmDi8W6gkoANQC4%2By%2B1YENPWC9mX4sGJ739fuU4UejFIBD5HGCcln3d9TJiFmQbJNJZHEJeo8us9GGOZFzy2TQ48op3XkhUgsTRep9DWZF%2FKqmFtdzfB2WZdgzaSrVGkCTrnWyxvo%2FL%2BrLaMcLGm3WuVX9YWwCrd%2BL7XULNZcPYhWJtRKPHhIpuVTtIIpBwG8hS9uZpPFxia%2B%2BvkdGMjFbNe0lNX5F%2BWldQ%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/xaMAAeSwurdpeDnp/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|297831325067|0",
+      "item_id": "pawlette-bunny",
+      "listing_id": "297831325067",
+      "title": "Build-A-Bear BAB BUNNY RABBIT 'PAWLETTE' LIGHT BROWN/PINK Plush Stuffed Animal",
+      "ask_price": 18.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/297831325067?_skw=build-a-bear+Pawlette+Bunny&hash=item4558215d8b:g:uwsAAeSwRfJpOIcG",
+      "image_url": "https://i.ebayimg.com/images/g/uwsAAeSwRfJpOIcG/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393791,31 +393791,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|128119358045|0",
+      "id": "active-v1|257401597327|0",
       "item_id": "pawlette-bunny",
-      "listing_id": "128119358045",
-      "title": "Build-A-Bear Workshop 14\" Pawlette Bunny Rabbit Plush Toy",
-      "ask_price": 14.0,
+      "listing_id": "257401597327",
+      "title": "BUILD -A- BEAR PAWLETTE BUNNY RABBIT BALLERINA EASTER BAB RARE V good condition!",
+      "ask_price": 45.0,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/128119358045?_skw=build-a-bear+Pawlette+Bunny&hash=item1dd482425d:g:HxwAAeSwGhFqxU5a&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYhnkEsfsG3gtL9z2%2FZc2o9SDKkqjAFeB8yyTOi8FokEQRlLic6DAKVgHN9TUDzFMCDcBwQ01rENywlP14zQQjFu%2FoLhuzqqdZ8lV0pAzMiNvYL8A2cvSUpAgyIrPyOkTwAdfqpybSr32nkUiFnFwyf%2BzX7ZyJkVXyRr3%2BbfAqYUXp27GAFnFTOliG45eO2%2FtOgWfhDSWXBRoxmnKwtEDgwn1cxEqbnD8ZmLwyXIukrKFY%2FkPmYdL%2B6goxZVyFsq9gUpZHuWzHyygPc3AFRNrgT2a%2BOFjcutp5gpFzfcLGJuA%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/HxwAAeSwGhFqxU5a/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|406173044648|0",
-      "item_id": "pawlette-bunny",
-      "listing_id": "406173044648",
-      "title": "BUILD -A- BEAR PAWLETTE LOVE BUG BUNNY RABBIT BALLERINA BAB RARE EASTER CUTE EUC",
-      "ask_price": 42.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/406173044648?_skw=build-a-bear+Pawlette+Bunny&hash=item5e91cccfa8:g:RlEAAeSwRIhoqNoC&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYQXNewTosh4npmnEGJPIvgdmP13fznyRlDQ1nqAVMy%2F2rcMhUYCYoT2zCP%2BT5v22Vufed11jZzpOgOAQraSSVKYBiQYSM0Fau6v80K11q5mFdlzrBXfy%2BFnLARwuUzTNmWacOMAU8IpBWm2odgM5h7nd%2Fy0bUBK15X3Y4CSx8G%2FB7A8p34fbjk8QfiVHdg29S5miFJjRmCANIOk5204R0ed9a2nwnh0DQzyjCzmblIhc185i9aALrknD%2FyBp96kTAMF4ouhxx258XFDUVvShEqfrXBZpe2%2F6DAPkFPT5%2BdTA%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/RlEAAeSwRIhoqNoC/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/257401597327?_skw=build-a-bear+Pawlette+Bunny&hash=item3bee54ad8f:g:03EAAeSwPa9psf7k&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYD04mKGIChI4IzHNQbA1AeWLkULigGwFabzB9tJ0LJIO5ZGW%2BN%2FziFnaOZRlkTd0CRWn%2BJ%2BShwaAO8%2FEwZk%2FO9eyMavoIATjMS%2FFqzec3tbWpR9QBCfrwmcwdvJGO%2F7ngr8Q5e8An%2BSyvLNpjwiNS%2BNZesXzmAtm3DlXhztgUDPJoU3r%2FFHtrQeE6qLys2CD8Y4vsDEXkUvLs1hKs8B%2BqDrngF91sBo02FSHzPi%2BeKJQ8tRk2McK7Qs8R5b0iPSQvcXbDOQdxoi86tMvHNu5dXX6YIhx0LPjzhb%2Fm1K7P1BQ%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/03EAAeSwPa9psf7k/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393884,7 +393870,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178506102740?_skw=build-a-bear+Bunny+Big+Ears&hash=item298fcaf7d4:g:BOQAAeSwoXNqrHqj&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZPpMY0ZxPvNJRaLFmligBtrKt8GrZzBFWCUg9F3MCqaTphvPrteKyf%2Ft6INhTuOjLqDP68QeYOdoaPtCg3KdIIDvKOdS6%2Flo8YppgKhLmIK4zlVB1wh6iNJD9EqiIuznl7SaE%2FjOIKevAx8zTXtzkAun5jAGEA%2F%2BJwkrPIgBuf4RAi1%2B31v9XQVQGUjg%2BRwe0qpaaeu4J1fCMMk9DhX9wefJZ4wp6aiFOfEahbHNKsvl7c9EDbb1GqclnNzAFm2POh%2F4LTrKX6Ck4giRr02SN%2BQOjsPu4AHWRJ0l4tfcY%2FJ7uyfM1IUkG4cBupsxO3Ra0%3D",
+      "source_url": "https://www.ebay.com/itm/178506102740?_skw=build-a-bear+Bunny+Big+Ears&hash=item298fcaf7d4:g:BOQAAeSwoXNqrHqj&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZPpMY0ZxPvNJRaLFmligBtrKt8GrZzBFWCUg9F3MCqaTphvPrteKyf%2Ft6INhTuOjLqDP68QeYOdoaPtCg3KdIIDvKOdS6%2Flo8YppgKhLmIK4zlVB1wh6iNJD9EqiIuznlxIycH24aNuFGj38RV5yQdCklH0WgqTSNwNOWcFxScHn6Df9txlyICosKQNVCsyJB6VyZHrMeSwLD5CnfR3AvHQeHCgR1FLpkjas7%2Fwdj328TCF4i%2BCGNrBXfowKXXDHUJT3yVxoGF9CNmAwvRzbLGJKhPWb7MJJhtgtCZknVBrdgXZnE0kypzYxoX2T7UVVI%3D",
       "image_url": "https://i.ebayimg.com/images/g/BOQAAeSwoXNqrHqj/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393898,7 +393884,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407205082132?_skw=build-a-bear+Bunny+Big+Ears&hash=item5ecf507414:g:v98AAeSwe9ZqkyoZ&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZCW8x0eDC28zdDTSEPxHc4xkTNxuLwMTsWjNE8KBD6GCLz4Dj2zHZ8LvkWW4OLw%2Fen7Kf1MWdp1kdGPO71pbcEmn%2Fuz6gGyz2cIV%2F2kEpReHpi5uop9rsey3PX9gW712LMC1JAtsPUCUwL1TGre59f7Wsk0LyLzLvzwaGNVRWvLTdDlGT%2FfyT6n2iyC1fgN4MWNHan4LKT7XK2M%2F0LvHCJyl8j5A4HfpThrzuk7oQu%2FZ5CrdwO6KEsAbo%2BHjF%2B7y8LManeo7UoGeeS8kN0uOW5xLxa75sq2FVDEinBxy5UoGxmgkTGCfTGjZBncsVRyek%3D",
+      "source_url": "https://www.ebay.com/itm/407205082132?_skw=build-a-bear+Bunny+Big+Ears&hash=item5ecf507414:g:v98AAeSwe9ZqkyoZ&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZCW8x0eDC28zdDTSEPxHc4xkTNxuLwMTsWjNE8KBD6GCLz4Dj2zHZ8LvkWW4OLw%2Fen7Kf1MWdp1kdGPO71pbcEmn%2Fuz6gGyz2cIV%2F2kEpReHpi5uop9rsey3PX9gW712LGNNf7NfTrKIUmG3mBT%2BJq6o%2FbAJ08Pw6jcT2yhbYVNXrQIfj1vDK%2Bc%2FXtVa6uoK4X5uHQtnVbkGM%2BL5Sv236L42QR8GBLhJ5gSwL3Go65SJt9LzA4ktZnFNGQn%2BLURX6lJpQgsqoAWFMxGJf5clH2Aiv4hfetG1U70Qbe2K38PN0y8m6%2FoZWr1F3e0TbmFVs%3D",
       "image_url": "https://i.ebayimg.com/images/g/v98AAeSwe9ZqkyoZ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394024,7 +394010,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/116999500986?_skw=build-a-bear+Bunny+Big+Ears&hash=item1b3db6b4ba:g:02sAAeSwpaNpdT0Y&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYxBL9lyaZUDzZqEa9PfWM45LoH%2Bq8Q9bwvDx60B3nD%2BnotiVPQVDFznpvGSrRGRhKyXEpBX%2Ft2MJxhXhmW%2FnJFElNxEZ3j4V4ungBYgyfV%2FvN7gUC%2B%2FPTWltv%2FCpDOlCeKHdYgfGwcOgBsofimNLNnfkRthRhxBz%2BED8z8Pb4hobuIE0d2xo7W9sjK8Ow7cnsAQ%2Bvam3UJcLm2Dc5OhzPkcSqWI2Sxu4KjDeyb8p9%2B%2Bm%2BhYIJzGFvQSJekKUAuSYWYflMbnZzP1rqNpVxRTJbrsnvvOLeZl5Ptx1dLDxxgrNaV3wlPd%2FlP4cUCB%2Fa%2BGxU%3D",
+      "source_url": "https://www.ebay.com/itm/116999500986?_skw=build-a-bear+Bunny+Big+Ears&hash=item1b3db6b4ba:g:02sAAeSwpaNpdT0Y&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYxBL9lyaZUDzZqEa9PfWM45LoH%2Bq8Q9bwvDx60B3nD%2BnotiVPQVDFznpvGSrRGRhKyXEpBX%2Ft2MJxhXhmW%2FnJFElNxEZ3j4V4ungBYgyfV%2FvN7gUC%2B%2FPTWltv%2FCpDOlCfY8NjDdWBsA6rJDqgjHjo1fJeTl%2BddT65SBfN48sq9uEdH9lWdVjYG8WZ2vwtZeqTgasKILg1oWR20fD6Wpv%2FM4rS2Rn7il7KGJERIP1Lm8OrjidZm8LXim4huB0mD%2F9vkR0dI667X6ddUDfdAWJqPqwHvYWXo%2F5Q7M3T7gXCSVYUPhAQXHz1KuH956yeNEUM%3D",
       "image_url": "https://i.ebayimg.com/images/g/02sAAeSwpaNpdT0Y/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394038,7 +394024,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/157703264216?_skw=build-a-bear+Bunny+Big+Ears&hash=item24b7d8d7d8:g:RNkAAeSwbnVpnMmO&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZB8fC40kaDB3uvGiIXKnQV%2BlL7lyoWNnxTUe9BM8qz0JxV2z1yORuvQA2TZER9J1ZIIj9vjheb6V%2BMJPwH9WHSSXMsCRAZbxkHvG9qjGzOojKfnulrQa%2BmSXsp5TtAd6mBfx56yZHGRTSe%2F6lQ788IMm8oQ0Bzcyvuz6MaA3E0ewXEd8OBzoBGw1Y8612SbJ6rlnxbEIpy1iYYPyZKaPIWgFYYeKIWPIdEzHVUj7yzRP%2BoaK7S%2BMm07lZaB48VxbKZP%2FBy7uzTfwiJbYzE6iJ8XQ%2FklEES1ITJjuwFs9EeAQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/157703264216?_skw=build-a-bear+Bunny+Big+Ears&hash=item24b7d8d7d8:g:RNkAAeSwbnVpnMmO&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZB8fC40kaDB3uvGiIXKnQV%2BlL7lyoWNnxTUe9BM8qz0JxV2z1yORuvQA2TZER9J1ZIIj9vjheb6V%2BMJPwH9WHSSXMsCRAZbxkHvG9qjGzOojKfnulrQa%2BmSXsp5TtAd6lSSs5vrzaxHsDMj0CEN%2F8GNnORCDFt6ZnmJkGeGz4eGu019JUQ5gqAuB53kak6vPOF2ggVwvKPjLvzQ1etVt7kEmSsHc9iWMVaYu7pXWLEJW2en7nSDF2Qf6HmrI02KC6WOvvm1A7dxmijRj8fgFCBdaayyEmnhV9%2F70C5U39fig%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/RNkAAeSwbnVpnMmO/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394066,7 +394052,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298032786384?_skw=build-a-bear+Bunny+Big+Ears&hash=item4564236bd0:g:DlkAAeSw2bppkMaz&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZBQZlEk28p1qbi2bPg5Li8Gr%2BhllRRURtWk7GIL7uLex2XuTUcEOZ1xpuJbXUgy%2B1boRMDk1OMtFPBG%2FSkKntWF8IEPR3PbFVbtx%2FsRL%2BqIwWsvwLxmAEbqyekh6DMAiAxtj6Rh6xBycZiGRqjGm2oEfI4Ms0P7J6OTlb%2F5%2FTIY9ynnlXcUk1rtpP1WdhQmPU4gTsQ7Xyhae99z8jpowpPgnBJ%2ByVseOwGi1MS4q3xPk9%2B3AtSq0kh3CPmhM4%2Bo8SFRjEd3pPRZpw8PR2x9cHkFgXen84cIeVJaLq7I5pULpVcJojON%2Ba38gOeYYZR3wg%3D",
+      "source_url": "https://www.ebay.com/itm/298032786384?_skw=build-a-bear+Bunny+Big+Ears&hash=item4564236bd0:g:DlkAAeSw2bppkMaz&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZBQZlEk28p1qbi2bPg5Li8Gr%2BhllRRURtWk7GIL7uLex2XuTUcEOZ1xpuJbXUgy%2B1boRMDk1OMtFPBG%2FSkKntWF8IEPR3PbFVbtx%2FsRL%2BqIwWsvwLxmAEbqyekh6DMAiDrKDsJbXiA9iNRVLS5pGjztHjugjDuYxj8c%2FdqQeKHrLJFZMSkXf3u%2FnU1zdWhKIMgnVnPGk6kbqjt5bahRE3iD29r8orZ7Z4SfyN8xoDFXJ90CxFqldjVkQwoeqWdfF6WY2HOgFC9CclDemZJCkANe8pJY8bCFm5wr8l7XaAMyEMYjmASghan9pKwe8K2B6A%3D",
       "image_url": "https://i.ebayimg.com/images/g/DlkAAeSw2bppkMaz/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394080,8 +394066,36 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/406800532114?_skw=build-a-bear+Bunny+Big+Ears&hash=item5eb7338292:g:gZUAAeSw40Zpw~CH&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY2TPOqPsAz9Ak1le85wcu%2F6KvjTBdReqgqHzAh1KTP70wcOixg7l5kZl2Jo1KphQqW7CHxT7IVVWHsNQxUjwTFLL%2BBwK26XFodhkQxy31H2j6WsMnfPwaJI%2FckLGlycvszJIMnYaC%2BUDCwhl%2FUj%2BPEV8kVOQH5L%2BTf65ETjdc7AhuXCP4lsW7x68tTM90L%2ByNhQ0Th63WHSlQcXYlqbX8Ikwf5HOyNEd803cVeeOjc99xGID7mgIM%2Bxa%2Fq1CBxcx2l9pmK1JQyJIl3JrJHJAI98X%2BkY9K6g1G%2F0ux5ibJl8CjU0QdQy7kcFh7N5PknwTk%3D",
+      "source_url": "https://www.ebay.com/itm/406800532114?_skw=build-a-bear+Bunny+Big+Ears&hash=item5eb7338292:g:gZUAAeSw40Zpw~CH&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY2TPOqPsAz9Ak1le85wcu%2F6KvjTBdReqgqHzAh1KTP70wcOixg7l5kZl2Jo1KphQqW7CHxT7IVVWHsNQxUjwTFLL%2BBwK26XFodhkQxy31H2j6WsMnfPwaJI%2FckLGlycvubssgD3eRObPwbL9uD%2BoMgKzN7JmNauiR7FI8Q9uBWbGCvF4RKHuqT3IaOjfpIbyJUGldtXTyYznve3fKQwgleuPat7UfrK5Dlp9tqQI%2FTn%2BDa4h7l%2FcHIyLUQZaWU5YhBJTrzRMbCKNztpPIX4C5xzgwXXTL9NCBifJ7oC6uQVmrzlpU%2B3YnNxxC0y%2BvhwuE%3D",
       "image_url": "https://i.ebayimg.com/images/g/gZUAAeSw40Zpw~CH/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|318802819281|0",
+      "item_id": "lucky-kitty",
+      "listing_id": "318802819281",
+      "title": "RARE Build A Bear Halloween Cat Solid Black W/ Orange Nose Lucky Kitty 1999 READ",
+      "ask_price": 116.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/318802819281?_skw=build-a-bear+Lucky+Kitty&hash=item4a3a20f8d1:g:TWYAAeSwIMRqlQE1",
+      "image_url": "https://i.ebayimg.com/images/g/TWYAAeSwIMRqlQE1/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|168721021696|0",
+      "item_id": "lucky-kitty",
+      "listing_id": "168721021696",
+      "title": "Build-A-Bear Lucky Kitty Black Cat Plush Orange Paws Purple Eyes 2013 Halloween",
+      "ask_price": 14.95,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/168721021696?_skw=build-a-bear+Lucky+Kitty&hash=item27488e7b00:g:TOsAAeSwF5BqjhhJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbTgkiiVkB9Wq4DLGtiOhE97bFTVG%2B1DgjG4b3G5yZ2jY2jrC5M1HLp4w3W6kqc0XanTqLdkHjqg3FBWlWyrv%2Bxleb8p4wJemI7%2BNXSksbpo8GcpLgweFjgLwOoisfn57NsLfg9fXVYMuJyi5MZju14zlq0fvpWxE3qmchxFAFttMgGWPSpCqxHhqqYrwQlaBjM9BTJtgbe1sUMGxbgCvn1%2FO46YRS286Ted5YeCibwwjd6ZQ3M%2FC5NNggkrRnedkmczH3JqZF029yvMVuWMTqhjv2s%2FEsSrVHCJFtysKz57g%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/TOsAAeSwF5BqjhhJ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394099,31 +394113,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|168721021696|0",
+      "id": "active-v1|206361014357|0",
       "item_id": "lucky-kitty",
-      "listing_id": "168721021696",
-      "title": "Build-A-Bear Lucky Kitty Black Cat Plush Orange Paws Purple Eyes 2013 Halloween",
-      "ask_price": 14.95,
+      "listing_id": "206361014357",
+      "title": "Build A Bear Black Plush Cat Lucky Kitty Orange Nose Green Eye 16\" Soft Toy 1999",
+      "ask_price": 230.36,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168721021696?_skw=build-a-bear+Lucky+Kitty&hash=item27488e7b00:g:TOsAAeSwF5BqjhhJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbTgkiiVkB9Wq4DLGtiOhE97bFTVG%2B1DgjG4b3G5yZ2jY2jrC5M1HLp4w3W6kqc0XanTqLdkHjqg3FBWlWyrv%2Bxleb8p4wJemI7%2BNXSksbpo8GcpLgweFjgLwOoisfn57Osdt8WsH3cD02qX42SnsUoOnU1cLV7YSDNv5Ary2A3revlR6NSPHVCnybizpo%2FhbE8bV3SXceBce3cCqDEf8xiuF5sYSw2cKWRHcZPPJoGRYncU3TNer5JgVrViM%2FYlZhvLzTDIeT3xiLkn5kZ750ctD6nZCBZ2QvSt%2FiR57UuEA%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/TOsAAeSwF5BqjhhJ/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|318802819281|0",
-      "item_id": "lucky-kitty",
-      "listing_id": "318802819281",
-      "title": "RARE Build A Bear Halloween Cat Solid Black W/ Orange Nose Lucky Kitty 1999 READ",
-      "ask_price": 116.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318802819281?_skw=build-a-bear+Lucky+Kitty&hash=item4a3a20f8d1:g:TWYAAeSwIMRqlQE1",
-      "image_url": "https://i.ebayimg.com/images/g/TWYAAeSwIMRqlQE1/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/206361014357?_skw=build-a-bear+Lucky+Kitty&hash=item300c133055:g:cmsAAOSwLRhmc2kF",
+      "image_url": "https://i.ebayimg.com/images/g/cmsAAOSwLRhmc2kF/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394155,17 +394155,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|206361014357|0",
+      "id": "active-v1|168749671643|0",
       "item_id": "lucky-kitty",
-      "listing_id": "206361014357",
-      "title": "Build A Bear Black Plush Cat Lucky Kitty Orange Nose Green Eye 16\" Soft Toy 1999",
-      "ask_price": 230.36,
+      "listing_id": "168749671643",
+      "title": "Build a Bear Lucky Kitty Black Cat Orange sparkle Paws Halloween Plush Stuffed",
+      "ask_price": 12.99,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206361014357?_skw=build-a-bear+Lucky+Kitty&hash=item300c133055:g:cmsAAOSwLRhmc2kF",
-      "image_url": "https://i.ebayimg.com/images/g/cmsAAOSwLRhmc2kF/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/168749671643?_skw=build-a-bear+Lucky+Kitty&hash=item274a43a4db:g:jWoAAeSwVOJo3-WU",
+      "image_url": "https://i.ebayimg.com/images/g/jWoAAeSwVOJo3-WU/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394180,20 +394180,6 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/227524481383?_skw=build-a-bear+Lucky+Kitty&hash=item34f9841167:g:YDoAAOSwkNxmbbjb",
       "image_url": "https://i.ebayimg.com/images/g/YDoAAOSwkNxmbbjb/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|168749671643|0",
-      "item_id": "lucky-kitty",
-      "listing_id": "168749671643",
-      "title": "Build a Bear Lucky Kitty Black Cat Orange sparkle Paws Halloween Plush Stuffed",
-      "ask_price": 12.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168749671643?_skw=build-a-bear+Lucky+Kitty&hash=item274a43a4db:g:jWoAAeSwVOJo3-WU",
-      "image_url": "https://i.ebayimg.com/images/g/jWoAAeSwVOJo3-WU/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394276,7 +394262,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267797112722?_skw=build-a-bear+Lucky+Kitty&hash=item3e59f3a792:g:uh0AAeSwmhZnsmEg&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGarp%2FOL6fCVWGVzhc7ExqMc1iF4QXK%2FUlRvhWdypmoPi21uEIozmToHtED33sdm9chrx7vyBNMROUhRpv5cNXHOB0riUn%2B8zihegrNm75ebutL6NnZTLgtL31Rg7QnMFBruwDRLK4lxl47Mu5uQJMQgeeHJQnwitddd5rjf1BvqiEAULtDGJIXZu%2BnJnmLcSvjhxSQ%2B7uxose%2FLLJX9d9N0uDYJH540%2BqVtFvDumYLm8C10rSS6xaqtZJuPFXTJRYR79ki1Ng6Ta5l0jVaFrCZj0UZxW2x%2FBqP2OTLmSJUB0g%3D%3D",
+      "source_url": "https://www.ebay.com/itm/267797112722?_skw=build-a-bear+Lucky+Kitty&hash=item3e59f3a792:g:uh0AAeSwmhZnsmEg&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGarp%2FOL6fCVWGVzhc7ExqMc1iF4QXK%2FUlRvhWdypmoPi21uEIozmToHtED33sdm9chrx7vyBNMROUhRpv5cNXHOB0riUn%2B8zihegrNm75ebutL6NnZTLgtL31Rg7QnMFBoDBySsIGpupg2LAIqzh89RhFkvyKNKGjWD%2FECS4XieLzL9FG%2BAlUo%2BfRRiWUDHlTJNgfHlkB8UVJWJY8chDKCPNWlNsv9twRM4OMsNT2aCuJF%2BtjNeFrDmNzel1Wev5HYBDZbPx8hVD2YT%2FwEAZ6Q4E4a98wlfvVNAxJgZePapXQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/uh0AAeSwmhZnsmEg/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394295,20 +394281,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|377530241169|0",
-      "item_id": "lucky-kitty",
-      "listing_id": "377530241169",
-      "title": "Build a Bear BABW Lucky Kitty Halloween Black Cat 13\" Plush Orange Paws 2013 A5",
-      "ask_price": 15.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/377530241169?_skw=build-a-bear+Lucky+Kitty&hash=item57e68e5091:g:D8IAAeSwC7Zqux7g",
-      "image_url": "https://i.ebayimg.com/images/g/D8IAAeSwC7Zqux7g/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|306457705104|0",
       "item_id": "lucky-kitty",
       "listing_id": "306457705104",
@@ -394323,6 +394295,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|377530241169|0",
+      "item_id": "lucky-kitty",
+      "listing_id": "377530241169",
+      "title": "Build a Bear BABW Lucky Kitty Halloween Black Cat 13\" Plush Orange Paws 2013 A5",
+      "ask_price": 15.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/377530241169?_skw=build-a-bear+Lucky+Kitty&hash=item57e68e5091:g:D8IAAeSwC7Zqux7g",
+      "image_url": "https://i.ebayimg.com/images/g/D8IAAeSwC7Zqux7g/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|278263768042|0",
       "item_id": "lucky-kitty",
       "listing_id": "278263768042",
@@ -394332,7 +394318,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278263768042?_skw=build-a-bear+Lucky+Kitty&hash=item40c9d023ea:g:G7YAAeSwYTBqeRJS&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb9%2Byfhaz5uFDE7WlW1bEWrwmqIqBJMOG2oEPsKs3uFTwaVy42sOA7S0mpLVi6iALQARGZxwnAeqLLSaSW3eFAOaYnNoPJLObl45dxbhmcbLAUpHMdRBoVJtIcEA%2BgTIcja4xOX8vdUBnE0VqfJoofuVBFCUO2PbPfIRtchrv2vnG%2B%2BgLBDHgdDQvXqs4c%2BKIxC4CgWerJKgKasv%2BZUWzmGzO9V4jUAc7CvjO7CXMnJyNnZgfDHthRQWBrx4FhNDjikrihbtVNlsDGh%2BiO5Brfiqj%2FjmbfGEW8p4AntDZw3FA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/278263768042?_skw=build-a-bear+Lucky+Kitty&hash=item40c9d023ea:g:G7YAAeSwYTBqeRJS&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb9%2Byfhaz5uFDE7WlW1bEWrwmqIqBJMOG2oEPsKs3uFTwaVy42sOA7S0mpLVi6iALQARGZxwnAeqLLSaSW3eFAOaYnNoPJLObl45dxbhmcbLAUpHMdRBoVJtIcEA%2BgTIcgFFzULrB3Uwp821istAcwgO1khVAGvIF442Y8iaxMzJlYIuM6tl5uq5KF1NZdtGu7dzBt3%2BT07Dchae5CBcmP4Eg3VBjwpqSSz212Y5DGztw0qxPiFjMA0KJ8GKh3OZhc%2F53ImevhjgG0FZ2FnTF5AqPHB6XJUYZPQmIlRwWeM%2FQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/G7YAAeSwYTBqeRJS/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394346,7 +394332,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/177252359476?_skw=build-a-bear+Lucky+Kitty&hash=item2945105d34:g:GHEAAOSwXURjA8vQ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZV4Fv4bdY%2FTViILE4x%2BlLovc5Pv2UpRxHbfcbtIjo6LUeSRP7raji9bj%2FWMqMn9xfYvt2v7WdGHK1qayJISLAU1h17BKnDjofcDTo1CYqCySW%2BI0vgI7VKrUHOK48XC6ID9gjl6tE%2F8MTNRoLH%2BZPcjjB4nWVL67WaCgPBpP4jVKA83E1v9weOlZta%2BEc3W%2FRr7bTtOCCZvQw86pwiW4eYOUClWZ2Uf3LbtBMlEVD9n5xLk4%2BGHqzgGOBGSeJ4mN3Iy5ig4xxYn7qhPWadBAtHfzk5AlVjO4bMn%2FF7Wr57Cg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/177252359476?_skw=build-a-bear+Lucky+Kitty&hash=item2945105d34:g:GHEAAOSwXURjA8vQ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZV4Fv4bdY%2FTViILE4x%2BlLovc5Pv2UpRxHbfcbtIjo6LUeSRP7raji9bj%2FWMqMn9xfYvt2v7WdGHK1qayJISLAU1h17BKnDjofcDTo1CYqCySW%2BI0vgI7VKrUHOK48XC6JsuKkCmkPQn%2FIhDU7eFJ83W9Q3L01Cf922KxMjFL860yyH9Zpf7ALRXDJ6qCEqJ%2BNNvljrGpJX0vVhBjYUXYbT076OdzOYZoPxZ7ddcal6QMUJGMcEiVeWDeMS4qMBh1qhFv%2BP8QhKO14WC1FviLRgzBvt2YvS8PYKMDGqtEHlBQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/GHEAAOSwXURjA8vQ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394407,20 +394393,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|137419418033|0",
-      "item_id": "chocolate-bunny",
-      "listing_id": "137419418033",
-      "title": "Vtg Build a Bear Retired 2000 Y2K Chocolate Bunny Rabbit Plush Easter 15\u201d Rare",
-      "ask_price": 31.89,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/137419418033?_skw=build-a-bear+Chocolate+Bunny&hash=item1ffed5e9b1:g:Mv4AAeSwQERqMFQR",
-      "image_url": "https://i.ebayimg.com/images/g/Mv4AAeSwQERqMFQR/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|298533948849|0",
       "item_id": "chocolate-bunny",
       "listing_id": "298533948849",
@@ -394432,6 +394404,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/298533948849?_skw=build-a-bear+Chocolate+Bunny&hash=item4582028db1:g:kOYAAeSwYXxpsdV6",
       "image_url": "https://i.ebayimg.com/images/g/kOYAAeSwYXxpsdV6/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|137419418033|0",
+      "item_id": "chocolate-bunny",
+      "listing_id": "137419418033",
+      "title": "Vtg Build a Bear Retired 2000 Y2K Chocolate Bunny Rabbit Plush Easter 15\u201d Rare",
+      "ask_price": 31.89,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/137419418033?_skw=build-a-bear+Chocolate+Bunny&hash=item1ffed5e9b1:g:Mv4AAeSwQERqMFQR",
+      "image_url": "https://i.ebayimg.com/images/g/Mv4AAeSwQERqMFQR/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394463,6 +394449,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|137807779741|0",
+      "item_id": "chocolate-bunny",
+      "listing_id": "137807779741",
+      "title": "Build A Bear Retired Chocolate Bunny Rabbit Plush 12\" Vintage 2000 Brown Stuffed",
+      "ask_price": 13.45,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/137807779741?_skw=build-a-bear+Chocolate+Bunny&hash=item2015fbd79d:g:AwAAAeSwFbNp9-ar",
+      "image_url": "https://i.ebayimg.com/images/g/AwAAAeSwFbNp9-ar/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|377426019895|0",
       "item_id": "chocolate-bunny",
       "listing_id": "377426019895",
@@ -394472,7 +394472,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/377426019895?_skw=build-a-bear+Chocolate+Bunny&hash=item57e0580637:g:jc4AAeSwzadqgwjx",
+      "source_url": "https://www.ebay.com/itm/377426019895?_skw=build-a-bear+Chocolate+Bunny&hash=item57e0580637:g:jc4AAeSwzadqgwjx&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbFVXof4rHd8m5maPiBws8UYzaj%2Fy8YmpiauHSDXx1WHYGnNWc4o2atDl1Nvb9uQSukzm9FWR%2Bwj53F4LYs7nIrFrxcZpPWd1Fqkb0IiCk%2FLdWQnmRco%2FIq7pzRMtdz0c56mMTOP8rCq46sZ7yH3nKRhv4%2BTfR3bexoMfhcJE%2BmXe9DXf5JWUqT1yjnDCoIOzGu2gWp18uvuNYL3INvdBgU1GEB6CVONeuV6DfJCoRgHS9UTRng7v6ymz8FGavCRcGagmLqESjrAaN4dOwL6g%2BUdcVYQnDnBXAACNVr3UFJFqfHH9p6VtxCEAQ93LKiwTw%3D",
       "image_url": "https://i.ebayimg.com/images/g/jc4AAeSwzadqgwjx/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394486,22 +394486,8 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/376884929107?_skw=build-a-bear+Chocolate+Bunny&hash=item57c017a253:g:kU8AAeSwTi1pcX54&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZlrFur1qiUwV5YaR00txP1je7blg5LPXXMj6lZSPsRArk7RosApEozGxXZqz6BMnZ7XgkIkz%2F605a5TzQ3rNR8z3p1HXvEx5z75T7PPWuyAOAPdMOYJtmVM2FDRou%2FWSTQWc26QTTfOMBQIg2JPhrSB37uSA4cDtgsPBsUhEWKNhFzmBSfyjf5ZkLVuhnsAyt4uP1GeyKz0KsPBF%2FfLepzv99d4Ax1ZACzguhBwriQSMnz9NJNuPgCOOEDpsYuqIVR52vtDKZQnpQ%2B225CM4fASoAHvQsZRMH9qHzhiALYm5J063GJRGuF8hQcG%2BF3Be8%3D",
+      "source_url": "https://www.ebay.com/itm/376884929107?_skw=build-a-bear+Chocolate+Bunny&hash=item57c017a253:g:kU8AAeSwTi1pcX54&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZlrFur1qiUwV5YaR00txP1je7blg5LPXXMj6lZSPsRArk7RosApEozGxXZqz6BMnZ7XgkIkz%2F605a5TzQ3rNR8z3p1HXvEx5z75T7PPWuyAOAPdMOYJtmVM2FDRou%2FWSRFKQikVF2dF5BciNVkfLpDQkks7gb%2FhAwHKcK%2BsLjqdbkT9W86H7qD2Qo13rBjBVUMfY9viIihNLs7oqTNuh%2F5rNF%2B0dVtVQijtn7jd0ZVhmT0di9A8%2FwTkB6ANOL6KrDidjFVvf6bZaNmu0PjzrUfkxYjam9RDWzTkW6%2F19Ih0WnMddmdNZtlSMvJwM0f1rE%3D",
       "image_url": "https://i.ebayimg.com/images/g/kU8AAeSwTi1pcX54/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|137807779741|0",
-      "item_id": "chocolate-bunny",
-      "listing_id": "137807779741",
-      "title": "Build A Bear Retired Chocolate Bunny Rabbit Plush 12\" Vintage 2000 Brown Stuffed",
-      "ask_price": 13.45,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/137807779741?_skw=build-a-bear+Chocolate+Bunny&hash=item2015fbd79d:g:AwAAAeSwFbNp9-ar",
-      "image_url": "https://i.ebayimg.com/images/g/AwAAAeSwFbNp9-ar/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394519,17 +394505,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|287514461568|0",
+      "id": "active-v1|257354304963|0",
       "item_id": "chocolate-bunny",
-      "listing_id": "287514461568",
-      "title": "Build  A  Bear Bunny Brown Plush Stuffed Animal Chocolate Rabbit Soft Toy BAB",
-      "ask_price": 11.68,
+      "listing_id": "257354304963",
+      "title": "Build a Bear Retired  Chocolate Bunny Rabbit Plush 2000 Vintage Brown w/ Outfit",
+      "ask_price": 36.99,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287514461568?_skw=build-a-bear+Chocolate+Bunny&hash=item42f1328580:g:AR4AAOSws~NjVeZK&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGamwIptv9aMe8VxjZNRQreuWDQ0s9aI6onhUswAQZ3FbXxEfcL70v7YQG0v5B7CObcq9cXnGmUpX4ONZkRemD0mDDMMUb7JqMI%2Bn7UTFZDIAu63gY9SKviThI7muwtMpFrNKDezfnd501avgh9Yvu8IvjdfYK9YXBfsmLxnHkRPqeYFmXI0Ht3BbsRjq1%2BwSMVcgE4%2BKjwn1yAtBw7I9dzAf9MN6zN3bDyCjIdhjzRy9nEIIIBKKceeMz%2Fw9KpgM8Px0%2FzBkEEsVkPwk0W7otagpp%2BdDUfi%2BtlyIUe3d%2BOfOmSIidGaPJzsbXMFkHk3IM8%3D",
-      "image_url": "https://i.ebayimg.com/images/g/AR4AAOSws~NjVeZK/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/257354304963?_skw=build-a-bear+Chocolate+Bunny&hash=item3beb830dc3:g:LokAAeSwG8Rpi5HI",
+      "image_url": "https://i.ebayimg.com/images/g/LokAAeSwG8Rpi5HI/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394617,20 +394603,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|267746902410|0",
-      "item_id": "wwf-tiger",
-      "listing_id": "267746902410",
-      "title": "Build A Bear WWF 2001 Bengal Tiger Plush Retired Stuffed Animal 14\" Wildlife",
-      "ask_price": 15.5,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267746902410?_skw=build-a-bear+WWF+Tiger&hash=item3e56f5818a:g:2UEAAeSwWUhqcUbl",
-      "image_url": "https://i.ebayimg.com/images/g/2UEAAeSwWUhqcUbl/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|168686465063|0",
       "item_id": "wwf-tiger",
       "listing_id": "168686465063",
@@ -394642,6 +394614,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/168686465063?_skw=build-a-bear+WWF+Tiger&hash=item27467f3027:g:MWEAAeSwyahqpxWp",
       "image_url": "https://i.ebayimg.com/images/g/MWEAAeSwyahqpxWp/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|267746902410|0",
+      "item_id": "wwf-tiger",
+      "listing_id": "267746902410",
+      "title": "Build A Bear WWF 2001 Bengal Tiger Plush Retired Stuffed Animal 14\" Wildlife",
+      "ask_price": 15.5,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/267746902410?_skw=build-a-bear+WWF+Tiger&hash=item3e56f5818a:g:2UEAAeSwWUhqcUbl",
+      "image_url": "https://i.ebayimg.com/images/g/2UEAAeSwWUhqcUbl/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394687,6 +394673,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|257571309993|0",
+      "item_id": "wwf-tiger",
+      "listing_id": "257571309993",
+      "title": "build a bear wwf tiger 15\u201d Plush",
+      "ask_price": 22.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/257571309993?_skw=build-a-bear+WWF+Tiger&hash=item3bf87249a9:g:clwAAeSwFARqMptM",
+      "image_url": "https://i.ebayimg.com/images/g/clwAAeSwFARqMptM/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|407221454074|0",
       "item_id": "wwf-tiger",
       "listing_id": "407221454074",
@@ -394701,20 +394701,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|167955770202|0",
-      "item_id": "wwf-tiger",
-      "listing_id": "167955770202",
-      "title": "2001 WWF Build A Bear World Wildlife Foundation Retired Bengal Tiger Plush ",
-      "ask_price": 24.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/167955770202?_skw=build-a-bear+WWF+Tiger&hash=item271af1ab5a:g:~6AAAeSwOLNpJPYq",
-      "image_url": "https://i.ebayimg.com/images/g/~6AAAeSwOLNpJPYq/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|137458757315|0",
       "item_id": "wwf-tiger",
       "listing_id": "137458757315",
@@ -394724,7 +394710,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/137458757315?_skw=build-a-bear+WWF+Tiger&hash=item20012e2ec3:g:amMAAOSwXQhkkyzj&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZzBQB3%2F6bVVOb%2BxnAyVzM7qIOqHVF9QHCAAYJtwh1TDoqwcN6RcGy5roMSpypDJbSNuKJahsLXPTBDf%2BPdR3fbqfl3tJE%2B%2B%2F4%2BeC%2B8elc21tA5JgA4OMa0mM0sJH2oUccE0yJrKKCzQ4pZPuoT%2B9Fvb8ltvCKtEQYXMRQWSH4kGAwXjKT6OH86zsOQWG0Zkm4oGLxkEmlqDNnKENOUthtuL4BqV%2FrVC4yWRY%2Fs2Nj1sa5BsiMEv0lu22anMTf0%2FiFzn01TQVk94RF2IVz3fsgb0CQDENrItzhWrL8jc3wzEg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/137458757315?_skw=build-a-bear+WWF+Tiger&hash=item20012e2ec3:g:amMAAOSwXQhkkyzj&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZzBQB3%2F6bVVOb%2BxnAyVzM7qIOqHVF9QHCAAYJtwh1TDoqwcN6RcGy5roMSpypDJbSNuKJahsLXPTBDf%2BPdR3fbqfl3tJE%2B%2B%2F4%2BeC%2B8elc21tA5JgA4OMa0mM0sJH2oUccoMv2mIBBrnXAkwF%2B3V0LIbUa0GOIp2%2BIX6F7fWy6ziQls%2B7yZOTdhRaWAw4QujlkjthHkzdhxhiLfrRhR%2B2CqT2ScInME0Xui47xOi05PSDmKVNK6ZNjrYOjJYgbuONyHTMlixHSholQBf5KDA0T8T4lOj3RvT9HtBI73TZBhlw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/amMAAOSwXQhkkyzj/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394738,22 +394724,8 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178365527972?_skw=build-a-bear+WWF+Tiger&hash=item298769f7a4:g:5csAAeSwoH1p2Bcu&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbks9yJIJjaQ0zrl1RfL1goseDxB6eXODroSDv%2Bsr2qCZPF9AA3YdFchhdlJhwUzRmh%2B%2BVOIS7nrQBELVN4KLsFWLu2xQFP09nPxB9yVGo5obspY1k1PWOvZosXi7FtnucV2w1ipuhRdwge9dFJJlqSOWURRkuYwWzZKgGKvyPZf3Lk2xXjytOol9AE%2F1zsp2uXkxeeFBIvNSbbX3tLYVhgXSkNEg3m%2FBG8IVXYz8qbczOQ39o9Y1tDr6TYbniIc2zgGkXRxPNRVWSTrk0N7py4z5MYG1TABFWV8TwhEzP0bA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/178365527972?_skw=build-a-bear+WWF+Tiger&hash=item298769f7a4:g:5csAAeSwoH1p2Bcu&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbks9yJIJjaQ0zrl1RfL1goseDxB6eXODroSDv%2Bsr2qCZPF9AA3YdFchhdlJhwUzRmh%2B%2BVOIS7nrQBELVN4KLsFWLu2xQFP09nPxB9yVGo5obspY1k1PWOvZosXi7Ftnufww71PdvOC8%2BLyfqZT8UOWJ1Kf5Gl2omJ6ijXJULTgCUo%2Bi9BsDwqoxtz09%2FRopPX%2Fd6q0b%2Fd8809nQ9J2uFxYdEcElKM7WcalBWRWpRWnNkrlszGBbyTHuxlM%2FRHZ7t6jyYfpoGP6NHtUi2VkVtnyGFlNVouJOzA7Hq6VVyYnqg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/5csAAeSwoH1p2Bcu/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|257571309993|0",
-      "item_id": "wwf-tiger",
-      "listing_id": "257571309993",
-      "title": "build a bear wwf tiger 15\u201d Plush",
-      "ask_price": 22.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257571309993?_skw=build-a-bear+WWF+Tiger&hash=item3bf87249a9:g:clwAAeSwFARqMptM",
-      "image_url": "https://i.ebayimg.com/images/g/clwAAeSwFARqMptM/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394771,6 +394743,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|167955770202|0",
+      "item_id": "wwf-tiger",
+      "listing_id": "167955770202",
+      "title": "2001 WWF Build A Bear World Wildlife Foundation Retired Bengal Tiger Plush ",
+      "ask_price": 24.95,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/167955770202?_skw=build-a-bear+WWF+Tiger&hash=item271af1ab5a:g:~6AAAeSwOLNpJPYq",
+      "image_url": "https://i.ebayimg.com/images/g/~6AAAeSwOLNpJPYq/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|278071668123|0",
       "item_id": "wwf-tiger",
       "listing_id": "278071668123",
@@ -394780,7 +394766,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278071668123?_skw=build-a-bear+WWF+Tiger&hash=item40be5ced9b:g:PI8AAeSwDthqKEnr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZg7VzRiuFuKSdFho8cvw31g8%2B6Ant8fuG%2BjlAHGBDCD2fARolKSh%2BRiHdSMhQohkA%2FiBSiDgFFulIDWtyXxLekSVCzCX8OUsR7GxCSjWMGn09%2FqGpuvM4z4PqKlDQjH5%2FIY3%2F5MPNGalLCbUsQ1JoPG%2F53i4aWsMSI%2FvSaSFouHi619AtJU8lmt6sDjgHpel7RUOp%2FTDS8YKtCfC0VzMqAqLNiJoOfjaqGqoXgcu12CHfzGa8CQ8Lp6QrP4rCMRkQmWfPXnXQ85V4gqC1pUIwj2ou%2BxBH7tiXTNkWOZgUYEA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/278071668123?_skw=build-a-bear+WWF+Tiger&hash=item40be5ced9b:g:PI8AAeSwDthqKEnr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZg7VzRiuFuKSdFho8cvw31g8%2B6Ant8fuG%2BjlAHGBDCD2fARolKSh%2BRiHdSMhQohkA%2FiBSiDgFFulIDWtyXxLekSVCzCX8OUsR7GxCSjWMGn09%2FqGpuvM4z4PqKlDQjH5%2FCtDnT3axK%2BwkoCMjPmIdyr5SGraWILgMSigFEem4Y2pVxJmAZML83dvyPd3jE78bIW3tCpZYRw0kZNxgPDyMLVZFyUFoVAYMeHHQi0mlGmGetLSByi5vBLl%2FNMTM69G0Zf9YkE9q%2FG6kBJO5jCvkhAxG4C80SZTpbC7%2FlEx5wzg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/PI8AAeSwDthqKEnr/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394813,20 +394799,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|127692874038|0",
-      "item_id": "mcbearish",
-      "listing_id": "127692874038",
-      "title": "VTG Build A Bear Green Shamrock 1997 No Bow McBearish St Pats Day 14\"",
-      "ask_price": 20.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127692874038?_skw=build-a-bear+McBearish&hash=item1dbb16a136:g:L-gAAeSwj~Vplpes",
-      "image_url": "https://i.ebayimg.com/images/g/L-gAAeSwj~Vplpes/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|157998187809|0",
       "item_id": "mcbearish",
       "listing_id": "157998187809",
@@ -394841,6 +394813,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|127692874038|0",
+      "item_id": "mcbearish",
+      "listing_id": "127692874038",
+      "title": "VTG Build A Bear Green Shamrock 1997 No Bow McBearish St Pats Day 14\"",
+      "ask_price": 20.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/127692874038?_skw=build-a-bear+McBearish&hash=item1dbb16a136:g:L-gAAeSwj~Vplpes",
+      "image_url": "https://i.ebayimg.com/images/g/L-gAAeSwj~Vplpes/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|188967005975|0",
       "item_id": "polar-bear-ii-20-inch",
       "listing_id": "188967005975",
@@ -394850,7 +394836,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/188967005975?_skw=build-a-bear+Polar+Bear&hash=item2bff4faf17:g:ee8AAeSwO7Bqsrjd&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbaV7ljWC%2B8fQsXWBgmmusxZj5ScLg4XZK3L3t8Lk1mNacZYFnvrTLbjFaqcZvMg3C900RpMif0GMMIPuCq2msQlP6mXGl2KtgdiCkoD7TqFyX666KkhExn2Wz6XGRG1B6oJuGJ5CuQTLKILbNjmfuLxb%2FZ33DnWJDeh5wcK1ZJ5w0LsS%2BT%2B4ClpI8UoWfDOJyqfnK5vzx2wgnlDohVSSInVQZArN5Wm9pdsf2On15Hk%2B1QZfH%2BpvYUUlYJEOk0N0szyIADZTxd1L1T4wmtwPQhhzHFkkZ7YYuCXmA%2FwLys7w%3D%3D",
+      "source_url": "https://www.ebay.com/itm/188967005975?_skw=build-a-bear+Polar+Bear&hash=item2bff4faf17:g:ee8AAeSwO7Bqsrjd&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbaV7ljWC%2B8fQsXWBgmmusxZj5ScLg4XZK3L3t8Lk1mNacZYFnvrTLbjFaqcZvMg3C900RpMif0GMMIPuCq2msQlP6mXGl2KtgdiCkoD7TqFyX666KkhExn2Wz6XGRG1B7Fb22rNWS2hHNquq%2Bwyy3rBLuxIIujUelpdQB4INgsh2j%2FEN4vDkRaQ3mKMG1jb68x7sgIc0xGHjlhpJq5UUCEK7J4OLlAbv15472kSEy4XHbs%2FjeqqY7YDbHrBVSd8O2am%2BD5b7otpzZ3iJS2OgrDfXcUTvrN7k6ctgl2qPhd%2Bw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/ee8AAeSwO7Bqsrjd/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394864,7 +394850,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/188670678081?_skw=build-a-bear+Polar+Bear&hash=item2beda61441:g:vEMAAeSw-jdqXjOD&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGY7T9VA35EEqsHSRUUQHy64nxZnJBE5F7BuA%2FLAP3I7uwOdknnO5K0GuQGXf8KiS9TmiCTdaZt4my00txt7Opak28B8AeWPLbVMG%2FiH7UFsR502AMtQuVo78BU5H6iQhKzh9LD9djEnWG8GKfR%2BAfIq9t1dw4vqeISZ6EM1qiGuMeA9LmHo%2Bb8BB4%2FVqcIWFgv8QktPke2T6Xuo3cpqbq3a%2BhEcBbrfba%2BsqQi9k5w9iSlr%2FJ59fCuT7r6jrUZvh6LTRz86tgAaWWtGgtv6X1ioYkYVrbF6RRK70gEF37c7eg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/188670678081?_skw=build-a-bear+Polar+Bear&hash=item2beda61441:g:vEMAAeSw-jdqXjOD&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGY7T9VA35EEqsHSRUUQHy64nxZnJBE5F7BuA%2FLAP3I7uwOdknnO5K0GuQGXf8KiS9TmiCTdaZt4my00txt7Opak28B8AeWPLbVMG%2FiH7UFsR502AMtQuVo78BU5H6iQhKy9P7mKXH3v7CKNE9jrPzUBmPZDXCWMuvUI5g6vArfGS1HhI%2BWIRX9n1arIYEPz7OpHTcx4eLV6IZx8vOrWt455GyHBplyVyLtZtRURisw%2Bt9kaT6RPCEOGs%2B6JJRgnioEWGKYq9IN2R8QI%2B3YZaNskU1rLWIBYri%2B3750TdKouVQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/vEMAAeSw-jdqXjOD/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394897,20 +394883,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|236886885387|0",
-      "item_id": "wwf-panda",
-      "listing_id": "236886885387",
-      "title": "BAB Build A Bear WWF World Wildlife Fund Plush Panda Bear 2010",
-      "ask_price": 19.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/236886885387?_skw=build-a-bear+WWF+Panda&hash=item37278f040b:g:qd4AAeSwI4tqNZc4",
-      "image_url": "https://i.ebayimg.com/images/g/qd4AAeSwI4tqNZc4/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|336626515378|0",
       "item_id": "wwf-panda",
       "listing_id": "336626515378",
@@ -394925,6 +394897,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|236886885387|0",
+      "item_id": "wwf-panda",
+      "listing_id": "236886885387",
+      "title": "BAB Build A Bear WWF World Wildlife Fund Plush Panda Bear 2010",
+      "ask_price": 19.95,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/236886885387?_skw=build-a-bear+WWF+Panda&hash=item37278f040b:g:qd4AAeSwI4tqNZc4",
+      "image_url": "https://i.ebayimg.com/images/g/qd4AAeSwI4tqNZc4/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|327393644100|0",
       "item_id": "wwf-panda",
       "listing_id": "327393644100",
@@ -394936,6 +394922,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/327393644100?_skw=build-a-bear+WWF+Panda&hash=item4c3a2e8e44:g:loQAAeSwoYdqxpDK",
       "image_url": "https://i.ebayimg.com/images/g/loQAAeSwoYdqxpDK/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|336776885183|0",
+      "item_id": "wwf-panda",
+      "listing_id": "336776885183",
+      "title": "Build A Bear WWF Red Panda Plush 2013 World Wildlife Fund BABW w/ Medallion",
+      "ask_price": 18.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/336776885183?_skw=build-a-bear+WWF+Panda&hash=item4e697773bf:g:COkAAeSwehZqmdQq",
+      "image_url": "https://i.ebayimg.com/images/g/COkAAeSwehZqmdQq/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394995,20 +394995,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|397232340080|0",
-      "item_id": "wwf-panda",
-      "listing_id": "397232340080",
-      "title": "Build A Bear Vintage WWF Panda Plush Medallion Stuffed Animal Fluffy Retired \u201897",
-      "ask_price": 24.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/397232340080?_skw=build-a-bear+WWF+Panda&hash=item5c7ce47c70:g:JaQAAeSwXHdpC~Yy",
-      "image_url": "https://i.ebayimg.com/images/g/JaQAAeSwXHdpC~Yy/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|227546532042|0",
       "item_id": "wwf-panda",
       "listing_id": "227546532042",
@@ -395020,6 +395006,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/227546532042?_skw=build-a-bear+WWF+Panda&hash=item34fad488ca:g:nbMAAeSwS8JqvXCm",
       "image_url": "https://i.ebayimg.com/images/g/nbMAAeSwS8JqvXCm/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|397232340080|0",
+      "item_id": "wwf-panda",
+      "listing_id": "397232340080",
+      "title": "Build A Bear Vintage WWF Panda Plush Medallion Stuffed Animal Fluffy Retired \u201897",
+      "ask_price": 24.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/397232340080?_skw=build-a-bear+WWF+Panda&hash=item5c7ce47c70:g:JaQAAeSwXHdpC~Yy",
+      "image_url": "https://i.ebayimg.com/images/g/JaQAAeSwXHdpC~Yy/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395046,7 +395046,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318883181764?_skw=build-a-bear+WWF+Panda&hash=item4a3eeb34c4:g:wBwAAeSwZXtqrA49",
+      "source_url": "https://www.ebay.com/itm/318883181764?_skw=build-a-bear+WWF+Panda&hash=item4a3eeb34c4:g:wBwAAeSwZXtqrA49&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYye%2BFlo9byajwRgnIReUXofgOQZfh1DMV4jp22uvVPTlRDPPp%2BrspNV7ZG7D9tpsOmuon1jkttGMt%2Fa9hA4bamdh2ZKy%2FjaTHR%2BXM%2FcfnLeh8%2FD1uxJ6ysSfb5LpiIaTyY%2BxCxfKEBeJC%2Bd5J05gW977xKR0%2F3pvgXiv0KnP7fcr7JhPTXyF2Ubs7Ba6VdJAuursmr7EjHzuG7ZyrI8nqgATKqOYOemFj8oxh27ZvLqDwAeBJdbhefdScvZ9CTefumCPx%2FntbOWgclV180xoBAtDJrOqjwA77KmzrEg57S%2Bw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/wBwAAeSwZXtqrA49/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395060,36 +395060,22 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267599261848?_skw=build-a-bear+WWF+Panda&hash=item3e4e28b098:g:eh4AAeSwYs9pr2EP&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaAtWQBSFHfbWZcKWSFiFn%2FjxpowPANO5puXHWfYNl2hj1ubeVMEvoVwdEqBRxBhCAn%2Bk5HuPXjCl8NAHnB98TA5u16a0tzRTXKe9%2BAOIUiCRo5RZTjSQE4sbF%2F4NyMgOeKpgra6CPH24ZIxNkTFyuDilnpenXJ4qkdmPDXReq1TorSnJ0r5UsXxLC0Yz6FxiTjjdw0JcIzmWKmUY4ixK%2FLTubRcncETM7lEuU2s1enUh18lL8Mudl0J8Jez%2BKe8BzZUrqLwLMyBKmvbxecMSFHHh%2BWTMQb8AiR68yMxybQAA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/267599261848?_skw=build-a-bear+WWF+Panda&hash=item3e4e28b098:g:eh4AAeSwYs9pr2EP&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaAtWQBSFHfbWZcKWSFiFn%2FjxpowPANO5puXHWfYNl2hj1ubeVMEvoVwdEqBRxBhCAn%2Bk5HuPXjCl8NAHnB98TA5u16a0tzRTXKe9%2BAOIUiCRo5RZTjSQE4sbF%2F4NyMgOeuXg9RKLD%2Bp8p5BZO%2FOyCpybKiSiFHiisISsepXXzZkkVv7mJYZKRtR%2FaMBonPeWmhgEPh6HQjhKT6Izcp17C2pcduuvn3D0%2FBI3jB7DtWR1xPSNSuf8oxt7z3i%2FhSM21SqpEgQ3cGZa4O14uWXGa5q7RcTipAot1q4V0eeJORMQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/eh4AAeSwYs9pr2EP/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|327363859764|0",
+      "id": "active-v1|318350742281|0",
       "item_id": "wwf-panda",
-      "listing_id": "327363859764",
-      "title": "Build A Bear 2000 WWF Giant Panda Plush Red Chinese Silk Kimono  NWT Vintage",
-      "ask_price": 44.99,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/327363859764?_skw=build-a-bear+WWF+Panda&hash=item4c38681534:g:3foAAeSwjPFqhJTe&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGatVooXsloef6%2B8jRyS656o4FBBYbvkxJKKI5CRb53fQQWYpRDJus5IcgtaxU%2F7SGX4jEHePYR6eS1COWRvUzKwhWK%2BDahMTva5MpZTjrngGteLnUBOhEkg1pxbS%2Bnt7B3uV%2BSgkG%2BtEc7NOwfrmpHhu5g4D%2FmkLbuS%2F8S9E0O%2B%2FodXpYygyZFVoSxaWkVQV0BP8PyPPvZL4htoPSg48qGNDapz%2BMpd%2BdUoJctSbWQj21MsAmlbRwmif6pyyC4Mm28s1L8Pd0Ts54Av2Mn5pgoKrrjiFa4C1T%2F19OTpSp7yQA%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/3foAAeSwjPFqhJTe/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|117262819143|0",
-      "item_id": "wwf-panda",
-      "listing_id": "117262819143",
-      "title": "World Wildlife Federation Red Panda Build A Bear WWF Plush 2013 21 Inch ",
-      "ask_price": 18.0,
+      "listing_id": "318350742281",
+      "title": "Build A Bear Workshop 2013 Racoon World Wildlife Fund WWF Red Panda Plush 19\"",
+      "ask_price": 11.99,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/117262819143?_skw=build-a-bear+WWF+Panda&hash=item1b4d689f47:g:cgYAAeSwAbNqOTQj&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYLiitctMBAuBuCpI0OWlFH%2BXxMmo6Be8038DDghegR0RETPaW1xOkeugp2Tv8cfvP4Pf4f20k1uRnWG9qsSuJSdUtjlyF7aEUEPkHGCKME9iSfAoLE6d%2Fb3LyVT3eHR9e39QQcTAQYfa3yHA0vmJTT4ndKIhl3PbuTYlot1qnPaoyFFj6RRNLWTsVzzRgWa3UY7mLPKh9vUOOErUl1o%2FxyM2mbv%2FXtvVl076HssORc6d5NqilbIyeJzIs0Z5bDySKFmwT9tcxHqoqHliVX7YdTzbzt%2FyPDIzrOxnUGUkuTQw%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/cgYAAeSwAbNqOTQj/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/318350742281?_skw=build-a-bear+WWF+Panda&hash=item4a1f2ed309:g:WucAAeSw44JqEi~P&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ82ED%2FpiYhvv%2Bol2ayRkemqPEiaAy3vWhNCdVjPs4WeYNkU0UYakKGc%2B%2BQHOEQxtagxuY9FZDxqURUVzGbJUTXwCYIDHuV%2FN2wWM2gCOboctx15nxLl3E3Nxm2afMAcFMqhGSs1BI%2BbOM5TDH74QUaqorJKYb1udwhPZY5NQzf744o30FunaoIUiCpTVAzS4yeI0n4OjCXzlTs5cP3m2HkyqYSPrRb%2FekvIMwaHaU2NB24utRmQghUr5mbC8cltahjpIORqVe47GY%2Fn12tpAV7wSvGSI6Okd66%2F4aB82SwLg%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/WucAAeSw44JqEi~P/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395107,17 +395093,31 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|318350742281|0",
+      "id": "active-v1|327363859764|0",
       "item_id": "wwf-panda",
-      "listing_id": "318350742281",
-      "title": "Build A Bear Workshop 2013 Racoon World Wildlife Fund WWF Red Panda Plush 19\"",
-      "ask_price": 11.99,
+      "listing_id": "327363859764",
+      "title": "Build A Bear 2000 WWF Giant Panda Plush Red Chinese Silk Kimono  NWT Vintage",
+      "ask_price": 44.99,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/327363859764?_skw=build-a-bear+WWF+Panda&hash=item4c38681534:g:3foAAeSwjPFqhJTe",
+      "image_url": "https://i.ebayimg.com/images/g/3foAAeSwjPFqhJTe/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|117262819143|0",
+      "item_id": "wwf-panda",
+      "listing_id": "117262819143",
+      "title": "World Wildlife Federation Red Panda Build A Bear WWF Plush 2013 21 Inch ",
+      "ask_price": 18.0,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318350742281?_skw=build-a-bear+WWF+Panda&hash=item4a1f2ed309:g:WucAAeSw44JqEi~P&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ82ED%2FpiYhvv%2Bol2ayRkemqPEiaAy3vWhNCdVjPs4WeYNkU0UYakKGc%2B%2BQHOEQxtagxuY9FZDxqURUVzGbJUTXwCYIDHuV%2FN2wWM2gCOboctx15nxLl3E3Nxm2afMAcFOdcJJhatFHLyOR2nEEbcCk59XKtBOl8IGWPCBaN0BynmRnrjflAxPGoPTwC%2BkBuFOjoO7ngb2Wq8Hi%2B3VolqCYKaQnMfpwM6hqfleKRc%2FSIcrousUtCjyC2D4TQCj2JJmarf726wD20uQXzYpLjmm77j8BBLgTAfOq2Odx0vJIqQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/WucAAeSw44JqEi~P/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/117262819143?_skw=build-a-bear+WWF+Panda&hash=item1b4d689f47:g:cgYAAeSwAbNqOTQj&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYLiitctMBAuBuCpI0OWlFH%2BXxMmo6Be8038DDghegR0RETPaW1xOkeugp2Tv8cfvP4Pf4f20k1uRnWG9qsSuJSdUtjlyF7aEUEPkHGCKME9iSfAoLE6d%2Fb3LyVT3eHR9etLaLWBTf3hi7jqTOEz6dT%2B8bg6qWQwXVIfeKU4UpQ69RWZGtMl31C92uJVFwaOfyMGW1lSHhk4fLzURnEe%2FF4OiMH%2B7xrPRDQbAV00MnrtgOHhU7fkFd%2FqoPGid%2B8SbY5q6MryEYb9%2BJRxgqvx8u8NcL7Pivcv9mg41JN4wfXaQ%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/cgYAAeSwAbNqOTQj/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395130,7 +395130,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/377414266142?_skw=build-a-bear+WWF+Panda&hash=item57dfa4ad1e:g:9iMAAeSwRT1qVbip&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaTgZxR%2B7BzGrHmhaSMBcL2J6pn0PiNYiyXiCC4UMeobSBDGgs5ER%2FsxZoNuykX%2BRDVeyeUp4RPCfo9%2BgVRfeFSa%2BmyoxWp6k1CucOIsJT0eCkW9yQyrAFlEz1sSkK4a%2BsGGKiQ9XmCS2aI2nXcDTjdq6gTJDqd9WjYvUiWrgpFW40YDY4jV7Iji9pJi2hnwZj6UEnxwe5lRGNS%2FJcKOnD7Qurshpn3X0nvis%2BrFzRkYYvp1UPACRN0cebRHsTNuCYDN2oDdXVgMJguqUK9n7RBqf4VDW%2BLzjc3XQROw1SJgA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/377414266142?_skw=build-a-bear+WWF+Panda&hash=item57dfa4ad1e:g:9iMAAeSwRT1qVbip&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaTgZxR%2B7BzGrHmhaSMBcL2J6pn0PiNYiyXiCC4UMeobSBDGgs5ER%2FsxZoNuykX%2BRDVeyeUp4RPCfo9%2BgVRfeFSa%2BmyoxWp6k1CucOIsJT0eCkW9yQyrAFlEz1sSkK4a%2BtCsG%2BBA7GMDVB3kZFqICsJk%2FWhGMY25Y8zX6HNUfoCiF%2BQ4cnEmHMcD8fI9rQ1Jh5TxfBfAhgaY2R39vgAa0WRyYDqZNSJF2WoTXqDfrpQAh%2FWa9Vz9LJANFjrG1nMFb3xJN%2FrApby%2BzUf2uWq0pmouc76fsjbLY0pqEwISQYPJQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/9iMAAeSwRT1qVbip/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395177,20 +395177,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|960010724079|0",
-      "item_id": "wwf-cheetah",
-      "listing_id": "960010724079",
-      "title": "Build a Bear WWF Spotted Cheetah Leopard Plush 12\" BAB Retired Medallion Cat",
-      "ask_price": 7.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/960010724079?_skw=build-a-bear+WWF+Cheetah&hash=itemdf851922ef:g:dwwAAOSwiHNnJ7VD",
-      "image_url": "https://i.ebayimg.com/images/g/dwwAAOSwiHNnJ7VD/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|336770329593|0",
       "item_id": "wwf-cheetah",
       "listing_id": "336770329593",
@@ -395202,6 +395188,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/336770329593?_skw=build-a-bear+WWF+Cheetah&hash=item4e69136bf9:g:f58AAOSwtOpnAv4Q",
       "image_url": "https://i.ebayimg.com/images/g/f58AAOSwtOpnAv4Q/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|960010724079|0",
+      "item_id": "wwf-cheetah",
+      "listing_id": "960010724079",
+      "title": "Build a Bear WWF Spotted Cheetah Leopard Plush 12\" BAB Retired Medallion Cat",
+      "ask_price": 7.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/960010724079?_skw=build-a-bear+WWF+Cheetah&hash=itemdf851922ef:g:dwwAAOSwiHNnJ7VD",
+      "image_url": "https://i.ebayimg.com/images/g/dwwAAOSwiHNnJ7VD/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395233,20 +395233,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|117426504052|0",
-      "item_id": "wwf-cheetah",
-      "listing_id": "117426504052",
-      "title": "Build\u2011A\u2011Bear WWF Cheetah Plush Retired Wildlife Series BABW Leopard Spots 15\u201d",
-      "ask_price": 18.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/117426504052?_skw=build-a-bear+WWF+Cheetah&hash=item1b572a4174:g:YA0AAeSw2PNqsyU-",
-      "image_url": "https://i.ebayimg.com/images/g/YA0AAeSw2PNqsyU-/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|860001361457|0",
       "item_id": "wwf-cheetah",
       "listing_id": "860001361457",
@@ -395261,17 +395247,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|287562706985|0",
+      "id": "active-v1|117426504052|0",
       "item_id": "wwf-cheetah",
-      "listing_id": "287562706985",
-      "title": "Build-A-Bear WWF World Wildlife Plush Amur Leopard Cheetah 12\u201d Stuffed Animal",
-      "ask_price": 13.49,
+      "listing_id": "117426504052",
+      "title": "Build\u2011A\u2011Bear WWF Cheetah Plush Retired Wildlife Series BABW Leopard Spots 15\u201d",
+      "ask_price": 18.99,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287562706985?_skw=build-a-bear+WWF+Cheetah&hash=item42f412b029:g:i6EAAOSwJTdl34b1",
-      "image_url": "https://i.ebayimg.com/images/g/i6EAAOSwJTdl34b1/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/117426504052?_skw=build-a-bear+WWF+Cheetah&hash=item1b572a4174:g:YA0AAeSw2PNqsyU-",
+      "image_url": "https://i.ebayimg.com/images/g/YA0AAeSw2PNqsyU-/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395289,6 +395275,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|287562706985|0",
+      "item_id": "wwf-cheetah",
+      "listing_id": "287562706985",
+      "title": "Build-A-Bear WWF World Wildlife Plush Amur Leopard Cheetah 12\u201d Stuffed Animal",
+      "ask_price": 13.49,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287562706985?_skw=build-a-bear+WWF+Cheetah&hash=item42f412b029:g:i6EAAOSwJTdl34b1",
+      "image_url": "https://i.ebayimg.com/images/g/i6EAAOSwJTdl34b1/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|117437091509|0",
       "item_id": "wwf-cheetah",
       "listing_id": "117437091509",
@@ -395300,62 +395300,6 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/117437091509?_skw=build-a-bear+WWF+Cheetah&hash=item1b57cbceb5:g:KXoAAeSwOTVqu0TR",
       "image_url": "https://i.ebayimg.com/images/g/KXoAAeSwOTVqu0TR/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|318909829977|0",
-      "item_id": "wwf-cheetah",
-      "listing_id": "318909829977",
-      "title": "Build a Bear BAB WWF Cheetah EUC perfect condition, so cute and fast shipping",
-      "ask_price": 20.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318909829977?_skw=build-a-bear+WWF+Cheetah&hash=item4a4081d359:g:N7QAAeSw6p5qtEqC",
-      "image_url": "https://i.ebayimg.com/images/g/N7QAAeSw6p5qtEqC/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|257759263669|0",
-      "item_id": "wwf-cheetah",
-      "listing_id": "257759263669",
-      "title": "Build a Bear 16\" WWF World Wildlife Fund 2007 Cheetah\u00a0Leopard Pendant Logo BABW",
-      "ask_price": 19.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257759263669?_skw=build-a-bear+WWF+Cheetah&hash=item3c03a63bb5:g:AKoAAeSweg5qsteh&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYTGS3URRKp%2Bg1RIxf9lYPMYY%2FXLzjUYJJRizBkVu8ovpx%2FVgaw0nwbnzdSYd3%2BgYxqsBYP5CeOUmFq6M6SPMBmwsxDfcq4Kk%2B%2BVg9ORqX0TVXFqfgvJaCuUHk0UkM%2FZ%2BdROWTZ799otvI4Iy4qhml8%2Ff8zE7FDFYPJjWWcSMjMiZ7uofH81B%2B9Q95L7TFskf7FVxhTn8zHPdzDK3XVjG%2FaMxQOwnq7wn2T0MUPWQEUl6%2BzPkzMa5x362PJ1wOdHihm9bbMYVfZHgIdljoicQCEslfE9CxR5XOUfFCcop8W4Q%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/AKoAAeSweg5qsteh/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|327194259379|0",
-      "item_id": "wwf-cheetah",
-      "listing_id": "327194259379",
-      "title": "BAB Build A Bear Workshop WWF World Wildlife Fund Cheetah 2007 12\"",
-      "ask_price": 16.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/327194259379?_skw=build-a-bear+WWF+Cheetah&hash=item4c2e4c2fb3:g:fKsAAeSwUEFqILWQ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGa2Hxw%2F9qLzBbZFsuSTSLs3AlJM%2B%2B%2FeYyfi%2By6xPNp0a1hL%2F9IUy%2FQwlLByo2%2Bb38zL1tTgIN96FsItzHlfvrPu%2BNEIHArUboFYbzhbDYciho0M2wsQevtqBYCDdmoBySSvRAQCQwwyNTPbEEhl%2FlUGtNJBvh7zcvXsnwAKZyYqMipwBd9JqbU93flhSUQBRyirthM5hizC2orxBvB3bT3XUjQb6VgLLzTPDkf1uD0igpQnAfK3QZeZCIGrFryzHK0SNOIM1wXSiCAASHBdIOwGPuXB7LnsWzLaFmoAzSsmNg%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/fKsAAeSwUEFqILWQ/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|257695810805|0",
-      "item_id": "wwf-cheetah",
-      "listing_id": "257695810805",
-      "title": "Collectible Build a Bear 15\" WWF World Wildlife Fund Cheetah Jaguar Leopard EC! ",
-      "ask_price": 24.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257695810805?_skw=build-a-bear+WWF+Cheetah&hash=item3bffde04f5:g:CGkAAeSwrWpqiSY9&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYRgu25DcQsBkbNo5mYDbwiWQRlMS1OXQzEyFUWT9rz%2F5US7%2FsX3WngSgFaLQFcQguiOJxN3eHAFzB4Jtgm0ivI4wwaFxpIl%2BSlPoXZC5nPjYm0ePL%2Bgbccxa2o7uRsX6YCqweNPYOOD%2BTu2cXU7Zdff1XXiVZnFKYHMwU29z0OO4KHAe16YJMcUQ5a2P1F6HbVz7IedYe2lDx3YmYfXcyWq6CYt38KzXaL2xuafN76BiBGYYQriAntdPD7%2B3uA%2FauNXNvDnjpvgQ8emvMEhzeg7JtQ7epNPM98PJuqVcxiDQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/CGkAAeSwrWpqiSY9/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395373,17 +395317,31 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|318591164782|0",
+      "id": "active-v1|257759263669|0",
       "item_id": "wwf-cheetah",
-      "listing_id": "318591164782",
-      "title": "BUILD A BEAR WWF WORLD WILDLIFE LEOPARD Or CHEETAH Or JAGUAR 15\u201d PLUSH 2006",
-      "ask_price": 10.49,
+      "listing_id": "257759263669",
+      "title": "Build a Bear 16\" WWF World Wildlife Fund 2007 Cheetah\u00a0Leopard Pendant Logo BABW",
+      "ask_price": 19.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/257759263669?_skw=build-a-bear+WWF+Cheetah&hash=item3c03a63bb5:g:AKoAAeSweg5qsteh&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYTGS3URRKp%2Bg1RIxf9lYPMYY%2FXLzjUYJJRizBkVu8ovpx%2FVgaw0nwbnzdSYd3%2BgYxqsBYP5CeOUmFq6M6SPMBmwsxDfcq4Kk%2B%2BVg9ORqX0TVXFqfgvJaCuUHk0UkM%2FZ%2BcVwzWKzt7sSzJojgSFFrRiZXyofOSDKsEPgVosDNMaq8tAmPJJckXWatoiFkRvWQM%2B%2BCoaosypnj7Vj5v3pRXSupDcn1DQyGHqRaHLH4xzZKargdlsTXS%2BH4A%2FZiYBE63Tn6jQflk0evgpTE3EYHByhfajDtNM%2FFftH78e3iYhZA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/AKoAAeSweg5qsteh/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|327194259379|0",
+      "item_id": "wwf-cheetah",
+      "listing_id": "327194259379",
+      "title": "BAB Build A Bear Workshop WWF World Wildlife Fund Cheetah 2007 12\"",
+      "ask_price": 16.0,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318591164782?_skw=build-a-bear+WWF+Cheetah&hash=item4a2d83616e:g:JooAAOSwn~pmJqFz",
-      "image_url": "https://i.ebayimg.com/images/g/JooAAOSwn~pmJqFz/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/327194259379?_skw=build-a-bear+WWF+Cheetah&hash=item4c2e4c2fb3:g:fKsAAeSwUEFqILWQ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGa2Hxw%2F9qLzBbZFsuSTSLs3AlJM%2B%2B%2FeYyfi%2By6xPNp0a1hL%2F9IUy%2FQwlLByo2%2Bb38zL1tTgIN96FsItzHlfvrPu%2BNEIHArUboFYbzhbDYciho0M2wsQevtqBYCDdmoBySQRM7fOfgNLZR2CopVjEA5mpXFhEr3UOxTOp8oPxkzcFV07PF%2BTfZg5TgTQQtzIYXtECV3xFGtvu%2FMyA9aTLRs0ldcZjmxg9lo5qC88QBeV1kgmBleGnbWm0jaeDJymKkkbIiazjbAjhTdRjFf6UqPiS9nP2zxjla%2BI4otikFzDUg%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/fKsAAeSwUEFqILWQ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395396,8 +395354,50 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/157861479938?_skw=build-a-bear+WWF+Cheetah&hash=item24c1470602:g:UUkAAeSw~F1p7WLm&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbBp2ATdBxQWtZO8AODe5xwCnX5kIJxEZmrO%2BfSjiZoRsnqiYdP%2FtAtBbLPwy9TLE4wBIu2ZkijGHg%2BNUy48D%2BbTtzgC%2BFxhVuBOFsSS0YcTVCsfBhrMaguyMOZx2NF%2BozjObX9jBpblg9S5nXVQfmfdb%2Bi6LCt0rWw59vbDXBE5s8wJoIUVxsX5iW9XMbyvuj4uuep5%2F6LXO5JakmWgqMp7oetoRa1MzO8nwMIr9XygtJqcCBInG1aRb4Ty8T890b81uYPYW%2F4mYF4MK3qbEIZpdkbTrh3ejOQZuJfQow%2BpQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/157861479938?_skw=build-a-bear+WWF+Cheetah&hash=item24c1470602:g:UUkAAeSw~F1p7WLm&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbBp2ATdBxQWtZO8AODe5xwCnX5kIJxEZmrO%2BfSjiZoRsnqiYdP%2FtAtBbLPwy9TLE4wBIu2ZkijGHg%2BNUy48D%2BbTtzgC%2BFxhVuBOFsSS0YcTVCsfBhrMaguyMOZx2NF%2BoxxNw0YOO3lhstXkY1XHybOoQwFtXjPmiMNX7utnWAg1MIjYu%2FJ58TTuCdxrS%2BpoiNh%2B3mzQkxOExgJ8vg140YszTYqwvZ68sot8OKYWhrQENoMjYhf%2FBn88FmViVxUa4yD3u9sk%2FTTlyXNMen9zluz61FMg8NW8HTAlLBPo32KiA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/UUkAAeSw~F1p7WLm/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|287624920433|0",
+      "item_id": "wwf-cheetah",
+      "listing_id": "287624920433",
+      "title": "Build-a-Bear 2007 WWF Cheetah Plush WORKING SOUND BOX (meow)Excellent Condition",
+      "ask_price": 15.3,
+      "currency": "USD",
+      "condition": "Excellent",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287624920433?_skw=build-a-bear+WWF+Cheetah&hash=item42f7c7fd71:g:rwYAAeSwG8ZqwXlU",
+      "image_url": "https://i.ebayimg.com/images/g/rwYAAeSwG8ZqwXlU/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|318909829977|0",
+      "item_id": "wwf-cheetah",
+      "listing_id": "318909829977",
+      "title": "Build a Bear BAB WWF Cheetah EUC perfect condition, so cute and fast shipping",
+      "ask_price": 20.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/318909829977?_skw=build-a-bear+WWF+Cheetah&hash=item4a4081d359:g:N7QAAeSw6p5qtEqC",
+      "image_url": "https://i.ebayimg.com/images/g/N7QAAeSw6p5qtEqC/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|257695810805|0",
+      "item_id": "wwf-cheetah",
+      "listing_id": "257695810805",
+      "title": "Collectible Build a Bear 15\" WWF World Wildlife Fund Cheetah Jaguar Leopard EC! ",
+      "ask_price": 24.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/257695810805?_skw=build-a-bear+WWF+Cheetah&hash=item3bffde04f5:g:CGkAAeSwrWpqiSY9&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYRgu25DcQsBkbNo5mYDbwiWQRlMS1OXQzEyFUWT9rz%2F5US7%2FsX3WngSgFaLQFcQguiOJxN3eHAFzB4Jtgm0ivI4wwaFxpIl%2BSlPoXZC5nPjYm0ePL%2Bgbccxa2o7uRsX6Z5vlkR0Uk3upRI8lct01z7vuuPbWKAATxstW1ZHXMXdVm9%2F3XC2KCq%2B%2FPAZl2saFGz4R7TgHFsAoFvKxMbFzQ5hKs8%2F7mg7Nf9vGoCYrfnbHd5yIDn3vGdV%2F19N3QQky0lsSHznFhJlYrp6vkRQwKDG2ASD367ioW5K%2BPwvZ6TlA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/CGkAAeSwrWpqiSY9/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395410,7 +395410,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/235375553658?_skw=build-a-bear+WWF+Cheetah&hash=item36cd79ec7a:g:PHoAAOSwJ1dlmV1m&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYjF2xtt6xavuRUX5RKBLkBhS4Ro7%2FNq88DPOKOEkHjeoRzn%2FB9GkohVDlZ6Ju2psUs4%2BUx1FLBHJft6ABbx1bk2RA8x2AhspDfuOuE9%2B2IYzLYU7vg0Na511o6iiiS5TIMUDFwLMGvTEdRyzlUyu1FEg681yFRugqwgZb17wJA12sqL%2BfBvese5J4vE%2Fzum7oVeBNJtgXoUCbUseujuCY63tlIdj2IUClB%2B8e2o4jp8MhOvwRCUU57jnt3rdQfhO%2FvNUfTsAPD37U0koubwZMA%2B%2Bc9yyTozJCPvkmJ7PA67Q%3D%3D",
+      "source_url": "https://www.ebay.com/itm/235375553658?_skw=build-a-bear+WWF+Cheetah&hash=item36cd79ec7a:g:PHoAAOSwJ1dlmV1m&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYjF2xtt6xavuRUX5RKBLkBhS4Ro7%2FNq88DPOKOEkHjeoRzn%2FB9GkohVDlZ6Ju2psUs4%2BUx1FLBHJft6ABbx1bk2RA8x2AhspDfuOuE9%2B2IYzLYU7vg0Na511o6iiiS5TJkevA6%2BTWs2g%2BIKXB17Z59slqqf%2BwK68o0XJfBnFxFCBD0AFXK4xvADHKAFPkEXhHPF%2FiGTxXlhIs5m9dKMCQd7KFfiG0sbG73RN%2Buv%2FxZKgBVMZmEiEwIX4%2FG%2F4hasseVdgS8YFt4cd%2Bg5yjGjUG7vZOYkozITPslb8e%2Fnz%2BpVg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/PHoAAOSwJ1dlmV1m/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395429,20 +395429,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|327393645464|0",
-      "item_id": "wwf-leopard",
-      "listing_id": "327393645464",
-      "title": "Build-A-Bear Workshop WWF World Wildlife Fund Leopard Plush 2006 \ufffc",
-      "ask_price": 14.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/327393645464?_skw=build-a-bear+WWF+Leopard&hash=item4c3a2e9398:g:A78AAeSw9nRqxo4K",
-      "image_url": "https://i.ebayimg.com/images/g/A78AAeSw9nRqxo4K/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|237100517977|0",
       "item_id": "wwf-leopard",
       "listing_id": "237100517977",
@@ -395454,6 +395440,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/237100517977?_skw=build-a-bear+WWF+Leopard&hash=item37344aca59:g:wTMAAeSwvNJqRZFI",
       "image_url": "https://i.ebayimg.com/images/g/wTMAAeSwvNJqRZFI/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|327393645464|0",
+      "item_id": "wwf-leopard",
+      "listing_id": "327393645464",
+      "title": "Build-A-Bear Workshop WWF World Wildlife Fund Leopard Plush 2006 \ufffc",
+      "ask_price": 14.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/327393645464?_skw=build-a-bear+WWF+Leopard&hash=item4c3a2e9398:g:A78AAeSw9nRqxo4K",
+      "image_url": "https://i.ebayimg.com/images/g/A78AAeSw9nRqxo4K/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395508,7 +395508,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336692869042?_skw=build-a-bear+WWF+Leopard&hash=item4e647577b2:g:qFkAAeSw65BqWflB&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZGvAL%2BIkYmNrbNJJiGbmpN4e63349hSLonLKvixgRF16QYZRUJq425fO9llhso0YxI9%2F0gwQ69kRamRa9HV0j1CUAWV4VIABf4vUiOZO94uWatXBGFvmC4U8h5grKY--cPw7LKETuVzZ9RNcAoimMlundJylU1MRH9dR9GDUJXJRiCOQfEY9KAZAJ8%2B3RbkvQ7%2BxlfiD5cq0qOrq0nYOmAClmLokcpBc6dqAgCQTq76kSV3mGDW3SsBJcBFPjo%2B%2BJuTKKD9IjM7e%2F0JbV2m4N3ENA5FAGssF59i2r3grCgAA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/336692869042?_skw=build-a-bear+WWF+Leopard&hash=item4e647577b2:g:qFkAAeSw65BqWflB&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZGvAL%2BIkYmNrbNJJiGbmpN4e63349hSLonLKvixgRF16QYZRUJq425fO9llhso0YxI9%2F0gwQ69kRamRa9HV0j1CUAWV4VIABf4vUiOZO94uWatXBGFvmC4U8h5grKY--elXi5CFprDKG38Otl%2Fm0mos6dl3QfvBzW--9Ba3NIIQ3VxHIUos0dFYxbEaFrsBFrmVNEgISc0iDo5CDrjrIBn71u7SJaCfyEMHy6nMUwob1dhBzoYl8ElvaB0xivfHCdnqrPUrMIqehK06FA0hILP3oIxKprpeJW0Iv7zI0AEAQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/qFkAAeSw65BqWflB/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395522,8 +395522,22 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318607353781?_skw=build-a-bear+WWF+Leopard&hash=item4a2e7a67b5:g:77EAAeSwMm1qXW80&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaxeP4boT3ElkQ6RaIUiWch390hUEbzve9ioXpTJuEDoVWB1ZZXTypEY26PKVx%2BgM%2FnnIbvIAjodCwzDreI2pxkchkKQ%2FlVxb3aDnOXCpYxj07cSwC2V97QWRjZs7qGLf0nm13zMLmCt6EOmMkXm4fEvJbRXQqcjq1yXuQLCKI%2BBXIBUDWLpwGwI53FtqTJln%2FyeR%2BulGpWD54F%2Bm%2FKeER3roRwA6reaYT3HifSN8LFhQWdXeUZ4kMh43mhZQVje8OnzSjLkzf5t3g0w6WrNZJJywEbqCKadAdiuaJxBQ5m153M8aHIBk9oPBk%2B9vKhqkQ%3D",
+      "source_url": "https://www.ebay.com/itm/318607353781?_skw=build-a-bear+WWF+Leopard&hash=item4a2e7a67b5:g:77EAAeSwMm1qXW80&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaxeP4boT3ElkQ6RaIUiWch390hUEbzve9ioXpTJuEDoVWB1ZZXTypEY26PKVx%2BgM%2FnnIbvIAjodCwzDreI2pxkchkKQ%2FlVxb3aDnOXCpYxj07cSwC2V97QWRjZs7qGLf35zutHkmEcyPPMp6iH3wuagr4LD%2BQjRsuJQtdiulgRfaUStAaE7ky3qGgTS3KupEZC9nwb2AscxZUiAvPuM0RswBCYE0%2Fq0D4bGAFU%2Ff%2F6ddfk73qeMZeq1NO7IsmAV6ypEPC4ay85J0g4oTPd9prVH1TuFDxl2%2BsMF1bXpGuaLvIWpGaKSPLUwm%2BmiRds6A0%3D",
       "image_url": "https://i.ebayimg.com/images/g/77EAAeSwMm1qXW80/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|287624933717|0",
+      "item_id": "wwf-leopard",
+      "listing_id": "287624933717",
+      "title": "Build A Bear WWF Leopard Jaguar Cat Spotted Plush Stuffed Animal Toy 13\u201d",
+      "ask_price": 15.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287624933717?_skw=build-a-bear+WWF+Leopard&hash=item42f7c83155:g:QMYAAeSwH99qwOEJ",
+      "image_url": "https://i.ebayimg.com/images/g/QMYAAeSwH99qwOEJ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395541,20 +395555,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|336641057257|0",
-      "item_id": "centennial-teddy",
-      "listing_id": "336641057257",
-      "title": "VTG Build-A-Bear Centennial Teddy Bear II Baseball Limited Edition Plush NWT",
-      "ask_price": 33.96,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336641057257?_skw=build-a-bear+Centennial+Teddy&hash=item4e615ee1e9:g:JWkAAeSwz6xqMpBF",
-      "image_url": "https://i.ebayimg.com/images/g/JWkAAeSwz6xqMpBF/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|277757609537|0",
       "item_id": "centennial-teddy",
       "listing_id": "277757609537",
@@ -395566,6 +395566,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/277757609537?_skw=build-a-bear+Centennial+Teddy&hash=item40aba4c641:g:wMUAAeSwjYFpmhmn",
       "image_url": "https://i.ebayimg.com/images/g/wMUAAeSwjYFpmhmn/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|336641057257|0",
+      "item_id": "centennial-teddy",
+      "listing_id": "336641057257",
+      "title": "VTG Build-A-Bear Centennial Teddy Bear II Baseball Limited Edition Plush NWT",
+      "ask_price": 33.96,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/336641057257?_skw=build-a-bear+Centennial+Teddy&hash=item4e615ee1e9:g:JWkAAeSwz6xqMpBF",
+      "image_url": "https://i.ebayimg.com/images/g/JWkAAeSwz6xqMpBF/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395681,17 +395695,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|127466824886|0",
+      "id": "active-v1|278022182387|0",
       "item_id": "centennial-teddy",
-      "listing_id": "127466824886",
-      "title": "Build-A-Bear Workshop Teddy Bear Centennial 1902 - 2002 plush stuffed animal toy",
-      "ask_price": 10.0,
+      "listing_id": "278022182387",
+      "title": "2002 Build-A-Bear Workshop Centennial Teddy Bear 17 inches tall",
+      "ask_price": 16.0,
       "currency": "USD",
-      "condition": "NWT",
+      "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127466824886?_skw=build-a-bear+Centennial+Teddy&hash=item1dad9d64b6:g:tu4AAeSw92xpB9gR",
-      "image_url": "https://i.ebayimg.com/images/g/tu4AAeSw92xpB9gR/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/278022182387?_skw=build-a-bear+Centennial+Teddy&hash=item40bb69d5f3:g:p7MAAeSwwSZqFLkN",
+      "image_url": "https://i.ebayimg.com/images/g/p7MAAeSwwSZqFLkN/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395704,7 +395718,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/820146784749?_skw=build-a-bear+Centennial+Teddy&hash=itembef48ec9ed:g:rqwAAeSwDhxqXQY8&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY0ST0T2HQrcB%2BP4pbXVi9hGOzWZZs67bqCpE5cWA72%2FoVSmW6xDJ1dMBgRHYa%2FKE8BbhbC7brUDLQwDidrDg5euVsEO0q9xBiIn3aOKxX6FaYA3HytpAg%2FhrZcXiBk6adUJbLL0RCx0Dc6eyUlb3R9P56yvbAiQ66VhWYqJw7It%2BlABnFcXUzWZhWyq9n%2BOZDTfI79FPnKjPArKajSKUfBmg4N9rjIzN1PsAWXFmUGWc8SqCURTiR0STFW0DJVdZGs0yMZGDkNUOmIw%2FCt%2BsF3xPylvKU5nvqzk30NWz%2BPhse5M0oFwYGGsMG2AQ1RXTY%3D",
+      "source_url": "https://www.ebay.com/itm/820146784749?_skw=build-a-bear+Centennial+Teddy&hash=itembef48ec9ed:g:rqwAAeSwDhxqXQY8&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY0ST0T2HQrcB%2BP4pbXVi9hGOzWZZs67bqCpE5cWA72%2FoVSmW6xDJ1dMBgRHYa%2FKE8BbhbC7brUDLQwDidrDg5euVsEO0q9xBiIn3aOKxX6FaYA3HytpAg%2FhrZcXiBk6acZnf9IbM9GTeUpqRFiyNQG3Jv2H%2F9SvwkhqexN7pOUC215ezh5uZLX6Js89EobW4OJMKgRxX9k79Ejob1f69tMatT%2Fs3BzkGGNMTznxMq%2BSj3Sp2pWw8K%2FiXoSjQw2mh%2BrSg62hdgnIFihEWgFCxfrZWJ%2BcZY8LR8iiBmXjKXrF8qNAdQE6%2BO%2FEn%2FgbXv8TZ8%3D",
       "image_url": "https://i.ebayimg.com/images/g/rqwAAeSwDhxqXQY8/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395718,7 +395732,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/154504525597?_skw=build-a-bear+Centennial+Teddy&hash=item23f92ff71d:g:nM4AAOSw7iFg0~lJ&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaNevKdUmaP%2BL2fPV0p7boBl%2BuwQAx%2Fq8%2BUb%2FAxhvoB5Q0GH1BotV%2BNs%2FN%2FORuquT6pFSllwwEIG2%2BFIXdq4E%2FBX3HuEcCJ5%2BIyy6wp2dhbN1iV%2FzIfyuwEpfMesnSPc7lmuHRrFAyfg7iqNOWeZnRJzhKI3PHScqVuROk0Mv7AINLLDhzGhBg1Ia%2BSwz9OyANI%2BQStDniQnQj7UndJl1DhNQNTk9TilnaEDYai4zJQYhElagonTbnypJZcU0QrBYZ8JWcrcJCqugbp7se96TrVZ15mRKPxOMWGeQzSel2RKvv3nJY3R%2FbhmXq0poXf8J4%3D",
+      "source_url": "https://www.ebay.com/itm/154504525597?_skw=build-a-bear+Centennial+Teddy&hash=item23f92ff71d:g:nM4AAOSw7iFg0~lJ&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaNevKdUmaP%2BL2fPV0p7boBl%2BuwQAx%2Fq8%2BUb%2FAxhvoB5Q0GH1BotV%2BNs%2FN%2FORuquT6pFSllwwEIG2%2BFIXdq4E%2FBX3HuEcCJ5%2BIyy6wp2dhbN1iV%2FzIfyuwEpfMesnSPc7k5HW093be756%2BfcgDIai3d%2BwA883Rv6zy55bf%2BdPudDbCAimz%2FPhQFlcrD75DQNfe6YL6rKMazFQst5V6RVTh9AUnRmWf2vOpmLJJbuGMVsYtFu8i3N2ouF2W93jnINBdtI0tiYd7aunHmrSibZBdrVJaEHzwxN6SIgxLKAwjBbdFoP2%2F88ZdJ%2F2Ep8M0b4uw%3D",
       "image_url": "https://i.ebayimg.com/images/g/nM4AAOSw7iFg0~lJ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395732,22 +395746,8 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278359034565?_skw=build-a-bear+Centennial+Teddy&hash=item40cf7dcac5:g:0-kAAeSwbtNqt7UN&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZn8Wv283N2C0PIbg3tptR2cFiNJSZh%2BVe7HVQz6A2NS9VUerTyBI9mePocH4r8VXbdqsM2XMPdgKT%2FmtyJquS%2B5h0YNynePoTy%2Bqd1MHysrZ0XV1RN5aeaDiUow3uAbpXjEF%2BPPJmkI4gv3F4jJDSpEH4GZclUR1e05H1m8gNjbsliooweXQwqzgUv5%2FTbNfqOYd778XlKXghmUg1yaWhY4T2pmgxO9V8bYxV1UZWIYwK4OgFLq6LXQmAo65XWYfqI70UYdrRbBGCo5FotsBRDpi4kJUwpUpIAptZx8oWz5sv4QKVIps7DjeeJ%2FhKSQFQ%3D",
+      "source_url": "https://www.ebay.com/itm/278359034565?_skw=build-a-bear+Centennial+Teddy&hash=item40cf7dcac5:g:0-kAAeSwbtNqt7UN&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZn8Wv283N2C0PIbg3tptR2cFiNJSZh%2BVe7HVQz6A2NS9VUerTyBI9mePocH4r8VXbdqsM2XMPdgKT%2FmtyJquS%2B5h0YNynePoTy%2Bqd1MHysrZ0XV1RN5aeaDiUow3uAbpVUvBDXCaSe2qcVfzJOTOzkKYS%2Br5p7dB6zXAbRxVQoX%2FpRO4X1MI%2FsglPfRHioX6QfRI%2BTRAocAu6ZuiJoCM46KK0FjuM6U3tgbsWogYxe6c2r09yHIfjVISPKqiaB9egHlWL1orsgwWwX1ZeO3obOQAq01VXyH7QVlH0wwIgGbsYBFzn5S%2B0QTrQqevH89o4%3D",
       "image_url": "https://i.ebayimg.com/images/g/0-kAAeSwbtNqt7UN/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|278022182387|0",
-      "item_id": "centennial-teddy",
-      "listing_id": "278022182387",
-      "title": "2002 Build-A-Bear Workshop Centennial Teddy Bear 17 inches tall",
-      "ask_price": 16.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278022182387?_skw=build-a-bear+Centennial+Teddy&hash=item40bb69d5f3:g:p7MAAeSwwSZqFLkN",
-      "image_url": "https://i.ebayimg.com/images/g/p7MAAeSwwSZqFLkN/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395765,17 +395765,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|206198245402|0",
+      "id": "active-v1|127466824886|0",
       "item_id": "centennial-teddy",
-      "listing_id": "206198245402",
-      "title": "Build-A-Bear Workshop Centennial Teddy Bear 1999 Limited Edition Plaid Vest 16\"",
-      "ask_price": 27.99,
+      "listing_id": "127466824886",
+      "title": "Build-A-Bear Workshop Teddy Bear Centennial 1902 - 2002 plush stuffed animal toy",
+      "ask_price": 10.0,
       "currency": "USD",
       "condition": "NWT",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206198245402?_skw=build-a-bear+Centennial+Teddy&hash=item30025f881a:g:x-cAAeSwKh9p1roh&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYaeYVaATSyRJzGL9Sg9k5LUQUimJydhTv3TtOg7iKih7JUtZJ2ahWshf9NJWOmR%2FXg3G3k7%2FyROwETIewl2Kk5hpbB2nMyOPFTRmNpRRoziZ3f9%2B5SPwd5SbEO15ryhI3N5gtvWk8mmVzamXdfx7ffQbrTuIRnEp7XyrmrqlCb57JQCAEYmqiYHlvH2f5%2B%2FEiR27Qc3l1nyxcL5D8Msl3m9XW6SI%2FzVCZ6NmgnfbTCcJtQ3X60OqDGyh%2Fxmjztd2%2BUOeLmrbEP1FbTg%2FhcPI7vV%2BnSvmIfPqOgRIlySClb4xwVEJ6VPE2wOiHL8aUuaaA%3D",
-      "image_url": "https://i.ebayimg.com/images/g/x-cAAeSwKh9p1roh/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/127466824886?_skw=build-a-bear+Centennial+Teddy&hash=item1dad9d64b6:g:tu4AAeSw92xpB9gR",
+      "image_url": "https://i.ebayimg.com/images/g/tu4AAeSw92xpB9gR/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395788,8 +395788,22 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147370566983?_skw=build-a-bear+Centennial+Teddy&hash=item224ff86547:g:okwAAeSwQixqLMdf&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY9HTzgmlIoZUDNZFvE5ebspRMCSgYfbHfvCohekwwr2ARxg37PWl9rjvAP65g2wL5xuE7THgukjuZwLTNPnXN4jrYgdXyjsbVTYeK0wX%2BpK8%2FmBnEOLyHHUyrkwzpZKN3VFXbOU85z3bpx7JP1ZL9aL6OkM5EvpM%2FAqBsQwfKXtv6c5xMiLzLkLTiXX25bCnciGuTzwLP80CYVyulAtCDoHOdDBEcV33mVd%2FyAR7dG7Cmc9Tfb2A%2Bf3vKVvUIR01QHBVpGjfrAI8XtvXKBT9fjiDbthSXeKsQjLNM11cp73VsdKHjUID61EzngL2OkSoI%3D",
+      "source_url": "https://www.ebay.com/itm/147370566983?_skw=build-a-bear+Centennial+Teddy&hash=item224ff86547:g:okwAAeSwQixqLMdf&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY9HTzgmlIoZUDNZFvE5ebspRMCSgYfbHfvCohekwwr2ARxg37PWl9rjvAP65g2wL5xuE7THgukjuZwLTNPnXN4jrYgdXyjsbVTYeK0wX%2BpK8%2FmBnEOLyHHUyrkwzpZKN3BODHcRemoYCKhHqeT625RMg3hlAc27Xkw9k0N9TGy7mS3%2FWCB2duvSjgwjx4tOEt939XkULKOtaNkRInkAfMvzgHplCSKrSji9SSfpTM25q59qujklXVNbz2NnJEy0ikqJW1WYl4uVwGN1X4f15HJD6Ms9wDJbgGasmYZ6STe%2FRcaX5AbUCKnc9aDHHNyG%2FQ%3D",
       "image_url": "https://i.ebayimg.com/images/g/okwAAeSwQixqLMdf/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|117349499874|0",
+      "item_id": "centennial-teddy",
+      "listing_id": "117349499874",
+      "title": "Build-A-Bear Collectibears Teddy Bear Centennial Limited Edition 2001",
+      "ask_price": 23.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/117349499874?_skw=build-a-bear+Centennial+Teddy&hash=item1b529343e2:g:BF0AAeSwsKppRMun&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbk8r%2Fhvh23R7Z%2BH4dMfjK1fJ5sTGIiBa%2BhFWlaRK5jnrHgeVZGmhIg0MQzU0eraTwtcAg7E%2FFvMiQ9oy3eCNI1PBBNhId7MKkT6SzrIiwNzN%2F1mmAZauVwCSDMJohNNEnE31MvIoOBgrW8RoM1NeqFP9Zps6ObplVZjYWJOVkouv2N9eku4avw8qKQSY1PycqXxdCsx6l2kbg4X%2FTLSfeJkqxyXjI7D%2Fqi89c3Ntc9yiaUiOAWtTIzUqAOz4uckEWB3Fvu2AHEslAqr6BjxNdFt7vee5koWBzHbUSF74BYXv6bJipj7Ih%2FwD3iyDWGPTM%3D",
+      "image_url": "https://i.ebayimg.com/images/g/BF0AAeSwsKppRMun/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395816,7 +395830,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407202955455?_skw=build-a-bear+Shaggy+Teddy&hash=item5ecf3000bf:g:tKMAAeSw75ZqT-mc&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYJ3O2iWrROffUyRidSsKaICm5X10dzMoDxT06sSJmMecKQgU1vfNmJntULnvG%2BKHo%2FdE4rAftihev6i2u36LC3Yi5Fd5dKsjTu1L%2FnhR2Go5VUVMgE89eKhilKC2qMT4FUwGFWEipQ5Wzs3IqHZYdAfPcuD2VQq7ZKOFB92xwd1QHSCqVISIzN1I19WiycA%2BZVu%2FUjNPCaCpJWftYhGwqkWFvVhFqHjepnHe%2FpccLG3lqJiFvYQuDoT4zoGCp45kRwOtxR4P0mH5aHqYOGIjzy13Fe%2BKgOBv5Xdq2fk4SIBRa2c5MzALpIC1lKyy7g%2FVA%3D",
+      "source_url": "https://www.ebay.com/itm/407202955455?_skw=build-a-bear+Shaggy+Teddy&hash=item5ecf3000bf:g:tKMAAeSw75ZqT-mc&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYJ3O2iWrROffUyRidSsKaICm5X10dzMoDxT06sSJmMecKQgU1vfNmJntULnvG%2BKHo%2FdE4rAftihev6i2u36LC3Yi5Fd5dKsjTu1L%2FnhR2Go5VUVMgE89eKhilKC2qMT4EpjsPr64R7obapbbzdWF3lAG1peBeyxgtY4DNQ2vUcdNWzXM%2FAD9YJyg3a4uM1GNaCta433MP3RuEo8MqemV87Y4AIj8IgkxZSEPyHSuk9PxeSS9KPkoc%2F8SBGE84IiOk1nCRyLyek9PbzjnMaRN9udrKdXv%2BceZbw9J7p9VJVjM%2F4ckICAC9GrBH5J4WYY5A%3D",
       "image_url": "https://i.ebayimg.com/images/g/tKMAAeSw75ZqT-mc/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395830,22 +395844,8 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/366694661939?_skw=build-a-bear+Shaggy+Teddy&hash=item5560b47f33:g:Gs0AAeSwQIRpNe4y&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZfG1VXv8OWqYeADx1HM7v1KTFO9%2BFmJpo2Wsn1J%2FXZOpLfBH6ibR3ax8WnZT0m50N9WNRB0NB8Qc01gYW3T8BFP%2FWIbeG0o21I%2BXvxxfwqrt2D4nmf%2FHnGzMc9AJs6IhyL%2FCLPNG%2Bd%2BG2KVqyvlyH39jlTNvEXTM9eu4su05K3CxcfyEtC1EOMovDDjpLX2jQHNQj18BY9DKbGFks6yfQoAmfyRgh6NnsYK1qfpPb2ZeOrwrPdUJi5Eb8ytqPkQeP8QBSaVEr8CR6WKSFEPaM9mvl3ZEjLhqkGtzsugUGL%2FY1b83pzY4oh5R%2B2WPFuv7c%3D",
+      "source_url": "https://www.ebay.com/itm/366694661939?_skw=build-a-bear+Shaggy+Teddy&hash=item5560b47f33:g:Gs0AAeSwQIRpNe4y&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZfG1VXv8OWqYeADx1HM7v1KTFO9%2BFmJpo2Wsn1J%2FXZOpLfBH6ibR3ax8WnZT0m50N9WNRB0NB8Qc01gYW3T8BFP%2FWIbeG0o21I%2BXvxxfwqrt2D4nmf%2FHnGzMc9AJs6Ihy5KnIsKIDJF7HtCYA6j7P1dOG9Mo9m%2BX2Bpcp0Rdb--xrzNb4qQRV7UhFo%2FqKDsOoURH7XowieDGCE%2FkCsC4Ail3z2%2BvYoDiHg7KzhTEKB30qwrzglUIvVdDOOOIXdlN3f%2BuoY%2FqZWiY8xhFQZC4aSkwtXx11DO6qZlhKoJBGqlMUsq2U%2B%2F6urHBrVaoixDNc%3D",
       "image_url": "https://i.ebayimg.com/images/g/Gs0AAeSwQIRpNe4y/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|237107850184|0",
-      "item_id": "shaggy-teddy",
-      "listing_id": "237107850184",
-      "title": "Build a Bear Workshop Shaggy Curly Brown Tan Plush Teddy Bear Stuffed          C",
-      "ask_price": 18.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/237107850184?_skw=build-a-bear+Shaggy+Teddy&hash=item3734baabc8:g:TNkAAeSwXnZqvmzU",
-      "image_url": "https://i.ebayimg.com/images/g/TNkAAeSwXnZqvmzU/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395863,31 +395863,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|189040966220|0",
+      "id": "active-v1|237107850184|0",
       "item_id": "shaggy-teddy",
-      "listing_id": "189040966220",
-      "title": "Build A Bear Workshop Shaggy Brown Bear Teddy Plush Stuffed Collectible Vintage",
-      "ask_price": 9.05,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/189040966220?_skw=build-a-bear+Shaggy+Teddy&hash=item2c03b83a4c:g:f-4AAeSwIZRobGv0",
-      "image_url": "https://i.ebayimg.com/images/g/f-4AAeSwIZRobGv0/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|407271428842|0",
-      "item_id": "shaggy-teddy",
-      "listing_id": "407271428842",
-      "title": "Build-A-Bear Workshop Shaggy Champ Teddy Bear Plush Red Gingham Heart Patch BAB",
-      "ask_price": 8.55,
+      "listing_id": "237107850184",
+      "title": "Build a Bear Workshop Shaggy Curly Brown Tan Plush Teddy Bear Stuffed          C",
+      "ask_price": 18.95,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407271428842?_skw=build-a-bear+Shaggy+Teddy&hash=item5ed344d2ea:g:LnoAAOSw5W5nMlah",
-      "image_url": "https://i.ebayimg.com/images/g/LnoAAOSw5W5nMlah/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/237107850184?_skw=build-a-bear+Shaggy+Teddy&hash=item3734baabc8:g:TNkAAeSwXnZqvmzU",
+      "image_url": "https://i.ebayimg.com/images/g/TNkAAeSwXnZqvmzU/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395905,6 +395891,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|189040966220|0",
+      "item_id": "shaggy-teddy",
+      "listing_id": "189040966220",
+      "title": "Build A Bear Workshop Shaggy Brown Bear Teddy Plush Stuffed Collectible Vintage",
+      "ask_price": 9.05,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/189040966220?_skw=build-a-bear+Shaggy+Teddy&hash=item2c03b83a4c:g:f-4AAeSwIZRobGv0",
+      "image_url": "https://i.ebayimg.com/images/g/f-4AAeSwIZRobGv0/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|158195335021|0",
       "item_id": "shaggy-teddy",
       "listing_id": "158195335021",
@@ -395916,6 +395916,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/158195335021?_skw=build-a-bear+Shaggy+Teddy&hash=item24d52d3f6d:g:klwAAeSwmiFqggaH",
       "image_url": "https://i.ebayimg.com/images/g/klwAAeSwmiFqggaH/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|407271428842|0",
+      "item_id": "shaggy-teddy",
+      "listing_id": "407271428842",
+      "title": "Build-A-Bear Workshop Shaggy Champ Teddy Bear Plush Red Gingham Heart Patch BAB",
+      "ask_price": 8.55,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/407271428842?_skw=build-a-bear+Shaggy+Teddy&hash=item5ed344d2ea:g:LnoAAOSw5W5nMlah",
+      "image_url": "https://i.ebayimg.com/images/g/LnoAAOSw5W5nMlah/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395961,6 +395975,34 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|377552945015|0",
+      "item_id": "shaggy-teddy",
+      "listing_id": "377552945015",
+      "title": "Build A Bear Brown Shaggy Teddy Plush 17\" Fuzzy Bean Bag Tush Says \"I Love You\"",
+      "ask_price": 15.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/377552945015?_skw=build-a-bear+Shaggy+Teddy&hash=item57e7e8bf77:g:LxUAAeSw--9p75LW",
+      "image_url": "https://i.ebayimg.com/images/g/LxUAAeSw--9p75LW/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|298439201970|0",
+      "item_id": "shaggy-teddy",
+      "listing_id": "298439201970",
+      "title": "Build A Bear Teddy Tan Brown Shaggy Honey Plush Stuffed Animal 16\u201d Tutu Dress B5",
+      "ask_price": 19.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/298439201970?_skw=build-a-bear+Shaggy+Teddy&hash=item457c5cd4b2:g:wLEAAeSwh05qOEUg&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYI8gqrJ3N2vQKmm0u2pX1uuANT4f6EfS5AnlB98FfeQ%2FUO0vruqCFvjV%2BsmvLsHQyLxaOPZ8rbd2bdiB5gNZ3EOenYeszrQxaOcsmtmT3ELp8FDWgN7RDAZJUZfi%2FN%2Fj3uPKNbc5800g7iA3WcFgLmxbHTS8Hz1FKe5wh0RcNgP66RvuqC01HZ%2FVwN1J5JVW%2F5LE%2FJRP4U0G1js1K9vJEveo4Ca8h32pxe0YNiY7rXxAys7E3n21pWtPtnRIbTVAEoOPjs4gY0vSp01gVLIMUWHz0gKUu11ommRiOrohgo8g%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/wLEAAeSwh05qOEUg/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|377553287467|0",
       "item_id": "shaggy-teddy",
       "listing_id": "377553287467",
@@ -395975,59 +396017,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|275919415372|0",
+      "id": "active-v1|178165032513|0",
       "item_id": "shaggy-teddy",
-      "listing_id": "275919415372",
-      "title": "Build A Bear Teddy Tan Brown Shaggy Honey Plush Stuffed Animal 16\u201d Soft Toy Doll",
-      "ask_price": 14.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/275919415372?_skw=build-a-bear+Shaggy+Teddy&hash=item403e14284c:g:c-QAAOSw2U1kk6TR&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZAMn8LDXaVcoDQ5N6LYGclXF4e9EzmOjH7KkhjiK%2F%2BrpLbZS3nGHb%2F%2B2Bs6LMvADXMX%2BffoYaynBl6V9qKBc%2FxWBr6L8Yi292PGo1scWTmYf5LNIBftZM%2BeHExqr6XAKqdsOMmSoEKo5hkYOqOcoed7OCPZgR0UJmPSSOh%2FwYVVyLYmOS%2BPg01eTnAH%2Bq41qCjdlyK2d9GF%2FyHw78OtFFo6D5i0eBA1wcSTgGaBDePzr18Jn4202oZ9ePw0OSqIOOg92ccqxKVtPYcgu4lMNGy9HYpEKrbQqHMAjylp5cngkC1sWoxErpuf8pGLcXI1ro%3D",
-      "image_url": "https://i.ebayimg.com/images/g/c-QAAOSw2U1kk6TR/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|298439201970|0",
-      "item_id": "shaggy-teddy",
-      "listing_id": "298439201970",
-      "title": "Build A Bear Teddy Tan Brown Shaggy Honey Plush Stuffed Animal 16\u201d Tutu Dress B5",
-      "ask_price": 19.99,
+      "listing_id": "178165032513",
+      "title": "Build A Bear Shaggy Teddy Bear",
+      "ask_price": 4.0,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298439201970?_skw=build-a-bear+Shaggy+Teddy&hash=item457c5cd4b2:g:wLEAAeSwh05qOEUg&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYI8gqrJ3N2vQKmm0u2pX1uuANT4f6EfS5AnlB98FfeQ%2FUO0vruqCFvjV%2BsmvLsHQyLxaOPZ8rbd2bdiB5gNZ3EOenYeszrQxaOcsmtmT3ELp8FDWgN7RDAZJUZfi%2FN%2Fj05Eq%2FyP%2BPkH1wFKFFl56hTu%2BZU66tyrh7AyMycK4BvJs5AZQbe4ukotIdErAcKy%2BQckOtSmS7oXXdhZVN5IbvhmEwJdt%2FmKwRcRw6VJtLIfpFgwIBGUC%2BWEp3yGypUui6Z%2F1BsrF2bFDaKqXGPVLvUPYYa0n45nMaTBOel9L1ihw%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/wLEAAeSwh05qOEUg/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|127711432556|0",
-      "item_id": "shaggy-teddy",
-      "listing_id": "127711432556",
-      "title": "Build a Bear Workshop BAB Shaggy Brown Teddy Bear Plush Retired Stuffed 2011",
-      "ask_price": 14.39,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127711432556?_skw=build-a-bear+Shaggy+Teddy&hash=item1dbc31cf6c:g:PGMAAeSwWK9po9LD",
-      "image_url": "https://i.ebayimg.com/images/g/PGMAAeSwWK9po9LD/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|306730828554|0",
-      "item_id": "shaggy-teddy",
-      "listing_id": "306730828554",
-      "title": " Build A Bear Shaggy Brown Bear Teddy Plush Stuffed Collectible 16\"",
-      "ask_price": 20.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/306730828554?_skw=build-a-bear+Shaggy+Teddy&hash=item476a95030a:g:Si0AAeSwad5ogtL-",
-      "image_url": "https://i.ebayimg.com/images/g/Si0AAeSwad5ogtL-/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/178165032513?_skw=build-a-bear+Shaggy+Teddy&hash=item297b76a641:g:bogAAeSwyWlqFLWu",
+      "image_url": "https://i.ebayimg.com/images/g/bogAAeSwyWlqFLWu/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396040,8 +396040,22 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298671557931?_skw=build-a-bear+Shaggy+Teddy&hash=item458a364d2b:g:x6kAAeSwpalqpwHr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGazm6EVYlKgWC45iMzFkYyG%2FN96isQAhL4KFENQ1YYdgW%2Ft8Q7Rt3VdG%2Fk0dSni9S5H4XVNCSLtvdk2TbWM0Uc6%2F0dG%2F1YX8CosOAsbD%2FFTiYGimbz5qv69elWuQX8v5mAZ9%2BqySMNOEufee8B2WMlIPizT7v1oW7kSccFOW%2BslItHkvCRlNgEpx4zoVOczk85ZuOoqmBL5yz2OQWWP3WuQVtpSDVZX691ES69E1R3KM0zDuVQWKtPKY5LVee3ol9tS8pKGH78bJNcKZQU5XVCD5EQfgC68iW853%2BINfiizcA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/298671557931?_skw=build-a-bear+Shaggy+Teddy&hash=item458a364d2b:g:x6kAAeSwpalqpwHr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGazm6EVYlKgWC45iMzFkYyG%2FN96isQAhL4KFENQ1YYdgW%2Ft8Q7Rt3VdG%2Fk0dSni9S5H4XVNCSLtvdk2TbWM0Uc6%2F0dG%2F1YX8CosOAsbD%2FFTiYGimbz5qv69elWuQX8v5mDrSrgKs%2BIlgaWeurzcblRwNpHtFljcRyTF%2FiazI7EsyI2YOlC5%2BxIc4nHM4%2FVxyghtNn%2Fx%2BW%2FBRf6PDvxcsl1A43YpipQLn2e%2FrBLSuB5sXcUDOHvv%2FSpRwn7QLgC%2B%2B1eWBQ3VssMAt1k0HzHJoT0fBwFVh%2FFyq0o9jXQk6LD7lA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/x6kAAeSwpalqpwHr/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|298640038940|0",
+      "item_id": "shaggy-teddy",
+      "listing_id": "298640038940",
+      "title": "Build a Bear Shaggy Teddy Classic Stuffed Animal Toy Plush Brown Tan 15\" Retired",
+      "ask_price": 13.05,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/298640038940?_skw=build-a-bear+Shaggy+Teddy&hash=item4588555c1c:g:UgAAAeSwZB9qcCk5&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYHsdCnRV7bUNF0lIURj2UVwVzJpKpQcENQQdVQ7RTpR2Be2XNfSS%2Bk3yaXUhMDXfRYvdcum1prd1atfaDux%2BHiEgDAsEHxapNkKyKUAig20eSTSd11cxHoXi0vsuSPkYO%2BWLEKBd3tnGfurJ%2FLd6py5oYD8AxosAHA%2FOHzjkk36suoGYNZaiigIoLTWmI9yThJi7xv--pr7Kv4M%2FBPL3lNtoFbrG06Gsc18086KgAUYSOMz2iHDIRQ2aXwBVc7REd6ZMuLhpxASQVsWMsuIYoqFdukp%2BtIEcglsB7wQV1qv0afBXOHeQsOXtv1GeZoGNg%3D",
+      "image_url": "https://i.ebayimg.com/images/g/UgAAAeSwZB9qcCk5/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396068,7 +396082,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147530682202?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item2259838f5a:g:jsAAAeSwr9FoBALX&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYTpDB1o%2BdElNhp7zEeVAY0m75apRyit2vXLoC%2B%2BgtqmyWAHEsFUEwCiB3jBAbhORS49LAKvWjtJotZkQGvyWj1wAjLy%2BIrhQsPkb7wyhOfZ9v84ad9pv9uQCZMxvGxlOls9Hc9EIr7P5OtIwEr%2FrmgVlUnUkb9GHz4KTATjmxvmsmImXyg7n0Ku4kGsIH%2FrCxOkqitIUFKNU8HlJr5jpJ1LRl1ZwtesP2EcAScbHb%2BmXrLEsyNQ18xMG49i2W%2FEYnSqArwCEF4hjZtlwYqferfQ5XhJKRqLXZkBFfnaPUuMw%3D%3D",
+      "source_url": "https://www.ebay.com/itm/147530682202?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item2259838f5a:g:jsAAAeSwr9FoBALX&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYTpDB1o%2BdElNhp7zEeVAY0m75apRyit2vXLoC%2B%2BgtqmyWAHEsFUEwCiB3jBAbhORS49LAKvWjtJotZkQGvyWj1wAjLy%2BIrhQsPkb7wyhOfZ9v84ad9pv9uQCZMxvGxlOkvVxpSA25X2RhE9dExT6WKSQ7IsJui8Vw932q1hY5mXslhzq3FYy6eth4m9X49qJO2gBYDPFiDeNjQYt3qyb6cemxklSZABIvEFClny2INL4UB6LiK3BOynAEERvaz%2FJBokP4PABsI2D%2BqvOZbFP2AdhV42FV5Ao4gEKZw%2Fmyv2w%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/jsAAAeSwr9FoBALX/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396222,7 +396236,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267707006366?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item3e5494bd9e:g:eiYAAeSw60hqOhNV&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZ5mi%2FpYCxZnOVTo8IRaO0lKK3xa%2F2BdAfrkw5Vv49UB%2BwEE9TGCLHH5X%2F7wh7GPDw6esSBrxP1ETgU7Ct5U3cJ1a8pLavwrRDWCiYeIhi9JM8FEvkU5YXRNA0eC5T6dOIOSmQ26cQK0%2BH0yY1MfFCUwLWAGgAj501HEfrUvFbmg1dy1ETATQQEBnCSzsq203azwOJkTB5PUutL0dpXvW9raTDACZPvBHJMnUxSC3t3M3YjRHgJk%2FSYZD0qSgkTXNuy48755x1CZ5oYSpT5J6HIxvA%2FZjznYcgPnBGm5Y3G0BQygnOOtZz7qG1YkQkG%2FUs%3D",
+      "source_url": "https://www.ebay.com/itm/267707006366?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item3e5494bd9e:g:eiYAAeSw60hqOhNV&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZ5mi%2FpYCxZnOVTo8IRaO0lKK3xa%2F2BdAfrkw5Vv49UB%2BwEE9TGCLHH5X%2F7wh7GPDw6esSBrxP1ETgU7Ct5U3cJ1a8pLavwrRDWCiYeIhi9JM8FEvkU5YXRNA0eC5T6dOK%2FP5nKxUiUTRxAncpG66tj7qHA4nkvWlCQlquK2q%2FZ2LOpV7SlC%2FEEPL98CcIWCV6mV%2FyBG4ESJigwbermnRHZKI%2BjksF8pdBwx%2FZSiJ0lUxM9XnAojHeaWZmZQom5Nek0MgBXbxE5%2F3Ecuz3cXytjBZHUiUfh0BjA7rm3QP3j5flk4Vd4slRQ0UeTGcGAy6I%3D",
       "image_url": "https://i.ebayimg.com/images/g/eiYAAeSw60hqOhNV/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396236,7 +396250,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/137721448155?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item2010d686db:g:u48AAeSwV-9qoqWs&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYzana8JheT2%2FrhY7rot4dCG%2Ba2BMJFgNdO%2BBpxLcT%2BFYbmtVuB7XLoGuB5MtZ2hI%2FR2eqcOsFeNamWf8N0VqlTjwaTT7%2Bt3IRdNGWmybF7tX44nXYHSK5VgOKl88vKvNr71v%2Fg9m8yP1uCmoWU5IhZOieFVSbTq%2FSqLECC0B33wMpQkqRaxf8wU9ApQpKkkF%2BdRA9hTt6ppverGixPoqFnWk9yOYcN7xsDGeoNmYj4LslsVGRBs34ZG9X%2FyjAVkqvGDB%2FzsIBbRycfDHImGi8Oh1thQizxkJIVy6vNRmguWDrGNgbh5A7VwAAITdofEkY%3D",
+      "source_url": "https://www.ebay.com/itm/137721448155?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item2010d686db:g:u48AAeSwV-9qoqWs&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYzana8JheT2%2FrhY7rot4dCG%2Ba2BMJFgNdO%2BBpxLcT%2BFYbmtVuB7XLoGuB5MtZ2hI%2FR2eqcOsFeNamWf8N0VqlTjwaTT7%2Bt3IRdNGWmybF7tX44nXYHSK5VgOKl88vKvNritfLAxH2uziLO6G%2B%2Fph6fKUaeVdia9WDOiVRRCnkAbcYts0b4T5VXUjYQ212ZE0UACGPRBzTeKePk0j1g29IxPnpd23HIaK69JnhSPLmduZkvURKggH2scQaQXDNDrKNX4XCUyqO1386UBmcsebJvkPpPGz3fBBsVxxBvs36vYH%2FJhu9pGv8O6PCxbhpQU50%3D",
       "image_url": "https://i.ebayimg.com/images/g/u48AAeSwV-9qoqWs/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396250,7 +396264,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206458115286?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item3011dcd4d6:g:Xg8AAOSw9RVl190D&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGadPrr5HqBtYaxsDa6d3ur8TdEojUFABrkh0E%2BYbPEqj79esJRlemrWD%2FUyiF8zVP3fft3v%2Bj9bZeql0Lqb3R2GhklGbmqOLfQTm3LnpMfRDPytsCsDAjQRdTiH4shdJIWhqssXQg8l4cys4FW5Lze8pa%2F8T--kRsNl6SUMnhvGDKFcCZx7T2sCtkORlCiiZA0wn3HWddKfpcJqId1PJwca9vmTAE26yGN6PU0%2FOVvkKOnLKzpo7K2vd5ReBUIfVrKBmuQo8bQ%2Bq3SdPs6y%2FqV%2FwfPWF4t1WXx3nkassA0WYDnUvjztfXEykVZuwPx6vcw%3D",
+      "source_url": "https://www.ebay.com/itm/206458115286?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item3011dcd4d6:g:Xg8AAOSw9RVl190D&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGadPrr5HqBtYaxsDa6d3ur8TdEojUFABrkh0E%2BYbPEqj79esJRlemrWD%2FUyiF8zVP3fft3v%2Bj9bZeql0Lqb3R2GhklGbmqOLfQTm3LnpMfRDPytsCsDAjQRdTiH4shdJIWeOGqk%2BRoEZPrIg%2FV4sJBeEI16PEGgBZS4u3CWIZbEE09AJl1h9H2TbhP3ztOkY83J5xXNLzUCaCNgLagz%2BkGO5JYRQKXcdIUU%2F2WYnuBv0kE9UihT%2BtcvzAQ1hnq07rLhcNBJsSJYp40AgXpw0cfRI8aPNUbceQFXz4SVKt1UFMdFUE2ob%2FEEb2%2F16Wjb8TA%3D",
       "image_url": "https://i.ebayimg.com/images/g/Xg8AAOSw9RVl190D/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396292,7 +396306,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/358579500683?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item537d00f68b:g:j5AAAeSwUvhqDmuM&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbmJEuGXHITzPJHKDw3hiFHljQDqsRrGhyxsw%2FKR%2BYsdVt9MQvjkIbK2ox0Uo8MZF89tJdpC8pKMJmBG89JI7y5lNryPUzwx%2B%2FHJC5HSc%2FZMPVfSWtUaw9abf321a1uptn4rTWcszluZKSKnIZZHg0PBgA5CxhERGyZ8Wif6On%2BkILTS45ljk11%2FPLYZFddBqDnGSK%2F9lK8v%2Bf2b4EW2%2BSRkYVoRCEE4ul%2BxuftJ3Qjwi6wGu3Y5ye036HuTcaTdETlu1zjbreXY2UGXKx7OLyMarhMQdHPoeHl%2BfAoLrBchA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/358579500683?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item537d00f68b:g:j5AAAeSwUvhqDmuM&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbmJEuGXHITzPJHKDw3hiFHljQDqsRrGhyxsw%2FKR%2BYsdVt9MQvjkIbK2ox0Uo8MZF89tJdpC8pKMJmBG89JI7y5lNryPUzwx%2B%2FHJC5HSc%2FZMPVfSWtUaw9abf321a1uptlTGIxR%2FwkUcywFZXkmV2xoOgtUKFMq1sYIg%2Feoo9RrBttJcGF%2FGSC3g75kIXANee3gxbU4h8PH3se7Odduugl%2FJbfrlJYQ%2FjpIBNVJatIZpzou0MjWXUqAkVIj9JYujW6J0WTnlZApqj105HGqBO%2BeXels6BCjMPXFmjDobondvQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/j5AAAeSwUvhqDmuM/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396395,20 +396409,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|127990364206|0",
-      "item_id": "friendly-frog",
-      "listing_id": "127990364206",
-      "title": "VINTAGE Build A Bear Workshop BAB Green FRIENDLY FROG 18\" Plush Stuffed Animal",
-      "ask_price": 15.74,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127990364206?_skw=build-a-bear+Friendly+Frog&hash=item1dccd1f82e:g:euEAAeSw5-9p6j9i",
-      "image_url": "https://i.ebayimg.com/images/g/euEAAeSw5-9p6j9i/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|188663949857|0",
       "item_id": "friendly-frog",
       "listing_id": "188663949857",
@@ -396420,6 +396420,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/188663949857?_skw=build-a-bear+Friendly+Frog&hash=item2bed3f6a21:g:MnkAAeSwW3hqXIC2",
       "image_url": "https://i.ebayimg.com/images/g/MnkAAeSwW3hqXIC2/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|127990364206|0",
+      "item_id": "friendly-frog",
+      "listing_id": "127990364206",
+      "title": "VINTAGE Build A Bear Workshop BAB Green FRIENDLY FROG 18\" Plush Stuffed Animal",
+      "ask_price": 15.74,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/127990364206?_skw=build-a-bear+Friendly+Frog&hash=item1dccd1f82e:g:euEAAeSw5-9p6j9i",
+      "image_url": "https://i.ebayimg.com/images/g/euEAAeSw5-9p6j9i/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396437,20 +396451,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|278375287312|0",
-      "item_id": "friendly-frog",
-      "listing_id": "278375287312",
-      "title": "Build A Bear Workshop Friendly Frog Plush RETIRED 17\u201d With Flame Outfit Stuffed",
-      "ask_price": 14.39,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278375287312?_skw=build-a-bear+Friendly+Frog&hash=item40d075ca10:g:6dEAAeSwCy1p3r3z",
-      "image_url": "https://i.ebayimg.com/images/g/6dEAAeSwCy1p3r3z/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|277804364865|0",
       "item_id": "friendly-frog",
       "listing_id": "277804364865",
@@ -396465,45 +396465,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|198033248562|0",
+      "id": "active-v1|278375287312|0",
       "item_id": "friendly-frog",
-      "listing_id": "198033248562",
-      "title": "2004 Retired Build A Bear Vintage Friendly Green Frog (Makes Noise)",
-      "ask_price": 15.0,
+      "listing_id": "278375287312",
+      "title": "Build A Bear Workshop Friendly Frog Plush RETIRED 17\u201d With Flame Outfit Stuffed",
+      "ask_price": 14.39,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/198033248562?_skw=build-a-bear+Friendly+Frog&hash=item2e1bb39132:g:AyEAAeSwufRpalnb&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNcOCUeBM2MCfzqPn0iSIGA2hLu29R2b%2BDRuRmMXsqvifg77su0UsyqB%2BiLQy5VGlwleFtIeNoaj%2BvjslDJbuzNywboYOYZKHuQBsXtEmkJx1OdUDDp5xFD5BGXZch1jVnW%2Bl%2BJsSYv3hsD4utjZuPASovQ5%2BnTqlbLwZqGkeUv4vTbEUajjl4v9%2Fl97h1Csb%2B5z2xsDCQHFaCjsYKwwo%2BBmftWcKXaXxNf7HxWFkXVVnKzEUV9xgdUcF8Bg4HfFgpvnKSPG3UexQbgSaQVpQsJgVUVfiNuMaX6OsAUzd5cQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/AyEAAeSwufRpalnb/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|236619639516|0",
-      "item_id": "friendly-frog",
-      "listing_id": "236619639516",
-      "title": "Build a Bear Friendly Frog Green Plush Soft Stuffed Animal 18\" Retired BAB",
-      "ask_price": 32.77,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/236619639516?_skw=build-a-bear+Friendly+Frog&hash=item3717a12adc:g:tN0AAeSwjZxphLZb&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGboSXvK8VHLgi4wj1Od5Q68JX8B3L2kB3aMoTqY64LhbUwnRPGy0b%2FD%2FIiJuS%2FENvyK%2BEaZYVYcmH%2FrT06uNasgIkqYKmCtYSAUk6vhyhFkZaoQfe1qT9mgxg0R1RbHjFqmSQo0a99KEch8Qvycc%2FKl%2Fs5x%2FV%2B8kvLekO2%2BNyZqm%2FcNeihm%2Fnj2M%2BWbexsH7%2FZPN91P%2Fv7WechxM7YGMYIOo%2BZ75A3x3W8Fb2gtD7ganTwK%2Bjg5FmU%2F4sWqRYfTTP0PX04b8q8dlDPbe%2FBWpzzgf3YxZ3oz9wEkzkDfdplYz6dbSeWWTypBqXCnPbG2z5U%3D",
-      "image_url": "https://i.ebayimg.com/images/g/tN0AAeSwjZxphLZb/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|267697531977|0",
-      "item_id": "friendly-frog",
-      "listing_id": "267697531977",
-      "title": "Build-A-Bear Workshop Friendly Frog Green Retired BABW Plush Sound Does Not Work",
-      "ask_price": 14.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267697531977?_skw=build-a-bear+Friendly+Frog&hash=item3e54042c49:g:QDgAAeSwzEhpauBF",
-      "image_url": "https://i.ebayimg.com/images/g/QDgAAeSwzEhpauBF/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/278375287312?_skw=build-a-bear+Friendly+Frog&hash=item40d075ca10:g:6dEAAeSwCy1p3r3z",
+      "image_url": "https://i.ebayimg.com/images/g/6dEAAeSwCy1p3r3z/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396521,6 +396493,62 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|198033248562|0",
+      "item_id": "friendly-frog",
+      "listing_id": "198033248562",
+      "title": "2004 Retired Build A Bear Vintage Friendly Green Frog (Makes Noise)",
+      "ask_price": 15.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/198033248562?_skw=build-a-bear+Friendly+Frog&hash=item2e1bb39132:g:AyEAAeSwufRpalnb&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNcOCUeBM2MCfzqPn0iSIGA2hLu29R2b%2BDRuRmMXsqvifg77su0UsyqB%2BiLQy5VGlwleFtIeNoaj%2BvjslDJbuzNywboYOYZKHuQBsXtEmkJx1OdUDDp5xFD5BGXZch1jXDWXAiCr3IvkymGQWZyIPhiC4k1YU2c7USxTK2KlgpQrQ5crlX6QmEQOt9aPnZ8ZP1Y5VArD2htW%2FgXfX1IihNJCcHXDWkb%2FN%2BNzW1%2B2ZuKMQrXZlcWy7%2FDeGD2R8ofk4LhFHgDymc1o8K7EdnlT1lf2BnvcMeu42PNocAFnNKGw%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/AyEAAeSwufRpalnb/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|236619639516|0",
+      "item_id": "friendly-frog",
+      "listing_id": "236619639516",
+      "title": "Build a Bear Friendly Frog Green Plush Soft Stuffed Animal 18\" Retired BAB",
+      "ask_price": 32.77,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/236619639516?_skw=build-a-bear+Friendly+Frog&hash=item3717a12adc:g:tN0AAeSwjZxphLZb&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGboSXvK8VHLgi4wj1Od5Q68JX8B3L2kB3aMoTqY64LhbUwnRPGy0b%2FD%2FIiJuS%2FENvyK%2BEaZYVYcmH%2FrT06uNasgIkqYKmCtYSAUk6vhyhFkZaoQfe1qT9mgxg0R1RbHjFrbkPRJIs8rnDENaXpr8utSEARz9%2BIc8PB9W5UBDtA27KZdBoCL3DsFXIop838JgrujJzDtyFKXHDzg9lXUEGmnmF%2FJ8eJsEQtcghA1pUw3gOeUMsuhCyT2FIPEc%2Boc7n8N4QUwmxdSdlAUDRwN6qcorvjurWhFfFy90hiw1o68UQj5cDYsVAFWh0nTOc4PndY%3D",
+      "image_url": "https://i.ebayimg.com/images/g/tN0AAeSwjZxphLZb/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|398045146971|0",
+      "item_id": "friendly-frog",
+      "listing_id": "398045146971",
+      "title": " Build a Bear Workshop Green FRIENDLY FROG 18\" Plush Stuffed Animal Toy BABW",
+      "ask_price": 22.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/398045146971?_skw=build-a-bear+Friendly+Frog&hash=item5cad56ef5b:g:qT4AAeSwO8xobspF",
+      "image_url": "https://i.ebayimg.com/images/g/qT4AAeSwO8xobspF/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|267697531977|0",
+      "item_id": "friendly-frog",
+      "listing_id": "267697531977",
+      "title": "Build-A-Bear Workshop Friendly Frog Green Retired BABW Plush Sound Does Not Work",
+      "ask_price": 14.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/267697531977?_skw=build-a-bear+Friendly+Frog&hash=item3e54042c49:g:QDgAAeSwzEhpauBF",
+      "image_url": "https://i.ebayimg.com/images/g/QDgAAeSwzEhpauBF/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|366717178587|0",
       "item_id": "elmo",
       "listing_id": "366717178587",
@@ -396535,17 +396563,31 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|257699500378|0",
+      "id": "active-v1|127873297947|0",
       "item_id": "elmo",
-      "listing_id": "257699500378",
-      "title": "Build a Bear 2004 Retired Sesame Street Elmo 20\" Plush Good Used Discontinued",
-      "ask_price": 13.02,
+      "listing_id": "127873297947",
+      "title": "Vintage Build-A-Bear Sesame Street Elmo Orange Plush Large Stuffed Toy Animal",
+      "ask_price": 23.99,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257699500378?_skw=build-a-bear+Elmo&hash=item3c0016515a:g:sXEAAeSw3xtqgihX&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYlb6xHT6QfwzUcN75gClFGJKIwNPaYX6J8VtYT6NEbQde9OUsnfVLWPaLplr%2Fn6APYiExI4tRhc3M%2FYNGQPAAIBx6CYHWlnTZfq%2FBkL5n%2Bu8y%2FrkK3vejOGRKw21rPtflrO1NcAXpT0IWLXeNAiP7JR%2BgiBETH0Gnjq40IMyyU9WMf%2FVEgAWsOH%2FG6b7grepIAr5GRccQsDOIvAp2PHy%2BbBXiY8PYm2sLWFUKylTFzn4VARhECR402DzdeJ%2FZp41N%2FosyJgZ0bOWNhoMT8JZePaafLbxlLLed3i2F%2BKYIl7w%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/sXEAAeSw3xtqgihX/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/127873297947?_skw=build-a-bear+Elmo&hash=item1dc5d7ae1b:g:tzwAAeSwhIJqA0ZN&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNeIWeHPDQlyTewwBLoA10753Oeff79kwMFhN3MR4fMnk9iojFOXj%2FO1PA9QOJRFnj8tedEMlqb43EUxOaWUVdhafN0FDc%2FbAtaXCftwV7ggtCfj1jLEHGMB9r6TE4E3I%2B0YSJKHqwTpijGgc8y3%2BQAcaCg8L9ifz2t78xzQvOzEraos4B8OGVWDEXFd4hJPw0XcmHtAGQ7fQp2iKUkg0ZoSNRVB9TsRkWCC8Z2VWpMeK9njq28kRTuHaKc1T%2F8ZNJQwA7qWY0rqO%2B7Pp3nNgApgENTBr%2BaR7Jx1o%2B37XQqw%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/tzwAAeSwhIJqA0ZN/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|137800329048|0",
+      "item_id": "elmo",
+      "listing_id": "137800329048",
+      "title": "Build a Bear Workshop Sesame Street Red Elmo  Plush 19\" 2004 (2C4)",
+      "ask_price": 25.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,AUCTION",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/137800329048?_skw=build-a-bear+Elmo&hash=item20158a2758:g:RxsAAeSwbdtqtRLh",
+      "image_url": "https://i.ebayimg.com/images/g/RxsAAeSwbdtqtRLh/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396591,17 +396633,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|137800329048|0",
+      "id": "active-v1|227302360933|0",
       "item_id": "elmo",
-      "listing_id": "137800329048",
-      "title": "Build a Bear Workshop Sesame Street Red Elmo  Plush 19\" 2004 (2C4)",
-      "ask_price": 25.0,
+      "listing_id": "227302360933",
+      "title": "Build-a-Bear 2004 VTG Retired Sesame Street Elmo 20\" Tall Plush BABW Cleaned",
+      "ask_price": 10.98,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,AUCTION",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/137800329048?_skw=build-a-bear+Elmo&hash=item20158a2758:g:RxsAAeSwbdtqtRLh",
-      "image_url": "https://i.ebayimg.com/images/g/RxsAAeSwbdtqtRLh/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/227302360933?_skw=build-a-bear+Elmo&hash=item34ec46c765:g:~3MAAeSw81tp4BYn",
+      "image_url": "https://i.ebayimg.com/images/g/~3MAAeSw81tp4BYn/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396619,31 +396661,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|366548766628|0",
+      "id": "active-v1|127651877420|0",
       "item_id": "elmo",
-      "listing_id": "366548766628",
-      "title": "Build-A-Bear Workshop 2004 Sesame Street Elmo Talking Plush 19\" Stuffed Animal",
-      "ask_price": 13.49,
+      "listing_id": "127651877420",
+      "title": "Build-A-Bear Sesame Street Elmo Plush 18\u201d Red Furry Stuffed Toy Elmo Blue Shirt",
+      "ask_price": 16.99,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/366548766628?_skw=build-a-bear+Elmo&hash=item5558024fa4:g:2QkAAeSw3jFqWmmP",
-      "image_url": "https://i.ebayimg.com/images/g/2QkAAeSw3jFqWmmP/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|407156474188|0",
-      "item_id": "elmo",
-      "listing_id": "407156474188",
-      "title": "19\u201d Build a Bear Workshop Sesame Street Red Elmo Plush In Spider-Man Outfit 2004",
-      "ask_price": 22.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407156474188?_skw=build-a-bear+Elmo&hash=item5ecc6ac14c:g:mgUAAeSwNuRqhdv7",
-      "image_url": "https://i.ebayimg.com/images/g/mgUAAeSwNuRqhdv7/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/127651877420?_skw=build-a-bear+Elmo&hash=item1db8a5122c:g:w9QAAeSwIaBpbCKv",
+      "image_url": "https://i.ebayimg.com/images/g/w9QAAeSwIaBpbCKv/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396661,17 +396689,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|227302360933|0",
+      "id": "active-v1|366548766628|0",
       "item_id": "elmo",
-      "listing_id": "227302360933",
-      "title": "Build-a-Bear 2004 VTG Retired Sesame Street Elmo 20\" Tall Plush BABW Cleaned",
-      "ask_price": 10.98,
+      "listing_id": "366548766628",
+      "title": "Build-A-Bear Workshop 2004 Sesame Street Elmo Talking Plush 19\" Stuffed Animal",
+      "ask_price": 13.49,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/227302360933?_skw=build-a-bear+Elmo&hash=item34ec46c765:g:~3MAAeSw81tp4BYn",
-      "image_url": "https://i.ebayimg.com/images/g/~3MAAeSw81tp4BYn/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/366548766628?_skw=build-a-bear+Elmo&hash=item5558024fa4:g:2QkAAeSw3jFqWmmP",
+      "image_url": "https://i.ebayimg.com/images/g/2QkAAeSw3jFqWmmP/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396689,20 +396717,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|358264084765|0",
-      "item_id": "elmo",
-      "listing_id": "358264084765",
-      "title": "Build-a-Bear Retired Sesame Street Elmo Plush With Cookie Monster Tshirt Teddy",
-      "ask_price": 19.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/358264084765?_skw=build-a-bear+Elmo&hash=item536a34191d:g:QcQAAeSwE01poF-l",
-      "image_url": "https://i.ebayimg.com/images/g/QcQAAeSwE01poF-l/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|227089560718|0",
       "item_id": "elmo",
       "listing_id": "227089560718",
@@ -396717,17 +396731,31 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|127873297947|0",
+      "id": "active-v1|306717594738|0",
       "item_id": "elmo",
-      "listing_id": "127873297947",
-      "title": "Vintage Build-A-Bear Sesame Street Elmo Orange Plush Large Stuffed Toy Animal",
-      "ask_price": 23.99,
+      "listing_id": "306717594738",
+      "title": "Build a Bear Workshop 19\" Stuffed Red Elmo Sesame Street BAB 2004 Retired Plush",
+      "ask_price": 24.95,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127873297947?_skw=build-a-bear+Elmo&hash=item1dc5d7ae1b:g:tzwAAeSwhIJqA0ZN&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNeIWeHPDQlyTewwBLoA10753Oeff79kwMFhN3MR4fMnk9iojFOXj%2FO1PA9QOJRFnj8tedEMlqb43EUxOaWUVdhafN0FDc%2FbAtaXCftwV7ggtCfj1jLEHGMB9r6TE4E3Ik7Savn5h37QNayXbEf9ML64pGuKBgzm942y282O8hjS%2FXqd2v7Zm3o8ffMRB7BLYQS0M6gSm%2F%2BiK3ESDW%2F8UQqXmyuc%2BxKyHs9EUcCtXPO90DaOjZQruvLB2si13GWLVb28U4sUd5DuN6%2FbnbVao3cYmM1Orug1PfnpCT5gBAnQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/tzwAAeSwhIJqA0ZN/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/306717594738?_skw=build-a-bear+Elmo&hash=item4769cb1472:g:gVUAAeSwBrppbMZI",
+      "image_url": "https://i.ebayimg.com/images/g/gVUAAeSwBrppbMZI/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|257699500378|0",
+      "item_id": "elmo",
+      "listing_id": "257699500378",
+      "title": "Build a Bear 2004 Retired Sesame Street Elmo 20\" Plush Good Used Discontinued",
+      "ask_price": 13.02,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/257699500378?_skw=build-a-bear+Elmo&hash=item3c0016515a:g:sXEAAeSw3xtqgihX",
+      "image_url": "https://i.ebayimg.com/images/g/sXEAAeSw3xtqgihX/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396740,8 +396768,22 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/126699631720?_skw=build-a-bear+Elmo&hash=item1d7fe2f468:g:TZoAAOSwUtJm9PiU&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGarbnhESlVCJkM%2F0zhRoHYDl14C%2BkAq0ciqwiUq2Lj35M1whqCpc3sMF8PNWHq1EOhVVmYxaYVpYVznDUG0Vnp7heoI8kIgR4ZT0hcRpybQJQuy3d0SjpPHIZ9sncWJQWDUa7Fbuz9sQ1IG0P6AaKOYfRnPSW77SRRALBPghyzFH9UafE1JFqXsbGmbudbsNpeLm1Q64CQvQJdwi0ImLUsg90Q3YrZDjFTrk9f2Sk%2BURRKHd4DCF3B3UloDL3QJxcB8o%2BWsPiVg4%2BWcenSyI2LjZ1YckLl8dO47rwH8kuBXVQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/126699631720?_skw=build-a-bear+Elmo&hash=item1d7fe2f468:g:TZoAAOSwUtJm9PiU&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGarbnhESlVCJkM%2F0zhRoHYDl14C%2BkAq0ciqwiUq2Lj35M1whqCpc3sMF8PNWHq1EOhVVmYxaYVpYVznDUG0Vnp7heoI8kIgR4ZT0hcRpybQJQuy3d0SjpPHIZ9sncWJQWBhFvxirwZM6VLS19yqKvPmlBiRBLljigHGoUfdW2pv%2BEF1m%2FekR%2FFdU6CFAw6SEjyWWXO%2BUYAByCKPmsm2zwGb7LvjhtT5%2BK2Y3eEUzeUoXRK1k4apURJLhuVXcdVr0iqL775izY2gLK9R2vmhP%2FUEBXBbWF8LZ6v7Vw7iq%2FaL1g%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/TZoAAOSwUtJm9PiU/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|157062434252|0",
+      "item_id": "elmo",
+      "listing_id": "157062434252",
+      "title": "ELMO Build a Bear 19\u201d Plush Sesame Street 2004 Stuffed Animal Toy",
+      "ask_price": 138.0,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/157062434252?_skw=build-a-bear+Elmo&hash=item2491a68dcc:g:vUoAAeSwO0ZoQNQb&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYWp6vtVBtHmPyfig2sakW7INuCpsJAJZKeAFw7T6qhcHETNdCNQQCR%2FQc7OSuSV4ipafTL1UZ6xnRi9YC7NN7pLELFnQScVKInYkGJ%2BA7NfW6o%2BcinN8AHJ7yB2X%2FqlcY0c4JYcdy1am%2FBjv7wanRr5DHdmKaPBfXIepX9vGRzubX4QCSNEeEfoeMylYQCMhHRzo%2FRCXkF%2FEWfFAWjvYn3Gwymj25uCFIMyzgcXtggokcjCwXW9PmNTsVofwSNAzrhe7LyRSErFxCFCjOkF8uggqiFxW2wYxlg0OvprHf7Ag%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/vUoAAeSwO0ZoQNQb/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396857,20 +396899,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|398445845673|0",
-      "item_id": "wwf-giraffe",
-      "listing_id": "398445845673",
-      "title": "Build A Bear BAB 2005 WWF World Wildlife Fund GIRAFFE Plush Stuffed Animal Clean",
-      "ask_price": 15.5,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/398445845673?_skw=build-a-bear+WWF+Giraffe&hash=item5cc5391ca9:g:p2YAAeSweydqvJgl",
-      "image_url": "https://i.ebayimg.com/images/g/p2YAAeSweydqvJgl/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|147587614782|0",
       "item_id": "wwf-giraffe",
       "listing_id": "147587614782",
@@ -396899,6 +396927,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|398445845673|0",
+      "item_id": "wwf-giraffe",
+      "listing_id": "398445845673",
+      "title": "Build A Bear BAB 2005 WWF World Wildlife Fund GIRAFFE Plush Stuffed Animal Clean",
+      "ask_price": 15.5,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/398445845673?_skw=build-a-bear+WWF+Giraffe&hash=item5cc5391ca9:g:p2YAAeSweydqvJgl",
+      "image_url": "https://i.ebayimg.com/images/g/p2YAAeSweydqvJgl/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|278385021126|0",
       "item_id": "wwf-giraffe",
       "listing_id": "278385021126",
@@ -396910,20 +396952,6 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/278385021126?_skw=build-a-bear+WWF+Giraffe&hash=item40d10a50c6:g:mDcAAeSwLGlqqknZ",
       "image_url": "https://i.ebayimg.com/images/g/mDcAAeSwLGlqqknZ/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|407228652277|0",
-      "item_id": "wwf-giraffe",
-      "listing_id": "407228652277",
-      "title": "Build-A-Bear Workshop WWF Giraffe Plush Stuffed Animal Small 2006 P4-00508",
-      "ask_price": 12.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407228652277?_skw=build-a-bear+WWF+Giraffe&hash=item5ed0b81af5:g:wDsAAeSwkUhqrjl~",
-      "image_url": "https://i.ebayimg.com/images/g/wDsAAeSwkUhqrjl~/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396941,6 +396969,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|407228652277|0",
+      "item_id": "wwf-giraffe",
+      "listing_id": "407228652277",
+      "title": "Build-A-Bear Workshop WWF Giraffe Plush Stuffed Animal Small 2006 P4-00508",
+      "ask_price": 12.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/407228652277?_skw=build-a-bear+WWF+Giraffe&hash=item5ed0b81af5:g:wDsAAeSwkUhqrjl~",
+      "image_url": "https://i.ebayimg.com/images/g/wDsAAeSwkUhqrjl~/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|257730016641|0",
       "item_id": "wwf-giraffe",
       "listing_id": "257730016641",
@@ -396952,6 +396994,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/257730016641?_skw=build-a-bear+WWF+Giraffe&hash=item3c01e7f581:g:XrsAAOSw6uBj3vIc",
       "image_url": "https://i.ebayimg.com/images/g/XrsAAOSw6uBj3vIc/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|336803991537|0",
+      "item_id": "wwf-giraffe",
+      "listing_id": "336803991537",
+      "title": "Build A Bear 2005 WWF 19\u201d Plush Giraffe World Wildlife Fun Collectibear",
+      "ask_price": 17.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/336803991537?_skw=build-a-bear+WWF+Giraffe&hash=item4e6b150ff1:g:XVwAAeSwR2JqsA48",
+      "image_url": "https://i.ebayimg.com/images/g/XVwAAeSwR2JqsA48/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396969,6 +397025,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|376606152904|0",
+      "item_id": "wwf-giraffe",
+      "listing_id": "376606152904",
+      "title": "20\" BUILD A BEAR Stuffed WWF GROOVIN' GIRAFFE & Clothes Vintage ",
+      "ask_price": 65.0,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/376606152904?_skw=build-a-bear+WWF+Giraffe&hash=item57af79d8c8:g:Gd0AAeSwG4ho5jYn&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZnYNTIm0JSjSZJhHsHYYbEoXsYtE2CjT%2BwGDdqe6rxzfliAfre9Cn7fWrOTp7vB33SCfYMmq5lQjXAQMbKDWeZRpYyKhHAQQvGW2Ey8kpDNAYUSWNhcPIi3yge3x0iOLhmPNdi8cwR6%2FW%2FIfpeyaKXYoTUE67hT0jU8cWph4bV%2BrYXD7ZycOuZk7g7CFQwYGuk%2BcVXJaE12jaTRQv5U7dnjPwD%2Bhxrv6hLbs6bR1j9SolOT5MeIahonOeVeWYj7pX9U3bGFiMkpE4LBH4U9n2ZkpRGcuDjcUG2kZAwrI7dvw%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/Gd0AAeSwG4ho5jYn/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|156680166100|0",
       "item_id": "wwf-giraffe",
       "listing_id": "156680166100",
@@ -396980,34 +397050,6 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/156680166100?_skw=build-a-bear+WWF+Giraffe&hash=item247add9ad4:g:a1wAAeSwr9tnplK~",
       "image_url": "https://i.ebayimg.com/images/g/a1wAAeSwr9tnplK~/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|376606152904|0",
-      "item_id": "wwf-giraffe",
-      "listing_id": "376606152904",
-      "title": "20\" BUILD A BEAR Stuffed WWF GROOVIN' GIRAFFE & Clothes Vintage ",
-      "ask_price": 65.0,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/376606152904?_skw=build-a-bear+WWF+Giraffe&hash=item57af79d8c8:g:Gd0AAeSwG4ho5jYn&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZnYNTIm0JSjSZJhHsHYYbEoXsYtE2CjT%2BwGDdqe6rxzfliAfre9Cn7fWrOTp7vB33SCfYMmq5lQjXAQMbKDWeZRpYyKhHAQQvGW2Ey8kpDNAYUSWNhcPIi3yge3x0iOLiqKotb7kXcEFF6CotknVa05%2FQEBpJrj7wXjB2OM9AXpDXowumszAKznKEArnNrJZ3lnYxTtplx5FlQUj4uFi1kAa%2BGfgbkTsU7nj70LJWOz5y4w78CcBYD5knMCEPCYhhU0GirG0fbMZkxzlWumNiGlXiRdoT%2Fhd8Jc2j7VJBPkQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/Gd0AAeSwG4ho5jYn/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|336803991537|0",
-      "item_id": "wwf-giraffe",
-      "listing_id": "336803991537",
-      "title": "Build A Bear 2005 WWF 19\u201d Plush Giraffe World Wildlife Fun Collectibear",
-      "ask_price": 17.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336803991537?_skw=build-a-bear+WWF+Giraffe&hash=item4e6b150ff1:g:XVwAAeSwR2JqsA48",
-      "image_url": "https://i.ebayimg.com/images/g/XVwAAeSwR2JqsA48/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397039,31 +397081,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|147121160869|0",
+      "id": "active-v1|235776336054|0",
       "item_id": "wwf-giraffe",
-      "listing_id": "147121160869",
-      "title": "Build A Bear WWF Giraffe Plush Toy Stuffed Animal 2005 Vintage Collectible",
-      "ask_price": 15.0,
+      "listing_id": "235776336054",
+      "title": "WWF Build a Bear BABW 2005 Plush Giraffe Plush Animal Retired with Camo Cape 16\"",
+      "ask_price": 16.99,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147121160869?_skw=build-a-bear+WWF+Giraffe&hash=item22411ac2a5:g:Dk0AAeSw78FpeTIp&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYacUCi84CGP--Sx%2BZX5Xgw9lU3uJNn6rMdTUXoAeqZg2C4374m51CgJcxM%2BF%2FEsCsoqyIIw8GOSw0RezyV2OnB6vXYmKsRANetASGJ9pQwVwezKR0K0bgGh04sQjyJEgRZIa9AjtW7lGqNfP%2Bv1HK4ILJdaxdUruDOzpXwlUUBku437kCQBN%2BrZhk4H%2FA%2BeB9BRSrmfAuZlqd4IwjQWbRXERPFHspc0hKlNZFiiR5euzRtP0uw3DqOFg7%2FLv0UqdKlzHmPgTs%2B8XFqCq2XnU19g8YRE4Jl6%2FNiZ92KPcqpqw%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/Dk0AAeSw78FpeTIp/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|168763983068|0",
-      "item_id": "vanilla-fudge-bunny",
-      "listing_id": "168763983068",
-      "title": "Build A Bear Vanilla Fudge Bunny Rare BAB Rabbit Plush Stuffed Animal Tan Marble",
-      "ask_price": 190.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168763983068?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item274b1e04dc:g:OpgAAeSweR9phLti",
-      "image_url": "https://i.ebayimg.com/images/g/OpgAAeSweR9phLti/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/235776336054?_skw=build-a-bear+WWF+Giraffe&hash=item36e55d60b6:g:QqkAAOSwffFnBEoB&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGavYtpkdQMw0Fkpk6jHiL7mlTUYduJSIgS%2FT7vkNcgSNZsdotNDH6jlD6UZR576GZZIjihpv0ES6u%2Bq%2FvMFpnulI0632Mh%2BwlPK2lKYOixhBt0aeNlPb9niJJEbcdl8Q3ibZnzrGae1zTK15VwxSYLB0I9NAJ7USNKD9%2B7ULfRjX9i69IcluYKuPfyUK2rAG0PpTMzd8b%2BXhi%2FO2Ipv6B8--WuNLcqtr028LeMCHMiIfXbxIsgNn2kD55EInKiPnYiYlfbhRLZzkz7j%2BCATGZL8bYHqLBu5lDrJErdL%2BajqbA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/QqkAAOSwffFnBEoB/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397078,6 +397106,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/127945226506?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item1dca21390a:g:LewAAeSwMm1qQEBh",
       "image_url": "https://i.ebayimg.com/images/g/LewAAeSwMm1qQEBh/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|168763983068|0",
+      "item_id": "vanilla-fudge-bunny",
+      "listing_id": "168763983068",
+      "title": "Build A Bear Vanilla Fudge Bunny Rare BAB Rabbit Plush Stuffed Animal Tan Marble",
+      "ask_price": 190.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/168763983068?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item274b1e04dc:g:OpgAAeSweR9phLti",
+      "image_url": "https://i.ebayimg.com/images/g/OpgAAeSweR9phLti/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397202,7 +397244,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/398238540663?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item5cb8dde377:g:OzQAAeSwgUdqbgur&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaFHcQMu8ALmTgqkVLU%2FfQva8QIiPLmoINyuLoBZxZVr3jCJ81hWHIaMzUDdbVipmKXWO5puVnE86hgWuFRx8jchPeiLqG%2FVV9avEkbM6gDn5%2FSUawn0WO6NL%2Br2XItwK86Oe%2BdXIJdZQNFFWUiZZyOXl7me3D0tQCURy8%2B%2FtgALvxhqFd5vu30dBo%2Fu5fRTPkqy0mrTHNu8JQZQVAgcVZEFQ7WuMEgnuyZzbIGZo5Zoh1lfKsTbsAqNFW2jsFeC4%2FCl%2BXIwjtiaOhB6ulhFY13I9SS7P%2B4LWudHfrbjyQrL1o1NdQ8K4Fary79GPx1q90%3D",
+      "source_url": "https://www.ebay.com/itm/398238540663?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item5cb8dde377:g:OzQAAeSwgUdqbgur&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaFHcQMu8ALmTgqkVLU%2FfQva8QIiPLmoINyuLoBZxZVr3jCJ81hWHIaMzUDdbVipmKXWO5puVnE86hgWuFRx8jchPeiLqG%2FVV9avEkbM6gDn5%2FSUawn0WO6NL%2Br2XItwK%2BfnhzTKmEBvksCpttHk8LsKNZO18qbtxgcCz%2B581O5TB9dERzYZ%2B8C3jH3GnCRBHEn6oE4JoAwF3vfpwyQ2pOXMKjnUUtF9CfJ1t587CiNvr0pm2Z2WPnYtxVKfu8yDSY5I831N4qoGgCe2k1MOgcTyNxA7dGIJu0CXhoAKoDj2Zwj7TCpSJHVvDnGuWJ1htk%3D",
       "image_url": "https://i.ebayimg.com/images/g/OzQAAeSwgUdqbgur/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397218,6 +397260,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/115979476261?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item1b00ea5d25:g:6rkAAOSwUL1hIoem",
       "image_url": "https://i.ebayimg.com/images/g/6rkAAOSwUL1hIoem/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|287533142224|0",
+      "item_id": "vanilla-fudge-bunny",
+      "listing_id": "287533142224",
+      "title": "Build A Bear Vanilla Fudge Teddy Bear with Halloween Dress",
+      "ask_price": 49.97,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287533142224?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item42f24f90d0:g:m0IAAeSwXyxqhMkA&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZDbfomnB8D4pQq5yv4kWMPj%2B2vSRs2AAYBwmseGLOquJbeY--VsLYMpMKL37%2BIfbTd5SXBcHQ2p4oqccecyFbFSt92RbM1dSDEGOXIWgrA3AlBrB1iWt64haXE5ffXHl04c68u6vfFXE2OKCn3GHShS2EWlwFuFcd8WaITlHv4eFwW%2Fh%2F2rcjpZ4E3jXLOw4aoUx1e8LglMmomOxKnqsfKjnIJ0dXyxxI%2BOyfsamN95EC8IsbM3dWfqcXu6D4HRs%2F%2B7k%2BlKIUtWa88KLB8txzON6Dq7C%2BUbP8F6WOxuTdXAm%2FQLoVppIHrcab7PUSNO1Y%3D",
+      "image_url": "https://i.ebayimg.com/images/g/m0IAAeSwXyxqhMkA/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397277,20 +397333,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|206452861084|0",
-      "item_id": "hello-kitty-hawaiian-sun-kissed-tan",
-      "listing_id": "206452861084",
-      "title": "Build a Bear Hello Kitty Hawaiian Sun Kissed Tan Tropical Retired Plush 2010 R7",
-      "ask_price": 39.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206452861084?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item30118ca89c:g:aHQAAeSwi5dpk0km",
-      "image_url": "https://i.ebayimg.com/images/g/aHQAAeSwi5dpk0km/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|407197965371|0",
       "item_id": "hello-kitty-hawaiian-sun-kissed-tan",
       "listing_id": "407197965371",
@@ -397302,6 +397344,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/407197965371?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item5ecee3dc3b:g:KSAAAeSw-dlqnhCR",
       "image_url": "https://i.ebayimg.com/images/g/KSAAAeSw-dlqnhCR/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|206452861084|0",
+      "item_id": "hello-kitty-hawaiian-sun-kissed-tan",
+      "listing_id": "206452861084",
+      "title": "Build a Bear Hello Kitty Hawaiian Sun Kissed Tan Tropical Retired Plush 2010 R7",
+      "ask_price": 39.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/206452861084?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item30118ca89c:g:aHQAAeSwi5dpk0km",
+      "image_url": "https://i.ebayimg.com/images/g/aHQAAeSwi5dpk0km/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397333,20 +397389,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|227481299970|0",
-      "item_id": "hello-kitty-hawaiian-sun-kissed-tan",
-      "listing_id": "227481299970",
-      "title": "Build a Bear Hello Kitty Hawaiian Sun Kissed Tan Tropical Retired Plush 2010 BAB",
-      "ask_price": 44.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/227481299970?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item34f6f12c02:g:j3IAAeSw92lqhIR7",
-      "image_url": "https://i.ebayimg.com/images/g/j3IAAeSw92lqhIR7/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|117197445332|0",
       "item_id": "hello-kitty-hawaiian-sun-kissed-tan",
       "listing_id": "117197445332",
@@ -397358,6 +397400,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/117197445332?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item1b498318d4:g:ZCYAAeSwAaFqB~PR",
       "image_url": "https://i.ebayimg.com/images/g/ZCYAAeSwAaFqB~PR/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|227481299970|0",
+      "item_id": "hello-kitty-hawaiian-sun-kissed-tan",
+      "listing_id": "227481299970",
+      "title": "Build a Bear Hello Kitty Hawaiian Sun Kissed Tan Tropical Retired Plush 2010 BAB",
+      "ask_price": 44.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/227481299970?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item34f6f12c02:g:j3IAAeSw92lqhIR7",
+      "image_url": "https://i.ebayimg.com/images/g/j3IAAeSw92lqhIR7/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397412,7 +397468,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/256493985828?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item3bb83ba024:g:gYkAAOSwrEtlejtT&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZivVQZZXmfcF6jY%2BNLqgl3932%2BGdwYtbvsmm9UCtS45VkSpM3PVnanRDvmc4gJJxUJRdIzb7cYtH%2BFW77c6jkUg6O1t5jltZ4JmgB7C%2FSZmcIbnWZIz51M0dybIpeoDQlIciT3pjPT8Pq9atR78r06AODsH10F5Ae43WHMQrx5Thr3eCIKL6S7xQCfOG9W4CSW33uL14s7pPmCKMAb29n8p3xvo3tAKMUCpcwUR6BSeJLG2y2Zx4rANOdy5uW3ucjDuziwy5SFlRHp6rmW0jqakhaBjcM%2Fb319ro%2FPRXyFFS23kDDSZVHpBpwX1zFA20VHODpeRpTg9rKYmu4SnjS%2F",
+      "source_url": "https://www.ebay.com/itm/256493985828?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item3bb83ba024:g:gYkAAOSwrEtlejtT&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZivVQZZXmfcF6jY%2BNLqgl3932%2BGdwYtbvsmm9UCtS45VkSpM3PVnanRDvmc4gJJxUJRdIzb7cYtH%2BFW77c6jkUg6O1t5jltZ4JmgB7C%2FSZmcIbnWZIz51M0dybIpeoDQm8ywZE1O%2BcKvk%2BXiJLaXkAxEmJ%2BoQxIhrMm0eP6gn4IaYv11q%2Fn6RGpZ50%2BUZZX8AIWiO5rRel72%2F7LnYjPgy6p4f2ANiO%2BjRkY1JjTY11Sj5fPJq1eOMe0gKZev2sVpF9o6WI1QLXEOQYR%2BeUClP5fE%2B38qdIDL%2FNnkD9hdkQVxVhiNotI17kMK2tvqWBaT81Vabn3Zi2H4Sa%2BHTHZM8e",
       "image_url": "https://i.ebayimg.com/images/g/gYkAAOSwrEtlejtT/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397426,7 +397482,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336817032600?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item4e6bdc0d98:g:avQAAeSwnWdpDmHA&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZ%2FhC%2FWH7fM4iS6TxvGVZEb8B7iMsdncFuxzdfaVMqpZ01C%2BOh4efZiKvOrSk08fT0UBqi0YeaKRxHGAtChmL06wosSlvjQ9a3Q8Inu8XnSvhxOwXpOF7CDl8SWU5wv9so9JOI%2FPxXLqpYl6jY2StfvafXBydKnrKcJq8Zp7W2WSR9OqoJhvgaEVW5Q8GfQmLrG%2FFS2H8r%2B%2BcW6lYLB51qPlFnqVqz0y0aMiyuei%2BafQAmnm6dcQW4%2Bxws44whAibLsMt54Jq%2FjX1NaboHt6NuT9wY8WFFUbwyTpb98pxBYQFHMDe8WLkVOHUfda5TaMx8wbNBCtfABRTXDiRJc3T%2Fe",
+      "source_url": "https://www.ebay.com/itm/336817032600?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item4e6bdc0d98:g:avQAAeSwnWdpDmHA&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZ%2FhC%2FWH7fM4iS6TxvGVZEb8B7iMsdncFuxzdfaVMqpZ01C%2BOh4efZiKvOrSk08fT0UBqi0YeaKRxHGAtChmL06wosSlvjQ9a3Q8Inu8XnSvhxOwXpOF7CDl8SWU5wv9sof5DwoYQVZbNtF%2Bsu1O0StPW8yGvIyokc2ZGwtcH3W5Xtmd8XVZbBVbsPzk9UxDRIYBF3WDBqnC55Em2mNIBA0HRHCvdfsfx1%2B2NO0Hgc6baxQopTpHnfFU0H82sGOaRFkE4Zz8JzStLIBP9aGH0F3kzUvjG9S8KOHxyPvZOkkla8LIJqekZPy0End90KYGOzepqn9nZimvocRUJ5Z95xB",
       "image_url": "https://i.ebayimg.com/images/g/avQAAeSwnWdpDmHA/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397440,7 +397496,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/116262291185?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item1b11c5c6f1:g:rrQAAOSw2lVmnpIw&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGYAcJzTYPt7b49bOntLMthS8vcCch50MBJMXrKmKJAeYMrBQyu1Xmr75%2F2EU%2FNN2IAWtL4bQB7IZyjvz9GZpWZx0pWYmdyaVAh29ZAA5oBTdes3B0nSxK%2BYTaqzt%2BNEJMHGsVOeGc34Xt083zU1YlES4HIKxnLvDx5Wp3vJNVh9cLUkmdqAsG8IB4GRpl75%2BQ0%2FjidKSZyprPbywH%2FDw7UJpn88oNIqd0Fm3WZVjuLHufcb3MQvHdIJ6piX8C67keN1ew0fm7Lgp%2BI7PDWAdvUfLbT7PJv6gCNzMZjeHeVhzem1tlXyEykEdmywH7CSNyP%2FSPJ7wLjyqsttOFxk%2BV9O",
+      "source_url": "https://www.ebay.com/itm/116262291185?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item1b11c5c6f1:g:rrQAAOSw2lVmnpIw&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGYAcJzTYPt7b49bOntLMthS8vcCch50MBJMXrKmKJAeYMrBQyu1Xmr75%2F2EU%2FNN2IAWtL4bQB7IZyjvz9GZpWZx0pWYmdyaVAh29ZAA5oBTdes3B0nSxK%2BYTaqzt%2BNEJMEGcfGNyHKKkJkmS%2FHJ3v1bOBWCjHhobNvD4B0ojLDBPvQn7AOMzbwaTU0uwxj3QZarAOzA0e2Se4KbDaOTW6Hd0GekUQWfX7Aywe3R30EO64AgKFOMIN9JQEmLfdjpPLr7tu9OEsJiWV9r%2Ffq3dnRMvxN0J9N0UjOUqHA8L3TpRJ9hiKb%2Bv3a4J4exj%2FsYCD0JswBaX%2B0pXXZ2durnQ2AA",
       "image_url": "https://i.ebayimg.com/images/g/rrQAAOSw2lVmnpIw/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397468,7 +397524,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267713273870?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item3e54f4600e:g:HaAAAeSw0dNqQxjy&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGY6mrCiszzm2j8SHu%2Fzmw26w%2Fth5YrzXEMwKGJ3eJhv7ChW6z6jP8sKhOoFGsERWgAVeREq1MckDRFcvfe7lzy0A4%2BRX2WahCeSR2CRMSX5T6LmDv3SnAwacXaZr9YGkLMuHls5vsaZNf%2BQEGSfFWcCTB9Te7jI7zhbdjGhlkS8SbnX%2BmLCZHvBF%2FfrwHENlRVuSXp5%2FOKFHbfNgmvBI79pG9XWTNTA%2BlHbatBCCMpbgaG2DF0bYygRGF%2BNmI7hnlFoN3tXjoCd5GsZ6yvF7unC1YBvPfp4XkPC84XME9RYfLXelkM1hJz22KjZE8eSCgp62sThdjY50Xo61a3S6RF5",
+      "source_url": "https://www.ebay.com/itm/267713273870?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item3e54f4600e:g:HaAAAeSw0dNqQxjy&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGY6mrCiszzm2j8SHu%2Fzmw26w%2Fth5YrzXEMwKGJ3eJhv7ChW6z6jP8sKhOoFGsERWgAVeREq1MckDRFcvfe7lzy0A4%2BRX2WahCeSR2CRMSX5T6LmDv3SnAwacXaZr9YGkLOJgzsVL6JcTy1QVpa%2BiNKQ3F36H0hacZxSz774uZeeTLnSitMe1jpQSujZod9fqbXozN0MbYP%2Bjym%2BuUGdkJWTMjaOyyi7nab2uIroSrcynlZt7O9Qzf5nNN002JOZz9Qtj0nlo7UEsuT1a%2FkLzuN5cCIHisxSHinH13BSVbk3Wt2v4p%2FWLYDCP84qUuiafTZGqEP7leNQ2fzhNgzelSdi",
       "image_url": "https://i.ebayimg.com/images/g/HaAAAeSw0dNqQxjy/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397482,7 +397538,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/306988480916?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item4779f07994:g:1hYAAeSwz6ppxEuQ&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZPciaRREHfRCPBSOlRTothOTuSCJ51Aiw%2FRGeviG5sEo3FcrE%2BjB3fK8F8U7ZTJhKN3EZKQg6w4olxSHDrGlYhNS5tO2absj1lN036L2Xa74EeF2qQdl%2FyGqN9%2BDwVc57hXHd33o%2BI94GizjvOLBENBcMxX%2FebjEeeGdNU6IAEM06k8HhesuSfHl%2BDF54CmMmnLbEHBI07B1Y7u0FCGMx%2BugF5wZVRGoIHaTG9LUIRj8dCuCQ%2Fj3xuEUg1AJqjNE0i1C%2FmZZEuQfPmqinbDJ5h26CminoDCzOwODGyZ2utK3SS%2FTdafew%2FcxDRdQIOrD1Co2cWKROHuzi9zZapMazU",
+      "source_url": "https://www.ebay.com/itm/306988480916?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item4779f07994:g:1hYAAeSwz6ppxEuQ&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZPciaRREHfRCPBSOlRTothOTuSCJ51Aiw%2FRGeviG5sEo3FcrE%2BjB3fK8F8U7ZTJhKN3EZKQg6w4olxSHDrGlYhNS5tO2absj1lN036L2Xa74EeF2qQdl%2FyGqN9%2BDwVc565oHzLBV1NDl1CsFG%2FIVGReeVBnOvVRdYicW3uv7w6vTzXvEFupdc3urYWJUloYqazAv1ptmnzdVQbj2Cg3LEhiN5vH68Emf%2BWilQU9Q0%2FDGtPRaYTd9btRCLbJXilpc4TWchxgeD%2FQrfhLslDbYl1wbL6wGYlr2BTohnpMG6Wb1c%2B%2Banaz4ObYnhcWJ7qtcpFCPed%2Fu10D2Jt3hvt4YCj",
       "image_url": "https://i.ebayimg.com/images/g/1hYAAeSwz6ppxEuQ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397599,20 +397655,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|137184038168|0",
-      "item_id": "wizards-of-waverly-place-purple-bear",
-      "listing_id": "137184038168",
-      "title": "Disney 16\u201d Build A Bear BAB Purple Teddy Bear Plush Wizards Of Waverly Place",
-      "ask_price": 12.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/137184038168?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item1ff0ce4d18:g:0vYAAeSwG4ppy9go",
-      "image_url": "https://i.ebayimg.com/images/g/0vYAAeSwG4ppy9go/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|257386333553|0",
       "item_id": "wizards-of-waverly-place-purple-bear",
       "listing_id": "257386333553",
@@ -397624,6 +397666,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/257386333553?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item3bed6bc571:g:1-oAAOSwWmlgprAJ",
       "image_url": "https://i.ebayimg.com/images/g/1-oAAOSwWmlgprAJ/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|137184038168|0",
+      "item_id": "wizards-of-waverly-place-purple-bear",
+      "listing_id": "137184038168",
+      "title": "Disney 16\u201d Build A Bear BAB Purple Teddy Bear Plush Wizards Of Waverly Place",
+      "ask_price": 12.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/137184038168?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item1ff0ce4d18:g:0vYAAeSwG4ppy9go",
+      "image_url": "https://i.ebayimg.com/images/g/0vYAAeSwG4ppy9go/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397650,7 +397706,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/376723737246?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item57b67c0a9e:g:qP4AAeSwbWZpIpzE&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZiaag%2Fwi4V2SMA%2BcBbNmn79NM7ZK5XJLdaga33MXpJk84WVmi%2FlVBGJh9%2FK4eTf6PxVzz9%2F01kjE4RXID1%2FtLKCjKHmAvutXJbjocC43jHUJOoqkFU%2FBNOzI%2Fhai3TY1sx0wFCT%2F9oYyBY3lDmQb6pex8xBT74YQO1sSfK9bCvDOPyHZAbJ947xJuua1W6Uov2UTtpdsDf0QCMLU%2BN1yW3glC0R81LocIWXdKyf1WM8Yyl1TcKy9vWw4Ckjyi2FRg5hvxe30raGUtDrtcVkfH3glTRIf1XK0sek6%2FViz140JtzSr2HEpiIHtsd%2FdEMFMrwBFJOdDhD8%2BUg6AfkcGDV",
+      "source_url": "https://www.ebay.com/itm/376723737246?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item57b67c0a9e:g:qP4AAeSwbWZpIpzE&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZiaag%2Fwi4V2SMA%2BcBbNmn79NM7ZK5XJLdaga33MXpJk84WVmi%2FlVBGJh9%2FK4eTf6PxVzz9%2F01kjE4RXID1%2FtLKCjKHmAvutXJbjocC43jHUJOoqkFU%2FBNOzI%2Fhai3TY1uzHHLRkS1GnHt6jyvbdPbJerRN4hYwvYNl9oH%2BaS3KArCFt%2FY5p%2FtX8D8Uyz0Ta2bOXLZtPyFRR2raIfwW0xMe3vtR29gptkSYEbwb%2BsZdaamL9h8sukyQ9h7CpXyt%2FTkbErtw%2BoOpDjD%2B8XwWt5t0JXEpVYUMK%2BsAu%2BfTP6zjscVEZB2JUwujJnAqp3Nw5ohpJwcYs27Te2L3ZYDvLtwM",
       "image_url": "https://i.ebayimg.com/images/g/qP4AAeSwbWZpIpzE/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397669,6 +397725,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|203096066097|0",
+      "item_id": "wizards-of-waverly-place-purple-bear",
+      "listing_id": "203096066097",
+      "title": "Build a Bear Wizards of Waverly Place Disney Purple Teddy Bear Plush Stuffed Toy",
+      "ask_price": 19.98,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/203096066097?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item2f49780831:g:uA8AAOSwwW9fUCGi",
+      "image_url": "https://i.ebayimg.com/images/g/uA8AAOSwwW9fUCGi/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|206605744182|0",
       "item_id": "wizards-of-waverly-place-purple-bear",
       "listing_id": "206605744182",
@@ -397678,7 +397748,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206605744182?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item301aa97836:g:n4YAAeSwa0hqxFrI&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZeNpTDExWAv9U15Wwg46dGgYZNJWEKhib4V6Qi3sVV2YZYjM8IBmH6bqllQL2D%2B3f8BlYkXnJU9eJswwujSQNh5U3DBzJIGxU4iccE%2BsaJbSuvBxsTChZhSjxHnJR%2FQZdmkmO8rPOqC%2Fyj65Z1vJg11cWayebTA9yUqWijCHbVIeeJ9TTSJ5Ls9XKADVCe9CSN6NU5P3FEXNhea8ypbELI3F2zQyJ5fOij%2FDluJhtdNYutOlIo%2Fs49%2BGtZlAtYZjuyX%2BBxzc9d0CORRiCg8g5vVAWApGv6V33FMLyCH0cXSlzSRvBRpGNLRjCXOar6xcLEDx8Y%2BVL%2FdbeXUD%2Bffb4G",
+      "source_url": "https://www.ebay.com/itm/206605744182?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item301aa97836:g:n4YAAeSwa0hqxFrI&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZeNpTDExWAv9U15Wwg46dGgYZNJWEKhib4V6Qi3sVV2YZYjM8IBmH6bqllQL2D%2B3f8BlYkXnJU9eJswwujSQNh5U3DBzJIGxU4iccE%2BsaJbSuvBxsTChZhSjxHnJR%2FQZfN6lRmrZltzC0w6oLvgfgi%2BehlbsMIHNk0TMwWioFRhatn2%2BtZ8rzK7Z8OvU4iZC5PmkbUbxFTvMpuwknJdKCMRfrLAe3v%2FbLrCLdAbnOB1j4R7LS22IlHQIAYlt30Od2kKSHG0H36TeXBvIl1Y0qkZnKj0MvDDSY4xBnr22MdduAOG2oTCpzGMdJNa%2FZRI7hxvi8y3e16ki92LhSYJbqP",
       "image_url": "https://i.ebayimg.com/images/g/n4YAAeSwa0hqxFrI/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397739,6 +397809,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|197188454413|0",
+      "item_id": "cherry-blossom-teddy",
+      "listing_id": "197188454413",
+      "title": "Mint Build A Bear Workshop Sakura Cherry blossom teddy Japan Limited Pink set",
+      "ask_price": 407.87,
+      "currency": "USD",
+      "condition": "Mint",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/197188454413?_skw=build-a-bear+Cherry+Blossom+Teddy&hash=item2de959080d:g:vcgAAOSwULFn9JIL",
+      "image_url": "https://i.ebayimg.com/images/g/vcgAAOSwULFn9JIL/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|336740607365|0",
       "item_id": "candy-corn-kitty",
       "listing_id": "336740607365",
@@ -397795,20 +397879,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|117445022503|0",
-      "item_id": "candy-corn-kitty",
-      "listing_id": "117445022503",
-      "title": "Build A Bear Candy Corn Cinnamoroll Hello Kitty (Halloween 2024) Plush w/ shirt",
-      "ask_price": 48.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/117445022503?_skw=build-a-bear+Candy+Corn+Kitty&hash=item1b5844d327:g:k7gAAeSwuzBpj3dA",
-      "image_url": "https://i.ebayimg.com/images/g/k7gAAeSwuzBpj3dA/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|137733954221|0",
       "item_id": "candy-corn-kitty",
       "listing_id": "137733954221",
@@ -397820,6 +397890,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/137733954221?_skw=build-a-bear+Candy+Corn+Kitty&hash=item2011955aad:g:hZkAAeSwgzRplM4m",
       "image_url": "https://i.ebayimg.com/images/g/hZkAAeSwgzRplM4m/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|117445022503|0",
+      "item_id": "candy-corn-kitty",
+      "listing_id": "117445022503",
+      "title": "Build A Bear Candy Corn Cinnamoroll Hello Kitty (Halloween 2024) Plush w/ shirt",
+      "ask_price": 48.95,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/117445022503?_skw=build-a-bear+Candy+Corn+Kitty&hash=item1b5844d327:g:k7gAAeSwuzBpj3dA",
+      "image_url": "https://i.ebayimg.com/images/g/k7gAAeSwuzBpj3dA/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397893,6 +397977,34 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|267378530223|0",
+      "item_id": "candy-corn-kitty",
+      "listing_id": "267378530223",
+      "title": "Build A Bear 2020  Candy Corn Halloween Dress New w Tags NWT Fits Pumpkin Kitty",
+      "ask_price": 9.0,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/267378530223?_skw=build-a-bear+Candy+Corn+Kitty&hash=item3e410097af:g:ykMAAOSwm~pnR1qb",
+      "image_url": "https://i.ebayimg.com/images/g/ykMAAOSwm~pnR1qb/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|185087009085|0",
+      "item_id": "candy-corn-kitty",
+      "listing_id": "185087009085",
+      "title": "RARE VHTF Build A Bear Candy Corn Kitty",
+      "ask_price": 885.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/185087009085?_skw=build-a-bear+Candy+Corn+Kitty&hash=item2b180ba13d:g:WL0AAOSwVvNhWoHc&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYCmFT25ke6X6Aslp8wBuSReWlem5SyuXppRzx7fgWCuvDAEkA%2Fhlzicsi3lknhjJxrwfJP6Fc6mvnPoHs45QsgT409XFDcW9daDk%2BUuMCtRnGIj4T2oqS9hPk%2BAMqUVEHsTCO1KkIU%2Bs%2FuMhWOc%2BAE8k75QmbfnwgqsBPbDDGRf5a58KrwO97WrLNb7RhnDzP8lSYVRNWx7qj5MRUz4ej1dIyzfSMfWx1DEpnhv6bliFIdl%2BKJ6qo1BXFTZeP2wvfcmZtyN3z8fK%2FiexIUsJEMN3rzqu0TOT92CBqo5smespN8UrQSfTtHIH9uJGUoEt0%3D",
+      "image_url": "https://i.ebayimg.com/images/g/WL0AAOSwVvNhWoHc/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|257725916343|0",
       "item_id": "vanilla-cream-bunny",
       "listing_id": "257725916343",
@@ -397949,20 +398061,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|287584705016|0",
-      "item_id": "vanilla-cream-bunny",
-      "listing_id": "287584705016",
-      "title": "Build A Bear Vanilla Cream Bunny Stuffed Plush Tan Rabbit 2012 EUC",
-      "ask_price": 59.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287584705016?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item42f56259f8:g:d-8AAeSwnyhqpyk4",
-      "image_url": "https://i.ebayimg.com/images/g/d-8AAeSwnyhqpyk4/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|398452288375|0",
       "item_id": "vanilla-cream-bunny",
       "listing_id": "398452288375",
@@ -397974,6 +398072,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/398452288375?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item5cc59b6b77:g:3K0AAeSwnBlqvvvv",
       "image_url": "https://i.ebayimg.com/images/g/3K0AAeSwnBlqvvvv/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|287584705016|0",
+      "item_id": "vanilla-cream-bunny",
+      "listing_id": "287584705016",
+      "title": "Build A Bear Vanilla Cream Bunny Stuffed Plush Tan Rabbit 2012 EUC",
+      "ask_price": 59.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287584705016?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item42f56259f8:g:d-8AAeSwnyhqpyk4",
+      "image_url": "https://i.ebayimg.com/images/g/d-8AAeSwnyhqpyk4/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398056,22 +398168,8 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/800517915249?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=itemba62960271:g:r2sAAeSwhP1qgbSS&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZky1pyLARVPeJI7Bzj%2Ff9pscGGA2xeNxRH0KL%2Fij%2FJPO%2B4QC9IpTGjNFEbUhu7z%2Fj5H8A%2FWAVraYmfcbkVqv1%2BVAsj4SblWB8JfaJf6rjkBZZXe03fLz3%2Byoa%2FSE%2FdC7KSbIH5Xsq7TSLpCLbsCP9lBFQBcQRD1WS7H1YaGLkIehRvPLioZvd%2FtjcOqiTC0AzhLFJ68JJwS1LLQoFCPV%2B2OhlLZQtRykLrr%2BZiWx35dfoGX2GUuX9sIiUEGVrCCG5QVv%2BxYtOno6%2FnAczmRlGt5JdddptuJWPkhwMu%2FcD7Z24IYIi3tqJzttXS8t6kfyU%3D",
+      "source_url": "https://www.ebay.com/itm/800517915249?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=itemba62960271:g:r2sAAeSwhP1qgbSS&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZky1pyLARVPeJI7Bzj%2Ff9pscGGA2xeNxRH0KL%2Fij%2FJPO%2B4QC9IpTGjNFEbUhu7z%2Fj5H8A%2FWAVraYmfcbkVqv1%2BVAsj4SblWB8JfaJf6rjkBZZXe03fLz3%2Byoa%2FSE%2FdC7KgjOL0IMl7Rvn9gRfFt2zYAEUqVoC78WiJy0G06nRCJJ%2FUUugQtPDwn3gDI9wHjkyHvwFBfgmiz%2BkexqpLyb2eH2NhY%2Fyn1ZxJFgdLJw1ckH7OFIr9oDdyxwVDbT%2BAxuR9sA3dHJMXk5BnKhqOdyFbLkLskYT6r1TBa%2B8He9GHnseiaPUi1V7LVGQgKQ4TJZU%3D",
       "image_url": "https://i.ebayimg.com/images/g/r2sAAeSwhP1qgbSS/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|318020286806|0",
-      "item_id": "vanilla-cream-bunny",
-      "listing_id": "318020286806",
-      "title": "Rare 2005 V1 Build-A-Bear Vanilla Cream Bunny",
-      "ask_price": 152.5,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318020286806?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item4a0b7c7956:g:8GUAAeSwJe1puctR&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZPaQAAo1FTwZsUY8uuM07icqdT1ZIbmyUqSgh%2BrOxUVV1ejB%2BcMCz0Nsg4H5%2BhKJNQBDvl7yFLGjO0KKS8a78b%2FnWLjuyKV%2BGRqp%2BdYDFYeBSpSg4uXmeoEK7K9aJM4qur%2FfnkPea9Eel1Q2T0M9jk7TYsCsNae%2BbOVz2fh7hu5u2lvY2EkAZdniH6%2FDMhUJ4FLrog9QaDu60TOich5aev4PnKqr4eUzg3ZkHMfagq%2FrO0DUz%2BYvT4HN%2FXGCgd7So1Sav23wqPLvZMJeTw0m%2FL1xbJHI5fLRLJtzHGxWm6%2FE6aYfO5yfli98Tn8nxQi7Q%3D",
-      "image_url": "https://i.ebayimg.com/images/g/8GUAAeSwJe1puctR/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398103,17 +398201,31 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|820196793168|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "820196793168",
-      "title": "Build a Bear Shadow Sonic the Hedgehog 3 Movie 18\u201d Plush W/ Sound & Stand",
-      "ask_price": 70.0,
+      "id": "active-v1|318020286806|0",
+      "item_id": "vanilla-cream-bunny",
+      "listing_id": "318020286806",
+      "title": "Rare 2005 V1 Build-A-Bear Vanilla Cream Bunny",
+      "ask_price": 152.5,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/820196793168?_skw=build-a-bear+Sonic+the+Hedgehog&hash=itembef789db50:g:Oj8AAeSwxCtqv~Q~",
-      "image_url": "https://i.ebayimg.com/images/g/Oj8AAeSwxCtqv~Q~/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/318020286806?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item4a0b7c7956:g:8GUAAeSwJe1puctR&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZPaQAAo1FTwZsUY8uuM07icqdT1ZIbmyUqSgh%2BrOxUVV1ejB%2BcMCz0Nsg4H5%2BhKJNQBDvl7yFLGjO0KKS8a78b%2FnWLjuyKV%2BGRqp%2BdYDFYeBSpSg4uXmeoEK7K9aJM4quIPCphubgREnS1bsowA3oWEcYJOaaCqamd%2FZZrXYADpG%2BIbR%2Fh7SMWRQg0KmB4ehQ%2Fn9%2FUSwzeeigypJTbxDdQfkrqM2KCQ2mrEhE3qwEnt%2FJDxaXjvvC8V2qMekfAtABVKhTYvcVXdkuj6N0zSMF4zAF%2BOVsHJ%2F2ZXBLgrMdS64e7z0JI%2FKeaJWxcZgGzb%2Fc%3D",
+      "image_url": "https://i.ebayimg.com/images/g/8GUAAeSwJe1puctR/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|147625066543|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "147625066543",
+      "title": "Build-A-Bear Super Sonic Plush 17\" Yellow Sonic the Hedgehog 2 Movie BAB",
+      "ask_price": 45.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/147625066543?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item225f23c02f:g:0KUAAeSwoDtqxxFP",
+      "image_url": "https://i.ebayimg.com/images/g/0KUAAeSwoDtqxxFP/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398126,7 +398238,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407137516957?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ecb497d9d:g:6Y4AAeSwtEFqe7sG&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaA7NnPN0TccZ02qVvfvj49NtdvWeUb%2BT2CxjEY6%2Bd8Ve8im1IAtiwYnyFkCc2Q3%2BZoOwbS2DxkkE1VrFXg9NRj%2BYfc7tDmv1rUwyhY5H4ULpnPze%2Be6mL3QtidziEVed0PcBm0HUKZhBsC3D7Az%2Fi%2FQ5X9FWClT4Awe95%2BUNgNRYokXa5eJjp9qstRUowvX5FhM1vKCEmHoZ0xxGKCR4C7%2BQxVywbL%2FJyUrqiFgHjX3p7nK4IaWV1AlTrthAkssfmbt%2F80S5YisVla8uil3Ws2hijybT47SgVofiyFlZNcNoL63nAI%2B20Hssu5B7a3idE%3D",
+      "source_url": "https://www.ebay.com/itm/407137516957?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ecb497d9d:g:6Y4AAeSwtEFqe7sG&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaA7NnPN0TccZ02qVvfvj49NtdvWeUb%2BT2CxjEY6%2Bd8Ve8im1IAtiwYnyFkCc2Q3%2BZoOwbS2DxkkE1VrFXg9NRj%2BYfc7tDmv1rUwyhY5H4ULpnPze%2Be6mL3QtidziEVed281N0fcnmIYwETEV7pD1jHhXtcdEvqAy%2Fe673EdemjnhNkF1dKDl63KH50GSEexZUqX5RYHYpdvOcmvWsz7091eBztluNgp3NlhjXZ2bh0LMJbaxJXpPChAAcGrGxA2aqY0btuNwzDkniXttTAD1R%2Fvl4wfajWai536Gk1jjCYZJVWkIqTGA10LkIvlQGDgFU%3D",
       "image_url": "https://i.ebayimg.com/images/g/6Y4AAeSwtEFqe7sG/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398140,8 +398252,36 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147603448940?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item225dd9e46c:g:nGQAAeSwA3FquXn7&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbaA%2FEG6y1jYgHHUBEcqQnSi4oz0aXuA99bCtw3A45KF6ltJqUlQZ%2BFFpasd4OO1NPT1vnQIsTOWzQya76yv8S1ZOliQz%2Bytb12bDDWoOnfDn6eMErPNdi6UAo2La3IXXHHfKIp2ZLXIR90fGR81EMKmnmWw26umueo2xhXO56hldMCVr6CPvcigPCkUPMiCougi79uNXlbSuwwneTiP%2B2pcf9lzv4IvVH9SWc8IQDpJwVRoitnE%2BnEj%2BgZBZIvMTSMIIhv8tMq2%2Bq%2FzhL05FqDKAQc4gg%2Fyp0nKfYPm0GXZzavlXAVTORGQmnEQ6wYWsM%3D",
+      "source_url": "https://www.ebay.com/itm/147603448940?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item225dd9e46c:g:nGQAAeSwA3FquXn7&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbaA%2FEG6y1jYgHHUBEcqQnSi4oz0aXuA99bCtw3A45KF6ltJqUlQZ%2BFFpasd4OO1NPT1vnQIsTOWzQya76yv8S1ZOliQz%2Bytb12bDDWoOnfDn6eMErPNdi6UAo2La3IXXGcGChkW%2FV2g%2BtaBtPVcCOWPdXaj37qy1CWOiY%2BdDbckVyzTqYuW5Vk7LmHYmtaNQizU%2B4XzEPGvKvsb%2Bu4%2FL83f5vxzvll9DlZkpmGqeRUSnmiYo8dPqDkTxqZPGI5J8GilR%2ByWHTtSiDtdNfmYxaLIEGVcOEahvE7Tv1IC88rbNBZvd3E48kbmxvWFV%2F4Yo8%3D",
       "image_url": "https://i.ebayimg.com/images/g/nGQAAeSwA3FquXn7/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|820215946603|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "820215946603",
+      "title": "Build A Bear Sonic the Hedgehog Movie Plush Blue SEGA Paramount 2019 BAB",
+      "ask_price": 24.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/820215946603?_skw=build-a-bear+Sonic+the+Hedgehog&hash=itembef8ae1d6b:g:9wAAAeSw2Vhqxxb9",
+      "image_url": "https://i.ebayimg.com/images/g/9wAAAeSw2Vhqxxb9/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|820196793168|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "820196793168",
+      "title": "Build a Bear Shadow Sonic the Hedgehog 3 Movie 18\u201d Plush W/ Sound & Stand",
+      "ask_price": 70.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/820196793168?_skw=build-a-bear+Sonic+the+Hedgehog&hash=itembef789db50:g:Oj8AAeSwxCtqv~Q~",
+      "image_url": "https://i.ebayimg.com/images/g/Oj8AAeSwxCtqv~Q~/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398187,34 +398327,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|237075512462|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "237075512462",
-      "title": "BUILD A BEAR - Shadow, Sonic The Hedgehog 3 Movie Plush - Brand New with Tags",
-      "ask_price": 74.95,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/237075512462?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item3732cd3c8e:g:k1wAAeSwFdNqbeSb",
-      "image_url": "https://i.ebayimg.com/images/g/k1wAAeSwFdNqbeSb/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|287600207603|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "287600207603",
-      "title": "Build A Bear Sonic the Hedgehog Plush SEGA Blue Stuffed Animal 18\u201d 2016 BAB A8",
-      "ask_price": 20.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287600207603?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item42f64ee6f3:g:h8sAAeSwR25qsVmu",
-      "image_url": "https://i.ebayimg.com/images/g/h8sAAeSwR25qsVmu/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|407265675964|0",
       "item_id": "sonic-the-hedgehog",
       "listing_id": "407265675964",
@@ -398226,6 +398338,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/407265675964?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ed2ed0abc:g:h7cAAeSwH99qwlCB",
       "image_url": "https://i.ebayimg.com/images/g/h7cAAeSwH99qwlCB/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|237075512462|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "237075512462",
+      "title": "BUILD A BEAR - Shadow, Sonic The Hedgehog 3 Movie Plush - Brand New with Tags",
+      "ask_price": 74.95,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/237075512462?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item3732cd3c8e:g:k1wAAeSwFdNqbeSb",
+      "image_url": "https://i.ebayimg.com/images/g/k1wAAeSwFdNqbeSb/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398243,17 +398369,59 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|267802769323|0",
+      "id": "active-v1|396970030886|0",
       "item_id": "sonic-the-hedgehog",
-      "listing_id": "267802769323",
-      "title": "Build-A-Bear Workshop Sonic the Hedgehog Shadow Plush Medium 14-24\" With Tags",
-      "ask_price": 70.0,
+      "listing_id": "396970030886",
+      "title": "NEW Build-A-Bear Sonic 3 Shadow the Hedgehog Plush Stuffed Animal w/ Certificate",
+      "ask_price": 71.24,
       "currency": "USD",
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267802769323?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item3e5a49f7ab:g:G3kAAeSwc4VqwYMW",
-      "image_url": "https://i.ebayimg.com/images/g/G3kAAeSwc4VqwYMW/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/396970030886?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5c6d41f726:g:jn0AAeSw~UpoojVh",
+      "image_url": "https://i.ebayimg.com/images/g/jn0AAeSw~UpoojVh/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|287600207603|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "287600207603",
+      "title": "Build A Bear Sonic the Hedgehog Plush SEGA Blue Stuffed Animal 18\u201d 2016 BAB A8",
+      "ask_price": 20.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287600207603?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item42f64ee6f3:g:h8sAAeSwR25qsVmu",
+      "image_url": "https://i.ebayimg.com/images/g/h8sAAeSwR25qsVmu/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|206481227005|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "206481227005",
+      "title": " Retired SONIC The Hedgehog 2 Build A Bear Sega Genesis 17\" Stuffed Plush NWT",
+      "ask_price": 35.0,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/206481227005?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item30133d7cfd:g:aiAAAeSweUpp91Az&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbc43Rm8JkgVv6mAANnmC%2Bc%2FD5KPrAlsGP2VEuUWqP5b8roI%2FMYZLeHC0k4r4tz2fl0CgTrCJWWYN9goj3NBIaZFhJYbB7ccotgNddUFHIS74pcVN7Ah8GNebZU953NHq8r1x8UHUE4i8N6QKbttDyzSGiNQOuUwVRJdLXP8oyIWrHmLK4mTIaoXWxnVfnXJfQWN%2Fc5prc4g3FnGqzjKPmxUL4RDKlsFeuhlt1USWOfu4Q56qfpLihVm9TEBReHqFht4cozNNifre2hNUGTBD%2BuwCpfj0Kf8tu6EQHm2k09gE38nETr%2BrV9jNDYz4EBj4M%3D",
+      "image_url": "https://i.ebayimg.com/images/g/aiAAAeSweUpp91Az/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|327345783512|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "327345783512",
+      "title": "Build A Bear Sonic the Hedgehog 17\u201d Plush 2019 New with Tags",
+      "ask_price": 48.0,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/327345783512?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item4c375442d8:g:dv8AAeSw5YJqTT4M&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZwF16We%2BmWbxiK9W0UX%2Bc9xf7QXuRi0Fi8qg%2BYjGxZKWq74MmdCtyn50%2FwKt5aoW%2FTX%2F6Cdpe9hTstIKnYE7UWQGSxytuWC0rAE%2FJzMggVE9QvK6pySt7Fz6WC4jRhM%2BIlJnS0kQ%2FWr30tvrHGSBOBjgUVEJZoxpM2wMQJslrkqJOE%2BaHi2SBwkJ2w6%2BrkdmKyTPu81Hju%2BMw%2FGMawn6LGQmjSV1ZFyuLJm0Z9feCQRIfEmuqzM1PfIQrMLfBqzzYInBys%2B76t%2F%2BINhJ9GMfIVuLhDDdFFS%2Fg5dB4GlAwqsxhdhARhP8T%2BLmNnPd0BFUo%3D",
+      "image_url": "https://i.ebayimg.com/images/g/dv8AAeSw5YJqTT4M/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398271,59 +398439,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|206481227005|0",
+      "id": "active-v1|237106005246|0",
       "item_id": "sonic-the-hedgehog",
-      "listing_id": "206481227005",
-      "title": " Retired SONIC The Hedgehog 2 Build A Bear Sega Genesis 17\" Stuffed Plush NWT",
-      "ask_price": 35.0,
+      "listing_id": "237106005246",
+      "title": "Build-A-Bear Sonic the Hedgehog Bodysuit One Size Short Sleeve Graphic Print",
+      "ask_price": 32.0,
       "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206481227005?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item30133d7cfd:g:aiAAAeSweUpp91Az&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbc43Rm8JkgVv6mAANnmC%2Bc%2FD5KPrAlsGP2VEuUWqP5b8roI%2FMYZLeHC0k4r4tz2fl0CgTrCJWWYN9goj3NBIaZFhJYbB7ccotgNddUFHIS74pcVN7Ah8GNebZU953NHq9J3Dvrg7iFUQTLXenNWsNACzjA4gCbwTxkKyx5s5lMT9EVdVL%2F2OUpIyolhzB5ai5J3%2BLBCvjSQdhDB0mHO5W3rDs6P3x4tBqNTIoVZweZXrESNZKcrfkj6lZwqXGP4uJ1ra4INFsvIPNVOyGdQYX6daJZKJKFMh7Fur7GZuEq0E8a9L4pSCcybLDfCCCLbKE%3D",
-      "image_url": "https://i.ebayimg.com/images/g/aiAAAeSweUpp91Az/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|327345783512|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "327345783512",
-      "title": "Build A Bear Sonic the Hedgehog 17\u201d Plush 2019 New with Tags",
-      "ask_price": 48.0,
-      "currency": "USD",
-      "condition": "NWT",
+      "condition": "Excellent",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/327345783512?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item4c375442d8:g:dv8AAeSw5YJqTT4M&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZwF16We%2BmWbxiK9W0UX%2Bc9xf7QXuRi0Fi8qg%2BYjGxZKWq74MmdCtyn50%2FwKt5aoW%2FTX%2F6Cdpe9hTstIKnYE7UWQGSxytuWC0rAE%2FJzMggVE9QvK6pySt7Fz6WC4jRhM%2BLXg35A04DS8cNVsT%2FQfsQqQrYIxBGZJ0shkyxRqDxYZWrTl1lo7xmKF0UN1f9%2FmP1GKHQCDm6J%2BqUlkNLx%2FwT3Lg0gmXzT%2BoZMPFIrZpQU3lBfOsTKL23GtOs6DzLuLnGXWqGsVtsw4gfSgtRASHK5DhcsMmXtMcMtfWxXDUif%2BJTZBPwEgFhu8ZHnnrPBOBE%3D",
-      "image_url": "https://i.ebayimg.com/images/g/dv8AAeSw5YJqTT4M/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|227555749352|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "227555749352",
-      "title": "2016 Sonic The Hedgehog TAILS 15\" Build A Bear BAB Plush Stuffed Animal Fox Sega",
-      "ask_price": 23.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/227555749352?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item34fb612de8:g:BZ0AAeSwtY1qxVT-",
-      "image_url": "https://i.ebayimg.com/images/g/BZ0AAeSwtY1qxVT-/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|158076353265|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "158076353265",
-      "title": "Build A Bear Sonic The Hedgehog 2 Movie Stuffed Plush 18\u201d Retired With Shoes",
-      "ask_price": 65.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/158076353265?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item24ce15baf1:g:dpoAAeSwMDlqUwDl",
-      "image_url": "https://i.ebayimg.com/images/g/dpoAAeSwMDlqUwDl/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/237106005246?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item37349e84fe:g:miIAAeSw271qwpZF&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGa%2BAwmQ6cpZCP562FQZUhUseiiZlwblb2MJ5n838FFTtWpdki6dynuJxJJkj4fH6rZg2nVuzktNiHn4w7VLUWV0fVT1zNtbBs8fP6n8Q7Eo6ug%2FNFBXy4eh23fPKfN%2FtMD%2BVmF7yd4zT8bhZWEQsAJC8eOT8ABuklxMtV%2BxNzi2vRGsX5qYZWlnHLPwZkKsp%2Fmv3CGa7qAHN3aLaHurL6DatHvJ8Pv9OFtof%2BnohJakWKKXWrijsdsTk7iNPH%2BqU91gMBpQuOGPeTImS1RQTvaPXDfNwRRf%2F3doFniTTkf87w0zKA4EWP0ch%2FIABCqBHR0%3D",
+      "image_url": "https://i.ebayimg.com/images/g/miIAAeSw271qwpZF/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398336,22 +398462,8 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407243713332?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ed19deb34:g:LHwAAeSwlCJqtd0V&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaoYxTgveEUZdSyiwG4SfecNXejb3JMVHNzO6bHZP6rGBezEZTFe8a7kYSAOXZ3Vjt55fmgRZ3rCrT7bQ8z3tNEVQN9Qsh%2BUz%2F7jvB9E9yehhvfPJ3ATNvseMDp%2BYv8QgIrTZx2lHnlOmwWz36rBL6jA%2FM0Ruf1maIuWgu1WvLRNMkKMa%2FEwPJryLN7DUSe4alX2UBitxf0XZfqrXrP8UWjVMTEvDaW9pfGTJVC1EBU2N3zIFVuNhDIwPK36b%2FGDgaQZlewwm6R6jCzviU7931d85wo8vZuRujzkVF5gXcL7FvmSg9joxgd3TrAZVX%2Fqmg%3D",
+      "source_url": "https://www.ebay.com/itm/407243713332?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ed19deb34:g:LHwAAeSwlCJqtd0V&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaoYxTgveEUZdSyiwG4SfecNXejb3JMVHNzO6bHZP6rGBezEZTFe8a7kYSAOXZ3Vjt55fmgRZ3rCrT7bQ8z3tNEVQN9Qsh%2BUz%2F7jvB9E9yehhvfPJ3ATNvseMDp%2BYv8QgIFCqfaLeiMvEbrGvzixsckHHgowTWS0tWnQzL2MMPiX44jPMH6u4hVIEPv8JfrSKCryokymtmOqC7mStX9dcMmP%2FQwaUNDp0Qz5v4egrpC1Zgx0C9SnYNUSgy7HmIdxHd2tUf5zSJlhlhLelfTOQ0t6QeJEL2BjKz6VEOZwj8Sd1ns54c%2Bt%2BETb6ZAns89Lg4%3D",
       "image_url": "https://i.ebayimg.com/images/g/LHwAAeSwlCJqtd0V/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|257651698240|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "257651698240",
-      "title": "Build A Bear Sonic The Hedgehog 3 Stuffed Plush + Shoes & Gold Ring New IN HAND",
-      "ask_price": 179.95,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257651698240?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item3bfd3cea40:g:9OYAAeSw3mlqa7VS&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYgIXR3UhcXGbD6pziCZw6ZRp8htJ40XCZN5AxmjhRQIZ34H0iPGVNCqublBZJzawBqLb7rCFzJaGJqB1xBszR5PzU0DNCcA6qDPVf6Yqf4HsbPlr3hjV3JDSgdeX4V5IKDmsVBDZw%2BnblJq4GDRjEH0BuRhAIQfizzMa9Aq%2B%2Fx7aigUKEToEMqKx8FzAbYHOCGYXic6xZTzFPVL%2BY3yFlnak13U9AuYRRdrPtihcmuEZ68kgIff9b4ZqoPpmuuPQlbSoe%2FHzscVpI7KGdX2pTVPx6ssL7CqiNbhraFcakJ2%2BOvhDbwwojiSKhbvSQ9Xpw%3D",
-      "image_url": "https://i.ebayimg.com/images/g/9OYAAeSw3mlqa7VS/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398364,7 +398476,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127960593261?_skw=build-a-bear+Knuckles&hash=item1dcb0bb36d:g:3x4AAeSwxNpqS-tz&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYuJ5oL8pB3a9r4CtVeQ1sN6Z1Sq8ZcclkdgGPvoBc1ixum7zNHWgJndxnq162H7E%2BDq3RXBSiIDtJZLnmXz7ZRTj3GJYKGoJ2b8F2%2FecifumxT7gghvUUk%2F7p0D0KnCQZfpu6b%2FreYs4s3XiL0EhmY%2BFgJE2c%2FDfTDtaW3fcpmMn849UeHvdBkRKnuGl2vyOl6w9hcGfoSsz8tVzA6x1EZZiLe2%2BclKWcEGP2ZRAstwOunwRvuKls8Y9kV27%2BAWHVUcAiMKJvFEl99YHaZ%2Bs1VDUrxTDHijWrQ2V3aAPvrCw%3D%3D",
+      "source_url": "https://www.ebay.com/itm/127960593261?_skw=build-a-bear+Knuckles&hash=item1dcb0bb36d:g:3x4AAeSwxNpqS-tz&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYuJ5oL8pB3a9r4CtVeQ1sN6Z1Sq8ZcclkdgGPvoBc1ixum7zNHWgJndxnq162H7E%2BDq3RXBSiIDtJZLnmXz7ZRTj3GJYKGoJ2b8F2%2FecifumxT7gghvUUk%2F7p0D0KnCQZ5kGJ4MdHoWO9F53qrANWa4C4rXpOfMW7rqTP7ueTvXk5wxetpecoNfN16Mr9WcUf4SW%2BisFhJAUGa2p6x85313ZE4l1uS4IP4WALOLUxffaThp9KEmIl2yI0K13Mwb4d2KW778c4rSHj%2F53OJFSCBGxu9s7DB7L3fqU2xiQyTuQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/3x4AAeSwxNpqS-tz/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398462,7 +398574,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336780743734?_skw=build-a-bear+Mew&hash=item4e69b25436:g:LQIAAeSwhFRqnLL1&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbxHbR9QOEqlCtAhNC5sRPQb4pR1YkyL6Ns6RjxPjoQR4RdrQhA6pveJpVfYUvY1PeBM90cjAlobqcdrjOJp17R8qQ44EziuoShMYsI82yLXcvO6kysXb3iVv403iMo8JSg%2BZcZW7QwwlyLbIWdesDWeHRmXYgGCq9VMyE08AEZyblYweHCK%2B%2BgQkx2WRR3lyAhWQtycukx7IlrlCxnSMt%2B%2B6VErC1fZqrMaQ4lfnqShRF0igVdpHQudbnpunizQTOTC6sq3MpGAuOl1rZkiHV0eCKwWJrwx6GXIBOFwEJWVg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/336780743734?_skw=build-a-bear+Mew&hash=item4e69b25436:g:LQIAAeSwhFRqnLL1&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbxHbR9QOEqlCtAhNC5sRPQb4pR1YkyL6Ns6RjxPjoQR4RdrQhA6pveJpVfYUvY1PeBM90cjAlobqcdrjOJp17R8qQ44EziuoShMYsI82yLXcvO6kysXb3iVv403iMo8JRdXdL1doi%2FTea2litrdh2MZs7S7FcxGAGqdhCz0mZsxCziKv6s%2BCBh7BZDhynvlRuGnCurje0lCMC7bKPxK6owMW8hTfEggNtAO7KeCv316LhBxapA3FppCLRjfrG1%2FTzBoebnK27%2BPjbXBNOUedtwsU1eqKPGnFx4m%2Fw0iILOqQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/LQIAAeSwhFRqnLL1/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398523,17 +398635,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|178566110071|0",
+      "id": "active-v1|820149491029|0",
       "item_id": "mew-pokemon",
-      "listing_id": "178566110071",
-      "title": "BUILD A BEAR Pokemon MEW Plush BAB",
-      "ask_price": 17.88,
+      "listing_id": "820149491029",
+      "title": "Build-A-Bear Pokemon Exclusive MEW 14\" Plush Retired Hoodie Clean Master Ball Se",
+      "ask_price": 40.49,
       "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,AUCTION",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178566110071?_skw=build-a-bear+Mew&hash=item29935e9b77:g:GiIAAeSw78VqxwEp",
-      "image_url": "https://i.ebayimg.com/images/g/GiIAAeSw78VqxwEp/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/820149491029?_skw=build-a-bear+Mew&hash=itembef4b81555:g:NaEAAeSwXYxqrxyL",
+      "image_url": "https://i.ebayimg.com/images/g/NaEAAeSwXYxqrxyL/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398551,45 +398663,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|820149491029|0",
+      "id": "active-v1|178566110071|0",
       "item_id": "mew-pokemon",
-      "listing_id": "820149491029",
-      "title": "Build-A-Bear Pokemon Exclusive MEW 14\" Plush Retired Hoodie Clean Master Ball Se",
-      "ask_price": 40.49,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/820149491029?_skw=build-a-bear+Mew&hash=itembef4b81555:g:NaEAAeSwXYxqrxyL",
-      "image_url": "https://i.ebayimg.com/images/g/NaEAAeSwXYxqrxyL/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|287520992905|0",
-      "item_id": "mew-pokemon",
-      "listing_id": "287520992905",
-      "title": "Build A Bear Pokemon MEW 14\" Plush No Sound No Clothes Retired",
-      "ask_price": 30.0,
+      "listing_id": "178566110071",
+      "title": "BUILD A BEAR Pokemon MEW Plush BAB",
+      "ask_price": 17.88,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,AUCTION",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287520992905?_skw=build-a-bear+Mew&hash=item42f1962e89:g:56oAAeSwC-FqfJCr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbTatL3vWZFFxBAJLTbOPpQjdbDWRgO4H77jhhRmWWMcsK42wyI1vZR3mcXB1MvgL1qcJsa8vUx6QrwQgYBkdURjiyrnu4bNDtENJWfaXDhc0x%2FU%2Fs2BODt37aG4aNwT0o9flk2IJAzelUrput7eQCytH1RLTuM4QyQ8X1919AOi84cvKPxPam52%2B8iAHo20%2FUk38VlpwmMMYtI4YE6ML0E1Ht4mDTAmTubyFLPBnteVOn4L%2F3G%2FmM56VnHZXHEfluzfhz8RcIDgpJRE65fn4dSKv80GGaYV3Ipj2N28tTmMQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/56oAAeSwC-FqfJCr/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|256097112914|0",
-      "item_id": "mew-pokemon",
-      "listing_id": "256097112914",
-      "title": "NEW  Exclusive! Build-a-Bear Pokemon MEW    Hoodie",
-      "ask_price": 30.0,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/256097112914?_skw=build-a-bear+Mew&hash=item3ba093d352:g:aLcAAOSwi5lkefxG&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGblJZ5gU%2F1T9cqUxE05qL%2BI74LCZkUV7NFlo4Z0DfK0AUmWXcpO%2BGHRhr2Uu2RZpZQcse6zWw4ci2faDwzszHcS9B9sKJkTmo5oxKGIfVGdlKMvglgcRgyih3wQoZ9UAZMc3Fz0LDGxwFLCjRk%2FKv%2BdgevC12JXciGVtwZHqpuwLGF2TRxTShEmBYSaKbnwXBNI%2FydCl5iJuPIfJIVgG3XEbbOGm5JPE3ts%2FYcMdAAe6Yv3R%2FRtAzKrxcG%2Bz%2FPb4T4CHXSfrWe%2BCm9l1plYQm7FNB3t%2FkgIOgfDt7p2hBgDkw%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/aLcAAOSwi5lkefxG/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/178566110071?_skw=build-a-bear+Mew&hash=item29935e9b77:g:GiIAAeSw78VqxwEp",
+      "image_url": "https://i.ebayimg.com/images/g/GiIAAeSw78VqxwEp/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398607,17 +398691,45 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|407188907151|0",
+      "id": "active-v1|287520992905|0",
       "item_id": "mew-pokemon",
-      "listing_id": "407188907151",
-      "title": "Build A Bear Pink Pokemon MEW Plush Stuffed Animal Retired Pink Original 151",
-      "ask_price": 28.47,
+      "listing_id": "287520992905",
+      "title": "Build A Bear Pokemon MEW 14\" Plush No Sound No Clothes Retired",
+      "ask_price": 30.0,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407188907151?_skw=build-a-bear+Mew&hash=item5ece59a48f:g:epwAAeSwie9qmLYs",
-      "image_url": "https://i.ebayimg.com/images/g/epwAAeSwie9qmLYs/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/287520992905?_skw=build-a-bear+Mew&hash=item42f1962e89:g:56oAAeSwC-FqfJCr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbTatL3vWZFFxBAJLTbOPpQjdbDWRgO4H77jhhRmWWMcsK42wyI1vZR3mcXB1MvgL1qcJsa8vUx6QrwQgYBkdURjiyrnu4bNDtENJWfaXDhc0x%2FU%2Fs2BODt37aG4aNwT0pcJwZkR6w4WfIytfqrL9F1o1%2FQSiR1uagyjk39JSJMXzGf5CAtSA56J8mLzjRPY2zrzQ7yyeoRBQFmAjMqoaLX3U3qXC2PmaNUtLuQqJlYLLiIM5Go9%2BeUyKLvwJ%2FNHBa%2FnYen%2BvvaxIIoFX16%2B%2F1xzf8kX5WTTZt4E93nZ%2BRqoQ%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/56oAAeSwC-FqfJCr/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|256097112914|0",
+      "item_id": "mew-pokemon",
+      "listing_id": "256097112914",
+      "title": "NEW  Exclusive! Build-a-Bear Pokemon MEW    Hoodie",
+      "ask_price": 30.0,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/256097112914?_skw=build-a-bear+Mew&hash=item3ba093d352:g:aLcAAOSwi5lkefxG&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGblJZ5gU%2F1T9cqUxE05qL%2BI74LCZkUV7NFlo4Z0DfK0AUmWXcpO%2BGHRhr2Uu2RZpZQcse6zWw4ci2faDwzszHcS9B9sKJkTmo5oxKGIfVGdlKMvglgcRgyih3wQoZ9UAZP8w0Ou1L5g0V0iIZSsotvte2Ek6XTHJps%2F%2B%2FEOE%2B7YoqjkS%2FN73FH14ssTbzWymUTgxcOtzxXCtLWuSLhvphxcjshX%2BozPcYBNAKSQWWV%2Bvq8nIJV3bHgNDk1%2FPBsfDybLKYJB6u4eAMlikLWu9Db4EkZ%2FecFqQBkaMRY7uDVm0A%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/aLcAAOSwi5lkefxG/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|137607616118|0",
+      "item_id": "mew-pokemon",
+      "listing_id": "137607616118",
+      "title": "Build A Bear Mew Pokemon NWT  14\" Plush Retired BAB No Sound W/ Tags",
+      "ask_price": 50.0,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/137607616118?_skw=build-a-bear+Mew&hash=item200a0d9676:g:D9QAAeSwJHdqepmd",
+      "image_url": "https://i.ebayimg.com/images/g/D9QAAeSwJHdqepmd/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398630,22 +398742,22 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/277574457883?_skw=build-a-bear+Mew&hash=item40a0ba1a1b:g:LdgAAeSwBO9pPGUS&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaw7v%2BFdBxs7P5%2B76XthgYSYkWmhV2z1FaV8X7LXLKtCp9bAaJiIJZ0YrbrxV7nBtUlwcre2A1gc0eO3xb93mLVCo20t1rFhiz6tOZGsJsjN34reQc1aO%2FmiUiPUBTE4d3FeKcBa2FW7MqKDLDh0h6tXjE9Yi97v2h7llz3QOYjHAboK50ggFbSvGjd0OiTo5%2FWMi7zk9x7HHzdN4Jcp6V4zGUyCFqdXpK%2Fp%2Bhet%2B4F1NdLTbDmoENxM0lKMSz7%2BWkascH%2F6V00n4DE2MUlXZUYnFdg1kD7zH3%2BCyov1YDsDQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/277574457883?_skw=build-a-bear+Mew&hash=item40a0ba1a1b:g:LdgAAeSwBO9pPGUS&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaw7v%2BFdBxs7P5%2B76XthgYSYkWmhV2z1FaV8X7LXLKtCp9bAaJiIJZ0YrbrxV7nBtUlwcre2A1gc0eO3xb93mLVCo20t1rFhiz6tOZGsJsjN34reQc1aO%2FmiUiPUBTE4d0Hotg9p2B8tCBqDN%2FKktFdz4kBSlWvDgfdtKoT6hB0uFMSqXkbEkMRNxgY%2F43UiY3atUL6WtFheEuhil0g0hmONrfHMKDUwKxvfEFrRn1vuRtM7rsLOkzfIVb9zXq4hWI53R%2FJYPjZ0L2B8j0%2FuYWj1ZPNpnkJHulR2Q2X34S7sw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/LdgAAeSwBO9pPGUS/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|198238072349|0",
+      "id": "active-v1|266072977634|0",
       "item_id": "mew-pokemon",
-      "listing_id": "198238072349",
-      "title": "Build A Bear Pokemon Mew & Eevee 16\u201d Plush 2021 W/ Sound Tested Working HTF",
-      "ask_price": 44.09,
+      "listing_id": "266072977634",
+      "title": "NEW  Exclusive! Build-a-Bear Pokemon MEW    Cape",
+      "ask_price": 33.0,
       "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/198238072349?_skw=build-a-bear+Mew&hash=item2e27e8ee1d:g:cWgAAeSwVR1pnNEp&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb%2Bzkm8KUuiF2SbXVu7qAblLaidZ8immiefbEhurhSunw2InUiOK0Pop46CAdbvFZt4i1Uzag%2FgcSr3srryqvcBM1ixs5R0WXRxvg5jqJ1WV3Ij4hoiLBk%2FHJm5gBwi58cldf%2BQzKsYNthsPkzucAWnRkrNcyY78MyH6sarzMw1BLhIq8076bOxrFsbZJR5OrXkxfhJLPf2fIFOlHUrgkluW5Qk%2Fj4rr2VC3KgX%2B3v07WjOWTGhE9pON7xn3r7JBPgDLChN3fJmMBNzjbxhe8QEoE5qU5%2FXShoDfmT%2BpTAQ5A%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/cWgAAeSwVR1pnNEp/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/266072977634?_skw=build-a-bear+Mew&hash=item3df32f70e2:g:NwUAAOSwLd9gxlDI&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ6PEkGBRkcvhRPgbf%2FYTooWeAhtKw93%2FCRqWZsLUmPR%2B6pMEbWC%2FZMYezbRFamaFFbRL%2Fic99%2F%2BKapttiwzK6goADDFW4oQ3ffC8Odif3aZGqaiE%2FOL40arHZ03zU5JbjGTp6zv1t2B7UmTc7CrvusS%2BRya1x0fEQrupQamznzuW9f4XRsrIGlzwPA8m9SYMmsqRrAOXO%2BsO%2BFcUfcIUQEKHBF58BpFaBQUmvx%2FaM0Gb4vWpDqUUDNPXF71Qav1S7CSNlPYkRD1xymkViW3hWzlhBjGk%2F%2Bqua4LAfeMZiKzg%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/NwUAAOSwLd9gxlDI/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398672,7 +398784,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147192611755?_skw=build-a-bear+Trixie+Lulamoon&hash=item22455d03ab:g:Fy4AAeSw2Itpre9L&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZjlT%2B4ERGw%2BQEkpQjQ7MeX7JG8pPGBL9s42lI%2B3QWS5vBNMN9GsVnx4W9foi4dOCYMpI5Ckgs3pQxBC7sLC4JOu3dyV5CuDy9EEnnTC%2FZjC5AWOi49IwHb3ueAck8eiYebyb4WUCPooIxYJwhMBA4KS%2FO%2FOpgTdXRa5JzIiGILHuwckbfVe6tnmJmwr6VLjoYRyY3hxsbwNZaT4tuCLruwlRp5xx8xMGZwBzAinw3p6UjoXU3Hg%2FK%2BoZKNrKR1MOxX70AcM6iMW8JCtQdJ62wG4adqHGAX6wSQ0rCfLcyF1kDMkQlJdNKlaCVAsba3oKc%3D",
+      "source_url": "https://www.ebay.com/itm/147192611755?_skw=build-a-bear+Trixie+Lulamoon&hash=item22455d03ab:g:Fy4AAeSw2Itpre9L&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZjlT%2B4ERGw%2BQEkpQjQ7MeX7JG8pPGBL9s42lI%2B3QWS5vBNMN9GsVnx4W9foi4dOCYMpI5Ckgs3pQxBC7sLC4JOu3dyV5CuDy9EEnnTC%2FZjC5AWOi49IwHb3ueAck8eiYcFoA6TO%2BtXP%2B7Ity0elh%2BPGYCIg43xJoaiSZrKXnveX17D68e7iyj53XbSvTK22oEkp5tnZ6om9w4ptVKEixtGD6rFF%2FeP0d14YouKFi0ke2EKXYFNXDQcD6t22idv9d28a3r0bhDrE9pmf0RDgg866GZqTrd6sb0g0XvkBxlMRk6fkfSFigJAqkmoXUhNHkI%3D",
       "image_url": "https://i.ebayimg.com/images/g/Fy4AAeSw2Itpre9L/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398747,17 +398859,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|287598694632|0",
+      "id": "active-v1|127683681151|0",
       "item_id": "trixie-lulamoon",
-      "listing_id": "287598694632",
-      "title": "Build A Bear MLP Trixie Lulamoon 16\" Plush 2014 My Little Pony HTF ",
-      "ask_price": 79.99,
+      "listing_id": "127683681151",
+      "title": "Build a Bear PLUSH MY LITTLE PONY Unicorn Trixie Lulamoon",
+      "ask_price": 35.0,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287598694632?_skw=build-a-bear+Trixie+Lulamoon&hash=item42f637d0e8:g:9fUAAOSwF1pmGEB3",
-      "image_url": "https://i.ebayimg.com/images/g/9fUAAOSwF1pmGEB3/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/127683681151?_skw=build-a-bear+Trixie+Lulamoon&hash=item1dba8a5b7f:g:3y4AAeSwThVpj-v3",
+      "image_url": "https://i.ebayimg.com/images/g/3y4AAeSwThVpj-v3/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398775,17 +398887,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|127683681151|0",
+      "id": "active-v1|287598694632|0",
       "item_id": "trixie-lulamoon",
-      "listing_id": "127683681151",
-      "title": "Build a Bear PLUSH MY LITTLE PONY Unicorn Trixie Lulamoon",
-      "ask_price": 35.0,
+      "listing_id": "287598694632",
+      "title": "Build A Bear MLP Trixie Lulamoon 16\" Plush 2014 My Little Pony HTF ",
+      "ask_price": 79.99,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127683681151?_skw=build-a-bear+Trixie+Lulamoon&hash=item1dba8a5b7f:g:3y4AAeSwThVpj-v3",
-      "image_url": "https://i.ebayimg.com/images/g/3y4AAeSwThVpj-v3/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/287598694632?_skw=build-a-bear+Trixie+Lulamoon&hash=item42f637d0e8:g:9fUAAOSwF1pmGEB3",
+      "image_url": "https://i.ebayimg.com/images/g/9fUAAOSwF1pmGEB3/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398873,20 +398985,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|178451079385|0",
-      "item_id": "umbreon",
-      "listing_id": "178451079385",
-      "title": "Pokemon Umbreon Build A Bear Eveelution Stuffed Animal Plush No Sound",
-      "ask_price": 29.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178451079385?_skw=build-a-bear+Umbreon&hash=item298c8360d9:g:M50AAeSwiOxqk0cL",
-      "image_url": "https://i.ebayimg.com/images/g/M50AAeSwiOxqk0cL/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|377348209344|0",
       "item_id": "umbreon",
       "listing_id": "377348209344",
@@ -398901,17 +398999,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|287624803554|0",
+      "id": "active-v1|178451079385|0",
       "item_id": "umbreon",
-      "listing_id": "287624803554",
-      "title": "Umbreon Build a Bear Plushie W/ UmbreonV Single Strike Promo Card",
-      "ask_price": 58.5,
+      "listing_id": "178451079385",
+      "title": "Pokemon Umbreon Build A Bear Eveelution Stuffed Animal Plush No Sound",
+      "ask_price": 29.99,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,AUCTION",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287624803554?_skw=build-a-bear+Umbreon&hash=item42f7c634e2:g:yC0AAeSwPXdqkzyC",
-      "image_url": "https://i.ebayimg.com/images/g/yC0AAeSwPXdqkzyC/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/178451079385?_skw=build-a-bear+Umbreon&hash=item298c8360d9:g:M50AAeSwiOxqk0cL",
+      "image_url": "https://i.ebayimg.com/images/g/M50AAeSwiOxqk0cL/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398926,6 +399024,20 @@ globalThis.BEARCHART_DATA = {
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/327390742709?_skw=build-a-bear+Umbreon&hash=item4c3a0248b5:g:S6cAAeSw~i5oE4-n",
       "image_url": "https://i.ebayimg.com/images/g/S6cAAeSw~i5oE4-n/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|287624803554|0",
+      "item_id": "umbreon",
+      "listing_id": "287624803554",
+      "title": "Umbreon Build a Bear Plushie W/ UmbreonV Single Strike Promo Card",
+      "ask_price": 58.5,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,AUCTION",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287624803554?_skw=build-a-bear+Umbreon&hash=item42f7c634e2:g:yC0AAeSwPXdqkzyC",
+      "image_url": "https://i.ebayimg.com/images/g/yC0AAeSwPXdqkzyC/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398971,20 +399083,6 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|307146086154|0",
-      "item_id": "umbreon",
-      "listing_id": "307146086154",
-      "title": "Build-A-Bear Pok\u00e9mon Umbreon No Sound/1 Outfit Collectable",
-      "ask_price": 49.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/307146086154?_skw=build-a-bear+Umbreon&hash=item478355570a:g:5gEAAeSwT-hqjfzr",
-      "image_url": "https://i.ebayimg.com/images/g/5gEAAeSwT-hqjfzr/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|168756351345|0",
       "item_id": "umbreon",
       "listing_id": "168756351345",
@@ -398999,6 +399097,20 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|307146086154|0",
+      "item_id": "umbreon",
+      "listing_id": "307146086154",
+      "title": "Build-A-Bear Pok\u00e9mon Umbreon No Sound/1 Outfit Collectable",
+      "ask_price": 49.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/307146086154?_skw=build-a-bear+Umbreon&hash=item478355570a:g:5gEAAeSwT-hqjfzr",
+      "image_url": "https://i.ebayimg.com/images/g/5gEAAeSwT-hqjfzr/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|358465041793|0",
       "item_id": "umbreon",
       "listing_id": "358465041793",
@@ -399008,7 +399120,7 @@ globalThis.BEARCHART_DATA = {
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/358465041793?_skw=build-a-bear+Umbreon&hash=item53762e7581:g:KuUAAeSw7MFpCrIN&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYX2SmoplIFQwqghhmvYlgyZrdxwPhqSsy6Y1CgYuEO3mED3ZjJ5BIlNgq5%2F1n7MpqgB9oz9wCPQGB4cnBuUq%2FFfGTQMpI5Ui2ZSRA9gPwoEUpOZ7aa%2FIHBR%2FV%2FFV2EUYFXOlK8rSorITtShzw2hk89Q1OgAKag0l4GN%2Fq78%2BhvXlOGpOi0AkNRvj55Iw44aFfOwcp%2FoH8QitugVk7JLUDPLkqMA2DHoKxToTYRf9BWugZLtkhHla%2FdVsmTCAuy6RrjIPKTSfxUFSxoDLJhkPXZb1ZkOzcQXcvrBf1%2B%2BMH9lg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/358465041793?_skw=build-a-bear+Umbreon&hash=item53762e7581:g:KuUAAeSw7MFpCrIN&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYX2SmoplIFQwqghhmvYlgyZrdxwPhqSsy6Y1CgYuEO3mED3ZjJ5BIlNgq5%2F1n7MpqgB9oz9wCPQGB4cnBuUq%2FFfGTQMpI5Ui2ZSRA9gPwoEUpOZ7aa%2FIHBR%2FV%2FFV2EUYECTrOFThA8LiFiLYeaI3t5OkalFglaURA3GLT08Mf0p5MVjoU%2BhNJPnuPBD2ty%2Fr72pLNeYD7SrHPGvs5jPM2BkED4uuItbxERMNp6ZsUi4OAtX5wdfb4xKZS8lR%2F6QoVJWOPEE6gJn7PU90aHkEXyEzcS9VIRgg1I0Z%2B8rtFiWQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/KuUAAeSw7MFpCrIN/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -399027,17 +399139,17 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|358602119608|0",
+      "id": "active-v1|800479125055|0",
       "item_id": "umbreon",
-      "listing_id": "358602119608",
-      "title": "Build A Bear Umbreon Pok\u00e9mon BABW 18\" Plush Pokemon Eeveelution\u2b50\ufe0fFREE SHIPPING\u2b50\ufe0f",
-      "ask_price": 58.0,
+      "listing_id": "800479125055",
+      "title": "Build-A-Bear Umbreon Pok\u00e9mon Plush 14\" BABW Eeveelution Stuffed Animal",
+      "ask_price": 39.95,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/358602119608?_skw=build-a-bear+Umbreon&hash=item537e5a19b8:g:JJsAAeSw7cFqFd4f",
-      "image_url": "https://i.ebayimg.com/images/g/JJsAAeSw7cFqFd4f/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/800479125055?_skw=build-a-bear+Umbreon&hash=itemba60461e3f:g:vkYAAeSw-Mdqd1qx",
+      "image_url": "https://i.ebayimg.com/images/g/vkYAAeSw-Mdqd1qx/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -399050,10 +399162,10 @@ globalThis.BEARCHART_DATA = {
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/198051888513?_skw=build-a-bear+Umbreon&hash=item2e1ccffd81:g:hF4AAeSw8VdpdQy1&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ7IXMn5QwXLzK%2BwpxDouRo4j%2Fbqy0fkzQaIcxfSR95N1kY46CPCHuZgWUCONO%2BeX1YLsgC%2FWdBsS0pFpwbfjnle0A38iVWJ6hI8JVvqlzrIEbxtO05r%2B0sM5NqgxtHUSWdB5J1U0XSPzu%2Bs2a86fV3HI8pUsVuhRIxktNyCwDtdLUL%2BrtqktG80jMnJBqb%2FPuazXUWkfDoOOoGcrAAFjgaM53dIDwMw6v4RM7TvNJ%2BojZxDMkCU2VckAIsPcWx5hIC14x9i1VEM6u4mvSzTC6y8A6mepz%2B73OPmMDcR03FCw%3D%3D",
+      "source_url": "https://www.ebay.com/itm/198051888513?_skw=build-a-bear+Umbreon&hash=item2e1ccffd81:g:hF4AAeSw8VdpdQy1&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ7IXMn5QwXLzK%2BwpxDouRo4j%2Fbqy0fkzQaIcxfSR95N1kY46CPCHuZgWUCONO%2BeX1YLsgC%2FWdBsS0pFpwbfjnle0A38iVWJ6hI8JVvqlzrIEbxtO05r%2B0sM5NqgxtHUSXIa9e4819%2BSvSPjWXqs%2FdYebC5CFDNwiIE%2Fk2xXqQ%2B6Euih4iyvaMkU9mGZsQSvKinyRO9msvologQfQch36p%2FO4rcrnLKt5brNyhFsCREArDDNwm0gZ3odajCEz9ee3zbvbjPTteH%2BVI4aVFRm%2BB4GAXkJIdEQtGUV0VscNkjDA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/hF4AAeSw8VdpdQy1/s-l225.jpg",
       "evidence_type": "active_listing"
     }
   ],
-  "active_listings_fetched_at": "2026-10-08T03:12:59Z"
+  "active_listings_fetched_at": "2026-10-08T04:17:07Z"
 };
