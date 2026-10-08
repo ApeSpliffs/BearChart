@@ -416,6 +416,25 @@
         D.items.filter(function (i) { return i.needs_review; }));
   }
 
+  function renderNewBears() {
+    var box = $('new-bears');
+    if (!box) return;
+    var rows = window.BEARCHART_NEW || [];
+    if (!rows.length) {
+      box.innerHTML = '<p class="fine">No new bears in the last 90 days. The next check runs on Monday.</p>';
+      return;
+    }
+    var byName = {};
+    D.items.forEach(function (i) { byName[i.canonical_name.toLowerCase()] = i; });
+    box.innerHTML = '<div class="table-scroll"><table><thead><tr><th>Added</th><th>Bear</th>' +
+      '<th>Year</th><th>Type</th></tr></thead><tbody>' + rows.map(function (r) {
+        var it = byName[String(r.name || '').toLowerCase()];
+        var name = it ? '<a href="' + BC.itemUrl(it.id) + '">' + BC.esc(r.name) + '</a>' : BC.esc(r.name);
+        return '<tr><td>' + BC.esc(r.added_on || '') + '</td><td>' + name + '</td><td>' +
+          BC.esc(r.year ? String(r.year) : '\u2014') + '</td><td>' + BC.esc(r.species || '\u2014') + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
   function renderRecent() {
     var recent = D.sales.filter(function (s) { return s.sale_date; })
       .sort(function (a, b) { return b.sale_date.localeCompare(a.sale_date); })
@@ -728,6 +747,7 @@
     renderDraft();
     renderQuality();
     renderRecent();
+    renderNewBears();
     renderSources();
     renderQueue();
   }

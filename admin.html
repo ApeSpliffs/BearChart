@@ -178,6 +178,12 @@ copies it into the public photo store and shows it on the bear's page as
         </div>
 
         <div class="panel">
+          <h2>Recently added bears</h2>
+          <p class="fine">Added automatically every Monday from The Build-A-Bear Wiki (last 90 days). Check each one looks right. To remove a wrong entry, add its exact name to <span class="mono">tools/catalogue_exclude.json</span> and it drops out on the next refresh.</p>
+          <div id="new-bears"></div>
+        </div>
+
+        <div class="panel">
           <h2>Recently added sold observations</h2>
           <div id="recent"></div>
         </div>
@@ -200,6 +206,7 @@ copies it into the public photo store and shows it on the bear's page as
 <script src="entitlements.js"></script>
 <script src="submissions.js"></script>
 <script src="common.js"></script>
+<script src="recent_bears.js"></script>
 <script src="admin.js"></script>
 </body>
 </html>
