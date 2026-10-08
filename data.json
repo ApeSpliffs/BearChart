@@ -392782,20 +392782,6 @@
   ],
   "active_listings": [
     {
-      "id": "active-v1|920011256651|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "920011256651",
-      "title": "Build-A-Bear Classic Brown Teddy Bear Plush Stuffed Animal BABW",
-      "ask_price": 17.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/920011256651?_skw=build-a-bear+Classic+Brown+Teddy&hash=itemd634f1b34b:g:eMEAAeSwtChqw~~h",
-      "image_url": "https://i.ebayimg.com/images/g/eMEAAeSwtChqw~~h/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|820158966518|0",
       "item_id": "classic-brown-teddy",
       "listing_id": "820158966518",
@@ -392805,7 +392791,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/820158966518?_skw=build-a-bear+Classic+Brown+Teddy&hash=itembef548aaf6:g:mcMAAeSwDNdn5Nsb&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZgL%2FTzHLhlMBV09p8KhrnRcy2xKXIo7--8v8l4KHGrC4jEjLYEkzR09ecVZAL8rp3Ze6xGJmmXfEJ7wSM%2Fur0ZxQMCiES57FEwSQzvOY33sH2%2BhtiX6ZzW4K0c0w7IHz%2B6elRlSe%2BdSsfOFGtVH%2FqkvlGKUBqTnOXlUBoArxqrM1PRvVWdWjtob6%2BNYrkgxhLarJ0mld6oL8bkJuTNky8JZY8Zq%2Ft7Pdn3IO5D96wcXFnquWh2OFtrDl28W7i8%2BvVXxhtECVd6n8j7aPUIqBuKDZDAmFI4XnnRWxaVfuQgWukc%2F%2BBhqh9MOHrcxcV24iQ%3D",
+      "source_url": "https://www.ebay.com/itm/820158966518?_skw=build-a-bear+Classic+Brown+Teddy&hash=itembef548aaf6:g:mcMAAeSwDNdn5Nsb",
       "image_url": "https://i.ebayimg.com/images/g/mcMAAeSwDNdn5Nsb/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -392819,7 +392805,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/327027047536?_skw=build-a-bear+Classic+Brown+Teddy&hash=item4c2454bc70:g:1vIAAeSw20xppsVt&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZuzO10tD98BHg%2FHfhlys7ZrgqTY81JYMs54qtYiYRHvS8OQbDEdl%2FVTETb0akKfKJT5PfkvkKyRphXyDO8fGq%2BriRqh%2FkDNGtyVyanIoEIVyJY4fOc9rO9EE%2FsV88s6Th6UrpNc7S69cYHHvP%2FY9g8eWlwD55uHjXlb83g1FjjY03V%2BxgchhwxA2dqohyClX56QAr8w4Uziwk7eO9f%2BthrM0hFtnTXf%2Br8A%2BlPeCByJbJlCicU%2FkLk018H69SvgLioxpsskkcYZMqQ2Jz7Q%2BX12LF2JwgcfEyixD4EMevMvLqcWkpwEG2JSyDISWZkvUE%3D",
+      "source_url": "https://www.ebay.com/itm/327027047536?_skw=build-a-bear+Classic+Brown+Teddy&hash=item4c2454bc70:g:1vIAAeSw20xppsVt&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZuzO10tD98BHg%2FHfhlys7ZrgqTY81JYMs54qtYiYRHvS8OQbDEdl%2FVTETb0akKfKJT5PfkvkKyRphXyDO8fGq%2BriRqh%2FkDNGtyVyanIoEIVyJY4fOc9rO9EE%2FsV88s6Th0t1eP25u15N9hZcP7fa7WzTq74dkPtWCN%2BLJ0OMOa%2Bd5WQ11uW0d3U29LHC6zGhija9BbRY3n8aWxc%2BGIwGXs%2Fa4iht9FK5Gf3q9ihxUw2J95h2%2B8uT6po%2Fw2L0t8VXdfipRhfjkBTMk9YPA2mFByszIREdhPe8ZTPzgn9aGY7%2BMhDfD3azHmCgcCe75yAiE%3D",
       "image_url": "https://i.ebayimg.com/images/g/1vIAAeSw20xppsVt/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -392833,8 +392819,22 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/398293121929?_skw=build-a-bear+Classic+Brown+Teddy&hash=item5cbc1ebb89:g:09sAAeSwWUhqgfpp&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYtCy%2FBBJZJby4nayb5rctwPGhVYkdYH0dk95G7Qr04f1rK53nfxSvJVEspfPhuBpXbrXrmF11xkfRLdxxKjEGqihpVlDiV9k8Vi4w5k4r44%2B8qzUpRImfLZoMGpEX4yzldmVKgQujOWBKImC093dWv9agnfFDNz%2B00TuKcs29tiQLxFnIlZumGTJW5prMdyuRr1dNfWTigEuPQRN6QJk06b1UoMeT%2BMCX1fS%2BpD%2BcObhngyAmQuSk66bn6m3%2BJNNry7bVEi0xzkGcggtXUJBAeBkYsJlUdcVkL0asFX4SW3EUM%2FRCKsqb6EoE3%2BE%2B%2F5LQ%3D",
+      "source_url": "https://www.ebay.com/itm/398293121929?_skw=build-a-bear+Classic+Brown+Teddy&hash=item5cbc1ebb89:g:09sAAeSwWUhqgfpp&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYtCy%2FBBJZJby4nayb5rctwPGhVYkdYH0dk95G7Qr04f1rK53nfxSvJVEspfPhuBpXbrXrmF11xkfRLdxxKjEGqihpVlDiV9k8Vi4w5k4r44%2B8qzUpRImfLZoMGpEX4yzlQikRGYRNROQ1NoQjyPv3PagwEOlJxcInc0wn0RZxUq4GRf8VzHZTJ0kzxyQJTS64HwUimNaSD2b6LOitqXf3ASp8rKrPQSTBdMsBYWhu0Hk6V5AxcDA2S49UlXYhIFQh4Ul5vuM9lT6u8DP7S7RHVTbsksifUJEL%2Bx4IDofincxjtPSAJZ%2FdqosNBjykNQDM%3D",
       "image_url": "https://i.ebayimg.com/images/g/09sAAeSwWUhqgfpp/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|295036881832|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "295036881832",
+      "title": "Build a Bear Classic Brown Teddy Bear Plush Stuffed Toy 15 Inch",
+      "ask_price": 14.98,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/295036881832?_skw=build-a-bear+Classic+Brown+Teddy&hash=item44b1918ba8:g:2pMAAOSwOLxllyZ2&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYa93jIVf07PvzBdktk9ktf14wv88BkOjdX256f4VD%2B78j38kheCa%2FGl%2FT6E0UwGbJtTiIG1GPp8tLcSFPlHMmHJ7ro7wGTblNtWd4EzcQnCHJkWUH%2FcVBMp7byGZ%2BrHzzCN4VAxTBMX4yNzQzVT9RmPqXmVz3%2FtQyM62Fv8Ch33eCIShkiwAp0jmPQT1nTNPlYqPVPb5I9icrhUP5%2BMNLoPl16dsp4mFlbFHFrbmCC%2FVqfES%2ByVY7dbSRQBW5HNs8m9B0Sha3YqLWhArtx1Hh%2FDHb07wPDDM4C%2BI2bb0R1usggYNmlLkcbThRvEknrXa0%3D",
+      "image_url": "https://i.ebayimg.com/images/g/2pMAAOSwOLxllyZ2/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -392863,6 +392863,20 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/157110176798?_skw=build-a-bear+Classic+Brown+Teddy&hash=item24947f0c1e:g:kEwAAeSwwnlqcjUE",
       "image_url": "https://i.ebayimg.com/images/g/kEwAAeSwwnlqcjUE/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|920011256651|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "920011256651",
+      "title": "Build-A-Bear Classic Brown Teddy Bear Plush Stuffed Animal BABW",
+      "ask_price": 17.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/920011256651?_skw=build-a-bear+Classic+Brown+Teddy&hash=itemd634f1b34b:g:eMEAAeSwtChqw~~h",
+      "image_url": "https://i.ebayimg.com/images/g/eMEAAeSwtChqw~~h/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -392950,6 +392964,48 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|168694515732|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "168694515732",
+      "title": "Build-A-Bear Workshop Classic Dark Brown Teddy Bear Plush 15 Inch Heart Tag",
+      "ask_price": 13.5,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/168694515732?_skw=build-a-bear+Classic+Brown+Teddy&hash=item2746fa0814:g:xkIAAeSwINFqq2Ws&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZfBjVoaTiwgRBbUJXWO6ECE3iEmg%2B7eNAvHKFXo3lKUsNjZMgXWK1taqj8va9qFeYVZxQGbbuUIqa1WcElfbCif9M2SmiT1h5nWOjlMV1Z0r6UMawPjc2njDHIOZobtKPWN0wKXW9tzeZOo7%2BEq%2Bpxh7Ijf4KL0x%2FYOVnojU6DjhdI4aDPO3Fdf37E2Q1pMQiiHOjEByEgeLtCDICs2XPb3ntBbpn4CYjqPFNynW3%2FghHCj2kxBNPduncwoYOmuudvmLb0TggqIpYnZBBnwnuU5nMS0WCH%2FFSisqgJFwpHNMnx9UI4qunE%2B3QnlmYcFmg%3D",
+      "image_url": "https://i.ebayimg.com/images/g/xkIAAeSwINFqq2Ws/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|398363078984|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "398363078984",
+      "title": "New Vintage 1997 Build a Bear Workshop 11\"Classic Brown Teddy Bear W/ Sunglasses",
+      "ask_price": 39.99,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/398363078984?_skw=build-a-bear+Classic+Brown+Teddy&hash=item5cc04a3148:g:VlUAAeSwFLNqnGZa&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYJzagYpm4XH4qJlSYcZJvpr78SY5N0HieGUjqcSbKfX75fF6oBi0jQ7jssM4XeQ60qq75pTEBmBJd3ROK1PPt%2FXbk7tuUGM9IOZslBUjmaCxrkj77oDBNtQPpKoP%2BzUVsv7TunKOIAY4jHxVUMcwR02OqqtJ%2B2GDR2D75eb9NI0gtq1mUqqYcJUwqrrFjNEtNJAUsEpTVJA424mpjDrI0xIb6sFPfpM8JegHI%2FG3NYNT7ggnN%2FgHxOVHppyFZHPTJVESdL8HUE7Rbf45kgcN46aVLnZC9iiPwRZEAV9rOJNUvwca56eJQI2%2F9lKbRWVgw%3D",
+      "image_url": "https://i.ebayimg.com/images/g/VlUAAeSwFLNqnGZa/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|267512608349|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "267512608349",
+      "title": "Vintage Build a Bear Workshop 10\" Classic Brown Teddy Plush Red Bow",
+      "ask_price": 17.5,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/267512608349?_skw=build-a-bear+Classic+Brown+Teddy&hash=item3e48fe765d:g:0U0AAOSweTdnXrTD&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYo53vcS0wuz9xKzxedYnYNZpgkDgG8H5rA0fOMhfrhCVgak6VSiFP7Y64Z3J2Z01LNkWQR8RLAPNCwilk4Rvqz8Qvu4UCAUO9GRMomzZxVyrVWuiZ6F34KU2Lvkob7QBcJ1bPHJM5NP3%2FqNfirGDqxRAjetbeuM18XR2LCaIf4ZR2dekeD03ryUuBgIjHFrpq3hahff4p0uKKnGf8EVnFlmhIh5B7D8RFac9rl0SfGDf4SzUjAZWgXYFb9toORCNkqkBDS5KYewJYxRyli7rMkz8Xkg930x1dRAkZICYS1ODbjnqLhU16wHrnbfp9J9vQ%3D",
+      "image_url": "https://i.ebayimg.com/images/g/0U0AAOSweTdnXrTD/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|178440306798|0",
       "item_id": "classic-brown-teddy",
       "listing_id": "178440306798",
@@ -392964,76 +393020,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|295036881832|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "295036881832",
-      "title": "Build a Bear Classic Brown Teddy Bear Plush Stuffed Toy 15 Inch",
-      "ask_price": 14.98,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/295036881832?_skw=build-a-bear+Classic+Brown+Teddy&hash=item44b1918ba8:g:2pMAAOSwOLxllyZ2&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYa93jIVf07PvzBdktk9ktf14wv88BkOjdX256f4VD%2B78j38kheCa%2FGl%2FT6E0UwGbJtTiIG1GPp8tLcSFPlHMmHJ7ro7wGTblNtWd4EzcQnCHJkWUH%2FcVBMp7byGZ%2BrHzxHapCB3yNuvQgMmAPun4gc7eiw%2BhZmECji8Gi92Psh7zrsk%2F7tx%2F6p%2FdTM8kLBZgBb2CC0O6WL6y79kosS7pHpWbPYPX2UMXfmWjVy7X8dfS9V9unqW9hh8lbeCFULJGR12gleDZn4R1GQI4aJUaYmeGmE6dUJryXydFQIEdHyPyasn3KV4gdrM5FrV7cAjeA%3D",
-      "image_url": "https://i.ebayimg.com/images/g/2pMAAOSwOLxllyZ2/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|168694515732|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "168694515732",
-      "title": "Build-A-Bear Workshop Classic Dark Brown Teddy Bear Plush 15 Inch Heart Tag",
-      "ask_price": 13.5,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168694515732?_skw=build-a-bear+Classic+Brown+Teddy&hash=item2746fa0814:g:xkIAAeSwINFqq2Ws&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZfBjVoaTiwgRBbUJXWO6ECE3iEmg%2B7eNAvHKFXo3lKUsNjZMgXWK1taqj8va9qFeYVZxQGbbuUIqa1WcElfbCif9M2SmiT1h5nWOjlMV1Z0r6UMawPjc2njDHIOZobtKNsn2a6Tl6DuziF--wYW4ypnEj8dF6tqAugcwzmIOKg%2Ff5NeS00UnGe1i2zzswqf1BSEXpdwWd2%2Fszcuyi6oS%2FR7HlFe9%2FVxmQ1EqWpYIkLL%2FbfU%2FjTyALm5kxoJNZoIMQJAFIQprWktD8bMR1Y%2B%2BzoOYmJOhXm%2BtgQxXSAP9nJjKUsI8xa3KovMO20z5GbxkY%3D",
-      "image_url": "https://i.ebayimg.com/images/g/xkIAAeSwINFqq2Ws/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|267512608349|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "267512608349",
-      "title": "Vintage Build a Bear Workshop 10\" Classic Brown Teddy Plush Red Bow",
-      "ask_price": 17.5,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267512608349?_skw=build-a-bear+Classic+Brown+Teddy&hash=item3e48fe765d:g:0U0AAOSweTdnXrTD&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYo53vcS0wuz9xKzxedYnYNZpgkDgG8H5rA0fOMhfrhCVgak6VSiFP7Y64Z3J2Z01LNkWQR8RLAPNCwilk4Rvqz8Qvu4UCAUO9GRMomzZxVyrVWuiZ6F34KU2Lvkob7QBemEQTLmp8%2B%2BFG%2FWIZsZvMZCl%2BLNB7IV8GLzck4zhKjJ6Hb0GuNfg8ug1V4vVS8CmxHNRfNwhVo4rGQ8B%2BXQXxCtJBSRxHcZbay294%2BzEjpqfkVH0GyZ7ZZAP0%2BuhSbv0M%2BPW9ww9oKMoUkAk%2FKCh6ReIdCkxSGuZ85t6gU6mO%2Bf0bScn9AzRhPj6RmaKRSS4Q%3D",
-      "image_url": "https://i.ebayimg.com/images/g/0U0AAOSweTdnXrTD/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|186762064914|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "186762064914",
-      "title": "Build a Bear Workshop Build a Bear 16 inch Classic Brown Teddy Bear Plush",
-      "ask_price": 18.85,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/186762064914?_skw=build-a-bear+Classic+Brown+Teddy&hash=item2b7be2f412:g:LtYAAOSwUdZlgcag",
-      "image_url": "https://i.ebayimg.com/images/g/LtYAAOSwUdZlgcag/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|398363078984|0",
-      "item_id": "classic-brown-teddy",
-      "listing_id": "398363078984",
-      "title": "New Vintage 1997 Build a Bear Workshop 11\"Classic Brown Teddy Bear W/ Sunglasses",
-      "ask_price": 39.99,
-      "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/398363078984?_skw=build-a-bear+Classic+Brown+Teddy&hash=item5cc04a3148:g:VlUAAeSwFLNqnGZa&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYJzagYpm4XH4qJlSYcZJvpr78SY5N0HieGUjqcSbKfX75fF6oBi0jQ7jssM4XeQ60qq75pTEBmBJd3ROK1PPt%2FXbk7tuUGM9IOZslBUjmaCxrkj77oDBNtQPpKoP%2BzUVsKatFkiV0AyUyjCjZe%2FxaZieReU0iDW7dQdqKCIq2f1ZD83cJbQaXWquakQ%2F0dzEwKvJ0T%2BsVl1N1j490TjqSjtgbZX5aalnsb21EOzxe48YocOz6aO5BRZlJvw5YXVgEfH2kOXXXs9M%2FHXod7BBWnO6hYW7ASxqhV0YWo982eu2sSPoYxZs1EcE5z%2BZMP%2FuI%3D",
-      "image_url": "https://i.ebayimg.com/images/g/VlUAAeSwFLNqnGZa/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|227553768535|0",
       "item_id": "classic-brown-teddy",
       "listing_id": "227553768535",
@@ -393043,8 +393029,22 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/227553768535?_skw=build-a-bear+Classic+Brown+Teddy&hash=item34fb42f457:g:tuQAAeSwAuNppiOf&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZxmp9WL%2FiEeMy7M3t1nHpBEF6l%2F0n7RwuhR%2Br1gp0zq34Y9HMGLTqAKeh2sunX8Yk629eGIPIS6DbVlQrU5UilnSXiNASnHzJ8pckhnT04KApagl6wxYI2H0uaxclmg3qAYL1Cf4xjHxN%2FpgnLjs%2BBn1A1rp6CFqwV7ou2DN1P4x3aNKfLAI06gjtZ0BgJynL%2BW%2F%2BHTCQqlHuypwg2K9FwTdqaN9qHJBAeq4cjhFjQF2eUAyf%2FFB7J8oL5wshPvjtzmbuY3DsgIHOiBo11ijO7j6qD7FLkSBJWbltVPMV9JnjCqJ%2FcFWF6f4iGdxYiLSE%3D",
+      "source_url": "https://www.ebay.com/itm/227553768535?_skw=build-a-bear+Classic+Brown+Teddy&hash=item34fb42f457:g:tuQAAeSwAuNppiOf&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZxmp9WL%2FiEeMy7M3t1nHpBEF6l%2F0n7RwuhR%2Br1gp0zq34Y9HMGLTqAKeh2sunX8Yk629eGIPIS6DbVlQrU5UilnSXiNASnHzJ8pckhnT04KApagl6wxYI2H0uaxclmg3q8o3oQzIG%2BEO7Zs2UPW3gOBygewxZEQ1gOV9I7O2dxjl--VO3cyxDPgnZ3fErRfuavbs3iymvKV8dwCR83sdKjMTsfWV4FNUGpt0gmAJNzNgLmyovzw4XUEnVXs%2BaNBPJwg7E%2B3Dr2J%2BC70GIxgdKFlPJQLzGWIO3bWPqOVDPuh4UtNHGraPT0k0ovUC75sLQ%3D",
       "image_url": "https://i.ebayimg.com/images/g/tuQAAeSwAuNppiOf/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|257504385698|0",
+      "item_id": "classic-brown-teddy",
+      "listing_id": "257504385698",
+      "title": "Vintage 1997 Build a Bear Workshop 14\u201d Classic Brown Teddy Bear EUC",
+      "ask_price": 15.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/257504385698?_skw=build-a-bear+Classic+Brown+Teddy&hash=item3bf4751aa2:g:5wQAAeSwkuZqBHIP&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYkSl8TQC0u9J8lk%2FoiLrG8I6pVKHnIuD%2BQmvSQlHADDAz0b9b9nUU3T%2FZ0dy%2B7jr3TMGB9JX8tvu13MrzjzJhFTWZ6UwZTTX%2BK0MiXPJSPjE5Eybrby90TycDQ0U52h88MYkKviunFUV8j%2FozWEYPSX5o0VZTRpnQXRwDW60MhK%2FpwxK4Z3F%2BZLLmfMIX6f3cOkwK5avonE39EdA7HGhAAbXz8ehgfInpGj2OJpDBk%2Fb3J9L2MspS1MGwcutYYymhervsu5e2B9WesOSAEvDGuk9ah4xVbXKCeMYzLkiaKgutSQM9EN6X6Sd9T%2Fm%2FiPv8%3D",
+      "image_url": "https://i.ebayimg.com/images/g/5wQAAeSwkuZqBHIP/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393071,7 +393071,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/920003560555?_skw=build-a-bear+Shaggy+Dog&hash=itemd6347c446b:g:8NAAAeSwlOZqUnO0&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbgPbbilmBr%2BuPqvHbbR6dB8LNIafdikViquS4UERrVqRPkbwgqUWojoC0vNqXIshwT%2Fon0UTtlD1NWxxG35dSZ6Vt3k%2BfMlMcjhqIItZowZUBKKnDi8g4YQiCAGIxtpRo9PRqYHnQ8MjtEPGbgRKM5iETn13raSd%2BiTRRzHeovoTEpLgwQhGP%2Flx7%2FvUdztA8alKv5EkUvr0nRXGzP7tn5E4TSibMAdUrQe9eIARur4Fc7PlnEtYGXmpnFROsUdS5wCzij4kJRp0fpoMhBHPmbOa15wvzlMlPgkoaak0vE%2Bg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/920003560555?_skw=build-a-bear+Shaggy+Dog&hash=itemd6347c446b:g:8NAAAeSwlOZqUnO0&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbgPbbilmBr%2BuPqvHbbR6dB8LNIafdikViquS4UERrVqRPkbwgqUWojoC0vNqXIshwT%2Fon0UTtlD1NWxxG35dSZ6Vt3k%2BfMlMcjhqIItZowZUBKKnDi8g4YQiCAGIxtpRqzer0GK%2F%2BWPn448qwZ4CClRqpbwTzXjoT7uuVkvc3orOQ7de97g6fqkcfiHlJBY0HHDna24dtMYnMLxcIbl%2FxWvuIkLv%2B9Dwpay0oPXGFX6QyHuzolYPkfOeGzLQ7tKYiJ04%2Ff5a3IybCbSdUovqiwufiiGORbpJGplure61x8gA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/8NAAAeSwlOZqUnO0/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393085,7 +393085,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298740858424?_skw=build-a-bear+Shaggy+Dog&hash=item458e57be38:g:kRkAAeSwPspqxn4s&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbjXq14BRKLIP%2FymDknjSK5bs2UQrcBiGSwKEBEdAYhaBuHFRYq42YoW6ci987A6VQExZordAM2Urce2MGz32W7N2KZz9rDTASe772DeAGWOsSwL5Hmmuh7GTIM6O%2FCE1jvbWV2g%2BbXWEx2%2FMcWLF7SlpJNnFdm4SiAYalkF4WQ5ZuSMYEa4jORO9sj%2F4QTWMELM7hukorJvsnqIlNjbJEj4mp7u70sqza41Kcd7XI4qYUWQv6WFy4uau5rminWK5YjUe4gfvcS1%2FguJAkNk9ZmMVQRcrrehV937PZFH3p22g%3D%3D",
+      "source_url": "https://www.ebay.com/itm/298740858424?_skw=build-a-bear+Shaggy+Dog&hash=item458e57be38:g:kRkAAeSwPspqxn4s&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbjXq14BRKLIP%2FymDknjSK5bs2UQrcBiGSwKEBEdAYhaBuHFRYq42YoW6ci987A6VQExZordAM2Urce2MGz32W7N2KZz9rDTASe772DeAGWOsSwL5Hmmuh7GTIM6O%2FCE1gs8JpfDVAJuwasQLzVKwg9RIW%2FygXG2TPnMBfRNPac35IHmf6PLLXLKRQ7b8SaRRqA77Y03ZAXf6jyM2WZYUJlJdm8lzkOBc6ak8SdKHDZU7Sl8eZLKjsJ64GARRmk0OV42dY%2BojnLPuO6dshePqLGrS3wrkG9mjfTpim6tJi%2Fzg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/kRkAAeSwPspqxn4s/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393099,7 +393099,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/126293631930?_skw=build-a-bear+Shaggy+Dog&hash=item1d67afe3ba:g:C4AAAOSwm09lrd2i&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZYSAa5b1kAWnwwb%2F%2B3D40lnHDScQiG0bhxvczA%2BrPOlEcJ6zd0iXp89rgfMZeHYqYM%2BBmCtioyDRCLlqCw08YctjsR9zc9b9glN8PAe5Kx6qfZRnZ%2FEU97iMMfdy7q6GC%2FUJ%2FGkGie7x9wlfU3%2BbbYepV69K1ESGKRzKdnqf2DxIF%2FmCHzjTOkwvBd3GDhGopb%2BVwKfZ5YUpJvsVvpicLApDFqo9P1U3CqFpd33mNw91tFH6azwiLiWTEJE4ulKhjWYEgiEYVzN6I9QmW8e2Md0FLv5cZn5z5ImKcb0QaFGw%3D%3D",
+      "source_url": "https://www.ebay.com/itm/126293631930?_skw=build-a-bear+Shaggy+Dog&hash=item1d67afe3ba:g:C4AAAOSwm09lrd2i&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZYSAa5b1kAWnwwb%2F%2B3D40lnHDScQiG0bhxvczA%2BrPOlEcJ6zd0iXp89rgfMZeHYqYM%2BBmCtioyDRCLlqCw08YctjsR9zc9b9glN8PAe5Kx6qfZRnZ%2FEU97iMMfdy7q6GBkCMTGCGLuRnp91NKmGpwj7xxTJlc%2BXWPlUPAvvB5HRy2vygB6%2FB7XGYKOjtJjXtmfF2VsV2nBghmtUoM%2B%2F5onHqrO0gtbcU%2Fgpnn2Pre9k1v0E04W0evdfW9kaPzSQhF%2FlXfCAYD6GzqTMQfEIJlf06P%2FblhBOYUf831jYnkD%2FA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/C4AAAOSwm09lrd2i/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393160,20 +393160,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|188999732657|0",
-      "item_id": "shaggy-dog",
-      "listing_id": "188999732657",
-      "title": "Vintage Build A Bear RETIRED Shaggy Brown Terrier Dog 17\" Plush Outfit",
-      "ask_price": 14.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/188999732657?_skw=build-a-bear+Shaggy+Dog&hash=item2c01430db1:g:DqQAAeSwV~VqucbA",
-      "image_url": "https://i.ebayimg.com/images/g/DqQAAeSwV~VqucbA/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|227490086096|0",
       "item_id": "shaggy-dog",
       "listing_id": "227490086096",
@@ -393185,6 +393171,20 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/227490086096?_skw=build-a-bear+Shaggy+Dog&hash=item34f7773cd0:g:uTkAAeSwmmZqjLvY",
       "image_url": "https://i.ebayimg.com/images/g/uTkAAeSwmmZqjLvY/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|188999732657|0",
+      "item_id": "shaggy-dog",
+      "listing_id": "188999732657",
+      "title": "Vintage Build A Bear RETIRED Shaggy Brown Terrier Dog 17\" Plush Outfit",
+      "ask_price": 14.95,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/188999732657?_skw=build-a-bear+Shaggy+Dog&hash=item2c01430db1:g:DqQAAeSwV~VqucbA",
+      "image_url": "https://i.ebayimg.com/images/g/DqQAAeSwV~VqucbA/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393225,8 +393225,22 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/128081854580?_skw=build-a-bear+Shaggy+Dog&hash=item1dd2460074:g:peEAAeSwS95qMMaJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZT6md%2BkhVp98eZjNeW6ksiTOIeMl8S4CPSotxVfzLMEpReaGYjI6h6tC2ZTz7Lf46vLqzYrMMxtNhlPI8lRSttUm4VTedao48dd12gJnkFyAm%2FzpUGKkMPls4h8DD3LRrUFYiGR6uYy40lWhrOZ59ntulak9i4FsMXduRS7dfdUTRSIvXuZweu5KNxjOj84aMQ3iBTL6c86TAw7ZP0nl4Bgbs1qMxkyjxgWsjZNRdbsotxlrOp4ISIfo3V%2BckH4oW1IZAWjk1zvI2iBxinLuRAJDaj%2BT%2FlgI16OM1VZKXKoQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/128081854580?_skw=build-a-bear+Shaggy+Dog&hash=item1dd2460074:g:peEAAeSwS95qMMaJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZT6md%2BkhVp98eZjNeW6ksiTOIeMl8S4CPSotxVfzLMEpReaGYjI6h6tC2ZTz7Lf46vLqzYrMMxtNhlPI8lRSttUm4VTedao48dd12gJnkFyAm%2FzpUGKkMPls4h8DD3LRr9tQnHCF2YvAwXOK3O2PFxNRfLjfmEdwkz2fhsI7XWrNByO1qmjMslUI2vDDDI0pdqSzJZnZOlS12QVixHV2lM%2FAVH1eMt8ap5scThUi8rNzdStCr7%2BIRHvy6EdxcbGDnGa1%2FDgZqXDtrfuIHaIk50UWtXINqdWNNtC1alb57NRg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/peEAAeSwS95qMMaJ/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|198582655699|0",
+      "item_id": "shaggy-dog",
+      "listing_id": "198582655699",
+      "title": "Build A Bear Scruffy Shaggy Dog 16\" Plush Retired Fishing Safari Outfit BABW",
+      "ask_price": 24.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/198582655699?_skw=build-a-bear+Shaggy+Dog&hash=item2e3c72dad3:g:5zwAAeSwwTlqhgL3&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ1C8q%2BoQy%2Bgm4ZtzY402qPJmYYEYXvwmuhovbigV1YBS%2FCFXPJxHp6WtDOJfN7WGQanz6ck%2B%2FHNxnmF8uRT0AAUPNWMca8s69fRAktOKLqSavpA06cNHjUeFQczqsqL5jn%2B3hJInBb9BQTgNjRLgxvBQV8ki4CU0GbIH2tBT3WrTwEDhkMYpqM9K8jMMBBEaar4lY7GL4yU75EcDQD6%2F2iyb6y6eLvxQ0uZur%2BSqkfRJzqeuTVVQuuFS2xZ7LOu6Z60Bc1UJ26Iu%2F801YupVKcBkmc%2BiK9KDEt5ODcazBByw%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/5zwAAeSwwTlqhgL3/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393239,22 +393253,8 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/375168017530?_skw=build-a-bear+Shaggy+Dog&hash=item5759c1a47a:g:ly0AAOSw8vhlmDsV&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZRZ85LlEWd8Eb8ymDhqRzrF%2BneEbtz1iK2zXnlgewU8Lnl%2Bo688byy2JZCrnbAg0s5i78JLg4SeSpnkcBPBJY180D%2FoYIohVFUyLoeyn2i%2FryStuI5DhOJdZEQpw09jIOaWwRtE0fS06vXzhUkO4aifY06FLptCr%2BKphZUpE6HIjIQx%2BShqnen2xBEIEW4UtZqu1t7IVzsbY78TJDqSzZ6otswImswA7hz3n%2FHTd%2FzQ8Q%2FSdYpiAhLc%2FcUU1aepwvAR8msjzglQzKJl7C7SbXVmmco3V2zwAYGcVPTWn8rSA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/375168017530?_skw=build-a-bear+Shaggy+Dog&hash=item5759c1a47a:g:ly0AAOSw8vhlmDsV&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZRZ85LlEWd8Eb8ymDhqRzrF%2BneEbtz1iK2zXnlgewU8Lnl%2Bo688byy2JZCrnbAg0s5i78JLg4SeSpnkcBPBJY180D%2FoYIohVFUyLoeyn2i%2FryStuI5DhOJdZEQpw09jIPzXvQFHWOHAbdHoeXCEqorB1mKTTiv6zDUPsJG0gMQpuarg%2Bn%2BekO0XQyBvPBwW2GihFeHtuXhe12NTz2pZuS2g8p1m%2BLeeV4%2BPQf0F82LEzDnrDbgMKPJhI0E0BL8Qpc5%2F8y348sfZVA7r1z%2FQlDgyLKREX1mus%2BMjINcLI7oVw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/ly0AAOSw8vhlmDsV/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|336778873242|0",
-      "item_id": "shaggy-dog",
-      "listing_id": "336778873242",
-      "title": "Build a Bear Plush 2013 Scruffy Puppy Patch Spots Brown Cream Shaggy Dog BABW",
-      "ask_price": 18.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336778873242?_skw=build-a-bear+Shaggy+Dog&hash=item4e6995c99a:g:ABcAAeSw5N9qmz3K&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYrQbW9E3yOL7mSQ06KFCw4z9g96s4Ok%2FF3rKr%2B18y1RXhj0X60OdfLWtsO3HcWPAedQDa5KBBVvx%2Fi5kCcaI1GIA6p%2BREi3wi8XaMilycXmnYL8W8%2BAsdzvRcTUr2%2B9BXu8fGruyNdQ4BNeBalq2DHcmSCtCgoOu%2BGAWpk0C4f5HqTV%2Bg%2FKqV4rQtoh%2FEEhp62fh3j%2FD1IgYogyh6UgrbD%2BD8FZyYWdsYsi%2BGBO7ydD1YEc8Y5pqnZlq%2Byu4FBtxkM1Qt0F4NhIk3sydt4pTsYUU2AnGUczPgUzAA8tOdV0w%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/ABcAAeSw5N9qmz3K/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393286,6 +393286,20 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|336778873242|0",
+      "item_id": "shaggy-dog",
+      "listing_id": "336778873242",
+      "title": "Build a Bear Plush 2013 Scruffy Puppy Patch Spots Brown Cream Shaggy Dog BABW",
+      "ask_price": 18.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/336778873242?_skw=build-a-bear+Shaggy+Dog&hash=item4e6995c99a:g:ABcAAeSw5N9qmz3K&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYrQbW9E3yOL7mSQ06KFCw4z9g96s4Ok%2FF3rKr%2B18y1RXhj0X60OdfLWtsO3HcWPAedQDa5KBBVvx%2Fi5kCcaI1GIA6p%2BREi3wi8XaMilycXmnYL8W8%2BAsdzvRcTUr2%2B9BWZKAAinYIzJpbixCzskbszyXc%2F9uHXkS8iXGxs2%2B7x8tXecU0gGYSj5ZM7mcOSK%2BkAn9QICrjD5gQ%2BUkYdgjzOT%2B%2BhXUa9Ua3mnsjwgWEBsVjeJzKsF8RrD5YruoPzSM%2FWgKqut4hi%2BL%2FUg8JnXFW%2FV2zuOGv%2BSYXlb6zhNRbRqg%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/ABcAAeSw5N9qmz3K/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|405452093624|0",
       "item_id": "shaggy-dog",
       "listing_id": "405452093624",
@@ -393295,22 +393309,8 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/405452093624?_skw=build-a-bear+Shaggy+Dog&hash=item5e66d3f8b8:g:hRMAAOSwXDVndb3r&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ%2BAphngjaDiB2%2ByyveXlxzmFDtIVpUqmOeJJNwCCJ%2FrRo6W9%2FnOMuzino7NgDroKubbhEdAZawfHHw8%2FNB%2FiBdqmNsvRndhyOuz2%2FqtawxZsEDkGnR31en6O9%2BH7bbpVVz56kwXQnZ0lrwoB90V5MI7WWdzG%2BdX%2BZ7uQYwVrCORFgUUUxlNwQM4%2Fmp%2BkYE53Ww0lkgOZJ%2F7KyQxALzCHW9yamNd4dvTa3bqNMkH7d0aluoiDb5c2QorPnBXxg4eaFQot1Zd977EZ5iwpZYWqINvLDW2f00QGl9hFdYb8fCqQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/405452093624?_skw=build-a-bear+Shaggy+Dog&hash=item5e66d3f8b8:g:hRMAAOSwXDVndb3r&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ%2BAphngjaDiB2%2ByyveXlxzmFDtIVpUqmOeJJNwCCJ%2FrRo6W9%2FnOMuzino7NgDroKubbhEdAZawfHHw8%2FNB%2FiBdqmNsvRndhyOuz2%2FqtawxZsEDkGnR31en6O9%2BH7bbpVV19c1FpenZMQfvHFepEG%2BtqcWjCsnXzLInQCXAMSezURVd%2FqmbNu6qDyM49dvWVdscb313vo9YybvuEioYl3TPIiiWe6a5%2B6E7l7uuX2XyyzBlzDF7bgTVvXWtkq6aofP9KTgJ1OfUGm4FhHc2XQeAHU1EL8QmDgGjsWDGDRORmg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/hRMAAOSwXDVndb3r/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|205883696035|0",
-      "item_id": "shaggy-dog",
-      "listing_id": "205883696035",
-      "title": "Rare Build-A-Bear Shaggy Dog Plush Brown Spot and tan 16\" BABW W/Fishing Outfit",
-      "ask_price": 15.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/205883696035?_skw=build-a-bear+Shaggy+Dog&hash=item2fef9fe3a3:g:qaMAAeSwWUhodX9x&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYqj66X3oWHowA4dYTqpF2%2BqnZ7hHG18dNrpP2XvgAde6f%2FYD0rNfKQNtrdl0ADBAvXLY3OLMiMyKohiLAfXX6kU3QaFOi8xO9xeH7P1wAOdYQ%2FMi9p6sTf3AQJpLpj9AQw6s4Kp7NlkHLMTZpm1J5CC0VJ4Wv4zdKiBuMr%2FGZ2uvSOIzyiaqElH8p3QuAFRiMlKJ52ipjynqUvXF40ndy6Q9Pjuc8w1cRH5y86XnSU83NiSWBGNE%2FgcMwwGei1rJvRwTKUKE4drqsUhRpbOJ54KXBZr7LJY0o6xgkoegLxfg%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/qaMAAeSwWUhodX9x/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393426,6 +393426,20 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|236132207602|0",
+      "item_id": "black-orange-halloween-teddy",
+      "listing_id": "236132207602",
+      "title": "Build a Bear Halloween Orange Black Pumpkin Jack-O-Lantern Teddy Holiday Clothes",
+      "ask_price": 12.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/236132207602?_skw=build-a-bear+Black+Orange+Halloween+Teddy&hash=item36fa938bf2:g:R34AAOSwY2RoPQcr",
+      "image_url": "https://i.ebayimg.com/images/g/R34AAOSwY2RoPQcr/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|168695637009|0",
       "item_id": "black-orange-halloween-teddy",
       "listing_id": "168695637009",
@@ -393435,7 +393449,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168695637009?_skw=build-a-bear+Black+Orange+Halloween+Teddy&hash=item27470b2411:g:OokAAeSwR-Fn0M6-&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY1NZgi2I0iW44bYOp9L%2FhtqUW9oI2bADOfWJuIdewF0mMgswgNuw1vXMllotBybYOL%2FDnirMOzwFHkz%2F2G8fIlMp2jRpHk%2FLwA6H6Jr%2Ffdpua4N0cDcy58YhU9ID%2FkrJplMNkPb9ViVgGh2Kfny6XX22cHfT40nQyyd2jmZkl7R1SuXjyRf06fggYu9k3mH%2Bbb40rL3xlpuBbQi7FRh1DZcdmM0geW6AzFmagK%2Fr6HfVcDtDi9A94jbobgldkF7pSdnJ18LSOmF4rFaTgakQ2pq9SS7bsL%2BIhGxxonaqsrIvMDQIJIyayO7FdABnPAi2Q%3D",
+      "source_url": "https://www.ebay.com/itm/168695637009?_skw=build-a-bear+Black+Orange+Halloween+Teddy&hash=item27470b2411:g:OokAAeSwR-Fn0M6-&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY1NZgi2I0iW44bYOp9L%2FhtqUW9oI2bADOfWJuIdewF0mMgswgNuw1vXMllotBybYOL%2FDnirMOzwFHkz%2F2G8fIlMp2jRpHk%2FLwA6H6Jr%2Ffdpua4N0cDcy58YhU9ID%2FkrJr136hAM%2Fx1YNnRXqYxOSV6x%2BfWks7Vn0bWVDazagNnRgPkzH96q%2FSu6cAdcK%2FExNMH8wqCRTrg2g0Kh%2BOl%2Bpv%2BQeCADYVNUr6Msp7sHIpt67cnGXYdjWTmggA01lGxUm1f7DkZQC%2F1oWRg50GwkaBmZB5QNCvY8y4q%2BqOF9tuFvlu2YR6j2DSRihixaBdvI00%3D",
       "image_url": "https://i.ebayimg.com/images/g/OokAAeSwR-Fn0M6-/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393463,7 +393477,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168631497000?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item2743387128:g:8aUAAeSw2o5qiNIU&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZ3QkMCTCobZjMIGIp7L%2F1PdAiuh8RzgcuJkWrX7y3PLqqTR%2BPDanpRHb4V%2BRLNRmM1HMfxQlWvP8pUEQF5gLYxCAGab7uUnlYDZ59ECwe%2FnIuSkm6fUxUDzXLUKqkEOwKh%2F4ItHTU1KHUTmyGeU0uP5K62R2UB2fp%2Bx4MbbcdwRfqR0SKqbMMDK9nh5c%2FmUVdz7G3Jaq2s--n1NszAvGSjNyNp4bwfrSIF9ZLQdZW9cJWcHoQUH0B1Ec%2FdbihyPYoIT14cj7xTeKyIx%2B2ETcrNyX2nvxthZeuJv5PTvi0wGKye6x6LZE9KMiQKkOakzUM%3D",
+      "source_url": "https://www.ebay.com/itm/168631497000?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item2743387128:g:8aUAAeSw2o5qiNIU&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZ3QkMCTCobZjMIGIp7L%2F1PdAiuh8RzgcuJkWrX7y3PLqqTR%2BPDanpRHb4V%2BRLNRmM1HMfxQlWvP8pUEQF5gLYxCAGab7uUnlYDZ59ECwe%2FnIuSkm6fUxUDzXLUKqkEOwKlaNBHy2M8qUx9TRnYpKbpCL6d2r%2FM6924AEBiGoIEqTEH9VGsq2j%2FYu0%2BnumV%2BvSdBY2oUfwffHd7MMLc2Bq%2BmhOwi%2FmMtW1JGYN3fCfNaHXGtDOmyEKTIBGxPODMvK1MsAwsj22z%2BHKf7Sxb76qIDlF7K3mri%2FEtMSOUAmBoxfQ3Q2%2Bd8gG7wUXiZJpR9U4%3D",
       "image_url": "https://i.ebayimg.com/images/g/8aUAAeSw2o5qiNIU/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393477,7 +393491,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/117396136353?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item1b555ae1a1:g:B0wAAeSwNhhqmyv1&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaFoiqQQBlfMGiAI2ucNnUdmJOoiObAJTl4B1np93g7cn7Dut%2BcTAQSXuuRwWbxsHkopccz6OOVwUIi1ytlMk4Z%2BRT18U1dLP9Iy%2FmjQt53PbF31eS1tT%2BbHWlYl04h9euaREuRAVzSClbYijaO8wIZfc2ZdHKljpPcA%2Fnssqo%2FTL2Z770AKLEUsjP9ixK2HRHRmAY0QytIIiaPlSnaTbiJHTtKK0cyL6jOIu965CwxfSHdVUx%2Ftev7jYhEpkDehy0cr9HJOHiG7XybuVtUhuQDF39YGIXuklOdbqA8B6nVqe6d%2BAap2lyMvo%2Fz0Fvot40%3D",
+      "source_url": "https://www.ebay.com/itm/117396136353?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item1b555ae1a1:g:B0wAAeSwNhhqmyv1&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaFoiqQQBlfMGiAI2ucNnUdmJOoiObAJTl4B1np93g7cn7Dut%2BcTAQSXuuRwWbxsHkopccz6OOVwUIi1ytlMk4Z%2BRT18U1dLP9Iy%2FmjQt53PbF31eS1tT%2BbHWlYl04h9esCenmGcMXf%2F6db1Qswz%2BwwOPU2eVvn5TPGfKoKzUUJHQNyPK%2FwoZoFp5G7I%2F6%2FlSbkQpV4Oq%2BiJRuRI422HeoT%2BeP64FgJm7ybwdrf35fkMxYhH7qTvLUzHfiXSivpNxRMy8C5exM4ekg16BkAxTYLGy8Ce6pKHpqMyKZ629qInLy2J5iBiNQRcqRQMPMjHYM%3D",
       "image_url": "https://i.ebayimg.com/images/g/B0wAAeSwNhhqmyv1/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393491,7 +393505,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/297984233090?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item45613e8e82:g:rVYAAeSw9aBpfO5Q&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZkTBF3XdhzfBBsGgiYZWyFdWdhigy%2BwCaKQuq557v0YI%2FAJdY6TQDtEiJv6o19fxAEz3fkbO9ZGsYFIJT%2BzlEupDQ8SQFp92EzEqy7aVdMoZR1agUyAndO0%2FrEnQT4kbZBKWMmr2LqIU7gyIvr4fK%2FLZ08%2Bvyiy%2FqewkJ1fe%2FsMlTj9aNnGdcDBQwacKD%2FNsPBnkPzKuqLCQXZwlM%2FzrbMCGIm4txz%2F27OESlBl4gY6krYEyd%2FziqewtylCGTUmNzOj1TpPcssShIZadcNr7vFx8svqJXFgWuC3WhiFmaOmW33y3yHHD0EDoFppk20HDY%3D",
+      "source_url": "https://www.ebay.com/itm/297984233090?_skw=build-a-bear+Aviator+Pilot+Bear&hash=item45613e8e82:g:rVYAAeSw9aBpfO5Q&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZkTBF3XdhzfBBsGgiYZWyFdWdhigy%2BwCaKQuq557v0YI%2FAJdY6TQDtEiJv6o19fxAEz3fkbO9ZGsYFIJT%2BzlEupDQ8SQFp92EzEqy7aVdMoZR1agUyAndO0%2FrEnQT4kbb77K1lF%2FRVVlblJoBMjqCT4bOcplOxk3iEIBc3miq5II5cgjxzhTqoSg5dzdn3grpgyEP7GkbIG6mqWeU4GfNoZS6E6lXW5Mia8j9hLfgDA4c4S7FlC7vUcL7kskuwaubyJJzMOirXpm30GNTNODTwMMcccj61xWRF3E5i64sdhlaFFj4vo0v55LevcEPLg88%3D",
       "image_url": "https://i.ebayimg.com/images/g/rVYAAeSw9aBpfO5Q/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393603,7 +393617,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/128100458365?_skw=build-a-bear+Pawlette+Bunny&hash=item1dd361df7d:g:RWoAAeSwdQ5quC5g&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNsILuWm%2B8ENK7XMGdHZGhq2izoKLsSYu2W72E%2F9Vi9d3EAXZn3dvpw58Mxuy3lsaRAx%2FxyfYvPZx%2FpEj%2BVaDztfVFv8H5pzPf%2FsUdUIAnRIoXJqZgjeX6OOiGvbqL4CY1RTS1yxlDrDvSk067LsKnVIHGLwm7styliGvpAJMsgijXyxA0WT9bfj5sk3lKVybhCH17TRsYjwqquT0XNNeDbGviYxRGFZK2ZGntGWq4q6mPduxgnM1lA5CVqCf0BzZd13lhLIvv7pR0jXTJ9mtpd2CVNybNta3DyeANoM0RHg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/128100458365?_skw=build-a-bear+Pawlette+Bunny&hash=item1dd361df7d:g:RWoAAeSwdQ5quC5g&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNsILuWm%2B8ENK7XMGdHZGhq2izoKLsSYu2W72E%2F9Vi9d3EAXZn3dvpw58Mxuy3lsaRAx%2FxyfYvPZx%2FpEj%2BVaDztfVFv8H5pzPf%2FsUdUIAnRIoXJqZgjeX6OOiGvbqL4CYgtxmA5SN7qhKL9LlRwX%2FBOV%2FE5%2BNG9ZqxqhIJYi3SQJEmm7qrg2kKBBqe%2BIUHw7Cow3QwYaRk2J3E1%2F%2BDeWd3j%2BAgSxoSF%2BbA%2FiWKUt%2BM3I%2BGNbfkxjClgkiHWlHjEy7ikWOl8t9umCL3oNfjqb%2FkCCdDBi2Qn3%2FZ8Im87TRF4w%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/RWoAAeSwdQ5quC5g/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393706,20 +393720,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|278417695044|0",
-      "item_id": "pawlette-bunny",
-      "listing_id": "278417695044",
-      "title": "Build-A-Bear Pawlette Bunny Rabbit Soft Cuddly Cute Easter Tan Pink Bows  PICS",
-      "ask_price": 16.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278417695044?_skw=build-a-bear+Pawlette+Bunny&hash=item40d2fce144:g:rYwAAeSwq-Jqup~B",
-      "image_url": "https://i.ebayimg.com/images/g/rYwAAeSwq-Jqup~B/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|257432749018|0",
       "item_id": "pawlette-bunny",
       "listing_id": "257432749018",
@@ -393734,17 +393734,17 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|278430386828|0",
+      "id": "active-v1|296633421830|0",
       "item_id": "pawlette-bunny",
-      "listing_id": "278430386828",
-      "title": "Build a Bear Pastel Swirl Pawlette Bunny Rabbit Unique Face HTF Limited Edition",
-      "ask_price": 28.75,
+      "listing_id": "296633421830",
+      "title": "Build A Bear Workshop Buffalo Check Pawlette Bunny Rabbit 16\" Unstuffed Animal",
+      "ask_price": 19.95,
       "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278430386828?_skw=build-a-bear+Pawlette+Bunny&hash=item40d3be8a8c:g:3UIAAeSwL0Rolelt&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb8bowyheptBrnNTNomGWYIKaNsXvJ4jWoX1TC8pBFe5aav1FDYN0IPuWqAww%2BjqvsrLRzfMxPARdhgHBq9SFBBCDGOY4mREjfL%2BWUgAjj%2B1aSk4JPhFMT4qFKa0YaHgrKbDqHyh6AVgROFZnM%2F87hvLzc8DFYkm1NGniIa3%2FTM1FWwEW8yPY1OYiuEdfoH6PEMIPkVMWsnLfVoQUqYI7M2OR0Ad2Dw%2B6o727HXlkqByV4gICvn%2FMO8mWGLBGNbOUw5W1MmMNOBPpKKYlpmJL7Ac7tSEGSn3OyY2h57zxGiWg%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/3UIAAeSwL0Rolelt/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/296633421830?_skw=build-a-bear+Pawlette+Bunny&hash=item4510bad006:g:0lwAAOSwWaVmvjs2",
+      "image_url": "https://i.ebayimg.com/images/g/0lwAAOSwWaVmvjs2/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393757,22 +393757,36 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/800750301628?_skw=build-a-bear+Pawlette+Bunny&hash=itemba706ff1bc:g:xaMAAeSwurdpeDnp&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZAw5bNJFQmZsEOaBSK%2BIh09c2oLJ1FSwhbcNyDcGS%2FogODbAt0QNyObYYMXQToggNY3gAtEkQFmDi8W6gkoANQC4%2By%2B1YENPWC9mX4sGJ739fuU4UejFIBD5HGCcln3d9xVvrf70IFhTn8W9RLmNdhiuLQPDVdR32n3eG2kqa%2BB2ttsm9aWMDasjYX6qvGzVi6FuXAvoNjsxmMNh2tRPGjwflY42TDlp8ZQWmZuiUndLnIvm%2B7x5oC6GoF95%2FyV7DDLlgU6xJ%2Faxy4Bul04sqUc5i0gMAqcs2yhg%2FCqRVaDg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/800750301628?_skw=build-a-bear+Pawlette+Bunny&hash=itemba706ff1bc:g:xaMAAeSwurdpeDnp&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZAw5bNJFQmZsEOaBSK%2BIh09c2oLJ1FSwhbcNyDcGS%2FogODbAt0QNyObYYMXQToggNY3gAtEkQFmDi8W6gkoANQC4%2By%2B1YENPWC9mX4sGJ739fuU4UejFIBD5HGCcln3d%2Fb9n0u5vjXeev4oULxQHJh30k9QHMsMiROoosN7bU5brUQ%2BMZFP6CAg2fhtc%2Feo5vYtIUieDVcNh85oK3%2FoJ%2FT1bcLV4Ntp7Lh4EZhhLxZU%2BA1on%2BYHwdJXEanWlNkB1ZFZNBcc8sDhBt2N9YDWMN14M5BH9n3sKzIyJXmD2ItWA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/xaMAAeSwurdpeDnp/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|296633421830|0",
+      "id": "active-v1|278430386828|0",
       "item_id": "pawlette-bunny",
-      "listing_id": "296633421830",
-      "title": "Build A Bear Workshop Buffalo Check Pawlette Bunny Rabbit 16\" Unstuffed Animal",
-      "ask_price": 19.95,
+      "listing_id": "278430386828",
+      "title": "Build a Bear Pastel Swirl Pawlette Bunny Rabbit Unique Face HTF Limited Edition",
+      "ask_price": 28.75,
       "currency": "USD",
-      "condition": "NWT",
-      "buying_option": "FIXED_PRICE",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/296633421830?_skw=build-a-bear+Pawlette+Bunny&hash=item4510bad006:g:0lwAAOSwWaVmvjs2",
-      "image_url": "https://i.ebayimg.com/images/g/0lwAAOSwWaVmvjs2/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/278430386828?_skw=build-a-bear+Pawlette+Bunny&hash=item40d3be8a8c:g:3UIAAeSwL0Rolelt&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb8bowyheptBrnNTNomGWYIKaNsXvJ4jWoX1TC8pBFe5aav1FDYN0IPuWqAww%2BjqvsrLRzfMxPARdhgHBq9SFBBCDGOY4mREjfL%2BWUgAjj%2B1aSk4JPhFMT4qFKa0YaHgrK9tVLqLWHGL6P2ldb5aukgpl2R3yYfmJ4%2FLBfWHfabPXDg91Bp8%2F6G%2FwD0pJDwNkUB0s%2B34AtORvXV%2BH0tWazXKIpy0j86PqI3RmnyqCsbj3Zylc9oa4dT58o9hExppOo8ULoMP6q3aQqLG2SIlwuN41zm0rHqvi%2BuLT3atlZBBA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/3UIAAeSwL0Rolelt/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|278417695044|0",
+      "item_id": "pawlette-bunny",
+      "listing_id": "278417695044",
+      "title": "Build-A-Bear Pawlette Bunny Rabbit Soft Cuddly Cute Easter Tan Pink Bows  PICS",
+      "ask_price": 16.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/278417695044?_skw=build-a-bear+Pawlette+Bunny&hash=item40d2fce144:g:rYwAAeSwq-Jqup~B",
+      "image_url": "https://i.ebayimg.com/images/g/rYwAAeSwq-Jqup~B/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -393799,7 +393813,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/128119358045?_skw=build-a-bear+Pawlette+Bunny&hash=item1dd482425d:g:HxwAAeSwGhFqxU5a&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYhnkEsfsG3gtL9z2%2FZc2o9SDKkqjAFeB8yyTOi8FokEQRlLic6DAKVgHN9TUDzFMCDcBwQ01rENywlP14zQQjFu%2FoLhuzqqdZ8lV0pAzMiNvYL8A2cvSUpAgyIrPyOkTx6ovjvwHlU0WxYGkvgVqab7W1oW6iJWRkBu599aPRLNkH1dklTT8TBnaL1TYGz%2B4gB8jdDtN5AVcgkKgaRtFbAkYf271tg5LHfePpJjBTREJZV0zcXBkg2jpTuRFoez1h%2FTy8ZyqoN1R2%2FQCXNyEYZNxwNpAlBJ14iLpg5kpQVjA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/128119358045?_skw=build-a-bear+Pawlette+Bunny&hash=item1dd482425d:g:HxwAAeSwGhFqxU5a&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYhnkEsfsG3gtL9z2%2FZc2o9SDKkqjAFeB8yyTOi8FokEQRlLic6DAKVgHN9TUDzFMCDcBwQ01rENywlP14zQQjFu%2FoLhuzqqdZ8lV0pAzMiNvYL8A2cvSUpAgyIrPyOkTwlkzCa7c4s78FhRrEGN4V7NWcS40g9CvIyaW21Nh18Xisjmh864kYCuUTmPQW03iP1x0hGy6sl65EGjNSzHzznUY5GishiLCVy879FKOO1XIMvLBWlZ9znqRHvtCz0Rn%2BiU2QHZy%2B64GJhYZNOO8YnSSfOjYHWk9GnOsYIQhrLjQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/HxwAAeSwGhFqxU5a/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393869,7 +393883,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178506102740?_skw=build-a-bear+Bunny+Big+Ears&hash=item298fcaf7d4:g:BOQAAeSwoXNqrHqj&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZPpMY0ZxPvNJRaLFmligBtrKt8GrZzBFWCUg9F3MCqaTphvPrteKyf%2Ft6INhTuOjLqDP68QeYOdoaPtCg3KdIIDvKOdS6%2Flo8YppgKhLmIK4zlVB1wh6iNJD9EqiIuznk%2BTMsf%2Bl8sPr8tPlczTmmZMEbfABIMT5WKbZDbUaCLuphhrUaPDoO5zjx3HlrZEtnMD8cJUp0sBqf8oXZCHvofmKun%2FTleJFHsApX%2FjYtrzXJxZO2G9776o4F20QY%2FynKyfZKWMN6zBMtIJyG83HkR7P6nzGAAHOX5N6Yj1vpX3CtEVl3XyFBWsoQl8nfmijQ%3D",
+      "source_url": "https://www.ebay.com/itm/178506102740?_skw=build-a-bear+Bunny+Big+Ears&hash=item298fcaf7d4:g:BOQAAeSwoXNqrHqj&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZPpMY0ZxPvNJRaLFmligBtrKt8GrZzBFWCUg9F3MCqaTphvPrteKyf%2Ft6INhTuOjLqDP68QeYOdoaPtCg3KdIIDvKOdS6%2Flo8YppgKhLmIK4zlVB1wh6iNJD9EqiIuznmZygl1jC3xItq8OD%2BTe0GnJvnOPN4n%2FEfw%2F4baSN0FUZzh7o%2FXEyf8gFdioebglTyqiOOh5KJH%2FueauVM%2FlufI3QqgHydhIrxbNbAh2pA6pgEJf3Z3iF8%2FMNpzAfbmVKocE8HTttlAv1INYOn9CHNuVC1KBThmfrbzdxlUBIWzXsXl4j7mCNBRux2FPBR%2BxJY%3D",
       "image_url": "https://i.ebayimg.com/images/g/BOQAAeSwoXNqrHqj/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -393883,7 +393897,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407205082132?_skw=build-a-bear+Bunny+Big+Ears&hash=item5ecf507414:g:v98AAeSwe9ZqkyoZ&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZCW8x0eDC28zdDTSEPxHc4xkTNxuLwMTsWjNE8KBD6GCLz4Dj2zHZ8LvkWW4OLw%2Fen7Kf1MWdp1kdGPO71pbcEmn%2Fuz6gGyz2cIV%2F2kEpReHpi5uop9rsey3PX9gW712L9Fqt7%2FKXSxhwCVT4N0Sha36ZrKYR5ET8%2BkhgtWfnPsLrANyvjA0uPnsVnv8AOs6Z1mQU2b1evVMk%2Fb2BnQ6F7pi7NE2bg4hrNfNAGSWh9im4KgGqw4dqxR%2BZGvmLB96VfkdPL3VSTJuhqQO9NR%2FUshVz0lB%2BHk2gxbodUsAJLjVicUSBEwIh7aapgnsS5vPE%3D",
+      "source_url": "https://www.ebay.com/itm/407205082132?_skw=build-a-bear+Bunny+Big+Ears&hash=item5ecf507414:g:v98AAeSwe9ZqkyoZ&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZCW8x0eDC28zdDTSEPxHc4xkTNxuLwMTsWjNE8KBD6GCLz4Dj2zHZ8LvkWW4OLw%2Fen7Kf1MWdp1kdGPO71pbcEmn%2Fuz6gGyz2cIV%2F2kEpReHpi5uop9rsey3PX9gW712IQ505SAFKlX2ynpnghmjP1MH1Mt43wlvsPnz6eWpn61w268NEgrzoYiM9dnyypyg8ZtUn%2BdNDxX0QfDb6jlDxbdaKCE5yzRZP1XwcsFvZnPrptOx5HHvdOpafNCjV6IGfdkmi%2BUGo1GCd9S9iSSqlJUR3yp4lhsug1BXtYp56v2drRR%2FPmLq1LzerSkxhmLv0%3D",
       "image_url": "https://i.ebayimg.com/images/g/v98AAeSwe9ZqkyoZ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394009,22 +394023,22 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/116999500986?_skw=build-a-bear+Bunny+Big+Ears&hash=item1b3db6b4ba:g:02sAAeSwpaNpdT0Y&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYxBL9lyaZUDzZqEa9PfWM45LoH%2Bq8Q9bwvDx60B3nD%2BnotiVPQVDFznpvGSrRGRhKyXEpBX%2Ft2MJxhXhmW%2FnJFElNxEZ3j4V4ungBYgyfV%2FvN7gUC%2B%2FPTWltv%2FCpDOlCfwW%2FpIJ6Go5F8fs5nuCfP6M%2BV9OHjQZT13bOcsCudk33zW2OCJXecL%2BDemF78T0t6ufdyJYkvyf27PDepDtm076d8ChZfusgqRB6y71qDJbHeV%2FLWWt2sZZBABUQ880jM2ej%2BRIHdCMUBzKfI525KUzSYzowkx0Zealc2iKxvs38QvAqPkDdxBO%2BCxmAaXYPQ%3D",
+      "source_url": "https://www.ebay.com/itm/116999500986?_skw=build-a-bear+Bunny+Big+Ears&hash=item1b3db6b4ba:g:02sAAeSwpaNpdT0Y&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYxBL9lyaZUDzZqEa9PfWM45LoH%2Bq8Q9bwvDx60B3nD%2BnotiVPQVDFznpvGSrRGRhKyXEpBX%2Ft2MJxhXhmW%2FnJFElNxEZ3j4V4ungBYgyfV%2FvN7gUC%2B%2FPTWltv%2FCpDOlCc3KOt2E6XoT2BhGFPwARN1TcOI0Xp5VnYANXKQGVWnDLa9BpvS6KIgwqPJR4fiIWwjhnFnXqq5VqEUMuoHVHl2q%2F7JKNha8J0fufjjEjRUxukHM3vgyQVaENrE4VDS8qOOcVXS%2FimqoU%2B5Fha7Be9u7ZXao9C3G7DGhVgiVxeP%2Bmppl6nEurxlvQgEPPhs4Ig%3D",
       "image_url": "https://i.ebayimg.com/images/g/02sAAeSwpaNpdT0Y/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|298032786384|0",
+      "id": "active-v1|800672837865|0",
       "item_id": "bunny-big-ears",
-      "listing_id": "298032786384",
-      "title": "Build-A-Bear BAB VTG Retired Bunny Big Ears Stuffed Animal Plush Toy ",
-      "ask_price": 24.99,
+      "listing_id": "800672837865",
+      "title": "Build A Bear Holiday  Bunny Big Ears W/ Red Dress & Red Sparkle Shoes 16\" Tall ",
+      "ask_price": 16.5,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298032786384?_skw=build-a-bear+Bunny+Big+Ears&hash=item4564236bd0:g:DlkAAeSw2bppkMaz&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZBQZlEk28p1qbi2bPg5Li8Gr%2BhllRRURtWk7GIL7uLex2XuTUcEOZ1xpuJbXUgy%2B1boRMDk1OMtFPBG%2FSkKntWF8IEPR3PbFVbtx%2FsRL%2BqIwWsvwLxmAEbqyekh6DMAiAuQF3b1mUZnRHOq%2Fmt%2F2mwfGi7pMBvt9qaAYAertJXMOsCDxltYIzLQqoOUfWO%2FMeWzMIkYOi95dcsPpt5ZbzCStm4BJvCZ6NowQIRy%2FhDyTm4k8jppBmvnfFjGThptRd%2B9Nf7eiaWRwHk8JVhpAuuAfCi%2BAbpeNqsg%2BxpeFtbfuqC2R0%2FTRbrfB9Cn4ekJfY%3D",
-      "image_url": "https://i.ebayimg.com/images/g/DlkAAeSw2bppkMaz/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/800672837865?_skw=build-a-bear+Bunny+Big+Ears&hash=itemba6bd1f0e9:g:PbsAAeSwiyFqqw8X&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaEniJw3OhfYj75exnM22KYw95TPes6ExmQBmRjewBhiQPL2NdL%2FpllBbGcGa6nbXUkRhnYae3AgZ7FiR9z0cv0ePAFhUxpkUe89%2BCmHWn9LwT6g%2FmuWALxmP63W9qzDiwCfXtp4XS2FQXX4zDceg3XTRRnhH1y1vPViQ4Dv%2FtnLA64cd10aGEdbn7BPHDKC77pvVVAwcUFS%2F1YsXw2s%2BGzLQ2B0I4%2B4zC7%2FqzdUbfP9lQYNLrRehRIyTVYSBsEmZ8cA%2Fld9Pu0cCv2uKqjMvaIkkr167cKMNu%2F9WP6CQCeYQ%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/PbsAAeSwiyFqqw8X/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394042,6 +394056,20 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|298032786384|0",
+      "item_id": "bunny-big-ears",
+      "listing_id": "298032786384",
+      "title": "Build-A-Bear BAB VTG Retired Bunny Big Ears Stuffed Animal Plush Toy ",
+      "ask_price": 24.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/298032786384?_skw=build-a-bear+Bunny+Big+Ears&hash=item4564236bd0:g:DlkAAeSw2bppkMaz&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZBQZlEk28p1qbi2bPg5Li8Gr%2BhllRRURtWk7GIL7uLex2XuTUcEOZ1xpuJbXUgy%2B1boRMDk1OMtFPBG%2FSkKntWF8IEPR3PbFVbtx%2FsRL%2BqIwWsvwLxmAEbqyekh6DMAiBjjyaT83%2FackaSCgYbjmGXljxAO%2BAMElslVG%2B5cMQh8Ul%2B2LY0LMc0tGvw0VO1aCTrwKSl3%2BsBvOP4X3Is8Bu1XwXEGanytVw7OaW9KW7DVBJHYgEavBYVIS5iqRdTDfrhg17AoiBU9Mpsev%2FFLuW6pTtYgADDcyXCfy4f31tCCZ3nf8UJNsSCm5glfjhv6dU%3D",
+      "image_url": "https://i.ebayimg.com/images/g/DlkAAeSw2bppkMaz/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|157703264216|0",
       "item_id": "bunny-big-ears",
       "listing_id": "157703264216",
@@ -394051,22 +394079,8 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/157703264216?_skw=build-a-bear+Bunny+Big+Ears&hash=item24b7d8d7d8:g:RNkAAeSwbnVpnMmO&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZB8fC40kaDB3uvGiIXKnQV%2BlL7lyoWNnxTUe9BM8qz0JxV2z1yORuvQA2TZER9J1ZIIj9vjheb6V%2BMJPwH9WHSSXMsCRAZbxkHvG9qjGzOojKfnulrQa%2BmSXsp5TtAd6nGW5OQJuKzlj2diCB5syhLWVY8d9zeeJ1XqINOr4Wj7uesrCBgyVcr9gkCIF1s%2BzJTj1Si7LFxNjS78ESNq4%2B5pEFaubcoFc8U37GsVSF22lSCiy5JdNUnMA4B5vsfr6snSPKi0mutebsjCR1UvdGmgPWKGdOy8k6na2QCCM3T6g%3D%3D",
+      "source_url": "https://www.ebay.com/itm/157703264216?_skw=build-a-bear+Bunny+Big+Ears&hash=item24b7d8d7d8:g:RNkAAeSwbnVpnMmO&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZB8fC40kaDB3uvGiIXKnQV%2BlL7lyoWNnxTUe9BM8qz0JxV2z1yORuvQA2TZER9J1ZIIj9vjheb6V%2BMJPwH9WHSSXMsCRAZbxkHvG9qjGzOojKfnulrQa%2BmSXsp5TtAd6nTwJKE90d2t0qrG1V8jXdLMDAfFf9BCF9qy0f6ou6Pk%2BmSG28LG%2BRHJJ%2FqZQGNPW7hCIiG60zudoazRz7nj0CCw0wQ7imL%2FZcgX4HrVMQf526ia%2BLdEperANrX4JceK%2BasbJIjXPyFg%2Bodyq6ceneI84EA9%2BZgyXj5iL8enWWiww%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/RNkAAeSwbnVpnMmO/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|298554779284|0",
-      "item_id": "bunny-big-ears",
-      "listing_id": "298554779284",
-      "title": "Build-A-Bear Workshop Lil\u2019 Bunny Big Ears Plush Rabbit Stuffed animals Retired",
-      "ask_price": 20.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298554779284?_skw=build-a-bear+Bunny+Big+Ears&hash=item4583406694:g:pKMAAeSwfCxqcBNv&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbnqMc53nr3G0wVacvMBoNyBT4U56ljaX7bRfI4W69CWcbB4sm095IOZKieP0kZrA0UWYUTC7H7qSJacseWE5Kuq6HsKJ5FJbOchaJDGhZ5%2Bf%2B14ap1%2FIIZhXlpXCF3ybeLp1gE%2FgrD3nc2tYP0rebJae8Ndw87F3LpS0JXi0YhLQazz2h2q7qJoadcxGog6kumOQMw8%2FSzitiRij7PAJooERI9K361H5z0v8DPmi%2F1LMHUaQkEzlu9aEYJTOzOW0EmpPG%2F4Cdl7zf%2FC%2BNHoq7U4iJUuDv9IU1vDXagXM9gYjWOw3AA4jAR613wkwua3NQ%3D",
-      "image_url": "https://i.ebayimg.com/images/g/pKMAAeSwfCxqcBNv/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394093,7 +394107,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168721021696?_skw=build-a-bear+Lucky+Kitty&hash=item27488e7b00:g:TOsAAeSwF5BqjhhJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbTgkiiVkB9Wq4DLGtiOhE97bFTVG%2B1DgjG4b3G5yZ2jY2jrC5M1HLp4w3W6kqc0XanTqLdkHjqg3FBWlWyrv%2Bxleb8p4wJemI7%2BNXSksbpo8GcpLgweFjgLwOoisfn57ObdpcrZuHyDljhHfpsWl7ALPHr2y2mQJF2A%2FoxrbV8Fwq1rvlAvoUTSvtvsb6CB1uAdKLAGk%2BiCN4Y%2FBTokSXQWtdlWdfGrd%2BGl97ZXCa9WSwJFeMzDEXmakzIqALdpx3Bk%2BGfPClcTYNEIBTGoe5Eud9%2BM48ob9q2tHF1hldxfQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/168721021696?_skw=build-a-bear+Lucky+Kitty&hash=item27488e7b00:g:TOsAAeSwF5BqjhhJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbTgkiiVkB9Wq4DLGtiOhE97bFTVG%2B1DgjG4b3G5yZ2jY2jrC5M1HLp4w3W6kqc0XanTqLdkHjqg3FBWlWyrv%2Bxleb8p4wJemI7%2BNXSksbpo8GcpLgweFjgLwOoisfn57OHK6it163CHIbEwNYbnWGcJuv2StZIq6Mylisc2kYaeM1BWTDphdkjFDdGEnIk629UgXKVlid5MeK8lxPJwSWQB2jVp%2FtiEn5IHUo7mJNcnWifftxXVQ4swD72pIGxxnzUgHrbp7XRiVYsinHEP3NSREe8IiQ6IP9p7oL%2FSwyooQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/TOsAAeSwF5BqjhhJ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394261,22 +394275,8 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267797112722?_skw=build-a-bear+Lucky+Kitty&hash=item3e59f3a792:g:uh0AAeSwmhZnsmEg&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGarp%2FOL6fCVWGVzhc7ExqMc1iF4QXK%2FUlRvhWdypmoPi21uEIozmToHtED33sdm9chrx7vyBNMROUhRpv5cNXHOB0riUn%2B8zihegrNm75ebutL6NnZTLgtL31Rg7QnMFBpnROSiEXxGJU3SLFxTIYbV9s9%2BLQs1aQYe8e66KkPkU%2FULanVXmWUg%2BUiswty5UkD6Eco2zknb9pfBDOJxpfpNDB4xbk3v6%2FGoNr3egPQ44xa0BBSAPpZvoDHdhiR0u7eAAEfXTWc%2Fd%2FHF8HEo0%2F2I1poBpcHfpFVRuq8%2FA2xDeQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/267797112722?_skw=build-a-bear+Lucky+Kitty&hash=item3e59f3a792:g:uh0AAeSwmhZnsmEg&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGarp%2FOL6fCVWGVzhc7ExqMc1iF4QXK%2FUlRvhWdypmoPi21uEIozmToHtED33sdm9chrx7vyBNMROUhRpv5cNXHOB0riUn%2B8zihegrNm75ebutL6NnZTLgtL31Rg7QnMFBqmL7ksaTsBghaK1AgOm%2B68%2BnW166VdMOx2%2FF39ecsFzCMYQZoZnNMLvEkVoPTg9miEuzmUSsjOcpBZil2QIB79wKy1pHQzR3g8HiI3VXKbq%2Frt8SwpsrdGvVXDqT2qR8%2FurokP1RwqvOQNj%2FR21genjCdiTaLC4byRVwlvHJkvMA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/uh0AAeSwmhZnsmEg/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|377530241169|0",
-      "item_id": "lucky-kitty",
-      "listing_id": "377530241169",
-      "title": "Build a Bear BABW Lucky Kitty Halloween Black Cat 13\" Plush Orange Paws 2013 A5",
-      "ask_price": 15.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/377530241169?_skw=build-a-bear+Lucky+Kitty&hash=item57e68e5091:g:D8IAAeSwC7Zqux7g",
-      "image_url": "https://i.ebayimg.com/images/g/D8IAAeSwC7Zqux7g/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394291,6 +394291,20 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/377150907337?_skw=build-a-bear+Lucky+Kitty&hash=item57cff223c9:g:qWAAAeSwYIJo99GX",
       "image_url": "https://i.ebayimg.com/images/g/qWAAAeSwYIJo99GX/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|377530241169|0",
+      "item_id": "lucky-kitty",
+      "listing_id": "377530241169",
+      "title": "Build a Bear BABW Lucky Kitty Halloween Black Cat 13\" Plush Orange Paws 2013 A5",
+      "ask_price": 15.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/377530241169?_skw=build-a-bear+Lucky+Kitty&hash=item57e68e5091:g:D8IAAeSwC7Zqux7g",
+      "image_url": "https://i.ebayimg.com/images/g/D8IAAeSwC7Zqux7g/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -394317,7 +394331,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278263768042?_skw=build-a-bear+Lucky+Kitty&hash=item40c9d023ea:g:G7YAAeSwYTBqeRJS&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb9%2Byfhaz5uFDE7WlW1bEWrwmqIqBJMOG2oEPsKs3uFTwaVy42sOA7S0mpLVi6iALQARGZxwnAeqLLSaSW3eFAOaYnNoPJLObl45dxbhmcbLAUpHMdRBoVJtIcEA%2BgTIciHXj11PCRXKtcO1mAhCCVvUg6jQB0njkdBq8O%2Flr8siKMzODNQpZiIeeRpWODZEj3p1Nt28irZyEj48T3YKdnxwwSCDoCgVS4xwRqDGcEnskMdor91YhYdJKKw%2FIH0YXctRABqENyBEFkH95y7Dwy5Eb0krnc6JqTsZrEawXo10Q%3D%3D",
+      "source_url": "https://www.ebay.com/itm/278263768042?_skw=build-a-bear+Lucky+Kitty&hash=item40c9d023ea:g:G7YAAeSwYTBqeRJS&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb9%2Byfhaz5uFDE7WlW1bEWrwmqIqBJMOG2oEPsKs3uFTwaVy42sOA7S0mpLVi6iALQARGZxwnAeqLLSaSW3eFAOaYnNoPJLObl45dxbhmcbLAUpHMdRBoVJtIcEA%2BgTIchE87ssQnOcYm09GHMAdTNrIzEkFwm8rVGwSNvbMfXzmszHVhgccCMlN%2FYTUrv1B04FY52QiXnGP7yKnTPhNsUKd8qm3XKUH4QfTlQa4WRCOolpOEadzbMtdXGP6HCHZRSP30Z8IaAb2Yv%2BPDc3mTVljr8%2FGSIxhn9hlkf9j7hFfg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/G7YAAeSwYTBqeRJS/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394331,7 +394345,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/177252359476?_skw=build-a-bear+Lucky+Kitty&hash=item2945105d34:g:GHEAAOSwXURjA8vQ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZV4Fv4bdY%2FTViILE4x%2BlLovc5Pv2UpRxHbfcbtIjo6LUeSRP7raji9bj%2FWMqMn9xfYvt2v7WdGHK1qayJISLAU1h17BKnDjofcDTo1CYqCySW%2BI0vgI7VKrUHOK48XC6JsCbewdC8Xl33cGMe0WmVJ%2F6tw2v1pfDPdKi0yFW%2B6CcoLJ7maJoPPdsZQBXrboPFmpBK52aBemtZ9jh4em89X6qx5BBbHg%2BcghDtmX6QlVdsBr3nUMG8B2Ou6TPIoDmqV8NLtdLtiACIKjd8g3pxndzonqCTuUrwsw0lj3zMBjQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/177252359476?_skw=build-a-bear+Lucky+Kitty&hash=item2945105d34:g:GHEAAOSwXURjA8vQ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZV4Fv4bdY%2FTViILE4x%2BlLovc5Pv2UpRxHbfcbtIjo6LUeSRP7raji9bj%2FWMqMn9xfYvt2v7WdGHK1qayJISLAU1h17BKnDjofcDTo1CYqCySW%2BI0vgI7VKrUHOK48XC6KpaFBvxZc6aUL5YlXsbLArXMC%2FpK9NefOiGvTqY6x6Qry5dld0j8f4HHmxqJcG%2BX4w8cBVvAlAxs2J0MmSlmn%2Fr4KOA%2BwmGfvNHKIuRFNDRa1pPMycZ41yvdZ1w%2Fqq6KyOaCzjfnKtsvs6B%2F1cs7HQGKjiJ7JxgE%2BPG3sJSIP4Ug%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/GHEAAOSwXURjA8vQ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394485,7 +394499,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/376884929107?_skw=build-a-bear+Chocolate+Bunny&hash=item57c017a253:g:kU8AAeSwTi1pcX54&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZlrFur1qiUwV5YaR00txP1je7blg5LPXXMj6lZSPsRArk7RosApEozGxXZqz6BMnZ7XgkIkz%2F605a5TzQ3rNR8z3p1HXvEx5z75T7PPWuyAOAPdMOYJtmVM2FDRou%2FWSRP%2FveDmmuDQZIw0gvJRMIkAJ%2F3qszo%2FvIdRBFWaUzWspJyUBaWnPY3SOjIzzC2v77bGmGHfdyZgRWjPVfcbN8n%2BBj87ax5rdyl9OMtQD4DqpS8oHVzAWto8tvXEbo2uA5xMRaeu8yD0U9cQ7iuYh7J3V6jfp9rysKfp9OrEvGKkSzQPbFyA4Iy7ytolJ0rjb8%3D",
+      "source_url": "https://www.ebay.com/itm/376884929107?_skw=build-a-bear+Chocolate+Bunny&hash=item57c017a253:g:kU8AAeSwTi1pcX54&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZlrFur1qiUwV5YaR00txP1je7blg5LPXXMj6lZSPsRArk7RosApEozGxXZqz6BMnZ7XgkIkz%2F605a5TzQ3rNR8z3p1HXvEx5z75T7PPWuyAOAPdMOYJtmVM2FDRou%2FWSRl2Imm0Bymrl%2BI5zVhvoBOtY5n8zJ9YaiGUUbhXViOr9HBgig1f0roBMZnbCfgZpHHmFz1S1mPzbtojoP1A%2BaUijwVHdG%2Fx5tyEkcc86exJ142FYgkC%2Fy2%2FNW4xfLArwLsFz7lz%2BxcIGQXaJsGHlLCfL%2BMJarR%2Fm7x%2BdMFqF6Zigx646J%2BY47BE0bUf2faDXg%3D",
       "image_url": "https://i.ebayimg.com/images/g/kU8AAeSwTi1pcX54/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394513,7 +394527,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287514461568?_skw=build-a-bear+Chocolate+Bunny&hash=item42f1328580:g:AR4AAOSws~NjVeZK&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGamwIptv9aMe8VxjZNRQreuWDQ0s9aI6onhUswAQZ3FbXxEfcL70v7YQG0v5B7CObcq9cXnGmUpX4ONZkRemD0mDDMMUb7JqMI%2Bn7UTFZDIAu63gY9SKviThI7muwtMpFrcu0yvtWIQpznhf8r8CY9HGxw3IZJY73BDE%2BUDT5YxpjJZI2ZqqWWZB0jzmv4wT1dvEgrDIhFWrM%2F6hk%2FbIQ7%2BYmOBV92vdGBJ08RE8zy5SUYxUpsm%2BOerpG01F%2BGEZWetXZvkVISTt7mSrGL1vWIIadASviMk%2FiZGmXK8dzCQs43Du1OU4vYa8ktLM5hcsY8%3D",
+      "source_url": "https://www.ebay.com/itm/287514461568?_skw=build-a-bear+Chocolate+Bunny&hash=item42f1328580:g:AR4AAOSws~NjVeZK&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGamwIptv9aMe8VxjZNRQreuWDQ0s9aI6onhUswAQZ3FbXxEfcL70v7YQG0v5B7CObcq9cXnGmUpX4ONZkRemD0mDDMMUb7JqMI%2Bn7UTFZDIAu63gY9SKviThI7muwtMpFrec0GUInG4%2FMJEYghIXmnJR%2B4SNEHeE%2B2ShA5GSgp9qzfN%2FzKTuE3ZqrvuNLONUoYkWX%2BxUm5TayryXhX1DwR6vmTGwDYLSehYU%2F8bxk9pflPEaoEvFLrnhfT2sd45NxccvEEkIjVUJow%2FUCoczhjZBQKRDvVkaZk6zpsRUF8Gnd4zqDmaIQSeQkUQBNQiVVE%3D",
       "image_url": "https://i.ebayimg.com/images/g/AR4AAOSws~NjVeZK/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394709,7 +394723,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/137458757315?_skw=build-a-bear+WWF+Tiger&hash=item20012e2ec3:g:amMAAOSwXQhkkyzj&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZzBQB3%2F6bVVOb%2BxnAyVzM7qIOqHVF9QHCAAYJtwh1TDoqwcN6RcGy5roMSpypDJbSNuKJahsLXPTBDf%2BPdR3fbqfl3tJE%2B%2B%2F4%2BeC%2B8elc21tA5JgA4OMa0mM0sJH2oUcejLuAXkTZtaORAOqUL8yMDyBtjveIDXVoo7EyEmQoK2Gw18pLKgkMiseAqKA1tFowbU0X%2B2xwMY2YpzNIRJoXKsyJ3L3EX40odcQfhgzvA4Zq7x2y2rYVSji5I%2BRw9iGnv8%2Fele8M0mUZg2JMxlqpLRR953vZeZuHZPHc6MQzgPA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/137458757315?_skw=build-a-bear+WWF+Tiger&hash=item20012e2ec3:g:amMAAOSwXQhkkyzj&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZzBQB3%2F6bVVOb%2BxnAyVzM7qIOqHVF9QHCAAYJtwh1TDoqwcN6RcGy5roMSpypDJbSNuKJahsLXPTBDf%2BPdR3fbqfl3tJE%2B%2B%2F4%2BeC%2B8elc21tA5JgA4OMa0mM0sJH2oUceAHHP9sBwbz811Pjr3CFfJ9gaT2lsgljTnHx1LteG3wnp%2FmU5oMvxSpQ9geDAokncs%2F6bAmkc8ii497uvbKcqUGbBm%2FDzpChI2o3%2FO1EnuGNpGi5fpSxQia1WZOlbs69EK9wifhV5kAdhYwo1H%2BMCd51UTsr%2BMVWIi6OrS0TAzgA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/amMAAOSwXQhkkyzj/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394723,7 +394737,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178365527972?_skw=build-a-bear+WWF+Tiger&hash=item298769f7a4:g:5csAAeSwoH1p2Bcu&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbks9yJIJjaQ0zrl1RfL1goseDxB6eXODroSDv%2Bsr2qCZPF9AA3YdFchhdlJhwUzRmh%2B%2BVOIS7nrQBELVN4KLsFWLu2xQFP09nPxB9yVGo5obspY1k1PWOvZosXi7FtnufFMDuqN4Axy6nwVB8qNXw5HCoqJU1VFn3igdw%2FprkFhPPUiQIr1g2z9IzNFga%2BVDsGqjYz3073%2BxNtMtFr01weFOZp9h2com6XfiRezBuMY2MvxTAz2cFugbOfuvqipuVM9bn%2FdDHjjZKnjaTqAa5gPlSliZvgG%2FCpu%2FaMjZF38A%3D%3D",
+      "source_url": "https://www.ebay.com/itm/178365527972?_skw=build-a-bear+WWF+Tiger&hash=item298769f7a4:g:5csAAeSwoH1p2Bcu&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbks9yJIJjaQ0zrl1RfL1goseDxB6eXODroSDv%2Bsr2qCZPF9AA3YdFchhdlJhwUzRmh%2B%2BVOIS7nrQBELVN4KLsFWLu2xQFP09nPxB9yVGo5obspY1k1PWOvZosXi7FtnudLJ--Wo8OYDOmdA4U2L%2BSTiuikASCChWxToZ38740KRA3Lnk34QNULEzqbEUArGgUAn3D7739XoG1unxYPPlkAElrUrEragj%2BsDjIWHZfglBYiY570cD2tEMXBZVL9ACOGQIv8ghukMrDd2Pdg0SOEg6ipPVpFd7230AfXKrjePg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/5csAAeSwoH1p2Bcu/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394765,7 +394779,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278071668123?_skw=build-a-bear+WWF+Tiger&hash=item40be5ced9b:g:PI8AAeSwDthqKEnr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZg7VzRiuFuKSdFho8cvw31g8%2B6Ant8fuG%2BjlAHGBDCD2fARolKSh%2BRiHdSMhQohkA%2FiBSiDgFFulIDWtyXxLekSVCzCX8OUsR7GxCSjWMGn09%2FqGpuvM4z4PqKlDQjH5%2Fu833VZO5E19%2FN84I%2BZ5v8oqmFq7tWGQB7IMwHhX4%2FfQvNBS0AzIjHW4y5bIisuZLhQd1MxKmUXFNTDtDGP113h4mbCJmtz%2B%2F5%2F8qQan0HT2fpBjKdNPQ1DApxuezESteCdqpaxjj4p8g2GDoYYhCB%2BYFrpNj%2BC2eicW1vN%2B%2BKrw%3D%3D",
+      "source_url": "https://www.ebay.com/itm/278071668123?_skw=build-a-bear+WWF+Tiger&hash=item40be5ced9b:g:PI8AAeSwDthqKEnr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZg7VzRiuFuKSdFho8cvw31g8%2B6Ant8fuG%2BjlAHGBDCD2fARolKSh%2BRiHdSMhQohkA%2FiBSiDgFFulIDWtyXxLekSVCzCX8OUsR7GxCSjWMGn09%2FqGpuvM4z4PqKlDQjH5%2FR9K94NY2R4H4XdsUBS%2Bw2SaqzbuaEYRu0DbMME1EaH%2BpOrFCxoRHJMI2gi80IEr%2BxR2Fjy9zjQfHlEKFaGaaDvgXyh1KSPHpGNYkpjRf2zRApMPTmMKYVeJlhMk6AY%2FFL4pAxcPchI%2BsQWnxLwqH2c17QRP0KvprRVAfg8DZj4g%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/PI8AAeSwDthqKEnr/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394835,7 +394849,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/188967005975?_skw=build-a-bear+Polar+Bear&hash=item2bff4faf17:g:ee8AAeSwO7Bqsrjd&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbaV7ljWC%2B8fQsXWBgmmusxZj5ScLg4XZK3L3t8Lk1mNacZYFnvrTLbjFaqcZvMg3C900RpMif0GMMIPuCq2msQlP6mXGl2KtgdiCkoD7TqFyX666KkhExn2Wz6XGRG1B5ngT%2BoQ3pUdyVNZKrAsKAQXIL9gnEHk5JZJfxJ4BYa3xZ0FB5YXbGY%2Bet7Al1eekxhtrx1mNNUdg15rrhkQmA0RcBpxZSIIBrgPBgQT0IX3NulQJxTm4aaS5a7boStEyBs7NdP%2FwNdAYzcgf242GyK%2BWIy88FVQt9D7kZm1cmrXQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/188967005975?_skw=build-a-bear+Polar+Bear&hash=item2bff4faf17:g:ee8AAeSwO7Bqsrjd&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbaV7ljWC%2B8fQsXWBgmmusxZj5ScLg4XZK3L3t8Lk1mNacZYFnvrTLbjFaqcZvMg3C900RpMif0GMMIPuCq2msQlP6mXGl2KtgdiCkoD7TqFyX666KkhExn2Wz6XGRG1B7b23DfgAY1smeo%2BZzJrE9h6K9Dc10hgjW74RdQLQDi5QQmwR2Zb0c8HEcuSvqXV0ISVuU6cN1l5qpnBJhba3r66OBJ46G%2BhNNWJH4KZ5ts3CaArc9NAK6a1nzwqtR6jgz3kSpnGMkxjqLgfOq%2FeeSe7P6MQuagoAVbtjrTGLPZCA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/ee8AAeSwO7Bqsrjd/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -394849,7 +394863,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/188670678081?_skw=build-a-bear+Polar+Bear&hash=item2beda61441:g:vEMAAeSw-jdqXjOD&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGY7T9VA35EEqsHSRUUQHy64nxZnJBE5F7BuA%2FLAP3I7uwOdknnO5K0GuQGXf8KiS9TmiCTdaZt4my00txt7Opak28B8AeWPLbVMG%2FiH7UFsR502AMtQuVo78BU5H6iQhKwCX62EIGTwxw73K90c4PFaPAp%2BBv%2Fm4Mb4O25W63f56NIdYsENhGkbtmPq7FaDVH%2BnN%2FofW0%2BzxdA0qm8%2BOzTcnNYGR6fQ1bPDHtEI4MO33hQ9reWnZPRnFI9BEQ30dv5sMVuVDWkp%2Bml%2FD0uMnzq4BmPVffCVDJHJtuYq1qqnpQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/188670678081?_skw=build-a-bear+Polar+Bear&hash=item2beda61441:g:vEMAAeSw-jdqXjOD&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGY7T9VA35EEqsHSRUUQHy64nxZnJBE5F7BuA%2FLAP3I7uwOdknnO5K0GuQGXf8KiS9TmiCTdaZt4my00txt7Opak28B8AeWPLbVMG%2FiH7UFsR502AMtQuVo78BU5H6iQhKxXM6KYfgCxiCONUs1uWUP84XBTr%2Bn2PwwRzourXS8YUE591eIkXwDfEhDL7INhyfamdaw29yhwsTysvvBrlf1LPKMLAGqyDWHOj25ln3O7taUcKVL9iOPDtCb8CES3CDrsDSc8DRqAn8Dc%2BbwMmqV9D4BfEU3Wz5ZoMUkWQwB8yQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/vEMAAeSw-jdqXjOD/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395059,7 +395073,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267599261848?_skw=build-a-bear+WWF+Panda&hash=item3e4e28b098:g:eh4AAeSwYs9pr2EP&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaAtWQBSFHfbWZcKWSFiFn%2FjxpowPANO5puXHWfYNl2hj1ubeVMEvoVwdEqBRxBhCAn%2Bk5HuPXjCl8NAHnB98TA5u16a0tzRTXKe9%2BAOIUiCRo5RZTjSQE4sbF%2F4NyMgOc0tiYgymvUgfBYkW7DbecB7k2t%2F9ptN1c7c%2B8bo%2BZvWrn%2FEtqi82laH0jnH0ykjpLa%2FAZiGsscer%2Bo8LM4sKLLmWyX3yzpAgrusYGr7RLNdqBm1T4QqIymBL%2B%2BsLI7aalAyh6KJT56Eg%2FQmFqU4mpGZsjBW9C2UX1yD9T6N%2FaLpg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/267599261848?_skw=build-a-bear+WWF+Panda&hash=item3e4e28b098:g:eh4AAeSwYs9pr2EP&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaAtWQBSFHfbWZcKWSFiFn%2FjxpowPANO5puXHWfYNl2hj1ubeVMEvoVwdEqBRxBhCAn%2Bk5HuPXjCl8NAHnB98TA5u16a0tzRTXKe9%2BAOIUiCRo5RZTjSQE4sbF%2F4NyMgOdd8iNN8kwrUsOYhTYlWT83TOccanJeA2soMTEIMgPNSuI4mhKnPOKtyniiHaa3gqvIIdnreatlD4k0q9Isy6v6nezh4Khts%2FSC6EElxdB3PojfJ9dpVGKDwRv8sTN86Agu1Fq9SdRgqeCUMOnSUljqfw4OvDBWsh0cvVOlm0jIJQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/eh4AAeSwYs9pr2EP/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395073,7 +395087,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/117262819143?_skw=build-a-bear+WWF+Panda&hash=item1b4d689f47:g:cgYAAeSwAbNqOTQj&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYLiitctMBAuBuCpI0OWlFH%2BXxMmo6Be8038DDghegR0RETPaW1xOkeugp2Tv8cfvP4Pf4f20k1uRnWG9qsSuJSdUtjlyF7aEUEPkHGCKME9iSfAoLE6d%2Fb3LyVT3eHR9cy977sGznFO9HOC2WCt%2FYQd49UHzsUWgfAunT4tEMiR1Y8xg%2FKqSKlW1oqvv7x6XevdQCn4UbaVJRUiGn88i96YYCgKDn1k%2BYvXiauqxCS5MIhJeWL86Wz8tJ4ipOIMKzmHMysq8c6q5Q64SHhfsKPcd0P9ASZ%2Fao%2FT8%2BuOVnP8g%3D%3D",
+      "source_url": "https://www.ebay.com/itm/117262819143?_skw=build-a-bear+WWF+Panda&hash=item1b4d689f47:g:cgYAAeSwAbNqOTQj&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYLiitctMBAuBuCpI0OWlFH%2BXxMmo6Be8038DDghegR0RETPaW1xOkeugp2Tv8cfvP4Pf4f20k1uRnWG9qsSuJSdUtjlyF7aEUEPkHGCKME9iSfAoLE6d%2Fb3LyVT3eHR9efKADCP1fJhpHdvX7w31snZWCxzNZ4tEVK7dtgHHhAQFu2KwYJGpB3fjPctXiha%2FouEZK0Tu5XbPbKxe8qWxMczoA8o4B5OBoLtNAlxU8bTAwZNQrypv%2BVaHbYTRSZExlmkspckuPutCAELPykzwOmF7Y0oHHoYcJo%2FbTxGOYdEQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/cgYAAeSwAbNqOTQj/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395087,7 +395101,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318350742281?_skw=build-a-bear+WWF+Panda&hash=item4a1f2ed309:g:WucAAeSw44JqEi~P&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ82ED%2FpiYhvv%2Bol2ayRkemqPEiaAy3vWhNCdVjPs4WeYNkU0UYakKGc%2B%2BQHOEQxtagxuY9FZDxqURUVzGbJUTXwCYIDHuV%2FN2wWM2gCOboctx15nxLl3E3Nxm2afMAcFNXKAuPpwkOTiCZkrwYcSRu43VP94VDXPPvNklK5TTdZEaEYGBAxQOFuiM13CjvvnvuVDd%2BGV5JHxx3LAKEmBc1a3W1Od7P9BB84xn63rZWEVcZoEGAdbgA3bmkA4NVQskKg1%2BjCih1FLrEwJGZCkEdF%2FUOxYWMmur4tz05YyRB7A%3D%3D",
+      "source_url": "https://www.ebay.com/itm/318350742281?_skw=build-a-bear+WWF+Panda&hash=item4a1f2ed309:g:WucAAeSw44JqEi~P&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ82ED%2FpiYhvv%2Bol2ayRkemqPEiaAy3vWhNCdVjPs4WeYNkU0UYakKGc%2B%2BQHOEQxtagxuY9FZDxqURUVzGbJUTXwCYIDHuV%2FN2wWM2gCOboctx15nxLl3E3Nxm2afMAcFOyQMh1FUAUML58lQ86uJqueAMUziZBCHXSvBGql0i5NXQrsSAjJtOq%2BnEfVxA7o62gHumTd6FuUU5Xceu0KkyHlsQsWgtnWwMD7j3wZpNe7NugFOZE%2BRIuRkWOPeThNtWVwmHE8A9Zhh8vbMR%2FGrKk5Hx8AodWu8wK9zuusbTbbA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/WucAAeSw44JqEi~P/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395115,7 +395129,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/377414266142?_skw=build-a-bear+WWF+Panda&hash=item57dfa4ad1e:g:9iMAAeSwRT1qVbip&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaTgZxR%2B7BzGrHmhaSMBcL2J6pn0PiNYiyXiCC4UMeobSBDGgs5ER%2FsxZoNuykX%2BRDVeyeUp4RPCfo9%2BgVRfeFSa%2BmyoxWp6k1CucOIsJT0eCkW9yQyrAFlEz1sSkK4a%2Bsm5lX3NISuPaBWiwjbUOURpz9MAxwD0eoee2tb7aDXse5khFBwA2%2Bp%2FzCfTIVigHgX7K8lKO2qHWXIz1JQNeAnrAlb8kJ7Ol7cdoRpqFAoLv3UoR2TWhPFTp2HeSCiheoULk0Bt2FosWxEyF5ZAMjQOgLdUZOQ8WN8OUUdEaOMJQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/377414266142?_skw=build-a-bear+WWF+Panda&hash=item57dfa4ad1e:g:9iMAAeSwRT1qVbip&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaTgZxR%2B7BzGrHmhaSMBcL2J6pn0PiNYiyXiCC4UMeobSBDGgs5ER%2FsxZoNuykX%2BRDVeyeUp4RPCfo9%2BgVRfeFSa%2BmyoxWp6k1CucOIsJT0eCkW9yQyrAFlEz1sSkK4a%2BvPw8zT6fRZjqaL08aNATlgxeVU2iwvF%2FC%2BzSjvNAnlMOBu%2B24drpK22URXlcsSbdn%2BSDg8acf356Pp9NmGIRoN96g1ZOx0dUNVPtTknLTJN2S2MqKYdNzIGrkH5WdAuA0i9SDQiWZc%2FXJli1E3WkOrbadGPcNbNV%2BBt%2BkkfDfCbQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/9iMAAeSwRT1qVbip/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395129,7 +395143,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257695709991?_skw=build-a-bear+WWF+Panda&hash=item3bffdc7b27:g:SGQAAeSwdABqiQct&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbxtW2tTFpODCDTbWWmS0J3FJkppr4siRl%2BFEL2PR66LQyVmjRjthjkOUZxEMnFL1eMz48NygVDRd5w8fRQsYRZs%2FGcyAG3WEC5N9owpldo9IrcgJKXNko%2FcBC2iPTllCNMMiBQNLVvpVeFCmCVMVf1D9c1PNh%2F9XQRU%2B1IYsOflif9ISIgjiHBndGBZlhZqE9Hf%2BKTvmpVe6KzewMwt4NfqhO%2B5Rq%2Fz8qc4GtM%2B4SLeMLLxNB0rCJQFMbhTEH08v1gwxJY%2Fq8yhAZS04cKlY9FmsX7NBEF8PI%2B8v5aJt7YKA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/257695709991?_skw=build-a-bear+WWF+Panda&hash=item3bffdc7b27:g:SGQAAeSwdABqiQct&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbxtW2tTFpODCDTbWWmS0J3FJkppr4siRl%2BFEL2PR66LQyVmjRjthjkOUZxEMnFL1eMz48NygVDRd5w8fRQsYRZs%2FGcyAG3WEC5N9owpldo9IrcgJKXNko%2FcBC2iPTllCPkR%2BCRm6KkXwY8EJ%2BWB02EosSiqWyqGhR%2Fkrap0BYII1tAAzFNVMZ5Sz0%2B81niZ8Sy4LLxnaIPknEubLRi2h7BqMK8tH3ARgj%2FejS7iiNoyW%2BveQ%2B01sFRRYA6m1w4EM80BIRTqxFVe2P%2BROf9nd3ygDX5GcMJv5eXHtW7MHZPYw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/SGQAAeSwdABqiQct/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395325,7 +395339,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257759263669?_skw=build-a-bear+WWF+Cheetah&hash=item3c03a63bb5:g:AKoAAeSweg5qsteh&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYTGS3URRKp%2Bg1RIxf9lYPMYY%2FXLzjUYJJRizBkVu8ovpx%2FVgaw0nwbnzdSYd3%2BgYxqsBYP5CeOUmFq6M6SPMBmwsxDfcq4Kk%2B%2BVg9ORqX0TVXFqfgvJaCuUHk0UkM%2FZ%2BeHNRQQDn8mWdJ96u0EhLZJlvFXMZZZ1a3y6edFTSvSAUYlU%2FOFS57yisLAA98ZSjJjgCBEVt0hjANPn1lHB0jP5GhdMQfIzYDFPSGswmOtmw0VMhe53lU6lbQWC3XhLIms7izm%2Bf%2BXgqimSkP09%2BR6G%2BuO3mWcW2sC%2Fyk3pQ9h0A%3D%3D",
+      "source_url": "https://www.ebay.com/itm/257759263669?_skw=build-a-bear+WWF+Cheetah&hash=item3c03a63bb5:g:AKoAAeSweg5qsteh&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYTGS3URRKp%2Bg1RIxf9lYPMYY%2FXLzjUYJJRizBkVu8ovpx%2FVgaw0nwbnzdSYd3%2BgYxqsBYP5CeOUmFq6M6SPMBmwsxDfcq4Kk%2B%2BVg9ORqX0TVXFqfgvJaCuUHk0UkM%2FZ%2BfKpF%2BLmWgXTXNPbNTtUBph2Oralqg0kGjr90emv7XuWBmh7V6r4M2SkgrRxaqm19Z3FdFHqeMABeU%2B4dq2iz4yuQzbEm3xar3%2FWqo9ty7c%2FND2%2FXWuVo4c%2BzcHjZNvtdRChMV12ZT2fQ34WNwrrPm4cofMXEwFG2SwJ%2Bq1nKRbzw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/AKoAAeSweg5qsteh/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395339,7 +395353,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/327194259379?_skw=build-a-bear+WWF+Cheetah&hash=item4c2e4c2fb3:g:fKsAAeSwUEFqILWQ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGa2Hxw%2F9qLzBbZFsuSTSLs3AlJM%2B%2B%2FeYyfi%2By6xPNp0a1hL%2F9IUy%2FQwlLByo2%2Bb38zL1tTgIN96FsItzHlfvrPu%2BNEIHArUboFYbzhbDYciho0M2wsQevtqBYCDdmoBySQqw1Tp8IP8LVwD4BgAppBFs2jNc8hyvCio9EBY3zk6AoD4Ntt2J7xY0p693kNb6NcfuRlFYJCBPRyxE%2BSsxNuFVXNwzvS%2F2DF%2FNDIoPF4gQ10MZtLprGZjkWhupSrumJ6W3n%2FD9Ntdh8IHxcFidy%2BfNMm8BPxnpfEZ8iX5qiI34Q%3D%3D",
+      "source_url": "https://www.ebay.com/itm/327194259379?_skw=build-a-bear+WWF+Cheetah&hash=item4c2e4c2fb3:g:fKsAAeSwUEFqILWQ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGa2Hxw%2F9qLzBbZFsuSTSLs3AlJM%2B%2B%2FeYyfi%2By6xPNp0a1hL%2F9IUy%2FQwlLByo2%2Bb38zL1tTgIN96FsItzHlfvrPu%2BNEIHArUboFYbzhbDYciho0M2wsQevtqBYCDdmoBySRl63qVvdFUcHNm4tVkUKrFf90R4GkvsWPM2nAr%2FJ2LtoCjdajHT3rmVyeKTmDDPOg2AefeieIEYP82XM71BQS87bEZbXwZygLgIo4GHaL3IxsdRZre1Akd4mHgY5%2FnXoLwF%2F9CT%2Bi6ekXi4iLYOQEYTMiecJQgT9dUd76xFblwxA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/fKsAAeSwUEFqILWQ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395353,7 +395367,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257695810805?_skw=build-a-bear+WWF+Cheetah&hash=item3bffde04f5:g:CGkAAeSwrWpqiSY9&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYRgu25DcQsBkbNo5mYDbwiWQRlMS1OXQzEyFUWT9rz%2F5US7%2FsX3WngSgFaLQFcQguiOJxN3eHAFzB4Jtgm0ivI4wwaFxpIl%2BSlPoXZC5nPjYm0ePL%2Bgbccxa2o7uRsX6Y47pNzvQ0fEYeV5PQrApkezTvWjbiPFfxknzgLkQWgGqlE9uoHIH63KZmFRePfeUzdQFf%2BsjrHXREnZA6FSZtL9Jy99D6%2BDvTcsJ0hupTxXKU0P6M6n2UXcnpVymemYuedQYTiOk7dtAMN8UGNJTv%2FGSWfof3BTtg501unDSQcQg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/257695810805?_skw=build-a-bear+WWF+Cheetah&hash=item3bffde04f5:g:CGkAAeSwrWpqiSY9&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYRgu25DcQsBkbNo5mYDbwiWQRlMS1OXQzEyFUWT9rz%2F5US7%2FsX3WngSgFaLQFcQguiOJxN3eHAFzB4Jtgm0ivI4wwaFxpIl%2BSlPoXZC5nPjYm0ePL%2Bgbccxa2o7uRsX6YCOTkVqZepzkaQUaupNQUnx%2B96%2BWYPLpBTPyMegyoZgPRgfFifi8A%2FDULQD8rkLUTJ1FSkpJJEp2eBDJwlq%2BaSYf5UwyBj9KWrapU3U5hmVcAwFduHDd%2BKbwPDFtVm0X8tk45KduK6nusT8lX4gQM4kqWZeScTBhnMKmve5OdOxA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/CGkAAeSwrWpqiSY9/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395395,7 +395409,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/157861479938?_skw=build-a-bear+WWF+Cheetah&hash=item24c1470602:g:UUkAAeSw~F1p7WLm&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbBp2ATdBxQWtZO8AODe5xwCnX5kIJxEZmrO%2BfSjiZoRsnqiYdP%2FtAtBbLPwy9TLE4wBIu2ZkijGHg%2BNUy48D%2BbTtzgC%2BFxhVuBOFsSS0YcTVCsfBhrMaguyMOZx2NF%2BoxEi%2BEnCw3ppp6YnFhx%2FzW%2FIvUrZ%2FQNv7hqcFjP66EcL8fL5dRLj4%2Fm3DnBP75A6YK0CV59xi5w3o00cG7w8o%2BmjircZqYjyJK5mQ5QgCeT5aCc19UPfzn8rcUK1tIeHI70onbjEW0FcpdQDuPW%2FHzTjhuYhdMXTC70q8eU9LFLpA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/157861479938?_skw=build-a-bear+WWF+Cheetah&hash=item24c1470602:g:UUkAAeSw~F1p7WLm&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbBp2ATdBxQWtZO8AODe5xwCnX5kIJxEZmrO%2BfSjiZoRsnqiYdP%2FtAtBbLPwy9TLE4wBIu2ZkijGHg%2BNUy48D%2BbTtzgC%2BFxhVuBOFsSS0YcTVCsfBhrMaguyMOZx2NF%2BoxNnB3EOcrIG0vOu77CQvI6aw%2BaLF8w9nonZsPZQXt6GgDrr3QYkl6sBqGJ5CCWrdX8sCDvdPuXCgiBrgPU%2FviqZo2FNbygfmIFp5OZ0BHmaftcwCSa4XYXPNqM4W%2FYFrfRfWvQG6gAVdQAUvbiPxdBWKuCe%2F4qPSp14sxlXUCXWg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/UUkAAeSw~F1p7WLm/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395409,7 +395423,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/235375553658?_skw=build-a-bear+WWF+Cheetah&hash=item36cd79ec7a:g:PHoAAOSwJ1dlmV1m&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYjF2xtt6xavuRUX5RKBLkBhS4Ro7%2FNq88DPOKOEkHjeoRzn%2FB9GkohVDlZ6Ju2psUs4%2BUx1FLBHJft6ABbx1bk2RA8x2AhspDfuOuE9%2B2IYzLYU7vg0Na511o6iiiS5TIw15uZ91AxXtLQXn%2BJEsFa7jneToQPaOPKCqeNWB4gxwdt4q2lQi6IBPE0dQPdklFKHrIz66F1yL95Uq%2F0BR1jigsmhIhYYmbTPnlaBDe1R%2FRsZG6LRWwl3blybNmLR0jwWOM3nT%2Ba5oAutptKPSKhmK3cp264aOkODek0sRwcCA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/235375553658?_skw=build-a-bear+WWF+Cheetah&hash=item36cd79ec7a:g:PHoAAOSwJ1dlmV1m&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYjF2xtt6xavuRUX5RKBLkBhS4Ro7%2FNq88DPOKOEkHjeoRzn%2FB9GkohVDlZ6Ju2psUs4%2BUx1FLBHJft6ABbx1bk2RA8x2AhspDfuOuE9%2B2IYzLYU7vg0Na511o6iiiS5TKrSA4RkTUU3SKcYfFxUIuGrdWQvGRqpuBBH0kuzzqOMHAoAJxGe823P7LxOIF5Y2sBb7NgY1yTAENpubxNIPITbtM8ETvOEr%2BVHIf%2FOUmvbLTuw1atm3p02UwDJgd48%2F1LXziaRhp3wCHrfU2kVriGCI6UlIvrGVBwjcv8WaABSw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/PHoAAOSwJ1dlmV1m/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395507,7 +395521,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336692869042?_skw=build-a-bear+WWF+Leopard&hash=item4e647577b2:g:qFkAAeSw65BqWflB&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZGvAL%2BIkYmNrbNJJiGbmpN4e63349hSLonLKvixgRF16QYZRUJq425fO9llhso0YxI9%2F0gwQ69kRamRa9HV0j1CUAWV4VIABf4vUiOZO94uWatXBGFvmC4U8h5grKY--edpwPwvsVP%2BMNMTuxx%2BZU5To9%2FZbiEZBUCEVDb0WohucaGNZ9xjDkd7oQsAlkkoVm2ZP8LCNfgmFyOyayBmfQH2kShB0vDx294VonVLbEWBKX9IReh0FyJ1qacfV2EICIITd%2BWxqbfBPZip%2FLAfPSspmGedMOD3rCm5G5LDiQGdg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/336692869042?_skw=build-a-bear+WWF+Leopard&hash=item4e647577b2:g:qFkAAeSw65BqWflB&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZGvAL%2BIkYmNrbNJJiGbmpN4e63349hSLonLKvixgRF16QYZRUJq425fO9llhso0YxI9%2F0gwQ69kRamRa9HV0j1CUAWV4VIABf4vUiOZO94uWatXBGFvmC4U8h5grKY--dERf%2FzhN6dGolXnaszZ8Tg%2F298fLtrQncvsPWFBqxR5u9UMQMNAPnLxhyaXpg%2B0z%2Fb1CU2RmVQlIqn0Kk4%2BjlKzexOTQ8m9ShDO1k3qI5q9H8BS6m7xnIcv4qnxoHLEH%2BzLDPGqyYzpwNXk5Ire%2BrVReHBtOImnavMwhznyC%2ByVA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/qFkAAeSw65BqWflB/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395521,7 +395535,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318607353781?_skw=build-a-bear+WWF+Leopard&hash=item4a2e7a67b5:g:77EAAeSwMm1qXW80&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaxeP4boT3ElkQ6RaIUiWch390hUEbzve9ioXpTJuEDoVWB1ZZXTypEY26PKVx%2BgM%2FnnIbvIAjodCwzDreI2pxkchkKQ%2FlVxb3aDnOXCpYxj07cSwC2V97QWRjZs7qGLf0QvmRLoaaqkYWU4RTKFY9%2BaJ8AmijJGbLec7W8m3zfI%2BNLlAqUZMskXAFnxf9t2AEtpinZx0WzkBYp7cY99NwJbueJQdtA%2FEer0n5PMqqo88if1Xos9ExS2PugSFqbRjmvlqHD06cMj%2BoYcMcrvZx%2Bi%2FiB3O8f5bUgA5Sc4HBT5ilObDOBPFopicVGMjHUj1c%3D",
+      "source_url": "https://www.ebay.com/itm/318607353781?_skw=build-a-bear+WWF+Leopard&hash=item4a2e7a67b5:g:77EAAeSwMm1qXW80&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaxeP4boT3ElkQ6RaIUiWch390hUEbzve9ioXpTJuEDoVWB1ZZXTypEY26PKVx%2BgM%2FnnIbvIAjodCwzDreI2pxkchkKQ%2FlVxb3aDnOXCpYxj07cSwC2V97QWRjZs7qGLf2SzX5JEh7zXcU8mu7VE%2Fdgpz31bZuiNq9gW1W38Xa5tlS2gW4QY2dG%2FfzP5sHnZv010%2FosAuSzbk3m%2FqReTmHEyDsJsdyrFUqEEUaVTFeNGAq%2FtcFJ1Q2xn%2B4z2MQjt%2FSMd6mCc5NEvZ%2FQVZ%2BG%2BwSNXjta7hT1FyrV%2Bi0syTuB4MMdbYME50olka8kQ%2B3Yc9c%3D",
       "image_url": "https://i.ebayimg.com/images/g/77EAAeSwMm1qXW80/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395638,17 +395652,17 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|237022266727|0",
+      "id": "active-v1|206531977516|0",
       "item_id": "centennial-teddy",
-      "listing_id": "237022266727",
-      "title": "Vtg Build-A-Bear Plush Limited Edition Teddy Bear Centennial Series w/ Outfit",
-      "ask_price": 18.99,
+      "listing_id": "206531977516",
+      "title": "Limited Edition Centennial Series 1999 - Build A Bear Brown Plush Teddy Sitting",
+      "ask_price": 14.99,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/237022266727?_skw=build-a-bear+Centennial+Teddy&hash=item372fa0c567:g:RgwAAeSwqlBqiOeu",
-      "image_url": "https://i.ebayimg.com/images/g/RgwAAeSwqlBqiOeu/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/206531977516?_skw=build-a-bear+Centennial+Teddy&hash=item301643e12c:g:UWEAAeSw7mhp0c8B",
+      "image_url": "https://i.ebayimg.com/images/g/UWEAAeSw7mhp0c8B/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395666,17 +395680,17 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|206531977516|0",
+      "id": "active-v1|237022266727|0",
       "item_id": "centennial-teddy",
-      "listing_id": "206531977516",
-      "title": "Limited Edition Centennial Series 1999 - Build A Bear Brown Plush Teddy Sitting",
-      "ask_price": 14.99,
+      "listing_id": "237022266727",
+      "title": "Vtg Build-A-Bear Plush Limited Edition Teddy Bear Centennial Series w/ Outfit",
+      "ask_price": 18.99,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206531977516?_skw=build-a-bear+Centennial+Teddy&hash=item301643e12c:g:UWEAAeSw7mhp0c8B",
-      "image_url": "https://i.ebayimg.com/images/g/UWEAAeSw7mhp0c8B/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/237022266727?_skw=build-a-bear+Centennial+Teddy&hash=item372fa0c567:g:RgwAAeSwqlBqiOeu",
+      "image_url": "https://i.ebayimg.com/images/g/RgwAAeSwqlBqiOeu/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -395703,7 +395717,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/820146784749?_skw=build-a-bear+Centennial+Teddy&hash=itembef48ec9ed:g:rqwAAeSwDhxqXQY8&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY0ST0T2HQrcB%2BP4pbXVi9hGOzWZZs67bqCpE5cWA72%2FoVSmW6xDJ1dMBgRHYa%2FKE8BbhbC7brUDLQwDidrDg5euVsEO0q9xBiIn3aOKxX6FaYA3HytpAg%2FhrZcXiBk6aeQCTMCD3rP1%2FrhrSD91ZGhiwsBASpRujwapFr9nN4jDMePtHWTBwwXnWr3hAs%2BXWGlfPL6s0GzsPk1wwdyQZDVzhFW2IS2E%2BOGYQqi2XlznCW25GAmtwmm733ZZdIKGD5JEucJrpu%2Bt0UnOOH06JP3%2Bxnv5bO%2FI8WV%2FLbDL2QWjlOguVVZVxuuSCj5OFIwrA8%3D",
+      "source_url": "https://www.ebay.com/itm/820146784749?_skw=build-a-bear+Centennial+Teddy&hash=itembef48ec9ed:g:rqwAAeSwDhxqXQY8&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGY0ST0T2HQrcB%2BP4pbXVi9hGOzWZZs67bqCpE5cWA72%2FoVSmW6xDJ1dMBgRHYa%2FKE8BbhbC7brUDLQwDidrDg5euVsEO0q9xBiIn3aOKxX6FaYA3HytpAg%2FhrZcXiBk6acq3Elt5W919RD0DQAyq%2FEYftmubX%2FpaOZvt4T7beL1zQjt26Q5gIrCPNSwycs0wUw0LmyRfP8KH46xN3BSH%2BRzeAw8IFLCwViCSKhVSLLI6UhIBd%2BEbxK9uy%2F68TzQN4mo6yU8QGaNgHPXgpEalgGkAqoVsroHH%2FiygPCxxLy4ZuzCx42eOhWek21mrewCbgg%3D",
       "image_url": "https://i.ebayimg.com/images/g/rqwAAeSwDhxqXQY8/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395717,7 +395731,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/154504525597?_skw=build-a-bear+Centennial+Teddy&hash=item23f92ff71d:g:nM4AAOSw7iFg0~lJ&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaNevKdUmaP%2BL2fPV0p7boBl%2BuwQAx%2Fq8%2BUb%2FAxhvoB5Q0GH1BotV%2BNs%2FN%2FORuquT6pFSllwwEIG2%2BFIXdq4E%2FBX3HuEcCJ5%2BIyy6wp2dhbN1iV%2FzIfyuwEpfMesnSPc7nj6NQxI5VN8j%2Fe7Xy%2FQwZaPYSjnR6CjANYoyMnNmmpXiPkDanPyT1ngPhH42D6hn%2FD2Gt7IPY3wGaIMvAhIbkbUsuT0sgkcE91LFHOY5Ag3uVFWQyOMwzM5rNp%2FtwNBMTnghLDMmD3MGb9czkO2DCudShdiPPFb2Bm7oGedW%2FQv6YWXcV5uALEcJuEXMQVJCc%3D",
+      "source_url": "https://www.ebay.com/itm/154504525597?_skw=build-a-bear+Centennial+Teddy&hash=item23f92ff71d:g:nM4AAOSw7iFg0~lJ&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaNevKdUmaP%2BL2fPV0p7boBl%2BuwQAx%2Fq8%2BUb%2FAxhvoB5Q0GH1BotV%2BNs%2FN%2FORuquT6pFSllwwEIG2%2BFIXdq4E%2FBX3HuEcCJ5%2BIyy6wp2dhbN1iV%2FzIfyuwEpfMesnSPc7lplfkieFmU0aQZDthP0E5ybLrNl1LT79gJXo4pmmh9%2BS94yvrQLK%2FatCcWY2k78xKDHZxvbhA6KfVyqJ90xqKdCemm%2ByhwR2H9c2puPfUtoZ5z5S8WywnTHVpVog%2FyqOv%2BEkVzEdj8G4c93CgVw5MHjUUNnjFvPA%2FSs7h%2FbfG0hMZrIZ4zEdpQwMT3ZXtwgAc%3D",
       "image_url": "https://i.ebayimg.com/images/g/nM4AAOSw7iFg0~lJ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395731,7 +395745,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278359034565?_skw=build-a-bear+Centennial+Teddy&hash=item40cf7dcac5:g:0-kAAeSwbtNqt7UN&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZn8Wv283N2C0PIbg3tptR2cFiNJSZh%2BVe7HVQz6A2NS9VUerTyBI9mePocH4r8VXbdqsM2XMPdgKT%2FmtyJquS%2B5h0YNynePoTy%2Bqd1MHysrZ0XV1RN5aeaDiUow3uAbpUux6M3wg7Esc4qqyZUfI1lnSRl%2B9JSA%2FuVvrYJUGk%2BXk9q83t6lEjO5RPoeXWn0N2OgiJufrTtvFZ9nvr0am8A5GDp5l1LPsONwCZYauAYyqVaUHgIZW8X0XII76r9BdzbrbpmyJpSZzl468CWC0YBZkM2K7mOpXFwMbNvhl4hh2d113EJNgAZitVJc%2BzJTQA%3D",
+      "source_url": "https://www.ebay.com/itm/278359034565?_skw=build-a-bear+Centennial+Teddy&hash=item40cf7dcac5:g:0-kAAeSwbtNqt7UN&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZn8Wv283N2C0PIbg3tptR2cFiNJSZh%2BVe7HVQz6A2NS9VUerTyBI9mePocH4r8VXbdqsM2XMPdgKT%2FmtyJquS%2B5h0YNynePoTy%2Bqd1MHysrZ0XV1RN5aeaDiUow3uAbpWZ%2FpyvBcaVjUQncLejL9kZyFtMtHXcYzAb1DEGVFwoxYA%2BBjZGkb54APx9tuFgUhn%2FSIQuPTqe0RkectNMiL7qLwDoLIVcBj3tbHj0n%2FZt2qIy4Pgyh22qNDtf4K44KS6Ud3BLdFL2Bn%2BofbRhmJrCO9eFRrVoKGeMwMT%2FBCgF4erRpBdbWk45o2MwGCtGjlo%3D",
       "image_url": "https://i.ebayimg.com/images/g/0-kAAeSwbtNqt7UN/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395773,7 +395787,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206198245402?_skw=build-a-bear+Centennial+Teddy&hash=item30025f881a:g:x-cAAeSwKh9p1roh&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYaeYVaATSyRJzGL9Sg9k5LUQUimJydhTv3TtOg7iKih7JUtZJ2ahWshf9NJWOmR%2FXg3G3k7%2FyROwETIewl2Kk5hpbB2nMyOPFTRmNpRRoziZ3f9%2B5SPwd5SbEO15ryhI3E%2Faf0QyvcYQLceLjlKE7My8AkwinN31piyQZkhUOb%2Bswemlb1nZCgdUlkOw5hc0UG4AqRvKbkiBWvRrZvEKORRbTTRYrNnqJr0xt5a8gmXXvOzN%2FDqEttsHk%2FhtBpIA2v3d6RHhFJT8WgemHgIB9G8MwLhNLjUf84Qj32EkwwwuSficqwIzbKB7VNPqMraOY%3D",
+      "source_url": "https://www.ebay.com/itm/206198245402?_skw=build-a-bear+Centennial+Teddy&hash=item30025f881a:g:x-cAAeSwKh9p1roh&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYaeYVaATSyRJzGL9Sg9k5LUQUimJydhTv3TtOg7iKih7JUtZJ2ahWshf9NJWOmR%2FXg3G3k7%2FyROwETIewl2Kk5hpbB2nMyOPFTRmNpRRoziZ3f9%2B5SPwd5SbEO15ryhI150kju1CUjRtzbS%2B2aYi5Q9mOHcjF4XGHgDrvSrrK7bRHuZ7HclKMrmSIoliitR61igCf1iLKJ%2FKIKDw3R%2B3TuXht%2BHNPvy4xsvcb4okvisZleEq5fDHrAft8S5BcFfSIxLw1WSMWZzxzHvNNFmFkpBHLfJeZ6QSPBbJg9R7BTSuYdp8mE4yeOlUSktZSbHCM%3D",
       "image_url": "https://i.ebayimg.com/images/g/x-cAAeSwKh9p1roh/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395787,7 +395801,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/167629664961?_skw=build-a-bear+Centennial+Teddy&hash=item270781b2c1:g:A2cAAeSwkXdoaX4M&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZKodkItZyXjJQSuB15mxYSPvXUAUHMNGGdn42VNJte35R%2FlWveXnakmeEJAabxQNIe4RHltJKHYCYxyseoe4ZFrxPiy8xRO3hA7gdRj%2FBZAInLdCt%2F%2BIqg5XD3zMnjjpetZ7ahEbh6Ayr5eSOBp%2FiWEgL7g7uXegPLD%2Bkd0jgNACgzQSyyXtiuhRBZoC8VhR2fJasLjlGpUyAbO20jg8%2FnhUy4IefBZwX4cyjY%2FQ%2F%2BmLmzC06bDuwmd9KJLPinwKhSAuDUckcbeeGThKRk9ObXSegawBSiGeg2RRVbKssNPWyOz5%2FLwxYUxgJq2jn6lqg%3D",
+      "source_url": "https://www.ebay.com/itm/167629664961?_skw=build-a-bear+Centennial+Teddy&hash=item270781b2c1:g:A2cAAeSwkXdoaX4M&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZKodkItZyXjJQSuB15mxYSPvXUAUHMNGGdn42VNJte35R%2FlWveXnakmeEJAabxQNIe4RHltJKHYCYxyseoe4ZFrxPiy8xRO3hA7gdRj%2FBZAInLdCt%2F%2BIqg5XD3zMnjjpe0xTUWa%2FYLmf%2Fpv9zqIGxv%2Fsx2V1JmaCudxUVTiIYjL7S4xff6tFXxL5CWurN%2BWjbS2XRv4CEb6gO1GSeGnkFNpIiRK3mcCGPgqh1BsOAmYAzAyUpcHwkyshOtv4QlsTOaCqG1ZPJPxY%2FS8BTY840qYmrW62JZiUwt1rzYfJUdKVUID14HUnfZSCi%2FiwCVzDU%3D",
       "image_url": "https://i.ebayimg.com/images/g/A2cAAeSwkXdoaX4M/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395815,7 +395829,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/366694661939?_skw=build-a-bear+Shaggy+Teddy&hash=item5560b47f33:g:Gs0AAeSwQIRpNe4y&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZfG1VXv8OWqYeADx1HM7v1KTFO9%2BFmJpo2Wsn1J%2FXZOpLfBH6ibR3ax8WnZT0m50N9WNRB0NB8Qc01gYW3T8BFP%2FWIbeG0o21I%2BXvxxfwqrt2D4nmf%2FHnGzMc9AJs6IhyxTRUTJL1d1%2BT5Zlj--ZLhTWEzt6F38GlGmYhfXzHyKjID4SXpX6OFRgPd2z4wikEDGDwwNBfbxn5bwo6bPRMDtPysXvmjoeBySurz9rZ7WiNTZHYILsYeBl%2BUrVrXRHsPGk8E4lUofiP1XW6WxJ8bNSt%2BndITSV0dbMA57bNiYGdQY0KaT7Qim6SRXxJld5U%3D",
+      "source_url": "https://www.ebay.com/itm/366694661939?_skw=build-a-bear+Shaggy+Teddy&hash=item5560b47f33:g:Gs0AAeSwQIRpNe4y&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZfG1VXv8OWqYeADx1HM7v1KTFO9%2BFmJpo2Wsn1J%2FXZOpLfBH6ibR3ax8WnZT0m50N9WNRB0NB8Qc01gYW3T8BFP%2FWIbeG0o21I%2BXvxxfwqrt2D4nmf%2FHnGzMc9AJs6IhwI33N7KLATG5%2FsypU%2B64be0%2FOjDoHemSi45MoSb2dvouexBvz%2F50e9xvQiR4wHcd4UQ5%2Fb8hrJfVyE3D4IbywM3LPk5ldaNn7kuEtCfttqwvSVnCD2kRtTxkBycuMxH6ZwOEA6HRiL4qc3RGJSofkol6cOhZT3ZxdEtQI49ylSKQxYDNaJq9ytg%2Fidz5naQzI%3D",
       "image_url": "https://i.ebayimg.com/images/g/Gs0AAeSwQIRpNe4y/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395829,7 +395843,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407202955455?_skw=build-a-bear+Shaggy+Teddy&hash=item5ecf3000bf:g:tKMAAeSw75ZqT-mc&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYJ3O2iWrROffUyRidSsKaICm5X10dzMoDxT06sSJmMecKQgU1vfNmJntULnvG%2BKHo%2FdE4rAftihev6i2u36LC3Yi5Fd5dKsjTu1L%2FnhR2Go5VUVMgE89eKhilKC2qMT4GPHsTBUO7oZRNulMAQtuYxh8SqsGL2mONF%2FQgcVPKCPAv92STgTXxdyBWatfdjKjmN3n24oZIXTQ0rJ1wOshNXrNlT8kaKMqixU2FE10Qi8m8Rrk3rD7%2FfzJE6Wovpf4IeCzqyCF0aSrjL840XTcuSLPqxyP50nxuuQJnu%2FE8yXQw3URg4%2BYqWEVmGvZyGDi8%3D",
+      "source_url": "https://www.ebay.com/itm/407202955455?_skw=build-a-bear+Shaggy+Teddy&hash=item5ecf3000bf:g:tKMAAeSw75ZqT-mc&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYJ3O2iWrROffUyRidSsKaICm5X10dzMoDxT06sSJmMecKQgU1vfNmJntULnvG%2BKHo%2FdE4rAftihev6i2u36LC3Yi5Fd5dKsjTu1L%2FnhR2Go5VUVMgE89eKhilKC2qMT4EZO%2FYH8mbiEkX7sgE6w3p9u7KrwjGnMn4XdU2mwHdqRhmOhOORMwOUpER4dTRTKgZAfgROGYAwH2jJ9Qfpdv7ETaimvQKnW1XFrA4VBZzZiOnunNtwIPTMHpX9myMLIddO0tqKmVt11U3hD2gYZlN77P51a%2BkxCShninXHHcisats88KDPo06AYibyd4I0ekY%3D",
       "image_url": "https://i.ebayimg.com/images/g/tKMAAeSw75ZqT-mc/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -395918,20 +395932,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|377553287467|0",
-      "item_id": "shaggy-teddy",
-      "listing_id": "377553287467",
-      "title": "Build A Bear Pink Cuddles Teddy Bear Plush 16\" Shaggy Fur w/ Fashion Princess",
-      "ask_price": 14.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/377553287467?_skw=build-a-bear+Shaggy+Teddy&hash=item57e7edf92b:g:feYAAeSw~fxqxt8i",
-      "image_url": "https://i.ebayimg.com/images/g/feYAAeSw~fxqxt8i/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|276883776581|0",
       "item_id": "shaggy-teddy",
       "listing_id": "276883776581",
@@ -395974,6 +395974,20 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|377553287467|0",
+      "item_id": "shaggy-teddy",
+      "listing_id": "377553287467",
+      "title": "Build A Bear Pink Cuddles Teddy Bear Plush 16\" Shaggy Fur w/ Fashion Princess",
+      "ask_price": 14.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/377553287467?_skw=build-a-bear+Shaggy+Teddy&hash=item57e7edf92b:g:feYAAeSw~fxqxt8i",
+      "image_url": "https://i.ebayimg.com/images/g/feYAAeSw~fxqxt8i/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|298439201970|0",
       "item_id": "shaggy-teddy",
       "listing_id": "298439201970",
@@ -395983,7 +395997,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298439201970?_skw=build-a-bear+Shaggy+Teddy&hash=item457c5cd4b2:g:wLEAAeSwh05qOEUg&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYI8gqrJ3N2vQKmm0u2pX1uuANT4f6EfS5AnlB98FfeQ%2FUO0vruqCFvjV%2BsmvLsHQyLxaOPZ8rbd2bdiB5gNZ3EOenYeszrQxaOcsmtmT3ELp8FDWgN7RDAZJUZfi%2FN%2Fj0fFkHLF5kfDV3G30RjXi%2BPMwVsBYVJfeN5tzbveVd7u80oWVTD%2BXy4o5duezSp%2FSS9ou9vqpKUxUqtlS75mDRpfSl5piWMYOgLjgR3zzRUEwgD7kBVFqZD%2FWH0pylBBiVRfCHH4Nf3afZl69S0w0J2i8jeC7f1WrvtMLSYtP6glg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/298439201970?_skw=build-a-bear+Shaggy+Teddy&hash=item457c5cd4b2:g:wLEAAeSwh05qOEUg&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYI8gqrJ3N2vQKmm0u2pX1uuANT4f6EfS5AnlB98FfeQ%2FUO0vruqCFvjV%2BsmvLsHQyLxaOPZ8rbd2bdiB5gNZ3EOenYeszrQxaOcsmtmT3ELp8FDWgN7RDAZJUZfi%2FN%2Fj2vfKAOwtKqSVqJ3yzmV76zUj5f6ryZSXdToSfRWfrCg6r%2BQoMX9%2FKYkHPg1H7k0SKClTv72ereDOl36SZNsFlB00IY29YqWNfVxyoPe3Ez4Wj%2F%2BgPwl0YEfxsUWQ%2BXvBPpckgkgV19ZG5RmAR%2Foy2Ob3ADjKaWs%2Fb8OhVI98JGeg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/wLEAAeSwh05qOEUg/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396002,17 +396016,17 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|178165032513|0",
+      "id": "active-v1|306730828554|0",
       "item_id": "shaggy-teddy",
-      "listing_id": "178165032513",
-      "title": "Build A Bear Shaggy Teddy Bear",
-      "ask_price": 4.0,
+      "listing_id": "306730828554",
+      "title": " Build A Bear Shaggy Brown Bear Teddy Plush Stuffed Collectible 16\"",
+      "ask_price": 20.0,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/178165032513?_skw=build-a-bear+Shaggy+Teddy&hash=item297b76a641:g:bogAAeSwyWlqFLWu",
-      "image_url": "https://i.ebayimg.com/images/g/bogAAeSwyWlqFLWu/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/306730828554?_skw=build-a-bear+Shaggy+Teddy&hash=item476a95030a:g:Si0AAeSwad5ogtL-",
+      "image_url": "https://i.ebayimg.com/images/g/Si0AAeSwad5ogtL-/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396025,7 +396039,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318062919668?_skw=build-a-bear+Shaggy+Teddy&hash=item4a0e06fff4:g:CIMAAOSwOThmzNYY&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbbwOJU4tqMtb7GStXl0Sjt%2BUpbk0VNYqMoOqaIzw7MhO9SSOqvHPS7Y59PW29izyYr2LfRushd2ZGa9n3m2Z%2FPOWMUc4kVgcnc1beTNL6uPi2I8jpZ2BgU3dBuQmA%2BZW4%2BouGFF%2FNZb%2FVlqnjyDqtTjygdiFhhH7OeQtcP27KNufJdq%2Fp60RqQTMSd6ocD4zyl%2FdoLeickxe5QkimX2RR0d1GsJqYE72zKMr6UvO3IbjeMa%2B%2F1DWqRTnUEJiaqI6gsaL4eTsxQ1haA9q3lMQUBMUZEMegSNmsf5giZVUhb5G5QWT3ewMEGkGdYUEOYad8%3D",
+      "source_url": "https://www.ebay.com/itm/318062919668?_skw=build-a-bear+Shaggy+Teddy&hash=item4a0e06fff4:g:CIMAAOSwOThmzNYY&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbbwOJU4tqMtb7GStXl0Sjt%2BUpbk0VNYqMoOqaIzw7MhO9SSOqvHPS7Y59PW29izyYr2LfRushd2ZGa9n3m2Z%2FPOWMUc4kVgcnc1beTNL6uPi2I8jpZ2BgU3dBuQmA%2BZW65qiuonEym9ws3MeBQeD4blhK%2B20xzErq2VSFJOghksEYv8lW7aDAPjstAQXgqcsABp7geryPOCiSkMg6GBDDSksT5eJGNcpAxHNkUitoo1P5T4WX1y%2BUAe8TEsHjkZ%2FQmEhFHNzeOw8Q6Nd8h4tw86WGM7bAC5hFfz4phB%2BfWqbaUTSFMNiT5HGKGmEMXKD4%3D",
       "image_url": "https://i.ebayimg.com/images/g/CIMAAOSwOThmzNYY/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396039,7 +396053,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/298640038940?_skw=build-a-bear+Shaggy+Teddy&hash=item4588555c1c:g:UgAAAeSwZB9qcCk5&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYHsdCnRV7bUNF0lIURj2UVwVzJpKpQcENQQdVQ7RTpR2Be2XNfSS%2Bk3yaXUhMDXfRYvdcum1prd1atfaDux%2BHiEgDAsEHxapNkKyKUAig20eSTSd11cxHoXi0vsuSPkYNTfgnD3BRNUMTwRlvl14meRDeNINQpLZ9Td9T%2FrVR4zQL9Psr96GlXW8sga1p73%2Fnc%2BvVGjf8tKYHPiVpHgHfCklXjJagXpVj76LKgHs43r3Lc4QkT2HmYxxUAsB1GD1MnOCwEZa25ZfKo3hzDjombKtnIhYjxmu2qyoRlyk4g90Y2Odek6%2FOtdXXQccim4dU%3D",
+      "source_url": "https://www.ebay.com/itm/298640038940?_skw=build-a-bear+Shaggy+Teddy&hash=item4588555c1c:g:UgAAAeSwZB9qcCk5&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYHsdCnRV7bUNF0lIURj2UVwVzJpKpQcENQQdVQ7RTpR2Be2XNfSS%2Bk3yaXUhMDXfRYvdcum1prd1atfaDux%2BHiEgDAsEHxapNkKyKUAig20eSTSd11cxHoXi0vsuSPkYPxsw7JjiiqvE1LGqfZF2wg9RQZlX0br3WmTBbgqcA8ZCsbUAcdjnsCZ8CgDR1zZLao5nvxWegjGyW26O0%2FXeWL3f3SnsdCo82SPhesGkyGxa9paCh9Bw4XqOBb9uuxw6FG5ETg8J32OFAeracAsUEKZZSCOnDE6bRPV0rPhtUHlTHRhZbSefKrJX5iBQb6Ud4%3D",
       "image_url": "https://i.ebayimg.com/images/g/UgAAAeSwZB9qcCk5/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396067,7 +396081,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147530682202?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item2259838f5a:g:jsAAAeSwr9FoBALX&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYTpDB1o%2BdElNhp7zEeVAY0m75apRyit2vXLoC%2B%2BgtqmyWAHEsFUEwCiB3jBAbhORS49LAKvWjtJotZkQGvyWj1wAjLy%2BIrhQsPkb7wyhOfZ9v84ad9pv9uQCZMxvGxlOk9Z96o%2FYMa9rJqoOuxRh5loabBVtINLaVuIoddZ%2Bh1Zd5T3FPHwi1i1NDjlVFFyhEP0kpW5OlExKgD62vg2qIPOwBrFnFM8CN6M584yLdVfLfXWY4X6CmkEhQgrDqVbpLMzz5tXHC5mWvkkI6ZF79vEaS%2B1LW05sRh9G5uKBXY1A%3D%3D",
+      "source_url": "https://www.ebay.com/itm/147530682202?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item2259838f5a:g:jsAAAeSwr9FoBALX&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYTpDB1o%2BdElNhp7zEeVAY0m75apRyit2vXLoC%2B%2BgtqmyWAHEsFUEwCiB3jBAbhORS49LAKvWjtJotZkQGvyWj1wAjLy%2BIrhQsPkb7wyhOfZ9v84ad9pv9uQCZMxvGxlOk1u8FfR36hcU4JVnVDVAIWmwcWKKhkSVfOELXSKGXe1nsRmKsyZ1u5ikiTxzZNb%2FyDyYrNELiaYaWx2o4ky914wQlhmsVsR2l9xaIuc5h8HK4gkwJnogXHmikKaoJJymF%2BFgx0myR7Yyc5IdhposMu9QhJ%2BAJWPsqdyeCc10nJJg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/jsAAAeSwr9FoBALX/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396221,7 +396235,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267707006366?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item3e5494bd9e:g:eiYAAeSw60hqOhNV&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZ5mi%2FpYCxZnOVTo8IRaO0lKK3xa%2F2BdAfrkw5Vv49UB%2BwEE9TGCLHH5X%2F7wh7GPDw6esSBrxP1ETgU7Ct5U3cJ1a8pLavwrRDWCiYeIhi9JM8FEvkU5YXRNA0eC5T6dOJeOeceWMetyAZVQh88g9nauI%2BDOeG%2BTKliNuflWAQSyS1%2FUbDecR67K3DTSzjKk8DJOGuZ7eRdmz6Q4t76TioLmxchPIwKWLBrjc5AfHnsJgrmUT%2FqmxVE4GR7F6cXo8UP229XhLJOvQHU6GkCgbOhc9Nv4K%2FHvVMBzWDD8Ue4npDR90GbuaDJptLA3RGZFmE%3D",
+      "source_url": "https://www.ebay.com/itm/267707006366?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item3e5494bd9e:g:eiYAAeSw60hqOhNV&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZ5mi%2FpYCxZnOVTo8IRaO0lKK3xa%2F2BdAfrkw5Vv49UB%2BwEE9TGCLHH5X%2F7wh7GPDw6esSBrxP1ETgU7Ct5U3cJ1a8pLavwrRDWCiYeIhi9JM8FEvkU5YXRNA0eC5T6dOKbK10LURHg2IO6DgCedO0QcqS5YBGR5w55YHWyuoxX5LYF%2BE5CgJ9j1Jev%2FHLacqzCGNtftNH1qUMjvb8g4sDR7AB8aZasdLNs5EqJfQTCOZszxB%2BUdMmOOYjQI7mFROdmxyEOb7usohN4z1uftehNTg4GnGrrRTXei9TXC%2FCgqL5XX1kp4Ko13CF7GXxj3B0%3D",
       "image_url": "https://i.ebayimg.com/images/g/eiYAAeSw60hqOhNV/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396235,7 +396249,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/137721448155?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item2010d686db:g:u48AAeSwV-9qoqWs&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYzana8JheT2%2FrhY7rot4dCG%2Ba2BMJFgNdO%2BBpxLcT%2BFYbmtVuB7XLoGuB5MtZ2hI%2FR2eqcOsFeNamWf8N0VqlTjwaTT7%2Bt3IRdNGWmybF7tX44nXYHSK5VgOKl88vKvNpcnwkwOppZ0rkh%2FcrwPpkqjGETLjZNE7JqaphIEFHVExINHDEphI95Aujz%2FM3Os9ont8W1O7OOhgO0vRcqs6hI9po0oQkmOAFNZILdmsTcfgL5PaiS17aTto7BQM8DeZD7HPiswviTEgcxNerV4%2BOzh98A3ZO%2BdQ1XVr0wif5wDG9SSuPpKDwKxM4Q5Btk3I4%3D",
+      "source_url": "https://www.ebay.com/itm/137721448155?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item2010d686db:g:u48AAeSwV-9qoqWs&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYzana8JheT2%2FrhY7rot4dCG%2Ba2BMJFgNdO%2BBpxLcT%2BFYbmtVuB7XLoGuB5MtZ2hI%2FR2eqcOsFeNamWf8N0VqlTjwaTT7%2Bt3IRdNGWmybF7tX44nXYHSK5VgOKl88vKvNo%2FX6GCmQBeEwrkKT1HiaaAJNCFXGdcmvCg6%2F5M25WVQi5x1fPqoFz89UXxOkVBkrgC043ErIy0zDBS8yPfDyUM%2B1tWh4IQaOzVz5zxNguuUL1zCshPZcSQb%2BerlqWeAXl9e7pdCxKSqbVyKHqTq91epDGAmsB7UmPyr573Jv69ZzuyTrEaxbBWjGSYczj6wLs%3D",
       "image_url": "https://i.ebayimg.com/images/g/u48AAeSwV-9qoqWs/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396249,7 +396263,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206458115286?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item3011dcd4d6:g:Xg8AAOSw9RVl190D&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGadPrr5HqBtYaxsDa6d3ur8TdEojUFABrkh0E%2BYbPEqj79esJRlemrWD%2FUyiF8zVP3fft3v%2Bj9bZeql0Lqb3R2GhklGbmqOLfQTm3LnpMfRDPytsCsDAjQRdTiH4shdJIWAN%2FRsee2u35P3vVIGFZAjPEvXrIHQvAZYExgwWhjn8%2BoYQKl9uqfHNCu4DPpT24%2ButDE9pGqaWVZNsTzMmtp64qzXb8dJc2skPlv16dd1WcppYY4UIrF53iTSSEo514vpCE9XzYQl52e9UXkAa1ymY7oElZYHBMg2SsLZHnmn6BTAni3t9c6dCLpscgukNnY%3D",
+      "source_url": "https://www.ebay.com/itm/206458115286?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item3011dcd4d6:g:Xg8AAOSw9RVl190D&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGadPrr5HqBtYaxsDa6d3ur8TdEojUFABrkh0E%2BYbPEqj79esJRlemrWD%2FUyiF8zVP3fft3v%2Bj9bZeql0Lqb3R2GhklGbmqOLfQTm3LnpMfRDPytsCsDAjQRdTiH4shdJIU1rufcgJ%2FKZs%2FIKLs%2FeTb8Fod6uRKJzm2iT0AgiLHyqVZHMDA8a4eezpMjTpoE6R56QACWWKjygDIbJg%2BIEri2Aa22lq2tXgAO%2Bf6F7%2B%2BMKX0cWyaEXv%2BzYTyWulk%2B7YDjvtVHm9f6uanIcYywPT%2BefADg4RMjb4AeB2Skb0Q89FvdsdE%2B6LLggg51K%2BRp%2B%2B4%3D",
       "image_url": "https://i.ebayimg.com/images/g/Xg8AAOSw9RVl190D/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396291,7 +396305,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/358579500683?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item537d00f68b:g:j5AAAeSwUvhqDmuM&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbmJEuGXHITzPJHKDw3hiFHljQDqsRrGhyxsw%2FKR%2BYsdVt9MQvjkIbK2ox0Uo8MZF89tJdpC8pKMJmBG89JI7y5lNryPUzwx%2B%2FHJC5HSc%2FZMPVfSWtUaw9abf321a1uptlpQ6h05mIjm2E9jrbz5G0%2FZI3gV7Q8AFvsTs4n6XqmnIQfP8puOTM%2BiTOLCaoc2IdHe82PPppA4PysIejBkEEB1Nbx6Loy8wRbRZ8rqyA5gv0NVTkhF8j4arWEq1IBUipxpczJaLClCeg1vBYLWKQV6I3j5wPjVfuNMmrF3Qy5xg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/358579500683?_skw=build-a-bear+Pudgie+Pink+Pig&hash=item537d00f68b:g:j5AAAeSwUvhqDmuM&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbmJEuGXHITzPJHKDw3hiFHljQDqsRrGhyxsw%2FKR%2BYsdVt9MQvjkIbK2ox0Uo8MZF89tJdpC8pKMJmBG89JI7y5lNryPUzwx%2B%2FHJC5HSc%2FZMPVfSWtUaw9abf321a1uptkMBxEv8BWz3FCXlWtdthCNRT2yr3I2sp%2FlibmOifU2pDEPfZQgwMwiKin71C1%2Bjlq8H6qBUvYrNu4VKUzdqTU6Gu1odCSiW5CWe2JdFdfTAVRFrecJyRWb%2BGwDQCT0rjWtou4LEoty5JELY6Of5KcGERijXhSpM7EsM9OPJf4DSg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/j5AAAeSwUvhqDmuM/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396366,20 +396380,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|157929725064|0",
-      "item_id": "friendly-frog",
-      "listing_id": "157929725064",
-      "title": "Build A Bear Friendly Frog Smiling 18\" Furry Plush Stuffed Toy 2004 Retired",
-      "ask_price": 19.95,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/157929725064?_skw=build-a-bear+Friendly+Frog&hash=item24c5585c88:g:ewkAAeSwvlZpyYVQ",
-      "image_url": "https://i.ebayimg.com/images/g/ewkAAeSwvlZpyYVQ/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|820148586717|0",
       "item_id": "friendly-frog",
       "listing_id": "820148586717",
@@ -396394,17 +396394,17 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|188663949857|0",
+      "id": "active-v1|157929725064|0",
       "item_id": "friendly-frog",
-      "listing_id": "188663949857",
-      "title": "BUILD A BEAR Friendly Frog Plush Toy Green Beige 18\" Vintage Retired",
-      "ask_price": 8.0,
+      "listing_id": "157929725064",
+      "title": "Build A Bear Friendly Frog Smiling 18\" Furry Plush Stuffed Toy 2004 Retired",
+      "ask_price": 19.95,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/188663949857?_skw=build-a-bear+Friendly+Frog&hash=item2bed3f6a21:g:MnkAAeSwW3hqXIC2",
-      "image_url": "https://i.ebayimg.com/images/g/MnkAAeSwW3hqXIC2/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/157929725064?_skw=build-a-bear+Friendly+Frog&hash=item24c5585c88:g:ewkAAeSwvlZpyYVQ",
+      "image_url": "https://i.ebayimg.com/images/g/ewkAAeSwvlZpyYVQ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396422,6 +396422,20 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|188663949857|0",
+      "item_id": "friendly-frog",
+      "listing_id": "188663949857",
+      "title": "BUILD A BEAR Friendly Frog Plush Toy Green Beige 18\" Vintage Retired",
+      "ask_price": 8.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/188663949857?_skw=build-a-bear+Friendly+Frog&hash=item2bed3f6a21:g:MnkAAeSwW3hqXIC2",
+      "image_url": "https://i.ebayimg.com/images/g/MnkAAeSwW3hqXIC2/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|257489906585|0",
       "item_id": "friendly-frog",
       "listing_id": "257489906585",
@@ -396433,20 +396447,6 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/257489906585?_skw=build-a-bear+Friendly+Frog&hash=item3bf3982b99:g:ZsMAAeSwXXxpTt~k",
       "image_url": "https://i.ebayimg.com/images/g/ZsMAAeSwXXxpTt~k/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|278375287312|0",
-      "item_id": "friendly-frog",
-      "listing_id": "278375287312",
-      "title": "Build A Bear Workshop Friendly Frog Plush RETIRED 17\u201d With Flame Outfit Stuffed",
-      "ask_price": 14.39,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/278375287312?_skw=build-a-bear+Friendly+Frog&hash=item40d075ca10:g:6dEAAeSwCy1p3r3z",
-      "image_url": "https://i.ebayimg.com/images/g/6dEAAeSwCy1p3r3z/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396464,17 +396464,31 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|236619639516|0",
+      "id": "active-v1|278375287312|0",
       "item_id": "friendly-frog",
-      "listing_id": "236619639516",
-      "title": "Build a Bear Friendly Frog Green Plush Soft Stuffed Animal 18\" Retired BAB",
-      "ask_price": 32.77,
+      "listing_id": "278375287312",
+      "title": "Build A Bear Workshop Friendly Frog Plush RETIRED 17\u201d With Flame Outfit Stuffed",
+      "ask_price": 14.39,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/236619639516?_skw=build-a-bear+Friendly+Frog&hash=item3717a12adc:g:tN0AAeSwjZxphLZb&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGboSXvK8VHLgi4wj1Od5Q68JX8B3L2kB3aMoTqY64LhbUwnRPGy0b%2FD%2FIiJuS%2FENvyK%2BEaZYVYcmH%2FrT06uNasgIkqYKmCtYSAUk6vhyhFkZaoQfe1qT9mgxg0R1RbHjFoOhVtudWytBH4dqfE79Rt1I3FKoH1vorGoM%2FM%2BgmXUoetkAfVPUvaoujiOe%2BIOhszx2PTgg53Lk4jSNv0Xf0WtzxAME4Bh0Lh9MbE0YmVyrz1Lon%2BEe3C2HR0u6di0RSzIIS%2Bb3HICQk2zWrDOrbf%2FrqBuW8OqhbpYF6ANyQU5cU421S%2FCn5rzfHYTZDmwY58%3D",
-      "image_url": "https://i.ebayimg.com/images/g/tN0AAeSwjZxphLZb/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/278375287312?_skw=build-a-bear+Friendly+Frog&hash=item40d075ca10:g:6dEAAeSwCy1p3r3z",
+      "image_url": "https://i.ebayimg.com/images/g/6dEAAeSwCy1p3r3z/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|198033248562|0",
+      "item_id": "friendly-frog",
+      "listing_id": "198033248562",
+      "title": "2004 Retired Build A Bear Vintage Friendly Green Frog (Makes Noise)",
+      "ask_price": 15.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/198033248562?_skw=build-a-bear+Friendly+Frog&hash=item2e1bb39132:g:AyEAAeSwufRpalnb&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNcOCUeBM2MCfzqPn0iSIGA2hLu29R2b%2BDRuRmMXsqvifg77su0UsyqB%2BiLQy5VGlwleFtIeNoaj%2BvjslDJbuzNywboYOYZKHuQBsXtEmkJx1OdUDDp5xFD5BGXZch1jW%2Fk%2FhdnsMe3tMVS4y3srqMhSL%2BZWthqZgHPwm0hchEKEnpKaKw3mBg2GoQp1sBDvvWfzz9GwkBPN1XWZ3Pwjmq0LelIECSZAXn0tN4HesLKu%2FTexvAbx5wJeKyEQPMzrimdIpfEJ3XlPg%2Bmwq11VoD9akGYmhAESk7NQDNuwPoFA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/AyEAAeSwufRpalnb/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396506,31 +396520,17 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|198033248562|0",
+      "id": "active-v1|236619639516|0",
       "item_id": "friendly-frog",
-      "listing_id": "198033248562",
-      "title": "2004 Retired Build A Bear Vintage Friendly Green Frog (Makes Noise)",
-      "ask_price": 15.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/198033248562?_skw=build-a-bear+Friendly+Frog&hash=item2e1bb39132:g:AyEAAeSwufRpalnb&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNcOCUeBM2MCfzqPn0iSIGA2hLu29R2b%2BDRuRmMXsqvifg77su0UsyqB%2BiLQy5VGlwleFtIeNoaj%2BvjslDJbuzNywboYOYZKHuQBsXtEmkJx1OdUDDp5xFD5BGXZch1jUTDDDXu3yF69IKyHolwJeiWw7%2FVOx0V55oBMqlgUsBwAwEbI8stLmHlG79TwUWWr7UOLzxp25ZdOYzd7hx34n4dK0jY6vzOIA%2BzOsPYYbs%2FmAYFQ%2BY3pK%2FgduWNTmd2EVsEs1kLhI6UPlu9GApIvJuLxY4yL205bbtuUVwgQB6Gg%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/AyEAAeSwufRpalnb/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|168293300255|0",
-      "item_id": "friendly-frog",
-      "listing_id": "168293300255",
-      "title": "Build A Bear Friendly Green Frog Plush Stuffed Toy Vintage 17 Inch 2004",
-      "ask_price": 18.74,
+      "listing_id": "236619639516",
+      "title": "Build a Bear Friendly Frog Green Plush Soft Stuffed Animal 18\" Retired BAB",
+      "ask_price": 32.77,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/168293300255?_skw=build-a-bear+Friendly+Frog&hash=item272f0ff81f:g:7IkAAeSwXQ1p1T72&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGal0vMVjpbW7IpB8Si86LoWkeNJnfmPpLKVEMrsshBlcdrHI%2FteKPlBA2zekPjTCD1lTuxGTfXVoOkPpmYyTb0F3dTSMXgCLJsk6Zii8rJJz9GqTm94%2B1NO5jGf%2FMMlaKt57gi3JlB7sqGZSnOiv3HIApuI1o9ZHak9pksmifsDxusuPY9nDYvXKc%2FuHvmRkDdzKkcnmO4IUFh6GGJ5SraRKLUVzv508QFYoV4LPsEY%2FbvyEfYRVckC%2BPMQsS4SlTWXT6KKl68LI0fZ%2BD%2FSPq3G1Jx%2BBEL%2BRhbbDeCqs87JjA%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/7IkAAeSwXQ1p1T72/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/236619639516?_skw=build-a-bear+Friendly+Frog&hash=item3717a12adc:g:tN0AAeSwjZxphLZb&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGboSXvK8VHLgi4wj1Od5Q68JX8B3L2kB3aMoTqY64LhbUwnRPGy0b%2FD%2FIiJuS%2FENvyK%2BEaZYVYcmH%2FrT06uNasgIkqYKmCtYSAUk6vhyhFkZaoQfe1qT9mgxg0R1RbHjFppuGBzCSOdop1NBkjENWkyTfgNW4jmiID%2FRP4NX8oqJEj4%2F36ufcpBkbjy6NI4RKryh%2FfX9Ov4y%2FAHUiIPW0lFYMhojakCRPP8iPBuQPxZhjqpxqaOxpni3%2B7Z73XV04thfdxDXtF8C7aoOa3MUdDVVpH%2FnDWvy%2FnghA0tEGSECBPFCMC2SWCmwf80RmuCAsA%3D",
+      "image_url": "https://i.ebayimg.com/images/g/tN0AAeSwjZxphLZb/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -396557,7 +396557,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/257699500378?_skw=build-a-bear+Elmo&hash=item3c0016515a:g:sXEAAeSw3xtqgihX&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYlb6xHT6QfwzUcN75gClFGJKIwNPaYX6J8VtYT6NEbQde9OUsnfVLWPaLplr%2Fn6APYiExI4tRhc3M%2FYNGQPAAIBx6CYHWlnTZfq%2FBkL5n%2Bu8y%2FrkK3vejOGRKw21rPtfl%2BGiNtVd6vgyz8LYw%2BMV6bpn0bxf4PYGzOnA0x2OOVxRl3il1KsmU%2BFzUc1XBhhb0x2Rl7xCdiNKbVhqNUdyDGw7KmPbB4DbxwIR9Hwjj5eVh9UtPjqgrhWchnZC%2BymAbI%2Fl0bhDXCv9d3vppq9F919j%2FllCqD5%2BTW7nLG%2FwGO%2Bg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/257699500378?_skw=build-a-bear+Elmo&hash=item3c0016515a:g:sXEAAeSw3xtqgihX&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYlb6xHT6QfwzUcN75gClFGJKIwNPaYX6J8VtYT6NEbQde9OUsnfVLWPaLplr%2Fn6APYiExI4tRhc3M%2FYNGQPAAIBx6CYHWlnTZfq%2FBkL5n%2Bu8y%2FrkK3vejOGRKw21rPtfmtGHwoERArUzMoqOmPzpHL9J8Nu%2FE5SHj7PMz%2FdXJcz2oA4DyazmjiyIqFWs968%2BCIqaeDwEMZRARWmwSPBRKLub9usjYQ0XZ2yhaC2YoWCJpwzS6OmMcPds0jQviZu8mM9jRDw1X5%2FrtgWg9a5GofzNXbeAKUOPA2fX76MYx0FQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/sXEAAeSw3xtqgihX/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396739,7 +396739,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127873297947?_skw=build-a-bear+Elmo&hash=item1dc5d7ae1b:g:tzwAAeSwhIJqA0ZN&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNeIWeHPDQlyTewwBLoA10753Oeff79kwMFhN3MR4fMnk9iojFOXj%2FO1PA9QOJRFnj8tedEMlqb43EUxOaWUVdhafN0FDc%2FbAtaXCftwV7ggtCfj1jLEHGMB9r6TE4E3I7MfR0qKlKXAwwo9uSaY1hBmV5MQZLRAp0Qu6%2B%2Ft3MrPDP90ZX4AqCaSCjOAwiSgbDYWzLw7U9JgdfZTgaWEk8t3eYqFP%2FlH00l9PIfaFRdzKgBSO0dicErtD669NfRH15KqzrqyawCIcUrTomcGnv53efTct%2FAwn0JBFWPXXj8g%3D%3D",
+      "source_url": "https://www.ebay.com/itm/127873297947?_skw=build-a-bear+Elmo&hash=item1dc5d7ae1b:g:tzwAAeSwhIJqA0ZN&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbNeIWeHPDQlyTewwBLoA10753Oeff79kwMFhN3MR4fMnk9iojFOXj%2FO1PA9QOJRFnj8tedEMlqb43EUxOaWUVdhafN0FDc%2FbAtaXCftwV7ggtCfj1jLEHGMB9r6TE4E3Idl%2FbUjBqYZaJUd1oUYd%2BTX%2FS3t9Abc1AcluKDoDvTXVmNzrxOEoNmGUOL43hhV%2Bry19d6woIZbIcKrTnSFmD03Z8rw6s04S8YGmdvbk3sUzMjSLp%2Bytv3neytdS90L2OWOa3NCMfWe5uKEkP2JJElwaxEeDGOJKFl1P5L%2BcvqFg%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/tzwAAeSwhIJqA0ZN/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -396753,7 +396753,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/126699631720?_skw=build-a-bear+Elmo&hash=item1d7fe2f468:g:TZoAAOSwUtJm9PiU&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGarbnhESlVCJkM%2F0zhRoHYDl14C%2BkAq0ciqwiUq2Lj35M1whqCpc3sMF8PNWHq1EOhVVmYxaYVpYVznDUG0Vnp7heoI8kIgR4ZT0hcRpybQJQuy3d0SjpPHIZ9sncWJQWD5Nt--ICuwPWGQhGe10yZ6%2BRJYWqOdzIoGU7p8V5%2F4mEb4Qc%2FF1VF9asVCycKqY5fgeTaEFxzuA2XPnp1Gglj5hRkMRcymIdLbrQVnZLQR9jV%2FRYCGZHdMXJKr0fLYGmkQqlTFlh%2B5v1U3NwaPaMJ7yCim8By9RQX1YfqXUCn%2B9Q%3D%3D",
+      "source_url": "https://www.ebay.com/itm/126699631720?_skw=build-a-bear+Elmo&hash=item1d7fe2f468:g:TZoAAOSwUtJm9PiU&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGarbnhESlVCJkM%2F0zhRoHYDl14C%2BkAq0ciqwiUq2Lj35M1whqCpc3sMF8PNWHq1EOhVVmYxaYVpYVznDUG0Vnp7heoI8kIgR4ZT0hcRpybQJQuy3d0SjpPHIZ9sncWJQWB6OaLJYZ7fHVfr66DOgTmR%2BSG4CXnq9ehIBNEU4vDI61FBg2dFrDhiMwI7xZeamZGfDRJBtCErEM0SFYtW9l4yoo8gIoU8xY1aOVfQ0b1t%2BH%2BEZAbeC3M1E%2BpuO3sEBvUR%2BzMx3KY764IOw68%2FFacffxqMfPKgMtT3dbEsGg5qjA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/TZoAAOSwUtJm9PiU/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397005,7 +397005,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/376606152904?_skw=build-a-bear+WWF+Giraffe&hash=item57af79d8c8:g:Gd0AAeSwG4ho5jYn&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZnYNTIm0JSjSZJhHsHYYbEoXsYtE2CjT%2BwGDdqe6rxzfliAfre9Cn7fWrOTp7vB33SCfYMmq5lQjXAQMbKDWeZRpYyKhHAQQvGW2Ey8kpDNAYUSWNhcPIi3yge3x0iOLjdlX3df7zRsWtgkXajV1udzqXTGtVpzWnmAyVN4rMbo0aB%2F7vLYgvInk4t91HknGwGHjNByWRTHF6AAWFoISwkIIi6wA31Xy%2FSRZ5TEU0dWNuc9eQUTuJm%2BxMq9lZyym2lFTgMIhkG1iLVK--1CQsFxnSKgo4M3eqM5YJUFuwQZg%3D%3D",
+      "source_url": "https://www.ebay.com/itm/376606152904?_skw=build-a-bear+WWF+Giraffe&hash=item57af79d8c8:g:Gd0AAeSwG4ho5jYn&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZnYNTIm0JSjSZJhHsHYYbEoXsYtE2CjT%2BwGDdqe6rxzfliAfre9Cn7fWrOTp7vB33SCfYMmq5lQjXAQMbKDWeZRpYyKhHAQQvGW2Ey8kpDNAYUSWNhcPIi3yge3x0iOLgHTPL%2BKgbJopLT8AXvcXC8YOpayqO%2BbFNZXRVxea%2BHPP9Qf4aBA0GvyNV7M0oUD8To2170QsKN9OmhUDVh256gnHc5et3To3siKum856TTNXO9LBWHfcb0zPZ8N%2BW3Kas5BLa7l8lMRfeG9gMKT%2BgBetAKS8InFlwvJKqKgMhDdA%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/Gd0AAeSwG4ho5jYn/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397061,7 +397061,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/235776336054?_skw=build-a-bear+WWF+Giraffe&hash=item36e55d60b6:g:QqkAAOSwffFnBEoB&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGavYtpkdQMw0Fkpk6jHiL7mlTUYduJSIgS%2FT7vkNcgSNZsdotNDH6jlD6UZR576GZZIjihpv0ES6u%2Bq%2FvMFpnulI0632Mh%2BwlPK2lKYOixhBt0aeNlPb9niJJEbcdl8Q3iQmw59nVnZzbOdUo1jyL8K48AKZPKHAnsxkGt4yAc03oHh%2FE%2Bz%2FyQrZe%2BvjZHtk7FGZSGLoKlsjPXI6UfHcjIb5R0n99biyi2MA5VOaNt4ifQy2ZExJOM4hhc%2FTy2AqJZxJnj07Uu2WSGU6qZNxjLpMA1WUqGX2BmdQE%2FJ7Ki1UQ%3D%3D",
+      "source_url": "https://www.ebay.com/itm/235776336054?_skw=build-a-bear+WWF+Giraffe&hash=item36e55d60b6:g:QqkAAOSwffFnBEoB&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGavYtpkdQMw0Fkpk6jHiL7mlTUYduJSIgS%2FT7vkNcgSNZsdotNDH6jlD6UZR576GZZIjihpv0ES6u%2Bq%2FvMFpnulI0632Mh%2BwlPK2lKYOixhBt0aeNlPb9niJJEbcdl8Q3i2Ah4ycJlZry2OQ1VbmB8XMudhW0UimcF3n5c41Rg6O6ct9L0hM58GT%2B7xwesZctrOA5arbcaL1oNE7F0LaDO24TP%2BAJA43Vox%2B4Z3KG7dNsKB6rLPbTCgWt6eQIGJ6uqwQlcSRx78jDYQAsT%2FFLsjFNWcigmAKhvX7SHQ5U2ktw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/QqkAAOSwffFnBEoB/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397150,20 +397150,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|237095501611|0",
-      "item_id": "vanilla-fudge-bunny",
-      "listing_id": "237095501611",
-      "title": "Build-a-Bear Vanilla Fudge Bunny Rabbit Marbled Plush BAB 2005 18 Rare Nice",
-      "ask_price": 211.15,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/237095501611?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item3733fe3f2b:g:NzYAAeSwywJquqHo",
-      "image_url": "https://i.ebayimg.com/images/g/NzYAAeSwywJquqHo/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|168614868627|0",
       "item_id": "vanilla-fudge-bunny",
       "listing_id": "168614868627",
@@ -397175,6 +397161,20 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/168614868627?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item27423ab693:g:5KAAAeSw1clqf-XU",
       "image_url": "https://i.ebayimg.com/images/g/5KAAAeSw1clqf-XU/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|237095501611|0",
+      "item_id": "vanilla-fudge-bunny",
+      "listing_id": "237095501611",
+      "title": "Build-a-Bear Vanilla Fudge Bunny Rabbit Marbled Plush BAB 2005 18 Rare Nice",
+      "ask_price": 211.15,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/237095501611?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item3733fe3f2b:g:NzYAAeSwywJquqHo",
+      "image_url": "https://i.ebayimg.com/images/g/NzYAAeSwywJquqHo/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397215,8 +397215,22 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/398238540663?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item5cb8dde377:g:OzQAAeSwgUdqbgur&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaFHcQMu8ALmTgqkVLU%2FfQva8QIiPLmoINyuLoBZxZVr3jCJ81hWHIaMzUDdbVipmKXWO5puVnE86hgWuFRx8jchPeiLqG%2FVV9avEkbM6gDn5%2FSUawn0WO6NL%2Br2XItwK%2Fx8j%2Fgs7BApeRw64piHk8JJmEnxs%2FAOLyanNJgimo4REIsZaDr0w4ig36xbCEsOsIEJBbNQtgpGgIHtcrPDIN1wtOCFQKzMwvvsHVjIoitwuW7MvJ6KbN7Qh1RtA5Zq1VE6MQxZzQ2v02oCbbQozM2v6E4UL3w2xohwgZ5RtM%2BuR0HIwxCFt%2FaCbg%2BUx3PzFQ%3D",
+      "source_url": "https://www.ebay.com/itm/398238540663?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item5cb8dde377:g:OzQAAeSwgUdqbgur&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaFHcQMu8ALmTgqkVLU%2FfQva8QIiPLmoINyuLoBZxZVr3jCJ81hWHIaMzUDdbVipmKXWO5puVnE86hgWuFRx8jchPeiLqG%2FVV9avEkbM6gDn5%2FSUawn0WO6NL%2Br2XItwK8Zq4qWaJuOnkOlJqoK0uW46D7l%2BZAuJhq83y27tSTQKgdCxav8ypTfoLrnVr8n2YqSzCT7YEZlUwZIJFL5qn5l0ciTHOCcN6mp12RVL0m2r1YgxzFgM135rilsTU8Dfc4Q%2Bbu0bN%2BrLPgLaqvqeXHr3DEYSCYKTB2tLL5V043MFDglMKBsYJH6JsMxqe7jbac%3D",
       "image_url": "https://i.ebayimg.com/images/g/OzQAAeSwgUdqbgur/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|287533142224|0",
+      "item_id": "vanilla-fudge-bunny",
+      "listing_id": "287533142224",
+      "title": "Build A Bear Vanilla Fudge Teddy Bear with Halloween Dress",
+      "ask_price": 49.97,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287533142224?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item42f24f90d0:g:m0IAAeSwXyxqhMkA&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZDbfomnB8D4pQq5yv4kWMPj%2B2vSRs2AAYBwmseGLOquJbeY--VsLYMpMKL37%2BIfbTd5SXBcHQ2p4oqccecyFbFSt92RbM1dSDEGOXIWgrA3AlBrB1iWt64haXE5ffXHl2o8LYugkky%2FcmSSeDxx5iOv0gG21br2TYBn%2FuWM0S3w3rDx5WITBEEsviBb2UC2H4Gaqe2il1ajISj347iinFx7vkRKbkRJSXZ0%2FTwaFeK%2B98v5altXnfj6D7wzfoYFBlW7bCBBKCJebNqC9v1D1g8ihWPBWTg2jlfsU2OZQ6UE349O62OEJgGCqpKJyC%2Bn5U%3D",
+      "image_url": "https://i.ebayimg.com/images/g/m0IAAeSwXyxqhMkA/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397231,20 +397245,6 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/115979476261?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item1b00ea5d25:g:6rkAAOSwUL1hIoem",
       "image_url": "https://i.ebayimg.com/images/g/6rkAAOSwUL1hIoem/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|287533142224|0",
-      "item_id": "vanilla-fudge-bunny",
-      "listing_id": "287533142224",
-      "title": "Build A Bear Vanilla Fudge Teddy Bear with Halloween Dress",
-      "ask_price": 49.97,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287533142224?_skw=build-a-bear+Vanilla+Fudge+Bunny&hash=item42f24f90d0:g:m0IAAeSwXyxqhMkA&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZDbfomnB8D4pQq5yv4kWMPj%2B2vSRs2AAYBwmseGLOquJbeY--VsLYMpMKL37%2BIfbTd5SXBcHQ2p4oqccecyFbFSt92RbM1dSDEGOXIWgrA3AlBrB1iWt64haXE5ffXHl0i4fibX29qU8XcsoukZoyW%2B2EbokH8%2B3G3NKc9D2R2O2L5rG%2BelBcLT15Csw07pGsJ82wp645bmKiyRIUCgedPQdoZ7GM8Yvs3v4lnH0Wvimj1f0Q5Q80YNob%2FYDFMti6EoLuYG%2F%2BdXbm5Y2BYqhFr9H1ggswMqBMpJdAdHdAY2J4PKlC8Yb6p%2F3sPYk6RpZE%3D",
-      "image_url": "https://i.ebayimg.com/images/g/m0IAAeSwXyxqhMkA/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -397439,7 +397439,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/256493985828?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item3bb83ba024:g:gYkAAOSwrEtlejtT&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZivVQZZXmfcF6jY%2BNLqgl3932%2BGdwYtbvsmm9UCtS45VkSpM3PVnanRDvmc4gJJxUJRdIzb7cYtH%2BFW77c6jkUg6O1t5jltZ4JmgB7C%2FSZmcIbnWZIz51M0dybIpeoDQkfc5805hNB0cRWAfLA54Yzyq%2Bdab8lXXKSqEpr7JhU0piZ8Hm175sMTuN%2BiWWdgM4zAGxL11NVD88t3%2BA3WOKNqJSYdWN%2FKdjsO0KZXo%2FJuuOn1cXcgZ0JsddyRvCwfjdp6JJUsN1R6wYuLp37e4wtRoci4wYgOcJmhe5KvHnq5u2zZ9qMWSQgPq%2BKpvKOKDSoT7l6CnTWdpIx%2BwhlWkLQ",
+      "source_url": "https://www.ebay.com/itm/256493985828?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item3bb83ba024:g:gYkAAOSwrEtlejtT&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZivVQZZXmfcF6jY%2BNLqgl3932%2BGdwYtbvsmm9UCtS45VkSpM3PVnanRDvmc4gJJxUJRdIzb7cYtH%2BFW77c6jkUg6O1t5jltZ4JmgB7C%2FSZmcIbnWZIz51M0dybIpeoDQlkQdtGR0GDSLubXNV9O3dXVxaORNYJaCTVq2AmL6zuqjcBa%2BPa%2FEocs885KbkqoN%2FIFQMbxq7ueCeHthg%2BLfpYgyyz9r0q4567b4y7k%2Bj5madj2z%2B3zn2xplpM3eNT7WmgJQQmQTg5ahx1gaQBlwfWQfEg%2Bx%2FnQ4UCPhPPoFK0FdPTqHyaUKJZaDu3xGbtko7OgQfsZDYxYb7oWpvPpjuV",
       "image_url": "https://i.ebayimg.com/images/g/gYkAAOSwrEtlejtT/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397453,7 +397453,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336817032600?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item4e6bdc0d98:g:avQAAeSwnWdpDmHA&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZ%2FhC%2FWH7fM4iS6TxvGVZEb8B7iMsdncFuxzdfaVMqpZ01C%2BOh4efZiKvOrSk08fT0UBqi0YeaKRxHGAtChmL06wosSlvjQ9a3Q8Inu8XnSvhxOwXpOF7CDl8SWU5wv9souJmTOglmXVZZRAHRL8cCWrN4WDU5zXHJdQpm1EUOTE%2FJRXlnXkj6Nw3%2B1UOns2jqbdTezEQ1pQo9H5XZ9l94n3rgPlp5BZsss3y3%2FiuDlu%2FbitI%2BBwOK%2BhyMxfLhKiCZFJ1UWEOAHDaJ7hcb1m8r%2FS%2F4XII1vuiyDNwrpSgbz1eGQLvU4RcA5NrjZD1jSospnZUj%2FRPK5NFKDgypiDd0i",
+      "source_url": "https://www.ebay.com/itm/336817032600?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item4e6bdc0d98:g:avQAAeSwnWdpDmHA&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZ%2FhC%2FWH7fM4iS6TxvGVZEb8B7iMsdncFuxzdfaVMqpZ01C%2BOh4efZiKvOrSk08fT0UBqi0YeaKRxHGAtChmL06wosSlvjQ9a3Q8Inu8XnSvhxOwXpOF7CDl8SWU5wv9sp5BhNh6t2J5eoFpfatrfca%2Fsz%2BKQsTX3TupYb6WplnPrypFFOX%2BewN1PqsI4SK3wfEqZfWy7wGNQqfkQPlo%2B%2FHT9Z3Mz9LtMFpGLw4lwl2Rve7%2F1ko3DtEk%2BFBdsH3V0CklEqMIsaAUx9DTUiC%2Fhha70O34JGAbCqTcqK1PC%2BQEHOikobRLUSIce7kZF9p4beO4uttyE8lT%2FkjrY%2FEj%2Fj%2F",
       "image_url": "https://i.ebayimg.com/images/g/avQAAeSwnWdpDmHA/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397467,7 +397467,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/116262291185?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item1b11c5c6f1:g:rrQAAOSw2lVmnpIw&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGYAcJzTYPt7b49bOntLMthS8vcCch50MBJMXrKmKJAeYMrBQyu1Xmr75%2F2EU%2FNN2IAWtL4bQB7IZyjvz9GZpWZx0pWYmdyaVAh29ZAA5oBTdes3B0nSxK%2BYTaqzt%2BNEJMEcxlkI6kCG6FvGJdNlgu%2B%2BK%2B%2FS8RLGckf84dn1WAh9GRGueqCrHOKqLQgKjKJ3AfcP%2BDgqxMOuOdfp%2FAs%2FlHAlnSjTnFg8hM1K7iC9toqu5x4QQhspi2sBNYimAt4yGX%2F%2Bmvvueqx6Ik9yq%2BvJa2Z9ViU0SokDasLK99mCAooud9nuMwv15nmSja1Xev%2FiSXdYUrsj98MAW9T5g2PhMNFQ",
+      "source_url": "https://www.ebay.com/itm/116262291185?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item1b11c5c6f1:g:rrQAAOSw2lVmnpIw&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGYAcJzTYPt7b49bOntLMthS8vcCch50MBJMXrKmKJAeYMrBQyu1Xmr75%2F2EU%2FNN2IAWtL4bQB7IZyjvz9GZpWZx0pWYmdyaVAh29ZAA5oBTdes3B0nSxK%2BYTaqzt%2BNEJMEhGxJxpiglgQLly%2BMqQ2RDTRhszZ6n8Kz1HQXXfdTI9ianeVze48ttsLdgATROlIuGetTyiszexYjF79%2BJZ27QcXDhVfQDoGbC7Yl7FIbU9kmkvAi1HYpYJtYd%2BM6vPKAO12NOFE8QwOFL3Kp7LnyqneYMhxx6WmkDXzmPe7BoJ91md9iInyiWGVV8GD6Xee3kKK6WFjWRW7xwAbEVyIbQ",
       "image_url": "https://i.ebayimg.com/images/g/rrQAAOSw2lVmnpIw/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397495,7 +397495,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/267713273870?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item3e54f4600e:g:HaAAAeSw0dNqQxjy&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGY6mrCiszzm2j8SHu%2Fzmw26w%2Fth5YrzXEMwKGJ3eJhv7ChW6z6jP8sKhOoFGsERWgAVeREq1MckDRFcvfe7lzy0A4%2BRX2WahCeSR2CRMSX5T6LmDv3SnAwacXaZr9YGkLNHxRfUrpVsePU9QOyYLrkpz4RSEGkBVl2p7AeQpnZKI%2BsyLY6P2RodtUYhrftQ%2FsNriWtWxivDXKpftFrxWSAbcE6WbIzTk%2BkDhnf1PEyRrR9i%2BmlzMXP78WT8bou6NhyirhI51bOsZhPBmL8x4rKG%2FMRRhUy57duQACiaBi8mjFKtCsuzoAhfipKEQozs1IMrxLkHZrhUvdCm4gCQuKjz",
+      "source_url": "https://www.ebay.com/itm/267713273870?_skw=build-a-bear+Hello+Kitty+Hawaiian+Sun-Kissed+Tan&hash=item3e54f4600e:g:HaAAAeSw0dNqQxjy&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGY6mrCiszzm2j8SHu%2Fzmw26w%2Fth5YrzXEMwKGJ3eJhv7ChW6z6jP8sKhOoFGsERWgAVeREq1MckDRFcvfe7lzy0A4%2BRX2WahCeSR2CRMSX5T6LmDv3SnAwacXaZr9YGkLNwn85OedLxv12%2FoKGJ0Rre7y8Hu1borEESLz%2BqWEJhYoz8WppOq82y3DKF7ccdm7qEkDcYuLuW7ON4Y4UMdCzwSJkJ902sATyIrE2NEGIsxAoSlSYwKmLZUc%2FokZiXXoZ%2FFtoQrrkomN3SsaUR56vnz7vAncPsnEk1mFmkXAEN6upcxPgxmUCLokfmuz%2BNe6P8OnSuFdeQ4ciAmfDChKzd",
       "image_url": "https://i.ebayimg.com/images/g/HaAAAeSw0dNqQxjy/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397663,7 +397663,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/376723737246?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item57b67c0a9e:g:qP4AAeSwbWZpIpzE&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZiaag%2Fwi4V2SMA%2BcBbNmn79NM7ZK5XJLdaga33MXpJk84WVmi%2FlVBGJh9%2FK4eTf6PxVzz9%2F01kjE4RXID1%2FtLKCjKHmAvutXJbjocC43jHUJOoqkFU%2FBNOzI%2Fhai3TY1t%2BS5dk6c48DfV7iHoRN9%2Buis2ljY5cGEyJ9Bwwj3HYOaoyq%2Fyo4etp%2FcoY80%2FFX%2BECNDyUwjSuXyGptUcG%2B2vlJsu4qvNbP8EHk49pUtkinTFM3R317UD4--Ph2eADqCCsDq%2FGitsiojz5MCbENRudTY6sXYhF3FlZXj4qBxoACvo5lwFHHuLn5C9%2Bj%2FPPe6n05GSE5XdPCF3wrLobs4GF",
+      "source_url": "https://www.ebay.com/itm/376723737246?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item57b67c0a9e:g:qP4AAeSwbWZpIpzE&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZiaag%2Fwi4V2SMA%2BcBbNmn79NM7ZK5XJLdaga33MXpJk84WVmi%2FlVBGJh9%2FK4eTf6PxVzz9%2F01kjE4RXID1%2FtLKCjKHmAvutXJbjocC43jHUJOoqkFU%2FBNOzI%2Fhai3TY1tOeX%2BbD68PjD2O%2FXzQE8cEoCj8duCZVQvPgLm8zprIE%2BkszMt2W3dC3wLxie1S2UtpHkWMiCYpjLZwCRkPr%2B21PAvoaqnIB5x2N4Jc9KdV6eFJAYH5Dwd07PVvJX%2Bzp4CLOLTdMhHSnmoycPt3oZ5uEwhoUYY85ul08mPeCWtmHyA2B0Q69z2d%2FVySvfXgZ64QftRK1ouGCFexPFN9e7If",
       "image_url": "https://i.ebayimg.com/images/g/qP4AAeSwbWZpIpzE/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -397691,7 +397691,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206605744182?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item301aa97836:g:n4YAAeSwa0hqxFrI&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZeNpTDExWAv9U15Wwg46dGgYZNJWEKhib4V6Qi3sVV2YZYjM8IBmH6bqllQL2D%2B3f8BlYkXnJU9eJswwujSQNh5U3DBzJIGxU4iccE%2BsaJbSuvBxsTChZhSjxHnJR%2FQZdQ81SnRJdXhZ1pkZBUEoIcK4hFNSy%2Fqi%2F6yhDkJKBYOdPY2HXk%2FOeBSkqD3bY7mOt8GnfpUzSah37Y38LdXMA11fYCY0IGBIVbgj2dqAiwSXtN5fcT9d9uQ%2B5ZIF2J2V8pDZe90V0cwd6IgvvTh1MXUU59EMpQ3lp5Gfkz36ziffo6%2Fw%2BkfTsKkbr9TrPyLDncGP%2BK0lfeEyvOVuIX%2B4GD",
+      "source_url": "https://www.ebay.com/itm/206605744182?_skw=build-a-bear+Wizards+of+Waverly+Place+Purple+Bear&hash=item301aa97836:g:n4YAAeSwa0hqxFrI&amdata=enc%3AAQALAAABEACCtXRWQnOEpyOqnQQ8KGZeNpTDExWAv9U15Wwg46dGgYZNJWEKhib4V6Qi3sVV2YZYjM8IBmH6bqllQL2D%2B3f8BlYkXnJU9eJswwujSQNh5U3DBzJIGxU4iccE%2BsaJbSuvBxsTChZhSjxHnJR%2FQZc9Flklbw7L5Emi7nI9kjj%2F4RyL3WN9GbPgf2vRdbZQH2sDAakF3qgnH3PJBNzIq%2FYzBv7GP6Z295aBJvIkwTLnIdYS6yP2XvX75Z7XfEzBAcYVoL3nquuHx38LhOwobjHqGasfVeimZboOBEWbHyECdAotT45gZlGSammVNITCMEmTS5O6ByozNzCOKeO21dFwxs2j8yC5IXnDCLT4Bd4S",
       "image_url": "https://i.ebayimg.com/images/g/n4YAAeSwa0hqxFrI/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398074,20 +398074,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|336768976593|0",
-      "item_id": "vanilla-cream-bunny",
-      "listing_id": "336768976593",
-      "title": "Build-A-Bear Vanilla Cream Bunny Plush 18\" Stuffed Rabbit Tan Easter",
-      "ask_price": 39.59,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336768976593?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item4e68fec6d1:g:Ps4AAeSwb-FpkmjF",
-      "image_url": "https://i.ebayimg.com/images/g/Ps4AAeSwb-FpkmjF/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|800517915249|0",
       "item_id": "vanilla-cream-bunny",
       "listing_id": "800517915249",
@@ -398097,7 +398083,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/800517915249?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=itemba62960271:g:r2sAAeSwhP1qgbSS&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZky1pyLARVPeJI7Bzj%2Ff9pscGGA2xeNxRH0KL%2Fij%2FJPO%2B4QC9IpTGjNFEbUhu7z%2Fj5H8A%2FWAVraYmfcbkVqv1%2BVAsj4SblWB8JfaJf6rjkBZZXe03fLz3%2Byoa%2FSE%2FdC7K9BuWTktFswJbKXXU8eiD4M7Bss2yhAeXorv5NIrqNLi4ER6kUDb%2Bm%2B2j7BwlYA%2BQGVL6%2Bu4EOi9zCA3vZzXcl7mwRUNd7lGzS49jIUZFI7rYbiabEQfDt78SSHMnVqU9LcL8O8vJgak0lW1teW14HD7ABj1n1qihds%2Fykt0R6BiuRKNUCI2rV9rHRiwWmMPU%3D",
+      "source_url": "https://www.ebay.com/itm/800517915249?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=itemba62960271:g:r2sAAeSwhP1qgbSS&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZky1pyLARVPeJI7Bzj%2Ff9pscGGA2xeNxRH0KL%2Fij%2FJPO%2B4QC9IpTGjNFEbUhu7z%2Fj5H8A%2FWAVraYmfcbkVqv1%2BVAsj4SblWB8JfaJf6rjkBZZXe03fLz3%2Byoa%2FSE%2FdC7Ihcqke0Fh9iLbxLsBibk5ADwxxdVshzsTZaNEKTEFnE70d0Vbk0q2QqWCpd7Ouux5QomQGmILCale9BnbUKzPRQrGbIkfsF3Zuvua6DWBVXAo3nBwM5gm2aPbrHxm2lYiyHChtelk2fXfXSMSAHIQIvfMFx%2BMbqZn2e83jESvy4ADZ0B%2FtwboQx%2BtgvmyrydY%3D",
       "image_url": "https://i.ebayimg.com/images/g/r2sAAeSwhP1qgbSS/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398111,8 +398097,22 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/318020286806?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item4a0b7c7956:g:8GUAAeSwJe1puctR&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZPaQAAo1FTwZsUY8uuM07icqdT1ZIbmyUqSgh%2BrOxUVV1ejB%2BcMCz0Nsg4H5%2BhKJNQBDvl7yFLGjO0KKS8a78b%2FnWLjuyKV%2BGRqp%2BdYDFYeBSpSg4uXmeoEK7K9aJM4qvKMGgkaOszWlUCXKcyyuNq0IeLfriBdeUs8dOmx%2Bspx7zf0goRnFpocbbyyYJ5SkMssN7eQaL71Teybc8HEotvRSlrTEmYqVpDCxs80DU81T8Ns7S1c2DSEpQaZe3wEG35l3grqw23jEideMJYl2oXu%2BHyDzr1h0U5Q%2B5ImQa2PN7iis9Xkeov95LEfHcadxc%3D",
+      "source_url": "https://www.ebay.com/itm/318020286806?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item4a0b7c7956:g:8GUAAeSwJe1puctR&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZPaQAAo1FTwZsUY8uuM07icqdT1ZIbmyUqSgh%2BrOxUVV1ejB%2BcMCz0Nsg4H5%2BhKJNQBDvl7yFLGjO0KKS8a78b%2FnWLjuyKV%2BGRqp%2BdYDFYeBSpSg4uXmeoEK7K9aJM4qtBl5GiKlg58eYgG%2BmeYg7tpgeZAGXfFg%2BI%2BP573CnPm4MPl9GdyMgMoiO8MBJZcfwvXvV2LUkWXEXYYpArWNP367Qjry15OBn7ePw9bYtk4D4XfZgIisc1nJFWi7PPxJwFag5A7kQqEhW3GpkhVYYAetlDrmVc78GLzVZxmbPqisz%2BnIbTgg44t8W%2FSVE%2BK8I%3D",
       "image_url": "https://i.ebayimg.com/images/g/8GUAAeSwJe1puctR/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|336768976593|0",
+      "item_id": "vanilla-cream-bunny",
+      "listing_id": "336768976593",
+      "title": "Build-A-Bear Vanilla Cream Bunny Plush 18\" Stuffed Rabbit Tan Easter",
+      "ask_price": 39.59,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/336768976593?_skw=build-a-bear+Vanilla+Cream+Bunny&hash=item4e68fec6d1:g:Ps4AAeSwb-FpkmjF",
+      "image_url": "https://i.ebayimg.com/images/g/Ps4AAeSwb-FpkmjF/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398153,7 +398153,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407137516957?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ecb497d9d:g:6Y4AAeSwtEFqe7sG&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaA7NnPN0TccZ02qVvfvj49NtdvWeUb%2BT2CxjEY6%2Bd8Ve8im1IAtiwYnyFkCc2Q3%2BZoOwbS2DxkkE1VrFXg9NRj%2BYfc7tDmv1rUwyhY5H4ULpnPze%2Be6mL3QtidziEVed1o%2FsEXxSUw1LANbKd3PU9Ql0PD%2F8yRg6D4xpZpcvHYDVaPxzmNqmBUR0z3GY%2BrW87cpFQZ89H8j6HtccFxipfQ33Exu6JNNlxXCThmMdjPE9XTDtIrPBhRiSxU13kwlaHCPeKkBRDC33p2h%2BSQcf2cdqi8TYcif5gvBy4Zss2QuDlOm4MxvboUlrGaOXuK9Y8%3D",
+      "source_url": "https://www.ebay.com/itm/407137516957?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ecb497d9d:g:6Y4AAeSwtEFqe7sG&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaA7NnPN0TccZ02qVvfvj49NtdvWeUb%2BT2CxjEY6%2Bd8Ve8im1IAtiwYnyFkCc2Q3%2BZoOwbS2DxkkE1VrFXg9NRj%2BYfc7tDmv1rUwyhY5H4ULpnPze%2Be6mL3QtidziEVed1DPPLqYkmmVYEgHQwdyEqnmoBp7VeYVBgowy1d5tNbX40lC3yxLoJXFfnTngIb9wYWlBj81RKmuaEtU%2BaSJEdiKDDvRG%2BES%2FOnzOQ3hBdrVgnD2mlLOsIpgQHP3ilKM7XhW3VlWyzJyIriPH%2FAYjcgUmTtNamlbYrYbGyXcCG0LMQWsMbpiQ7N9AtvutL%2BaLI%3D",
       "image_url": "https://i.ebayimg.com/images/g/6Y4AAeSwtEFqe7sG/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398167,7 +398167,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147603448940?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item225dd9e46c:g:nGQAAeSwA3FquXn7&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbaA%2FEG6y1jYgHHUBEcqQnSi4oz0aXuA99bCtw3A45KF6ltJqUlQZ%2BFFpasd4OO1NPT1vnQIsTOWzQya76yv8S1ZOliQz%2Bytb12bDDWoOnfDn6eMErPNdi6UAo2La3IXXEqbJGM3L7C6XZt5sROwBaXGLfrUix4IHRn9Ic1zm6rImATz76cklVgx%2BF%2FeBfugpXzi2GZOpJ4wejtTDDL22LZBRGhnWupIOTHZy1BEp0C9YRfFVcdEb90em1tu0Osj4a8mDPQDezaNZOJL7BM8Gxf1pS%2Bp3%2B8rqagxNO4h4w4eriR%2FKF7bKe2ef1GvOJ3%2Bq8%3D",
+      "source_url": "https://www.ebay.com/itm/147603448940?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item225dd9e46c:g:nGQAAeSwA3FquXn7&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbaA%2FEG6y1jYgHHUBEcqQnSi4oz0aXuA99bCtw3A45KF6ltJqUlQZ%2BFFpasd4OO1NPT1vnQIsTOWzQya76yv8S1ZOliQz%2Bytb12bDDWoOnfDn6eMErPNdi6UAo2La3IXXGMyH9P%2F4Bfs7NDQxISVaJ4fF%2BiaDM%2F35aFC7tFYqRqedjdKmRlGqzfneCTYMrdZdO2cSK3HWQGMDiAF%2FOVh2IgEBP6nl3sAQTcVAryBPS1%2B0s6K7GwEOIw%2FCyHp1txNHj7EEj4w%2FIjCbrKqi6NqQunQBzvw5IIqBCd2vVW3VvtILDuKIUN7n4xGDL7EJ2W4D4%3D",
       "image_url": "https://i.ebayimg.com/images/g/nGQAAeSwA3FquXn7/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398200,20 +398200,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|820196781735|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "820196781735",
-      "title": "Sonic the Hedgehog 2 Knuckles Build-A-Bear Plush Online Exclusive Retired BAB",
-      "ask_price": 85.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/820196781735?_skw=build-a-bear+Sonic+the+Hedgehog&hash=itembef789aea7:g:fgsAAeSwc4Vqv~Lk",
-      "image_url": "https://i.ebayimg.com/images/g/fgsAAeSwc4Vqv~Lk/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|327388572406|0",
       "item_id": "sonic-the-hedgehog",
       "listing_id": "327388572406",
@@ -398228,17 +398214,31 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|407265675964|0",
+      "id": "active-v1|820196781735|0",
       "item_id": "sonic-the-hedgehog",
-      "listing_id": "407265675964",
-      "title": "Sonic The Hedgehog 2 Build A Bear Tails Super Sonic Yellow Plush Stuffed 17\" BAB",
-      "ask_price": 35.0,
+      "listing_id": "820196781735",
+      "title": "Sonic the Hedgehog 2 Knuckles Build-A-Bear Plush Online Exclusive Retired BAB",
+      "ask_price": 85.0,
       "currency": "USD",
       "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407265675964?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ed2ed0abc:g:h7cAAeSwH99qwlCB",
-      "image_url": "https://i.ebayimg.com/images/g/h7cAAeSwH99qwlCB/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/820196781735?_skw=build-a-bear+Sonic+the+Hedgehog&hash=itembef789aea7:g:fgsAAeSwc4Vqv~Lk",
+      "image_url": "https://i.ebayimg.com/images/g/fgsAAeSwc4Vqv~Lk/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|237075512462|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "237075512462",
+      "title": "BUILD A BEAR - Shadow, Sonic The Hedgehog 3 Movie Plush - Brand New with Tags",
+      "ask_price": 74.95,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/237075512462?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item3732cd3c8e:g:k1wAAeSwFdNqbeSb",
+      "image_url": "https://i.ebayimg.com/images/g/k1wAAeSwFdNqbeSb/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398253,6 +398253,20 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/287600207603?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item42f64ee6f3:g:h8sAAeSwR25qsVmu",
       "image_url": "https://i.ebayimg.com/images/g/h8sAAeSwR25qsVmu/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|407265675964|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "407265675964",
+      "title": "Sonic The Hedgehog 2 Build A Bear Tails Super Sonic Yellow Plush Stuffed 17\" BAB",
+      "ask_price": 35.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/407265675964?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ed2ed0abc:g:h7cAAeSwH99qwlCB",
+      "image_url": "https://i.ebayimg.com/images/g/h7cAAeSwH99qwlCB/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398307,7 +398321,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206481227005?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item30133d7cfd:g:aiAAAeSweUpp91Az&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbc43Rm8JkgVv6mAANnmC%2Bc%2FD5KPrAlsGP2VEuUWqP5b8roI%2FMYZLeHC0k4r4tz2fl0CgTrCJWWYN9goj3NBIaZFhJYbB7ccotgNddUFHIS74pcVN7Ah8GNebZU953NHq8ytGjBfgfOLLNpi1AFUBbvAe7FKlepER1x5BWw%2BFuQdDik0RWMYZuwn88n%2B91Fd8buoG6Tsx5037g5jI9GloCrcQuK5vFyvVOh73vlOZqs83DYT2FH16UJQ8N2MGkHdKTO0rck9HZaD1hfoT8mlWjXPznwm%2BWCAZfbVvyRst7hx9BO2h58la0lQ%2FZ9fSh%2BH2Y%3D",
+      "source_url": "https://www.ebay.com/itm/206481227005?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item30133d7cfd:g:aiAAAeSweUpp91Az&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGbc43Rm8JkgVv6mAANnmC%2Bc%2FD5KPrAlsGP2VEuUWqP5b8roI%2FMYZLeHC0k4r4tz2fl0CgTrCJWWYN9goj3NBIaZFhJYbB7ccotgNddUFHIS74pcVN7Ah8GNebZU953NHq%2BPGkx0abO6buUtzzKBMLiVtVGIPJm6AQ4hgrGfpg8MGtgvpTEOv0Z7YEHzwN1fjsBo9jz2gOSgchbiaROgHWvFN%2F8rF1QvutgBnX0XvvITZ3Qp1p3P%2FQ7qY0JrELyxXs%2BAPHAAZdkAsz58XzWzTFNyYlhrRg%2FUzvH7HkZAEWXKfXJhHXtSEOl2raF6HF8sxAs%3D",
       "image_url": "https://i.ebayimg.com/images/g/aiAAAeSweUpp91Az/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398321,7 +398335,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/327345783512?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item4c375442d8:g:dv8AAeSw5YJqTT4M&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZwF16We%2BmWbxiK9W0UX%2Bc9xf7QXuRi0Fi8qg%2BYjGxZKWq74MmdCtyn50%2FwKt5aoW%2FTX%2F6Cdpe9hTstIKnYE7UWQGSxytuWC0rAE%2FJzMggVE9QvK6pySt7Fz6WC4jRhM%2BLbV17DGODqH4cAToHgBzKYo5K0M58oGIERt0Pw5kfi0F1RNypOA20dWQ8CSfeIxOyUQ5cubo2CVC%2B7TLKFCKO0PuU7%2Fyztk2IDFXxkwAf2EdlDrvojzHrhhHEV%2B2ClWEjDQHhO0akMvScTy5M5eWKHjWkl%2BHMHOOfNmrF0l0A6v7cB7RK4J19%2BLLeUXwRCU8k%3D",
+      "source_url": "https://www.ebay.com/itm/327345783512?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item4c375442d8:g:dv8AAeSw5YJqTT4M&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZwF16We%2BmWbxiK9W0UX%2Bc9xf7QXuRi0Fi8qg%2BYjGxZKWq74MmdCtyn50%2FwKt5aoW%2FTX%2F6Cdpe9hTstIKnYE7UWQGSxytuWC0rAE%2FJzMggVE9QvK6pySt7Fz6WC4jRhM%2BJEYaZsEKQg31YXtMrByNAAFhReuRqIqF%2B8FFexOxHrDGtpUOA6cDtyBJlh7f1H8rytkbTsn939gB%2BWYPe6ki6Ub2r4zuNGTZIrwa7laeOYm8goDmshzWruxYjhcB5Bhd2eQlWG1MnnYyStC%2BsU7FtgWYiPS0lWht%2Fo3JRQPsbVSZBB2cDhoeGvEm1e43VXRAI%3D",
       "image_url": "https://i.ebayimg.com/images/g/dv8AAeSw5YJqTT4M/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398340,34 +398354,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|158076353265|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "158076353265",
-      "title": "Build A Bear Sonic The Hedgehog 2 Movie Stuffed Plush 18\u201d Retired With Shoes",
-      "ask_price": 65.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/158076353265?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item24ce15baf1:g:dpoAAeSwMDlqUwDl",
-      "image_url": "https://i.ebayimg.com/images/g/dpoAAeSwMDlqUwDl/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|237106005246|0",
-      "item_id": "sonic-the-hedgehog",
-      "listing_id": "237106005246",
-      "title": "Build-A-Bear Sonic the Hedgehog Bodysuit One Size Short Sleeve Graphic Print",
-      "ask_price": 32.0,
-      "currency": "USD",
-      "condition": "Excellent",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/237106005246?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item37349e84fe:g:miIAAeSw271qwpZF&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGa%2BAwmQ6cpZCP562FQZUhUseiiZlwblb2MJ5n838FFTtWpdki6dynuJxJJkj4fH6rZg2nVuzktNiHn4w7VLUWV0fVT1zNtbBs8fP6n8Q7Eo6ug%2FNFBXy4eh23fPKfN%2FtMCbac28Tu34bH9o0s2euPexvjmf6%2BguhIbX7c1bh3FIG0GQUeT9SuO3GDbqu%2BBRE4u6cZkej27T6Zulum5tKi5t9Ijn%2B68%2Fwksms587luzE%2FL0KKKF7uANbEOYE5cmPUftEb8ifvkq%2FjbsbNGY3hGPWccK0fGdcBN%2F0erRW1X8qeFX3ekSYURz%2FsYH03bfOzqA%3D",
-      "image_url": "https://i.ebayimg.com/images/g/miIAAeSw271qwpZF/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|407243713332|0",
       "item_id": "sonic-the-hedgehog",
       "listing_id": "407243713332",
@@ -398377,8 +398363,22 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407243713332?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ed19deb34:g:LHwAAeSwlCJqtd0V&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaoYxTgveEUZdSyiwG4SfecNXejb3JMVHNzO6bHZP6rGBezEZTFe8a7kYSAOXZ3Vjt55fmgRZ3rCrT7bQ8z3tNEVQN9Qsh%2BUz%2F7jvB9E9yehhvfPJ3ATNvseMDp%2BYv8QgLxHCuBH5UiXusJ82eARuwSYJRPoXBd87qGdUAKo7YmpMk3b8NguLMVTcC5yWAzKUD30aey16b9RC26fzugEu6r9EgUzJu31BREXgvpVNC4rs%2FzL1lVgAE4AQ%2F%2Ba%2FvOjw8yNaR4TM5N5qgpB1BdTJHRHrHNKHYyiBt1K2pJKnYQpQxq5da7Sz2RA8QiOKjvH78%3D",
+      "source_url": "https://www.ebay.com/itm/407243713332?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item5ed19deb34:g:LHwAAeSwlCJqtd0V&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGaoYxTgveEUZdSyiwG4SfecNXejb3JMVHNzO6bHZP6rGBezEZTFe8a7kYSAOXZ3Vjt55fmgRZ3rCrT7bQ8z3tNEVQN9Qsh%2BUz%2F7jvB9E9yehhvfPJ3ATNvseMDp%2BYv8QgK8VoWpnW0yu6pX5nzHF4xi6vOB3X7sTdr1oSol5zLsQyROiab5o60Wi%2BAxWIge5ZbfypmeRzFIMxdC2OR1QBLgcIhoXP7vaRxfAMOdqMp61kqVqirl82ed70jxFfar2Kc0eID85y6Ds8qGf31%2B6Ocp7nwIUTJaOCaTzkj31cNNPFkBCoYRdfeb6cV49luIFpo%3D",
       "image_url": "https://i.ebayimg.com/images/g/LHwAAeSwlCJqtd0V/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|306961713480|0",
+      "item_id": "sonic-the-hedgehog",
+      "listing_id": "306961713480",
+      "title": "Build a Bear Workshop Sega Sonic the Hedgehog Plush Stuffed With Ring NWT 2016",
+      "ask_price": 64.99,
+      "currency": "USD",
+      "condition": "NWT",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/306961713480?_skw=build-a-bear+Sonic+the+Hedgehog&hash=item4778580948:g:KHQAAeSwwT9oBEoN&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGYjbliOFojCov66DR3ragzMjrIa5iZ7NcGf87fGL%2BpjavPs6G5F8D1%2B3AZh%2B7hz33jyK3%2FaNb%2Byk%2FfT7jEZTHxKasAX1EqUAAK1oawMzOBPiTJv1%2Fv0fkO6sOPghhLUdKV4Zvu1suiJZ72POyJEpEZ0jy0WNo8F1fT4zWpM5OFMVGXt7g7Sx6aGRReq9bX86Uuys%2B2d%2BkTwQmJvdM5AySoA%2Fd2%2Bh2lKcidu5mKDir%2BUjkBUKFlXMGEjGTuiiKwnoe1Vujo8UUYDQfuCzzexKsMlV2GmhjuAQ13zeC2ysx7PSSXDFu6BGn29cN1v7sQueR4%3D",
+      "image_url": "https://i.ebayimg.com/images/g/KHQAAeSwwT9oBEoN/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398391,7 +398391,7 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/127960593261?_skw=build-a-bear+Knuckles&hash=item1dcb0bb36d:g:3x4AAeSwxNpqS-tz&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYuJ5oL8pB3a9r4CtVeQ1sN6Z1Sq8ZcclkdgGPvoBc1ixum7zNHWgJndxnq162H7E%2BDq3RXBSiIDtJZLnmXz7ZRTj3GJYKGoJ2b8F2%2FecifumxT7gghvUUk%2F7p0D0KnCQYPWSosKpIeC59lxLLD5csLT1QK5fSYjdCMZDgU%2BrC2Q%2BMb1rwmjcx%2FIltSwyoiLoA5N9WQVULdp%2B7Z4LXej%2FeUNAi4PLMiQe1CoZ02hrokzxyXRCs7udSE5mUTki5LSN6lwz3G1IFn64pbZBmtftXOIgxFMijiTW31riL%2B0mwrcA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/127960593261?_skw=build-a-bear+Knuckles&hash=item1dcb0bb36d:g:3x4AAeSwxNpqS-tz&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYuJ5oL8pB3a9r4CtVeQ1sN6Z1Sq8ZcclkdgGPvoBc1ixum7zNHWgJndxnq162H7E%2BDq3RXBSiIDtJZLnmXz7ZRTj3GJYKGoJ2b8F2%2FecifumxT7gghvUUk%2F7p0D0KnCQZtrVDP8VU0ifMgVADmP4fNHB5VKizFhHeVbUH5LubXCv9EAEIbKAt%2BKu1D3dgaCjfxjgev0xOHjMhDEpr6k8v6zRSYTy06DGV4KZ091rUnbksSpiHw6T96qlh8bPzAErx0GDUlyGfY5k4ysjmyELW9mARiC84UypcAwy5nI9mTmQ%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/3x4AAeSwxNpqS-tz/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -398466,6 +398466,20 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|267807412260|0",
+      "item_id": "mew-pokemon",
+      "listing_id": "267807412260",
+      "title": "Build a Bear Workshop Mew Pokemon BAB B.A.B Workshop Soft Toy Plush",
+      "ask_price": 24.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/267807412260?_skw=build-a-bear+Mew&hash=item3e5a90d024:g:EzQAAeSw9KxqxvDc",
+      "image_url": "https://i.ebayimg.com/images/g/EzQAAeSw9KxqxvDc/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|336780743734|0",
       "item_id": "mew-pokemon",
       "listing_id": "336780743734",
@@ -398475,22 +398489,8 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/336780743734?_skw=build-a-bear+Mew&hash=item4e69b25436:g:LQIAAeSwhFRqnLL1",
+      "source_url": "https://www.ebay.com/itm/336780743734?_skw=build-a-bear+Mew&hash=item4e69b25436:g:LQIAAeSwhFRqnLL1&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbxHbR9QOEqlCtAhNC5sRPQb4pR1YkyL6Ns6RjxPjoQR4RdrQhA6pveJpVfYUvY1PeBM90cjAlobqcdrjOJp17R8qQ44EziuoShMYsI82yLXcvO6kysXb3iVv403iMo8JS8JcfnEMHQW8iSdapPwZdMiGE8bj%2BZ%2F1GSq0y0ZO9%2F82kviM1dv5Hc%2Bhpt9yZSBWk1Ty7P71ITM878MquyrvB5dSU878EHUO5hID3PUSzOxacpKHdEaJsI%2BlFMTZXlRHD%2FwcNJDUT%2FRIROx43LtsNA3V64zbYBdSibGbCUZDYUkw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/LQIAAeSwhFRqnLL1/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|960018570995|0",
-      "item_id": "mew-pokemon",
-      "listing_id": "960018570995",
-      "title": "Build A Bear Pokemon Mew Plush Masterball Purple Hoodie 14\" Retired (No Sound)",
-      "ask_price": 37.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/960018570995?_skw=build-a-bear+Mew&hash=itemdf8590def3:g:PAUAAeSwN8dp-iZJ&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZvlV4rlbLkLQbzQZXxxowuRl3MvdyM8MTr2sP%2F263vLkod3XZ8e6IAD%2B%2BJ8fuuHPE5qRoqSMcN9AHQaXh8IxnNCxnJtKo1zWohSFrTXSQVxc%2F6NO5eAeWxUsZisCkXofaMtC7XB56iCl7NI7eFs4CXP4I7yiMyYBSKHDH2nX4gyR%2FHmHBRc8NigP4%2FH0H%2Bbhb3ORdFLjeWyCk4tJsmm8mcAWBFlQNyPaND7uOXaFxPnNDI2CU31LHMLwgw3eOztBXWeon6C42EPIJ4TrcImolMpsM9UqNYGS0pO0WWANQoHA%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/PAUAAeSwN8dp-iZJ/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398536,6 +398536,20 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|960018570995|0",
+      "item_id": "mew-pokemon",
+      "listing_id": "960018570995",
+      "title": "Build A Bear Pokemon Mew Plush Masterball Purple Hoodie 14\" Retired (No Sound)",
+      "ask_price": 37.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/960018570995?_skw=build-a-bear+Mew&hash=itemdf8590def3:g:PAUAAeSwN8dp-iZJ",
+      "image_url": "https://i.ebayimg.com/images/g/PAUAAeSwN8dp-iZJ/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|278388127298|0",
       "item_id": "mew-pokemon",
       "listing_id": "278388127298",
@@ -398578,6 +398592,34 @@
       "evidence_type": "active_listing"
     },
     {
+      "id": "active-v1|287520992905|0",
+      "item_id": "mew-pokemon",
+      "listing_id": "287520992905",
+      "title": "Build A Bear Pokemon MEW 14\" Plush No Sound No Clothes Retired",
+      "ask_price": 30.0,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/287520992905?_skw=build-a-bear+Mew&hash=item42f1962e89:g:56oAAeSwC-FqfJCr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbTatL3vWZFFxBAJLTbOPpQjdbDWRgO4H77jhhRmWWMcsK42wyI1vZR3mcXB1MvgL1qcJsa8vUx6QrwQgYBkdURjiyrnu4bNDtENJWfaXDhc0x%2FU%2Fs2BODt37aG4aNwT0qgCEdc24jPZ4%2BdJLFdIDFb%2FB8JD5WCbOI%2F%2BNuMT5txCKKvB2e1UKj1pZjo0vHWF6WJEB50M6tPfsYClgV3HAeREHBrJY32Tcw%2Fboe%2BWEIeFC5vYVvKrtrJOHwXG9J36%2BlX7keC%2FontbAd0q9oBMGPEW4WOKlQWG3k3bbXI3dssTQ%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/56oAAeSwC-FqfJCr/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|277574457883|0",
+      "item_id": "mew-pokemon",
+      "listing_id": "277574457883",
+      "title": "WORKING SOUND & HOODIE Build-A-Bear Mew Pokemon Plush Stuffed Animal Master Ball",
+      "ask_price": 39.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/277574457883?_skw=build-a-bear+Mew&hash=item40a0ba1a1b:g:LdgAAeSwBO9pPGUS&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaw7v%2BFdBxs7P5%2B76XthgYSYkWmhV2z1FaV8X7LXLKtCp9bAaJiIJZ0YrbrxV7nBtUlwcre2A1gc0eO3xb93mLVCo20t1rFhiz6tOZGsJsjN34reQc1aO%2FmiUiPUBTE4d3wFvZVQ653FFh4PSMtWlSzBGU%2Bll7WF%2BthR3ySRqIzR0NrsDY35sxxieBUqVAyAFB0RKP0nbcR3TlFJ8J%2F2HD1uRvsEtkeT4VLLA07DRSBVWcLhdGyj41xpPxQM2oPYdMjkW5MfiwSNIcTXwFf99MakgSJPjsVWvqv5Oqmr9xlxA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/LdgAAeSwBO9pPGUS/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
       "id": "active-v1|407188907151|0",
       "item_id": "mew-pokemon",
       "listing_id": "407188907151",
@@ -398592,20 +398634,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|287520992905|0",
-      "item_id": "mew-pokemon",
-      "listing_id": "287520992905",
-      "title": "Build A Bear Pokemon MEW 14\" Plush No Sound No Clothes Retired",
-      "ask_price": 30.0,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/287520992905?_skw=build-a-bear+Mew&hash=item42f1962e89:g:56oAAeSwC-FqfJCr&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbTatL3vWZFFxBAJLTbOPpQjdbDWRgO4H77jhhRmWWMcsK42wyI1vZR3mcXB1MvgL1qcJsa8vUx6QrwQgYBkdURjiyrnu4bNDtENJWfaXDhc0x%2FU%2Fs2BODt37aG4aNwT0ppodyzxdFPXwlZxwOQBvqv7e%2B7XthyHU%2BHa2vG5HCUYWJGs6xp4ADR1DKVMbtH1nY73an7t7hXHbCxJJslTZnBLAsUA%2FTim27ucvw9LzpnFrY8mtOFNZ1pFsp3%2FXbHTywuHK%2BIAv6AIjK%2BDFv--voDQHo8FHC%2BQbHTbYjhTfHPxQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/56oAAeSwC-FqfJCr/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|198238072349|0",
       "item_id": "mew-pokemon",
       "listing_id": "198238072349",
@@ -398615,36 +398643,22 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/198238072349?_skw=build-a-bear+Mew&hash=item2e27e8ee1d:g:cWgAAeSwVR1pnNEp&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb%2Bzkm8KUuiF2SbXVu7qAblLaidZ8immiefbEhurhSunw2InUiOK0Pop46CAdbvFZt4i1Uzag%2FgcSr3srryqvcBM1ixs5R0WXRxvg5jqJ1WV3Ij4hoiLBk%2FHJm5gBwi58dMoQvjp09et2jEkny%2FGubt8WeURWdzgYviu55P7qOzeZt1o9dEZua%2FtsqanIEugOmynWNAOsDtmh26iuLsQZBi3hitPDYen%2BfjU1aFSxhLCMgjDqKTbXBQJgb9y1qtfeI%2B3pd8fXGFZq9NP5wiNIZ5ySI%2FdZ5DW9z3plkurrVQKA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/198238072349?_skw=build-a-bear+Mew&hash=item2e27e8ee1d:g:cWgAAeSwVR1pnNEp&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGb%2Bzkm8KUuiF2SbXVu7qAblLaidZ8immiefbEhurhSunw2InUiOK0Pop46CAdbvFZt4i1Uzag%2FgcSr3srryqvcBM1ixs5R0WXRxvg5jqJ1WV3Ij4hoiLBk%2FHJm5gBwi58eMsjh87AAicBnZtTK%2FY8doQs717b1p93%2F8cfbBasJAnYhyZ%2FVxB0zeooBqx9NdoKUWCn6VbEzDJrmz5%2Ft2XpEK5zGLEFmcdWLIABeBnJ3%2BQoCtnmAsxJ%2FC%2FuDbu6KyOIapH6Za1rCjhF%2FoLZXLbdjWe5tipr9Qw6LRwGdqTQdw1Q%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/cWgAAeSwVR1pnNEp/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|256097112914|0",
+      "id": "active-v1|266072977634|0",
       "item_id": "mew-pokemon",
-      "listing_id": "256097112914",
-      "title": "NEW  Exclusive! Build-a-Bear Pokemon MEW    Hoodie",
-      "ask_price": 30.0,
+      "listing_id": "266072977634",
+      "title": "NEW  Exclusive! Build-a-Bear Pokemon MEW    Cape",
+      "ask_price": 33.0,
       "currency": "USD",
       "condition": "NWT",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/256097112914?_skw=build-a-bear+Mew&hash=item3ba093d352:g:aLcAAOSwi5lkefxG&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGblJZ5gU%2F1T9cqUxE05qL%2BI74LCZkUV7NFlo4Z0DfK0AUmWXcpO%2BGHRhr2Uu2RZpZQcse6zWw4ci2faDwzszHcS9B9sKJkTmo5oxKGIfVGdlKMvglgcRgyih3wQoZ9UAZPbO0RAiLM6e1ia1c4bzc5Jw9KZJgYekx3%2FQfVdAVdHGrnEtz3JWNXsCZjWR%2BOn3Uf4Nq%2B4i2QZlHQRgx2JbOB9mVcM4lxaFUzXMCznhHBWUrUSwJ3kX02Pm86e%2F3acHJSO7QyKNMMte7Ec4gQDHWFW0bPzg904lzzbc1ymYimseQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/aLcAAOSwi5lkefxG/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|277574457883|0",
-      "item_id": "mew-pokemon",
-      "listing_id": "277574457883",
-      "title": "WORKING SOUND & HOODIE Build-A-Bear Mew Pokemon Plush Stuffed Animal Master Ball",
-      "ask_price": 39.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/277574457883?_skw=build-a-bear+Mew&hash=item40a0ba1a1b:g:LdgAAeSwBO9pPGUS&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGaw7v%2BFdBxs7P5%2B76XthgYSYkWmhV2z1FaV8X7LXLKtCp9bAaJiIJZ0YrbrxV7nBtUlwcre2A1gc0eO3xb93mLVCo20t1rFhiz6tOZGsJsjN34reQc1aO%2FmiUiPUBTE4d3%2FlL2Vt0blBGJM2z7z0B2xHcjYAZLPfefod9PWQq3%2B9wOCn808wAntSGkjDfg%2F3rr9cWK8Ol%2FwjhSfElRTsMM6fgD7sKk6fGvLonRX6D%2BZNR2e%2BEWhRw97s0lFYfGyJFpl3FgMQd4A8XRctREl6r2sNgQayOOwliKabbg45XPRoQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/LdgAAeSwBO9pPGUS/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/266072977634?_skw=build-a-bear+Mew&hash=item3df32f70e2:g:NwUAAOSwLd9gxlDI&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ6PEkGBRkcvhRPgbf%2FYTooWeAhtKw93%2FCRqWZsLUmPR%2B6pMEbWC%2FZMYezbRFamaFFbRL%2Fic99%2F%2BKapttiwzK6goADDFW4oQ3ffC8Odif3aZGqaiE%2FOL40arHZ03zU5JbhJMzueLzUeFIxKw2YAaAtPFgNN%2B%2B7wkh2%2F3Llve%2BzsxnGKHEVGrS8hjKB91bujSqsx8PQ0CUDg4%2F2C5PNK9An4bie3E%2Fs%2BdUuNmhHr67%2FehgSG2nIl6pUhMN%2FCtgyF6x0GdbjZpfT9oNxwgDH5qdDjeFoXnBUqLxT782HlqIow7w%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/NwUAAOSwLd9gxlDI/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398671,22 +398685,8 @@
       "condition": "Good",
       "buying_option": "FIXED_PRICE",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/147192611755?_skw=build-a-bear+Trixie+Lulamoon&hash=item22455d03ab:g:Fy4AAeSw2Itpre9L&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZjlT%2B4ERGw%2BQEkpQjQ7MeX7JG8pPGBL9s42lI%2B3QWS5vBNMN9GsVnx4W9foi4dOCYMpI5Ckgs3pQxBC7sLC4JOu3dyV5CuDy9EEnnTC%2FZjC5AWOi49IwHb3ueAck8eiYfOKqOXXmIOSRD4ampR9sSdzeuj2MyZ0Cb6o92mOFd%2FXaA2CFmuj%2FE5R%2B2JvRNG9qMxkyLhi1Yk0t540V%2Bc7WwOYvKf5uM%2FgyyKQhfkoaamuU9vnAZ9qPlgg5jM3cTK7HiEaCog%2BJXHQUx1UIo%2FEMPIuEBmfW6i7uv7bI%2F9v0k1DRKB9JAJks5cUT5IvEO92oM%3D",
+      "source_url": "https://www.ebay.com/itm/147192611755?_skw=build-a-bear+Trixie+Lulamoon&hash=item22455d03ab:g:Fy4AAeSw2Itpre9L&amdata=enc%3AAQALAAABAACCtXRWQnOEpyOqnQQ8KGZjlT%2B4ERGw%2BQEkpQjQ7MeX7JG8pPGBL9s42lI%2B3QWS5vBNMN9GsVnx4W9foi4dOCYMpI5Ckgs3pQxBC7sLC4JOu3dyV5CuDy9EEnnTC%2FZjC5AWOi49IwHb3ueAck8eiYcsEb1LpyLtYZS4TT6ap%2FcW5Tn6ysZ4f1mmfbWIv%2BHPuwOMZVQoNFS4e3l0bTqsFpli%2B8Q5pgh3Cyw%2FO0oV%2BfzXrulRsf%2F8EkfFs9ZkbQmxzLrFnSlLmm4vPcm1xcZN8uob%2BIsXpRzomfpFSM8TMvdwHDToMOTirSXLnquP6cOSchRwh6NQIDidULBkOVZ59bU%3D",
       "image_url": "https://i.ebayimg.com/images/g/Fy4AAeSw2Itpre9L/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
-      "id": "active-v1|206610142238|0",
-      "item_id": "trixie-lulamoon",
-      "listing_id": "206610142238",
-      "title": "Build A Bear My Little Pony Trixie Lulamoon 16\" High Animal Plush Toy  Retired",
-      "ask_price": 24.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/206610142238?_skw=build-a-bear+Trixie+Lulamoon&hash=item301aec941e:g:wBYAAeSw8qtqxonx",
-      "image_url": "https://i.ebayimg.com/images/g/wBYAAeSw8qtqxonx/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398701,6 +398701,20 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/398397978152?_skw=build-a-bear+Trixie+Lulamoon&hash=item5cc25eb628:g:KtgAAeSwWt1qqZD2",
       "image_url": "https://i.ebayimg.com/images/g/KtgAAeSwWt1qqZD2/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|206610142238|0",
+      "item_id": "trixie-lulamoon",
+      "listing_id": "206610142238",
+      "title": "Build A Bear My Little Pony Trixie Lulamoon 16\" High Animal Plush Toy  Retired",
+      "ask_price": 24.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/206610142238?_skw=build-a-bear+Trixie+Lulamoon&hash=item301aec941e:g:wBYAAeSw8qtqxonx",
+      "image_url": "https://i.ebayimg.com/images/g/wBYAAeSw8qtqxonx/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -398914,20 +398928,6 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|317238307960|0",
-      "item_id": "umbreon",
-      "listing_id": "317238307960",
-      "title": "Umbreon Build-A-Bear Plush Pok\u00e9mon Eevee Evolution Stuffed 18\u201d No Sound ",
-      "ask_price": 42.99,
-      "currency": "USD",
-      "condition": "Good",
-      "buying_option": "FIXED_PRICE,BEST_OFFER",
-      "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/317238307960?_skw=build-a-bear+Umbreon&hash=item49dce06c78:g:RpMAAeSwngpouGGR",
-      "image_url": "https://i.ebayimg.com/images/g/RpMAAeSwngpouGGR/s-l225.jpg",
-      "evidence_type": "active_listing"
-    },
-    {
       "id": "active-v1|327390742709|0",
       "item_id": "umbreon",
       "listing_id": "327390742709",
@@ -398939,6 +398939,20 @@
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/327390742709?_skw=build-a-bear+Umbreon&hash=item4c3a0248b5:g:S6cAAeSw~i5oE4-n",
       "image_url": "https://i.ebayimg.com/images/g/S6cAAeSw~i5oE4-n/s-l225.jpg",
+      "evidence_type": "active_listing"
+    },
+    {
+      "id": "active-v1|317238307960|0",
+      "item_id": "umbreon",
+      "listing_id": "317238307960",
+      "title": "Umbreon Build-A-Bear Plush Pok\u00e9mon Eevee Evolution Stuffed 18\u201d No Sound ",
+      "ask_price": 42.99,
+      "currency": "USD",
+      "condition": "Good",
+      "buying_option": "FIXED_PRICE,BEST_OFFER",
+      "marketplace": "eBay",
+      "source_url": "https://www.ebay.com/itm/317238307960?_skw=build-a-bear+Umbreon&hash=item49dce06c78:g:RpMAAeSwngpouGGR",
+      "image_url": "https://i.ebayimg.com/images/g/RpMAAeSwngpouGGR/s-l225.jpg",
       "evidence_type": "active_listing"
     },
     {
@@ -399007,7 +399021,7 @@
       "condition": "NWT",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/358465041793?_skw=build-a-bear+Umbreon&hash=item53762e7581:g:KuUAAeSw7MFpCrIN&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYX2SmoplIFQwqghhmvYlgyZrdxwPhqSsy6Y1CgYuEO3mED3ZjJ5BIlNgq5%2F1n7MpqgB9oz9wCPQGB4cnBuUq%2FFfGTQMpI5Ui2ZSRA9gPwoEUpOZ7aa%2FIHBR%2FV%2FFV2EUYEwjOK87DLJuXxnE4gFqEpHcikelxY%2FevWQuuPQnB%2FY%2FWxoq7DcfbfNPjdEOys0KSO23OAo1LvK7R7noPQuxgLCs3bC7fKnVH0mAFlDZygYbQHebMS37vCsDmn0BstXL5iuJwl49Amtyela3dHYG4Iuwt2Ys1%2BtKsf1Q1CvQ3qxwA%3D%3D",
+      "source_url": "https://www.ebay.com/itm/358465041793?_skw=build-a-bear+Umbreon&hash=item53762e7581:g:KuUAAeSw7MFpCrIN&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGYX2SmoplIFQwqghhmvYlgyZrdxwPhqSsy6Y1CgYuEO3mED3ZjJ5BIlNgq5%2F1n7MpqgB9oz9wCPQGB4cnBuUq%2FFfGTQMpI5Ui2ZSRA9gPwoEUpOZ7aa%2FIHBR%2FV%2FFV2EUYFFci4KSvcfDlST%2B7MWsPrdjQZ%2F9W%2Br6lzLg63%2FoUxop2Laa6aDlbRGjHHHqTLoPds7ln2L%2B4TwQTLoBtad7eklzd%2BxhC1lSeNVhijGkzYIv88iCElvNADQiQZC1OCqL26FBBsc3MOwFxzVCeJ0NJeKKdU4UUV4xHRUThmMPN%2F3jw%3D%3D",
       "image_url": "https://i.ebayimg.com/images/g/KuUAAeSw7MFpCrIN/s-l225.jpg",
       "evidence_type": "active_listing"
     },
@@ -399040,19 +399054,19 @@
       "evidence_type": "active_listing"
     },
     {
-      "id": "active-v1|407118405820|0",
+      "id": "active-v1|198051888513|0",
       "item_id": "umbreon",
-      "listing_id": "407118405820",
-      "title": "Umbreon Build A Bear BAB Pok\u00e9mon Eeveelution Stuffed Plush 16\u201d (No Sound)",
-      "ask_price": 40.0,
+      "listing_id": "198051888513",
+      "title": "Build a Bear Workshop Pokemon Umbreon Cape Clothing Accessory Doll Outfit",
+      "ask_price": 40.46,
       "currency": "USD",
       "condition": "Good",
       "buying_option": "FIXED_PRICE,BEST_OFFER",
       "marketplace": "eBay",
-      "source_url": "https://www.ebay.com/itm/407118405820?_skw=build-a-bear+Umbreon&hash=item5eca25e0bc:g:wvEAAeSwzGVqcUIO&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGbhUhcb8SM7rlmVzjfarYjL3b00qJ%2FEzJ6vvxOwO97cMq02o6c2Tn%2FIIpwfOMbN2hs2%2FROlsPT8zDSCYJ0Y4kFTiObTXxrtC4ducJ0GKyj6fbpawfxC22BuumgAPBuRV2fHN%2Fweg3lLI2bL9309KoFBSF1%2F0ypwxkyywvg9K6NRMjk8rvr4cKhYFAF3y4M%2F1JPoBUsTOvucM7fLScA4lfKXL26nyc2A6JuLSUmipEVGb4cPwvoW4p%2FICfvekItnrpapVLAAlEIbs5jB8aIPTMSs5e0OThQhOrUKjtsEdYvpcQ%3D%3D",
-      "image_url": "https://i.ebayimg.com/images/g/wvEAAeSwzGVqcUIO/s-l225.jpg",
+      "source_url": "https://www.ebay.com/itm/198051888513?_skw=build-a-bear+Umbreon&hash=item2e1ccffd81:g:hF4AAeSw8VdpdQy1&amdata=enc%3AAQALAAAA8ACCtXRWQnOEpyOqnQQ8KGZ7IXMn5QwXLzK%2BwpxDouRo4j%2Fbqy0fkzQaIcxfSR95N1kY46CPCHuZgWUCONO%2BeX1YLsgC%2FWdBsS0pFpwbfjnle0A38iVWJ6hI8JVvqlzrIEbxtO05r%2B0sM5NqgxtHUSXDMh8cGd8Co%2Fr8m7eZ69lIbDhK7zV7Rc8KHLjbw%2F7Ics915CzE3uqIp7CXneLHX%2FjJCnQnDbudsESodxqf0M%2FFMMe%2BEQ5yrgqZ25qIX5hzz1o%2FYL60rDa%2F30Vil%2BnJz92FtMtVLwod7rsy38mOuuqhMRVIB5c1CzS9%2BvlZdFLbQA%3D%3D",
+      "image_url": "https://i.ebayimg.com/images/g/hF4AAeSw8VdpdQy1/s-l225.jpg",
       "evidence_type": "active_listing"
     }
   ],
-  "active_listings_fetched_at": "2026-10-08T00:49:12Z"
+  "active_listings_fetched_at": "2026-10-08T02:25:16Z"
 }
