@@ -205,7 +205,16 @@
     return { valuation: v, adjusted: adjusted, qty: entry.qty || 1 };
   }
 
+  // A change event can arrive while the table is being redrawn (the input that
+  // fired it loses focus as it is removed); drawing inside a draw would corrupt it.
+  var rendering = false;
   function render() {
+    if (rendering) return;
+    rendering = true;
+    try { renderNow(); } finally { rendering = false; }
+  }
+
+  function renderNow() {
     renderHistory(recordSnapshot());
     var body = $('collection-body');
     $('clear-collection').hidden = !list.length;

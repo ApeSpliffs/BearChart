@@ -136,7 +136,12 @@
   var COLS = 'handle,display_name,bio,bears,details,theme,updated_at';
   function load() {
     var c = client();
-    if (!c) { $('sc-main').innerHTML = '<div class="panel"><p class="fine">Showcases need accounts, which are not switched on here.</p></div>'; return; }
+    if (!c) {
+      $('sc-list-panel').hidden = true;
+      $('sc-main').innerHTML = '<div class="panel"><p class="fine">Could not reach the account service. ' +
+        'Check your connection and refresh the page.</p></div>';
+      return;
+    }
     // Showcases are for members: anyone with a free account can browse them,
     // and only Power members can share one.
     if (!signedIn()) {

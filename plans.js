@@ -19,8 +19,8 @@
     if (!P.configured()) {
       el.className = 'notice';
       el.innerHTML = '<strong>Nothing is for sale yet.</strong> Memberships open soon. ' +
-        'Until then, every feature that runs in your browser is free for everyone, ' +
-        'no account needed.';
+        'Until then, the price guide is free for everyone, and the deal finder, checklists ' +
+        'and collection tracker are free with an account.';
       return;
     }
     var s = session();

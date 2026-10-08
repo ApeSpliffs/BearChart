@@ -824,7 +824,9 @@
         merged.forEach(function (e) { entries[e.uid] = cloudHash(e); });
         cloudWrite(CLOUD.coll, merged);
         cloudWrite(CLOUD.meta, { uid: cc.uid, entries: entries });
-        return JSON.stringify(merged) !== JSON.stringify(local);
+        // Only a real change to the bears counts - not the sync ids added here -
+        // so the page is not redrawn under someone who is typing.
+        return merged.map(cloudHash).join('|') !== local.filter(function (e) { return e && e.item_id; }).map(cloudHash).join('|');
       });
     });
   }

@@ -56,8 +56,8 @@
   function signedOut() {
     return '<div class="panel">' +
       '<h2>Sign in</h2>' +
-      '<p class="fine">An account keeps your collection and checklists on the server ' +
-      'instead of in one browser, so they follow you between devices.</p>' +
+      '<p class="fine">A free account unlocks the deal finder, checklists, your collection and wishlist, ' +
+      'and member showcases. Pro and Power also keep your collection on your account, on every device.</p>' +
       '<p id="auth-msg" hidden></p>' +
       '<div class="row" style="margin-top:12px">' +
         '<div class="field"><label for="email">Email</label>' +
