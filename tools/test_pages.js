@@ -2201,3 +2201,122 @@ test('checkout stays inert until a provider is configured', () => {
   assert.strictEqual(p.doc.querySelectorAll('#plans button[data-plan]').length, 0);
   assert.match(p.doc.getElementById('plans').textContent, /Not purchasable yet/);
 });
+
+// ---- runtime config and error reporting -------------------------------------
+// config.js is committed inert; observability.js must do nothing without a DSN:
+// no script element, no request, no console noise.
+
+const ROOT_PAGES = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
+
+test('every page loads config.js then observability.js before anything else', () => {
+  for (const page of ROOT_PAGES) {
+    const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
+    const srcs = Array.from(html.matchAll(/<script[^>]*\bsrc="([^"]+)"/g), (m) => m[1]
+      .replace(/^\//, ''));
+    assert.deepStrictEqual(srcs.slice(0, 2), ['config.js', 'observability.js'], page);
+  }
+  const itemHtml = fs.readFileSync(path.join(ROOT, 'item', '_offline.html'), 'utf8');
+  assert.match(itemHtml, /<script src="\.\.\/config\.js"><\/script>\s*<script src="\.\.\/observability\.js"><\/script>\s*<script src="\.\.\/data\.js">/);
+});
+
+test('the service worker precaches the runtime config and error reporter', () => {
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  assert.match(sw, /"config\.js"/);
+  assert.match(sw, /"observability\.js"/);
+});
+
+test('the committed config.js sets nothing', () => {
+  const dom = track(new JSDOM('<!doctype html><html><head></head><body></body></html>',
+    { url: 'https://bearchart.test/', runScripts: 'outside-only' }));
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8'));
+  assert.deepStrictEqual(Object.keys(dom.window.BEARCHART_RUNTIME), []);
+});
+
+test('error reporting is inert without a DSN on every page', () => {
+  for (const page of ['index.html', 'item.html', 'collection.html', 'account.html', 'plans.html']) {
+    const p = renderPage(page);
+    noErrors(p);
+    assert.strictEqual(p.win.bcObs.enabled, false, page);
+    assert.strictEqual(p.doc.querySelectorAll('script[src*="sentry"]').length, 0,
+      page + ' must not inject the Sentry SDK');
+    // Safe to call whether or not reporting is on.
+    p.win.bcObs.captureException(new Error('ignored'));
+    p.win.bcObs.setUser('user-1');
+  }
+});
+
+/** observability.js alone, in a window that looks like a deployed site. */
+function observabilityWindow(runtime, url) {
+  const dom = track(new JSDOM('<!doctype html><html><head></head><body></body></html>', {
+    url: url || 'https://preview.bearchart.test/item/x.html?q=bear#access_token=secret',
+    runScripts: 'outside-only',
+    resources: new OfflineLoader({ userAgent: 'Mozilla/5.0 (BearChart test browser)' })
+  }));
+  dom.window.BEARCHART_RUNTIME = runtime;
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'observability.js'), 'utf8'));
+  return dom.window;
+}
+
+test('without a DSN, even on a deployed host, nothing is loaded', () => {
+  const win = observabilityWindow({});
+  assert.strictEqual(win.document.querySelectorAll('script').length, 0);
+  assert.strictEqual(win.bcObs.enabled, false);
+});
+
+test('a DSN is ignored on localhost', () => {
+  const win = observabilityWindow({ sentry_dsn: 'https://k@o1.ingest.us.sentry.io/1' },
+    'http://localhost:5173/index.html');
+  assert.strictEqual(win.document.querySelectorAll('script').length, 0);
+});
+
+test('with a DSN the pinned SDK loads with SRI, and reports carry no tokens or email', () => {
+  const win = observabilityWindow({ sentry_dsn: 'https://k@o1.ingest.us.sentry.io/1',
+                                    env: 'preview', release: 'abc123' });
+  const el = win.document.querySelector('script');
+  assert.match(el.src, /^https:\/\/browser\.sentry-cdn\.com\/\d+\.\d+\.\d+\/bundle\.min\.js$/);
+  assert.match(el.integrity, /^sha384-/);
+  assert.strictEqual(el.crossOrigin, 'anonymous');
+
+  // Before the SDK arrives, an error is queued rather than lost.
+  const early = new Error('early');
+  win.bcObs.captureException(early);
+
+  const calls = { init: null, captured: [], user: [] };
+  win.Sentry = {
+    init: (o) => { calls.init = o; },
+    captureException: (e) => calls.captured.push(e),
+    captureMessage: () => {},
+    setUser: (u) => calls.user.push(u)
+  };
+  el.onload();
+  assert.strictEqual(win.bcObs.enabled, true);
+  assert.strictEqual(calls.init.environment, 'preview');
+  assert.strictEqual(calls.init.release, 'abc123');
+  assert.strictEqual(calls.init.sendDefaultPii, false);
+  assert.deepStrictEqual(calls.captured, [early]);
+
+  const ev = calls.init.beforeSend({ request: {
+    url: 'https://preview.bearchart.test/account.html?x=1#access_token=secret', cookies: 'sb=1' } });
+  assert.strictEqual(ev.request.url, 'https://preview.bearchart.test/account.html');
+  assert.strictEqual(ev.request.cookies, undefined);
+  const crumb = calls.init.beforeBreadcrumb({ data: { url: '/a?b=c#d' } });
+  assert.strictEqual(crumb.data.url, '/a');
+
+  win.bcObs.setUser('user-1');
+  win.bcObs.setUser(null);
+  // The user object is built in the page's realm; compare its shape.
+  assert.strictEqual(JSON.stringify(calls.user), '[{"id":"user-1"},null]');
+});
+
+test('a deploy can switch accounts off through config.js, overriding data.json', () => {
+  const dom = track(new JSDOM('<!doctype html><html><head></head><body></body></html>',
+    { url: 'https://preview.bearchart.test/', runScripts: 'outside-only' }));
+  const data = JSON.parse(JSON.stringify(loadData()));
+  data.config = Object.assign({}, data.config, { auth: { enabled: true,
+    supabase_url: 'https://prod.supabase.co', supabase_anon_key: 'prod-anon' } });
+  dom.window.BEARCHART_DATA = data;
+  dom.window.BEARCHART_RUNTIME = { auth: { enabled: false } };
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8'));
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'auth.js'), 'utf8'));
+  assert.strictEqual(dom.window.BearChartAuth.configured(), false);
+});

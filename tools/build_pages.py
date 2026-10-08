@@ -48,8 +48,10 @@ FONTS = (
     '&family=Nunito+Sans:wght@400..800&display=swap">'
 )
 
-SCRIPTS = ["data.js", "engine.js", "icons.js", "auth.js", "entitlements.js",
-           "submissions.js", "common.js", "item.js"]
+# config.js and observability.js come first so an error in any later script
+# can be reported (observability.js is inert without a DSN).
+SCRIPTS = ["config.js", "observability.js", "data.js", "engine.js", "icons.js",
+           "auth.js", "entitlements.js", "submissions.js", "common.js", "item.js"]
 
 # Pages that are not items but still belong in the sitemap.
 TOP_LEVEL = ["index.html", "deals.html", "checklists.html", "collection.html",

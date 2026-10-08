@@ -8,12 +8,14 @@
  *
  * Instead this wraps Supabase Auth, which runs from the browser against
  * Supabase's servers. Sessions are real JWTs, and every read and write is
- * enforced server-side by the row-level security policies in
- * the migrations in supabase/migrations/ - not by this file. If someone bypasses this UI entirely
- * and calls the API directly, RLS still stops them.
+ * enforced server-side by the row-level security policies in the migrations
+ * in supabase/migrations/ - not by this file. If someone bypasses this UI
+ * entirely and calls the API directly, RLS still stops them.
  *
  * Until config.auth is filled in, BearChart runs exactly as it does today:
  * anonymous, with collections kept in the browser. Nothing here breaks that.
+ * A deploy can override config.auth per environment through config.js
+ * (BEARCHART_RUNTIME.auth) - that is how a preview is kept off production.
  *
  * On the anon key: it is designed to be public and ships in client code. It
  * grants only what RLS allows. The service-role key is the secret one and must
@@ -24,7 +26,8 @@
 
   var SUPABASE_CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
 
-  var cfg = ((root.BEARCHART_DATA || {}).config || {}).auth || {};
+  var dataCfg = ((root.BEARCHART_DATA || {}).config || {}).auth || {};
+  var cfg = Object.assign({}, dataCfg, (root.BEARCHART_RUNTIME || {}).auth || {});
   var client = null;
   var session = null;
   var profile = { isAdmin: false };
@@ -37,6 +40,8 @@
   }
 
   function notify() {
+    // Error reports carry the user id only, never the email (observability.js).
+    if (root.bcObs) root.bcObs.setUser(session && session.user ? session.user.id : null);
     listeners.forEach(function (fn) {
       try { fn(state()); } catch (e) { /* a bad listener must not break auth */ }
     });

@@ -27,7 +27,7 @@ import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # The app shell: everything needed to open any page and price any bear with no
-# network at all. The 2,042 generated item pages are NOT in here - they are
+# network at all. The generated item pages are NOT in here - they are
 # cached as they are visited, and item/_offline.html covers the rest.
 PRECACHE = [
     "./",
@@ -36,6 +36,7 @@ PRECACHE = [
     "plans.html", "account.html",
     "item/_offline.html",
     "styles.css",
+    "config.js", "observability.js",
     "data.js", "engine.js", "icons.js", "auth.js", "entitlements.js",
     "submissions.js", "common.js", "app.js", "item.js", "deals.js", "checklists.js",
     "collection.js", "admin.js", "roadmap.js", "plans.js", "account.js",
