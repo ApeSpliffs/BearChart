@@ -2353,11 +2353,12 @@ PLANS = OrderedDict([
             "Insurance-ready valuation report, with the evidence behind every figure",
             "Bear identification help, answered first (coming soon)",
             "A showcase of your top 12 bears, shared with other members",
+            "Download the sold-price records behind any search (CSV)",
         ]),
         ("entitlements", [
             "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
             "insurance_archive", "id_priority", "shop_discount",
-            "alerts_push", "alerts_email", "poll_priority", "outfit_assembly", "api_access",
+            "alerts_push", "alerts_email", "poll_priority", "outfit_assembly", "api_access", "comps_export",
         ]),
     ])),
 ])
@@ -2379,6 +2380,9 @@ ENTITLEMENTS = OrderedDict([
     ("poll_priority", OrderedDict([("label", "Scanning priority"), ("enforced", "server")])),
     ("outfit_assembly", OrderedDict([("label", "Outfit and set valuations"), ("enforced", "ux")])),
     ("api_access", OrderedDict([("label", "Export and API access"), ("enforced", "server")])),
+    # The sold records are in the page for anyone who looks, so this only
+    # takes away the one-click download - said so on the plans page.
+    ("comps_export", OrderedDict([("label", "Sold comps download (CSV)"), ("enforced", "ux")])),
 ])
 
 MEMBERSHIP = OrderedDict([
