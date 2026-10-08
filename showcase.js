@@ -374,9 +374,13 @@
   // then again only when who is signed in actually changes - not on routine
   // token refreshes, which would throw away an edit in progress.
   var lastUser;
+  // Keyed on the account service being ready as well as on who is signed in:
+  // auth.js reports a signed-out state before its client exists, and that
+  // early report must not stop the page drawing again once it does.
   function currentUser() {
     var s = A && A.configured && A.configured() ? A.state() : null;
-    return s && s.signedIn && s.user ? s.user.id : '';
+    var ready = A && A.getClient && A.getClient() ? 'ready' : 'waiting';
+    return ready + ':' + (s && s.signedIn && s.user ? s.user.id : '');
   }
   function draw() {
     var uid = currentUser();
