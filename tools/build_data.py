@@ -2319,7 +2319,7 @@ PLANS = OrderedDict([
         ("badge", "Recommended"),
         # A shop perk, honoured by Jay's Retro Exchange at the till rather than by
         # anything on this site - see ENTITLEMENTS["shop_discount"].
-        ("perk", "5% off one bear a month from Jay's Retro Exchange"),
+        ("perk", "One code a month: 5% off your whole order at Jay's Retro Exchange (up to $10 off)"),
         ("blurb", "Know what your collection is worth, on every device."),
         ("features", [
             "Your collection synced across phone, tablet and computer",
@@ -2338,7 +2338,7 @@ PLANS = OrderedDict([
         ("price_monthly", 14),
         ("audience", "For resellers"),
         ("badge", None),
-        ("perk", "10% off one bear a month from Jay's Retro Exchange"),
+        ("perk", "One code a month: 10% off your whole order at Jay's Retro Exchange (up to $20 off)"),
         ("blurb", "Find underpriced bears before anyone else does."),
         ("features", [
             "Instant deal alerts by push and email when a bear lists below its value, after fees (coming soon)",
@@ -2372,7 +2372,7 @@ ENTITLEMENTS = OrderedDict([
     ("wishlist_alerts", OrderedDict([("label", "Wishlist alerts"), ("enforced", "server")])),
     ("insurance_archive", OrderedDict([("label", "Insurance valuation reports"), ("enforced", "server")])),
     ("id_priority", OrderedDict([("label", "Identification help, answered first"), ("enforced", "server")])),
-    ("shop_discount", OrderedDict([("label", "Monthly discount at Jay's Retro Exchange (5% Pro, 10% Power)"), ("enforced", "shop")])),
+    ("shop_discount", OrderedDict([("label", "Monthly discount code at Jay's Retro Exchange (Pro 5% up to $10, Power 10% up to $20)"), ("enforced", "shop")])),
     ("alerts_push", OrderedDict([("label", "Push deal alerts"), ("enforced", "server")])),
     ("alerts_email", OrderedDict([("label", "Email deal alerts"), ("enforced", "server")])),
     ("poll_priority", OrderedDict([("label", "Scanning priority"), ("enforced", "server")])),
