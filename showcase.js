@@ -176,7 +176,10 @@
   }
 
   if ($('sc-sort')) $('sc-sort').addEventListener('change', function () { renderList(listRows); });
-  load();
-  renderEditor();
+  // auth.js loads the account service asynchronously; wait for it before
+  // asking for showcases, or the page wrongly reports accounts as switched off.
+  function start() { load(); renderEditor(); }
+  if (A && A.ready && typeof A.ready.then === 'function') A.ready.then(start, start);
+  else start();
   if (A && A.onChange) A.onChange(function () { renderEditor(); });
 })();
