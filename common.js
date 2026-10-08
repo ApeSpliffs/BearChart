@@ -685,9 +685,9 @@
             '<div class="sub">Build-A-Bear Price Guide</div>' +
           '</a>' +
           '<nav class="nav">' + NAV.filter(function (n) {
-            // Admin is a tool, not a destination: only admins see it in the menu.
-            // The page itself still works by address, and refuses non-admins.
-            if (n[0] !== 'admin.html' || current === 'admin.html') return true;
+            // Admin tools (and the roadmap, for now) are not destinations: only
+            // admins see them in the menu. The pages still work by address.
+            if (['admin.html', 'roadmap.html'].indexOf(n[0]) === -1 || current === n[0]) return true;
             var A = root.BearChartAuth;
             return !!(A && A.configured && A.configured() && A.state().isAdmin);
           }).map(function (n) {

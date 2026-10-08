@@ -73,6 +73,20 @@
   function load() {
     var c = client();
     if (!c) { $('sc-main').innerHTML = '<div class="panel"><p class="fine">Showcases need accounts, which are not switched on here.</p></div>'; return; }
+    // Showcases are for members: anyone with a free account can browse them,
+    // and only Power members can share one (save_showcase checks that).
+    if (!A.state().signedIn) {
+      $('sc-list-panel').hidden = true;
+      $('sc-main').innerHTML = '<div class="panel"><h2>Member showcases</h2>' +
+        '<p>See the top bears BearChart members are proudest of, and what they are worth. ' +
+        'Showcases are for members &mdash; make a free account to browse them.</p>' +
+        '<p class="fine">Power members can also share a showcase of their own.</p>' +
+        '<p><a class="btn btn-primary" href="' + BC.rel('account.html') + '">Sign in or create a free account</a> ' +
+        '<a class="btn" href="' + BC.rel('plans.html') + '">See Power membership</a></p></div>';
+      return;
+    }
+    $('sc-main').innerHTML = '';
+    if (!handle) $('sc-list-panel').hidden = false;
     if (handle) {
       $('sc-list-panel').hidden = true;
       c.from('showcases').select('handle,display_name,bio,bears,updated_at').eq('handle', handle).maybeSingle()
@@ -111,13 +125,7 @@
     if (!c) { box.hidden = true; return; }
     box.hidden = false;
     var s = A.state();
-    if (!s.signedIn) {
-      box.innerHTML = '<h2>Show off your top bears</h2>' +
-        '<p>Power members get a public page with up to 12 of their favourite bears and what they are worth.</p>' +
-        '<p><a class="btn btn-primary" href="' + BC.rel('account.html') + '">Sign in</a> ' +
-        '<a class="btn" href="' + BC.rel('plans.html') + '">See Power membership</a></p>';
-      return;
-    }
+    if (!s.signedIn) { box.hidden = true; return; }
     box.innerHTML = '<h2>Your showcase</h2>' +
       '<p class="fine">Pick up to ' + MAX + ' bears. Your email is never shown. A Power membership is needed to save.</p>' +
       '<div class="row">' +
@@ -131,7 +139,7 @@
         '<datalist id="sc-names">' + BC.data.items.map(function (i) { return '<option value="' + esc(i.canonical_name) + '">'; }).join('') + '</datalist></div>' +
       '<p class="fine">Picked: <span id="sc-count"></span></p>' +
       '<div id="sc-picked"></div>' +
-      '<label class="sc-public"><input type="checkbox" id="sc-public"> Show my showcase publicly</label>' +
+      '<label class="sc-public"><input type="checkbox" id="sc-public"> Show my showcase to other members</label>' +
       '<p><button type="button" class="primary" id="sc-save">Save showcase</button> <span id="sc-msg" class="fine"></span></p>';
     chips();
     c.from('showcases').select('handle,display_name,bio,bears,is_public,hidden_by_admin').eq('user_id', s.user.id).maybeSingle()
@@ -182,5 +190,5 @@
   function start() { load(); renderEditor(); }
   if (A && A.ready && typeof A.ready.then === 'function') A.ready.then(start, start);
   else start();
-  if (A && A.onChange) A.onChange(function () { renderEditor(); });
+  if (A && A.onChange) A.onChange(function () { load(); renderEditor(); });
 })();
