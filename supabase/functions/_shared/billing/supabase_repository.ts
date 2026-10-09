@@ -54,7 +54,8 @@ export function createEventLog(admin: SupabaseClient): EventLog {
     },
     async release(id) {
       // Roll the claim back so Stripe's retry can do real work.
-      await admin.from("stripe_events").delete().eq("id", id);
+      const { error } = await admin.from("stripe_events").delete().eq("id", id);
+      if (error) throw new Error(`event release failed: ${error.message}`);
     },
   };
 }

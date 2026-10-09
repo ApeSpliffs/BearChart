@@ -147,25 +147,26 @@ export function createBillingService(deps: BillingServiceDeps): BillingService {
         if (!customer) return ignored("no customer");
         return sync(customer, o.metadata?.bearchart_user_id ?? null);
       }
+      // Webhook payloads use the ENDPOINT's API version, not the SDK's. From
+      // 2025-03-31.basil an invoice no longer carries `subscription` and a
+      // charge no longer carries `invoice`, so nothing below reads those from
+      // the payload: invoices sync on the customer alone (sync() ignores a
+      // customer with none of our prices), and charges are re-read through
+      // the SDK, which is pinned to 2024-06-20.
       case "invoice.paid":
       case "invoice.payment_succeeded":
       case "invoice.payment_failed": {
         const customer = idOf(o.customer);
-        if (!idOf(o.subscription) || !customer) {
-          return ignored("not a subscription invoice");
-        }
+        if (!customer) return ignored("invoice without a customer");
         return sync(customer);
       }
       case "charge.refunded": {
-        if (!REVOKE_ON_FULL_REFUND || !o.refunded) {
-          return ignored("partial refund");
-        }
-        return revokeForCharge({
-          id: o.id,
-          customerId: idOf(o.customer),
-          invoiceId: idOf(o.invoice),
-          refunded: !!o.refunded,
-        });
+        if (!REVOKE_ON_FULL_REFUND) return ignored("refunds do not revoke");
+        const chargeId = idOf(o.id);
+        if (!chargeId) return ignored("refund without a charge");
+        const charge = await gateway.retrieveCharge(chargeId);
+        if (!charge.refunded) return ignored("partial refund");
+        return revokeForCharge(charge);
       }
       case "charge.dispute.created": {
         if (!REVOKE_ON_DISPUTE) return ignored("disputes do not revoke");
@@ -189,7 +190,16 @@ export function createBillingService(deps: BillingServiceDeps): BillingService {
       try {
         return await route(e);
       } catch (err) {
-        await events.release(e.id);
+        // Releasing is best effort: the original error is what Stripe's
+        // retry and the logs need to see.
+        try {
+          await events.release(e.id);
+        } catch (releaseErr) {
+          log.error("event release failed", {
+            id: e.id,
+            message: (releaseErr as Error)?.message,
+          });
+        }
         throw err;
       }
     },

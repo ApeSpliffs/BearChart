@@ -30,11 +30,14 @@ Deno.serve(withObservability("create-portal", async (req) => {
   );
   if (!caller) return json({ error: "sign in first" }, 401, cors);
 
-  const membership = await createUserMembershipReader(caller.client)
-    .forUser(caller.user.id);
-  if (!membership?.customerId) return json({ error: "no membership to manage" }, 404, cors);
-
   try {
+    // Read under the caller's own RLS; a failure here still answers with JSON
+    // and CORS headers rather than the wrapper's bare 500.
+    const membership = await createUserMembershipReader(caller.client)
+      .forUser(caller.user.id);
+    if (!membership?.customerId) {
+      return json({ error: "no membership to manage" }, 404, cors);
+    }
     const gateway = createStripeGateway({ secretKey: stripeSecretKey(get) });
     const { url } = await gateway.createPortalSession({
       customerId: membership.customerId,

@@ -111,6 +111,7 @@ Deno.test("a live member is sent to the portal, not a second checkout", async ()
   let checkouts = 0;
   const svc = createCheckoutService({
     gateway: {
+      listSubscriptions: () => Promise.resolve([]),
       createCheckoutSession: () => {
         checkouts++;
         return Promise.resolve({ url: "https://checkout.stripe.com/c" });

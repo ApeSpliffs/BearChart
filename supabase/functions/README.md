@@ -57,6 +57,15 @@ subscriptions to anyone who finds the URL.
 
    Copy the signing secret into `STRIPE_WEBHOOK_SECRET`.
 
+   **Pin the endpoint's API version to `2024-06-20`** (the version the SDK in
+   `_shared/billing/stripe_gateway.ts` uses). Webhook payloads are rendered in the
+   *endpoint's* API version, not the SDK's; from `2025-03-31.basil` an invoice no
+   longer carries `subscription` and a charge no longer carries `invoice`. The
+   handler is written not to depend on those payload fields (invoice events sync
+   the customer's full subscription list; refunds and disputes re-read the charge
+   and invoice through the pinned SDK), but keeping the two versions equal is the
+   tested configuration. Upgrade both together.
+
 5. Turn membership on in `tools/build_data.py`:
 
    ```python

@@ -222,9 +222,20 @@ test('9. invoice.payment_failed with the list showing past_due writes past_due',
   assert.equal(t.repo.rows[0].tier, 'pro');
 });
 
-test('9b. an invoice with no subscription is ignored', async () => {
+test('9b. an invoice payload without `subscription` (API >= 2025-03-31.basil) still syncs the customer', async () => {
   const t = setup({ cus_1: U1 });
-  assert.equal((await t.service.handle(ev('invoice.paid', { customer: 'cus_1', subscription: null }))).status, 'ignored');
+  t.gateway.subs.cus_1 = [sub({ status: 'past_due' })];
+  const r = await t.service.handle(ev('invoice.payment_failed', { customer: 'cus_1' }));
+  assert.equal(r.status, 'processed');
+  assert.equal(t.repo.rows[0].status, 'past_due');
+});
+
+test('9c. an invoice for a customer with none of our prices is ignored', async () => {
+  const t = setup({});
+  t.gateway.subs.cus_store = [sub({ id: 'sub_store', customerId: 'cus_store', priceId: 'price_store' })];
+  const r = await t.service.handle(ev('invoice.paid', { customer: 'cus_store' }));
+  assert.equal(r.status, 'ignored');
+  assert.equal(t.repo.rows.length, 0);
 });
 
 test('10. charge.dispute.created cancels the subscription found via charge -> invoice, then syncs', async () => {
@@ -243,10 +254,15 @@ test('11. a partial refund is ignored; a full refund cancels', async () => {
   const t = setup({ cus_1: U1 });
   t.gateway.subs.cus_1 = [sub({ id: 'sub_r' })];
   t.gateway.invoices.in_r = { id: 'in_r', customerId: 'cus_1', subscriptionId: 'sub_r' };
-  const partial = await t.service.handle(ev('charge.refunded', { id: 'ch_r', customer: 'cus_1', invoice: 'in_r', refunded: false }));
+  // The payload carries no `invoice` (removed in newer API versions): the
+  // charge is re-read through the SDK, which is pinned to 2024-06-20.
+  t.gateway.charges.ch_p = { id: 'ch_p', customerId: 'cus_1', invoiceId: 'in_r', refunded: false };
+  const partial = await t.service.handle(ev('charge.refunded', { id: 'ch_p', customer: 'cus_1' }));
   assert.equal(partial.status, 'ignored');
+  assert.match(partial.reason, /partial refund/);
   assert.deepEqual(t.gateway.cancelled, []);
-  const full = await t.service.handle(ev('charge.refunded', { id: 'ch_r', customer: 'cus_1', invoice: 'in_r', refunded: true }));
+  t.gateway.charges.ch_r = { id: 'ch_r', customerId: 'cus_1', invoiceId: 'in_r', refunded: true };
+  const full = await t.service.handle(ev('charge.refunded', { id: 'ch_r', customer: 'cus_1' }));
   assert.equal(full.status, 'processed');
   assert.deepEqual(t.gateway.cancelled, ['sub_r']);
   assert.equal(t.repo.rows[0].tier, 'free');
@@ -254,7 +270,8 @@ test('11. a partial refund is ignored; a full refund cancels', async () => {
 
 test('12. a charge with no invoice (e.g. a store sale) is ignored', async () => {
   const t = setup({ cus_1: U1 });
-  const r = await t.service.handle(ev('charge.refunded', { id: 'ch_s', customer: 'cus_1', invoice: null, refunded: true }));
+  t.gateway.charges.ch_s = { id: 'ch_s', customerId: 'cus_1', invoiceId: null, refunded: true };
+  const r = await t.service.handle(ev('charge.refunded', { id: 'ch_s', customer: 'cus_1' }));
   assert.equal(r.status, 'ignored');
   assert.match(r.reason, /not a membership charge/);
   assert.deepEqual(t.gateway.cancelled, []);
@@ -264,7 +281,8 @@ test('12b. a charge on a foreign-price subscription is ignored and not cancelled
   const t = setup({ cus_1: U1 });
   t.gateway.subs.cus_1 = [sub({ id: 'sub_store', priceId: 'price_store' })];
   t.gateway.invoices.in_s = { id: 'in_s', customerId: 'cus_1', subscriptionId: 'sub_store' };
-  const r = await t.service.handle(ev('charge.refunded', { id: 'c', customer: 'cus_1', invoice: 'in_s', refunded: true }));
+  t.gateway.charges.c = { id: 'c', customerId: 'cus_1', invoiceId: 'in_s', refunded: true };
+  const r = await t.service.handle(ev('charge.refunded', { id: 'c', customer: 'cus_1' }));
   assert.equal(r.status, 'ignored');
   assert.deepEqual(t.gateway.cancelled, []);
 });
@@ -364,9 +382,10 @@ test('webhook: a service error is 500 and logs the type only', async () => {
 });
 
 // ---------------------------------------------------------------- checkout service
-function checkoutWith() {
-  const calls = { checkout: [], portal: [] };
+function checkoutWith(stripeSubs) {
+  const calls = { checkout: [], portal: [], list: [] };
   const gateway = {
+    listSubscriptions: async (c) => { calls.list.push(c); return (stripeSubs || {})[c] || []; },
     createCheckoutSession: async (i) => { calls.checkout.push(i); return { url: 'https://checkout.stripe.com/c/1' }; },
     createPortalSession: async (i) => { calls.portal.push(i); return { url: 'https://billing.stripe.com/p/1' }; },
   };
@@ -399,6 +418,19 @@ test('checkout: a canceled member reuses the customer, email null', async () => 
   assert.equal(i.successUrl, 'https://bearchart.test/account.html?checkout=done');
   assert.equal(i.cancelUrl, 'https://bearchart.test/plans.html?checkout=cancelled');
 });
+test('checkout: our row lags Stripe -> a live Stripe subscription still sends the member to the portal', async () => {
+  const { svc, calls } = checkoutWith({ cus_1: [sub({ status: 'active', priceId: 'price_pro' })] });
+  const r = await svc.start(caller, 'power', { customerId: 'cus_1', subscriptionId: null, status: 'canceled' });
+  assert.equal(r.kind, 'portal');
+  assert.deepEqual(calls.list, ['cus_1']);
+  assert.equal(calls.checkout.length, 0);
+});
+test('checkout: a live subscription on a foreign (store) price does not block a membership', async () => {
+  const { svc, calls } = checkoutWith({ cus_1: [sub({ status: 'active', priceId: 'price_store' })] });
+  const r = await svc.start(caller, 'pro', { customerId: 'cus_1', subscriptionId: null, status: 'canceled' });
+  assert.equal(r.kind, 'checkout');
+  assert.equal(calls.portal.length, 0);
+});
 test('checkout: no membership sends the email; userId is always the caller', async () => {
   const { svc, calls } = checkoutWith();
   await svc.start(caller, 'power', null);
@@ -406,4 +438,12 @@ test('checkout: no membership sends the email; userId is always the caller', asy
   assert.equal(calls.checkout[0].customerId, null);
   assert.equal(calls.checkout[0].userId, caller.id);
   assert.equal(calls.checkout[0].priceId, 'price_power');
+});
+
+test('a failed release is logged and the ORIGINAL error is rethrown', async () => {
+  const t = setup({ cus_1: U1 });
+  t.gateway.listSubscriptions = async () => { throw new Error('stripe down'); };
+  t.events.release = async () => { throw new Error('db down'); };
+  await assert.rejects(t.service.handle(ev('customer.subscription.updated', { customer: 'cus_1' })), /stripe down/);
+  assert.ok(t.log.msgs.some(([lvl, m]) => lvl === 'error' && /release failed/.test(m)));
 });

@@ -7,8 +7,13 @@
  * to change plan instead of being sold a second, concurrent subscription.
  */
 
-import type { CheckoutGateway } from "./ports.ts";
-import { hasLiveMembership, priceForPlan } from "./policy.ts";
+import type { CheckoutGateway, SubscriptionGateway } from "./ports.ts";
+import {
+  hasLiveMembership,
+  LIVE_STATUSES,
+  priceForPlan,
+  tierForPrice,
+} from "./policy.ts";
 import type { MembershipSummary, PriceTable } from "./types.ts";
 
 export interface Caller {
@@ -22,7 +27,7 @@ export type CheckoutResult =
   | { kind: "checkout"; url: string };
 
 export interface CheckoutServiceDeps {
-  gateway: CheckoutGateway;
+  gateway: CheckoutGateway & Pick<SubscriptionGateway, "listSubscriptions">;
   prices: PriceTable;
   siteUrl: string;
 }
@@ -38,17 +43,29 @@ export function createCheckoutService(deps: CheckoutServiceDeps) {
       const priceId = priceForPlan(plan, prices);
       if (!priceId) return { kind: "unknown_plan" };
 
-      if (hasLiveMembership(membership)) {
+      // Reuse the Stripe customer if this user has bought before, so one
+      // person does not accumulate duplicate customers.
+      const customerId = membership?.customerId ?? null;
+
+      // Our row can lag Stripe (the webhook for a checkout finished a moment
+      // ago may not have landed). Ask Stripe too before selling a second,
+      // concurrent subscription.
+      let live = hasLiveMembership(membership);
+      if (!live && customerId) {
+        const subs = await gateway.listSubscriptions(customerId);
+        live = subs.some((s) =>
+          LIVE_STATUSES.includes(s.status) &&
+          tierForPrice(s.priceId, prices) !== null
+        );
+      }
+      if (live && customerId) {
         const { url } = await gateway.createPortalSession({
-          customerId: membership!.customerId!,
+          customerId,
           returnUrl: `${siteUrl}/account.html`,
         });
         return { kind: "portal", url };
       }
 
-      // Reuse the Stripe customer if this user has bought before, so one
-      // person does not accumulate duplicate customers.
-      const customerId = membership?.customerId ?? null;
       const { url } = await gateway.createCheckoutSession({
         priceId,
         userId: caller.id,
