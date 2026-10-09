@@ -13,17 +13,52 @@ select tests.as_user('lapsed');
 select throws_like($$ select public.add_collection_items('[{"item_id_slug":"rls-test-bear"}]') $$,
   '%requires a Pro membership%', 'lapsed: add_collection_items refused');
 select tests.as_anon();
-select throws_like($$ select public.add_collection_items('[{"item_id_slug":"rls-test-bear"}]') $$,
-  '%not signed in%', 'anon: add_collection_items refused');
+select throws_ok($$ select public.add_collection_items('[{"item_id_slug":"rls-test-bear"}]') $$,
+  '42501', null, 'anon: add_collection_items not executable');
 
--- collections direct insert: today only the RPC checks the membership
+-- collections direct writes: gated on collection_sync like the RPC
+-- (20261008000102_member_tables_entitlement_gates.sql)
 select tests.as_user('free');
-select todo_start('security workstream 20261008000100+: gate direct collections inserts on collection_sync');
 select throws_ok(
   format($$ insert into public.collections (user_id, item_id)
             select %L, id from public.items where slug = 'rls-test-bear' $$, tests.uid('free')),
   '42501', null, 'free: direct insert into collections refused');
-select todo_end();
+select tests.as_user('pro');
+select lives_ok(
+  format($$ insert into public.collections (user_id, item_id, qty)
+            select %L, id, 2 from public.items where slug = 'rls-test-bear' $$, tests.uid('pro')),
+  'pro: direct insert into own collection allowed');
+select tests.as_user('lapsed');
+select throws_ok(
+  format($$ insert into public.collections (user_id, item_id)
+            select %L, id from public.items where slug = 'rls-test-bear' $$, tests.uid('lapsed')),
+  '42501', null, 'lapsed: direct insert into collections refused');
+select tests.as_postgres();
+insert into public.collections (user_id, item_id)
+  select tests.uid('lapsed'), id from public.items where slug = 'rls-test-bear';
+select tests.as_user('lapsed');
+select is((select count(*) from public.collections), 1::bigint, 'lapsed: still reads own collection');
+select throws_ok($$ update public.collections set qty = 5 $$,
+  '42501', null, 'lapsed: cannot change collection rows');
+select is(tests.affected($$ delete from public.collections $$), 1::bigint, 'lapsed: can delete own rows');
+
+-- portfolio_flows: writes need hosted_history; reads/deletes stay with the owner
+select tests.as_user('free');
+select throws_ok(format($$ insert into public.portfolio_flows (user_id, occurred_on, direction, value_cents)
+  values (%L, current_date, 'acquire', 100) $$, tests.uid('free')),
+  '42501', null, 'free: portfolio_flows insert refused');
+select tests.as_user('pro');
+select lives_ok(format($$ insert into public.portfolio_flows (user_id, occurred_on, direction, value_cents)
+  values (%L, current_date, 'acquire', 100) $$, tests.uid('pro')),
+  'pro: portfolio_flows insert allowed');
+select throws_ok(format($$ insert into public.portfolio_flows (user_id, occurred_on, direction, value_cents)
+  values (%L, current_date, 'acquire', 100) $$, tests.uid('power')),
+  '42501', null, 'pro: cannot write another member''s flows');
+select tests.as_user('other');
+select is_empty($$ select 1 from public.portfolio_flows $$, 'other: sees no one else''s flows');
+select tests.as_anon();
+select throws_ok($$ select 1 from public.portfolio_flows $$, '42501', null, 'anon: no access to portfolio_flows');
+select throws_ok($$ select 1 from public.holding_snapshots $$, '42501', null, 'anon: no access to holding_snapshots');
 
 -- isolation
 select tests.as_user('other');
@@ -36,7 +71,7 @@ select throws_ok(
             select %L, id from public.items where slug = 'rls-test-bear' $$, tests.uid('pro')),
   '42501', null, 'other: cannot write into somebody else''s collection');
 select tests.as_anon();
-select is_empty($$ select 1 from public.collections $$, 'anon: sees no collections');
+select throws_ok($$ select 1 from public.collections $$, '42501', null, 'anon: no access to collections');
 
 -- collection_entries (collection_sync)
 select tests.as_user('free');

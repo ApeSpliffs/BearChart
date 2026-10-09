@@ -52,12 +52,17 @@ select is((select count(*) from public.holding_snapshots), 1::bigint, 'lapsed: r
 select throws_ok($$ insert into public.value_history (day, snap) values (current_date - 1, '{}') $$,
   '42501', null, 'lapsed: cannot add history');
 
--- portfolio_flows (own only, no gate)
+-- portfolio_flows (own only; writes need hosted_history since 20261008000102)
 select tests.as_user('free');
-select lives_ok(format($$ insert into public.portfolio_flows (user_id, occurred_on, direction, value_cents) values (%L, current_date, 'acquire', 100) $$,
-  tests.uid('free')), 'free: records a flow');
+select throws_ok(format($$ insert into public.portfolio_flows (user_id, occurred_on, direction, value_cents) values (%L, current_date, 'acquire', 100) $$,
+  tests.uid('free')), '42501', null, 'free: cannot record a flow (hosted_history)');
+select tests.as_postgres();
+insert into public.portfolio_flows (user_id, occurred_on, direction, value_cents)
+  values (tests.uid('free'), current_date, 'acquire', 100);
+select tests.as_user('free');
 select throws_ok(format($$ insert into public.portfolio_flows (user_id, occurred_on, direction, value_cents) values (%L, current_date, 'acquire', 100) $$,
   tests.uid('pro')), '42501', null, 'free: cannot record a flow for somebody else');
+select is((select count(*) from public.portfolio_flows), 1::bigint, 'free: still reads own flow');
 select tests.as_user('other');
 select is_empty($$ select 1 from public.portfolio_flows $$, 'other: sees none of free''s flows');
 

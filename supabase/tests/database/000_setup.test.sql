@@ -71,20 +71,22 @@ begin execute sql; get diagnostics n = row_count; return n; end $$;
 --   pro, power      : active
 --   trial_power     : power, trialing
 --   lapsed          : pro, canceled, period over
---   pastdue_grace   : pro, past_due, period ended 3 days ago (inside a 7-day grace)
---   pastdue_expired : pro, past_due, period ended 8 days ago (outside it)
+--   pastdue_grace   : pro, past_due for 3 days (inside the past_due_grace() window)
+--   pastdue_expired : pro, past_due for 8 days (outside it)
+--   (the grace is anchored on past_due_since, not current_period_end: Stripe has
+--   already moved the period end forward when a renewal fails)
 --   admin / owner   : rows in public.admins (editor / owner), no subscription
 create or replace function tests.seed_personas() returns void language plpgsql as $$
 begin
   perform tests.create_user(x) from unnest(array['free','pro','power','trial_power',
     'lapsed','pastdue_grace','pastdue_expired','admin','owner','other']) x;
-  insert into public.subscriptions (user_id, tier, status, current_period_end) values
-    (tests.uid('pro'),             'pro',   'active',   now() + interval '30 days'),
-    (tests.uid('power'),           'power', 'active',   now() + interval '30 days'),
-    (tests.uid('trial_power'),     'power', 'trialing', now() + interval '7 days'),
-    (tests.uid('lapsed'),          'pro',   'canceled', now() - interval '1 day'),
-    (tests.uid('pastdue_grace'),   'pro',   'past_due', now() - interval '3 days'),
-    (tests.uid('pastdue_expired'), 'pro',   'past_due', now() - interval '8 days')
+  insert into public.subscriptions (user_id, tier, status, current_period_end, past_due_since) values
+    (tests.uid('pro'),             'pro',   'active',   now() + interval '30 days', null),
+    (tests.uid('power'),           'power', 'active',   now() + interval '30 days', null),
+    (tests.uid('trial_power'),     'power', 'trialing', now() + interval '7 days',  null),
+    (tests.uid('lapsed'),          'pro',   'canceled', now() - interval '1 day',   null),
+    (tests.uid('pastdue_grace'),   'pro',   'past_due', now() + interval '27 days', now() - interval '3 days'),
+    (tests.uid('pastdue_expired'), 'pro',   'past_due', now() + interval '22 days', now() - interval '8 days')
   on conflict (user_id) do nothing;
   insert into public.admins (user_id, role) values
     (tests.uid('admin'), 'editor'), (tests.uid('owner'), 'owner')

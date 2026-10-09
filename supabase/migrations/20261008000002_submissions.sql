@@ -220,6 +220,8 @@ grant execute on function report_item(jsonb) to anon, authenticated;
 
 -- ---------------------------------------------------------------------------
 -- KNOWN GAP, stated rather than papered over
+-- (SUPERSEDED: 20261008000100_submission_validation_and_rate_limits.sql now
+-- rate limits report_item and submit_comp. Kept for the history.)
 --
 -- report_item() is callable anonymously, so the reports table can be flooded.
 -- The damage is bounded - reports are admin-read-only, the reason is a fixed
