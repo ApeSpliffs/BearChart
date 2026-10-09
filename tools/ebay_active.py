@@ -161,6 +161,34 @@ def price_of(summary):
     return (v if v > 0 else None), p.get("currency") or "USD"
 
 
+def shipping_of(summary):
+    """What the buyer pays to have it shipped -> (cost, type).
+
+    The cheapest FIXED option, as eBay states it. 0.0 is free shipping. A
+    CALCULATED option depends on the buyer's address, and no options at all
+    means the listing did not say: both return (None, "calculated"|"unknown"),
+    and the deal finder assumes a figure and says so rather than treating the
+    ask alone as the cost.
+    """
+    options = summary.get("shippingOptions") or []
+    fixed, calculated = [], False
+    for o in options:
+        kind = str(o.get("shippingCostType") or "").upper()
+        if kind == "CALCULATED":
+            calculated = True
+            continue
+        try:
+            v = float((o.get("shippingCost") or {}).get("value"))
+        except (TypeError, ValueError):
+            continue
+        if kind in ("FIXED", "") and v >= 0:
+            fixed.append(v)
+    if fixed:
+        cost = round(min(fixed), 2)
+        return cost, ("free" if cost == 0 else "fixed")
+    return None, ("calculated" if calculated else "unknown")
+
+
 def image_of(summary):
     img = (summary.get("image") or {}).get("imageUrl")
     if img:
@@ -175,6 +203,7 @@ def normalise_listing(summary, item):
     if price is None:
         return None
     title = summary.get("title") or ""
+    ship_price, ship_type = shipping_of(summary)
     return OrderedDict([
         ("id", "active-%s" % summary.get("itemId", "")),
         ("item_id", item["id"]),
@@ -182,6 +211,11 @@ def normalise_listing(summary, item):
         ("title", title),
         ("ask_price", round(price, 2)),
         ("currency", currency),
+        ("ship_price", ship_price),
+        ("ship_type", ship_type),
+        # What a buyer actually pays, when the listing says. Null when shipping
+        # is calculated or unstated; the deal finder then assumes a figure.
+        ("buyer_total", round(price + ship_price, 2) if ship_price is not None else None),
         ("condition", match_pattern(CONDITION_PATTERNS,
                                     (summary.get("condition") or "") + " " + title, "Unknown")),
         ("buying_option", ",".join(summary.get("buyingOptions") or [])),

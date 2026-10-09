@@ -37,7 +37,13 @@ def summary(item_id, title, price, **kw):
     }
     if kw.get("no_price"):
         s.pop("price")
+    if "shipping" in kw:
+        s["shippingOptions"] = kw["shipping"]
     return s
+
+
+def fixed(v):
+    return {"shippingCostType": "FIXED", "shippingCost": {"value": str(v), "currency": "USD"}}
 
 
 class Args:
@@ -97,6 +103,29 @@ class NormalisationTests(unittest.TestCase):
     def test_listings_without_a_price_are_dropped(self):
         self.assertIsNone(
             eb.normalise_listing(summary("1", "Build-A-Bear Lucky Kitty", 0, no_price=True), self.item))
+
+    def test_shipping_takes_the_cheapest_fixed_option(self):
+        s = summary("1", "Build-A-Bear Lucky Kitty", 40, shipping=[fixed(12.5), fixed(8)])
+        self.assertEqual(eb.shipping_of(s), (8.0, "fixed"))
+
+    def test_free_shipping_is_zero(self):
+        s = summary("1", "Build-A-Bear Lucky Kitty", 40, shipping=[fixed(0)])
+        self.assertEqual(eb.shipping_of(s), (0.0, "free"))
+
+    def test_calculated_or_missing_shipping_is_not_invented(self):
+        calc = summary("1", "x", 40, shipping=[{"shippingCostType": "CALCULATED"}])
+        self.assertEqual(eb.shipping_of(calc), (None, "calculated"))
+        self.assertEqual(eb.shipping_of(summary("1", "x", 40)), (None, "unknown"))
+
+    def test_the_record_carries_what_the_buyer_pays(self):
+        rec = eb.normalise_listing(
+            summary("1", "Build-A-Bear Lucky Kitty", 40, shipping=[fixed(12)]), self.item)
+        self.assertEqual(rec["ship_price"], 12.0)
+        self.assertEqual(rec["ship_type"], "fixed")
+        self.assertEqual(rec["buyer_total"], 52.0)
+        rec = eb.normalise_listing(summary("2", "Build-A-Bear Lucky Kitty", 40), self.item)
+        self.assertIsNone(rec["buyer_total"])
+        self.assertEqual(rec["ship_type"], "unknown")
 
     def test_image_falls_back_to_a_thumbnail(self):
         s = summary("1", "Build-A-Bear Lucky Kitty", 10)

@@ -63,6 +63,12 @@ ALLOWED = OrderedDict([
     ("item_id",      ["bearchartid", "slug", "itemslug"]),
 ])
 
+# Shipping the buyer paid. These exact normalised headers are the only ones
+# containing "ship" that are ever read, and they are checked BEFORE NEVER_READ:
+# they are an amount of money, not an address. "Ship To Address 1",
+# "Ship To Zip" and the rest still never reach this tool.
+SHIP_PRICE_HEADERS = ["shippingandhandling", "shippingcharged", "postageandpackaging"]
+
 # Columns that must never be read, named explicitly so the intent is obvious even
 # though the allowlist above already excludes them.
 NEVER_READ = re.compile(
@@ -83,9 +89,14 @@ def map_columns(fieldnames):
     # field -> (alias priority, header)
     best = {}
     for h in fieldnames or []:
+        key = normalise(h)
+        if key in SHIP_PRICE_HEADERS:
+            rank = SHIP_PRICE_HEADERS.index(key)
+            if "ship_price" not in best or rank < best["ship_price"][0]:
+                best["ship_price"] = (rank, h)
+            continue
         if NEVER_READ.search(h):
             continue
-        key = normalise(h)
         for field, aliases in ALLOWED.items():
             if key in aliases:
                 rank = aliases.index(key)
@@ -188,7 +199,8 @@ def run(args):
             ("source_url", None),
             ("listing_id", listing_id),
             ("evidence_type", evidence),
-            ("shipping_included", None),
+            ("shipping_included", False),
+            ("ship_price", parse_price(rec.get("ship_price"), allow_zero=True)),
             ("sample_size", None),
             # The flag that makes these worth more than anything else here.
             ("first_party", True),

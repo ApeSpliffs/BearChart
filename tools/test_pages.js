@@ -1540,9 +1540,24 @@ test('raising the fee assumption reduces the reported margin', () => {
   const marginOf = () => win.document.querySelectorAll('#deals tbody tr td')[4].textContent;
   const before = marginOf();
   const fee = win.document.getElementById('fee');
-  fee.value = '40';
+  // Far enough above the schedule to move the margin, not so far that the
+  // listing stops being a deal once the buyer's shipping is counted.
+  fee.value = '25';
   fee.dispatchEvent(new win.Event('input'));
   assert.notStrictEqual(marginOf(), before);
+});
+
+test('a deal shows the shipping and what the buyer pays in total', () => {
+  const stated = Object.assign(activeFor('my-little-pony-muffins', 50), { ship_price: 6 });
+  let win = renderDeals([stated]);
+  let asking = win.document.querySelectorAll('#deals tbody tr td')[1].textContent;
+  assert.match(asking, /\+ \$6 shipping/);
+  assert.match(asking, /Buyer pays \$56/);
+
+  win = renderDeals([activeFor('my-little-pony-muffins', 50)]);
+  asking = win.document.querySelectorAll('#deals tbody tr td')[1].textContent;
+  assert.match(asking, /shipping \(assumed\)/);
+  assert.match(win.document.getElementById('deals').textContent, /Shipping not stated/);
 });
 
 test('the deals page states that no sold data means no deal', () => {

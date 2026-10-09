@@ -643,6 +643,18 @@
   }
 
   /**
+   * What a buyer actually pays for a listing: the ask plus its stated shipping,
+   * or plus an assumed figure (config.reseller.assumed_inbound_shipping) when
+   * the listing does not state one. A $40 ask with $12 shipping costs $52.
+   */
+  function buyerTotal(listing, config) {
+    var r = (config && config.reseller) || {};
+    var ship = listing.ship_price != null ? listing.ship_price
+      : (r.assumed_inbound_shipping || 0);
+    return listing.ask_price + ship;
+  }
+
+  /**
    * Find active listings priced below what the sold data says the item is worth.
    *
    * Two rules keep this honest:
@@ -681,8 +693,10 @@
         ? adj.lower_bound : gross;
 
       var net = netProceeds(floor, config);
-      var margin = net - ask;
-      var discountPct = ((floor - ask) / floor) * 100;
+      var shipAssumed = l.ship_price == null;
+      var cost = buyerTotal(l, config);
+      var margin = net - cost;
+      var discountPct = ((floor - cost) / floor) * 100;
 
       if (margin < (r.min_net_margin || 0)) return;
       if (discountPct < (r.min_discount_pct || 0)) return;
@@ -713,19 +727,26 @@
         risks.push('The listing does not state a condition, so this assumes an ' +
                    'average copy.');
       }
+      if (shipAssumed) {
+        risks.push('Shipping not stated; assumed $' +
+                   (cost - ask).toFixed(2) + '.');
+      }
 
       deals.push({
         listing: l,
         item_id: l.item_id,
         item_name: item.canonical_name,
         ask: ask,
+        ship_price: l.ship_price != null ? l.ship_price : null,
+        buyer_total: cost,
+        ship_assumed: shipAssumed,
         condition: l.condition || 'Unknown',
         gross_value: gross,
         floor_value: floor,
         floor_basis: adj.lower_bound_basis,
         net_proceeds: net,
         margin: margin,
-        margin_pct: (margin / ask) * 100,
+        margin_pct: (margin / cost) * 100,
         discount_pct: discountPct,
         confidence: v.confidence,
         comparable_count: v.comparable_count,
@@ -921,6 +942,7 @@
     askSpread: askSpread,
     findDeals: findDeals,
     netProceeds: netProceeds,
+    buyerTotal: buyerTotal,
     platformFees: platformFees,
     sellingFee: sellingFee,
     collectionValue: collectionValue,

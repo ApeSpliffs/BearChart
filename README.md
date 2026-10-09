@@ -540,7 +540,9 @@ the comparison is meaningful.
 **Per-copy modifiers.** Two kinds, modelled differently on purpose:
 
 - **Multiplicative** — scale with the item. Birth certificate ×1.15, hang tag ×1.10,
-  tush tag missing ×0.70, unstuffed ×0.85, customised ×0.80.
+  tush tag missing ×0.70, customised ×0.80. A hang tag is ignored on a copy graded NWT,
+  because the grade already prices the tag. "Unstuffed" is a completeness grade (neutral,
+  ×1.00 — the normal state of a recent release), not a second modifier.
 - **Additive** — separately traded parts at their own price. A sound module is ~$7 and a
   scent chip ~$6 *whether they are in a $12 Mini Bean or a $250 exclusive*. Priced as a
   percentage, the same chip would be worth $25 in one and $1.50 in the other.
@@ -642,10 +644,14 @@ npm run build
 ```
 
 Live eBay asks compared against what the sold data says the item is worth — **after
-your fees and shipping**. A gross discount is not profit: an item worth $200 nets about
-$164 once the marketplace takes its cut and you pay to ship it, and the margin column
-shows that number, not the headline gap. Fee, shipping and threshold assumptions are
-editable on the page and saved per browser.
+your fees and shipping**. A gross discount is not profit: the marketplace takes its cut
+(on eBay, of the item *and* the shipping the buyer pays) and you pay to ship it, and the
+margin column shows that number, not the headline gap. Fees come from a per-platform
+schedule in `tools/domain_vocab.py` (`FEE_SCHEDULE`, eBay and Mercari; each entry says
+where to verify it). The cost side is the buyer's total: the ask plus the listing's stated
+shipping, or an assumed figure (flagged as a risk) when the listing does not state one.
+Platform, fee, shipping and threshold assumptions are editable on the page and saved per
+browser.
 
 Asks are judged against the **conservative floor, not the median**. That is the
 structural fix for false positives on rare items: thin data widens the gap between floor

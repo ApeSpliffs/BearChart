@@ -664,6 +664,31 @@ test('a listing well below value is flagged with a real margin', () => {
   assert.ok(deals[0].discount_pct > 20);
 });
 
+test('a deal is judged on the ask plus its shipping', () => {
+  const l = Object.assign(listingFor('kennel-pals-calico-cat', 40), { ship_price: 12 });
+  assert.strictEqual(E.buyerTotal(l, CFG), 52);
+  const d = E.findDeals(dealCtx([l]))[0];
+  assert.ok(d, 'still a deal');
+  assert.strictEqual(d.buyer_total, 52);
+  assert.strictEqual(d.ship_price, 12);
+  assert.strictEqual(d.ship_assumed, false);
+  assert.ok(Math.abs(d.margin - (d.net_proceeds - 52)) < 1e-9);
+  assert.ok(!d.risks.some((r) => /Shipping not stated/.test(r)));
+});
+
+test('free shipping costs nothing extra', () => {
+  const l = Object.assign(listingFor('kennel-pals-calico-cat', 40), { ship_price: 0 });
+  assert.strictEqual(E.buyerTotal(l, CFG), 40);
+});
+
+test('unstated shipping is assumed, and the deal says so', () => {
+  const l = listingFor('kennel-pals-calico-cat', 40);
+  assert.strictEqual(E.buyerTotal(l, CFG), 40 + CFG.reseller.assumed_inbound_shipping);
+  const d = E.findDeals(dealCtx([l]))[0];
+  assert.strictEqual(d.ship_assumed, true);
+  assert.ok(d.risks.some((r) => /Shipping not stated; assumed \$/.test(r)));
+});
+
 test('a listing at or above value is not a deal', () => {
   assert.strictEqual(E.findDeals(dealCtx([listingFor('kennel-pals-calico-cat', 250)])).length, 0);
 });
@@ -721,10 +746,11 @@ test('a listing with no stated condition says so', () => {
 
 test('deals are ranked by margin, best first', () => {
   // All three clear the conservative floor; only the ordering is under test.
+  const free = (l) => Object.assign(l, { ship_price: 0 });
   const deals = E.findDeals(dealCtx([
-    listingFor('kennel-pals-calico-cat', 100),
-    listingFor('kennel-pals-calico-cat', 30),
-    listingFor('kennel-pals-calico-cat', 60)
+    free(listingFor('kennel-pals-calico-cat', 100)),
+    free(listingFor('kennel-pals-calico-cat', 30)),
+    free(listingFor('kennel-pals-calico-cat', 60))
   ]));
   assert.strictEqual(deals.length, 3);
   assert.ok(deals[0].margin > deals[1].margin);
@@ -856,7 +882,8 @@ test('a thin-evidence item must be a better bargain to qualify', () => {
   // The Holiday Moose has one comp. Against the median it looks like a 40% discount;
   // against the floor it is not cheap enough, which is the correct answer.
   const listing = (ask) => ({ evidence_type: 'active_listing',
-    item_id: 'employee-exclusive-holiday-moose', ask_price: ask, condition: 'Good', title: 't' });
+    item_id: 'employee-exclusive-holiday-moose', ask_price: ask, ship_price: 0,
+    condition: 'Good', title: 't' });
   const ctx = (ask) => ({ config: CFG, listings: [listing(ask)],
     itemById: itemById, valuationFor: valueOf });
 

@@ -187,7 +187,11 @@
               ? '<div class="risk">Watch out: ' + d.risks.map(BC.esc).join('; ') + '</div>'
               : '') +
           '</td>' +
-          '<td class="num price" data-label="Asking">' + BC.exact(d.ask) + '</td>' +
+          '<td class="num price" data-label="Asking">' + BC.exact(d.ask) +
+            '<div class="fine buyer-pays">' + (d.ship_assumed
+              ? '+ ' + BC.exact(d.buyer_total - d.ask) + ' shipping (assumed)'
+              : (d.ship_price ? '+ ' + BC.exact(d.ship_price) + ' shipping' : 'free shipping')) +
+            '<br>Buyer pays ' + BC.exact(d.buyer_total) + '</div></td>' +
           '<td class="num" data-label="Usually sells for">' + BC.money(d.gross_value) +
             '<div class="fine">safe value ' + BC.money(d.floor_value) + '</div></td>' +
           '<td class="num" data-label="Net after fees">' + BC.money(d.net_proceeds) + '</td>' +
@@ -238,11 +242,12 @@
   });
 
   $('export-deals').addEventListener('click', function () {
-    var rows = [['item_id', 'item_name', 'listing_title', 'ask', 'condition',
+    var rows = [['item_id', 'item_name', 'listing_title', 'ask', 'shipping', 'buyer_total', 'condition',
       'gross_value', 'net_after_fees', 'margin', 'margin_pct_on_cost',
       'discount_pct', 'confidence', 'comparable_sales', 'listing_url', 'risks']];
     (window.__deals || []).forEach(function (d) {
-      rows.push([d.item_id, d.item_name, d.listing.title, BC.r2(d.ask), d.condition,
+      rows.push([d.item_id, d.item_name, d.listing.title, BC.r2(d.ask),
+        d.ship_assumed ? '' : BC.r2(d.ship_price || 0), BC.r2(d.buyer_total), d.condition,
         BC.r2(d.gross_value), BC.r2(d.net_proceeds), BC.r2(d.margin),
         Math.round(d.margin_pct), Math.round(d.discount_pct), d.confidence,
         d.comparable_count, d.listing.source_url, d.risks.join(' | ')]);

@@ -321,6 +321,24 @@ class ImportTests(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)))
 
 
+class ShippingTests(ImportTests):
+    def test_a_shipping_column_is_captured_beside_the_price(self):
+        path = write_csv([{"Title": "Lucky Kitty", "Sold Price": "54.00", "Shipping": "$7.95"},
+                          {"Title": "Lucky Kitty", "Sold Price": "60.00", "Shipping": "$0.00"}],
+                         ["Title", "Sold Price", "Shipping"])
+        self.capture(Args(path))
+        rows = self.imported()
+        self.assertEqual(rows[0]["ship_price"], 7.95)
+        self.assertEqual(rows[0]["sold_price"], 54.0, "the price stays the item price")
+        self.assertEqual(rows[1]["ship_price"], 0.0, "free shipping is zero, not missing")
+        self.assertIs(rows[0]["shipping_included"], False)
+
+    def test_zero_is_only_a_price_where_it_is_allowed(self):
+        self.assertIsNone(imp.parse_price("$0.00"))
+        self.assertEqual(imp.parse_price("$0.00", allow_zero=True), 0.0)
+        self.assertIsNone(imp.parse_price("-3", allow_zero=True))
+
+
 class AggregateTests(ImportTests):
     """Terapeak reports an average across N sales, not a list of transactions."""
 
@@ -433,6 +451,18 @@ class MySalesTests(unittest.TestCase):
         for secret in ["Jane Doe", "catfan99", "12 Example St", "62704",
                        "jane@example.com"]:
             self.assertNotIn(secret, blob, "%r leaked into the database" % secret)
+
+    def test_shipping_charged_is_read_but_addresses_never_are(self):
+        headers = self.ORDER_HEADERS + ["Shipping And Handling"]
+        mapping, ignored = mine.map_columns(headers)
+        self.assertEqual(mapping.get("Shipping And Handling"), "ship_price")
+        for header in ["Ship To Address 1", "Ship To Zip"]:
+            self.assertNotIn(header, mapping)
+        path = write_csv([self.order_row(**{"Shipping And Handling": "$9.50"})], headers)
+        self.capture(MyArgs(path))
+        row = self.imported()[0]
+        self.assertEqual(row["ship_price"], 9.5)
+        self.assertNotIn("12 Example St", json.dumps(row))
 
     def test_the_item_number_wins_over_the_sales_record_number(self):
         # The item number is what other comps for the same listing are keyed on.

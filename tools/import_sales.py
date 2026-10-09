@@ -55,6 +55,10 @@ COLUMNS = OrderedDict([
                       "totalsold", "sales", "salescount", "transactions"]),
     ("completeness", ["completeness", "complete"]),
     ("notes",        ["notes", "note", "comment", "comments", "subtitle"]),
+    # What the buyer paid for shipping. Recorded and shown, never folded into a
+    # valuation: every comp is priced on the item alone.
+    ("ship_price",   ["shipping", "shippingcost", "shippingprice", "postage",
+                      "avgshipping", "averageshipping", "shippingpaid"]),
 ])
 
 # Free-text condition and completeness wording -> BearChart's vocabulary. The
@@ -79,7 +83,8 @@ def tokens(s):
     return {w for w in words if w not in STOPWORDS and len(w) > 1}
 
 
-def parse_price(raw):
+def parse_price(raw, allow_zero=False):
+    """A positive price, or None. allow_zero accepts 0 (free shipping)."""
     if raw is None:
         return None
     text = str(raw).strip()
@@ -94,6 +99,8 @@ def parse_price(raw):
         v = float(s)
     except ValueError:
         return None
+    if allow_zero:
+        return v if v >= 0 else None
     return v if v > 0 else None
 
 
@@ -356,7 +363,8 @@ def run(args):
             ("source_url", (rec.get("source_url") or "").strip() or None),
             ("listing_id", listing_id),
             ("evidence_type", evidence),
-            ("shipping_included", None),
+            ("shipping_included", False),
+            ("ship_price", parse_price(rec.get("ship_price"), allow_zero=True)),
             ("sample_size", sample),
             ("notes", (rec.get("notes") or "").strip() or None),
             ("import_match", how),
