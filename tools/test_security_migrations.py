@@ -64,6 +64,13 @@ class SubmissionValidationTests(unittest.TestCase):
                                r"public\.is_safe_https_url\(listing_url\)\)")
         self.assertIn("not is_safe_https_url(v_url)", function_sql(V100, "submit_comp"))
 
+    def test_site_path_refuses_protocol_relative(self):
+        fn = function_sql(V100, "is_site_path")
+        self.assertIn("p !~ '^//'", fn)
+
+    def test_https_scheme_is_case_insensitive(self):
+        self.assertIn("p ~* '^https://", function_sql(V100, "is_safe_https_url"))
+
     def test_no_regex_repetition_over_postgres_limit(self):
         # Postgres rejects {m,n} with n > 255 ("invalid repetition count").
         for sql in SECURITY_SQL:

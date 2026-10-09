@@ -35,6 +35,13 @@ select tests.as_postgres();
 select ok(public.is_safe_https_url('https://www.ebay.com/itm/1?a=b#c'), 'is_safe_https_url: plain https');
 select ok(not public.is_safe_https_url('https://evil.com/"><script>'), 'is_safe_https_url: no quotes or angle brackets');
 select ok(not public.is_safe_https_url('https://' || repeat('a', 500) || '.com'), 'is_safe_https_url: length cap');
+select ok(public.is_safe_https_url('HTTPS://www.ebay.com/itm/1'), 'is_safe_https_url: scheme is case-insensitive');
+select ok(not public.is_safe_https_url('http://www.ebay.com/itm/1'), 'is_safe_https_url: http refused');
+select ok(not public.is_safe_https_url('javascript://www.ebay.com/%0aalert(1)'), 'is_safe_https_url: javascript refused');
+select ok(public.is_site_path('/item/lucky-kitty.html'), 'is_site_path: a site path');
+select ok(not public.is_site_path('//evil.example/x'), 'is_site_path: protocol-relative refused');
+select ok(not public.is_site_path('/\evil.example'), 'is_site_path: backslash refused');
+select ok(not public.is_site_path('/' || repeat('a', 500)), 'is_site_path: length cap');
 select throws_ok(format($$ insert into public.comp_submissions (user_id, item_slug, sold_price, listing_url)
   values (%L, 'rls-test-bear', 1, 'javascript:alert(1)') $$, tests.uid('other')),
   '23514', null, 'CHECK constraint: even a privileged insert cannot store javascript:');

@@ -15,18 +15,21 @@
 -- unaffected. A captcha (Turnstile) is the next step if that is ever abused.
 -- ===========================================================================
 
+-- The scheme is matched case-insensitively (~*): browsers treat HTTPS:// as
+-- https://, and the page accepts it.
 create or replace function public.is_safe_https_url(p text)
 returns boolean language sql immutable parallel safe set search_path = public as $$
   select p is not null
      and char_length(p) <= 500
-     and p ~ '^https://[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)+(?::[0-9]{1,5})?(?:[/?#][^[:space:][:cntrl:]"''<>\\`]*)?$';
+     and p ~* '^https://[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)+(?::[0-9]{1,5})?(?:[/?#][^[:space:][:cntrl:]"''<>\\`]*)?$';
 $$;
 
 -- A path on this site (what the report form sends: location.pathname).
 -- Postgres caps a regex repetition count at 255, so length is checked apart.
 create or replace function public.is_site_path(p text)
 returns boolean language sql immutable parallel safe set search_path = public as $$
-  select p is not null and char_length(p) <= 500 and p ~ '^/[A-Za-z0-9._~/%-]*$';
+  select p is not null and char_length(p) <= 500 and p ~ '^/[A-Za-z0-9._~/%-]*$'
+     and p !~ '^//';   -- '//host' is protocol-relative: another site, not a path
 $$;
 
 -- Clean existing rows so the constraints can be validated, not just NOT VALID.
