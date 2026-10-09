@@ -357,3 +357,85 @@ test('end to end: the real fetcher with a fake network verifies a signed POST', 
   assert.strictEqual((await post(handler, BODY, sigHeader(BODY))).statusCode, 204);
   assert.strictEqual(f.calls.filter((c) => c.url.includes('/public_key/')).length, 1);
 });
+
+test('a streamed body over 64 KB is a 413 and nothing is verified', async () => {
+  const { Readable } = require('stream');
+  let fetched = 0;
+  const { handler } = setup({ keyFetcher: async () => { fetched++; return EBAY_KEY; } });
+  const big = Buffer.alloc(40 * 1024, 'a');
+  const req = Readable.from([big, big]);
+  req.method = 'POST';
+  req.headers = { 'x-ebay-signature': sigHeader(BODY) };
+  const res = mockRes();
+  await handler(req, res);
+  assert.strictEqual(res.statusCode, 413);
+  assert.strictEqual(fetched, 0);
+});
+
+test('an RSA key labelled ECDSA is refused', async () => {
+  const rsa = crypto.generateKeyPairSync('rsa', { modulusLength: 2048 });
+  const pem = rsa.publicKey.export({ type: 'spki', format: 'pem' });
+  const { handler } = setup({ keyFetcher: async () => ({ key: pem, algorithm: 'ECDSA', digest: 'SHA1' }) });
+  const res = await post(handler, BODY, sigHeader(BODY));
+  assert.strictEqual(res.statusCode, 412);
+});
+
+test('the key fetcher drops a rejected app token and retries once', async () => {
+  const calls = [];
+  let tokenN = 0;
+  const impl = async (url, init) => {
+    calls.push({ url, init });
+    if (url.includes('/oauth2/token')) {
+      tokenN++;
+      return { ok: true, status: 200, json: async () => ({ access_token: 'tok-' + tokenN, expires_in: 7200 }) };
+    }
+    if (init.headers.authorization === 'Bearer tok-1') return { ok: false, status: 401, json: async () => ({}) };
+    return { ok: true, status: 200, json: async () => EBAY_KEY };
+  };
+  const fetchKey = createEbayKeyFetcher({ clientId: 'id', clientSecret: 's', fetchImpl: impl });
+  assert.deepStrictEqual(await fetchKey(KID), EBAY_KEY);
+  assert.strictEqual(tokenN, 2, 'a fresh token after the 401');
+  const keyCalls = calls.filter((c) => c.url.includes('/public_key/'));
+  assert.deepStrictEqual(keyCalls.map((c) => c.init.headers.authorization), ['Bearer tok-1', 'Bearer tok-2']);
+
+  // A second refusal is not retried forever: one retry, then unavailable.
+  const always403 = createEbayKeyFetcher({ clientId: 'id', clientSecret: 's', fetchImpl: async (url) =>
+    url.includes('/oauth2/token')
+      ? { ok: true, status: 200, json: async () => ({ access_token: 't', expires_in: 7200 }) }
+      : { ok: false, status: 403, json: async () => ({}) } });
+  await assert.rejects(always403(KID), (e) => e.code === 'unavailable');
+});
+
+test('an unknown kid is remembered for a while, then asked again', async () => {
+  let t = 1000000;
+  const f = fakeFetch({ keyStatus: 404 });
+  const fetchKey = createEbayKeyFetcher({ clientId: 'id', clientSecret: 's', fetchImpl: f.impl,
+    unknownTtlMs: 600000, now: () => t });
+  const keyCalls = () => f.calls.filter((c) => c.url.includes('/public_key/')).length;
+  await assert.rejects(fetchKey('made-up'), (e) => e.code === 'unknown_key');
+  await assert.rejects(fetchKey('made-up'), (e) => e.code === 'unknown_key');
+  assert.strictEqual(keyCalls(), 1, 'the miss is cached');
+  t += 600001;
+  await assert.rejects(fetchKey('made-up'), (e) => e.code === 'unknown_key');
+  assert.strictEqual(keyCalls(), 2, 'and expires');
+});
+
+test('the key cache never holds more than 50 entries, misses included', async () => {
+  const f = fakeFetch({ keyStatus: 404 });
+  const fetchKey = createEbayKeyFetcher({ clientId: 'id', clientSecret: 's', fetchImpl: f.impl });
+  for (let i = 0; i < 60; i++) await assert.rejects(fetchKey('kid-' + i));
+  const keyCalls = () => f.calls.filter((c) => c.url.includes('/public_key/')).length;
+  assert.strictEqual(keyCalls(), 60);
+  await assert.rejects(fetchKey('kid-59'));          // still cached
+  assert.strictEqual(keyCalls(), 60);
+  await assert.rejects(fetchKey('kid-0'));           // evicted, asked again
+  assert.strictEqual(keyCalls(), 61);
+});
+
+test('concurrent requests for the same kid share one fetch', async () => {
+  const f = fakeFetch();
+  const fetchKey = createEbayKeyFetcher({ clientId: 'id', clientSecret: 's', fetchImpl: f.impl });
+  const results = await Promise.all([fetchKey(KID), fetchKey(KID), fetchKey(KID)]);
+  results.forEach((r) => assert.deepStrictEqual(r, EBAY_KEY));
+  assert.strictEqual(f.calls.filter((c) => c.url.includes('/public_key/')).length, 1);
+});

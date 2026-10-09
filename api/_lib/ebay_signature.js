@@ -53,10 +53,13 @@ function verifyNotification({ rawBody, header, publicKey }) {
     if (String(header.alg).toUpperCase() !== 'ECDSA') return false;
     if (String(header.digest).toUpperCase() !== 'SHA1') return false;
     const body = Buffer.isBuffer(rawBody) ? rawBody : Buffer.from(String(rawBody), 'utf8');
+    // An ECDSA claim must come with an EC key, whatever the metadata says.
+    const key = crypto.createPublicKey(normalisePem(publicKey.key));
+    if (key.asymmetricKeyType !== 'ec') return false;
     return crypto.verify(
       'sha1',
       body,
-      { key: normalisePem(publicKey.key), dsaEncoding: 'der' },
+      { key, dsaEncoding: 'der' },
       Buffer.from(header.signature, 'base64'),
     );
   } catch (e) {

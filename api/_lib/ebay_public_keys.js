@@ -21,10 +21,12 @@ function fail(code, message) {
 }
 
 function createEbayKeyFetcher({
-  clientId, clientSecret, fetchImpl = (...a) => fetch(...a), ttlMs = 3600000, now = Date.now,
+  clientId, clientSecret, fetchImpl = (...a) => fetch(...a), ttlMs = 3600000,
+  unknownTtlMs = 600000, now = Date.now,
 }) {
   let token = null; // {value, expiresAt}
-  const keys = new Map(); // kid -> {value, expiresAt}
+  const keys = new Map(); // kid -> {value, expiresAt} | {missing: true, expiresAt}, at most MAX_KEYS
+  const inflight = new Map(); // kid -> Promise
 
   async function appToken() {
     if (token && token.expiresAt > now()) return token.value;
@@ -50,27 +52,53 @@ function createEbayKeyFetcher({
     return token.value;
   }
 
-  return async function fetchKey(kid) {
-    const hit = keys.get(kid);
-    if (hit && hit.expiresAt > now()) return hit.value;
-    const bearer = await appToken();
-    let res;
+  async function requestKey(kid, bearer) {
     try {
-      res = await fetchImpl(KEY_URL + encodeURIComponent(kid), {
+      return await fetchImpl(KEY_URL + encodeURIComponent(kid), {
         headers: { authorization: 'Bearer ' + bearer, accept: 'application/json' },
       });
     } catch (e) {
       throw fail('unavailable', 'key request failed');
     }
-    if (res.status === 404) throw fail('unknown_key');
+  }
+
+  function remember(kid, entry) {
+    if (keys.size >= MAX_KEYS && !keys.has(kid)) keys.delete(keys.keys().next().value);
+    keys.set(kid, entry);
+  }
+
+  async function load(kid) {
+    let res = await requestKey(kid, await appToken());
+    if (res.status === 401 || res.status === 403) {
+      // The cached app token was revoked or expired early: drop it, retry once.
+      token = null;
+      res = await requestKey(kid, await appToken());
+    }
+    if (res.status === 404) {
+      // Remember the miss briefly, so a flood of messages naming a made-up
+      // kid cannot turn into a flood of eBay API calls.
+      remember(kid, { missing: true, expiresAt: now() + unknownTtlMs });
+      throw fail('unknown_key');
+    }
     if (!res.ok) throw fail('unavailable', 'key request returned ' + res.status);
     let data;
     try { data = await res.json(); } catch (e) { throw fail('unavailable', 'key response unreadable'); }
     if (!data || typeof data.key !== 'string') throw fail('unavailable', 'key response malformed');
     const value = { key: data.key, algorithm: data.algorithm, digest: data.digest };
-    if (keys.size >= MAX_KEYS && !keys.has(kid)) keys.delete(keys.keys().next().value);
-    keys.set(kid, { value, expiresAt: now() + ttlMs });
+    remember(kid, { value, expiresAt: now() + ttlMs });
     return value;
+  }
+
+  return function fetchKey(kid) {
+    const hit = keys.get(kid);
+    if (hit && hit.expiresAt > now()) {
+      return hit.missing ? Promise.reject(fail('unknown_key')) : Promise.resolve(hit.value);
+    }
+    // Concurrent requests for the same kid share one fetch.
+    if (inflight.has(kid)) return inflight.get(kid);
+    const p = load(kid).finally(() => inflight.delete(kid));
+    inflight.set(kid, p);
+    return p;
   };
 }
 
