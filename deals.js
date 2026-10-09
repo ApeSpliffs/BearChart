@@ -130,8 +130,7 @@
       deals.map(function (d) {
         var title = BC.esc(d.listing.title || d.item_name);
         if (d.listing.source_url) {
-          title = '<a href="' + BC.esc(BC.affiliate(d.listing.source_url)) +
-            '" target="_blank" rel="noopener">' + title + '</a>';
+          title = BC.affiliateLink(d.listing.source_url, title);
         }
         return '<tr>' +
           '<td data-label="Listing"><div class="deal-title">' + title + '</div>' +

@@ -227,6 +227,10 @@
     var url = $('p-url').value.trim();
     if (!$('p-item').value) { msg.textContent = 'Pick an item.'; return; }
     if (!url) { msg.textContent = 'Enter an image URL.'; return; }
+    if (!BC.safeUrl(url, { allowRelative: true, schemes: ['https:'] })) {
+      msg.textContent = 'Use an https:// image address.';
+      return;
+    }
 
     // Section 34 applies to pictures as much as to prices: use imagery you have
     // the right to use. Official product photography is not that.
@@ -453,8 +457,7 @@
 
   function renderSources() {
     $('sources').innerHTML = '<dl class="kv">' + D.sources.map(function (s) {
-      return '<dt><a href="' + BC.esc(s.url) + '" target="_blank" rel="noopener">' +
-             BC.esc(s.name) + '</a></dt><dd>' + BC.esc(s.role) + '</dd>';
+      return '<dt>' + BC.extLink(s.url, BC.esc(s.name)) + '</dt><dd>' + BC.esc(s.role) + '</dd>';
     }).join('') + '</dl>';
   }
 
@@ -504,11 +507,23 @@
   function setStatus(table, id, status) {
     var c = supa();
     if (!c) return;
-    var patch = { status: status, reviewed_at: new Date().toISOString() };
+    // Status only: a database trigger stamps reviewed_by/reviewed_at, so the
+    // audit trail cannot be forged from the browser.
+    var patch = { status: status };
     c.from(table).update(patch).eq('id', id).then(function (res) {
       if (res && res.error) { window.alert(res.error.message); return; }
       loadQueue();
     });
+  }
+
+  // A member-supplied link is only ever an https:// href; anything else is
+  // shown as inert text (or the listing id, when that is all there is).
+  function listingCell(s) {
+    var opts = { schemes: ['https:'] };
+    if (BC.safeUrl(s.listing_url, opts)) return BC.extLink(s.listing_url, 'listing', opts);
+    return s.listing_id
+      ? '<span class="fine">' + BC.esc(s.listing_id) + '</span>'
+      : '<span class="fine">none</span>';
   }
 
   function compRow(s) {
@@ -521,9 +536,7 @@
       '<td class="num">' + BC.esc(BC.exact(s.sold_price)) + '</td>' +
       '<td>' + BC.esc(s.sale_date || 'undated') + '</td>' +
       '<td>' + BC.esc(s.marketplace || '-') + '</td>' +
-      '<td>' + (s.listing_url
-        ? '<a href="' + BC.esc(s.listing_url) + '" target="_blank" rel="noopener">listing</a>'
-        : '<span class="fine">none</span>') + '</td>' +
+      '<td>' + listingCell(s) + '</td>' +
       '<td><span class="tag">' + BC.esc(s.status) + '</span></td>' +
       '<td>' + (pending
         ? '<button type="button" data-accept="' + BC.esc(s.id) + '">Accept</button> ' +
@@ -531,6 +544,9 @@
         : '<span class="fine">reviewed</span>') + '</td>' +
       '</tr>';
   }
+
+  // Exposed for tests only (tools/test_pages.js renders rows with hostile input).
+  window.__adminTest = { compRow: compRow };
 
   function reportRow(r) {
     var item = BC.itemById(r.item_slug);
@@ -595,17 +611,14 @@
       if (!rows.length) { window.alert('No accepted submissions to export.'); return; }
       var head = ['item_name', 'sold_price', 'sale_date', 'marketplace',
                   'listing_id', 'condition', 'completeness', 'evidence_type', 'source_url'];
-      var csv = [head.join(',')].concat(rows.map(function (s) {
+      // BC.toCsv neutralises formula cells (=, +, -, @): member text is untrusted.
+      var csv = BC.toCsv([head].concat(rows.map(function (s) {
         var item = BC.itemById(s.item_slug);
         return [item ? item.canonical_name : s.item_slug, s.sold_price, s.sale_date || '',
                 s.marketplace || '', s.listing_id || '', s.condition || '',
                 s.completeness || '', s.claimed_type || 'collector_report',
-                s.listing_url || ''
-        ].map(function (v) {
-          v = String(v == null ? '' : v);
-          return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
-        }).join(',');
-      })).join('\r\n');
+                s.listing_url || ''];
+      })));
       BC.download('bearchart-submissions-' + BC.stamp() + '.csv', csv);
     });
   }
@@ -665,9 +678,10 @@
     }
     el.innerHTML = '<div class="photo-review">' + photoQueue.rows.map(function (r) {
       var item = BC.itemById(r.item_slug);
+      var preview = BC.safeUrl(r.preview, { schemes: ['https:', 'blob:'] });
       return '<div class="photo-card">' +
-        (r.preview
-          ? '<img src="' + BC.esc(r.preview) + '" alt="Photo submitted for ' +
+        (preview
+          ? '<img src="' + BC.esc(preview) + '" alt="Photo submitted for ' +
             BC.esc(item ? item.canonical_name : r.item_slug) + '">'
           : '<div class="empty"><p>No preview</p></div>') +
         '<p><strong>' + (item
@@ -688,8 +702,14 @@
     return c.storage.from('photo-submissions').download(row.storage_path)
       .then(function (res) {
         if (res.error) throw res.error;
+        // Never copy the uploaded bytes as-is into the PUBLIC bucket: sniff and
+        // re-encode through a canvas, so bear-photos only ever holds JPEGs this
+        // page produced (no smuggled payloads, no EXIF/GPS).
+        return window.BearChartSubmissions.shrinkPhoto(res.data, 1400, 0.9);
+      })
+      .then(function (clean) {
         return c.storage.from('bear-photos')
-          .upload(target, res.data, { contentType: 'image/jpeg', upsert: true });
+          .upload(target, clean, { contentType: 'image/jpeg', upsert: true });
       })
       .then(function (res) {
         if (res.error) throw res.error;
@@ -705,8 +725,9 @@
       })
       .then(function (res) {
         if (res.error) throw res.error;
+        // The database stamps reviewed_by/reviewed_at.
         return c.from('photo_submissions')
-          .update({ status: 'approved', reviewed_at: new Date().toISOString() })
+          .update({ status: 'approved' })
           .eq('id', row.id);
       })
       .then(function (res) { if (res && res.error) throw res.error; });
@@ -715,7 +736,7 @@
   function rejectPhoto(row) {
     var c = supa();
     return c.from('photo_submissions')
-      .update({ status: 'rejected', reviewed_at: new Date().toISOString() })
+      .update({ status: 'rejected' })   // reviewer stamped by the database
       .eq('id', row.id)
       .then(function (res) {
         if (res.error) throw res.error;

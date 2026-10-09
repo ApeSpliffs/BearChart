@@ -41,6 +41,23 @@ def write_csv(rows, header):
     return path
 
 
+class CsvRoundTripTests(unittest.TestCase):
+    """BearChart's own CSV exports guard formula cells with a leading quote
+    (sanitize.js csvCell); importing one of those files gives the text back."""
+
+    def test_guarded_cells_are_restored(self):
+        self.assertEqual(imp.unneutralise("'=1+1"), "=1+1")
+        self.assertEqual(imp.unneutralise("'@SUM(A1)"), "@SUM(A1)")
+        self.assertEqual(imp.unneutralise("'-cmd"), "-cmd")
+        self.assertEqual(imp.unneutralise("'+x"), "+x")
+
+    def test_ordinary_text_is_untouched(self):
+        self.assertEqual(imp.unneutralise("'tis the season"), "'tis the season")
+        self.assertEqual(imp.unneutralise("'"), "'")
+        self.assertEqual(imp.unneutralise("-12.50"), "-12.50")
+        self.assertIsNone(imp.unneutralise(None))
+
+
 class ParsingTests(unittest.TestCase):
     def test_price_parsing_strips_currency_and_commas(self):
         self.assertEqual(imp.parse_price("$1,234.56"), 1234.56)

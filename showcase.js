@@ -40,12 +40,23 @@
     return (bears || []).filter(function (id) { return BC.itemById(id); });
   }
 
-  // Short-lived links for members' own photos (the bucket is private).
+  // <member uuid>/<generated name>.jpg - the only shape this page uploads and
+  // the only shape the storage policy accepts. Anything else is not signed.
+  function isShowcasePhotoPath(p) {
+    return typeof p === 'string' && /^[0-9a-f-]{36}\/[a-z0-9]{8,40}\.jpg$/.test(p);
+  }
+  window.BearChartShowcase = { isShowcasePhotoPath: isShowcasePhotoPath };
+
+  // Short-lived links for members' photos (the bucket is private). Storage
+  // signs only what the read policy allows: your own photos, or photos on a
+  // public, unhidden showcase of the photo's owner. For anything else (a
+  // private or hidden showcase) no signedUrl comes back, which is normal - the
+  // tile falls back to the catalogue picture.
   function signPhotos(paths) {
     var c = client();
-    var need = paths.filter(function (p) { return p && !photoUrls[p]; });
+    var need = paths.filter(function (p) { return isShowcasePhotoPath(p) && !photoUrls[p]; });
     if (!c || !need.length) return Promise.resolve();
-    return c.storage.from(BUCKET).createSignedUrls(need, 3600).then(function (r) {
+    return c.storage.from(BUCKET).createSignedUrls(need, 900).then(function (r) {
       (r && r.data || []).forEach(function (x) { if (x && x.signedUrl) photoUrls[x.path] = x.signedUrl; });
     }).catch(function () { /* fall back to catalogue pictures */ });
   }
@@ -60,8 +71,9 @@
   function picture(id, details, cls) {
     var it = BC.itemById(id);
     var d = (details || {})[id] || {};
-    if (d.photo && photoUrls[d.photo]) {
-      return '<img class="' + (cls || 'thumb') + '" src="' + esc(photoUrls[d.photo]) +
+    var src = d.photo ? BC.safeUrl(photoUrls[d.photo], { schemes: ['https:'] }) : '';
+    if (src) {
+      return '<img class="' + (cls || 'thumb') + '" src="' + esc(src) +
         '" alt="' + esc(it.canonical_name) + ' - member photo" loading="lazy">';
     }
     return BC.imageHtml(it, cls || 'thumb');

@@ -258,6 +258,18 @@ class Matcher:
         return None, "ambiguous" if runner else "weak-match", best_score
 
 
+def unneutralise(v):
+    """Undo the CSV-injection guard BearChart's own exports add.
+
+    sanitize.js prefixes a cell starting with = + - @ tab or CR with a single
+    quote so a spreadsheet will not run it as a formula. Reading one of those
+    files back must give the original text, not the guarded one.
+    """
+    if isinstance(v, str) and len(v) > 1 and v[0] == "'" and v[1] in "=+-@\t\r":
+        return v[1:]
+    return v
+
+
 def load_json(path, default):
     if not os.path.exists(path):
         return default
@@ -301,7 +313,7 @@ def run(args):
     for n, row in enumerate(rows, start=2):
         rec = {}
         for header, field in mapping.items():
-            rec[field] = row.get(header)
+            rec[field] = unneutralise(row.get(header))
 
         price = parse_price(rec.get("sold_price"))
         if price is None:

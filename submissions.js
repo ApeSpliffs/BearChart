@@ -24,6 +24,10 @@
     ['other', 'Something else']
   ];
 
+  // sanitize.js loads first on every page; under Node tests it is require()d.
+  var S = root.BearChartSanitize ||
+    (typeof require === 'function' ? require('./sanitize.js') : null);
+
   function client() {
     var A = root.BearChartAuth;
     return A && A.configured() ? A.getClient() : null;
@@ -60,7 +64,25 @@
       return 'You already have a submission waiting for review on this item.';
     }
     if (/unknown item/i.test(msg)) return 'That item is not in the catalogue.';
-    return msg;
+    if (/https:\/\/ address/i.test(msg)) return 'That link must start with https://.';
+    if (/rate limit/i.test(msg)) return 'Too many submissions from here just now. Try again later.';
+    return msg;   // 'too long' / 'looks wrong' messages are already readable
+  }
+
+  /**
+   * The "Listing link or id" field: a full https:// link, or a bare listing
+   * number. Anything else (a javascript: URL, an http link, prose) is refused
+   * here and again by the database.
+   * @returns {{listing_url: string}|{listing_id: string}|{error: string}|{}}
+   */
+  function classifyListingRef(v) {
+    var s = String(v == null ? '' : v).trim();
+    if (!s) return {};
+    if (S.safeUrl(s, { schemes: ['https:'], maxLength: 500 })) return { listing_url: s };
+    if (/^[A-Za-z0-9._:\/-]{1,64}$/.test(s) && !/^[A-Za-z][A-Za-z0-9+.\-]*:/.test(s)) {
+      return { listing_id: s };
+    }
+    return { error: 'Paste the full https:// link, or just the listing number.' };
   }
 
   function call(fn, entry) {
@@ -98,13 +120,17 @@
     if (!entry.marketplace) {
       return Promise.resolve({ ok: false, message: 'Where did it sell?' });
     }
+    // The single form field may hold either a link or an id; an explicit
+    // listing_id from the caller still wins for the id.
+    var ref = classifyListingRef(entry.listing_url);
+    if (ref.error) return Promise.resolve({ ok: false, message: ref.error });
     return call('submit_comp', {
       item_slug: entry.item_slug,
       sold_price: price.toFixed(2),
       sale_date: entry.sale_date || '',
       marketplace: entry.marketplace,
-      listing_id: entry.listing_id || '',
-      listing_url: entry.listing_url || '',
+      listing_id: entry.listing_id || ref.listing_id || '',
+      listing_url: ref.listing_url || '',
       condition: entry.condition || '',
       completeness: entry.completeness || '',
       claimed_type: entry.claimed_type || 'collector_report',
@@ -122,7 +148,8 @@
       item_slug: entry.item_slug,
       reason: entry.reason,
       note: entry.note || '',
-      page_url: (root.location && root.location.href) || ''
+      // The path only, never href: a query string or hash can carry login codes.
+      page_url: (root.location && root.location.pathname) || ''
     });
   }
 
@@ -176,7 +203,7 @@
       (items || []).forEach(function (item) {
         var p = map[item.id];
         if (!p || (item.image_url && String(item.image_url).trim())) return;
-        if (!/^https:\/\//.test(p.image_url || '')) return;
+        if (!S.safeUrl(p.image_url, { schemes: ['https:'] })) return;
         item.image_url = p.image_url;
         item.image_credit = p.credit || PHOTO_CREDIT;
         item.image_source = null;
@@ -187,14 +214,51 @@
     });
   }
 
-  /** Shrink a phone photo before upload: smaller, faster, and EXIF-free. */
+  /** The first `n` bytes of a File/Blob as a Uint8Array. */
+  function headBytes(file, n) {
+    var part = file.slice(0, n);
+    if (typeof part.arrayBuffer === 'function') {
+      return part.arrayBuffer().then(function (b) { return new Uint8Array(b); });
+    }
+    return new Promise(function (resolve, reject) {   // older browsers / jsdom
+      var r = new FileReader();
+      r.onload = function () { resolve(new Uint8Array(r.result)); };
+      r.onerror = function () { reject(r.error); };
+      r.readAsArrayBuffer(part);
+    });
+  }
+
+  /**
+   * Shrink a phone photo before upload: smaller, faster, and EXIF-free.
+   *
+   * The declared file type is never trusted: the first bytes are sniffed, and
+   * the output is always a canvas re-encode, so whatever was uploaded only
+   * pixels survive (no metadata, GPS or smuggled payload).
+   */
   function shrinkPhoto(file, maxSide, quality) {
     var side = maxSide || PHOTO_MAX_SIDE;
-    return new Promise(function (resolve, reject) {
-      if (!file || !/^image\//.test(file.type || '')) {
-        reject(new Error('Choose a photo file (JPEG, PNG or WebP).'));
-        return;
+    if (!file || typeof file.slice !== 'function') {
+      return Promise.reject(new Error('Choose a photo file (JPEG, PNG or WebP).'));
+    }
+    return headBytes(file, 16).then(function (head) {
+      var kind = S.sniffImageType(head);
+      if (kind === 'heic') throw new Error('iPhone HEIC photos are not supported; share as JPEG.');
+      if (kind !== 'jpeg' && kind !== 'png' && kind !== 'webp') {
+        throw new Error('That file is not a photo.');
       }
+      return reencode(file, side, quality);
+    }).then(function (blob) {
+      return headBytes(blob, 3).then(function (b) {
+        if (b[0] !== 0xFF || b[1] !== 0xD8 || b[2] !== 0xFF) {
+          throw new Error('That photo could not be read. Try a JPEG or PNG.');
+        }
+        return blob;
+      });
+    });
+  }
+
+  function reencode(file, side, quality) {
+    return new Promise(function (resolve, reject) {
       var url = URL.createObjectURL(file);
       var img = new Image();
       img.onload = function () {
@@ -270,6 +334,7 @@
     signedIn: signedIn,
     submitComp: submitComp,
     reportItem: reportItem,
+    classifyListingRef: classifyListingRef,
     submitPhoto: submitPhoto,
     shrinkPhoto: shrinkPhoto,
     applyMemberPhotos: applyMemberPhotos,

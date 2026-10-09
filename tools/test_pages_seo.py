@@ -145,6 +145,30 @@ class PageShapeTests(unittest.TestCase):
         self.assertNotIn('onload="alert(1)', html)
         self.assertIn("&quot;", html)
 
+    def test_a_hostile_name_cannot_close_the_structured_data_block(self):
+        # Names arrive weekly from a wiki import. "</script>" inside the JSON-LD
+        # would end the block and run whatever follows as script.
+        nasty = dict(PRICED, canonical_name="</script><script>x()</script> & <!--")
+        html = page(nasty, VAL, SALES)
+        m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        self.assertIsNotNone(m)
+        block = m.group(1)
+        self.assertNotIn("<", block)
+        self.assertNotIn(">", block)
+        self.assertEqual(json.loads(block)["name"], "</script><script>x()</script> & <!--")
+        self.assertNotIn("<script>x()", html)
+
+    def test_no_inline_executable_script(self):
+        # The CSP (vercel.json) allows no inline script; JSON-LD is data, not code.
+        html = page(PRICED, VAL, SALES)
+        for attrs in re.findall(r"<script\b([^>]*)>", html):
+            self.assertTrue("src=" in attrs or 'type="application/ld+json"' in attrs, attrs)
+        self.assertIsNone(re.search(r"\son[a-z]+\s*=", html))
+
+    def test_sanitize_loads_before_auth(self):
+        html = page(PRICED, VAL, SALES)
+        self.assertLess(html.index('src="../sanitize.js"'), html.index('src="../auth.js"'))
+
 
 SHOP = {"enabled": True, "name": "Jay's Retro Exchange",
         "shop_url": "https://jaysretroexchange.com",

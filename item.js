@@ -114,12 +114,18 @@
   function sellPanel() {
     if (!BC.businessEnabled() || !v.has_value) return '';
     var b = BC.business;
-    var contact = b.contact_url
-      ? '<a class="btn btn-primary" href="' + BC.esc(b.contact_url) +
-        '" target="_blank" rel="noopener">Get an offer</a>'
-      : '<a class="btn btn-primary" href="mailto:' + BC.esc(b.contact_email) +
+    var contact = '';
+    if (b.contact_url) {
+      // An unsafe contact_url renders no button at all, not bare text.
+      if (BC.safeUrl(b.contact_url, { schemes: ['https:'] })) {
+        contact = BC.extLink(b.contact_url, 'Get an offer',
+          { className: 'btn btn-primary', schemes: ['https:'] });
+      }
+    } else if (/^[^\s@<>"']+@[^\s@<>"']+$/.test(b.contact_email || '')) {
+      contact = '<a class="btn btn-primary" href="mailto:' + BC.esc(b.contact_email) +
         '?subject=' + encodeURIComponent('Selling: ' + item.canonical_name) +
         '">Get an offer</a>';
+    }
 
     return '<div class="panel">' +
       '<h2>Sell yours to ' + BC.esc(b.name) + '</h2>' +
@@ -299,8 +305,8 @@
         'ships, early sales will be pre-orders and scalped copies - hype, not a settled ' +
         'market. Wait for the price to calm down before trusting it.</div>' +
         (item.announcement_source
-          ? '<p class="fine" style="margin-top:12px">Announcement: <a href="' +
-            BC.esc(item.announcement_source) + '" target="_blank" rel="noopener">source</a>' +
+          ? '<p class="fine" style="margin-top:12px">Announcement: ' +
+            BC.extLink(item.announcement_source, 'source') +
             (item.expected_release ? ' &middot; expected ' + BC.esc(item.expected_release) : '') +
             '</p>'
           : '') +
@@ -313,9 +319,8 @@
         'before paying a premium &mdash; unless it is an exclusive that is already ' +
         'selling out.</div>' +
         (item.announcement_source
-          ? '<p class="fine" style="margin-top:12px"><a href="' +
-            BC.esc(item.announcement_source) + '" target="_blank" rel="noopener">' +
-            'Announcement source</a></p>'
+          ? '<p class="fine" style="margin-top:12px">' +
+            BC.extLink(item.announcement_source, 'Announcement source') + '</p>'
           : '') +
         '</div>';
     }
@@ -374,8 +379,7 @@
           : BC.exact(s.sold_price);
         var mkt = s.marketplace || '&mdash;';
         if (s.source_url) {
-          mkt = '<a href="' + BC.esc(BC.affiliate(s.source_url)) +
-                '" target="_blank" rel="noopener">' + mkt + '</a>';
+          mkt = BC.affiliateLink(s.source_url, mkt);
         }
         var notes = [];
         if (s.first_party) {
@@ -501,8 +505,7 @@
       listings.slice(0, 25).map(function (l) {
         var title = BC.esc(l.title || '');
         if (l.source_url) {
-          title = '<a href="' + BC.esc(BC.affiliate(l.source_url)) +
-                  '" target="_blank" rel="noopener">' + title + '</a>';
+          title = BC.affiliateLink(l.source_url, title);
         }
         return '<tr><td class="num price">' + BC.exact(l.ask_price) + '</td><td>' + title +
                '</td><td>' + BC.esc(l.condition || 'Unknown') + '</td></tr>';

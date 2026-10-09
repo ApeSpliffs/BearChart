@@ -50,7 +50,8 @@ FONTS = (
 
 # config.js and observability.js come first so an error in any later script
 # can be reported (observability.js is inert without a DSN).
-SCRIPTS = ["config.js", "observability.js", "data.js", "engine.js", "icons.js",
+# sanitize.js (URL/CSV/escape helpers) must precede auth.js and common.js.
+SCRIPTS = ["config.js", "observability.js", "sanitize.js", "data.js", "engine.js", "icons.js",
            "auth.js", "entitlements.js", "submissions.js", "common.js", "item.js"]
 
 # Pages that are not items but still belong in the sitemap.
@@ -124,7 +125,11 @@ def json_ld(item, val, url):
     if item.get("image_url"):
         node["image"] = item["image_url"]
     node = {k: v for k, v in node.items() if v}
-    return json.dumps(node, indent=1)
+    # Catalogue names come from a weekly wiki import. Escape the characters that
+    # could close the <script> block or open a comment: JSON still parses
+    # identically, but "</script>" can no longer appear inside it.
+    return (json.dumps(node, indent=1)
+            .replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026"))
 
 
 def facts_list(item):

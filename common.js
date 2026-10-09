@@ -4,6 +4,8 @@
 
   var DATA = root.BEARCHART_DATA;
   if (!DATA) throw new Error('BearChart: data.js did not load.');
+  var S = root.BearChartSanitize;
+  if (!S) throw new Error('BearChart: sanitize.js did not load.');
 
   var CFG = DATA.config;
   var E = root.BearChartEngine;
@@ -302,11 +304,7 @@
     }).join('') + '</div>';
   }
 
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  }
+  var esc = S.esc;
 
   /**
    * Where "here" is, relative to the site root.
@@ -342,6 +340,16 @@
            encodeURIComponent(BUSINESS.ebay_campaign_id) + '&toolid=10001';
   }
 
+  /**
+   * An outbound marketplace link, affiliate-tagged when a campaign is set, and
+   * then marked rel="sponsored" as search engines require. Unsafe URLs render
+   * as plain text.
+   */
+  function affiliateLink(url, innerHtml) {
+    var tagged = affiliate(url);
+    return S.extLink(tagged, innerHtml, { sponsored: tagged !== url });
+  }
+
   function businessEnabled() {
     return !!(BUSINESS.enabled && (BUSINESS.contact_email || BUSINESS.contact_url));
   }
@@ -368,9 +376,10 @@
       '<p class="promo-eyebrow">' + esc(b.shop_eyebrow || b.name) + '</p>' +
       '<h3 class="promo-title">' + esc(b.shop_headline || b.name) + '</h3>' +
       '<p class="promo-blurb">' + esc(b.shop_blurb || '') + '</p>' +
-      '<p class="promo-act"><a class="btn btn-primary" href="' + esc(b.shop_url) +
-      '" target="_blank" rel="noopener">' + esc(b.shop_cta || 'Visit the shop') +
-      '</a></p>' +
+      '<p class="promo-act">' +
+      S.extLink(b.shop_url, esc(b.shop_cta || 'Visit the shop'),
+        { className: 'btn btn-primary', schemes: ['https:'] }) +
+      '</p>' +
       (b.shop_disclosure
         ? '<p class="promo-note">' + esc(b.shop_disclosure) + '</p>'
         : '') +
@@ -470,7 +479,7 @@
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
 
-  function hasImage(item) { return !!(item.image_url && String(item.image_url).trim()); }
+  function hasImage(item) { return !!S.safeUrl(item.image_url, { allowRelative: true }); }
 
   /**
    * Markup for an item's picture. A real photo that fails to load falls back to
@@ -482,10 +491,25 @@
       return '<img class="' + (cls || 'thumb') + ' is-placeholder" src="' + placeholder +
              '" alt="" aria-hidden="true" loading="lazy">';
     }
-    return '<img class="' + (cls || 'thumb') + '" src="' + esc(item.image_url) +
+    // No inline onerror (the CSP forbids inline handlers): the fallback rides
+    // in data-fallback and one capture-phase listener below swaps it in.
+    return '<img class="' + (cls || 'thumb') + '" src="' +
+           esc(S.safeUrl(item.image_url, { allowRelative: true })) +
            '" alt="' + esc(item.canonical_name) + '" loading="lazy" ' +
-           'onerror="this.onerror=null;this.src=\'' + placeholder +
-           '\';this.classList.add(\'is-placeholder\');this.alt=\'\';">';
+           'data-fallback="' + esc(placeholder) + '">';
+  }
+
+  // A real photo that fails to load falls back to its monogram. Error events
+  // do not bubble, so listen in the capture phase - once, for every <img>.
+  if (typeof document !== 'undefined' && document.addEventListener) {
+    document.addEventListener('error', function (e) {
+      var t = e.target;
+      if (t && t.tagName === 'IMG' && t.dataset && t.dataset.fallback) {
+        var f = t.dataset.fallback;
+        delete t.dataset.fallback;
+        t.src = f; t.classList.add('is-placeholder'); t.alt = '';
+      }
+    }, true);
   }
 
   /** Credit line for a photo, so image provenance is recorded like sale provenance. */
@@ -494,7 +518,7 @@
     var bits = [];
     if (item.image_credit) bits.push(esc(item.image_credit));
     if (item.image_source) {
-      bits.push('<a href="' + esc(item.image_source) + '" target="_blank" rel="noopener">source</a>');
+      bits.push(S.extLink(item.image_source, 'source'));
     }
     return bits.length ? '<p class="fine img-credit">Photo: ' + bits.join(' &middot; ') + '</p>' : '';
   }
@@ -515,15 +539,8 @@
 
   // --- CSV -----------------------------------------------------------------
 
-  function csvCell(v) {
-    if (v == null) return '';
-    var s = String(v);
-    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
-  }
-
-  function toCsv(rows) {
-    return rows.map(function (r) { return r.map(csvCell).join(','); }).join('\r\n') + '\r\n';
-  }
+  // csvCell/toCsv live in sanitize.js (formula-injection safe); every export uses them.
+  var toCsv = S.toCsv;
 
   function download(filename, text, mime) {
     var blob = new Blob([text], { type: (mime || 'text/csv') + ';charset=utf-8' });
@@ -1014,8 +1031,7 @@
         'publishes no price.</p>' +
         '<p>Built as a collector and reseller research tool for ' +
         (shopEnabled()
-          ? '<a href="' + esc(BUSINESS.shop_url) + '" target="_blank" rel="noopener">' +
-            esc(BUSINESS.name) + '</a>'
+          ? S.extLink(BUSINESS.shop_url, esc(BUSINESS.name))
           : esc(BUSINESS.name)) + '.</p>' +
         '<p class="fine legal-links"><a href="' + rel('privacy.html') + '">Privacy</a>' +
         '<a href="' + rel('terms.html') + '">Terms</a>' +
@@ -1059,10 +1075,12 @@
     money: money, exact: exact, range: range, confClass: confClass, era: era, isVintage: isVintage,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,
-    business: BUSINESS, affiliate: affiliate, businessEnabled: businessEnabled,
+    business: BUSINESS, affiliate: affiliate, affiliateLink: affiliateLink, businessEnabled: businessEnabled,
     shopEnabled: shopEnabled, shopPromo: shopPromo,
     hasImage: hasImage, imageHtml: imageHtml, imageCredit: imageCredit,
     placeholderImage: placeholderImage,
+    safeUrl: S.safeUrl, extLink: S.extLink, safeRedirect: S.safeRedirect,
+    csvCell: S.csvCell, scrubUrl: S.scrubUrl,
     toCsv: toCsv, download: download, itemsCsv: itemsCsv, salesCsv: salesCsv,
     r2: r2, stamp: stamp, renderChrome: renderChrome, wishlist: wishlist, cloud: cloud
   };
@@ -1086,6 +1104,7 @@
   // Per-deploy settings from config.js: previews stay off unless opted in.
   var rt = window.BEARCHART_RUNTIME || {};
   if (rt.posthog_enabled === false) return;
+  var S = window.BearChartSanitize;
 
   var KEY = rt.posthog_key || 'phc_xYXLmfqEVM324GUuzn474TPp8fGd7N65yRvbToCNZCMt';
   !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -1096,7 +1115,12 @@
     respect_dnt: true,
     disable_session_recording: true,
     capture_pageview: true,
-    capture_pageleave: true
+    capture_pageleave: true,
+    // Login links carry one-time codes; never let them reach analytics.
+    mask_personal_data_properties: true,
+    custom_personal_data_properties: S ? S.SENSITIVE_URL_PARAMS : [],
+    before_send: S ? S.scrubEvent : undefined,                                  // posthog-js >= 1.187
+    sanitize_properties: function (p) { return S ? S.scrubProps(p) : p; }       // older builds
   });
   // The same PostHog project also hears from other sites; tag every event.
   window.posthog.register({ site: 'bearchart', env: rt.env || 'production' });
