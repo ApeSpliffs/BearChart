@@ -225514,13 +225514,15 @@ select i.id, '2025-09-11', 48.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.listing_id is not distinct from '406193377050'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Hello Kitty Build A Bear Pink Flower Original Tropical Sunkissed BAB');
 
-insert into valuation_config (key, value) values ('condition_multipliers', '{"NWT": 1.25, "Mint": 1.25, "Excellent": 1.1, "Good": 1.0, "Fair": 0.75, "Poor": 0.5, "Damaged": 0.35, "Incomplete": 0.6, "Unknown": 1.0}'::jsonb)
+insert into valuation_config (key, value) values ('condition_multipliers', '{"NWT": 1.25, "NWOT": 1.15, "Mint": 1.15, "Excellent": 1.1, "Good": 1.0, "Fair": 0.75, "Poor": 0.5, "Damaged": 0.35, "Incomplete": 0.6, "Unknown": 1.0}'::jsonb)
+on conflict (key) do update set value = excluded.value, updated_at = now();
+insert into valuation_config (key, value) values ('condition_labels', '{"NWT": "New with tags", "NWOT": "New without tags", "Mint": "Mint / like new, used", "Excellent": "Excellent", "Good": "Good", "Fair": "Fair", "Poor": "Poor", "Damaged": "Damaged", "Incomplete": "Incomplete", "Unknown": "Unknown"}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('completeness_multipliers', '{"complete": 1.15, "packaged": 1.15, "some_originals": 1.05, "bare": 1.0, "unstuffed": 1.0, "altered": 0.85, "unknown": 1.0}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('completeness_labels', '{"complete": "Complete - outfit + extras", "packaged": "With original packaging", "some_originals": "Some originals present", "bare": "Bare bear", "unstuffed": "Unstuffed", "altered": "Missing / altered", "unknown": "Not recorded"}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('modifiers', '{"multiplicative": {"birth_certificate": 1.15, "hang_tag": 1.1, "tush_tag_missing": 0.7, "unstuffed": 0.85, "customised": 0.8}, "additive_usd": {"sound_module": 7.0, "scent_chip": 6.0}, "labels": {"birth_certificate": "Birth certificate present", "hang_tag": "Hang tag attached", "tush_tag_missing": "Tush tag missing or cut", "unstuffed": "Unstuffed", "customised": "Customised or altered", "sound_module": "Sound module fitted", "scent_chip": "Scent chip fitted"}, "max_combined_multiplier": 1.45}'::jsonb)
+insert into valuation_config (key, value) values ('modifiers', '{"multiplicative": {"birth_certificate": 1.15, "hang_tag": 1.1, "tush_tag_missing": 0.7, "customised": 0.8}, "additive_usd": {"sound_module": 7.0, "scent_chip": 6.0}, "labels": {"birth_certificate": "Birth certificate present", "hang_tag": "Hang tag attached", "tush_tag_missing": "Tush tag missing or cut", "customised": "Customised or altered", "sound_module": "Sound module fitted", "scent_chip": "Scent chip fitted"}, "exclusive_with": {"hang_tag": ["NWT"]}, "max_combined_multiplier": 1.45}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('bands', '{"buy": [0.55, 0.7], "trade": [0.75, 0.9], "high_ask": [1.1, 1.3]}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
@@ -225532,11 +225534,17 @@ insert into valuation_config (key, value) values ('market_evidence_types', '["co
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('strong_evidence_types', '["completed_sale", "auction_result"]'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('condition_order', '["NWT", "Mint", "Excellent", "Good", "Fair", "Poor", "Damaged", "Incomplete", "Unknown"]'::jsonb)
+insert into valuation_config (key, value) values ('condition_order', '["NWT", "NWOT", "Mint", "Excellent", "Good", "Fair", "Poor", "Damaged", "Incomplete", "Unknown"]'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('bootstrap', '{"percentile": 0.25, "iterations": 2000, "single_comp_haircut": 0.75}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('reseller', '{"marketplace_fee_pct": 0.1325, "payment_fee_fixed": 0.3, "shipping_cost": 9.0, "min_net_margin": 15.0, "min_discount_pct": 20.0, "min_confidence": "LOW"}'::jsonb)
+insert into valuation_config (key, value) values ('reseller', '{"platform": "ebay", "shipping_cost": 9.0, "shipping_charged": 0.0, "assumed_inbound_shipping": 9.0, "min_net_margin": 15.0, "min_discount_pct": 20.0, "min_confidence": "LOW", "exclude_stale": true}'::jsonb)
+on conflict (key) do update set value = excluded.value, updated_at = now();
+insert into valuation_config (key, value) values ('fees', '{"as_of": "2026-10", "default_platform": "ebay", "platforms": {"ebay": {"label": "eBay", "pct": 0.136, "fixed_over": 0.4, "fixed_under": 0.3, "fixed_threshold": 10.0, "applies_to": "item_plus_shipping", "verify": "VERIFY on https://www.ebay.com/help/selling/fees-credits-invoices/selling-fees?id=4822 (category rate; eBay also charges on sales tax - approximated as item+shipping)"}, "mercari": {"label": "Mercari", "pct": 0.1, "fixed_over": 0, "fixed_under": 0, "fixed_threshold": 0, "applies_to": "item_plus_shipping", "verify": "VERIFY on Mercari fee page"}}}'::jsonb)
+on conflict (key) do update set value = excluded.value, updated_at = now();
+insert into valuation_config (key, value) values ('recency', '{"window_days": 365, "min_recent": 10}'::jsonb)
+on conflict (key) do update set value = excluded.value, updated_at = now();
+insert into valuation_config (key, value) values ('operator_cap', '0.25'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 
 commit;

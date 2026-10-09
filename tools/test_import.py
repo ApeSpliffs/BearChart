@@ -12,6 +12,7 @@ import csv
 import io
 import json
 import os
+import re
 import sys
 import tempfile
 import unittest
@@ -20,6 +21,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_sales as imp  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def schema_sql():
+    """Every migration, in the order they apply."""
+    d = os.path.join(ROOT, "supabase", "migrations")
+    out = []
+    for name in sorted(os.listdir(d)):
+        if name.endswith(".sql"):
+            with open(os.path.join(d, name)) as f:
+                out.append(f.read())
+    return "\n".join(out)
 
 
 class Args:
@@ -81,8 +93,11 @@ class ParsingTests(unittest.TestCase):
 
     def test_condition_normalisation(self):
         cases = [
-            ("New with tags", "NWT"), ("NWT", "NWT"), ("Brand New", "NWT"),
-            ("New without tags", "Mint"), ("Like New", "Mint"),
+            ("New with tags", "NWT"), ("NWT", "NWT"), ("tags attached", "NWT"),
+            # Only explicit tag evidence is NWT. A bare "new" is new without tags.
+            ("New without tags", "NWOT"), ("NWOT", "NWOT"), ("Brand New", "NWOT"),
+            ("new", "NWOT"), ("New (Other)", "NWOT"), ("Like New", "Mint"),
+            ("new with no tags", "NWOT"),
             ("Pre-owned", "Good"), ("Used", "Good"), ("Excellent condition", "Excellent"),
             ("well loved", "Poor"), ("For parts or not working", "Damaged"),
             ("", "Unknown"), ("something odd", "Unknown"),
@@ -90,6 +105,36 @@ class ParsingTests(unittest.TestCase):
         for text, expected in cases:
             self.assertEqual(imp.match_pattern(imp.CONDITION_PATTERNS, text, "Unknown"),
                              expected, text)
+
+    def test_new_with_tags_unstuffed_keeps_both_facts(self):
+        text = "Build-A-Bear new with tags unstuffed"
+        self.assertEqual(imp.match_pattern(imp.CONDITION_PATTERNS, text, "Unknown"), "NWT")
+        self.assertEqual(imp.match_pattern(imp.COMPLETENESS_PATTERNS, text, "unknown"),
+                         "unstuffed")
+
+    def test_the_vocabulary_is_the_only_definition(self):
+        import domain_vocab as V
+        self.assertEqual(imp.CONDITION_PATTERNS, V.CONDITION_PATTERNS)
+        self.assertEqual(imp.COMPLETENESS_PATTERNS, V.COMPLETENESS_PATTERNS)
+        codes = set(V.CONDITION_CODES)
+        for _, code in V.CONDITION_PATTERNS:
+            self.assertIn(code, codes)
+        with open(os.path.join(ROOT, "data.json")) as f:
+            cfg = json.load(f)["config"]
+        self.assertEqual(cfg["condition_order"], V.CONDITION_CODES)
+        self.assertEqual(list(cfg["condition_multipliers"]), V.CONDITION_CODES)
+        self.assertEqual(list(cfg["completeness_multipliers"]), V.COMPLETENESS_CODES)
+
+    def test_the_database_condition_checks_match_the_vocabulary(self):
+        import domain_vocab as V
+        sql = schema_sql()
+        conds = re.findall(r"check\s*\(\s*condition\s+in\s*\(([^)]*)\)", sql, re.I)
+        comps = re.findall(r"check\s*\(\s*completeness\s+in\s*\(([^)]*)\)", sql, re.I)
+        self.assertTrue(conds and comps)
+        # The last definition is the one in force once every migration has run.
+        self.assertEqual(re.findall(r"'([^']+)'", conds[-1]), V.CONDITION_CODES)
+        self.assertEqual(sorted(re.findall(r"'([^']+)'", comps[-1])),
+                         sorted(V.COMPLETENESS_CODES))
 
     def test_completeness_normalisation(self):
         self.assertEqual(

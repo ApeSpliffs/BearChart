@@ -488,17 +488,21 @@
    * take apart is a number they cannot argue with - and on a $250 bear the
    * difference between 1.15 and 1.45 is real money.
    */
-  function modifierChain(mods, config) {
+  function modifierChain(mods, config, condition) {
     var cfg = (config && config.modifiers) || {};
     var mult = cfg.multiplicative || {};
     var add = cfg.additive_usd || {};
     var labels = cfg.labels || {};
+    var exclusive = cfg.exclusive_with || {};
     var cap = cfg.max_combined_multiplier || 1.45;
 
     var factor = 1, additive = 0, applied = [];
 
     Object.keys(mods || {}).forEach(function (key) {
       if (!mods[key]) return;
+      // A modifier the condition already prices is not counted twice: an NWT
+      // grade already pays for the hang tag.
+      if (condition && exclusive[key] && exclusive[key].indexOf(condition) !== -1) return;
       if (mult[key] != null) {
         factor *= mult[key];
         applied.push({ key: key, label: labels[key] || key,
@@ -524,7 +528,7 @@
     if (!valuation || !valuation.has_value) return null;
     var mult = conditionMultiplier(config, condition) *
                completenessMultiplier(config, completeness);
-    var chain = modifierChain(mods, config);
+    var chain = modifierChain(mods, config, condition);
     mult *= chain.factor;
 
     var b = config.bands;
@@ -599,16 +603,43 @@
   var CONFIDENCE_RANK = { 'VERY LOW': 0, LOW: 1, MEDIUM: 2, HIGH: 3 };
 
   /**
+   * The fee schedule for one platform, from config.fees. Every figure lives in
+   * the config (tools/domain_vocab.py), never in this file. A config without a
+   * schedule charges nothing, rather than a number nobody chose.
+   */
+  function platformFees(config, platform) {
+    var f = (config && config.fees) || {};
+    var platforms = f.platforms || {};
+    var s = platforms[platform || f.default_platform];
+    if (s) return s;
+    return { label: 'none', pct: 0, fixed_over: 0, fixed_under: 0, fixed_threshold: 0,
+             applies_to: 'item' };
+  }
+
+  /** The marketplace's cut of one order: a percentage plus a per-order fixed fee. */
+  function sellingFee(orderTotal, sched) {
+    var fixed = orderTotal > (sched.fixed_threshold || 0)
+      ? (sched.fixed_over || 0) : (sched.fixed_under || 0);
+    return orderTotal * (sched.pct || 0) + fixed;
+  }
+
+  /**
    * What one copy actually nets you after fees and shipping.
    *
    * A gross discount is not profit. An item worth $60 that you buy for $30 is
-   * not a $30 win: the marketplace takes its cut of the $60 and you pay to ship
-   * it. This is the number that decides whether something is worth buying.
+   * not a $30 win: the marketplace takes its cut of the $60 (and, on eBay, of
+   * the shipping the buyer pays) and you pay to ship it. This is the number
+   * that decides whether something is worth buying.
+   *
+   * opts: {platform, shipping_charged}; both default from config.reseller.
    */
-  function netProceeds(grossValue, config) {
-    var r = config.reseller || {};
-    var fee = grossValue * (r.marketplace_fee_pct || 0);
-    return grossValue - fee - (r.payment_fee_fixed || 0) - (r.shipping_cost || 0);
+  function netProceeds(itemPrice, config, opts) {
+    var r = (config && config.reseller) || {};
+    var o = opts || {};
+    var s = platformFees(config, o.platform || r.platform);
+    var shipIn = o.shipping_charged != null ? o.shipping_charged : (r.shipping_charged || 0);
+    var base = s.applies_to === 'item' ? itemPrice : itemPrice + shipIn;
+    return itemPrice + shipIn - sellingFee(base, s) - (r.shipping_cost || 0);
   }
 
   /**
@@ -890,6 +921,8 @@
     askSpread: askSpread,
     findDeals: findDeals,
     netProceeds: netProceeds,
+    platformFees: platformFees,
+    sellingFee: sellingFee,
     collectionValue: collectionValue,
     collectionSnapshot: collectionSnapshot,
     holdingsMap: holdingsMap,

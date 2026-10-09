@@ -14,7 +14,8 @@ globalThis.BEARCHART_DATA = {
   "config": {
     "condition_multipliers": {
       "NWT": 1.25,
-      "Mint": 1.25,
+      "NWOT": 1.15,
+      "Mint": 1.15,
       "Excellent": 1.1,
       "Good": 1.0,
       "Fair": 0.75,
@@ -22,6 +23,18 @@ globalThis.BEARCHART_DATA = {
       "Damaged": 0.35,
       "Incomplete": 0.6,
       "Unknown": 1.0
+    },
+    "condition_labels": {
+      "NWT": "New with tags",
+      "NWOT": "New without tags",
+      "Mint": "Mint / like new, used",
+      "Excellent": "Excellent",
+      "Good": "Good",
+      "Fair": "Fair",
+      "Poor": "Poor",
+      "Damaged": "Damaged",
+      "Incomplete": "Incomplete",
+      "Unknown": "Unknown"
     },
     "completeness_multipliers": {
       "complete": 1.15,
@@ -46,7 +59,6 @@ globalThis.BEARCHART_DATA = {
         "birth_certificate": 1.15,
         "hang_tag": 1.1,
         "tush_tag_missing": 0.7,
-        "unstuffed": 0.85,
         "customised": 0.8
       },
       "additive_usd": {
@@ -57,10 +69,14 @@ globalThis.BEARCHART_DATA = {
         "birth_certificate": "Birth certificate present",
         "hang_tag": "Hang tag attached",
         "tush_tag_missing": "Tush tag missing or cut",
-        "unstuffed": "Unstuffed",
         "customised": "Customised or altered",
         "sound_module": "Sound module fitted",
         "scent_chip": "Scent chip fitted"
+      },
+      "exclusive_with": {
+        "hang_tag": [
+          "NWT"
+        ]
       },
       "max_combined_multiplier": 1.45
     },
@@ -100,6 +116,7 @@ globalThis.BEARCHART_DATA = {
     ],
     "condition_order": [
       "NWT",
+      "NWOT",
       "Mint",
       "Excellent",
       "Good",
@@ -115,13 +132,44 @@ globalThis.BEARCHART_DATA = {
       "single_comp_haircut": 0.75
     },
     "reseller": {
-      "marketplace_fee_pct": 0.1325,
-      "payment_fee_fixed": 0.3,
+      "platform": "ebay",
       "shipping_cost": 9.0,
+      "shipping_charged": 0.0,
+      "assumed_inbound_shipping": 9.0,
       "min_net_margin": 15.0,
       "min_discount_pct": 20.0,
-      "min_confidence": "LOW"
-    }
+      "min_confidence": "LOW",
+      "exclude_stale": true
+    },
+    "fees": {
+      "as_of": "2026-10",
+      "default_platform": "ebay",
+      "platforms": {
+        "ebay": {
+          "label": "eBay",
+          "pct": 0.136,
+          "fixed_over": 0.4,
+          "fixed_under": 0.3,
+          "fixed_threshold": 10.0,
+          "applies_to": "item_plus_shipping",
+          "verify": "VERIFY on https://www.ebay.com/help/selling/fees-credits-invoices/selling-fees?id=4822 (category rate; eBay also charges on sales tax - approximated as item+shipping)"
+        },
+        "mercari": {
+          "label": "Mercari",
+          "pct": 0.1,
+          "fixed_over": 0,
+          "fixed_under": 0,
+          "fixed_threshold": 0,
+          "applies_to": "item_plus_shipping",
+          "verify": "VERIFY on Mercari fee page"
+        }
+      }
+    },
+    "recency": {
+      "window_days": 365,
+      "min_recent": 10
+    },
+    "operator_cap": 0.25
   },
   "retail_reference": {
     "as_of": "2026-09",

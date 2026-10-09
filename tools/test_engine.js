@@ -606,10 +606,54 @@ const dealCtx = (listings, cfg) => ({
 
 test('net proceeds subtract fees and shipping from the gross value', () => {
   const r = CFG.reseller;
+  const sched = CFG.fees.platforms[r.platform];
   const net = E.netProceeds(100, CFG);
-  const expected = 100 - 100 * r.marketplace_fee_pct - r.payment_fee_fixed - r.shipping_cost;
+  const shipIn = r.shipping_charged || 0;
+  const base = sched.applies_to === 'item' ? 100 : 100 + shipIn;
+  const fixed = base > sched.fixed_threshold ? sched.fixed_over : sched.fixed_under;
+  const expected = 100 + shipIn - (base * sched.pct + fixed) - r.shipping_cost;
   assert.ok(Math.abs(net - expected) < 1e-9);
   assert.ok(net < 100, 'a gross discount is not profit');
+});
+
+// ---- fee schedule ------------------------------------------------------------
+
+const feeCfg = (reseller) => Object.assign({}, CFG, {
+  reseller: Object.assign({}, CFG.reseller, reseller || {})
+});
+
+test('the eBay per-order fee is the higher one above the threshold', () => {
+  const s = CFG.fees.platforms.ebay;
+  assert.ok(Math.abs(E.sellingFee(20, s) - (20 * s.pct + s.fixed_over)) < 1e-9);
+  assert.ok(Math.abs(E.sellingFee(10, s) - (10 * s.pct + s.fixed_under)) < 1e-9);
+  assert.ok(Math.abs(E.sellingFee(5, s) - (5 * s.pct + s.fixed_under)) < 1e-9);
+  assert.ok(s.fixed_over > s.fixed_under);
+});
+
+test('eBay fees are charged on item plus shipping', () => {
+  const s = CFG.fees.platforms.ebay;
+  const cfg = feeCfg({ platform: 'ebay', shipping_charged: 10, shipping_cost: 0 });
+  const net = E.netProceeds(100, cfg);
+  assert.ok(Math.abs(net - (110 - E.sellingFee(110, s))) < 1e-9);
+});
+
+test('Mercari has no fixed per-order fee', () => {
+  const s = CFG.fees.platforms.mercari;
+  assert.ok(Math.abs(E.sellingFee(100, s) - 100 * s.pct) < 1e-9);
+  const cfg = feeCfg({ platform: 'mercari', shipping_charged: 0, shipping_cost: 0 });
+  assert.ok(Math.abs(E.netProceeds(100, cfg) - (100 - 100 * s.pct)) < 1e-9);
+});
+
+test('a platform can be chosen per call', () => {
+  const cfg = feeCfg({ shipping_charged: 0, shipping_cost: 0 });
+  assert.notStrictEqual(E.netProceeds(100, cfg, { platform: 'mercari' }),
+                        E.netProceeds(100, cfg, { platform: 'ebay' }));
+});
+
+test('no fee figure is written into the engine', () => {
+  const src = fs.readFileSync(path.join(__dirname, '..', 'engine.js'), 'utf8');
+  assert.doesNotMatch(src, /0\.13\d*/);
+  assert.doesNotMatch(src, /marketplace_fee_pct|payment_fee_fixed/);
 });
 
 test('a listing well below value is flagged with a real margin', () => {
@@ -949,9 +993,32 @@ test('stacked bonuses are capped, losses are not', () => {
   // A battered copy is allowed all the way down: the floor is what the market
   // says, not a rule.
   const wrecked = E.adjust(v, 'Good', 'bare', CFG,
-    { tush_tag_missing: true, customised: true, unstuffed: true });
-  assert.ok(wrecked.modifiers.factor < 0.5);
+    { tush_tag_missing: true, customised: true });
+  assert.ok(wrecked.modifiers.factor < 0.6);
   assert.strictEqual(wrecked.modifiers.capped, false);
+});
+
+test('a hang tag is not counted twice on a copy already graded NWT', () => {
+  const v = valueOf('kennel-pals-calico-cat');
+  const nwt = E.adjust(v, 'NWT', 'bare', CFG);
+  const nwtTag = E.adjust(v, 'NWT', 'bare', CFG, { hang_tag: true });
+  assert.strictEqual(nwtTag.fair_market, nwt.fair_market);
+  assert.ok(!nwtTag.modifiers.applied.some((m) => m.key === 'hang_tag'));
+  const good = E.adjust(v, 'Good', 'bare', CFG, { hang_tag: true });
+  assert.ok(good.modifiers.applied.some((m) => m.key === 'hang_tag'));
+});
+
+test('unstuffed is a completeness grade, not a second calculator modifier', () => {
+  assert.strictEqual(CFG.modifiers.multiplicative.unstuffed, undefined);
+  assert.strictEqual(CFG.completeness_multipliers.unstuffed, 1);
+});
+
+test('a new-without-tags sale normalises by its own multiplier', () => {
+  assert.ok(CFG.condition_order.includes('NWOT'));
+  const s = { sold_price: 115, condition: 'NWOT', completeness: 'bare',
+              evidence_type: 'completed_sale' };
+  assert.ok(Math.abs(E.normalisedPrice(s, CFG) - 115 / CFG.condition_multipliers.NWOT) < 1e-9);
+  assert.ok(CFG.condition_multipliers.NWOT < CFG.condition_multipliers.NWT);
 });
 
 test('the modifier chain is itemised so a figure can be taken apart', () => {

@@ -33,6 +33,9 @@ import re
 import sys
 from collections import OrderedDict
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import domain_vocab as V  # noqa: E402
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMPORTED = os.path.join(ROOT, "tools", "imported_sales.json")
 
@@ -54,29 +57,13 @@ COLUMNS = OrderedDict([
     ("notes",        ["notes", "note", "comment", "comments", "subtitle"]),
 ])
 
-# Free-text condition wording -> BearChart's vocabulary. Order matters: the first
-# pattern that matches wins, so the most specific phrasings come first.
-CONDITION_PATTERNS = [
-    (r"new\s*with\s*tag|nwt|bnwt|brand\s*new.*tag", "NWT"),
-    (r"new\s*without\s*tag|nwot", "Mint"),
-    (r"\bmint\b|like\s*new|new\s*\(other\)|open\s*box", "Mint"),
-    (r"\bnew\b|\bsealed\b|\bbnib\b", "NWT"),
-    (r"excellent|near\s*mint|\bvgc\b|very\s*good", "Excellent"),
-    (r"\bgood\b|pre[\s-]*owned|\bused\b|second\s*hand|previously\s*owned", "Good"),
-    (r"\bfair\b|acceptable|played\s*with", "Fair"),
-    (r"\bpoor\b|\brough\b|well\s*loved", "Poor"),
-    (r"damaged|broken|for\s*parts|not\s*working|repair", "Damaged"),
-    (r"incomplete|missing", "Incomplete"),
-]
-
-COMPLETENESS_PATTERNS = [
-    (r"\bcomplete\b|with\s*outfit|full\s*set|all\s*accessories", "complete"),
-    (r"\bpackag|\bboxed\b|in\s*box", "packaged"),
-    (r"unstuffed|flat|skin\s*only", "unstuffed"),
-    (r"some\s*original|with\s*clothes|with\s*sound|with\s*accessor", "some_originals"),
-    (r"\bbare\b|no\s*clothes|nude", "bare"),
-    (r"altered|custom|missing", "altered"),
-]
+# Free-text condition and completeness wording -> BearChart's vocabulary. The
+# patterns live in tools/domain_vocab.py, the one definition shared with the
+# build, the engine config and the database checks. Order matters: the first
+# pattern that matches wins. Re-exported here under the names
+# import_my_sales.py and ebay_active.py import.
+CONDITION_PATTERNS = list(V.CONDITION_PATTERNS)
+COMPLETENESS_PATTERNS = list(V.COMPLETENESS_PATTERNS)
 
 STOPWORDS = {"build", "a", "bear", "buildabear", "the", "workshop", "bab", "plush",
              "stuffed", "animal", "toy", "inch", "in", "with", "and", "rare", "vintage",

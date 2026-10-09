@@ -5,7 +5,7 @@
  */
 'use strict';
 
-const CACHE = 'bearchart-f4dc6a63a2dc';
+const CACHE = 'bearchart-99c8f5b5d70a';
 const PRECACHE = [
   "./",
   "index.html",

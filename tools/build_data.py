@@ -20,7 +20,11 @@ To expand the database, add rows to ITEMS / SALES below and re-run:
 import json
 import os
 import re
+import sys
 from collections import OrderedDict
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import domain_vocab as V  # noqa: E402
 
 ITEMS = []
 SALES = []
@@ -2104,22 +2108,14 @@ next(i for i in ITEMS if i["id"] == "happy-hugs-iv-teddy")["release_year"] = 201
 
 CONFIG = OrderedDict([
     # Section 4 - condition multipliers. Configurable, not hard-coded in the app.
-    ("condition_multipliers", OrderedDict([
-        ("NWT", 1.25), ("Mint", 1.25), ("Excellent", 1.10), ("Good", 1.00),
-        ("Fair", 0.75), ("Poor", 0.50), ("Damaged", 0.35), ("Incomplete", 0.60),
-        ("Unknown", 1.00),
-    ])),
+    # Every condition, completeness and modifier code comes from
+    # tools/domain_vocab.py, the one definition the importers and the database
+    # check constraints share.
+    ("condition_multipliers", OrderedDict((c["code"], c["multiplier"]) for c in V.CONDITIONS)),
+    ("condition_labels", OrderedDict((c["code"], c["label"]) for c in V.CONDITIONS)),
     # Section 5 - completeness multipliers.
-    ("completeness_multipliers", OrderedDict([
-        ("complete", 1.15), ("packaged", 1.15), ("some_originals", 1.05),
-        ("bare", 1.00), ("unstuffed", 1.00), ("altered", 0.85), ("unknown", 1.00),
-    ])),
-    ("completeness_labels", OrderedDict([
-        ("complete", "Complete - outfit + extras"), ("packaged", "With original packaging"),
-        ("some_originals", "Some originals present"), ("bare", "Bare bear"),
-        ("unstuffed", "Unstuffed"), ("altered", "Missing / altered"),
-        ("unknown", "Not recorded"),
-    ])),
+    ("completeness_multipliers", OrderedDict((c["code"], c["multiplier"]) for c in V.COMPLETENESS)),
+    ("completeness_labels", OrderedDict((c["code"], c["label"]) for c in V.COMPLETENESS)),
     # Per-copy modifiers, applied on top of condition and completeness.
     #
     # Two kinds, deliberately modelled differently:
@@ -2131,31 +2127,16 @@ CONFIG = OrderedDict([
     #   module is about $7 whether it is in a $12 Mini Bean or a $250 exclusive;
     #   pricing it as a percentage would value the same chip at $25 on one and
     #   $1.50 on the other.
+    #
+    # Multipliers compound silently: 1.15 x 1.10 x 1.25 x 1.15 = 1.82, a figure
+    # no comp supports and no user can trace. max_combined_multiplier is the
+    # backstop; if it binds often, the attribute wanted to be additive.
     ("modifiers", OrderedDict([
-        ("multiplicative", OrderedDict([
-            ("birth_certificate", 1.15),
-            ("hang_tag", 1.10),
-            ("tush_tag_missing", 0.70),
-            ("unstuffed", 0.85),
-            ("customised", 0.80),
-        ])),
-        ("additive_usd", OrderedDict([
-            ("sound_module", 7.00),
-            ("scent_chip", 6.00),
-        ])),
-        ("labels", OrderedDict([
-            ("birth_certificate", "Birth certificate present"),
-            ("hang_tag", "Hang tag attached"),
-            ("tush_tag_missing", "Tush tag missing or cut"),
-            ("unstuffed", "Unstuffed"),
-            ("customised", "Customised or altered"),
-            ("sound_module", "Sound module fitted"),
-            ("scent_chip", "Scent chip fitted"),
-        ])),
-        # Multipliers compound silently: 1.15 x 1.10 x 1.25 x 1.15 = 1.82, a
-        # figure no comp supports and no user can trace. The cap is the
-        # backstop; if it binds often, the attribute wanted to be additive.
-        ("max_combined_multiplier", 1.45),
+        ("multiplicative", OrderedDict(V.MODIFIERS["multiplicative"])),
+        ("additive_usd", OrderedDict(V.MODIFIERS["additive_usd"])),
+        ("labels", OrderedDict(V.MODIFIERS["labels"])),
+        ("exclusive_with", OrderedDict(V.MODIFIERS["exclusive_with"])),
+        ("max_combined_multiplier", V.MODIFIERS["max_combined_multiplier"]),
     ])),
     # Section 8 - buy / trade / sell bands, as fractions of fair market value.
     ("bands", OrderedDict([
@@ -2182,11 +2163,9 @@ CONFIG = OrderedDict([
         ("supabase_anon_key", "sb_publishable___jAIp9os6_gs7v9N8JD7A_Tj67O96i"),
     ])),
     # Evidence types that count as market evidence at all.
-    ("market_evidence_types", ["completed_sale", "auction_result", "collector_report",
-                               "historical_archive"]),
-    ("strong_evidence_types", ["completed_sale", "auction_result"]),
-    ("condition_order", ["NWT", "Mint", "Excellent", "Good", "Fair", "Poor",
-                         "Damaged", "Incomplete", "Unknown"]),
+    ("market_evidence_types", list(V.MARKET_EVIDENCE_TYPES)),
+    ("strong_evidence_types", list(V.STRONG_EVIDENCE_TYPES)),
+    ("condition_order", list(V.CONDITION_CODES)),
     # How the conservative lower bound is derived. A deal is judged against this,
     # never against the median: with three comps a point estimate carries the same
     # authority as with thirty, which is what makes naive deal rules fire endlessly
@@ -2198,15 +2177,27 @@ CONFIG = OrderedDict([
     ])),
     # Reseller economics for the deal finder. These are ASSUMPTIONS, not facts -
     # check them against your own account before trusting a margin figure.
-    # A gross discount is not profit: fees and shipping come out first.
+    # A gross discount is not profit: fees and shipping come out first. The fee
+    # itself comes from the "fees" schedule below, per platform.
     ("reseller", OrderedDict([
-        ("marketplace_fee_pct", 0.1325),   # eBay final value fee, typical category
-        ("payment_fee_fixed", 0.30),       # per-order fixed fee
+        ("platform", V.FEE_SCHEDULE["default_platform"]),
         ("shipping_cost", 9.00),           # what it costs YOU to ship one
+        ("shipping_charged", 0.00),        # what you charge the buyer for shipping
+        ("assumed_inbound_shipping", 9.00),  # a listing that does not state shipping
         ("min_net_margin", 15.00),         # ignore anything thinner than this
         ("min_discount_pct", 20.0),        # and anything not this far below value
         ("min_confidence", "LOW"),         # never flag a deal with no sold data
+        ("exclude_stale", True),           # a value with no recent sale is no basis for a deal
     ])),
+    # Marketplace selling fees, per platform. Owner to verify the figures.
+    ("fees", V.FEE_SCHEDULE),
+    # Prefer recent sales. as_of (the build date) is added in main(), so the
+    # engine anchors on a date the data states rather than on the clock.
+    ("recency", OrderedDict([("window_days", V.RECENCY["window_days"]),
+                             ("min_recent", V.RECENCY["min_recent"])])),
+    # Sales by the operator (Jay's Retro Exchange) may make up at most this share
+    # of the points behind any value; an operator-only item publishes none.
+    ("operator_cap", V.OPERATOR_EVIDENCE_CAP),
 ])
 
 # Section 26 - current official retail, kept strictly separate from resale value.

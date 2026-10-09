@@ -16,14 +16,42 @@
   function load() {
     var saved = {};
     try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+    saved = migrate(saved);
     return {
-      marketplace_fee_pct: num(saved.marketplace_fee_pct, base.marketplace_fee_pct),
-      payment_fee_fixed: num(saved.payment_fee_fixed, base.payment_fee_fixed),
+      platform: platformOr(saved.platform, base.platform),
+      // null = use the published fee schedule for the platform.
+      fee_pct_override: num(saved.fee_pct_override, null),
       shipping_cost: num(saved.shipping_cost, base.shipping_cost),
+      shipping_charged: num(saved.shipping_charged, base.shipping_charged),
       min_net_margin: num(saved.min_net_margin, base.min_net_margin),
       min_discount_pct: num(saved.min_discount_pct, base.min_discount_pct),
       min_confidence: atLeastMedium(saved.min_confidence || base.min_confidence)
     };
+  }
+
+  // Settings saved before fees became a per-platform schedule carried a flat
+  // percentage. The old default is dropped so the schedule applies; anything
+  // the reader typed themselves is kept as their override.
+  function migrate(saved) {
+    if (saved && typeof saved.marketplace_fee_pct === 'number') {
+      if (saved.fee_pct_override == null && saved.marketplace_fee_pct !== 0.1325) {
+        saved.fee_pct_override = saved.marketplace_fee_pct;
+      }
+      delete saved.marketplace_fee_pct;
+    }
+    if (saved) delete saved.payment_fee_fixed;
+    return saved || {};
+  }
+
+  function platformOr(p, fallback) {
+    var platforms = (D.config.fees && D.config.fees.platforms) || {};
+    return (p && platforms[p]) ? p : fallback;
+  }
+
+  /** The fee schedule entry in force: the platform's, or the reader's override. */
+  function schedule() {
+    var platforms = (D.config.fees && D.config.fees.platforms) || {};
+    return platforms[tuned.platform] || {};
   }
 
   // Deals only lean on sold records we trust. A bear with one or two recorded
@@ -45,7 +73,17 @@
   function config() {
     var c = {};
     Object.keys(D.config).forEach(function (k) { c[k] = D.config[k]; });
-    c.reseller = tuned;
+    var r = {};
+    Object.keys(base).forEach(function (k) { r[k] = base[k]; });
+    Object.keys(tuned).forEach(function (k) { r[k] = tuned[k]; });
+    c.reseller = r;
+    if (tuned.fee_pct_override != null && D.config.fees) {
+      var fees = JSON.parse(JSON.stringify(D.config.fees));
+      if (fees.platforms && fees.platforms[tuned.platform]) {
+        fees.platforms[tuned.platform].pct = tuned.fee_pct_override;
+      }
+      c.fees = fees;
+    }
     return c;
   }
 
@@ -61,7 +99,16 @@
   // ---- rendering ------------------------------------------------------------
 
   function renderInputs() {
-    $('fee').value = Math.round(tuned.marketplace_fee_pct * 1000) / 10;
+    var pct = tuned.fee_pct_override != null ? tuned.fee_pct_override : (schedule().pct || 0);
+    $('fee').value = Math.round(pct * 1000) / 10;
+    var plat = $('platform');
+    if (plat) {
+      var platforms = (D.config.fees && D.config.fees.platforms) || {};
+      plat.innerHTML = Object.keys(platforms).map(function (k) {
+        return '<option value="' + BC.esc(k) + '"' + (k === tuned.platform ? ' selected' : '') +
+          '>' + BC.esc(platforms[k].label || k) + '</option>';
+      }).join('');
+    }
     $('ship').value = tuned.shipping_cost;
     $('min-margin').value = tuned.min_net_margin;
     $('min-disc').value = tuned.min_discount_pct;
@@ -169,7 +216,17 @@
     });
   }
 
-  bind('fee', 'marketplace_fee_pct', function (v) { return v / 100; });
+  bind('fee', 'fee_pct_override', function (v) { return v / 100; });
+  if ($('platform')) {
+    $('platform').addEventListener('change', function (e) {
+      tuned.platform = platformOr(e.target.value, base.platform);
+      // A typed percentage belonged to the old platform.
+      tuned.fee_pct_override = null;
+      save();
+      renderInputs();
+      render();
+    });
+  }
   bind('ship', 'shipping_cost');
   bind('min-margin', 'min_net_margin');
   bind('min-disc', 'min_discount_pct');
