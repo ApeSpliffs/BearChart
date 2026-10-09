@@ -9,7 +9,7 @@
   "scripts": {
     "build": "python3 tools/build_data.py",
     "sql": "python3 tools/export_sql.py",
-    "test": "npm run test:engine && npm run test:sanitize && npm run test:billing && npm run test:secsql && npm run test:pages && npm run test:import && npm run test:ebay && npm run test:poll && npm run test:seo && npm run test:submissions && npm run test:deletion && npm run test:userdata && npm run test:runtime && npm run test:audit",
+    "test": "npm run test:engine && npm run test:sanitize && npm run test:billing && npm run test:secsql && npm run test:pages && npm run test:import && npm run test:ebay && npm run test:poll && npm run test:seo && npm run test:submissions && npm run test:deletion && npm run test:userdata && npm run test:runtime && npm run test:audit-unit && npm run test:audit",
     "test:engine": "node --test tools/test_engine.js",
     "test:pages": "node --test tools/test_pages.js",
     "test:sanitize": "node --test tools/test_sanitize.js",
@@ -28,6 +28,7 @@
     "import:mine": "python3 tools/import_my_sales.py",
     "audit": "python3 tools/audit_duplicates.py",
     "test:audit": "python3 tools/audit_duplicates.py --strict",
+    "test:audit-unit": "python3 tools/test_audit.py",
     "poll": "python3 tools/poll_engine.py",
     "test:poll": "python3 tools/test_poll.py",
     "wiki:fetch": "python3 tools/fetch_wiki.py",

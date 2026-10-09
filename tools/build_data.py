@@ -74,6 +74,10 @@ def I(name, category, species=None, year=None, month=None, aliases=None, **flags
     item["scent"] = flags.pop("scent", None)
     item["rarity"] = flags.pop("rarity", None)
     item["notes"] = flags.pop("notes", None)
+    # Where the catalogue entry itself came from: curated | wiki |
+    # collectionhero | mini_beans_guide. Unset here means "derive it at build"
+    # (see assign_catalogue_source); the wiki loader sets it explicitly.
+    item["catalogue_source"] = flags.pop("catalogue_source", None)
     # Images: BearChart ships with none. Official Build-A-Bear product photography
     # is copyrighted, so nothing is hotlinked or bundled. Attach your own photos, or
     # images you have the right to use, via the admin tools or tools/attach_images.py.
@@ -2426,6 +2430,9 @@ FRANCHISE_SPELLING = {
 }
 
 
+WIKI_NOTE = "Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0)."
+
+
 def load_wiki_catalogue():
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "catalogue_wiki.json")
     if not os.path.exists(path):
@@ -2492,8 +2499,11 @@ def load_wiki_catalogue():
         # franchise, which looks like a bug to anybody browsing.
         if flags.get("franchise") in FRANCHISE_SPELLING:
             flags["franchise"] = FRANCHISE_SPELLING[flags["franchise"]]
-        flags["notes"] = "Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). " \
-                         "Identification only - no sold comps recorded yet."
+        # The attribution is a licence condition and must stay. Nothing about the
+        # evidence is said here: that is stated from the valuation, so it can
+        # never go stale the day a comp arrives.
+        flags["notes"] = WIKI_NOTE
+        flags["catalogue_source"] = "wiki"
         I(name, e["category"], species=e["species"], year=e["year"], **flags)
         taken.add(slug(name))
         known.add(key(name))
@@ -2618,6 +2628,60 @@ def flag_open_questions():
     return n
 
 
+def assign_catalogue_source(items):
+    """Derive catalogue_source for entries that did not set it explicitly.
+
+    The curated tables record their provenance in the notes text; reading it
+    once here keeps hundreds of literals from each needing a flag.
+    """
+    for item in items:
+        if item.get("catalogue_source"):
+            continue
+        notes = item.get("notes") or ""
+        if "CollectionHero index" in notes and "Catalogued from" in notes:
+            item["catalogue_source"] = "collectionhero"
+        elif "Mini Beans collector guide" in notes:
+            item["catalogue_source"] = "mini_beans_guide"
+        else:
+            item["catalogue_source"] = "curated"
+        assert item["catalogue_source"] in V.CATALOGUE_SOURCES
+
+
+# Hand-written claims about the evidence ("no sold comps yet") go stale the
+# moment a comp arrives, and 1,486 of them already had. They are rewritten
+# out of every note at build; the UI states the evidence from the valuation.
+EVIDENCE_CLAIM_REWRITES = [
+    (re.compile(r"\s*Identification only - no sold comps recorded yet\.", re.I), ""),
+    (re.compile(r";\s*no sourced price captured yet\.", re.I), "."),
+    (re.compile(r"\s*No sold comps captured yet\.", re.I), ""),
+    (re.compile(r"\s*No secondary market yet\.", re.I), ""),
+    (re.compile(r"Historical sales (?:are known to )?exist(?:[;,]| but)?\s*(?:but )?"
+                r"no price (?:was )?captured during research(?: - needs a sourced comp)?\.",
+                re.I), "Historical sales are known to exist."),
+    (re.compile(r"year and price not yet sourced", re.I), "year not yet sourced"),
+]
+
+
+def strip_evidence_claims(notes):
+    if not notes:
+        return notes
+    out = notes
+    for pat, repl in EVIDENCE_CLAIM_REWRITES:
+        out = pat.sub(repl, out)
+    out = re.sub(r"\s{2,}", " ", out).strip()
+    return out or None
+
+
+def apply_note_policy(items):
+    """Strip evidence claims; fail the build if any survive."""
+    for item in items:
+        item["notes"] = strip_evidence_claims(item.get("notes"))
+    bad = [i["id"] for i in items if i.get("notes") and V.EVIDENCE_CLAIM.search(i["notes"])]
+    if bad:
+        raise SystemExit("notes still claim something about the evidence: %s"
+                         % ", ".join(bad[:10]))
+
+
 def assert_sales_are_sold_evidence(sales):
     """No row in SALES may be anything but sold evidence."""
     bad = [s["id"] for s in sales if s.get("evidence_type") in V.NON_SALE_EVIDENCE_TYPES
@@ -2654,6 +2718,8 @@ def main(argv=None):
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     built_at = build_date(args.as_of)
     CONFIG["recency"]["as_of"] = built_at
+    assign_catalogue_source(ITEMS)
+    apply_note_policy(ITEMS)
     open_questions = flag_open_questions()
     active, active_fetched_at = load_active_listings(root)
     photos = apply_image_overrides(root)

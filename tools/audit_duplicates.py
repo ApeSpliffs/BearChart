@@ -315,7 +315,7 @@ def main():
     # was built to guard: duplicates between two HAND-CURATED records. Pairs
     # involving an unreviewed import are a work queue, not a broken build.
     def imported(item):
-        return "Build-A-Bear Wiki" in (item.get("notes") or "")
+        return item.get("catalogue_source") == "wiki"
 
     curated_pairs = [p for p in needs if not imported(p["a"]) and not imported(p["b"])]
     if len(curated_pairs) < len(needs):
