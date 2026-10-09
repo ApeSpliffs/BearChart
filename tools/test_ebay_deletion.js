@@ -420,16 +420,43 @@ test('an unknown kid is remembered for a while, then asked again', async () => {
   assert.strictEqual(keyCalls(), 2, 'and expires');
 });
 
-test('the key cache never holds more than 50 entries, misses included', async () => {
-  const f = fakeFetch({ keyStatus: 404 });
-  const fetchKey = createEbayKeyFetcher({ clientId: 'id', clientSecret: 's', fetchImpl: f.impl });
-  for (let i = 0; i < 60; i++) await assert.rejects(fetchKey('kid-' + i));
-  const keyCalls = () => f.calls.filter((c) => c.url.includes('/public_key/')).length;
-  assert.strictEqual(keyCalls(), 60);
-  await assert.rejects(fetchKey('kid-59'));          // still cached
-  assert.strictEqual(keyCalls(), 60);
-  await assert.rejects(fetchKey('kid-0'));           // evicted, asked again
+test('misses live in their own cache and cannot evict real keys', async () => {
+  let t = 1000000;
+  const calls = [];
+  const impl = async (url) => {
+    calls.push(url);
+    if (url.includes('/oauth2/token')) return { ok: true, status: 200, json: async () => ({ access_token: 'x', expires_in: 7200 }) };
+    if (url.endsWith('/' + KID)) return { ok: true, status: 200, json: async () => EBAY_KEY };
+    return { ok: false, status: 404, json: async () => ({}) };
+  };
+  const fetchKey = createEbayKeyFetcher({ clientId: 'id', clientSecret: 's', fetchImpl: impl,
+    maxLookupsPerMinute: 1000, now: () => t });
+  const keyCalls = () => calls.filter((u) => u.includes('/public_key/')).length;
+  await fetchKey(KID);
+  for (let i = 0; i < 60; i++) await assert.rejects(fetchKey('kid-' + i), (e) => e.code === 'unknown_key');
   assert.strictEqual(keyCalls(), 61);
+  await fetchKey(KID);
+  assert.strictEqual(keyCalls(), 61, 'the real key survived 60 misses');
+  await assert.rejects(fetchKey('kid-59'));          // recent miss still cached
+  assert.strictEqual(keyCalls(), 61);
+  await assert.rejects(fetchKey('kid-0'));           // oldest miss evicted (50-entry miss cache)
+  assert.strictEqual(keyCalls(), 62);
+});
+
+test('uncached lookups are capped per minute; beyond the cap the answer is 503-class', async () => {
+  let t = 1000000;
+  const f = fakeFetch({ keyStatus: 404 });
+  const fetchKey = createEbayKeyFetcher({ clientId: 'id', clientSecret: 's', fetchImpl: f.impl, now: () => t });
+  const keyCalls = () => f.calls.filter((c) => c.url.includes('/public_key/')).length;
+  for (let i = 0; i < 10; i++) await assert.rejects(fetchKey('a-' + i), (e) => e.code === 'unknown_key');
+  await assert.rejects(fetchKey('a-10'), (e) => e.code === 'unavailable');
+  assert.strictEqual(keyCalls(), 10, 'the eleventh lookup in a minute never reaches eBay');
+  await assert.rejects(fetchKey('a-3'), (e) => e.code === 'unknown_key', 'cached misses still answer');
+  t += 60001;
+  await assert.rejects(fetchKey('a-10'), (e) => e.code === 'unknown_key');
+  assert.strictEqual(keyCalls(), 11, 'the window rolls over');
+  const { handler } = setup({ keyFetcher: async () => { throw Object.assign(new Error('x'), { code: 'unavailable' }); } });
+  assert.strictEqual((await post(handler, BODY, sigHeader(BODY))).statusCode, 503);
 });
 
 test('concurrent requests for the same kid share one fetch', async () => {
