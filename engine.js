@@ -264,27 +264,46 @@
   }
 
   /**
-   * Prefer what a bear sells for now. When an item has enough sales in the
-   * twelve months up to its most recent one, older sales are left out of the
-   * value: a hyped release that crashed, or a retired bear that climbed, should
-   * not be priced by what it did three years ago. Anchored on the item's own
-   * latest sale rather than today's date, so the same data always gives the
-   * same answer. Below the threshold every sale is used, because thin recent
-   * data is worse than old data.
+   * Prefer what a bear sells for now.
+   *
+   * The window is the twelve months (config.recency.window_days) up to
+   * config.recency.as_of - the date the data was built, stated in the data
+   * rather than read from the clock, so the same data always gives the same
+   * answer. When an item has enough sales in the window (min_recent, counting
+   * transactions), older sales are left out of the value: a hyped release that
+   * crashed, or a retired bear that climbed, should not be priced by what it
+   * did three years ago. Below the threshold every sale is used, because thin
+   * recent data is worse than old data. With NO sale in the window the value
+   * is still published from every sale, but it is marked stale.
+   *
+   * Legacy config without as_of anchors on the item's own latest sale, as
+   * before, and never reports stale.
    */
-  function recentOnly(usable, config) {
+  function recencyWindow(usable, config) {
     var rc = config.recency || {};
     var windowDays = rc.window_days || 365;
     var minRecent = rc.min_recent || 10;
     var latest = '';
     usable.forEach(function (s) { if (s.sale_date && s.sale_date > latest) latest = s.sale_date; });
-    if (!latest) return null;
-    var since = shiftDate(latest, -windowDays);
-    if (!since) return null;
-    var recent = usable.filter(function (s) { return s.sale_date && s.sale_date >= since; });
+    var anchored = !!rc.as_of;
+    var asOf = rc.as_of || latest;
+    var since = asOf ? shiftDate(asOf, -windowDays) : null;
+    var recent = since ? usable.filter(function (s) {
+      return s.sale_date && s.sale_date >= since && s.sale_date <= asOf;
+    }) : [];
     var n = recent.reduce(function (a, s) { return a + sampleSize(s); }, 0);
-    if (recent.length === usable.length || n < minRecent) return null;
-    return { sales: recent, since: since, dropped: usable.length - recent.length };
+    return {
+      anchored: anchored, as_of: asOf || null, since: since, latest: latest || null,
+      recent: recent, transactions: n, min_recent: minRecent,
+      use_recent: !!since && n >= minRecent && recent.length < usable.length
+    };
+  }
+
+  /** Back-compat: the recent subset when the window applies, else null. */
+  function recentOnly(usable, config) {
+    var w = recencyWindow(usable, config);
+    if (!w.use_recent) return null;
+    return { sales: w.recent, since: w.since, dropped: usable.length - w.recent.length };
   }
 
   function valuate(item, sales, config) {
@@ -292,13 +311,32 @@
     var usable = (sales || []).filter(function (s) {
       return !s.excluded && isMarketEvidence(s, config) && effectivePrice(s) != null;
     });
-    var recency = usable.length ? recentOnly(usable, config) : null;
+    var soldTransactions = usable.reduce(function (a, s) { return a + sampleSize(s); }, 0);
+    var win = usable.length ? recencyWindow(usable, config) : null;
+    var recency = win && win.use_recent
+      ? { sales: win.recent, since: win.since, dropped: usable.length - win.recent.length }
+      : null;
     if (recency) usable = recency.sales;
+    // Stale: a value is published from older sales because none fall in the
+    // window. Only reported when the data states its as_of date.
+    var stale = !!(win && win.anchored && win.transactions === 0);
+    var staleReason = stale ? (win.latest ? 'no_sales_in_window' : 'undated_only') : null;
 
     var result = {
       item_id: item.id,
       comparable_count: 0,
+      // Every recorded sold transaction behind this item (averages expanded),
+      // all-time, before the recency window, outliers and the operator cap.
+      // catalogueStats sums this; it is the "sold transactions recorded" figure.
+      sold_transactions: soldTransactions,
       total_observations: (sales || []).length,
+      stale: stale,
+      stale_reason: staleReason,
+      last_sale_date: win ? win.latest : null,
+      window: win && win.since
+        ? { as_of: win.as_of, since: win.since,
+            basis: win.transactions >= win.min_recent ? 'recent' : 'all_time' }
+        : null,
       confidence: 'VERY LOW',
       has_value: false,
       fair_market: null,
@@ -474,9 +512,18 @@
                 (points_n === 1 ? '' : 's') + ', each adjusted to a baseline of Good ' +
                 'condition with no extras.');
 
+    if (stale) {
+      result.caveats.push('stale');
+      why.push(staleReason === 'undated_only'
+        ? 'None of these sales is dated, so there is no telling how current this value ' +
+          'is. It may be out of date.'
+        : 'No sale recorded in the 12 months to ' + win.as_of + '; last sale ' + win.latest +
+          '. This value may be out of date.');
+    }
+
     if (recency) {
       result.recent_since = recency.since;
-      why.push('Uses the sales from the twelve months up to the latest one (since ' +
+      why.push('Uses the sales from the twelve months to ' + win.as_of + ' (since ' +
                recency.since + '). ' + recency.dropped + ' older sale' +
                (recency.dropped === 1 ? ' is' : 's are') + ' listed below but left out of ' +
                'the value, because prices move.');
@@ -743,6 +790,8 @@
       var v = opts.valuationFor(l.item_id);
       if (!item || !v || !v.has_value) return;
       if ((CONFIDENCE_RANK[v.confidence] || 0) < minRank) return;
+      // A value nobody has confirmed in a year is no basis for spending money.
+      if (v.stale && r.exclude_stale !== false) return;
 
       // Price the listing as the condition it is actually in.
       var adj = adjust(v, l.condition || 'Unknown', 'unknown', config);
@@ -787,6 +836,9 @@
       }
       if (item.is_lot) {
         risks.push('Catalogued as a multi-item lot.');
+      }
+      if (v.stale) {
+        risks.push('Value is stale (last sale ' + (v.last_sale_date || 'undated') + ').');
       }
       if (!l.condition || l.condition === 'Unknown') {
         risks.push('The listing does not state a condition, so this assumes an ' +
@@ -1002,6 +1054,7 @@
     isOperator: isOperator,
     valuate: valuate,
     recentOnly: recentOnly,
+    recencyWindow: recencyWindow,
     adjust: adjust,
     modifierChain: modifierChain,
     priceHistory: priceHistory,

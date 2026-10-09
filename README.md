@@ -102,6 +102,14 @@ npm run sql        # regenerate seed.sql from data.json
 6. Derive buy (55–70%), trade (75–90%) and high-end ask (110–130%) from that value.
 7. Assign confidence from the comp count: **10+ HIGH · 4–9 MEDIUM · 1–3 LOW · 0 VERY LOW**.
 
+**Recency and staleness.** Every build states its date (`meta.built_at`, also
+`config.recency.as_of`), and valuations anchor on that date rather than on the clock or on
+an item's own latest sale, so the same data always gives the same answer. With 10 or more
+transactions in the 12 months to `as_of`, only those are used. With 1–9, every sale is
+used. With **none**, the value is still published from every sale but marked **stale**
+(`stale`, `stale_reason`: `no_sales_in_window` or `undated_only`, `last_sale_date`,
+`window`), says so under "Why this value", and is never offered as a deal.
+
 Every valuation carries a `why` array explaining itself, which is what the item page
 renders under "Why this value".
 

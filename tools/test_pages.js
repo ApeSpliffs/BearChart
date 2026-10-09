@@ -556,6 +556,16 @@ test('a sale by the operator is labelled as our store, never as "your own sale"'
   assert.doesNotMatch(text, /Your own sale/);
 });
 
+test('valuations in the page carry their staleness and window', () => {
+  const p = renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
+  const v = p.win.BC.valuationFor('original-pumpkin-kitty');
+  for (const k of ['stale', 'stale_reason', 'last_sale_date', 'window',
+                   'operator_count', 'sold_transactions']) {
+    assert.ok(k in v, 'valuation is missing ' + k);
+  }
+  assert.strictEqual(v.window.as_of, p.win.BEARCHART_DATA.config.recency.as_of);
+});
+
 test('a versioned item warns against merging versions', () => {
   const p = renderPage('item.html', 'item.html?id=vanilla-fudge-bunny');
   assert.match(p.doc.getElementById('item-root').textContent, /versions or variants/);

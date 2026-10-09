@@ -592,6 +592,100 @@ test('an announced retail price is never treated as a resale value', () => {
   }
 });
 
+// ---- recency and staleness ---------------------------------------------------
+
+const dated = (id, price, date, extra) => Object.assign({
+  id: id, sold_price: price, sale_date: date, evidence_type: 'completed_sale',
+  marketplace: 'eBay', listing_id: id, condition: 'Good', completeness: 'bare'
+}, extra || {});
+const asOf = (d) => Object.assign({}, CFG, {
+  recency: { window_days: 365, min_recent: 10, as_of: d }
+});
+
+test('the window is anchored on the build date, not the latest sale', () => {
+  const sales = [];
+  for (let i = 0; i < 10; i++) sales.push(dated('r' + i, 50, '2026-0' + (1 + (i % 9)) + '-01'));
+  sales.push(dated('old', 500, '2024-01-01'));
+  const v = E.valuate({ id: 'x' }, sales, asOf('2026-10-01'));
+  assert.strictEqual(v.observation_count, 10, 'the 2024 sale is left out');
+  assert.strictEqual(v.window.basis, 'recent');
+  assert.strictEqual(v.window.as_of, '2026-10-01');
+  assert.strictEqual(v.window.since, '2025-10-01');
+  assert.strictEqual(v.stale, false);
+});
+
+test('a thin recent window uses every sale and is not stale', () => {
+  const sales = [dated('a', 50, '2026-05-01'), dated('b', 60, '2023-01-01')];
+  const v = E.valuate({ id: 'x' }, sales, asOf('2026-10-01'));
+  assert.strictEqual(v.observation_count, 2);
+  assert.strictEqual(v.window.basis, 'all_time');
+  assert.strictEqual(v.stale, false);
+  assert.strictEqual(v.stale_reason, null);
+  assert.strictEqual(v.last_sale_date, '2026-05-01');
+});
+
+test('no sale in the window publishes the all-time value, marked stale', () => {
+  const sales = [dated('a', 50, '2024-03-02'), dated('b', 60, '2023-01-01')];
+  const v = E.valuate({ id: 'x' }, sales, asOf('2026-10-01'));
+  assert.strictEqual(v.has_value, true);
+  assert.strictEqual(v.observation_count, 2);
+  assert.strictEqual(v.stale, true);
+  assert.strictEqual(v.stale_reason, 'no_sales_in_window');
+  assert.strictEqual(v.last_sale_date, '2024-03-02');
+  assert.strictEqual(v.window.basis, 'all_time');
+  assert.ok(v.caveats.includes('stale'));
+  assert.ok(v.why.some((w) => /No sale recorded in the 12 months to 2026-10-01; last sale 2024-03-02/.test(w)));
+});
+
+test('undated sales alone are stale for want of a date', () => {
+  const v = E.valuate({ id: 'x' }, [
+    { id: 'a', sold_price: 50, evidence_type: 'collector_report', condition: 'Good' }
+  ], asOf('2026-10-01'));
+  assert.strictEqual(v.stale, true);
+  assert.strictEqual(v.stale_reason, 'undated_only');
+  assert.strictEqual(v.last_sale_date, null);
+});
+
+test('a config without as_of behaves as before and never reports stale', () => {
+  const legacy = Object.assign({}, CFG, { recency: { window_days: 365, min_recent: 10 } });
+  const sales = [dated('a', 50, '2019-03-02'), dated('b', 60, '2018-01-01')];
+  const v = E.valuate({ id: 'x' }, sales, legacy);
+  assert.strictEqual(v.stale, false);
+  assert.strictEqual(v.observation_count, 2);
+});
+
+test('the shipped data states its as_of date', () => {
+  assert.match(CFG.recency.as_of, /^\d{4}-\d{2}-\d{2}$/);
+  assert.strictEqual(CFG.recency.as_of, DATA.meta.built_at);
+});
+
+test('a stale value is never offered as a deal, unless asked for, with a risk', () => {
+  const sales = [];
+  for (let i = 0; i < 12; i++) sales.push(dated('s' + i, 100 + i, '2023-0' + (1 + (i % 9)) + '-01'));
+  const item = { id: 'stale-bear', canonical_name: 'Stale Bear' };
+  const cfg = asOf('2026-10-01');
+  const v = E.valuate(item, sales, cfg);
+  assert.strictEqual(v.stale, true);
+  const ctx = (c) => ({ config: c, itemById: () => item, valuationFor: () => v,
+    listings: [{ evidence_type: 'active_listing', item_id: 'stale-bear', ask_price: 20,
+                 ship_price: 0, condition: 'Good' }] });
+  assert.strictEqual(E.findDeals(ctx(cfg)).length, 0);
+  const lax = Object.assign({}, cfg, { reseller: Object.assign({}, cfg.reseller, { exclude_stale: false }) });
+  const d = E.findDeals(ctx(lax));
+  assert.strictEqual(d.length, 1);
+  assert.ok(d[0].risks.some((r) => /Value is stale \(last sale 2023-/.test(r)));
+});
+
+test('sold_transactions counts every recorded transaction, averages expanded', () => {
+  const v = E.valuate({ id: 'x' }, [
+    dated('a', 50, '2026-01-01'),
+    dated('b', 55, '2026-02-01', { sample_size: 12, evidence_type: 'collector_report' }),
+    dated('c', 60, '2026-03-01', { excluded: { reason: 'x' } }),
+    dated('d', 60, '2026-03-01', { evidence_type: 'active_listing' })
+  ], asOf('2026-10-01'));
+  assert.strictEqual(v.sold_transactions, 13);
+});
+
 // ---- deal finder -----------------------------------------------------------
 
 const listingFor = (itemId, ask, condition) => ({
@@ -600,8 +694,14 @@ const listingFor = (itemId, ask, condition) => ({
   source_url: 'https://www.ebay.com/itm/1'
 });
 
+// The deal mechanics below are exercised on long-established curated items,
+// several of which have no sale in the last twelve months. Staleness has its
+// own tests; here it is switched off so each test isolates one rule.
+const DEAL_CFG = Object.assign({}, CFG, {
+  reseller: Object.assign({}, CFG.reseller, { exclude_stale: false })
+});
 const dealCtx = (listings, cfg) => ({
-  config: cfg || CFG, listings: listings, itemById: itemById, valuationFor: valueOf
+  config: cfg || DEAL_CFG, listings: listings, itemById: itemById, valuationFor: valueOf
 });
 
 test('net proceeds subtract fees and shipping from the gross value', () => {
@@ -968,7 +1068,7 @@ test('a thin-evidence item must be a better bargain to qualify', () => {
   const listing = (ask) => ({ evidence_type: 'active_listing',
     item_id: 'employee-exclusive-holiday-moose', ask_price: ask, ship_price: 0,
     condition: 'Good', title: 't' });
-  const ctx = (ask) => ({ config: CFG, listings: [listing(ask)],
+  const ctx = (ask) => ({ config: DEAL_CFG, listings: [listing(ask)],
     itemById: itemById, valuationFor: valueOf });
 
   const v = valueOf('employee-exclusive-holiday-moose');
@@ -980,7 +1080,7 @@ test('a thin-evidence item must be a better bargain to qualify', () => {
 });
 
 test('a deal reports both the median and the floor it was judged against', () => {
-  const d = E.findDeals({ config: CFG, itemById: itemById, valuationFor: valueOf,
+  const d = E.findDeals({ config: DEAL_CFG, itemById: itemById, valuationFor: valueOf,
     listings: [{ evidence_type: 'active_listing', item_id: 'kennel-pals-calico-cat',
       ask_price: 40, condition: 'Good', title: 't' }] })[0];
   assert.ok(d.floor_value > 0);

@@ -2626,8 +2626,34 @@ def assert_sales_are_sold_evidence(sales):
         raise SystemExit("sales with a non-sale evidence_type: %s" % ", ".join(bad[:10]))
 
 
-def main():
+def parse_args(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(description="Build data.json and data.js.")
+    ap.add_argument("--as-of", metavar="YYYY-MM-DD",
+                    help="the build date valuations anchor on (default: today, UTC; "
+                         "or BEARCHART_AS_OF)")
+    ap.add_argument("--allow-shrink", action="store_true",
+                    help="build even if the sale count drops more than 2%% against "
+                         "the committed data.json")
+    return ap.parse_args(argv)
+
+
+def build_date(arg=None):
+    """The date this build states as its as_of. UTC, so a build is the same
+    date wherever it runs; overridable for a reproducible rebuild."""
+    import datetime
+    v = arg or os.environ.get("BEARCHART_AS_OF")
+    if v:
+        datetime.date.fromisoformat(v)  # raises on a malformed date
+        return v
+    return datetime.datetime.utcnow().date().isoformat()
+
+
+def main(argv=None):
+    args = parse_args(argv)
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    built_at = build_date(args.as_of)
+    CONFIG["recency"]["as_of"] = built_at
     open_questions = flag_open_questions()
     active, active_fetched_at = load_active_listings(root)
     photos = apply_image_overrides(root)
@@ -2639,6 +2665,8 @@ def main():
             ("subtitle", "Build-A-Bear Price Guide"),
             ("generated_by", "tools/build_data.py"),
             ("schema_version", 1),
+            # The date valuations are anchored on (config.recency.as_of).
+            ("built_at", built_at),
         # Where the site lives, once it lives somewhere. Needed for canonical
         # links and the sitemap; both are absolute by specification, and a
         # sitemap full of wrong URLs is worse than no sitemap at all.

@@ -5,6 +5,7 @@ globalThis.BEARCHART_DATA = {
     "subtitle": "Build-A-Bear Price Guide",
     "generated_by": "tools/build_data.py",
     "schema_version": 1,
+    "built_at": "2026-10-09",
     "site_url": "",
     "disclaimer": "BearChart is an independent collector/reseller research tool and is not affiliated with Build-A-Bear Workshop. Market values fluctuate.",
     "item_count": 2038,
@@ -167,7 +168,8 @@ globalThis.BEARCHART_DATA = {
     },
     "recency": {
       "window_days": 365,
-      "min_recent": 10
+      "min_recent": 10,
+      "as_of": "2026-10-09"
     },
     "operator_cap": 0.25
   },
