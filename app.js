@@ -376,7 +376,7 @@
     if (state.q) p.set('q', state.q);
     if (state.sort !== 'relevance') p.set('sort', state.sort);
     var qs = p.toString();
-    history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
   }
 
   // -------------------------------------------------------------------------
