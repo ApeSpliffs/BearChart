@@ -1,6 +1,6 @@
 /**
  * Environment access for edge functions. Pure: the caller passes `get`
- * (normally `(k) => Deno.env.get(k)`), so this file never touches `Deno` and
+ * (normally a wrapper over the Deno env getter), so this file never touches `Deno` and
  * can be tested with no permissions.
  *
  * BEARCHART_ENV names the deployment: development | preview | production.
@@ -59,4 +59,15 @@ export function stripeSecretKey(get: EnvGet): string {
   const key = requireEnv(get, "STRIPE_SECRET_KEY");
   assertStripeKeyMatchesEnv(key, bearchartEnv(get));
   return key;
+}
+
+/**
+ * Plan prices from PRICE_PRO / PRICE_POWER. An unset price is null and never
+ * matches anything (an empty env value must not match an empty price id).
+ */
+export function priceTableFromEnv(
+  get: EnvGet,
+): { pro: string | null; power: string | null } {
+  const v = (k: string) => (get(k) ?? "").trim() || null;
+  return { pro: v("PRICE_PRO"), power: v("PRICE_POWER") };
 }

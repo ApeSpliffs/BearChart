@@ -143,7 +143,12 @@
       .then(function (res) {
         if (res.error) throw new Error(res.error.message);
         if (!res.data || !res.data.url) throw new Error('no checkout url returned');
-        window.location.href = res.data.url;
+        // Only ever navigate to Stripe's own hosts, whatever the response says.
+        var to = BC.safeRedirect(res.data.url, ['checkout.stripe.com', 'billing.stripe.com']);
+        if (!to) throw new Error('unexpected billing address');
+        // A live member is sent to the billing portal instead of a second checkout.
+        if (res.data.portal) note('You already have a membership. Opening billing to change it\u2026');
+        window.location.href = to;
       })
       .catch(function (err) {
         btn.disabled = false;
