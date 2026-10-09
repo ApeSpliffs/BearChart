@@ -210,12 +210,15 @@ Supporting rules, each with a test in `tools/test_submissions.py`:
 | Neither queue is publicly readable | Unreviewed prices on display are the thing this design avoids |
 | One pending submission per person per item | Repeating a claim is not more evidence, it is more reviewing |
 
-**Known gap, stated rather than papered over:** `report_item()` is callable
-anonymously, so the reports table can be flooded. The damage is bounded — reports
-are admin-read-only, the reason is a fixed enum and the note is capped at 500
-characters, so a flood is a `delete` rather than a leak. If it is ever abused the
-fix is a captcha, not an account requirement, which would cost more reports than
-the spam does.
+**Limits, enforced by the database** (`supabase/migrations/20261008000100_submission_validation_and_rate_limits.sql`):
+a listing link must be a full `https://` address (a CHECK constraint and `submit_comp`
+share one validator, so a `javascript:` link cannot be stored at all), free-text fields
+are capped, a member can submit 30 sales a day, and `report_item()` takes 10 reports per
+requester per hour plus 300 anonymous reports per hour in total. Trade-off, accepted: a
+flood can use up the anonymous budget and hold off anonymous reports for up to an hour;
+signed-in reports are unaffected. If that is ever abused the next step is a captcha, not
+an account requirement. Who reviewed what is stamped by a trigger
+(`…000101_review_audit_stamp.sql`), never sent by the admin page.
 
 ## Installable, and works with no signal
 
@@ -803,7 +806,19 @@ does not exist. A test asserts no such flag is ever written.
 
 Instead this wraps **Supabase Auth**, which runs from the browser against Supabase's
 servers, so the site stays static while sessions are real JWTs. Email + password, magic
-link, and password reset are all supported.
+link, and password reset are all supported. Links use the **PKCE** flow (a one-time
+`?code=` that only works in the browser that asked for it, instead of tokens in the URL),
+a password-reset link opens a "choose a new password" form, and the address bar is
+scrubbed of codes before analytics can see it. supabase-js is **vendored**
+(`vendor/supabase-js-<version>.min.js`, loaded with Subresource Integrity; upgrade with
+`tools/vendor_supabase.sh`), so the site loads no third-party script for sign-in.
+
+**Browser hardening** (`vercel.json`): a Content-Security-Policy with no inline or
+eval'd script (every page script is a file; outbound links and image addresses go through
+`sanitize.js`), HSTS, a Permissions-Policy that switches off camera/microphone/location,
+and no framing. Allowed third parties: PostHog, Sentry (error reporting, inert without a
+DSN), Google Fonts, and the Supabase project in `config.auth.supabase_url` (a test fails if
+the two drift apart).
 
 **The page is not the security.** Admin status is asked of the server (`admins` table),
 never assumed, and every read and write is enforced by the row-level security policies in

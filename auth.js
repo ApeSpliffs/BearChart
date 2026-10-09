@@ -24,7 +24,34 @@
 (function (root) {
   'use strict';
 
-  var SUPABASE_CDN = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  // supabase-js is vendored (tools/vendor_supabase.sh): a fixed version that is
+  // reviewed in git, served from this origin, and checked by Subresource
+  // Integrity. A test fails if the file and this hash drift apart.
+  var SUPABASE_VERSION = '2.117.3';
+  var SUPABASE_FILE = 'vendor/supabase-js-' + SUPABASE_VERSION + '.min.js';
+  var SUPABASE_SRI = 'sha384-BWcjm9OdFth9TbhCxZPdm+gAOUMAzQy9nmTs12ioXdCcbVnJaPMn+fMUoQCLt60R';
+
+  // Resolved against auth.js's own URL, so pages one level down (item/*.html)
+  // and email redirect targets both point at the site root.
+  var SELF = (typeof document !== 'undefined' && document.currentScript &&
+              document.currentScript.src) || '';
+  function siteUrl(path) {
+    try { return SELF ? new URL(path, SELF).href : path; } catch (e) { return path; }
+  }
+
+  var S = root.BearChartSanitize;
+
+  // Password policy, in one place. The real enforcement is the Supabase Auth
+  // setting (dashboard); raise this only together with it.
+  var MIN_PASSWORD_LENGTH = 8;
+  function passwordProblem(pw) {
+    return !pw || pw.length < MIN_PASSWORD_LENGTH
+      ? 'Use a password of at least ' + MIN_PASSWORD_LENGTH + ' characters.'
+      : null;
+  }
+
+  // Email-link types supabase verifyOtp accepts for a token_hash link.
+  var OTP_TYPES = ['email', 'recovery', 'signup', 'magiclink', 'invite', 'email_change'];
 
   // The one place the auth settings are resolved: data.json's config.auth with
   // the deploy's config.js (BEARCHART_RUNTIME.auth) on top. Everything else that
@@ -34,6 +61,8 @@
   var client = null;
   var session = null;
   var profile = { isAdmin: false };
+  var recovery = false;   // signed in by a password-reset link: must choose a new password
+  var linkError = null;   // an email link that failed (expired, already used)
   var listeners = [];
   var readyResolve;
   var ready = new Promise(function (r) { readyResolve = r; });
@@ -56,7 +85,9 @@
       signedIn: !!session,
       user: session ? session.user : null,
       email: session && session.user ? session.user.email : null,
-      isAdmin: profile.isAdmin
+      isAdmin: profile.isAdmin,
+      recovery: recovery && !!session,
+      linkError: linkError
     };
   }
 
@@ -68,7 +99,7 @@
   // browser-appropriate timeout on every page it renders.
   var SCRIPT_TIMEOUT_MS = Number(root.__BEARCHART_SCRIPT_TIMEOUT_MS || 8000);
 
-  function loadScript(src) {
+  function loadScript(src, integrity) {
     return new Promise(function (resolve, reject) {
       var done = false;
       var timer = setTimeout(function () {
@@ -78,6 +109,7 @@
       }, SCRIPT_TIMEOUT_MS);
 
       var el = document.createElement('script');
+      if (integrity) { el.integrity = integrity; el.crossOrigin = 'anonymous'; }
       el.src = src;
       el.onload = function () {
         if (done) { return; }
@@ -117,17 +149,27 @@
       readyResolve(state());
       return ready;
     }
-    return loadScript(SUPABASE_CDN)
+    captureLinkError();
+    return loadScript(siteUrl(SUPABASE_FILE), SUPABASE_SRI)
       .then(function () {
-        client = root.supabase.createClient(cfg.supabase_url, cfg.supabase_anon_key);
-        return client.auth.getSession();
-      })
-      .then(function (res) {
-        session = (res && res.data) ? res.data.session : null;
-        client.auth.onAuthStateChange(function (_event, s) {
+        // PKCE: an email link carries a one-time ?code= that is useless
+        // without the verifier kept in THIS browser - no tokens in the URL.
+        client = root.supabase.createClient(cfg.supabase_url, cfg.supabase_anon_key, {
+          auth: { flowType: 'pkce', detectSessionInUrl: true, persistSession: true }
+        });
+        // Registered synchronously, before getSession, so the PASSWORD_RECOVERY
+        // event fired while the client initialises is not missed.
+        client.auth.onAuthStateChange(function (event, s) {
+          if (event === 'PASSWORD_RECOVERY') recovery = true;
           session = s;
           refreshAdmin().then(notify);
         });
+        return verifyTokenHash();
+      })
+      .then(function () { return client.auth.getSession(); })
+      .then(function (res) {
+        session = (res && res.data) ? res.data.session : null;
+        scrubAddressBar();
         return refreshAdmin();
       })
       .then(function () {
@@ -145,6 +187,51 @@
         readyResolve(state());
         return state();
       });
+  }
+
+  function linkParams() {
+    var out = {};
+    if (!root.location) return out;
+    [root.location.search, root.location.hash].forEach(function (part) {
+      var p = new URLSearchParams(String(part || '').replace(/^[?#]/, ''));
+      p.forEach(function (v, k) { if (!(k in out)) out[k] = v; });
+    });
+    return out;
+  }
+
+  /** An email link that failed says so in the URL; keep the message to show. */
+  function captureLinkError() {
+    var p = linkParams();
+    if (p.error_description || p.error) {
+      linkError = String(p.error_description || p.error).replace(/\+/g, ' ').slice(0, 200);
+    }
+  }
+
+  /**
+   * Cross-device links. PKCE cannot finish in a browser that did not start the
+   * flow, so the email templates may instead link with ?token_hash=&type=
+   * (owner TODO in the security spec), which is verified here.
+   */
+  function verifyTokenHash() {
+    var p = linkParams();
+    if (!p.token_hash || OTP_TYPES.indexOf(p.type) === -1) return Promise.resolve();
+    return client.auth.verifyOtp({ token_hash: p.token_hash, type: p.type })
+      .then(function (res) {
+        if (res && res.error) { linkError = res.error.message; return; }
+        if (p.type === 'recovery') recovery = true;
+      })
+      .catch(function (e) { linkError = (e && e.message) || 'That link did not work.'; });
+  }
+
+  /** Remove login codes/tokens from the address bar (and so from analytics and history). */
+  function scrubAddressBar() {
+    if (!S || !root.location || !root.history || !root.history.replaceState) return;
+    var href = root.location.href;
+    var p = linkParams();
+    var sensitive = S.SENSITIVE_URL_PARAMS.some(function (k) { return k in p; });
+    if (!sensitive) return;   // leave ordinary #anchors alone
+    var clean = S.scrubUrl(href);
+    if (clean !== href) root.history.replaceState(root.history.state, '', clean);
   }
 
   // --- actions ---------------------------------------------------------------
@@ -171,12 +258,14 @@
 
   function signUp(email, password) {
     if (!email) return Promise.resolve({ ok: false, message: 'Enter an email address.' });
-    if (!password || password.length < 8) {
-      return Promise.resolve({ ok: false, message: 'Use a password of at least 8 characters.' });
-    }
+    var weak = passwordProblem(password);
+    if (weak) return Promise.resolve({ ok: false, message: weak });
     var bad = guard();
     if (bad) return Promise.resolve(bad);
-    return wrap(client.auth.signUp({ email: email, password: password }));
+    return wrap(client.auth.signUp({
+      email: email, password: password,
+      options: { emailRedirectTo: siteUrl('account.html') }
+    }));
   }
 
   function signIn(email, password) {
@@ -193,14 +282,29 @@
     if (!email) return Promise.resolve({ ok: false, message: 'Enter an email address.' });
     var bad = guard();
     if (bad) return Promise.resolve(bad);
-    return wrap(client.auth.signInWithOtp({ email: email }));
+    return wrap(client.auth.signInWithOtp({
+      email: email, options: { emailRedirectTo: siteUrl('account.html') }
+    }));
   }
 
   function resetPassword(email) {
     if (!email) return Promise.resolve({ ok: false, message: 'Enter an email address.' });
     var bad = guard();
     if (bad) return Promise.resolve(bad);
-    return wrap(client.auth.resetPasswordForEmail(email));
+    return wrap(client.auth.resetPasswordForEmail(email, { redirectTo: siteUrl('account.html') }));
+  }
+
+  /** Set a new password (after a reset link, or from the account page). */
+  function updatePassword(pw, confirm) {
+    var weak = passwordProblem(pw);
+    if (weak) return Promise.resolve({ ok: false, message: weak });
+    if (pw !== confirm) return Promise.resolve({ ok: false, message: 'Those passwords do not match.' });
+    var bad = guard();
+    if (bad) return Promise.resolve(bad);
+    return wrap(client.auth.updateUser({ password: pw })).then(function (r) {
+      if (r.ok) { recovery = false; notify(); }
+      return r;
+    });
   }
 
   function signOut() {
@@ -209,6 +313,7 @@
     return wrap(client.auth.signOut()).then(function (r) {
       session = null;
       profile.isAdmin = false;
+      recovery = false;
       notify();
       return r;
     });
@@ -231,6 +336,9 @@
     signIn: signIn,
     signInWithLink: signInWithLink,
     resetPassword: resetPassword,
+    updatePassword: updatePassword,
+    passwordProblem: passwordProblem,
+    MIN_PASSWORD_LENGTH: MIN_PASSWORD_LENGTH,
     signOut: signOut,
     onChange: onChange,
     // Exposed so the collection can read and write the user's own rows. Null
@@ -240,6 +348,7 @@
       client = c;
       session = s || null;
       return refreshAdmin().then(function (r) { notify(); return r; });
-    }
+    },
+    _setRecoveryForTests: function (on) { recovery = !!on; notify(); }
   };
 })(typeof globalThis !== 'undefined' ? globalThis : this);

@@ -767,7 +767,10 @@ test('a real photo renders with alt text and an error fallback', () => {
   }, 'hero');
   assert.match(html, /src="\/images\/lucky\.jpg"/);
   assert.match(html, /alt="Lucky Kitty"/);
-  assert.match(html, /onerror=/, 'a broken photo must fall back to the placeholder');
+  // No inline handler (the CSP forbids them): the fallback rides in a data
+  // attribute that one capture-phase listener in common.js swaps in.
+  assert.match(html, /data-fallback="data:image\/svg\+xml/, 'a broken photo must fall back to the placeholder');
+  assert.doesNotMatch(html, /onerror=/);
   assert.match(html, /loading="lazy"/);
 });
 
@@ -846,7 +849,7 @@ function renderWithListings(itemId, listings) {
     runScripts: 'dangerously', pretendToBeVisual: true
   }));
   dom.window.BEARCHART_DATA = data;
-  for (const src of ['engine.js', 'common.js', 'item.js']) {
+  for (const src of ['sanitize.js', 'engine.js', 'common.js', 'item.js']) {
     dom.window.eval(fs.readFileSync(path.join(ROOT, src), 'utf8'));
   }
   return dom.window.document;
@@ -1203,7 +1206,8 @@ test('the price guide carries the shop panel, labelled as the shop', () => {
   assert.match(promo.textContent, /shop behind BearChart/i);
   const link = promo.querySelector('a.btn');
   assert.match(link.getAttribute('href'), /^https:\/\/jaysretroexchange\.com/);
-  assert.strictEqual(link.getAttribute('rel'), 'noopener');
+  // sanitize.js extLink default (cross-spec decision #5).
+  assert.strictEqual(link.getAttribute('rel'), 'noopener noreferrer');
   assert.strictEqual(link.getAttribute('target'), '_blank');
 });
 
@@ -1385,7 +1389,7 @@ function renderWithBusiness(itemId, business) {
     runScripts: 'dangerously', pretendToBeVisual: true
   }));
   dom.window.BEARCHART_DATA = data;
-  for (const src of ['engine.js', 'icons.js', 'common.js', 'item.js']) {
+  for (const src of ['sanitize.js', 'engine.js', 'icons.js', 'common.js', 'item.js']) {
     dom.window.eval(fs.readFileSync(path.join(ROOT, src), 'utf8'));
   }
   return dom.window;
@@ -1480,7 +1484,7 @@ function renderDeals(listings) {
     runScripts: 'dangerously', pretendToBeVisual: true
   }));
   dom.window.BEARCHART_DATA = data;
-  for (const src of ['engine.js', 'icons.js', 'common.js', 'deals.js']) {
+  for (const src of ['sanitize.js', 'engine.js', 'icons.js', 'common.js', 'deals.js']) {
     dom.window.eval(fs.readFileSync(path.join(ROOT, src), 'utf8'));
   }
   return dom.window;
@@ -2118,8 +2122,20 @@ test('the membership tab is reachable from every page', () => {
 // later "simplifying" away a check that is the only thing standing between a
 // stranger and a free Power membership.
 
+// index.ts is wiring only; the logic lives in _shared/. Concatenate both so
+// these shape tests keep guarding wherever the code moved.
+function sharedSources(dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))
+    .flatMap((d) => {
+      const p = path.join(dir, d.name);
+      if (d.isDirectory()) return sharedSources(p);
+      return d.name.endsWith('.ts') ? [fs.readFileSync(p, 'utf8')] : [];
+    });
+}
+const SHARED_DIR = path.join(ROOT, 'supabase', 'functions', '_shared');
 const edgeFn = (name) =>
-  fs.readFileSync(path.join(ROOT, 'supabase', 'functions', name, 'index.ts'), 'utf8');
+  [fs.readFileSync(path.join(ROOT, 'supabase', 'functions', name, 'index.ts'), 'utf8')]
+    .concat(sharedSources(SHARED_DIR)).join('\n');
 
 test('the webhook verifies the Stripe signature before trusting the body', () => {
   const src = edgeFn('stripe-webhook');
@@ -2135,9 +2151,11 @@ test('the webhook never takes the tier or the user from the request', () => {
   const src = edgeFn('stripe-webhook');
   // Tier comes from the price id Stripe reports, matched against env.
   assert.match(src, /function tierForPrice/);
-  assert.match(src, /Deno\.env\.get\("PRICE_POWER"\)/);
-  // User comes from client_reference_id, which was set server-side at checkout.
-  assert.match(src, /session\.client_reference_id/);
+  assert.match(src, /get\("PRICE_POWER"\)|v\("PRICE_POWER"\)/);
+  // User: the recorded customer first, then client_reference_id, which was set
+  // server-side at checkout.
+  assert.match(src, /o\.client_reference_id/);
+  assert.match(src, /known \?\? \(isUuid\(hint\) \? hint : null\)/);
   assert.doesNotMatch(src, /body\.(user_id|tier)/,
     'a request that could name its own tier would not need to pay');
 });
@@ -2148,12 +2166,14 @@ test('the webhook is idempotent, because Stripe delivers at least once', () => {
   assert.match(src, /duplicate: true/);
   assert.match(src, /23505/, 'a unique-violation means we have seen this event');
   // A failed handler must release the lock so the retry can do real work.
-  assert.match(src, /from\("stripe_events"\)\.delete\(\)\.eq\("id", event\.id\)/);
+  assert.match(src, /from\("stripe_events"\)\.delete\(\)\.eq\("id", id\)/);
+  assert.match(src, /await events\.release\(e\.id\)/);
 });
 
 test('the webhook writes with the service role, which no client holds', () => {
   const src = edgeFn('stripe-webhook');
   assert.match(src, /SUPABASE_SERVICE_ROLE_KEY/);
+  assert.match(src, /rpc\("apply_subscription_state"/);
   const sql = readSchema();
   assert.match(sql, /alter table stripe_events enable row level security/);
   assert.doesNotMatch(sql, /create policy \w+ on stripe_events/,
@@ -2162,17 +2182,21 @@ test('the webhook writes with the service role, which no client holds', () => {
 
 test('checkout resolves the buyer from their token, not from the body', () => {
   const src = edgeFn('create-checkout');
-  assert.match(src, /supabase\.auth\.getUser\(\)/);
-  assert.match(src, /client_reference_id: user\.id/);
+  assert.match(src, /client\.auth\.getUser\(\)/);
+  assert.match(src, /client_reference_id: i\.userId/);
+  assert.match(src, /userId: caller\.id/);
   assert.doesNotMatch(src, /body\.user_id|body\?\.user_id/);
 });
 
 test('checkout takes a plan name and resolves the price itself', () => {
   const src = edgeFn('create-checkout');
   assert.match(src, /function priceForPlan/);
-  assert.match(src, /line_items: \[\{ price, quantity: 1 \}\]/);
+  assert.match(src, /line_items: \[\{ price: i\.priceId, quantity: 1 \}\]/);
   // A caller who could pass a price id could pass the cheapest one.
   assert.doesNotMatch(src, /body\.price|price: *body/);
+  // Never echo the input back.
+  assert.match(src, /error: "unknown plan" \}/);
+  assert.doesNotMatch(src, /unknown plan: \$\{/);
 });
 
 test('checkout does not leak provider errors to the browser', () => {
@@ -2187,7 +2211,28 @@ test('members can cancel without emailing anyone', () => {
   assert.match(src, /billingPortal\.sessions\.create/);
   // The customer is looked up for the caller under their own RLS, so nobody
   // can open somebody else's billing page.
-  assert.match(src, /\.eq\("user_id", user\.id\)/);
+  assert.match(src, /forUser\(caller\.user\.id\)/);
+  assert.match(src, /\.eq\("user_id", userId\)/);
+});
+
+test('every edge function checks the Stripe key against the environment and is observed', () => {
+  for (const name of ['stripe-webhook', 'create-checkout', 'create-portal']) {
+    const idx = fs.readFileSync(path.join(ROOT, 'supabase', 'functions', name, 'index.ts'), 'utf8');
+    assert.match(idx, /stripeSecretKey\(get\)/, name + ' must use the live/test key guard');
+    assert.match(idx, new RegExp('withObservability\\("' + name + '"'), name);
+    // Settings are read on the request, never at module load.
+    assert.doesNotMatch(idx, /^const \w+ = .*Deno\.env/m, name);
+  }
+});
+
+test('pure billing modules never import esm.sh or touch Deno', () => {
+  const pure = ['http.ts', 'env.ts', 'billing/types.ts', 'billing/ports.ts', 'billing/policy.ts',
+    'billing/service.ts', 'billing/checkout_service.ts', 'billing/webhook_handler.ts'];
+  for (const f of pure) {
+    const src = fs.readFileSync(path.join(SHARED_DIR, f), 'utf8');
+    assert.doesNotMatch(src, /esm\.sh/, f);
+    assert.doesNotMatch(src, /\bDeno\./, f);
+  }
 });
 
 test('the client sends a plan name and never a price', () => {
@@ -2360,4 +2405,257 @@ test('member photos follow the deploy override: accounts off means no request at
   await win.BearChartSubmissions.memberPhotos();
   assert.strictEqual(fetched.length, 1);
   assert.match(fetched[0], /^https:\/\/prod\.supabase\.co\/rest\/v1\/item_photos/);
+});
+
+// ---- security: links, CSP, auth links (security workstream) -----------------
+
+const ROOT_HTML = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html')).sort();
+const ROOT_JS = fs.readdirSync(ROOT).filter((f) => f.endsWith('.js')).sort();
+
+test('an image with a javascript: url renders the placeholder, not the url', () => {
+  const p = renderPage('index.html');
+  const html = p.win.BC.imageHtml({ id: 'x', canonical_name: 'X', image_url: 'javascript:alert(1)' }, 'hero');
+  assert.doesNotMatch(html, /javascript:/i);
+  assert.match(html, /is-placeholder/);
+});
+
+test('a broken photo swaps in its fallback through the delegated listener', () => {
+  const p = renderPage('index.html');
+  const host = p.doc.createElement('div');
+  host.innerHTML = p.win.BC.imageHtml({ id: 'x', canonical_name: 'X', image_url: '/nope.jpg' }, 'thumb');
+  p.doc.body.appendChild(host);
+  const img = host.querySelector('img');
+  img.dispatchEvent(new p.win.Event('error'));
+  assert.match(img.getAttribute('src'), /^data:image\/svg\+xml/);
+  assert.ok(img.classList.contains('is-placeholder'));
+});
+
+test('the admin queue never turns a member-supplied javascript: link into an href', () => {
+  const win = renderWithAuth('admin.html');
+  const row = win.__adminTest.compRow({ id: 'c1', item_slug: 'lucky-kitty', sold_price: 10,
+    status: 'pending', listing_url: 'javascript:alert(1)', listing_id: '12345' });
+  assert.doesNotMatch(row, /href="javascript/i);
+  assert.match(row, /12345/, 'the listing id is still shown as text');
+  const ok = win.__adminTest.compRow({ id: 'c2', item_slug: 'lucky-kitty', sold_price: 10,
+    status: 'pending', listing_url: 'https://www.ebay.com/itm/1' });
+  assert.match(ok, /href="https:\/\/www\.ebay\.com\/itm\/1"/);
+  assert.match(ok, /rel="noopener noreferrer"/);
+});
+
+test('no dynamic href is built with esc() alone', () => {
+  for (const f of ROOT_JS.filter((x) => x !== 'data.js' && x !== 'sanitize.js')) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    assert.doesNotMatch(src, /href="' \+ (BC\.)?esc\(/, f + ': use BC.extLink / BC.safeUrl for outbound links');
+  }
+});
+
+test('every CSV goes through the formula-safe toCsv in sanitize.js', () => {
+  for (const f of ROOT_JS.filter((x) => x !== 'data.js' && x !== 'sanitize.js')) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    assert.doesNotMatch(src, /replace\(\/"\/g, '""'\)/, f + ' hand-rolls CSV quoting');
+  }
+});
+
+test('the listing field takes an https link or a bare id, nothing else', () => {
+  const win = renderWithAuth('item.html', 'item.html?id=lucky-kitty');
+  const S = win.BearChartSubmissions;
+  assert.deepStrictEqual(Object.assign({}, S.classifyListingRef('https://www.ebay.com/itm/123')),
+    { listing_url: 'https://www.ebay.com/itm/123' });
+  assert.deepStrictEqual(Object.assign({}, S.classifyListingRef('123456789')), { listing_id: '123456789' });
+  assert.match(S.classifyListingRef('javascript:alert(1)').error, /https:\/\//);
+  assert.match(S.classifyListingRef('javascript:').error, /https:\/\//);
+  assert.match(S.classifyListingRef('http://www.ebay.com/itm/1').error, /https:\/\//);
+});
+
+test('a problem report sends the page path, never the full address', async () => {
+  const win = renderWithAuth('item.html', 'item.html?id=lucky-kitty&code=secret#access_token=t');
+  const client = mockClient({});
+  await win.BearChartAuth._setClientForTests(client, null);
+  const res = await win.BearChartSubmissions.reportItem({ item_slug: 'lucky-kitty', reason: 'other' });
+  assert.strictEqual(res.ok, true);
+  const [fn, args] = client.calls[0];
+  assert.strictEqual(fn, 'report_item');
+  assert.strictEqual(args.entry.page_url, '/item.html');
+});
+
+test('no page runs an inline script (the CSP allows none)', () => {
+  for (const f of ROOT_HTML) {
+    const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    for (const m of html.matchAll(/<script\b([^>]*)>/gi)) {
+      const attrs = m[1];
+      if (/\bsrc=/.test(attrs) || /type="application\/ld\+json"/.test(attrs)) continue;
+      assert.fail(f + ' has an inline <script' + attrs + '>');
+    }
+    assert.doesNotMatch(html, /\son[a-z]+\s*=\s*["']/i, f + ' has an inline event handler');
+  }
+});
+
+test('no script builds markup with an inline event handler', () => {
+  for (const f of ROOT_JS.filter((x) => x !== 'data.js' && x !== 'icons.js')) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    assert.doesNotMatch(src, /\son[a-z]+=\s*["']/, f);
+  }
+});
+
+test('the CSP and security headers are set for every path', () => {
+  const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
+  const all = vercel.headers.find((h) => h.source === '/(.*)');
+  assert.ok(all, 'a catch-all header block');
+  const get = (k) => (all.headers.find((h) => h.key === k) || {}).value || '';
+  const csp = get('Content-Security-Policy');
+  const directive = (name) => (csp.split(';').map((d) => d.trim())
+    .find((d) => d.split(/\s+/)[0] === name) || '');
+  assert.match(csp, /frame-ancestors 'none'/);
+  assert.match(csp, /object-src 'none'/);
+  assert.match(csp, /base-uri 'self'/);
+  const scriptSrc = directive('script-src');
+  assert.ok(scriptSrc, 'script-src is set');
+  assert.doesNotMatch(scriptSrc, /unsafe-inline|unsafe-eval/);
+  assert.doesNotMatch(csp, /jsdelivr|unpkg/);
+  // Error reporting (observability.js) loads Sentry's bundle and posts to its ingest host.
+  assert.match(scriptSrc, /https:\/\/browser\.sentry-cdn\.com/);
+  assert.match(directive('connect-src'), /https:\/\/\*\.ingest\.us\.sentry\.io/);
+  assert.match(scriptSrc, /https:\/\/us-assets\.i\.posthog\.com/);
+  // The Supabase project the site talks to must be allowed, or sign-in breaks.
+  const host = new URL(loadData().config.auth.supabase_url).host;
+  assert.ok(directive('connect-src').split(/\s+/).includes('https://' + host), 'connect-src has ' + host);
+  assert.ok(directive('connect-src').split(/\s+/).includes('wss://' + host), 'connect-src has wss://' + host);
+  assert.match(get('Strict-Transport-Security'), /max-age=\d{8,}/);
+  assert.match(get('Permissions-Policy'), /camera=\(\)/);
+  assert.strictEqual(get('X-Frame-Options'), 'DENY');
+});
+
+test('the Sentry bundle observability.js loads is the one the CSP allows', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'observability.js'), 'utf8');
+  const url = src.match(/SDK_URL = '([^']+)'/)[1];
+  assert.strictEqual(new URL(url).origin, 'https://browser.sentry-cdn.com');
+  assert.match(src, /SDK_SRI = 'sha384-/);
+});
+
+test('supabase-js is vendored and pinned: no CDN anywhere', () => {
+  for (const f of ROOT_HTML.concat(['auth.js'])) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    assert.doesNotMatch(src, /jsdelivr|unpkg/, f);
+  }
+});
+
+test('the vendored supabase-js matches the SRI hash auth.js loads it with', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'auth.js'), 'utf8');
+  const ver = src.match(/SUPABASE_VERSION = '([^']+)'/)[1];
+  const sri = src.match(/SUPABASE_SRI = '([^']+)'/)[1];
+  const file = path.join(ROOT, 'vendor', 'supabase-js-' + ver + '.min.js');
+  assert.ok(fs.existsSync(file), file + ' exists');
+  const digest = require('node:crypto').createHash('sha384').update(fs.readFileSync(file)).digest('base64');
+  assert.strictEqual(sri, 'sha384-' + digest, 'run tools/vendor_supabase.sh and update auth.js');
+  const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  assert.strictEqual(pkg.devDependencies['@supabase/supabase-js'], ver,
+    'package.json pins the same exact version');
+  assert.match(fs.readFileSync(path.join(ROOT, 'tools', 'build_site.sh'), 'utf8'),
+    /cp -r [^\n]*\bvendor\b/, 'build_site.sh ships vendor/');
+});
+
+test('sanitize.js loads before auth.js on every page that loads auth', () => {
+  for (const f of ROOT_HTML) {
+    const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    if (html.indexOf('auth.js') === -1) continue;
+    assert.ok(html.indexOf('sanitize.js') > -1, f + ' loads sanitize.js');
+    assert.ok(html.indexOf('sanitize.js') < html.indexOf('auth.js'), f + ': sanitize.js before auth.js');
+    assert.ok(html.indexOf('observability.js') < html.indexOf('sanitize.js'), f + ': after observability.js');
+  }
+  const pages = fs.readFileSync(path.join(ROOT, 'tools', 'build_pages.py'), 'utf8');
+  const scripts = pages.match(/SCRIPTS = \[([^\]]+)\]/)[1];
+  assert.ok(scripts.indexOf('"sanitize.js"') > -1 && scripts.indexOf('"sanitize.js"') < scripts.indexOf('"auth.js"'),
+    'generated item pages load sanitize.js before auth.js');
+  const pwa = fs.readFileSync(path.join(ROOT, 'tools', 'build_pwa.py'), 'utf8');
+  for (const f of ['sanitize.js', 'about.js', 'page.js']) assert.ok(pwa.indexOf('"' + f + '"') > -1, f + ' precached');
+});
+
+test('the dead direct collections upload is gone from the account page', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'account.js'), 'utf8');
+  assert.doesNotMatch(src, /add_collection_items/);
+});
+
+test('auth uses PKCE and listens for PASSWORD_RECOVERY before reading the session', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'auth.js'), 'utf8');
+  assert.match(src, /flowType: 'pkce'/);
+  const listen = src.indexOf('onAuthStateChange(');
+  const read = src.indexOf('getSession(');
+  assert.ok(listen > -1 && read > -1 && listen < read, 'register the listener before getSession');
+  assert.match(src, /PASSWORD_RECOVERY/);
+  assert.match(src, /redirectTo: siteUrl\('account\.html'\)/);
+  assert.match(src, /emailRedirectTo: siteUrl\('account\.html'\)/);
+});
+
+function recoveryClient() {
+  const c = mockClient({});
+  c.updates = [];
+  c.auth = { updateUser: (u) => { c.updates.push(u); return Promise.resolve({ data: {}, error: null }); } };
+  return c;
+}
+
+test('a password-reset link asks for a new password and checks it', async () => {
+  const win = renderWithAuth('account.html');
+  const A = win.BearChartAuth;
+  const client = recoveryClient();
+  await A._setClientForTests(client, { user: { id: 'u1', email: 'jay@example.com' } });
+  A._setRecoveryForTests(true);
+  assert.ok(win.document.getElementById('new-password'), 'the recovery view is shown');
+  assert.ok(win.document.getElementById('confirm-password'));
+  assert.strictEqual(win.document.getElementById('new-password').getAttribute('autocomplete'), 'new-password');
+  assert.match((await A.updatePassword('short', 'short')).message, /at least 8/);
+  assert.match((await A.updatePassword('long-enough-1', 'long-enough-2')).message, /do not match/);
+  assert.strictEqual(client.updates.length, 0, 'nothing is sent for an invalid password');
+  const ok = await A.updatePassword('long-enough-1', 'long-enough-1');
+  assert.strictEqual(ok.ok, true);
+  // The arg object comes from the jsdom realm: compare by JSON, not prototype.
+  assert.strictEqual(JSON.stringify(client.updates), JSON.stringify([{ password: 'long-enough-1' }]));
+  assert.strictEqual(A.state().recovery, false);
+  assert.ok(!win.document.getElementById('new-password'), 'back to the normal account view');
+});
+
+test('the password minimum has one definition', () => {
+  const win = renderWithAuth('account.html');
+  const A = win.BearChartAuth;
+  assert.strictEqual(A.MIN_PASSWORD_LENGTH, 8);
+  assert.match(A.passwordProblem('1234567'), /at least 8/);
+  assert.strictEqual(A.passwordProblem('12345678'), null);
+});
+
+test('analytics never receives login codes from the address bar', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'common.js'), 'utf8');
+  assert.match(src, /before_send: S \? S\.scrubEvent/);
+  assert.match(src, /sanitize_properties:/);
+  assert.match(src, /custom_personal_data_properties/);
+});
+
+test('member uploads are sniffed and re-encoded, and approval re-encodes before publishing', () => {
+  const subs = fs.readFileSync(path.join(ROOT, 'submissions.js'), 'utf8');
+  assert.match(subs, /sniffImageType\(/);
+  assert.doesNotMatch(subs, /file\.type/, 'the declared type is never trusted');
+  const admin = fs.readFileSync(path.join(ROOT, 'admin.js'), 'utf8');
+  const body = admin.slice(admin.indexOf('function approvePhoto'), admin.indexOf('function rejectPhoto'));
+  assert.ok(body.indexOf('shrinkPhoto(') > -1 && body.indexOf('shrinkPhoto(') < body.indexOf('.upload('),
+    'approvePhoto re-encodes before uploading to the public bucket');
+  assert.doesNotMatch(body, /reviewed_at:/, 'the database stamps the reviewer');
+});
+
+test('billing redirects only ever go to Stripe', () => {
+  for (const f of ['account.js', 'plans.js']) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    assert.match(src, /BC\.safeRedirect\(res\.data\.url, \['checkout\.stripe\.com', 'billing\.stripe\.com'\]\)/, f);
+    assert.doesNotMatch(src, /location\.href = res\.data\.url/, f);
+  }
+});
+
+test('affiliate links are marked sponsored', () => {
+  const p = renderPage('index.html');
+  const BC = p.win.BC;
+  const saved = BC.business.ebay_campaign_id;
+  BC.business.ebay_campaign_id = '5338000000';
+  try {
+    const a = BC.affiliateLink('https://www.ebay.com/itm/1', 'x');
+    assert.match(a, /campid=5338000000/);
+    assert.match(a, /rel="noopener noreferrer sponsored"/);
+    assert.strictEqual(BC.affiliateLink('javascript:alert(1)', 'x'), 'x');
+  } finally { BC.business.ebay_campaign_id = saved; }
 });

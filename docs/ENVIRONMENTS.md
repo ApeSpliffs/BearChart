@@ -11,7 +11,7 @@ take real money.
 | Stripe | test keys, `stripe listen` | test-mode keys and test prices | live keys and live prices |
 | Sentry `environment` | (off) | `preview` | `production` |
 | PostHog | off (localhost) | off unless opted in | on |
-| eBay deletion endpoint | n/a | expected to answer 500 "not configured" | `EBAY_VERIFICATION_TOKEN`, `EBAY_DELETION_ENDPOINT` |
+| eBay deletion endpoint | n/a | expected to answer 500 "not configured" | `EBAY_VERIFICATION_TOKEN`, `EBAY_DELETION_ENDPOINT`, `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET` |
 
 ## How the browser learns its environment
 
@@ -48,8 +48,16 @@ Set separately for the **Preview** and **Production** scopes.
 | `BEARCHART_SENTRY_DSN` | DSN | DSN | Omit to keep error reporting off |
 | `BEARCHART_POSTHOG_KEY` | optional | optional | Defaults to the key in `common.js` |
 | `BEARCHART_POSTHOG_ON_PREVIEW` | `1` to opt in | — | Analytics are off on previews otherwise |
+
+**Content-Security-Policy.** `vercel.json` sends one CSP for every deployment, and its
+`connect-src` names only the production Supabase host (`https://` and `wss://`). A
+preview pointed at the staging project needs the staging host added there too
+(`https://<staging-ref>.supabase.co wss://<staging-ref>.supabase.co`) or sign-in on the
+preview is blocked by the browser. A Sentry DSN must be on `*.ingest.us.sentry.io`
+(the US region) to be allowed.
 | `EBAY_VERIFICATION_TOKEN` | — | required | `api/ebay-deletion.js` |
 | `EBAY_DELETION_ENDPOINT` | — | required | The public URL registered with eBay |
+| `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET` | — | required | Production keyset; `api/ebay-deletion.js` uses them to fetch eBay's signing keys and verify each notification (unsigned POSTs get 412) |
 
 Vercel provides `VERCEL_ENV`, `VERCEL_URL`, `VERCEL_PROJECT_PRODUCTION_URL` and
 `VERCEL_GIT_COMMIT_SHA` (used as the error-report `release`) itself. The Node version

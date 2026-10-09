@@ -107,6 +107,24 @@
         : '');
   }
 
+  /** Reached through a password-reset link: the only thing to do is choose a new password. */
+  function recoveryView() {
+    return '<div class="panel">' +
+      '<h2>Choose a new password</h2>' +
+      '<p id="auth-msg" hidden></p>' +
+      '<div class="row" style="margin-top:12px">' +
+        '<div class="field"><label for="new-password">New password</label>' +
+        '<input type="password" id="new-password" autocomplete="new-password"></div>' +
+        '<div class="field"><label for="confirm-password">Type it again</label>' +
+        '<input type="password" id="confirm-password" autocomplete="new-password"></div>' +
+      '</div>' +
+      '<p class="fine">At least ' + A.MIN_PASSWORD_LENGTH + ' characters.</p>' +
+      '<p style="margin-top:14px">' +
+        '<button type="button" class="primary" id="do-update-password">Save new password</button>' +
+      '</p>' +
+      '</div>';
+  }
+
   // --- behaviour -------------------------------------------------------------
 
   function val(id) {
@@ -141,6 +159,14 @@
     });
   }
 
+  function bindRecovery() {
+    document.getElementById('do-update-password').addEventListener('click', function () {
+      var pw = document.getElementById('new-password').value;
+      var again = document.getElementById('confirm-password').value;
+      handle(A.updatePassword(pw, again), 'Password updated.');
+    });
+  }
+
   function bindSignedIn() {
     document.getElementById('do-signout').addEventListener('click', function () {
       A.signOut().then(render);
@@ -161,7 +187,9 @@
           .then(function (res) {
             if (res.error) throw new Error(res.error.message);
             if (!res.data || !res.data.url) throw new Error('no portal url returned');
-            window.location.href = res.data.url;
+            var to = BC.safeRedirect(res.data.url, ['checkout.stripe.com', 'billing.stripe.com']);
+            if (!to) throw new Error('unexpected billing address');
+            window.location.href = to;
           })
           .catch(function (err) { msg(err.message, 'warn'); });
       });
@@ -184,35 +212,9 @@
       });
       return;
     }
+    // The only sync path is BC.cloud (collection_entries, gated server-side).
     var out = document.getElementById('sync-out');
-    var client = A.getClient();
-    var s = A.state();
-    if (!client || !s.signedIn) {
-      out.innerHTML = '<div class="notice warn">Not signed in.</div>';
-      return;
-    }
-    var rows = localCollection().map(function (e) {
-      return {
-        user_id: s.user.id,
-        item_id_slug: e.item_id,
-        condition: e.condition,
-        completeness: e.completeness,
-        qty: e.qty || 1
-      };
-    });
-    if (!rows.length) return;
-
-    out.innerHTML = '<p class="fine">Uploading ' + rows.length + ' item(s)…</p>';
-    client.rpc('add_collection_items', { entries: rows })
-      .then(function (res) {
-        if (res && res.error) throw new Error(res.error.message);
-        out.innerHTML = '<div class="notice">Uploaded. Your collection is now on your ' +
-          'account.</div>';
-      })
-      .catch(function (err) {
-        out.innerHTML = '<div class="notice warn">Could not upload: ' +
-          BC.esc(err.message) + '<br>Your collection is still safe in this browser.</div>';
-      });
+    if (out) out.innerHTML = '<div class="notice warn">Sync is not available right now.</div>';
   }
 
   function render() {
@@ -221,13 +223,18 @@
       root.innerHTML = notConfigured();
       return;
     }
-    if (s.signedIn) {
+    if (s.signedIn && s.recovery) {
+      root.innerHTML = recoveryView();
+      bindRecovery();
+    } else if (s.signedIn) {
       root.innerHTML = signedIn(s);
       bindSignedIn();
     } else {
       root.innerHTML = signedOut();
       bindSignedOut();
     }
+    // An email link that failed (expired, already used) says why.
+    if (s.linkError) msg(s.linkError, 'warn');
   }
 
   A.ready.then(render);

@@ -5,7 +5,7 @@
  */
 'use strict';
 
-const CACHE = 'bearchart-4e8f7633a580';
+const CACHE = 'bearchart-ed107e6aa496';
 const PRECACHE = [
   "./",
   "index.html",
@@ -22,6 +22,7 @@ const PRECACHE = [
   "styles.css",
   "config.js",
   "observability.js",
+  "sanitize.js",
   "data.js",
   "engine.js",
   "icons.js",
@@ -38,6 +39,8 @@ const PRECACHE = [
   "roadmap.js",
   "plans.js",
   "account.js",
+  "about.js",
+  "page.js",
   "manifest.webmanifest",
   "icons/icon-192.png",
   "icons/icon-512.png",
