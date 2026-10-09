@@ -425,6 +425,12 @@ test('checkout: our row lags Stripe -> a live Stripe subscription still sends th
   assert.deepEqual(calls.list, ['cus_1']);
   assert.equal(calls.checkout.length, 0);
 });
+test('checkout: an unpaid Stripe subscription goes to the portal to fix the card', async () => {
+  const { svc, calls } = checkoutWith({ cus_1: [sub({ status: 'unpaid', priceId: 'price_pro' })] });
+  const r = await svc.start(caller, 'pro', { customerId: 'cus_1', subscriptionId: 'sub_1', status: 'canceled' });
+  assert.equal(r.kind, 'portal');
+  assert.equal(calls.checkout.length, 0);
+});
 test('checkout: a live subscription on a foreign (store) price does not block a membership', async () => {
   const { svc, calls } = checkoutWith({ cus_1: [sub({ status: 'active', priceId: 'price_store' })] });
   const r = await svc.start(caller, 'pro', { customerId: 'cus_1', subscriptionId: null, status: 'canceled' });

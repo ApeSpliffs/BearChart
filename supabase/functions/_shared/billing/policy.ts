@@ -22,6 +22,13 @@ export const REVOKE_ON_FULL_REFUND = true;
 
 export const LIVE_STATUSES: readonly string[] = ["active", "trialing", "past_due"];
 
+/**
+ * Stripe statuses that mean "already a member; manage it, don't buy again".
+ * Adds Stripe's `unpaid` (our row maps it to past_due): such a customer must
+ * fix their card in the portal, not start a second subscription.
+ */
+export const PORTAL_STATUSES: readonly string[] = [...LIVE_STATUSES, "unpaid"];
+
 const UUID =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 

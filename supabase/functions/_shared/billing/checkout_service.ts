@@ -10,7 +10,7 @@
 import type { CheckoutGateway, SubscriptionGateway } from "./ports.ts";
 import {
   hasLiveMembership,
-  LIVE_STATUSES,
+  PORTAL_STATUSES,
   priceForPlan,
   tierForPrice,
 } from "./policy.ts";
@@ -54,7 +54,7 @@ export function createCheckoutService(deps: CheckoutServiceDeps) {
       if (!live && customerId) {
         const subs = await gateway.listSubscriptions(customerId);
         live = subs.some((s) =>
-          LIVE_STATUSES.includes(s.status) &&
+          PORTAL_STATUSES.includes(s.status) &&
           tierForPrice(s.priceId, prices) !== null
         );
       }

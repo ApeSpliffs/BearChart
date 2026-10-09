@@ -180,3 +180,9 @@ Deno (the security workstream's billing tests rely on it).
 bare 500, and is reported to Sentry only when `SENTRY_DSN` is set.
 `_shared/env.ts` refuses a live Stripe key outside `BEARCHART_ENV=production`
 and a test key inside it.
+
+**Known gap: a first-time buyer's double checkout.** Checkout asks Stripe for the
+customer's live subscriptions before selling another, but a buyer with no Stripe
+customer yet who opens two checkout tabs and pays in both gets two subscriptions.
+The webhook logs "duplicate live subscriptions" and the member keeps the better
+one; refund the other from the dashboard. Accepted (rare, visible, reversible).
