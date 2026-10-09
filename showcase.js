@@ -45,7 +45,6 @@
   function isShowcasePhotoPath(p) {
     return typeof p === 'string' && /^[0-9a-f-]{36}\/[a-z0-9]{8,40}\.jpg$/.test(p);
   }
-  window.BearChartShowcase = { isShowcasePhotoPath: isShowcasePhotoPath };
 
   // Short-lived links for members' photos (the bucket is private). Storage
   // signs only what the read policy allows: your own photos, or photos on a

@@ -545,8 +545,11 @@
       '</tr>';
   }
 
-  // Exposed for tests only (tools/test_pages.js renders rows with hostile input).
-  window.__adminTest = { compRow: compRow };
+  // Exposed only under the test DOM (tools/test_pages.js renders rows with
+  // hostile input); never in a real browser.
+  if (/jsdom/i.test((window.navigator && navigator.userAgent) || '')) {
+    window.__adminTest = { compRow: compRow };
+  }
 
   function reportRow(r) {
     var item = BC.itemById(r.item_slug);

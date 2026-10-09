@@ -367,12 +367,16 @@
     syncUrl();
   }
 
+  // Only this page's own parameters are rewritten. Anything else in the
+  // address (an email link's ?code= / token_hash or #access_token, which
+  // supabase-js reads and auth.js scrubs) is left exactly as it was.
   function syncUrl() {
-    var p = new URLSearchParams();
+    var p = new URLSearchParams(location.search);
+    p.delete('q'); p.delete('sort');
     if (state.q) p.set('q', state.q);
     if (state.sort !== 'relevance') p.set('sort', state.sort);
     var qs = p.toString();
-    history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+    history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
   }
 
   // -------------------------------------------------------------------------

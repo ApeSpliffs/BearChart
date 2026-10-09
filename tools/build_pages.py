@@ -193,7 +193,9 @@ def shop_promo(business, val):
     Labelled as the shop behind the guide, because an unlabelled advert from
     the person publishing the valuations is how a price guide loses its reader.
     """
-    if not (business.get("enabled") and business.get("shop_url")):
+    shop_url = business.get("shop_url") or ""
+    # Same rule as sanitize.js: an https link or no promo at all.
+    if not (business.get("enabled") and re.match(r"^https://[^\s\"'<>\\]+$", shop_url)):
         return ""
     if val and val.get("has_value"):
         return ""
@@ -203,13 +205,13 @@ def shop_promo(business, val):
         '<h3 class="promo-title">%s</h3>'
         '<p class="promo-blurb">%s</p>'
         '<p class="promo-act"><a class="btn btn-primary" href="%s" '
-        'target="_blank" rel="noopener">%s</a></p>'
+        'target="_blank" rel="noopener noreferrer">%s</a></p>'
         '<p class="promo-note">%s</p>'
         '</aside>'
         % (e(business.get("shop_eyebrow") or business.get("name")),
            e(business.get("shop_headline") or business.get("name")),
            e(business.get("shop_blurb") or ""),
-           e(business["shop_url"]),
+           e(shop_url),
            e(business.get("shop_cta") or "Visit the shop"),
            e(business.get("shop_disclosure") or "")))
 

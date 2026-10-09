@@ -2659,3 +2659,45 @@ test('affiliate links are marked sponsored', () => {
     assert.strictEqual(BC.affiliateLink('javascript:alert(1)', 'x'), 'x');
   } finally { BC.business.ebay_campaign_id = saved; }
 });
+
+test('the guide rewrites only its own URL parameters, never an auth link\'s', () => {
+  const p = renderPage('index.html', 'index.html?code=abc&sort=relevance#access_token=t');
+  const q = p.doc.getElementById('q');
+  q.value = 'bear';
+  q.dispatchEvent(new p.win.Event('input'));
+  return new Promise((done) => setTimeout(() => {
+    const loc = p.win.location;
+    assert.match(loc.search, /code=abc/);
+    assert.match(loc.search, /q=bear/);
+    assert.strictEqual(loc.hash, '#access_token=t');
+    done();
+  }, 200));
+});
+
+test('a failed email link shows a fixed message, not text from the URL', async () => {
+  const win = renderWithAuth('account.html',
+    'account.html?error=access_denied&error_description=Call+0800+SCAM+now');
+  // init() runs on load; the link error is captured before anything else.
+  await new Promise((r) => setTimeout(r, 20));
+  const msg = win.BearChartAuth.state().linkError;
+  assert.ok(msg, 'the link error is reported');
+  assert.doesNotMatch(msg, /SCAM|0800/);
+  assert.match(msg, /expired or has already been used/);
+});
+
+test('a contact email that could add mailto parameters gets no button', () => {
+  const win = renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '',
+    contact_email: 'jay@example.com?bcc=x@evil.test' });
+  assert.doesNotMatch(win.document.body.innerHTML, /mailto:/);
+  const ok = renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '',
+    contact_email: 'jay@example.com' });
+  assert.match(ok.document.body.innerHTML, /mailto:jay@example\.com\?subject=/);
+});
+
+test('no test-only hooks leak into a real browser', () => {
+  const admin = fs.readFileSync(path.join(ROOT, 'admin.js'), 'utf8');
+  const hook = admin.indexOf('window.__adminTest =');
+  assert.ok(hook > -1 && admin.lastIndexOf('/jsdom/i.test(', hook) > hook - 200,
+    '__adminTest is only set under jsdom');
+  assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'showcase.js'), 'utf8'), /window\.BearChartShowcase/);
+});

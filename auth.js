@@ -199,12 +199,15 @@
     return out;
   }
 
-  /** An email link that failed says so in the URL; keep the message to show. */
+  /**
+   * An email link that failed says so in the URL. Show a fixed message, never
+   * the URL's own text: anyone can craft a link that "says" anything.
+   */
+  var LINK_ERROR = 'That email link has expired or has already been used. ' +
+    'Ask for a new one below.';
   function captureLinkError() {
     var p = linkParams();
-    if (p.error_description || p.error) {
-      linkError = String(p.error_description || p.error).replace(/\+/g, ' ').slice(0, 200);
-    }
+    if (p.error_description || p.error || p.error_code) linkError = LINK_ERROR;
   }
 
   /**

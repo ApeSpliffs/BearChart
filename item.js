@@ -121,7 +121,8 @@
         contact = BC.extLink(b.contact_url, 'Get an offer',
           { className: 'btn btn-primary', schemes: ['https:'] });
       }
-    } else if (/^[^\s@<>"']+@[^\s@<>"']+$/.test(b.contact_email || '')) {
+    } else if (/^[^\s@<>"'?&]+@[^\s@<>"'?&]+$/.test(b.contact_email || '')) {
+      // No ? or & in the address: it must not be able to add mailto parameters.
       contact = '<a class="btn btn-primary" href="mailto:' + BC.esc(b.contact_email) +
         '?subject=' + encodeURIComponent('Selling: ' + item.canonical_name) +
         '">Get an offer</a>';

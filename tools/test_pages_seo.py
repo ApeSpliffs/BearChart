@@ -203,7 +203,13 @@ class ShopPromoTests(unittest.TestCase):
 
     def test_the_outbound_link_is_safe(self):
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
-        self.assertIn('rel="noopener"', html)
+        self.assertIn('rel="noopener noreferrer"', html)
+
+    def test_the_shop_link_matches_the_site_rel_and_is_https_only(self):
+        html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
+        self.assertIn('rel="noopener noreferrer"', html)
+        for bad in ("javascript:alert(1)", "http://jaysretroexchange.com", "//evil.test"):
+            self.assertNotIn("promo-title", bp.page_html(UNPRICED, NO_VAL, [], "", "d", dict(SHOP, shop_url=bad)), bad)
 
     def test_shop_copy_is_escaped(self):
         nasty = dict(SHOP, shop_headline='<script>alert(1)</script>')
