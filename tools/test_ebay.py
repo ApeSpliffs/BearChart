@@ -8,6 +8,7 @@ No network. The searcher is injected, so every eBay response here is a fixture
 shaped like a real Browse API itemSummary payload.
 """
 
+import contextlib
 import io
 import json
 import os
@@ -42,7 +43,6 @@ def summary(item_id, title, price, **kw):
 class Args:
     def __init__(self, **kw):
         self.client_id = None
-        self.client_secret = None
         self.limit = kw.get("limit", 5)
         self.per_item = kw.get("per_item", 20)
         self.item = kw.get("item")
@@ -319,6 +319,16 @@ class TitleConfirmationTests(unittest.TestCase):
         ok, why = eb.title_confirms({"canonical_name": "Bear"}, "Build-A-Bear Bear")
         self.assertFalse(ok)
         self.assertIn("generic", why)
+
+
+class CredentialTests(unittest.TestCase):
+    def test_client_secret_is_not_a_cli_flag(self):
+        # A secret on the command line lands in shell history and `ps`.
+        with self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()):
+            eb.build_parser().parse_args(["--client-secret", "x"])
+
+    def test_client_id_is_still_a_flag(self):
+        self.assertEqual(eb.build_parser().parse_args(["--client-id", "abc"]).client_id, "abc")
 
 
 class QueryTests(unittest.TestCase):

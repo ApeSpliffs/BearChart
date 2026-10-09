@@ -11,6 +11,10 @@ Get a free key at https://developer.ebay.com — create an application, then use
 Production "App ID" (client id) and "Cert ID" (client secret). No approval process:
 Browse is a general-release API, unlike Marketplace Insights.
 
+Secrets come only from the environment or the gitignored .env file (EBAY_CLIENT_SECRET).
+There is deliberately no --client-secret flag: a CLI argument ends up in shell
+history and in `ps` output for every user on the machine.
+
 =============================================================================
 WHAT THIS IS NOT
 =============================================================================
@@ -447,7 +451,8 @@ def run(args, searcher=None, token=None):
 
     if searcher is None:
         cid = args.client_id or os.environ.get("EBAY_CLIENT_ID")
-        secret = args.client_secret or os.environ.get("EBAY_CLIENT_SECRET")
+        # Never a CLI flag (shell history, `ps`): environment or .env only.
+        secret = os.environ.get("EBAY_CLIENT_SECRET")
         if not cid or not secret:
             raise SystemExit(
                 "eBay credentials missing.\n\n"
@@ -552,11 +557,12 @@ def run(args, searcher=None, token=None):
     return 0
 
 
-def main():
+def build_parser():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--client-id")
-    ap.add_argument("--client-secret")
+    ap.add_argument("--client-id",
+                    help="eBay App ID; defaults to EBAY_CLIENT_ID from the environment or .env. "
+                         "The client secret is read from EBAY_CLIENT_SECRET only.")
     ap.add_argument("--limit", type=int, default=20,
                     help="how many catalogue items to search for (default 20)")
     ap.add_argument("--per-item", type=int, default=20,
@@ -577,7 +583,11 @@ def main():
                     help="add the release year to each query (narrows hard - eBay ANDs it)")
     ap.add_argument("--loose", action="store_true",
                     help="accept results whose title omits Build-A-Bear branding")
-    args = ap.parse_args()
+    return ap
+
+
+def main():
+    args = build_parser().parse_args()
     try:
         return run(args)
     except EbayError as e:
