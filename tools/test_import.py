@@ -339,6 +339,29 @@ class ShippingTests(ImportTests):
         self.assertIsNone(imp.parse_price("-3", allow_zero=True))
 
 
+class OperatorTests(ImportTests):
+    def test_a_seller_column_naming_the_operator_flags_the_sale(self):
+        ids_path = os.path.join(self.tmp, "operator_identities.json")
+        with open(ids_path, "w") as f:
+            json.dump({"ebay": ["JaysRetro"]}, f)
+        original = imp.OPERATOR_IDS
+        imp.OPERATOR_IDS = ids_path
+        try:
+            path = write_csv([{"Title": "Lucky Kitty", "Sold Price": "54", "Seller": "jaysretro"},
+                              {"Title": "Lucky Kitty", "Sold Price": "55", "Seller": "someone"}],
+                             ["Title", "Sold Price", "Seller"])
+            self.capture(Args(path, marketplace="eBay"))
+        finally:
+            imp.OPERATOR_IDS = original
+        rows = self.imported()
+        self.assertTrue(rows[0]["seller_is_operator"])
+        self.assertFalse(rows[1]["seller_is_operator"])
+        blob = json.dumps(rows)
+        self.assertNotIn("jaysretro", blob.lower())
+        self.assertNotIn("someone", blob)
+        self.assertNotIn('"seller"', blob)
+
+
 class AggregateTests(ImportTests):
     """Terapeak reports an average across N sales, not a list of transactions."""
 
@@ -477,6 +500,7 @@ class MySalesTests(unittest.TestCase):
         self.capture(MyArgs(path))
         row = self.imported()[0]
         self.assertTrue(row["first_party"])
+        self.assertTrue(row["seller_is_operator"], "own sales are always operator sales")
         self.assertEqual(row["item_id"], "lucky-kitty")
         self.assertEqual(row["sold_price"], 128.0)
         self.assertEqual(row["evidence_type"], "completed_sale")

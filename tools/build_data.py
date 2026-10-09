@@ -2555,6 +2555,11 @@ def merge_imported_sales(root):
              s.get("sale_date") or "", s.get("listing_id") or "") for s in SALES}
     merged = 0
     for s in imported:
+        # Only sold evidence may enter SALES. An operator offer or ask, an active
+        # listing or a retail price is never a sale, whatever file it came from.
+        if s.get("evidence_type") not in V.MARKET_EVIDENCE_TYPES:
+            raise ValueError("imported_sales.json row %s has evidence_type %r, which is "
+                             "not sold evidence" % (s.get("id"), s.get("evidence_type")))
         if s["item_id"] not in known:
             continue
         key = (s["item_id"], round(float(s["sold_price"]), 2),
@@ -2613,12 +2618,21 @@ def flag_open_questions():
     return n
 
 
+def assert_sales_are_sold_evidence(sales):
+    """No row in SALES may be anything but sold evidence."""
+    bad = [s["id"] for s in sales if s.get("evidence_type") in V.NON_SALE_EVIDENCE_TYPES
+           or s.get("evidence_type") not in V.MARKET_EVIDENCE_TYPES]
+    if bad:
+        raise SystemExit("sales with a non-sale evidence_type: %s" % ", ".join(bad[:10]))
+
+
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     open_questions = flag_open_questions()
     active, active_fetched_at = load_active_listings(root)
     photos = apply_image_overrides(root)
     imported = merge_imported_sales(root)
+    assert_sales_are_sold_evidence(SALES)
     out = OrderedDict([
         ("meta", OrderedDict([
             ("name", "BearChart"),

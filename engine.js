@@ -195,12 +195,47 @@
     return (typeof n === 'number' && n > 0) ? Math.floor(n) : 1;
   }
 
+  /**
+   * Provenance alone decides strength. A sale by the operator gets no bonus:
+   * Jay's Retro Exchange runs this site, so its own sales are a conflict of
+   * interest to be capped (see valuate), not the best evidence there is.
+   */
   function isStrongEvidence(sale, config) {
-    // Your own sale is the strongest evidence available: you knew the condition,
-    // you knew what was in the box, and you saw the money. Nothing had to be
-    // inferred from a listing title.
-    if (sale.first_party) return true;
     return config.strong_evidence_types.indexOf(sale.evidence_type) !== -1;
+  }
+
+  /** Sold by the operator: imported from its own records, or a known seller id. */
+  function isOperator(sale) {
+    return !!(sale && (sale.first_party || sale.seller_is_operator));
+  }
+
+  /**
+   * Operator points kept behind a value: at most config.operator_cap of all
+   * points, i.e. floor(third * cap / (1 - cap)). The most recent are kept
+   * (date desc, then id asc, so the choice is deterministic). Without a
+   * configured cap, none are kept - the safe direction.
+   */
+  function capOperator(points, config) {
+    var cap = typeof config.operator_cap === 'number' ? config.operator_cap : 0;
+    var third = points.filter(function (p) { return !isOperator(p.sale); });
+    var op = points.filter(function (p) { return isOperator(p.sale); });
+    var maxOp = cap > 0 && cap < 1 ? Math.floor(third.length * cap / (1 - cap) + 1e-9) : 0;
+    op.sort(function (a, b) {
+      var da = a.sale.sale_date || '', db = b.sale.sale_date || '';
+      if (da !== db) return da < db ? 1 : -1;
+      var ia = String(a.sale.id || ''), ib = String(b.sale.id || '');
+      return ia < ib ? -1 : ia > ib ? 1 : 0;
+    });
+    var keepOp = op.slice(0, maxOp);
+    var kept = {};
+    keepOp.forEach(function (p) { kept[p.sale.id] = true; });
+    return {
+      third: third.length,
+      points: points.filter(function (p) { return !isOperator(p.sale) || kept[p.sale.id]; }),
+      excluded: op.slice(maxOp).map(function (p) {
+        return { sale_id: p.sale.id, reason: 'operator_cap' };
+      })
+    };
   }
 
   // ---- confidence ---------------------------------------------------------
@@ -255,7 +290,7 @@
   function valuate(item, sales, config) {
     var why = [];
     var usable = (sales || []).filter(function (s) {
-      return isMarketEvidence(s, config) && effectivePrice(s) != null;
+      return !s.excluded && isMarketEvidence(s, config) && effectivePrice(s) != null;
     });
     var recency = usable.length ? recentOnly(usable, config) : null;
     if (recency) usable = recency.sales;
@@ -280,6 +315,8 @@
       lower_bound_basis: null,
       outlier_note: null,
       first_party_count: 0,
+      operator_count: 0,
+      operator_excluded: [],
       aggregate_count: 0,
       observation_count: 0,
       excluded_outliers: [],
@@ -331,6 +368,24 @@
     result.outlier_note = verdict.note;
     if (!kept.length) kept = points; // never throw away every comp
 
+    // Jay's Retro Exchange runs BearChart. Its own sales are capped, never
+    // boosted, and on their own they publish nothing.
+    var capped = capOperator(kept, config);
+    if (!capped.third) {
+      result.operator_count = kept.length;
+      result.operator_excluded = kept.map(function (p) {
+        return { sale_id: p.sale.id, reason: 'operator_only' };
+      });
+      result.excluded_outliers = [];
+      why.length = 0;
+      why.push('The only sales recorded are by Jay\'s Retro Exchange, which runs this ' +
+               'site, so no value is published from them.');
+      result.caveats.push('operator-only');
+      return result;
+    }
+    kept = capped.points;
+    result.operator_excluded = capped.excluded;
+
     var keptNorms = sortNums(kept.map(function (p) { return p.norm; }));
     var n = kept.reduce(function (a, p) { return a + sampleSize(p.sale); }, 0);
 
@@ -352,6 +407,7 @@
         completeness: p.sale.completeness || null,
         evidence_type: p.sale.evidence_type || null,
         first_party: !!p.sale.first_party,
+        operator: isOperator(p.sale),
         sale_date: p.sale.sale_date || null
       };
     });
@@ -369,6 +425,7 @@
     }).length;
     result.ranged_count = kept.filter(function (p) { return p.sale.ranged; }).length;
     result.first_party_count = kept.filter(function (p) { return !!p.sale.first_party; }).length;
+    result.operator_count = kept.filter(function (p) { return isOperator(p.sale); }).length;
 
     var fmv = percentile(keptNorms, 0.5);
     result.fair_market = fmv;
@@ -434,11 +491,15 @@
                'than reality.');
     }
 
-    if (result.first_party_count) {
-      why.push(result.first_party_count + ' of these ' +
-               (result.first_party_count === 1 ? 'is a sale you made yourself'
-                                               : 'are sales you made yourself') +
-               ', where the condition and contents are known rather than inferred.');
+    if (result.operator_count || result.operator_excluded.length) {
+      why.push(result.operator_count + ' of these comps ' +
+               (result.operator_count === 1 ? 'was' : 'were') + ' sold by Jay\'s Retro ' +
+               'Exchange, which runs BearChart; operator sales are capped at ' +
+               Math.round((config.operator_cap || 0) * 100) + '% of the comps behind a value' +
+               (result.operator_excluded.length
+                 ? ', so ' + result.operator_excluded.length + ' more ' +
+                   (result.operator_excluded.length === 1 ? 'is' : 'are') + ' listed but left out.'
+                 : '.'));
     }
     if (result.strong_evidence_count === 0) {
       result.caveats.push('no-strong-evidence');
@@ -578,7 +639,9 @@
   function askSpread(valuation, listings) {
     if (!valuation || !valuation.has_value) return null;
     var asks = (listings || [])
-      .filter(function (l) { return l && l.evidence_type === 'active_listing'; })
+      .filter(function (l) {
+        return l && l.evidence_type === 'active_listing' && !l.seller_is_operator;
+      })
       .map(function (l) { return l.ask_price; })
       .filter(function (p) { return typeof p === 'number' && p > 0; });
     if (!asks.length) return null;
@@ -671,6 +734,8 @@
 
     (opts.listings || []).forEach(function (l) {
       if (!l || l.evidence_type !== 'active_listing') return;
+      // Never offer the operator's own listings as bargains on its own guide.
+      if (l.seller_is_operator) return;
       var ask = l.ask_price;
       if (!(typeof ask === 'number' && ask > 0)) return;
 
@@ -934,6 +999,7 @@
     completenessMultiplier: completenessMultiplier,
     confidenceFor: confidenceFor,
     sampleSize: sampleSize,
+    isOperator: isOperator,
     valuate: valuate,
     recentOnly: recentOnly,
     adjust: adjust,

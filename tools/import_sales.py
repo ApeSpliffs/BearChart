@@ -38,6 +38,7 @@ import domain_vocab as V  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMPORTED = os.path.join(ROOT, "tools", "imported_sales.json")
+OPERATOR_IDS = os.path.join(ROOT, "tools", "operator_identities.json")
 
 # Header aliases. Terapeak, Seller Hub and hand-kept sheets all name things
 # differently; normalise() strips case, spaces and punctuation before matching.
@@ -59,7 +60,32 @@ COLUMNS = OrderedDict([
     # valuation: every comp is priced on the item alone.
     ("ship_price",   ["shipping", "shippingcost", "shippingprice", "postage",
                       "avgshipping", "averageshipping", "shippingpaid"]),
+    # Read only to recognise the operator's own sales (seller_is_operator).
+    # The value itself is never stored: it is eBay user data.
+    ("seller",       ["seller", "sellerusername", "sellerid"]),
 ])
+
+
+def load_operator_identities(path=None):
+    """{platform: set(lowercased usernames)} for Jay's Retro Exchange, the store
+    that runs BearChart. Committed, filled in by the owner, never emitted."""
+    p = path or OPERATOR_IDS
+    if not os.path.exists(p):
+        return {}
+    with open(p) as f:
+        raw = json.load(f)
+    return {k.lower(): {str(u).strip().lower() for u in v if str(u).strip()}
+            for k, v in raw.items() if isinstance(v, list)}
+
+
+def is_operator_seller(username, identities, platform=None):
+    """Is this seller one of the operator's accounts? Platform-scoped when known."""
+    u = str(username or "").strip().lower()
+    if not u:
+        return False
+    if platform and str(platform).lower() in identities:
+        return u in identities[str(platform).lower()]
+    return any(u in names for names in identities.values())
 
 # Free-text condition and completeness wording -> BearChart's vocabulary. The
 # patterns live in tools/domain_vocab.py, the one definition shared with the
@@ -286,6 +312,7 @@ def run(args):
     seen |= {dedupe_key(s) for s in existing}
 
     matcher = Matcher(data["items"])
+    operators = load_operator_identities()
 
     with open(args.csvfile, newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
@@ -366,6 +393,10 @@ def run(args):
             ("shipping_included", False),
             ("ship_price", parse_price(rec.get("ship_price"), allow_zero=True)),
             ("sample_size", sample),
+            # Sold by Jay's Retro Exchange: capped in every valuation. The seller
+            # name that told us so is dropped here and never written.
+            ("seller_is_operator", is_operator_seller(rec.get("seller"), operators,
+                                                      marketplace)),
             ("notes", (rec.get("notes") or "").strip() or None),
             ("import_match", how),
         ])

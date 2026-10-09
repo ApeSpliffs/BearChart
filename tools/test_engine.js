@@ -766,22 +766,106 @@ test('anything that is not an active listing is ignored', () => {
 
 // ---- first-party sales -----------------------------------------------------
 
-test('your own sale counts as the strongest evidence', () => {
+const opSale = (id, price, date, extra) => Object.assign({
+  id: id, sold_price: price, sale_date: date, evidence_type: 'completed_sale',
+  marketplace: 'eBay', listing_id: id, condition: 'Good', completeness: 'bare'
+}, extra || {});
+
+test('an operator sale is not strong evidence without provenance', () => {
   const v = E.valuate({ id: 'x' }, [
-    { id: 'a', sold_price: 60, evidence_type: 'collector_report', first_party: true,
+    { id: 'a', sold_price: 60, evidence_type: 'collector_report', condition: 'Good',
+      completeness: 'bare' },
+    { id: 'b', sold_price: 62, evidence_type: 'collector_report', first_party: true,
       condition: 'Good', completeness: 'bare' }
   ], CFG);
-  assert.strictEqual(v.strong_evidence_count, 1,
-    'a first-party sale is strong even without a listing id');
-  assert.strictEqual(v.first_party_count, 1);
-  assert.ok(v.why.some((w) => /yourself/.test(w)));
+  assert.strictEqual(v.strong_evidence_count, 0,
+    'provenance rules apply to the operator exactly as to anyone else');
+  assert.strictEqual(v.operator_count, 0, 'one third-party comp supports no operator comp');
+  assert.ok(v.why.some((w) => /Jay's Retro Exchange/.test(w)));
+  assert.ok(!v.why.some((w) => /yourself/.test(w)));
 });
 
-test('a first-party sale does not suppress the usual caveats', () => {
+test('operator comps are capped at a quarter of the comps behind a value', () => {
+  const sales = [
+    opSale('t1', 50, '2026-01-01'), opSale('t2', 52, '2026-01-02'), opSale('t3', 54, '2026-01-03'),
+    opSale('o1', 90, '2026-02-01', { first_party: true }),
+    opSale('o2', 91, '2026-03-01', { seller_is_operator: true }),
+    opSale('o3', 92, '2026-04-01', { first_party: true })
+  ];
+  const v = E.valuate({ id: 'x' }, sales, CFG);
+  assert.strictEqual(v.operator_count, 1);
+  assert.deepStrictEqual(v.operator_excluded.map((e) => e.sale_id).sort(), ['o1', 'o2']);
+  assert.ok(v.operator_excluded.every((e) => e.reason === 'operator_cap'));
+  assert.deepStrictEqual(v.points.filter((p) => p.operator).map((p) => p.sale_id), ['o3'],
+    'the most recent operator comp is the one kept');
+  assert.strictEqual(v.comparable_count, 4);
+});
+
+test('operator points never exceed the cap, whatever the mix', () => {
+  for (let third = 1; third <= 40; third++) {
+    const sales = [];
+    for (let i = 0; i < third; i++) sales.push(opSale('t' + i, 50 + (i % 7), '2026-01-01'));
+    for (let i = 0; i < 40; i++) {
+      sales.push(opSale('o' + i, 50 + (i % 5), '2026-02-01', { seller_is_operator: true }));
+    }
+    const v = E.valuate({ id: 'x' }, sales, CFG);
+    const op = v.points.filter((p) => p.operator).length;
+    assert.ok(op <= CFG.operator_cap * v.points.length + 1e-9,
+      third + ' third-party: ' + op + ' of ' + v.points.length);
+  }
+});
+
+test('an item with only operator sales publishes no value', () => {
+  const v = E.valuate({ id: 'x' }, [
+    opSale('o1', 90, '2026-02-01', { first_party: true }),
+    opSale('o2', 95, '2026-03-01', { seller_is_operator: true })
+  ], CFG);
+  assert.strictEqual(v.has_value, false);
+  assert.strictEqual(v.fair_market, null);
+  assert.ok(v.caveats.includes('operator-only'));
+  assert.ok(v.why.some((w) => /Jay's Retro Exchange, which runs this site/.test(w)));
+});
+
+test('operator offers, asks and listings never count as sales', () => {
+  for (const t of ['operator_offer', 'operator_ask', 'active_listing', 'retail_reference']) {
+    const v = E.valuate({ id: 'x' }, [opSale('a', 60, '2026-01-01', { evidence_type: t })], CFG);
+    assert.strictEqual(v.has_value, false, t);
+  }
+});
+
+test('the business offer bands never feed a valuation', () => {
+  const sales = salesFor('kennel-pals-calico-cat');
+  const item = itemById('kennel-pals-calico-cat');
+  const a = E.valuate(item, sales, CFG);
+  const b = E.valuate(item, sales, Object.assign({}, CFG, {
+    business: { buy_pct: [0.01, 0.02], offer: 1, enabled: true }
+  }));
+  assert.deepStrictEqual(b, a);
+});
+
+test('operator listings are never offered as deals or counted in the ask spread', () => {
+  const own = Object.assign(listingFor('kennel-pals-calico-cat', 40),
+    { ship_price: 0, seller_is_operator: true });
+  assert.strictEqual(E.findDeals(dealCtx([own])).length, 0);
+  const v = valueOf('kennel-pals-calico-cat');
+  assert.strictEqual(E.askSpread(v, [own]), null);
+});
+
+test('excluded sales are kept for the record but never priced', () => {
+  const v = E.valuate({ id: 'x' }, [
+    opSale('a', 60, '2026-01-01', { excluded: { reason: 'not this item' } })
+  ], CFG);
+  assert.strictEqual(v.has_value, false);
+});
+
+test('an operator sale does not suppress the usual caveats', () => {
   const v = E.valuate({ id: 'x', release_status: 'current' }, [
     { id: 'a', sold_price: 60, evidence_type: 'completed_sale', first_party: true,
+      condition: 'Good', completeness: 'bare' },
+    { id: 'b', sold_price: 61, evidence_type: 'completed_sale',
       condition: 'Good', completeness: 'bare' }
   ], CFG);
+  assert.strictEqual(v.has_value, true);
   assert.ok(v.caveats.includes('current-retail'));
 });
 

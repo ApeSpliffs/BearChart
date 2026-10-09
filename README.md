@@ -73,7 +73,7 @@ npm run sql        # regenerate seed.sql from data.json
 | `seed.sql` | The research, as idempotent SQL inserts |
 | `tools/build_data.py` | **The source of truth for the data.** Edit here, not in data.json |
 | `tools/import_sales.py` | Bulk CSV importer for sold comps (Terapeak, hand-kept sheets) |
-| `tools/import_my_sales.py` | Import your own completed sales — the strongest evidence |
+| `tools/import_my_sales.py` | Import the operator's own completed sales (capped, labelled) |
 | `tools/audit_duplicates.py` | Duplicate and ambiguous-name audit (`npm run audit`) |
 | `tools/attach_images.py` | Bulk photo attachment |
 | `tools/ebay_active.py` | eBay Browse API adapter — current asking prices |
@@ -678,12 +678,20 @@ npm run import:mine -- orders.csv --dry
 npm run import:mine -- orders.csv --condition Good
 ```
 
-eBay Seller Hub → Reports → Downloads → Orders. **This is the best data the database can
-hold.** A comp read off a listing title is a guess about what was in the box; your own
-sale is not — you knew the condition, what came with it, and what it cleared. Those rows
-are marked `first_party` and the engine counts them as the strongest evidence there is,
-above a third-party completed sale, because nothing had to be inferred. It is also data
-no competitor can copy.
+eBay Seller Hub → Reports → Downloads → Orders. These are sales by **Jay's Retro
+Exchange, the store that runs BearChart** — which is exactly why they are not treated as
+the best evidence. A price guide run by a store that also sells has a conflict of interest
+in its own sales, so every row is marked `first_party` and `seller_is_operator` and the
+engine **caps** them: operator sales make up at most 25% of the comps behind any value
+(`operator_cap`), the most recent ones are kept, and an item whose only sales are the
+operator's publishes **no value at all**. They get no evidence bonus — provenance rules
+apply to them exactly as to anyone else — and the item page labels each one
+"Seller: Jay's Retro Exchange (our store)".
+
+The same flag is set on Terapeak imports when a `seller` column matches one of the
+usernames in `tools/operator_identities.json`, and on active listings from
+`npm run ebay`, which are then never shown as deals. The username is only compared,
+never stored.
 
 **Privacy:** an order report contains buyer names, addresses and email. The importer reads
 a strict **allowlist** of columns — title, price, date, item number, quantity, condition —

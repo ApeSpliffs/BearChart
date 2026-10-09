@@ -241,8 +241,15 @@ function renderPage(file, url, opts) {
     // fixture. Re-parsing that file for each of 150 renders was, on its own,
     // about a quarter of the suite's runtime.
     if (src === 'data.js' && !(opts && opts.full)) {
-      dom.window.eval('window.BEARCHART_DATA = JSON.parse(' +
-        JSON.stringify(fixtureJson()) + ');');
+      let json = fixtureJson();
+      // A test that needs a record the shipped data does not have (an
+      // operator sale, a stale item) edits a private copy of the fixture.
+      if (opts && opts.mutate) {
+        const data = JSON.parse(json);
+        opts.mutate(data);
+        json = JSON.stringify(data);
+      }
+      dom.window.eval('window.BEARCHART_DATA = JSON.parse(' + JSON.stringify(json) + ');');
       continue;
     }
     const code = fs.readFileSync(path.join(ROOT, src), 'utf8');
@@ -535,6 +542,18 @@ test('per-condition medians are shown when grades differ', () => {
   const text = p.doc.getElementById('item-root').textContent;
   assert.match(text, /Sold price by condition/);
   assert.match(text, /204\.49/);
+});
+
+test('a sale by the operator is labelled as our store, never as "your own sale"', () => {
+  const p = renderPage('item.html', 'item.html?id=original-pumpkin-kitty', {
+    mutate: (d) => {
+      const s = d.sales.find((x) => x.item_id === 'original-pumpkin-kitty');
+      s.seller_is_operator = true;
+    }
+  });
+  const text = p.doc.getElementById('item-root').textContent;
+  assert.match(text, /Seller: Jay's Retro Exchange \(our store\)/);
+  assert.doesNotMatch(text, /Your own sale/);
 });
 
 test('a versioned item warns against merging versions', () => {

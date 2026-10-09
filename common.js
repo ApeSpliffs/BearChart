@@ -172,7 +172,7 @@
       : '';
 
     var dots = v.points.map(function (p) {
-      var cls = 'ev-dot' + (p.first_party ? ' ev-dot-own' : '');
+      var cls = 'ev-dot' + (p.operator || p.first_party ? ' ev-dot-own' : '');
       var title = exact(p.raw) + (p.condition ? ' · ' + p.condition : '') +
                   (p.norm !== p.raw ? ' → ' + exact(p.norm) + ' adjusted' : '');
       return '<circle class="' + cls + '" cx="' + x(p.norm).toFixed(1) +

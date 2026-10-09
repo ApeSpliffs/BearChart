@@ -127,6 +127,17 @@ class NormalisationTests(unittest.TestCase):
         self.assertIsNone(rec["buyer_total"])
         self.assertEqual(rec["ship_type"], "unknown")
 
+    def test_an_operator_listing_is_flagged_and_the_name_dropped(self):
+        ops = {"ebay": {"jaysretro"}}
+        rec = eb.normalise_listing(
+            summary("1", "Build-A-Bear Lucky Kitty", 40, seller="JaysRetro"), self.item, ops)
+        self.assertTrue(rec["seller_is_operator"])
+        self.assertNotIn("JaysRetro", json.dumps(rec))
+        self.assertNotIn("jaysretro", json.dumps(rec).lower().replace("seller_is_operator", ""))
+        rec = eb.normalise_listing(
+            summary("2", "Build-A-Bear Lucky Kitty", 40, seller="someoneelse"), self.item, ops)
+        self.assertFalse(rec["seller_is_operator"])
+
     def test_image_falls_back_to_a_thumbnail(self):
         s = summary("1", "Build-A-Bear Lucky Kitty", 10)
         s.pop("image")

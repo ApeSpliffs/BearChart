@@ -47,7 +47,8 @@ from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from import_sales import (Matcher, match_pattern, normalise, tokens,  # noqa: E402
-                          CONDITION_PATTERNS)
+                          CONDITION_PATTERNS, load_operator_identities,
+                          is_operator_seller)
 import env_file  # noqa: E402
 
 env_file.load()
@@ -197,8 +198,16 @@ def image_of(summary):
     return thumbs[0].get("imageUrl") if thumbs else None
 
 
-def normalise_listing(summary, item):
-    """One Browse result -> one active_listing record. Always an asking price."""
+def normalise_listing(summary, item, operators=None):
+    """One Browse result -> one active_listing record. Always an asking price.
+
+    operators: {platform: usernames} from tools/operator_identities.json. The
+    seller's username is compared against it and then dropped; only the
+    resulting seller_is_operator flag is kept.
+    """
+    if operators is None:
+        operators = load_operator_identities()
+    seller = ((summary.get("seller") or {}).get("username"))
     price, currency = price_of(summary)
     if price is None:
         return None
@@ -227,6 +236,9 @@ def normalise_listing(summary, item):
         # Deletion obligation - every closure notice would mean rebuilding and
         # redeploying a static site to erase a name. The ask-vs-sold signal
         # this file exists for does not need to know who is asking.
+        # Listed by Jay's Retro Exchange, which runs BearChart: never a "deal"
+        # and never in the ask spread.
+        ("seller_is_operator", is_operator_seller(seller, operators, "ebay")),
         # The whole point: this can never be mistaken for a sale.
         ("evidence_type", "active_listing"),
     ])
@@ -461,6 +473,7 @@ def run(args, searcher=None, token=None):
         i["_has_sales"] = i["id"] in with_sales
 
     matcher = Matcher(data["items"])
+    operators = load_operator_identities()
 
     if args.query:
         targets = [{"id": None, "canonical_name": args.query, "release_year": None}]
@@ -533,7 +546,7 @@ def run(args, searcher=None, token=None):
                 if not ok:
                     rejected.append((why, s.get("title") or ""))
                     continue
-            rec = normalise_listing(s, target)
+            rec = normalise_listing(s, target, operators)
             if rec is None:
                 continue
             if rec["id"] in seen:

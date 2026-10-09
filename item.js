@@ -383,8 +383,11 @@
           mkt = BC.affiliateLink(s.source_url, mkt);
         }
         var notes = [];
-        if (s.first_party) {
-          notes.push('<strong>Your own sale</strong>');
+        if (s.first_party || s.seller_is_operator) {
+          // Jay's Retro Exchange runs BearChart; its own sales are labelled and
+          // capped, never presented as anyone else's.
+          notes.push('<span class="chip chip-operator">Seller: Jay\'s Retro Exchange ' +
+                     '(our store)</span>');
         }
         if (s.sample_size > 1) {
           notes.push('<strong>Average across ' + s.sample_size + ' sales</strong>');

@@ -11,15 +11,15 @@ Where to get the file:
   Mercari / Poshmark / Depop: export or copy your sold history into a CSV with
   columns for the item title, the price and the sale date.
 
-WHY THIS DATA IS BETTER THAN ANYTHING ELSE HERE
-===============================================
-A comp scraped off a listing title is a guess about what was in the box. Your own
-sale is not: you know what condition it was in, what came with it, and exactly
-what it cleared. That makes these rows first-party evidence, and the engine
-counts them as the strongest kind - stronger than a third-party completed sale,
-because nobody had to infer anything.
-
-It is also data no competitor can copy.
+WHAT THESE ROWS ARE, AND HOW THEY ARE COUNTED
+=============================================
+These are sales by Jay's Retro Exchange, the store that runs BearChart. The
+condition and contents are known rather than inferred, but a price guide run by
+a store that also sells has a conflict of interest in its own sales. So every
+row is marked first_party and seller_is_operator, and the engine CAPS them:
+operator sales make up at most 25% of the comps behind any value, and an item
+with only operator sales publishes no value at all. They get no evidence bonus;
+provenance rules apply to them exactly as to anyone else.
 
 PRIVACY
 =======
@@ -202,8 +202,9 @@ def run(args):
             ("shipping_included", False),
             ("ship_price", parse_price(rec.get("ship_price"), allow_zero=True)),
             ("sample_size", None),
-            # The flag that makes these worth more than anything else here.
+            # Sold by the operator. Capped in every valuation, never boosted.
             ("first_party", True),
+            ("seller_is_operator", True),
             ("notes", "Own sale (%s)." % args.marketplace),
         ]))
 

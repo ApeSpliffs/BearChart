@@ -1,0 +1,5 @@
+{
+  "_note": "Seller usernames of Jay's Retro Exchange, the store that runs BearChart, per marketplace. Read by the importers and tools/ebay_active.py to set seller_is_operator; the username itself is never stored or published. OWNER TODO: fill in.",
+  "ebay": [],
+  "mercari": []
+}
