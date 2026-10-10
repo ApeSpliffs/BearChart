@@ -2578,6 +2578,23 @@ test('the service worker precaches the shell by per-file hash, data index includ
   assert.match(sw, /bearchart-pages-v1/);
 });
 
+test('the service worker writes a version key only at install, never for a runtime refresh', () => {
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  const body = (name) => {
+    const at = sw.indexOf('async function ' + name + '(');
+    assert.ok(at > -1, name);
+    const rest = sw.slice(at + 1);
+    const end = rest.search(/\n(async function |function |const |self\.addEventListener)/);
+    return rest.slice(0, end);
+  };
+  for (const fn of ['networkFirst', 'staleWhileRevalidate', 'navigate']) {
+    assert.doesNotMatch(body(fn), /put[^;\n]*revKey/, fn + ' stores a fresh response under a ?__rev= key');
+  }
+  // Offline, the version's own site-config wins over a newer runtime copy.
+  assert.match(body('cached'), /revKey\(rel\)[\s\S]*RUNTIME/);
+  assert.match(sw, /const RUNTIME = 'bearchart-runtime-v1'/);
+});
+
 test('cache headers: hashed data is immutable, the manifest and item files revalidate', () => {
   const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
   const cc = (src) => ((vercel.headers.find((h) => h.source === src) || { headers: [] }).headers
