@@ -63,11 +63,9 @@ CONDITION_PATTERNS = [
     (r"incomplete|missing", "Incomplete"),
 ]
 
-# Explicit "new, but no tags" wording. Used by tools/reclassify_conditions.py
-# (Rule A) to find rows the old mapping stored as Mint or NWT.
-NWOT_EVIDENCE = re.compile(
-    r"without\s*(?:hang\s*)?tags?|\bnwot\b|\bno\s*(?:hang\s*)?tags?\b", re.I)
 # Explicit tag evidence: what an NWT row should be able to point at.
+# tools/reclassify_conditions.py uses it to leave alone a title that claims tags;
+# its NWOT test is the first CONDITION_PATTERNS entry, not a separate pattern.
 TAG_EVIDENCE = re.compile(
     r"new\s*with\s*(?:hang\s*)?tags?|\bnwt\b|\bbnwt\b|\btags?\s*attached"
     r"|\bwith\s*(?:hang\s*)?tags?\b", re.I)
