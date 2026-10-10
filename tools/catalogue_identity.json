@@ -299,7 +299,9 @@
       "into": "kennel-pals-calico-cat",
       "reason": "Same Kennel Pals Calico Cat; the wiki copy has no comps. OWNER: confirm the year (2001 kept, wiki says 2002).",
       "decided": "2026-10-09",
-      "fields_from_merged": []
+      "fields_from_merged": [
+        "line"
+      ]
     },
     "frozen-anna-bear": {
       "into": "anna-frozen",

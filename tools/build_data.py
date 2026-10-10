@@ -2547,7 +2547,7 @@ IDENTITY_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                              "catalogue_identity.json")
 # Fields a survivor takes from the record merged into it, only where its own
 # value is empty. A ledger entry can name its own list ("fields_from_merged").
-DEFAULT_FILL = ["release_year", "release_month", "franchise"]
+DEFAULT_FILL = ["release_year", "release_month", "franchise", "line"]
 REDIRECTS = OrderedDict()
 
 
@@ -2621,8 +2621,8 @@ def apply_sale_overrides(sales, ledger, item_ids, redirects):
     for sid, ov in (ledger.get("sale_overrides") or {}).items():
         s = by_id.get(sid)
         if s is None:
-            raise ValueError("catalogue_identity.json: sale_overrides names unknown sale %s"
-                             % sid)
+            raise ValueError("catalogue_identity.json: sale_overrides names unknown sale %s "
+                             "(is tools/imported_sales.json missing or incomplete?)" % sid)
         action = ov.get("action")
         if action == "exclude":
             s["excluded"] = OrderedDict([("reason", ov.get("reason"))])
@@ -2976,6 +2976,7 @@ def parse_args(argv=None):
     ap.add_argument("--readme", action="store_true",
                     help="also rewrite the generated stats block in README.md (off in the "
                          "daily refresh, which may only commit tools/daily_outputs.txt)")
+    ap.add_argument("--root", help=argparse.SUPPRESS)
     ap.add_argument("--allow-shrink", action="store_true",
                     help="build even if the sale count drops more than 2%% against "
                          "the committed data.json")
@@ -2995,7 +2996,7 @@ def build_date(arg=None):
 
 def main(argv=None):
     args = parse_args(argv)
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    root = args.root or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     built_at = build_date(args.as_of)
     CONFIG["recency"]["as_of"] = built_at
     ledger = load_identity()
@@ -3007,11 +3008,13 @@ def main(argv=None):
     active, active_fetched_at = load_active_listings(root)
     photos = apply_image_overrides(root)
     imported = merge_imported_sales(root, REDIRECTS)
+    # Before anything else can fail on a missing comp: a build that lost the
+    # imported sales must say so plainly.
+    guard_shrink(previous_sale_count(root), len(SALES), args.allow_shrink)
     excluded, reassigned = apply_sale_overrides(SALES, ledger, {i["id"] for i in ITEMS},
                                                 REDIRECTS)
     attributed = backfill_sale_attributes(SALES)
     assert_sales_are_sold_evidence(SALES)
-    guard_shrink(previous_sale_count(root), len(SALES), args.allow_shrink)
     out = OrderedDict([
         ("meta", OrderedDict([
             ("name", "BearChart"),

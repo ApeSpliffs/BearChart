@@ -229,6 +229,32 @@ class MergeMigrationTests(unittest.TestCase):
                          "re-run: python3 tools/export_sql.py --merges-migration")
 
 
+class ShrinkGuardTests(unittest.TestCase):
+    def test_a_build_without_the_imported_sales_refuses_plainly(self):
+        import shutil
+        import subprocess
+        tmp = tempfile.mkdtemp()
+        os.makedirs(os.path.join(tmp, "tools"))
+        shutil.copy(os.path.join(ROOT, "data.json"), os.path.join(tmp, "data.json"))
+        res = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "build_data.py"),
+                              "--root", tmp, "--as-of", "2026-10-09"],
+                             capture_output=True, text=True)
+        self.assertNotEqual(res.returncode, 0)
+        self.assertIn("sale_count would drop", res.stderr + res.stdout)
+        self.assertIn("imported_sales.json", res.stderr + res.stdout)
+        with open(os.path.join(tmp, "data.json")) as f:
+            self.assertEqual(json.load(f)["meta"]["sale_count"], data()["meta"]["sale_count"],
+                             "the committed data.json is left untouched")
+
+    def test_the_guard_allows_small_drops_and_the_override(self):
+        import build_data as B
+        B.guard_shrink(1000, 990)
+        B.guard_shrink(1000, 10, allow=True)
+        B.guard_shrink(None, 10)
+        with self.assertRaises(SystemExit):
+            B.guard_shrink(1000, 979)
+
+
 class VariantDataTests(unittest.TestCase):
     def test_pikachu_stays_one_item_with_per_sale_attributes(self):
         pika = [i for i in data()["items"] if i["id"].startswith("pikachu")]
@@ -243,6 +269,12 @@ class VariantDataTests(unittest.TestCase):
         self.assertEqual(by["brown-sloth-15-inch"]["variant_group"],
                          by["brown-sloth-18-inch"]["variant_group"])
         self.assertEqual(by["brown-sloth-18-inch"]["size_in"], 18.0)
+
+    def test_a_survivor_keeps_the_product_line(self):
+        by = {i["id"]: i for i in data()["items"]}
+        for iid in ("big-bird-sesame-street", "lucky-teddy-st-patrick-s-day",
+                    "kennel-pals-calico-cat"):
+            self.assertTrue(by[iid].get("line"), iid)
 
     def test_size_classes_come_from_the_vocabulary(self):
         for i in data()["items"]:

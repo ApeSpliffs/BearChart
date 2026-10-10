@@ -629,7 +629,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('kennel-pals-calico-cat', 'Kennel Pals Calico Cat', array['Calico Cat', 'Kennel Pals', 'Bearemy''s Kennel Pals Calico Cat'], 'Stuffed Animal', 'Cat', 2001, null, null, null, false, null, false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, null, null, null, null, null, null, null, null, null, 'curated')
+values ('kennel-pals-calico-cat', 'Kennel Pals Calico Cat', array['Calico Cat', 'Kennel Pals', 'Bearemy''s Kennel Pals Calico Cat'], 'Stuffed Animal', 'Cat', 2001, null, null, 'Bearemy''s Kennel Pals', false, null, false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, null, null, null, null, 'Bearemy''s Kennel Pals', null, null, null, null, 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -9092,7 +9092,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('big-bird-sesame-street', 'Big Bird (Sesame Street)', array['Big Bird', 'Sesame Street Big Bird'], 'Stuffed Animal', 'Character', 2006, null, null, null, true, 'Sesame Street', false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'CollectiBear series. Catalogued from the CollectionHero index.', null, null, null, null, null, null, null, null, 'collectionhero')
+values ('big-bird-sesame-street', 'Big Bird (Sesame Street)', array['Big Bird', 'Sesame Street Big Bird'], 'Stuffed Animal', 'Character', 2006, null, null, 'Collectibears', true, 'Sesame Street', false, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'CollectiBear series. Catalogued from the CollectionHero index.', null, null, null, 'Collectibears', null, null, null, null, 'collectionhero')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -13928,7 +13928,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('giant-stitch-25-inch', 'Giant Stitch (25-inch)', array['Disney Giant Stitch'], 'Stuffed Animal', 'Character', 2023, null, null, null, true, 'Disney', false, null, false, false, false, false, true, false, null, false, false, true, null, null, null, 'Giant size, with a 3ft variant also noted. Size variants price separately. Catalogued from the CollectionHero index.', null, null, null, null, null, null, 25.0, 'large', 'collectionhero')
+values ('giant-stitch-25-inch', 'Giant Stitch (25-inch)', array['Disney Giant Stitch'], 'Stuffed Animal', 'Character', 2023, null, null, 'Jumbo', true, 'Disney', false, null, false, false, false, false, true, false, null, false, false, true, null, null, null, 'Giant size, with a 3ft variant also noted. Size variants price separately. Catalogued from the CollectionHero index.', null, null, null, 'Jumbo', null, null, 25.0, 'large', 'collectionhero')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -17594,7 +17594,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('mystical-werewolf-mini-beans-2026', 'Mystical Werewolf (Mini Beans 2026)', array['Mini Beans Mystical Werewolf'], 'Mini Bean', 'Werewolf', 2026, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Part of the 2026 Halloween Mini Beans assortment.', null, null, null, null, null, null, null, 'mini', 'curated')
+values ('mystical-werewolf-mini-beans-2026', 'Mystical Werewolf (Mini Beans 2026)', array['Mini Beans Mystical Werewolf'], 'Mini Bean', 'Werewolf', 2026, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Part of the 2026 Halloween Mini Beans assortment.', null, null, null, 'Mini', null, null, null, 'mini', 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -17633,7 +17633,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('batty-kitty-mini-beans-2026', 'Batty Kitty (Mini Beans 2026)', array['Mini Beans Batty Kitty'], 'Mini Bean', 'Cat', 2026, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Part of the 2026 Halloween Mini Beans assortment.', null, null, null, null, null, null, null, 'mini', 'curated')
+values ('batty-kitty-mini-beans-2026', 'Batty Kitty (Mini Beans 2026)', array['Mini Beans Batty Kitty'], 'Mini Bean', 'Cat', 2026, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Part of the 2026 Halloween Mini Beans assortment.', null, null, null, 'Mini', null, null, null, 'mini', 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -19622,7 +19622,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('lucky-teddy-st-patrick-s-day', 'Lucky Teddy (St. Patrick''s Day)', array['St. Patrick''s Day Bear', 'Lucky Teddy'], 'Stuffed Animal', 'Bear', 2003, null, null, null, false, null, true, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from the CollectionHero index.', null, null, null, null, null, null, null, null, 'collectionhero')
+values ('lucky-teddy-st-patrick-s-day', 'Lucky Teddy (St. Patrick''s Day)', array['St. Patrick''s Day Bear', 'Lucky Teddy'], 'Stuffed Animal', 'Bear', 2003, null, null, 'Collectibears', false, null, true, null, false, false, false, false, true, false, null, false, false, false, null, null, null, 'Catalogued from the CollectionHero index.', null, null, null, 'Collectibears', null, null, null, null, 'collectionhero')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -22079,7 +22079,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('jumbo-snorlax-24-inch', 'Jumbo Snorlax (24-inch)', array['Pokémon Jumbo Snorlax'], 'Stuffed Animal', 'Character', 2020, null, null, null, true, 'Pokemon', false, null, false, false, false, false, true, false, null, false, false, true, null, null, null, 'Jumbo size online exclusive, priced apart from the standard Snorlax. Catalogued from the CollectionHero index.', null, null, null, null, null, null, 24.0, 'large', 'collectionhero')
+values ('jumbo-snorlax-24-inch', 'Jumbo Snorlax (24-inch)', array['Pokémon Jumbo Snorlax'], 'Stuffed Animal', 'Character', 2020, null, null, 'Jumbo', true, 'Pokemon', false, null, false, false, false, false, true, false, null, false, false, true, null, null, null, 'Jumbo size online exclusive, priced apart from the standard Snorlax. Catalogued from the CollectionHero index.', null, null, null, 'Jumbo', null, null, 24.0, 'large', 'collectionhero')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23288,7 +23288,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('swirly-clouds-lamb-mini-beans', 'Swirly Clouds Lamb (Mini Beans)', array['Mini Beans Swirly Clouds Lamb'], 'Mini Bean', 'Lamb', 2026, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, null, null, null, null, 'mini', 'curated')
+values ('swirly-clouds-lamb-mini-beans', 'Swirly Clouds Lamb (Mini Beans)', array['Mini Beans Swirly Clouds Lamb'], 'Mini Bean', 'Lamb', 2026, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, 'Mini', null, null, null, 'mini', 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23405,7 +23405,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('skelebara-mini-beans', 'Skelebara (Mini Beans)', array['Mini Beans Skelebara'], 'Mini Bean', 'Capybara', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, null, null, null, null, 'mini', 'curated')
+values ('skelebara-mini-beans', 'Skelebara (Mini Beans)', array['Mini Beans Skelebara'], 'Mini Bean', 'Capybara', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, 'Mini', null, null, null, 'mini', 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23444,7 +23444,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('kuromi-mini-beans', 'Kuromi (Mini Beans)', array['Mini Beans Kuromi'], 'Mini Bean', 'Character', 2025, null, null, null, true, 'Sanrio', false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, null, null, null, null, 'mini', 'curated')
+values ('kuromi-mini-beans', 'Kuromi (Mini Beans)', array['Mini Beans Kuromi'], 'Mini Bean', 'Character', 2025, null, null, 'Mini Beans', true, 'Sanrio', false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, 'Mini Beans', null, null, null, 'mini', 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23483,7 +23483,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('jumping-spider-mini-beans', 'Jumping Spider (Mini Beans)', array['Mini Beans Jumping Spider'], 'Mini Bean', 'Spider', 2026, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Sold out at retail at time of research.', null, null, null, null, null, null, null, 'mini', 'curated')
+values ('jumping-spider-mini-beans', 'Jumping Spider (Mini Beans)', array['Mini Beans Jumping Spider'], 'Mini Bean', 'Spider', 2026, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Sold out at retail at time of research.', null, null, null, 'Mini', null, null, null, 'mini', 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23522,7 +23522,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('mothman-mini-beans', 'Mothman (Mini Beans)', array['Mini Beans Mothman'], 'Mini Bean', 'Cryptid', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, null, null, null, null, 'mini', 'curated')
+values ('mothman-mini-beans', 'Mothman (Mini Beans)', array['Mini Beans Mothman'], 'Mini Bean', 'Cryptid', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, 'Mini Beans', null, null, null, 'mini', 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23561,7 +23561,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('chococat-mini-beans', 'Chococat (Mini Beans)', array['Mini Beans Chococat'], 'Mini Bean', 'Character', 2025, null, null, null, true, 'Sanrio', false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, null, null, null, null, 'mini', 'curated')
+values ('chococat-mini-beans', 'Chococat (Mini Beans)', array['Mini Beans Chococat'], 'Mini Bean', 'Character', 2025, null, null, 'Mini Beans', true, 'Sanrio', false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, null, null, null, null, 'Mini Beans', null, null, null, 'mini', 'curated')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23639,7 +23639,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('pink-gingham-pawlette-mini-beans', 'Pink Gingham Pawlette (Mini Beans)', array['Mini Beans Pink Gingham Pawlette'], 'Mini Bean', 'Bunny', 2026, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2026 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('pink-gingham-pawlette-mini-beans', 'Pink Gingham Pawlette (Mini Beans)', array['Mini Beans Pink Gingham Pawlette'], 'Mini Bean', 'Bunny', 2026, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2026 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23678,7 +23678,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('fuzzy-pink-pig-mini-beans', 'Fuzzy Pink Pig (Mini Beans)', array['Mini Beans Fuzzy Pink Pig'], 'Mini Bean', 'Pig', 2026, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2026 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('fuzzy-pink-pig-mini-beans', 'Fuzzy Pink Pig (Mini Beans)', array['Mini Beans Fuzzy Pink Pig'], 'Mini Bean', 'Pig', 2026, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2026 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23717,7 +23717,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('spring-pastures-longhorn-mini-beans', 'Spring Pastures Longhorn (Mini Beans)', array['Mini Beans Spring Pastures Longhorn'], 'Mini Bean', 'Longhorn', 2026, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2026 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('spring-pastures-longhorn-mini-beans', 'Spring Pastures Longhorn (Mini Beans)', array['Mini Beans Spring Pastures Longhorn'], 'Mini Bean', 'Longhorn', 2026, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2026 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23873,7 +23873,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('skunk-mini-beans', 'Skunk (Mini Beans)', array['Mini Beans Skunk'], 'Mini Bean', 'Skunk', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('skunk-mini-beans', 'Skunk (Mini Beans)', array['Mini Beans Skunk'], 'Mini Bean', 'Skunk', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23912,7 +23912,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('hoppy-colors-frog-mini-beans', 'Hoppy Colors Frog (Mini Beans)', array['Mini Beans Hoppy Colors Frog'], 'Mini Bean', 'Frog', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('hoppy-colors-frog-mini-beans', 'Hoppy Colors Frog (Mini Beans)', array['Mini Beans Hoppy Colors Frog'], 'Mini Bean', 'Frog', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23951,7 +23951,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('blue-pterodactyl-mini-beans', 'Blue Pterodactyl (Mini Beans)', array['Mini Beans Blue Pterodactyl'], 'Mini Bean', 'Dinosaur', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('blue-pterodactyl-mini-beans', 'Blue Pterodactyl (Mini Beans)', array['Mini Beans Blue Pterodactyl'], 'Mini Bean', 'Dinosaur', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -23990,7 +23990,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('kiwi-koala-mini-beans', 'Kiwi Koala (Mini Beans)', array['Mini Beans Kiwi Koala'], 'Mini Bean', 'Koala', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('kiwi-koala-mini-beans', 'Kiwi Koala (Mini Beans)', array['Mini Beans Kiwi Koala'], 'Mini Bean', 'Koala', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24029,7 +24029,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('spooky-kitty-mini-beans', 'Spooky Kitty (Mini Beans)', array['Mini Beans Spooky Kitty'], 'Mini Bean', 'Cat', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('spooky-kitty-mini-beans', 'Spooky Kitty (Mini Beans)', array['Mini Beans Spooky Kitty'], 'Mini Bean', 'Cat', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24068,7 +24068,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('gargoyle-mini-beans', 'Gargoyle (Mini Beans)', array['Mini Beans Gargoyle Bear'], 'Mini Bean', 'Cryptid', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('gargoyle-mini-beans', 'Gargoyle (Mini Beans)', array['Mini Beans Gargoyle Bear'], 'Mini Bean', 'Cryptid', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24107,7 +24107,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('posh-penguin-mini-beans', 'Posh Penguin (Mini Beans)', array['Mini Beans Posh Penguin'], 'Mini Bean', 'Penguin', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('posh-penguin-mini-beans', 'Posh Penguin (Mini Beans)', array['Mini Beans Posh Penguin'], 'Mini Bean', 'Penguin', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24146,7 +24146,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('cozy-cuddles-teddy-mini-beans', 'Cozy Cuddles Teddy (Mini Beans)', array['Mini Beans Cozy Cuddles Teddy'], 'Mini Bean', 'Bear', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('cozy-cuddles-teddy-mini-beans', 'Cozy Cuddles Teddy (Mini Beans)', array['Mini Beans Cozy Cuddles Teddy'], 'Mini Bean', 'Bear', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24224,7 +24224,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('autumn-puppy-mini-beans', 'Autumn Puppy (Mini Beans)', array['Mini Beans Autumn Puppy'], 'Mini Bean', 'Dog', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('autumn-puppy-mini-beans', 'Autumn Puppy (Mini Beans)', array['Mini Beans Autumn Puppy'], 'Mini Bean', 'Dog', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24263,7 +24263,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('pumpkin-bear-mini-beans', 'Pumpkin Bear (Mini Beans)', array['Mini Beans Pumpkin Bear'], 'Mini Bean', 'Bear', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('pumpkin-bear-mini-beans', 'Pumpkin Bear (Mini Beans)', array['Mini Beans Pumpkin Bear'], 'Mini Bean', 'Bear', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24302,7 +24302,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('candy-corn-longhorn-mini-beans', 'Candy Corn Longhorn (Mini Beans)', array['Mini Beans Candy Corn Longhorn'], 'Mini Bean', 'Longhorn', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('candy-corn-longhorn-mini-beans', 'Candy Corn Longhorn (Mini Beans)', array['Mini Beans Candy Corn Longhorn'], 'Mini Bean', 'Longhorn', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24341,7 +24341,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('zombie-axolotl-mini-beans', 'Zombie Axolotl (Mini Beans)', array['Mini Beans Zombie Axolotl'], 'Mini Bean', 'Axolotl', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('zombie-axolotl-mini-beans', 'Zombie Axolotl (Mini Beans)', array['Mini Beans Zombie Axolotl'], 'Mini Bean', 'Axolotl', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24380,7 +24380,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('timeless-teddy-mini-beans', 'Timeless Teddy (Mini Beans)', array['Mini Beans Timeless Teddy'], 'Mini Bean', 'Bear', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('timeless-teddy-mini-beans', 'Timeless Teddy (Mini Beans)', array['Mini Beans Timeless Teddy'], 'Mini Bean', 'Bear', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24419,7 +24419,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('pink-capybara-mini-beans', 'Pink Capybara (Mini Beans)', array['Mini Beans Pink Capybara'], 'Mini Bean', 'Capybara', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('pink-capybara-mini-beans', 'Pink Capybara (Mini Beans)', array['Mini Beans Pink Capybara'], 'Mini Bean', 'Capybara', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24497,7 +24497,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('blueberry-cow-mini-beans', 'Blueberry Cow (Mini Beans)', array['Mini Beans Blueberry Cow'], 'Mini Bean', 'Cow', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('blueberry-cow-mini-beans', 'Blueberry Cow (Mini Beans)', array['Mini Beans Blueberry Cow'], 'Mini Bean', 'Cow', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24536,7 +24536,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('dragon-fruit-dragon-mini-beans', 'Dragon Fruit Dragon (Mini Beans)', array['Mini Beans Dragon Fruit Dragon'], 'Mini Bean', 'Dragon', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('dragon-fruit-dragon-mini-beans', 'Dragon Fruit Dragon (Mini Beans)', array['Mini Beans Dragon Fruit Dragon'], 'Mini Bean', 'Dragon', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24575,7 +24575,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('strawberry-cow-mini-beans', 'Strawberry Cow (Mini Beans)', array['Mini Beans Strawberry Cow'], 'Mini Bean', 'Cow', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('strawberry-cow-mini-beans', 'Strawberry Cow (Mini Beans)', array['Mini Beans Strawberry Cow'], 'Mini Bean', 'Cow', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24653,7 +24653,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('red-raptor-mini-beans', 'Red Raptor (Mini Beans)', array['Mini Beans Red Raptor'], 'Mini Bean', 'Dinosaur', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('red-raptor-mini-beans', 'Red Raptor (Mini Beans)', array['Mini Beans Red Raptor'], 'Mini Bean', 'Dinosaur', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24692,7 +24692,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('rainbow-triceratops-mini-beans', 'Rainbow Triceratops (Mini Beans)', array['Mini Beans Rainbow Triceratops'], 'Mini Bean', 'Dinosaur', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('rainbow-triceratops-mini-beans', 'Rainbow Triceratops (Mini Beans)', array['Mini Beans Rainbow Triceratops'], 'Mini Bean', 'Dinosaur', 2025, null, null, 'Mini', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24731,7 +24731,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('hamster-mini-beans', 'Hamster (Mini Beans)', array['Mini Beans Hamster'], 'Mini Bean', 'Hamster', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('hamster-mini-beans', 'Hamster (Mini Beans)', array['Mini Beans Hamster'], 'Mini Bean', 'Hamster', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24770,7 +24770,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('pastel-paws-pawlette-mini-beans', 'Pastel Paws Pawlette (Mini Beans)', array['Mini Beans Pastel Paws Pawlette'], 'Mini Bean', 'Bunny', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('pastel-paws-pawlette-mini-beans', 'Pastel Paws Pawlette (Mini Beans)', array['Mini Beans Pastel Paws Pawlette'], 'Mini Bean', 'Bunny', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24809,7 +24809,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('sunshine-cuddles-chick-mini-beans', 'Sunshine Cuddles Chick (Mini Beans)', array['Mini Beans Sunshine Cuddles Chick'], 'Mini Bean', 'Chick', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('sunshine-cuddles-chick-mini-beans', 'Sunshine Cuddles Chick (Mini Beans)', array['Mini Beans Sunshine Cuddles Chick'], 'Mini Bean', 'Chick', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24848,7 +24848,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('be-mine-kitty-mini-beans', 'Be Mine Kitty (Mini Beans)', array['Mini Beans Be Mine Kitty'], 'Mini Bean', 'Cat', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('be-mine-kitty-mini-beans', 'Be Mine Kitty (Mini Beans)', array['Mini Beans Be Mine Kitty'], 'Mini Bean', 'Cat', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24887,7 +24887,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('be-mine-dalmatian-mini-beans', 'Be Mine Dalmatian (Mini Beans)', array['Mini Beans Be Mine Dalmatian'], 'Mini Bean', 'Dog', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('be-mine-dalmatian-mini-beans', 'Be Mine Dalmatian (Mini Beans)', array['Mini Beans Be Mine Dalmatian'], 'Mini Bean', 'Dog', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24926,7 +24926,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('spring-pink-frog-mini-beans', 'Spring Pink Frog (Mini Beans)', array['Mini Beans Spring Pink Frog'], 'Mini Bean', 'Frog', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('spring-pink-frog-mini-beans', 'Spring Pink Frog (Mini Beans)', array['Mini Beans Spring Pink Frog'], 'Mini Bean', 'Frog', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
@@ -24965,7 +24965,7 @@ on conflict (slug) do update set
   catalogue_source = excluded.catalogue_source;
 
 insert into items (slug, canonical_name, aliases, category, species, release_year, release_month, version, variant, licensed, franchise, limited_edition, edition_size, employee_exclusive, store_exclusive, event_exclusive, vault_release, original_release, mini_bean, retired, is_lot, international_exclusive, online_exclusive, sound, scent, rarity, notes, image_url, image_credit, image_source, line, variant_of, variant_group, size_in, size_class, catalogue_source)
-values ('heartwarming-hippo-mini-beans', 'Heartwarming Hippo (Mini Beans)', array['Mini Beans Heartwarming Hippo'], 'Mini Bean', 'Hippo', 2025, null, null, null, false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, null, null, null, null, 'mini', 'mini_beans_guide')
+values ('heartwarming-hippo-mini-beans', 'Heartwarming Hippo (Mini Beans)', array['Mini Beans Heartwarming Hippo'], 'Mini Bean', 'Hippo', 2025, null, null, 'Mini Beans', false, null, false, null, false, false, false, false, true, true, null, false, false, false, null, null, null, 'Listed in the official 2025 Mini Beans collector guide.', null, null, null, 'Mini Beans', null, null, null, 'mini', 'mini_beans_guide')
 on conflict (slug) do update set
   canonical_name = excluded.canonical_name,
   aliases = excluded.aliases,
