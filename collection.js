@@ -477,16 +477,41 @@
       var label = btn.textContent;
       btn.disabled = true;
       btn.textContent = 'Preparing…';
+      var msg = $('export-msg');
       function done() { btn.disabled = false; btn.textContent = label; }
-      // Every owned bear's comps, a few files at a time. A bear whose file cannot
-      // be loaded (offline) is still listed, with its value and no evidence URLs.
+      function say(text) {
+        if (!msg) return;
+        msg.hidden = !text;
+        msg.textContent = text || '';
+      }
+      say('');
+      // Every owned bear's own file, for the comps behind its value. The
+      // schedule promises an adjuster the evidence for every valued line, so it
+      // is not produced while any of it is missing (offline, or a file that
+      // would not load) - a partial schedule would contradict its cover letter.
       BC.busy(window.BearChartData.loadItems(list.map(function (e) { return e.item_id; }))
         .then(function (details) {
+          var missing = list.filter(function (e) {
+            var d = details.get(BC.canonicalId(e.item_id));
+            return BC.valuationFor(e.item_id).has_value && !(d && !d.partial && d.sales);
+          });
+          if (missing.length) {
+            say('Could not load the sales behind ' + missing.length + ' of your bears' +
+              ' (are you offline?). The schedule lists the evidence for every value, so ' +
+              'connect and try again.');
+            return;
+          }
           var name = 'bearchart-insurance-schedule-' + BC.stamp() + '.csv';
           var csv = BC.toCsv(insuranceRows(details));
           BC.download(name, csv);
           keepReport('insurance_schedule', name, csv);
-        }).then(done, done));
+        })
+        .then(done, function (err) {
+          done();
+          say('The schedule could not be built. Try again.');
+          // A bug building rows: reported like any uncaught error, never swallowed.
+          setTimeout(function () { throw err; }, 0);
+        }));
     });
 
     $('export-cover').addEventListener('click', function () {

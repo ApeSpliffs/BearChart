@@ -2195,6 +2195,23 @@ test('the insurance schedule carries the evidence, not just the number', async (
   for (const u of urls) assert.ok(out.text.includes(u), 'evidence url ' + u);
 });
 
+test('offline, the insurance schedule is refused rather than shipped without its evidence', async () => {
+  const p = await renderPage('collection.html', null, {
+    transport: (url, serve) => (/^data\/items\//.test(url)
+      ? Promise.reject(Object.assign(new Error('offline'), { offline: true }))
+      : serve(url))
+  });
+  pickItem(p, 'add-item', 'kennel-pals-calico-cat');
+  p.doc.getElementById('add-btn').dispatchEvent(new p.win.Event('click'));
+  const out = await captureDownload(p, 'export-insurance');
+  assert.strictEqual(out, null, 'no schedule without the comps behind it');
+  const msg = p.doc.getElementById('export-msg');
+  assert.strictEqual(msg.hidden, false);
+  assert.match(msg.textContent, /Could not load the sales behind 1 of your bears/);
+  assert.strictEqual(p.doc.getElementById('export-insurance').disabled, false);
+  noErrors(p);
+});
+
 test('actual cash value is the conservative floor, below replacement cost', async () => {
   const p = await collectionWith(['kennel-pals-calico-cat']);
   const rows = (await captureDownload(p, 'export-insurance')).text.split('\r\n');
