@@ -77,7 +77,7 @@
    * The data did not arrive: say so where the page would have been, with a
    * retry. Opened from disk, say how to open it properly instead.
    */
-  function dataError(err, retry) {
+  function dataError(err, retry, what) {
     setStatus('');
     if (typeof document === 'undefined') return;
     var host = document.querySelector('main .wrap') || document.querySelector('main') || document.body;
@@ -90,7 +90,8 @@
     box.innerHTML = err && err.file
       ? '<strong>Open BearChart through <code>npm start</code>.</strong> Browsers block ' +
         'data files opened straight from disk.'
-      : '<strong>Couldn\'t load the price guide.</strong> Check your connection and try again. ' +
+      : '<strong>Couldn\'t load ' + esc(what || 'the price guide') + '.</strong> ' +
+        'Check your connection and try again. ' +
         '<button type="button">Try again</button>';
     var btn = box.querySelector('button');
     if (btn) {
@@ -156,7 +157,7 @@
         try { fn(null, err); } catch (e) { rethrow(e); }
         return null;
       }
-      dataError(err, function () { withItem(id, fn); });
+      dataError(err, function () { withItem(id, fn); }, 'this bear');
       return null;
     }));
   }

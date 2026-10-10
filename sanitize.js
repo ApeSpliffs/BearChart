@@ -2,7 +2,7 @@
    HTML escaping, CSV cells that a spreadsheet will not execute, scrubbing auth
    secrets out of analytics URLs, and sniffing image bytes.
 
-   Pure: no DOM, no data.js. Loaded before auth.js on every page and
+   Pure: no DOM, no data access. Loaded before auth.js on every page and
    require()-able from Node for tests. common.js re-exports these on BC. */
 (function (root) {
   'use strict';

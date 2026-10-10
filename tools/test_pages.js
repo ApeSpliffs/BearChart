@@ -131,8 +131,8 @@ function pickItem(p, selectId, itemId) {
  * Counts are asserted against the rendered data rather than a hard-coded
  * number, so a smaller catalogue tests exactly the same behaviour.
  *
- * Pass {full: true} where the real shipped payload is the point - that is what
- * keeps "data.js and data.json carry identical content" honest.
+ * Pass {full: true} where the whole shipped catalogue is the point; either way
+ * the page receives the files tools/build_assets.js builds from it.
  */
 let FIXTURE_JSON = null;
 function fixtureJson() {
@@ -932,6 +932,16 @@ test('offline, an unvisited bear is priced from the index summary', async () => 
   assert.match(text, /Estimated market value/);
   assert.match(text, /connect/i, 'it says the comps need a connection');
   assert.strictEqual(p.requests.length, 2);
+});
+
+test('offline with nothing cached, an item page says it is the bear that failed', async () => {
+  const p = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat', {
+    transport: () => Promise.reject(Object.assign(new Error('offline'), { offline: true }))
+  });
+  const err = p.doc.querySelector('[data-bc-error]');
+  assert.ok(err);
+  assert.match(err.textContent, /Couldn't load this bear/);
+  assert.doesNotMatch(err.textContent, /price guide/);
 });
 
 test('a missing item file says the bear was not found', async () => {

@@ -73,6 +73,13 @@ restore() {
     cp "$BACKUP/catalogue_wiki.json" "$ROOT/tools/catalogue_wiki.json"
   [ -f "$BACKUP/active_listings.json" ] && \
     cp "$BACKUP/active_listings.json" "$ROOT/tools/active_listings.json"
+  # The generated site files (site-config.js, data/, item pages, sw.js) were
+  # rebuilt from the data being rolled back; rebuild them from the restored
+  # data.json so a local `npm start` serves what is committed.
+  echo "rebuilding generated files from the restored data.json"
+  node tools/build_assets.js && python3 tools/build_pages.py && python3 tools/build_pwa.py \
+    || echo "WARNING: could not rebuild generated files; run npm run build:dev"
+  return 0
 }
 
 # --- 2. refresh asking prices ------------------------------------------------
