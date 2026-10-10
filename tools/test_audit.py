@@ -255,6 +255,26 @@ class ShrinkGuardTests(unittest.TestCase):
             B.guard_shrink(1000, 979)
 
 
+class AccessoryReviewTests(unittest.TestCase):
+    def cands(self, title, category="Stuffed Animal"):
+        items = [{"id": "x", "canonical_name": "X", "category": category}]
+        sales = [{"id": "x-1", "item_id": "x", "sold_price": 10, "notes": "title: " + title}]
+        return audit.accessory_only_candidates(items, sales)
+
+    def test_an_accessory_sold_alone_is_a_candidate(self):
+        for t in ["Build A Bear Teddy Slippers Accessory", "Robe Only For Plush",
+                  "Light Fury Wristlet", "Paw Patrol Pup Pack", "Anna Wig ONLY"]:
+            self.assertEqual(len(self.cands(t)), 1, t)
+
+    def test_a_bundle_with_the_plush_is_not(self):
+        for t in ["Build A Bear Light Fury Plush with Wings and WRISTLET",
+                  "Rocky Plush Toy Only", "Skye Plush w/ Pup Pack", "Plain Teddy 16in"]:
+            self.assertEqual(self.cands(t), [], t)
+
+    def test_clothing_items_are_what_they_say(self):
+        self.assertEqual(self.cands("Hoodie fits 16in", "Clothing & Accessories"), [])
+
+
 class VariantDataTests(unittest.TestCase):
     def test_pikachu_stays_one_item_with_per_sale_attributes(self):
         pika = [i for i in data()["items"] if i["id"].startswith("pikachu")]
