@@ -1042,6 +1042,34 @@
     }, { conservative: 0, median: 0, high: 0, priced: 0, unpriced: 0 });
   }
 
+  /**
+   * The one definition of the catalogue's headline numbers. The hero, the
+   * stats tile, the footer, the roadmap and the admin page all call this, so
+   * no two of them can disagree about what "sold transactions" means.
+   *
+   *   items             catalogue entries counted
+   *   priced_items      entries that publish a value
+   *   sold_transactions every recorded sold transaction (averages expanded),
+   *                     market evidence only, quarantined sales left out
+   *   sold_records      sale rows (admin only); null without salesFor
+   *   stale_items       priced entries whose value is marked stale
+   */
+  function catalogueStats(items, salesFor, valuationFor, config) {
+    var out = { items: 0, priced_items: 0, sold_transactions: 0,
+                sold_records: salesFor ? 0 : null, stale_items: 0 };
+    (items || []).forEach(function (i) {
+      var v = valuationFor(i.id);
+      out.items += 1;
+      if (v && v.has_value) {
+        out.priced_items += 1;
+        if (v.stale) out.stale_items += 1;
+      }
+      out.sold_transactions += (v && v.sold_transactions) || 0;
+      if (salesFor) out.sold_records += salesFor(i.id).length;
+    });
+    return out;
+  }
+
   var api = {
     percentile: percentile,
     median: median,
@@ -1071,7 +1099,8 @@
     holdingsMap: holdingsMap,
     diffHoldings: diffHoldings,
     timeWeightedReturn: timeWeightedReturn,
-    windowStats: windowStats
+    windowStats: windowStats,
+    catalogueStats: catalogueStats
   };
 
   root.BearChartEngine = api;

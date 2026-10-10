@@ -323,8 +323,10 @@
     var strong = D.sales.filter(function (s) { return s.evidence_type === 'completed_sale'; });
 
     $('admin-stats').innerHTML = [
-      [D.items.length, 'Total items'],
-      [D.sales.length, 'Total sold observations'],
+      [BC.catalogueStats().items, 'Total items'],
+      [BC.catalogueStats().sold_transactions, 'Sold transactions recorded'],
+      [BC.catalogueStats().sold_records, 'Sale rows (incl. averages and quarantined)'],
+      [BC.catalogueStats().stale_items, 'Stale values (no sale in 12 months)'],
       [strong.length, 'Fully sourced sales'],
       [missing.length, 'Items missing sales'],
       [lowConf.length, 'Low-confidence items'],

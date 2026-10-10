@@ -450,7 +450,22 @@ test('the stats bar reports the database size', () => {
   const p = renderPage('index.html');
   const stats = p.doc.getElementById('stats').textContent;
   assert.match(stats, new RegExp(String(p.win.BEARCHART_DATA.items.length)));
-  assert.match(stats, /Sold observations/);
+  assert.match(stats, /Sold transactions/);
+});
+
+test('the hero and the unfiltered stats tile show the same sold-transactions figure', () => {
+  const p = renderPage('index.html');
+  const hero = p.doc.getElementById('hero-proof').textContent;
+  const m = /([\d,]+) sold transactions recorded/.exec(hero);
+  assert.ok(m, hero);
+  const tile = Array.from(p.doc.querySelectorAll('#stats .stat'))
+    .find((el) => /Sold transactions/.test(el.querySelector('.k').textContent));
+  assert.ok(tile);
+  assert.strictEqual(tile.querySelector('.v').textContent, m[1]);
+  const st = p.win.BC.catalogueStats();
+  assert.strictEqual(m[1], st.sold_transactions.toLocaleString('en-US'));
+  assert.match(p.doc.getElementById('site-footer').textContent,
+    new RegExp(st.sold_transactions.toLocaleString('en-US') + ' sold transactions recorded'));
 });
 
 test('the quick calculator prices an item it has comps for', () => {

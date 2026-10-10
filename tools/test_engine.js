@@ -601,6 +601,27 @@ test('an announced retail price is never treated as a resale value', () => {
   }
 });
 
+// ---- headline numbers ----------------------------------------------------------
+
+test('catalogueStats is the one definition, and the build agrees with it', () => {
+  const cache = {};
+  const st = E.catalogueStats(DATA.items, salesFor,
+    (id) => cache[id] || (cache[id] = valueOf(id)), CFG);
+  assert.strictEqual(st.items, DATA.meta.stats.items);
+  assert.strictEqual(st.priced_items, DATA.meta.stats.priced_items);
+  assert.strictEqual(st.sold_transactions, DATA.meta.stats.sold_transactions);
+  assert.strictEqual(st.stale_items, DATA.meta.stats.stale_items);
+  assert.strictEqual(st.sold_records, DATA.sales.length);
+});
+
+test('no hand-typed catalogue counts or fee figures survive in the docs', () => {
+  for (const f of ['README.md', 'item.js', 'tools/build_data.py']) {
+    const src = fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
+    assert.doesNotMatch(src, /\b1,?974\b|\b2,?042\b|79 sold/, f);
+    assert.doesNotMatch(src, /0\.1325/, f);
+  }
+});
+
 // ---- recency and staleness ---------------------------------------------------
 
 const dated = (id, price, date, extra) => Object.assign({

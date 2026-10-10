@@ -22,6 +22,7 @@ import os
 import re
 import sys
 from collections import OrderedDict
+from urllib.parse import urlparse
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import domain_vocab as V  # noqa: E402
@@ -2242,7 +2243,7 @@ BUSINESS = OrderedDict([
 
     # The shop promo. Shown where it is useful rather than everywhere: in the
     # sidebar of the price guide, and on item pages that have no sold data -
-    # the 1,974 pages that currently have nothing to offer a visitor. Priced
+    # the item pages that have nothing to offer a visitor. Priced
     # items get the "sell yours" panel below instead, so nobody sees both.
     ("shop_url", "https://jaysretroexchange.com"),
     ("shop_eyebrow", "The shop behind BearChart"),
@@ -2639,6 +2640,9 @@ def apply_sale_overrides(sales, ledger, item_ids, redirects):
     return excluded, reassigned
 
 
+HOTLINK_HOST = re.compile(r"(^|\.)ebayimg\.com$", re.I)
+
+
 def apply_image_overrides(root):
     """Photos attached via tools/attach_images.py survive every rebuild."""
     path = os.path.join(root, "tools", "image_overrides.json")
@@ -2647,15 +2651,25 @@ def apply_image_overrides(root):
     with open(path) as f:
         overrides = json.load(f)
     by_id = {i["id"]: i for i in ITEMS}
-    applied = 0
+    allow_hotlinks = os.environ.get("BEARCHART_ALLOW_HOTLINKED_IMAGES") == "1"
+    applied = skipped = 0
     for item_id, img in overrides.items():
-        item = by_id.get(item_id)
+        item = by_id.get(REDIRECTS.get(item_id, item_id))
         if not item:
+            continue
+        # An eBay listing photo expires with the listing and is not ours to
+        # publish. ebay_active.py --images is for a local preview only.
+        if HOTLINK_HOST.search(urlparse(img.get("image_url") or "").hostname or "") \
+                and not allow_hotlinks:
+            skipped += 1
             continue
         item["image_url"] = img.get("image_url")
         item["image_credit"] = img.get("image_credit")
         item["image_source"] = img.get("image_source")
         applied += 1
+    if skipped:
+        print("  skipped %d hotlinked eBay image override(s) "
+              "(set BEARCHART_ALLOW_HOTLINKED_IMAGES=1 for a local preview)" % skipped)
     return applied
 
 
@@ -2731,6 +2745,9 @@ def load_active_listings(root):
         # would otherwise publish names nobody agreed to publish.
         for field in USER_DATA_FIELDS:
             l.pop(field, None)
+        # No page renders a listing photo, and an eBay image URL is not ours to
+        # publish; dropping it also keeps data.json smaller.
+        l.pop("image_url", None)
     return listings, payload.get("fetched_at")
 
 
@@ -2875,6 +2892,73 @@ def backfill_sale_attributes(sales):
 TITLE_IN_NOTES = re.compile(r"title:\s*(.*)", re.I)
 
 
+def catalogue_stats(items, sales, as_of=None):
+    """meta.stats: the Python twin of engine.js catalogueStats (a test pins them
+    equal). sold_transactions counts every recorded sold transaction, averages
+    expanded, quarantined rows and non-sale evidence left out."""
+    ids = {i["id"] for i in items}
+    usable = [s for s in sales if s["item_id"] in ids and not s.get("excluded")
+              and s.get("evidence_type") in V.MARKET_EVIDENCE_TYPES
+              and s.get("sold_price") is not None]
+
+    def n(s):
+        k = s.get("sample_size")
+        return int(k) if isinstance(k, (int, float)) and k > 0 else 1
+    priced = {s["item_id"] for s in usable
+              if not (s.get("first_party") or s.get("seller_is_operator"))}
+    stale = 0
+    if as_of:
+        import datetime
+        since = (datetime.date.fromisoformat(as_of)
+                 - datetime.timedelta(days=V.RECENCY["window_days"])).isoformat()
+        recent = {s["item_id"] for s in usable
+                  if s.get("sale_date") and since <= s["sale_date"] <= as_of}
+        stale = len(priced - recent)
+    return OrderedDict([("items", len(items)), ("priced_items", len(priced)),
+                        ("sold_transactions", sum(n(s) for s in usable)),
+                        ("stale_items", stale)])
+
+
+def fee_example(price=200.0):
+    """What an item worth `price` nets on the default platform: README copy
+    generated from the fee schedule, so the example can never drift from it."""
+    r = CONFIG["reseller"]
+    sched = V.FEE_SCHEDULE["platforms"][r["platform"]]
+    ship_in = r.get("shipping_charged") or 0
+    base = price if sched["applies_to"] == "item" else price + ship_in
+    fixed = sched["fixed_over"] if base > sched["fixed_threshold"] else sched["fixed_under"]
+    return price + ship_in - (base * sched["pct"] + fixed) - (r.get("shipping_cost") or 0)
+
+
+README_STATS = re.compile(r"(<!-- stats:start -->\n).*?(<!-- stats:end -->)", re.S)
+
+
+def write_readme_stats(root, stats, built_at):
+    """Rewrite the generated block in README.md; everything else is untouched."""
+    path = os.path.join(root, "README.md")
+    if not os.path.exists(path):
+        return False
+    with open(path) as f:
+        text = f.read()
+    sched = V.FEE_SCHEDULE["platforms"][CONFIG["reseller"]["platform"]]
+    block = (
+        "_Generated by `tools/build_data.py` from the data built %s; do not edit by hand._\n\n"
+        "- **%s** items catalogued, **%s** of them priced on recorded sales.\n"
+        "- **%s** sold transactions recorded (averages counted as the sales they cover).\n"
+        "- **%s** priced items are stale: no sale in the 12 months to %s.\n"
+        "- Fee example (%s schedule, owner to verify: %.1f%% + $%.2f per order, $%.2f "
+        "shipping): an item worth $200 nets about $%.0f.\n"
+        % (built_at, "{:,}".format(stats["items"]), "{:,}".format(stats["priced_items"]),
+           "{:,}".format(stats["sold_transactions"]), "{:,}".format(stats.get("stale_items", 0)),
+           built_at, sched["label"], sched["pct"] * 100, sched["fixed_over"],
+           CONFIG["reseller"]["shipping_cost"], fee_example()))
+    new, n = README_STATS.subn(lambda m: m.group(1) + block + m.group(2), text)
+    if n and new != text:
+        with open(path, "w") as f:
+            f.write(new)
+    return bool(n)
+
+
 def assert_sales_are_sold_evidence(sales):
     """No row in SALES may be anything but sold evidence."""
     bad = [s["id"] for s in sales if s.get("evidence_type") in V.NON_SALE_EVIDENCE_TYPES
@@ -2889,6 +2973,9 @@ def parse_args(argv=None):
     ap.add_argument("--as-of", metavar="YYYY-MM-DD",
                     help="the build date valuations anchor on (default: today, UTC; "
                          "or BEARCHART_AS_OF)")
+    ap.add_argument("--readme", action="store_true",
+                    help="also rewrite the generated stats block in README.md (off in the "
+                         "daily refresh, which may only commit tools/daily_outputs.txt)")
     ap.add_argument("--allow-shrink", action="store_true",
                     help="build even if the sale count drops more than 2%% against "
                          "the committed data.json")
@@ -2942,6 +3029,9 @@ def main(argv=None):
             ("item_count", len(ITEMS)),
             ("photo_count", sum(1 for i in ITEMS if i.get("image_url"))),
             ("sale_count", len(SALES)),
+            # The headline numbers (engine.js catalogueStats is the same
+            # definition; a test pins the two equal).
+            ("stats", catalogue_stats(ITEMS, SALES, built_at)),
         ])),
         ("config", CONFIG),
         ("retail_reference", RETAIL_REFERENCE),
@@ -2961,6 +3051,9 @@ def main(argv=None):
     with open(path, "w") as f:
         json.dump(out, f, indent=2)
         f.write("\n")
+
+    if args.readme:
+        write_readme_stats(root, out["meta"]["stats"], built_at)
 
     # data.js carries the same payload as a global so the site also works when
     # opened straight off the filesystem, where fetch() of a local file is blocked.

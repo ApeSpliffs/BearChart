@@ -619,9 +619,10 @@ def build_parser():
                     help="only items that already have sold comps, to measure the spread")
     ap.add_argument("--fuzzy", action="store_true")
     ap.add_argument("--images", action="store_true",
-                    help="also attach listing photos to items that have none. Opt-in: "
-                         "eBay images vanish when the listing ends, so they are a "
-                         "stopgap until you photograph your own stock.")
+                    help="also attach listing photos to items that have none, for a "
+                         "LOCAL PREVIEW only: the build ignores eBay-hosted images unless "
+                         "BEARCHART_ALLOW_HOTLINKED_IMAGES=1, so they never reach "
+                         "production. eBay images vanish when the listing ends.")
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--print-queries", action="store_true",
                     help="show the search strings and exit - no API call, no credentials")

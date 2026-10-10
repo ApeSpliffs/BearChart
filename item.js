@@ -53,8 +53,8 @@
 
   function valuationPanel() {
     if (!v.has_value) {
-      // This is the most-seen panel on the site: 1,974 of 2,042 items have no
-      // sold data. It used to be a warning box and an apology. It is the page
+      // This is one of the most-seen panels on the site: every item without
+      // sold data shows it. It used to be a warning box and an apology. It is the page
       // a search lands somebody on, so it now leads with what IS known, and
       // asks for the one thing that would change it.
       var known = [

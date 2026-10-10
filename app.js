@@ -290,7 +290,8 @@
 
   function renderStats(items) {
     var withData = items.filter(function (i) { return BC.valuationFor(i.id).has_value; });
-    var comps = items.reduce(function (a, i) { return a + BC.valuationFor(i.id).comparable_count; }, 0);
+    // Same function and label as the hero, so the unfiltered tile equals it.
+    var comps = BC.catalogueStats(items).sold_transactions;
     var values = withData.map(function (i) { return BC.valuationFor(i.id).fair_market; });
     var med = values.length ? E.median(values) : null;
     var top = values.length ? Math.max.apply(null, values) : null;
@@ -298,7 +299,7 @@
     var cells = [
       [items.length, 'Items matching'],
       [withData.length, 'With sold data'],
-      [comps, 'Sold observations'],
+      [comps.toLocaleString('en-US'), 'Sold transactions'],
       [med == null ? '--' : BC.money(med), 'Median item value'],
       [top == null ? '--' : BC.money(top), 'Highest value']
     ];
@@ -584,16 +585,16 @@
     var proof = $('hero-proof');
     if (!proof) return;
 
-    var priced = D.items.filter(function (i) { return BC.valuationFor(i.id).has_value; });
+    var stats = BC.catalogueStats();
     var years = D.items.map(function (i) { return i.release_year; })
                        .filter(function (y) { return !!y; });
     var earliest = years.length ? Math.min.apply(null, years) : null;
     var latest = years.length ? Math.max.apply(null, years) : null;
 
     var facts = [
-      [D.items.length.toLocaleString('en-US'), 'furry friends catalogued'],
-      [D.sales.length.toLocaleString('en-US'), 'sold comps recorded'],
-      [priced.length.toLocaleString('en-US'), 'priced on real evidence']
+      [stats.items.toLocaleString('en-US'), 'furry friends catalogued'],
+      [stats.sold_transactions.toLocaleString('en-US'), 'sold transactions recorded'],
+      [stats.priced_items.toLocaleString('en-US'), 'priced on real evidence']
     ];
     if (earliest && latest) facts.push([earliest + '–' + latest, 'every year covered']);
 

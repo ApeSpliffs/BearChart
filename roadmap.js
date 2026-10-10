@@ -155,8 +155,8 @@
     [built + ' / ' + all.length, 'Capabilities built'],
     [all.length - built - blocked, 'Planned next'],
     [blocked, 'Limited by data access'],
-    [D.items.length, 'Items catalogued'],
-    [D.sales.length, 'Sold comps held']
+    [BC.catalogueStats().items, 'Items catalogued'],
+    [BC.catalogueStats().sold_transactions, 'Sold transactions recorded']
   ].map(function (c) {
     return '<div class="stat"><div class="v">' + BC.esc(c[0]) + '</div><div class="k">' +
            BC.esc(c[1]) + '</div></div>';

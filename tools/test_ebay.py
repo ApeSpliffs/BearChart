@@ -361,6 +361,35 @@ class TitleConfirmationTests(unittest.TestCase):
         self.assertIn("generic", why)
 
 
+class ImagePolicyTests(unittest.TestCase):
+    def test_images_are_off_by_default_and_never_in_the_daily_jobs(self):
+        self.assertFalse(eb.build_parser().parse_args([]).images)
+        for rel in (".github/workflows/daily.yml", "tools/daily_update.sh"):
+            path = os.path.join(ROOT, rel)
+            if os.path.exists(path):
+                with open(path) as f:
+                    self.assertNotIn("--images", f.read(), rel)
+
+    def test_the_build_skips_hotlinked_ebay_images(self):
+        import build_data as B
+        tmp = tempfile.mkdtemp()
+        os.makedirs(os.path.join(tmp, "tools"))
+        item = B.ITEMS[0]
+        before = item.get("image_url")
+        with open(os.path.join(tmp, "tools", "image_overrides.json"), "w") as f:
+            json.dump({item["id"]: {"image_url": "https://i.ebayimg.com/images/g/x/s-l500.jpg",
+                                    "image_credit": "eBay listing photo"}}, f)
+        os.environ.pop("BEARCHART_ALLOW_HOTLINKED_IMAGES", None)
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(B.apply_image_overrides(tmp), 0)
+        self.assertEqual(item.get("image_url"), before)
+
+    def test_the_shipped_data_carries_no_ebay_image(self):
+        with open(os.path.join(ROOT, "data.json")) as f:
+            raw = f.read()
+        self.assertNotIn("ebayimg.com", raw)
+
+
 class CredentialTests(unittest.TestCase):
     def test_client_secret_is_not_a_cli_flag(self):
         # A secret on the command line lands in shell history and `ps`.

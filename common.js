@@ -37,6 +37,11 @@
 
   function salesFor(id) { return salesByItem[canonicalId(id)] || []; }
 
+  /** Headline numbers for a set of items (default: the whole catalogue). */
+  function catalogueStats(items) {
+    return E.catalogueStats(items || DATA.items, salesFor, valuationFor, CFG);
+  }
+
   // Asking prices, indexed separately from sales. They are shown for context and
   // never priced from.
   var activeByItem = {};
@@ -1084,8 +1089,12 @@
         '<p class="fine legal-links"><a href="' + rel('privacy.html') + '">Privacy</a>' +
         '<a href="' + rel('terms.html') + '">Terms</a>' +
         '<a href="' + rel('about.html') + '">How prices work</a></p>' +
-        '<p class="fine">Database: ' + DATA.items.length + ' items, ' + DATA.sales.length +
-        ' sold observations. Schema v' + DATA.meta.schema_version + '.</p>' +
+        (function () {
+          var st = catalogueStats();
+          return '<p class="fine">Database: ' + st.items.toLocaleString('en-US') + ' items, ' +
+            st.sold_transactions.toLocaleString('en-US') + ' sold transactions recorded. ' +
+            'Schema v' + DATA.meta.schema_version + '.</p>';
+        })() +
         '</div>';
     }
   }
@@ -1119,7 +1128,7 @@
     data: DATA, config: CFG, engine: E,
     salesFor: salesFor, activeFor: activeFor, itemById: itemById,
     itemChooser: itemChooser, rel: rel, evidenceStrip: evidenceStrip,
-    valuationFor: valuationFor, canonicalId: canonicalId, redirects: REDIRECTS, go: go,
+    valuationFor: valuationFor, catalogueStats: catalogueStats, canonicalId: canonicalId, redirects: REDIRECTS, go: go,
     money: money, exact: exact, range: range, confClass: confClass, era: era, isVintage: isVintage,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,
