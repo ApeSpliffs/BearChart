@@ -18,14 +18,16 @@ take real money.
 `config.js` is committed empty (`window.BEARCHART_RUNTIME = {}`). At deploy time
 `tools/build_site.sh` replaces `dist/config.js` with the output of
 `tools/build_runtime_config.py`, which reads the variables below. It loads before
-every other script; `auth.js` merges its `auth` block over the one in `data.json`,
+every other script; `auth.js` merges its `auth` block over the one in `site-config.js`
+(built from `data.json` `config.auth` by `tools/build_assets.js`; read only through
+`BearChartAuth.config()`),
 `observability.js` reads `sentry_dsn`, and the PostHog snippet in `common.js` reads
 `posthog_key` / `posthog_enabled`.
 
 - **Preview with no Supabase variables:** accounts are switched **off**. A preview
   never talks to the production database by accident.
 - **Production with no Supabase variables:** nothing is emitted, so the site uses
-  `data.json`'s `config.auth` (today's behaviour) until the variables are set.
+  `site-config.js`'s `auth` (from `data.json` `config.auth`) until the variables are set.
 - **Only one of the two Supabase variables set:** the build fails.
 
 Check a deploy with `curl https://<deploy>/config.js`.
@@ -122,7 +124,8 @@ Supabase.
 
 ```bash
 cp .env.example .env          # local tooling only
-npm start                     # static site on :5173 (data.json config)
+npm run build:dev             # site-config.js, data/, item pages, sw.js from data.json
+npm start                     # static site on :5173 (site-config.js config)
 supabase start                # local Postgres/Auth/Storage with every migration
 npm run test:db               # pgTAP RLS suite against it
 npm run test:functions        # deno check + lint + tests for supabase/functions

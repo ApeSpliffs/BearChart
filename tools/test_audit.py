@@ -256,6 +256,22 @@ class ShrinkGuardTests(unittest.TestCase):
 
 
 class AccessoryReviewTests(unittest.TestCase):
+    def test_the_committed_review_list_is_current(self):
+        """tools/accessory_review.md is generated; a rebuild that changes the
+        candidates must regenerate it (audit_duplicates.py --accessory-review)."""
+        d = data()
+        tmp = tempfile.mkdtemp()
+        try:
+            out = os.path.join(tmp, "review.md")
+            audit.write_accessory_review(out, audit.accessory_only_candidates(d["items"], d["sales"]))
+            with open(out) as f, open(os.path.join(ROOT, "tools", "accessory_review.md")) as g:
+                self.assertEqual(f.read(), g.read(),
+                                 "run: python3 tools/audit_duplicates.py --accessory-review "
+                                 "tools/accessory_review.md")
+        finally:
+            import shutil
+            shutil.rmtree(tmp)
+
     def cands(self, title, category="Stuffed Animal"):
         items = [{"id": "x", "canonical_name": "X", "category": category}]
         sales = [{"id": "x-1", "item_id": "x", "sold_price": 10, "notes": "title: " + title}]
