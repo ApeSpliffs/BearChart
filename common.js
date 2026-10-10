@@ -22,7 +22,20 @@
 
   var valuationCache = {};
 
-  function salesFor(id) { return salesByItem[id] || []; }
+  // Item ids merged into another item (tools/catalogue_identity.json) resolve
+  // to the survivor everywhere, so an old link, bookmark, collection entry or
+  // showcase never loses its bear. Chains are resolved at build time; the loop
+  // guard only protects against a hand-edited data file.
+  var REDIRECTS = DATA.redirects || {};
+  function canonicalId(id) {
+    var seen = 0;
+    while (id && Object.prototype.hasOwnProperty.call(REDIRECTS, id) && seen++ < 10) {
+      id = REDIRECTS[id];
+    }
+    return id;
+  }
+
+  function salesFor(id) { return salesByItem[canonicalId(id)] || []; }
 
   // Asking prices, indexed separately from sales. They are shown for context and
   // never priced from.
@@ -30,10 +43,11 @@
   (DATA.active_listings || []).forEach(function (l) {
     (activeByItem[l.item_id] = activeByItem[l.item_id] || []).push(l);
   });
-  function activeFor(id) { return activeByItem[id] || []; }
-  function itemById(id) { return itemsById[id] || null; }
+  function activeFor(id) { return activeByItem[canonicalId(id)] || []; }
+  function itemById(id) { return itemsById[canonicalId(id)] || null; }
 
   function valuationFor(id) {
+    id = canonicalId(id);
     if (!valuationCache[id]) {
       valuationCache[id] = E.valuate(itemById(id), salesFor(id), CFG);
     }
@@ -321,8 +335,11 @@
   function rel(path) { return PREFIX + path; }
 
   function itemUrl(id) {
-    return rel('item/' + encodeURIComponent(id) + '.html');
+    return rel('item/' + encodeURIComponent(canonicalId(id)) + '.html');
   }
+
+  /** Leave this page for another without a history entry (a redirect). */
+  function go(url) { root.location.replace(url); }
 
   var BUSINESS = DATA.business || {};
 
@@ -619,6 +636,37 @@
   // aggregate, never one person's list.
 
   var WL_KEY = 'bearchart.wishlist';
+
+  // One-time rewrite of stored ids that now redirect. Runs on every load but
+  // only writes when something changed, so it is cheap once a browser is clean.
+  function migrateStoredIds() {
+    if (!Object.keys(REDIRECTS).length) return;
+    try {
+      var coll = JSON.parse(localStorage.getItem('bearchart.collection') || 'null');
+      if (Array.isArray(coll)) {
+        var changed = false;
+        coll.forEach(function (e) {
+          if (e && e.item_id && canonicalId(e.item_id) !== e.item_id) {
+            e.item_id = canonicalId(e.item_id);
+            changed = true;
+          }
+        });
+        if (changed) localStorage.setItem('bearchart.collection', JSON.stringify(coll));
+      }
+      var wl = JSON.parse(localStorage.getItem(WL_KEY) || 'null');
+      if (Array.isArray(wl)) {
+        var out = [];
+        wl.forEach(function (id) {
+          var c = typeof id === 'string' ? canonicalId(id) : id;
+          if (out.indexOf(c) === -1) out.push(c);
+        });
+        if (JSON.stringify(out) !== JSON.stringify(wl)) {
+          localStorage.setItem(WL_KEY, JSON.stringify(out));
+        }
+      }
+    } catch (e) { /* storage blocked: lookups still resolve through canonicalId */ }
+  }
+  migrateStoredIds();
   var wlListeners = [];
   var wlSynced = false;
 
@@ -1071,7 +1119,7 @@
     data: DATA, config: CFG, engine: E,
     salesFor: salesFor, activeFor: activeFor, itemById: itemById,
     itemChooser: itemChooser, rel: rel, evidenceStrip: evidenceStrip,
-    valuationFor: valuationFor,
+    valuationFor: valuationFor, canonicalId: canonicalId, redirects: REDIRECTS, go: go,
     money: money, exact: exact, range: range, confClass: confClass, era: era, isVintage: isVintage,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,

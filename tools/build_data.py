@@ -2090,21 +2090,9 @@ for nm, sp in GUIDE_2025:
       notes="Listed in the official 2025 Mini Beans collector guide. "
             "No sold comps captured yet.")
 
-# Wiki titles for items already curated above. Registering each as an alias
-# makes load_wiki_catalogue skip the wiki's copy, so one bear is one item and
-# its sold comps are not split between two pages.
-WIKI_DUPLICATES = [
-    ("hello-kitty-35th-anniversary", "35th Anniversary Hello Kitty"),
-    ("jumbo-snorlax-24-inch", "Pokémon Jumbo Snorlax"),
-    ("happy-hugs-iv-teddy", "Happy Hugs Teddy IV"),
-    ("zombie-axolotl-mini-beans", "Mini Beans Zombie Axolotl"),
-]
-for _id, _alias in WIKI_DUPLICATES:
-    _item = next(i for i in ITEMS if i["id"] == _id)
-    if _alias not in _item["aliases"]:
-        _item["aliases"].append(_alias)
-# The wiki dates Happy Hugs Teddy IV to 2018; keep that now its row is skipped.
-next(i for i in ITEMS if i["id"] == "happy-hugs-iv-teddy")["release_year"] = 2018
+# Wiki titles for items already curated above used to be listed here
+# (WIKI_DUPLICATES). Every duplicate decision now lives in one hand-maintained
+# ledger, tools/catalogue_identity.json, applied by apply_identity() below.
 
 # ---------------------------------------------------------------------------
 # Config and reference data
@@ -2533,6 +2521,107 @@ SOURCES = [
 ]
 
 
+# ---------------------------------------------------------------------------
+# Catalogue identity: merges, redirects and per-sale overrides
+# ---------------------------------------------------------------------------
+
+IDENTITY_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "catalogue_identity.json")
+# Fields a survivor takes from the record merged into it, only where its own
+# value is empty. A ledger entry can name its own list ("fields_from_merged").
+DEFAULT_FILL = ["release_year", "release_month", "franchise"]
+REDIRECTS = OrderedDict()
+
+
+def load_identity(path=None):
+    with open(path or IDENTITY_PATH) as f:
+        return json.load(f)
+
+
+def resolve_redirects(merges, live_ids):
+    """old id -> final surviving id. Chains are followed; a cycle or a target
+    that does not exist is an error in the ledger, never silently skipped."""
+    out = OrderedDict()
+    for old in merges:
+        seen = [old]
+        cur = merges[old]["into"]
+        while cur in merges:
+            if cur in seen:
+                raise ValueError("catalogue_identity.json: merge cycle %s"
+                                 % " -> ".join(seen + [cur]))
+            seen.append(cur)
+            cur = merges[cur]["into"]
+        if cur not in live_ids:
+            raise ValueError("catalogue_identity.json: %s merges into %s, which does not "
+                             "exist" % (old, cur))
+        out[old] = cur
+    return out
+
+
+def _name_key(text):
+    return re.sub(r"[^a-z0-9]", "", str(text or "").lower())
+
+
+def apply_identity(items, sales, ledger):
+    """Fold every merged record into its survivor; returns the redirects.
+
+    The survivor keeps its id (curated wins unless the ledger says otherwise),
+    gains the merged canonical name as an alias - so the weekly wiki loader
+    and the importers resolve that name to it - and takes the listed fields
+    only where its own are empty. Curated sales on a merged record move with
+    it, keeping their ids. Imported sales are moved in merge_imported_sales.
+    """
+    merges = ledger.get("merges") or {}
+    by_id = {i["id"]: i for i in items}
+    live = {i for i in by_id if i not in merges}
+    redirects = resolve_redirects(merges, live)
+    for old, new in redirects.items():
+        dst = by_id[new]
+        src = by_id.get(old)
+        if src is not None:
+            name = src["canonical_name"]
+            known = {_name_key(dst["canonical_name"])} | {_name_key(a) for a in dst["aliases"]}
+            if _name_key(name) not in known:
+                dst["aliases"].append(name)
+            for f in merges[old].get("fields_from_merged", DEFAULT_FILL):
+                if dst.get(f) in (None, "") and src.get(f) not in (None, ""):
+                    dst[f] = src[f]
+        for k, v in (merges[old].get("set") or {}).items():
+            dst[k] = v
+    items[:] = [i for i in items if i["id"] not in redirects]
+    for s in sales:
+        if s["item_id"] in redirects:
+            s["item_id"] = redirects[s["item_id"]]
+    return redirects
+
+
+def apply_sale_overrides(sales, ledger, item_ids, redirects):
+    """exclude: kept in the data for transparency, never priced.
+    reassign: moved to the item the title actually names."""
+    by_id = {s["id"]: s for s in sales}
+    excluded = reassigned = 0
+    for sid, ov in (ledger.get("sale_overrides") or {}).items():
+        s = by_id.get(sid)
+        if s is None:
+            raise ValueError("catalogue_identity.json: sale_overrides names unknown sale %s"
+                             % sid)
+        action = ov.get("action")
+        if action == "exclude":
+            s["excluded"] = OrderedDict([("reason", ov.get("reason"))])
+            excluded += 1
+        elif action == "reassign":
+            to = redirects.get(ov["to"], ov["to"])
+            if to not in item_ids:
+                raise ValueError("catalogue_identity.json: %s reassigned to unknown item %s"
+                                 % (sid, to))
+            s["reassigned_from"] = s["item_id"]
+            s["item_id"] = to
+            reassigned += 1
+        else:
+            raise ValueError("catalogue_identity.json: %s has unknown action %r" % (sid, action))
+    return excluded, reassigned
+
+
 def apply_image_overrides(root):
     """Photos attached via tools/attach_images.py survive every rebuild."""
     path = os.path.join(root, "tools", "image_overrides.json")
@@ -2553,14 +2642,21 @@ def apply_image_overrides(root):
     return applied
 
 
-def merge_imported_sales(root):
-    """Sales brought in by tools/import_sales.py survive every rebuild."""
+def merge_imported_sales(root, redirects=None):
+    """Sales brought in by tools/import_sales.py survive every rebuild.
+
+    A sale recorded against a merged item follows the redirect to its survivor
+    (keeping its own id). A sale whose item is not in the catalogue at all is
+    dropped - and counted and printed, so a lost comp is never silent.
+    """
+    redirects = redirects or {}
     path = os.path.join(root, "tools", "imported_sales.json")
     if not os.path.exists(path):
         return 0
     with open(path) as f:
         imported = json.load(f)
     known = {i["id"] for i in ITEMS}
+    unknown = {}
     have = {(s["item_id"], round(float(s["sold_price"]), 2),
              s.get("sale_date") or "", s.get("listing_id") or "") for s in SALES}
     merged = 0
@@ -2570,15 +2666,22 @@ def merge_imported_sales(root):
         if s.get("evidence_type") not in V.MARKET_EVIDENCE_TYPES:
             raise ValueError("imported_sales.json row %s has evidence_type %r, which is "
                              "not sold evidence" % (s.get("id"), s.get("evidence_type")))
+        s = OrderedDict(s)
+        s["item_id"] = redirects.get(s["item_id"], s["item_id"])
         if s["item_id"] not in known:
+            unknown[s["item_id"]] = unknown.get(s["item_id"], 0) + 1
             continue
         key = (s["item_id"], round(float(s["sold_price"]), 2),
                s.get("sale_date") or "", s.get("listing_id") or "")
         if key in have:
             continue
         have.add(key)
-        SALES.append(OrderedDict(s))
+        SALES.append(s)
         merged += 1
+    if unknown:
+        print("  WARNING: %d imported sale(s) dropped - their item is not in the catalogue: %s"
+              % (sum(unknown.values()),
+                 ", ".join("%s (%d)" % kv for kv in sorted(unknown.items())[:10])))
     return merged
 
 
@@ -2599,6 +2702,8 @@ def load_active_listings(root):
     with open(path) as f:
         payload = json.load(f)
     known = {i["id"] for i in ITEMS}
+    for l in payload.get("listings", []):
+        l["item_id"] = REDIRECTS.get(l.get("item_id"), l.get("item_id"))
     listings = [l for l in payload.get("listings", []) if l.get("item_id") in known]
     for l in listings:
         assert l.get("evidence_type") == "active_listing", \
@@ -2682,6 +2787,33 @@ def apply_note_policy(items):
                          % ", ".join(bad[:10]))
 
 
+def previous_sale_count(root):
+    """meta.sale_count of the data.json this build is about to replace."""
+    path = os.path.join(root, "data.json")
+    try:
+        with open(path) as f:
+            return json.load(f)["meta"]["sale_count"]
+    except (OSError, ValueError, KeyError):
+        return None
+
+
+def guard_shrink(prev_count, new_count, allow=False):
+    """Refuse to publish a build that silently lost sales.
+
+    tools/imported_sales.json is the record of every imported comp; a build
+    missing it (or most of it) would otherwise overwrite data.json with a
+    fraction of the evidence. Identity-ledger exclusions keep their rows (they
+    are flagged, not removed), so the ledger's own decisions never trip this;
+    a sale whose item vanished is printed by merge_imported_sales.
+    """
+    if not prev_count or allow:
+        return
+    if new_count < prev_count * 0.98:
+        raise SystemExit("refusing to write: sale_count would drop from %d to %d (more than "
+                         "2%%). Is tools/imported_sales.json missing? Re-run with "
+                         "--allow-shrink if this is intended." % (prev_count, new_count))
+
+
 def assert_sales_are_sold_evidence(sales):
     """No row in SALES may be anything but sold evidence."""
     bad = [s["id"] for s in sales if s.get("evidence_type") in V.NON_SALE_EVIDENCE_TYPES
@@ -2718,13 +2850,18 @@ def main(argv=None):
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     built_at = build_date(args.as_of)
     CONFIG["recency"]["as_of"] = built_at
+    ledger = load_identity()
+    REDIRECTS.update(apply_identity(ITEMS, SALES, ledger))
     assign_catalogue_source(ITEMS)
     apply_note_policy(ITEMS)
     open_questions = flag_open_questions()
     active, active_fetched_at = load_active_listings(root)
     photos = apply_image_overrides(root)
-    imported = merge_imported_sales(root)
+    imported = merge_imported_sales(root, REDIRECTS)
+    excluded, reassigned = apply_sale_overrides(SALES, ledger, {i["id"] for i in ITEMS},
+                                                REDIRECTS)
     assert_sales_are_sold_evidence(SALES)
+    guard_shrink(previous_sale_count(root), len(SALES), args.allow_shrink)
     out = OrderedDict([
         ("meta", OrderedDict([
             ("name", "BearChart"),
@@ -2752,6 +2889,10 @@ def main(argv=None):
         ("sales", SALES),
         ("active_listings", active),
         ("active_listings_fetched_at", active_fetched_at),
+        # Merged item ids -> the item that absorbed them. Every page resolves an
+        # id through this (common.js canonicalId), so old links, bookmarks and
+        # collection entries keep working.
+        ("redirects", OrderedDict(sorted(REDIRECTS.items()))),
     ])
     path = os.path.join(root, "data.json")
     with open(path, "w") as f:
@@ -2775,6 +2916,9 @@ def main(argv=None):
     if active:
         print("  active listings: %d (asking prices - never used in a valuation)"
               % len(active))
+    if REDIRECTS or excluded or reassigned:
+        print("  identity ledger: %d merged item(s) redirected, %d sale(s) excluded, "
+              "%d reassigned" % (len(REDIRECTS), excluded, reassigned))
     if open_questions:
         print("  open questions: %d item(s) flagged for a human to settle"
               % open_questions)

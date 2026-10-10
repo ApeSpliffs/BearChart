@@ -29,7 +29,11 @@ import re
 import sys
 from collections import defaultdict
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from name_key import name_key, collides, fold, _tokens  # noqa: E402
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LEDGER = os.path.join(ROOT, "tools", "catalogue_identity.json")
 
 # Words that carry no identifying weight when comparing two names.
 NOISE = {
@@ -207,6 +211,100 @@ def find_near_duplicates(items):
     return pairs
 
 
+def load_ledger(path=None):
+    with open(path or LEDGER) as f:
+        return json.load(f)
+
+
+def _pair(a, b):
+    return tuple(sorted([a, b]))
+
+
+def find_key_collisions(items, ledger):
+    """Pairs whose normalised name keys collide -> (unresolved, resolved).
+
+    A pair is resolved when the ledger lists it as distinct (pending or not),
+    or when one side has been merged away (it is then no longer in items).
+    Each entry is {"severity", "a", "b", "pending"}.
+    """
+    distinct = {}
+    for d in ledger.get("distinct") or []:
+        ids = d["ids"]
+        for x in range(len(ids)):
+            for y in range(x + 1, len(ids)):
+                distinct[_pair(ids[x], ids[y])] = d
+    merged = set((ledger.get("merges") or {}).keys())
+    groups = defaultdict(list)
+    for item in items:
+        k = name_key(item)
+        if k.core:
+            groups[k.core].append((k, item))
+    unresolved, resolved = [], []
+    for members in groups.values():
+        for x in range(len(members)):
+            for y in range(x + 1, len(members)):
+                sev = collides(members[x][0], members[y][0])
+                if not sev:
+                    continue
+                a, b = members[x][1], members[y][1]
+                d = distinct.get(_pair(a["id"], b["id"]))
+                entry = {"severity": sev, "a": a, "b": b,
+                         "pending": bool(d and d.get("pending"))}
+                if d or a["id"] in merged or b["id"] in merged:
+                    resolved.append(entry)
+                else:
+                    unresolved.append(entry)
+    order = {"high": 0, "review": 1}
+    unresolved.sort(key=lambda e: (order[e["severity"]], e["a"]["id"], e["b"]["id"]))
+    return unresolved, resolved
+
+
+def sales_predating_release(items, sales):
+    """Sales dated before 1 January of their item's release year."""
+    by_id = {i["id"]: i for i in items}
+    out = []
+    for s in sales:
+        item = by_id.get(s["item_id"])
+        if not item or s.get("excluded") or not s.get("sale_date") or not item.get("release_year"):
+            continue
+        if s["sale_date"] < "%04d-01-01" % item["release_year"]:
+            out.append((item, s))
+    return out
+
+
+TITLE_RE = re.compile(r"title:\s*(.*)", re.I)
+
+
+def sales_naming_a_more_specific_item(items, sales):
+    """A sale whose listing title names a catalogue item more specific than the
+    one it is recorded against (its core name a strict superset of the owner's)."""
+    keys = {i["id"]: name_key(i) for i in items}
+    by_token = defaultdict(list)
+    for i in items:
+        core = keys[i["id"]].core
+        if core:
+            by_token[min(core)].append(i)
+    out = []
+    for s in sales:
+        m = TITLE_RE.search(s.get("notes") or "")
+        owner = keys.get(s["item_id"])
+        if not m or not owner or not owner.core or s.get("excluded"):
+            continue
+        words = set(_tokens(fold(m.group(1))))
+        best = None
+        for t in words:
+            for cand in by_token.get(t, ()):
+                c = keys[cand["id"]]
+                if cand["id"] == s["item_id"] or c.mini_bean != owner.mini_bean:
+                    continue
+                if c.core <= words and owner.core < c.core:
+                    if best is None or len(c.core) > len(keys[best["id"]].core):
+                        best = cand
+        if best:
+            out.append((s, best))
+    return out
+
+
 def describe(item):
     bits = [item["id"]]
     if item.get("release_year"):
@@ -216,16 +314,18 @@ def describe(item):
     return "%s  (%s)" % (item["canonical_name"], ", ".join(bits))
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--strict", action="store_true",
                     help="exit 1 if anything needs a human decision")
     ap.add_argument("--all", action="store_true",
                     help="also list pairs already documented as deliberate")
-    args = ap.parse_args()
+    ap.add_argument("--data", default=os.path.join(ROOT, "data.json"), help=argparse.SUPPRESS)
+    ap.add_argument("--ledger", default=None, help=argparse.SUPPRESS)
+    args = ap.parse_args(argv)
 
-    with open(os.path.join(ROOT, "data.json")) as f:
+    with open(args.data) as f:
         data = json.load(f)
     items = data["items"]
     sales_by_item = defaultdict(int)
@@ -250,6 +350,50 @@ def main():
                 how = "name" if norm(item["canonical_name"]) == key else "alias"
                 print("      %-6s %s" % (how, describe(item)))
             print()
+
+    ledger = load_ledger(args.ledger)
+    unresolved, resolved = find_key_collisions(items, ledger)
+    high = [e for e in unresolved if e["severity"] == "high"]
+    review = [e for e in unresolved if e["severity"] == "review"]
+    pending = [e for e in resolved if e["pending"]]
+    print("=" * 72)
+    print("SAME NAME KEY, NO LEDGER DECISION  (%d high, %d review)" % (len(high), len(review)))
+    print("=" * 72)
+    print("These reduce to the same normalised name. Record a decision in\n"
+          "tools/catalogue_identity.json: a merge, or a distinct entry. Strict mode\n"
+          "fails on every HIGH one, whoever catalogued the records.\n")
+    for e in unresolved:
+        a, b = e["a"], e["b"]
+        print("  [%s]" % e["severity"].upper())
+        print("      %s   %d comp(s)" % (describe(a), sales_by_item[a["id"]]))
+        print("      %s   %d comp(s)" % (describe(b), sales_by_item[b["id"]]))
+    if not unresolved:
+        print("None.\n")
+    print("\n%d pair(s) kept distinct pending an owner decision:" % len(pending))
+    for e in pending:
+        print("  %s / %s" % (e["a"]["id"], e["b"]["id"]))
+    print()
+
+    early = sales_predating_release(items, data["sales"])
+    print("=" * 72)
+    print("SALES PREDATING THEIR ITEM'S RELEASE YEAR  (%d)  - review queue" % len(early))
+    print("=" * 72)
+    per = defaultdict(int)
+    for item, _ in early:
+        per[item["id"]] += 1
+    for iid, n in sorted(per.items(), key=lambda kv: -kv[1])[:25]:
+        print("  %-48s %d" % (iid, n))
+    print()
+
+    specific = sales_naming_a_more_specific_item(items, data["sales"])
+    print("=" * 72)
+    print("SALE TITLE NAMES A MORE SPECIFIC ITEM  (%d)  - review queue" % len(specific))
+    print("=" * 72)
+    for sale, cand in specific[:25]:
+        print("  %s  ->  %s" % (sale["id"], cand["id"]))
+    if len(specific) > 25:
+        print("  ... and %d more" % (len(specific) - 25))
+    print()
 
     pairs = find_near_duplicates(items)
     needs = [p for p in pairs if p["status"] == "undocumented"
@@ -305,30 +449,17 @@ def main():
         print()
 
     # A name that identifies two items identifies neither: that is a bug in the
-    # data whoever introduced it, and it always fails the build.
-    #
-    # A near-duplicate PAIR is different. The bulk wiki import catalogues names
-    # nobody has reconciled against the hand-written entries yet, and hundreds
-    # of those land next to an existing bear. Failing the build on them would
-    # mean either 245 manual decisions before the suite can run again, or - far
-    # more likely - somebody deletes the check. So strict mode guards what it
-    # was built to guard: duplicates between two HAND-CURATED records. Pairs
-    # involving an unreviewed import are a work queue, not a broken build.
-    def imported(item):
-        return item.get("catalogue_source") == "wiki"
-
-    curated_pairs = [p for p in needs if not imported(p["a"]) and not imported(p["b"])]
-    if len(curated_pairs) < len(needs):
-        print("\n%d of those pairs involve an unreviewed catalogue import and are "
-              "a review queue, not a build failure.\n"
-              "%d are between hand-curated records, which strict mode does fail on."
-              % (len(needs) - len(curated_pairs), len(curated_pairs)))
-
-    problems = len(collisions) + len(curated_pairs)
+    # data whoever introduced it, and it always fails the build. So does a HIGH
+    # name-key collision with no decision in the ledger, curated or imported:
+    # the ledger records every decision, so the queue can actually be emptied.
+    # The fuzzy near-duplicate report above stays a work queue, not a failure.
+    problems = len(collisions) + len(high)
     print("-" * 72)
-    print("%d ambiguous name(s) | %d needing a decision | %d flagged but unresolved | "
-          "%d probably-different | %d decided"
-          % (len(collisions), len(needs), len(open_qs), len(variants), len(settled)))
+    print("%d ambiguous name(s) | %d unresolved high key collision(s) | %d review | "
+          "%d pending owner decision(s) | fuzzy: %d needing a decision, %d flagged but "
+          "unresolved, %d probably-different, %d decided"
+          % (len(collisions), len(high), len(review), len(pending), len(needs),
+             len(open_qs), len(variants), len(settled)))
 
     if args.strict and problems:
         return 1

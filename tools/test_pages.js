@@ -258,6 +258,7 @@ function renderPage(file, url, opts) {
     } catch (e) {
       errors.push('while running ' + src + ': ' + e.message + '\n' + e.stack);
     }
+    if (opts && opts.afterScript) opts.afterScript(src, dom.window);
 
   }
   // Inline scripts (about.html uses one) run after the external ones.
@@ -564,6 +565,45 @@ test('valuations in the page carry their staleness and window', () => {
     assert.ok(k in v, 'valuation is missing ' + k);
   }
   assert.strictEqual(v.window.as_of, p.win.BEARCHART_DATA.config.recency.as_of);
+});
+
+// ---- merged items ------------------------------------------------------------
+
+function firstRedirect() {
+  const red = loadData().redirects || {};
+  const old = Object.keys(red).find((k) => loadData().items.some((i) => i.id === red[k]));
+  assert.ok(old, 'the data carries at least one redirect');
+  return [old, red[old]];
+}
+
+test('an old id of a merged item redirects to the item that absorbed it', () => {
+  const [oldId, newId] = firstRedirect();
+  let went = null;
+  const p = renderPage('item.html', 'item.html?id=' + oldId, {
+    afterScript: (src, win) => {
+      if (src === 'common.js') win.BC.go = (url) => { went = url; };
+    }
+  });
+  assert.strictEqual(went, 'item/' + newId + '.html');
+  assert.strictEqual(p.win.BC.itemById(oldId).id, newId);
+  assert.strictEqual(p.win.BC.valuationFor(oldId), p.win.BC.valuationFor(newId));
+});
+
+test('a collection entry stored under a merged id still renders and is migrated', () => {
+  const [oldId, newId] = firstRedirect();
+  // Stored before common.js runs, as a returning visitor's browser would have it.
+  const p = renderPage('collection.html', null, {
+    afterScript: (src, win) => {
+      if (src !== 'config.js') return;
+      win.localStorage.setItem('bearchart.collection', JSON.stringify([
+        { item_id: oldId, condition: 'Good', completeness: 'unknown', qty: 1 }]));
+      win.localStorage.setItem('bearchart.wishlist', JSON.stringify([oldId, newId]));
+    }
+  });
+  const coll = JSON.parse(p.win.localStorage.getItem('bearchart.collection'));
+  assert.strictEqual(coll[0].item_id, newId);
+  assert.deepStrictEqual(JSON.parse(p.win.localStorage.getItem('bearchart.wishlist')), [newId]);
+  assert.ok(p.win.BC.itemById(coll[0].item_id));
 });
 
 test('a versioned item warns against merging versions', () => {
@@ -1106,7 +1146,8 @@ test('the strip labels the range, never the padding either side of it', () => {
 
 test('one comp draws one dot and says the range once', () => {
   // Any item resting on exactly one comp will do; this one has a single sale.
-  const p = renderPage('item.html', 'item.html?id=polar-bear-ii-20-inch');
+  // (Polar Bear II used to be the example; merging its wiki duplicate gave it four.)
+  const p = renderPage('item.html', 'item.html?id=cherry-blossom-teddy');
   assert.strictEqual(p.doc.querySelectorAll('.ev-dot').length, 1);
   // range_low === range_high here, so printing it twice would read as two
   // different figures that happen to match.
@@ -2305,7 +2346,8 @@ test('every page loads config.js then observability.js before anything else', ()
     assert.deepStrictEqual(srcs.slice(0, 2), ['config.js', 'observability.js'], page);
   }
   const itemHtml = fs.readFileSync(path.join(ROOT, 'item', '_offline.html'), 'utf8');
-  assert.match(itemHtml, /<script src="\.\.\/config\.js"><\/script>\s*<script src="\.\.\/observability\.js"><\/script>\s*<script src="\.\.\/data\.js">/);
+  // Script order per the master brief: sanitize.js follows observability.js.
+  assert.match(itemHtml, /<script src="\.\.\/config\.js"><\/script>\s*<script src="\.\.\/observability\.js"><\/script>\s*<script src="\.\.\/sanitize\.js"><\/script>\s*<script src="\.\.\/data\.js">/);
 });
 
 test('the service worker precaches the runtime config and error reporter', () => {

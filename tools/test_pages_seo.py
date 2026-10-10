@@ -241,6 +241,33 @@ class SitemapTests(unittest.TestCase):
             os.remove(path)
 
 
+class RedirectStubTests(unittest.TestCase):
+    ITEM = {"id": "grogu-star-wars", "canonical_name": "Grogu (Star Wars)"}
+
+    def test_a_stub_is_noindex_canonical_and_refreshes(self):
+        html = bp.redirect_stub_html("star-wars-grogu", self.ITEM, "https://example.test")
+        self.assertIn('<meta name="robots" content="noindex">', html)
+        self.assertIn('<link rel="canonical" href="https://example.test/item/grogu-star-wars.html">',
+                      html)
+        self.assertIn('<meta http-equiv="refresh" content="0; url=grogu-star-wars.html">', html)
+        self.assertIn('<a href="grogu-star-wars.html">', html)
+        self.assertIn('<script src="../redirect.js"></script>', html)
+        # The CSP allows no inline script.
+        self.assertIsNone(re.search(r"<script(?![^>]*\bsrc=)[^>]*>", html))
+
+    def test_stubs_are_never_in_the_sitemap(self):
+        data = {"items": [{"id": "grogu-star-wars"}], "sales": [],
+                "redirects": {"star-wars-grogu": "grogu-star-wars"}}
+        path, count = bp.write_sitemap(data, "https://example.test/")
+        try:
+            with open(path) as f:
+                xml = f.read()
+            self.assertNotIn("star-wars-grogu", xml)
+            self.assertIn("grogu-star-wars", xml)
+        finally:
+            os.remove(path)
+
+
 class LivePagesTests(unittest.TestCase):
     """The pages actually on disk, against the catalogue that produced them."""
 
@@ -256,6 +283,16 @@ class LivePagesTests(unittest.TestCase):
         for item in self.data["items"]:
             path = os.path.join(self.dir, "%s.html" % item["id"])
             self.assertTrue(os.path.exists(path), "missing page for " + item["id"])
+
+    def test_every_merged_id_has_a_redirect_stub(self):
+        if not os.path.isdir(self.dir):
+            self.skipTest("run tools/build_pages.py first")
+        for old, new in (self.data.get("redirects") or {}).items():
+            path = os.path.join(self.dir, "%s.html" % old)
+            self.assertTrue(os.path.exists(path), "missing stub for " + old)
+            html = open(path).read()
+            self.assertIn('content="noindex"', html)
+            self.assertIn("url=%s.html" % new, html)
 
     def test_no_page_for_an_item_with_no_comps_mentions_a_dollar_value(self):
         if not os.path.isdir(self.dir):

@@ -251,6 +251,22 @@ def save_json(path, data):
         f.write("\n")
 
 
+def load_watchlist(data=None):
+    """Watched item ids, each resolved through data.json's redirects so an id
+    merged into another item keeps being watched under its survivor."""
+    watched = load_json(WATCHLIST, [])
+    redirects = (data or {}).get("redirects") or {}
+    out = []
+    for wid in watched:
+        seen = 0
+        while wid in redirects and seen < 10:
+            wid = redirects[wid]
+            seen += 1
+        if wid not in out:
+            out.append(wid)
+    return out
+
+
 def load_state():
     return load_json(STATE, {"last_polled": {}, "bucket": None, "seen": {}})
 
@@ -269,8 +285,8 @@ def load_catalogue():
 
 
 def cmd_watch(args):
-    watched = load_json(WATCHLIST, [])
     data, _ = load_catalogue()
+    watched = load_watchlist(data)
     known = {i["id"]: i for i in data["items"]}
 
     action = args.watch[0]
@@ -318,7 +334,7 @@ def cmd_watch(args):
 
 def cmd_plan(args):
     data, sales_by_item = load_catalogue()
-    watched = set(load_json(WATCHLIST, []))
+    watched = set(load_watchlist(data))
     state = load_state()
     now = time.time()
 
@@ -386,7 +402,7 @@ def cmd_once(args):
             "--plan works without credentials if you just want the schedule.")
 
     data, sales_by_item = load_catalogue()
-    watched = set(load_json(WATCHLIST, []))
+    watched = set(load_watchlist(data))
     state = load_state()
     now = time.time()
 

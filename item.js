@@ -20,6 +20,12 @@
   }
 
   var id = itemIdFromLocation();
+  // A merged item's old id: go to the record that absorbed it, so old links
+  // and bookmarks land on the bear and its comps rather than on "not found".
+  if (id && BC.canonicalId(id) !== id && BC.itemById(id)) {
+    BC.go(BC.itemUrl(BC.canonicalId(id)));
+    return;
+  }
   var item = id && BC.itemById(id);
 
   if (!item) {

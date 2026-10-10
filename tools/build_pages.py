@@ -322,12 +322,54 @@ def valuations(data):
     return json.loads(res.stdout)
 
 
+def redirect_stub_html(old_id, new_item, base_url):
+    """item/<old>.html for an id merged into another item.
+
+    Works on any static host with no host-specific redirect config: a meta
+    refresh, a script (external - the CSP forbids inline script), a canonical
+    link and a visible link. noindex keeps the old URL out of search results.
+    """
+    target = "%s.html" % new_item["id"]
+    canonical = ("%s/item/%s" % (base_url.rstrip("/"), target)) if base_url else target
+    return """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>%(name)s - BearChart</title>
+<link rel="canonical" href="%(canonical)s">
+<meta http-equiv="refresh" content="0; url=%(target)s">
+<script src="../redirect.js"></script>
+</head>
+<body>
+<p>This bear now lives at <a href="%(target)s">%(name)s</a>.</p>
+<!-- merged: %(old)s -->
+</body>
+</html>
+""" % {"name": e(new_item["canonical_name"]), "canonical": e(canonical),
+       "target": e(target), "old": e(old_id)}
+
+
+def write_redirect_stubs(data, base_url):
+    items = {i["id"]: i for i in data["items"]}
+    n = 0
+    for old, new in sorted((data.get("redirects") or {}).items()):
+        if old in items or new not in items:
+            continue
+        with open(os.path.join(OUT_DIR, "%s.html" % old), "w") as f:
+            f.write(redirect_stub_html(old, items[new], base_url))
+        n += 1
+    return n
+
+
 def write_sitemap(data, base_url):
     if not base_url:
         return None
     base = base_url.rstrip("/")
     today = date.today().isoformat()
     urls = ["%s/%s" % (base, p) for p in TOP_LEVEL]
+    # Items only: redirect stubs for merged ids are noindex and never listed.
     urls += ["%s/item/%s.html" % (base, i["id"]) for i in data["items"]]
     body = "".join(
         "  <url><loc>%s</loc><lastmod>%s</lastmod></url>\n" % (e(u), today)
@@ -408,6 +450,11 @@ def main():
     with open(os.path.join(OUT_DIR, "_offline.html"), "w") as f:
         f.write(offline)
     print("wrote item/_offline.html  (offline stand-in for any item)")
+
+    stubs = write_redirect_stubs(data, base_url)
+    if stubs:
+        print("wrote %d redirect stub(s) for merged item ids (noindex, not in the sitemap)"
+              % stubs)
 
     robots = write_robots(base_url)
     print("wrote %s" % os.path.relpath(robots, ROOT))
