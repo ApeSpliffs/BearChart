@@ -833,8 +833,8 @@ section.hero {
 .ev-k-med  { width: 3px; height: 13px; border-radius: 2px; background: var(--brown-deep); }
 
 /* ---------- the page with no price ------------------------------------------
-   1,974 of 2,042 items have no sold data, which makes this the most-viewed
-   panel on the site and the one a search result most often lands on. It leads
+   Every item without sold data shows this, which makes it one of the most-viewed
+   panels on the site and the one a search result most often lands on. It leads
    with what is known and asks for the one thing that would change it, rather
    than apologising in a warning box. */
 

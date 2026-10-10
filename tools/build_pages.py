@@ -8,8 +8,8 @@ Generate one real HTML page per catalogued item, plus a sitemap.
 
 WHY THIS EXISTS
     Every item used to live at item.html?id=<slug> and be drawn by JavaScript
-    after the page loaded. To a search engine that is ONE page - the catalogue
-    of 2,042 bears was, as far as Google was concerned, a single empty
+    after the page loaded. To a search engine that is ONE page - the whole
+    catalogue was, as far as Google was concerned, a single empty
     document. People searching "1997 build a bear brown teddy value" were
     typing the exact question this site answers and could not find it.
 
@@ -440,8 +440,8 @@ def main():
     # One shell that stands in for any item page the browser has not cached.
     # The service worker serves this for /item/<anything>.html when offline;
     # the address bar still says which bear, so item.js reads the slug from the
-    # path and renders it from the cached catalogue. One file, and all 2,042
-    # items work offline - precaching them all would be 8MB.
+    # path and renders it from the cached catalogue. One file, and every
+    # item works offline - precaching them all would be 8MB.
     offline = page_html(
         {"id": "_offline", "canonical_name": "Loading…", "aliases": [],
          "category": None, "species": None, "release_year": None},

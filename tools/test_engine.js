@@ -615,10 +615,22 @@ test('catalogueStats is the one definition, and the build agrees with it', () =>
 });
 
 test('no hand-typed catalogue counts or fee figures survive in the docs', () => {
-  for (const f of ['README.md', 'item.js', 'tools/build_data.py']) {
-    const src = fs.readFileSync(path.join(__dirname, '..', f), 'utf8');
+  const root = path.join(__dirname, '..');
+  const files = ['README.md'];
+  for (const f of fs.readdirSync(root)) {
+    if (/\.(js|css)$/.test(f) && f !== 'data.js') files.push(f);
+  }
+  for (const f of fs.readdirSync(path.join(root, 'tools'))) {
+    if (/\.py$/.test(f)) files.push(path.join('tools', f));
+  }
+  for (const f of files) {
+    const src = fs.readFileSync(path.join(root, f), 'utf8');
     assert.doesNotMatch(src, /\b1,?974\b|\b2,?042\b|79 sold/, f);
-    assert.doesNotMatch(src, /0\.1325/, f);
+  }
+  // The fee literal: only deals.js may name it, to migrate settings saved
+  // before fees became a schedule.
+  for (const f of files.filter((x) => x !== 'deals.js')) {
+    assert.doesNotMatch(fs.readFileSync(path.join(root, f), 'utf8'), /0\.1325/, f);
   }
 });
 
