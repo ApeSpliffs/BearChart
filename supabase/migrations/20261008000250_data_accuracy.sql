@@ -94,9 +94,20 @@ begin
     on conflict do nothing;
   delete from wishlists where item_id = p_old;
 
+  -- One approved photo per item: the survivor's own photo wins, and the old
+  -- slug's row (otherwise an orphan nothing can show) is removed.
   update item_photos set item_slug = p_new
    where item_slug = p_old
      and not exists (select 1 from item_photos where item_slug = p_new);
+  delete from item_photos where item_slug = p_old;
+  -- One pending submission per member per item: a member with a pending photo
+  -- on both slugs keeps the survivor's; the old one is rejected, not deleted,
+  -- so the stored file and the review trail stay accounted for.
+  update photo_submissions o set status = 'rejected'
+   where o.item_slug = p_old and o.status = 'pending'
+     and exists (select 1 from photo_submissions n
+                  where n.item_slug = p_new and n.submitter = o.submitter
+                    and n.status = 'pending');
   update photo_submissions set item_slug = p_new where item_slug = p_old;
   update comp_submissions set item_slug = p_new where item_slug = p_old;
   update item_reports set item_slug = p_new where item_slug = p_old;

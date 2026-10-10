@@ -42,8 +42,30 @@ insert into public.wishlists (user_id, item_id) values
 insert into public.collection_entries (user_id, id, entry) values
   (tests.uid('pro'), 'entry-merge-1', '{"item_id": "merge-old-bear", "qty": 1}');
 
+insert into public.item_photos (item_slug, image_url) values
+  ('merge-old-bear', 'https://example.test/old.jpg'),
+  ('merge-new-bear', 'https://example.test/new.jpg');
+insert into public.photo_submissions (item_slug, submitter, storage_path) values
+  ('merge-old-bear', tests.uid('pro'), 'pro/old.jpg'),
+  ('merge-new-bear', tests.uid('pro'), 'pro/new.jpg'),
+  ('merge-old-bear', tests.uid('power'), 'power/old.jpg');
+
 select lives_ok($$ select public.merge_item_slug('merge-old-bear', 'merge-new-bear') $$,
-  'merge_item_slug runs');
+  'merge_item_slug runs, even with a pending photo on both slugs');
+select is((select image_url from public.item_photos where item_slug = 'merge-new-bear'),
+  'https://example.test/new.jpg', 'the survivor keeps its own photo');
+select is((select count(*) from public.item_photos where item_slug = 'merge-old-bear'), 0::bigint,
+  'no orphan photo row is left on the old slug');
+select is((select count(*) from public.photo_submissions where item_slug = 'merge-old-bear'), 0::bigint,
+  'every submission now names the survivor');
+select is((select count(*) from public.photo_submissions
+            where item_slug = 'merge-new-bear' and submitter = tests.uid('pro')
+              and status = 'pending'), 1::bigint,
+  'a member with a pending photo on both keeps exactly one pending');
+select is((select status from public.photo_submissions where storage_path = 'pro/old.jpg'),
+  'rejected', 'the old duplicate is rejected, not lost');
+select is((select status from public.photo_submissions where storage_path = 'power/old.jpg'),
+  'pending', 'a non-conflicting pending submission simply moves');
 select is((select count(*) from public.items where slug = 'merge-old-bear'), 0::bigint,
   'the merged item row is gone');
 select is((select count(*) from public.sales s join public.items i on i.id = s.item_id
