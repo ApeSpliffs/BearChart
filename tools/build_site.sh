@@ -15,6 +15,10 @@ command -v python3 >/dev/null || {
   exit 1
 }
 
+# The browser's data: site-config.js, the hashed catalogue index and listings,
+# and one file per item - all split from data.json (tools/build_assets.js).
+node tools/build_assets.js
+
 # The sitemap needs absolute URLs, so the base address has to come from the
 # host (Vercel). Vercel's carries no scheme.
 if [ "${VERCEL_ENV:-}" = "production" ] && [ -n "${VERCEL_PROJECT_PRODUCTION_URL:-}" ]; then

@@ -1071,6 +1071,57 @@
     return out;
   }
 
+  /**
+   * The part of a valuation a list page needs, and nothing it does not.
+   *
+   * The build writes one summary per item into the catalogue index
+   * (tools/build_assets.js), so the price guide, checklists, collection, deals
+   * and admin pages never valuate anything: a phone no longer runs the engine
+   * two thousand times on every visit. Numbers are NOT rounded, so collection
+   * history does not drift.
+   *
+   * The buy / trade / sell / high-ask bands are left out: they are fixed
+   * multiples of fair_market (config.bands) and the range, so storing them
+   * would only make the index bigger. withBands() puts them back - the same
+   * arithmetic valuate() does, so the numbers are identical - and adjust(),
+   * findDeals(), collectionSnapshot() and catalogueStats() all work on the
+   * result.
+   */
+  var SUMMARY_KEYS = [
+    'has_value', 'confidence', 'comparable_count', 'observation_count',
+    'aggregate_count', 'strong_evidence_count', 'fair_market', 'median_raw',
+    'range_low', 'range_high', 'lower_bound', 'lower_bound_basis', 'recent_since',
+    'sold_transactions', 'stale', 'stale_reason', 'last_sale_date', 'operator_count',
+    'window', 'caveats'
+  ];
+
+  function summary(v) {
+    var out = {};
+    SUMMARY_KEYS.forEach(function (k) {
+      var x = v ? v[k] : undefined;
+      out[k] = x === undefined ? null : x;
+    });
+    return out;
+  }
+
+  /** A summary with item_id and the price bands restored (see summary()). */
+  function withBands(s, itemId, config) {
+    var out = { item_id: itemId };
+    Object.keys(s || {}).forEach(function (k) { out[k] = s[k]; });
+    var fmv = out.fair_market;
+    var b = config.bands;
+    var priced = out.has_value && typeof fmv === 'number';
+    out.buy_low = priced ? fmv * b.buy[0] : null;
+    out.buy_high = priced ? fmv * b.buy[1] : null;
+    out.trade_low = priced ? fmv * b.trade[0] : null;
+    out.trade_high = priced ? fmv * b.trade[1] : null;
+    out.sell_low = priced ? out.range_low : null;
+    out.sell_high = priced ? out.range_high : null;
+    out.ask_low = priced ? fmv * b.high_ask[0] : null;
+    out.ask_high = priced ? fmv * b.high_ask[1] : null;
+    return out;
+  }
+
   var api = {
     percentile: percentile,
     median: median,
@@ -1101,7 +1152,10 @@
     diffHoldings: diffHoldings,
     timeWeightedReturn: timeWeightedReturn,
     windowStats: windowStats,
-    catalogueStats: catalogueStats
+    catalogueStats: catalogueStats,
+    summary: summary,
+    withBands: withBands,
+    SUMMARY_KEYS: SUMMARY_KEYS
   };
 
   root.BearChartEngine = api;

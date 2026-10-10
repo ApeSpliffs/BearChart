@@ -618,7 +618,7 @@ test('no hand-typed catalogue counts or fee figures survive in the docs', () => 
   const root = path.join(__dirname, '..');
   const files = ['README.md'];
   for (const f of fs.readdirSync(root)) {
-    if (/\.(js|css)$/.test(f) && f !== 'data.js') files.push(f);
+    if (/\.(js|css)$/.test(f) && !['data.js', 'site-config.js', 'sw.js'].includes(f)) files.push(f);
   }
   for (const f of fs.readdirSync(path.join(root, 'tools'))) {
     if (/\.py$/.test(f)) files.push(path.join('tools', f));
@@ -1352,3 +1352,44 @@ test('a rejected outlier is not among the exposed comps', () => {
     'a comp the median ignored must not be drawn as if it counted');
 });
 
+
+// ---- the index summary (tools/build_assets.js) ------------------------------
+
+test('summary() returns exactly SUMMARY_KEYS', () => {
+  const v = valueOf('kennel-pals-calico-cat');
+  assert.deepStrictEqual(Object.keys(E.summary(v)), E.SUMMARY_KEYS);
+  assert.deepStrictEqual(Object.keys(E.summary(E.valuate({ id: 'x' }, [], CFG))), E.SUMMARY_KEYS);
+  for (const k of ['sold_transactions', 'stale', 'stale_reason', 'last_sale_date', 'operator_count', 'window']) {
+    assert.ok(E.SUMMARY_KEYS.includes(k), k);
+  }
+  assert.ok(!E.SUMMARY_KEYS.includes('points') && !E.SUMMARY_KEYS.includes('why'));
+});
+
+test('adjust() of a summary equals adjust() of the full valuation', () => {
+  const priced = DATA.items.filter((i) => valueOf(i.id).has_value).slice(0, 50);
+  assert.strictEqual(priced.length, 50);
+  for (const i of priced) {
+    const v = valueOf(i.id);
+    for (const [cond, comp] of [['Good', 'bare'], ['NWT', 'complete'], ['Fair', 'unknown']]) {
+      assert.deepStrictEqual(E.adjust(E.summary(v), cond, comp, CFG), E.adjust(v, cond, comp, CFG), i.id);
+    }
+  }
+});
+
+test('withBands() restores exactly the bands valuate() computed', () => {
+  for (const i of DATA.items.slice(0, 400)) {
+    const v = valueOf(i.id);
+    const w = E.withBands(E.summary(v), i.id, CFG);
+    assert.strictEqual(w.item_id, i.id);
+    for (const k of ['buy_low', 'buy_high', 'trade_low', 'trade_high', 'sell_low', 'sell_high',
+                     'ask_low', 'ask_high', 'fair_market', 'range_low', 'confidence']) {
+      assert.strictEqual(w[k], v[k], i.id + '.' + k);
+    }
+  }
+});
+
+test('valuate is deterministic across runs (seeded bootstrap)', () => {
+  for (const i of DATA.items.slice(0, 200)) {
+    assert.deepStrictEqual(valueOf(i.id), valueOf(i.id), i.id);
+  }
+});
