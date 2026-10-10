@@ -2365,6 +2365,18 @@ test('with the flag on, the CSV button asks the export-comps function', async ()
   assert.strictEqual(note.hidden, false);
   assert.match(note.textContent, /Power/);
   assert.match(note.textContent, /free/);
+
+  // A larger result than one request covers is said, not silently cut.
+  client.functions.invoke = (name, opts) => {
+    invoked.push([name, opts.body.item_ids.length]);
+    return Promise.resolve({ data: 'sale_id\r\n', error: null });
+  };
+  win.BC.download = () => {};
+  win.__lastResults = Array.from({ length: 501 }, (_, k) => ({ id: 'bear-' + k }));
+  btn.dispatchEvent(new win.Event('click'));
+  await new Promise((r) => setTimeout(r, 10));
+  assert.strictEqual(invoked[1][1], 500);
+  assert.match(note.textContent, /first 500 of 501 matching bears/);
 });
 
 test('the shared hot-slot limit is stated before anyone pays, not after', async () => {

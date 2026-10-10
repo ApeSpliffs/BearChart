@@ -589,7 +589,14 @@
       btn.innerHTML = 'Sold comps CSV <span class="tag-power">Power</span>';
       bar.appendChild(btn);
       btn.addEventListener('click', function () {
-        exportComps((window.__lastResults || []).slice(0, MAX_ITEMS).map(function (i) { return i.id; }));
+        var all = window.__lastResults || [];
+        exportComps(all.slice(0, MAX_ITEMS).map(function (i) { return i.id; })).then(function (ok) {
+          // One request covers up to 500 bears; say so rather than cut silently.
+          if (ok && all.length > MAX_ITEMS) {
+            exportNote('Downloaded the sold comps for the first ' + MAX_ITEMS + ' of ' +
+              all.length + ' matching bears. Narrow the search to get the rest.');
+          }
+        });
       });
     }
 
