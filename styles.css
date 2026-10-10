@@ -435,6 +435,18 @@ img.hero {
 }
 .plan-features li.plan-inherit { color: var(--ink); font-weight: 700; }
 .plan-features li.plan-inherit::before { content: "+"; color: var(--honey-deep); }
+/* "On the way": not built, not sold, never ticked. */
+.plan-list-h {
+  margin: 6px 0 0; font-size: 11px; font-weight: 800; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.plan-soon {
+  list-style: none; margin: 2px 0 0; padding: 0;
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: 13px; color: var(--ink-faint);
+}
+.plan-soon li { padding-left: 18px; position: relative; }
+.plan-soon li::before { content: "\2013"; position: absolute; left: 0; color: var(--ink-faint); }
 .plans-lead { font-size: 16px; line-height: 1.55; color: var(--ink-soft); max-width: 62ch; margin: 0 0 14px; }
 .faq dl { margin: 0; }
 .faq dt { font-weight: 800; color: var(--ink); margin-top: 16px; }

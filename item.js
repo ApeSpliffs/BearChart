@@ -412,7 +412,12 @@
           '</tr>';
       }).join('') +
       '</tbody></table></div>' +
-      '<p style="margin-top:14px"><button type="button" id="export-item">Export this item to CSV</button></p>' +
+      // A raw-comps download, so it follows the same switch as the Power CSV
+      // (config.features.comps_export, off pending legal review). The comps
+      // themselves stay listed above for everyone.
+      (BC.feature('comps_export')
+        ? '<p style="margin-top:14px"><button type="button" id="export-item">Export this item to CSV</button></p>'
+        : '') +
       '</div>';
   }
 

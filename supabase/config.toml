@@ -375,6 +375,8 @@ deno_version = 2
 verify_jwt = true
 [functions.create-portal]
 verify_jwt = true
+[functions.export-comps]
+verify_jwt = true
 # Stripe carries no Supabase JWT; its signature is the auth (see functions/README.md).
 [functions.stripe-webhook]
 verify_jwt = false

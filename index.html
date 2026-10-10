@@ -117,12 +117,12 @@
         <div class="empty" id="empty" hidden></div>
 
         <!-- Below the results, because exporting is something you do after
-             finding what you wanted, not before. Both act on the full filtered
-             set, not just the page on screen. -->
+             finding what you wanted, not before. Exports act on the full
+             filtered set, not just the page on screen. The sold-comps CSV is
+             added by app.js only while config.features.comps_export is on. -->
         <div class="exports">
           <span class="fine">Export the current results:</span>
           <button type="button" id="csv-items">Items CSV</button>
-          <button type="button" id="csv-sales">Sold comps CSV <span class="tag-power">Power</span></button>
         </div>
         <p class="fine exports-note" id="exports-note" role="status" hidden></p>
 

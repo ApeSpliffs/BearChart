@@ -1782,12 +1782,13 @@ function renderWithoutAuth(file, url) {
                                      supabase_anon_key: null });
 }
 
-function renderWithAuth(file, url, authCfg) {
+function renderWithAuth(file, url, authCfg, mutate) {
   const data = JSON.parse(JSON.stringify(loadData()));
   data.config = Object.assign({}, data.config, {
     auth: Object.assign({ enabled: true, supabase_url: 'https://x.supabase.co',
                           supabase_anon_key: 'anon-key' }, authCfg || {})
   });
+  if (mutate) mutate(data);
   const dom = track(new JSDOM(fs.readFileSync(path.join(ROOT, file), 'utf8'), {
     url: 'http://localhost:5173/' + (url || file),
     runScripts: 'dangerously', pretendToBeVisual: true
@@ -2165,12 +2166,69 @@ test('an upgrade prompt names the cheapest plan that includes the feature', () =
   assert.strictEqual(P.requiredPlan('not_a_feature'), null);
 });
 
-test('the page states which features the browser merely hides', () => {
+test('no plan sells a feature only the page enforces', () => {
+  // Every row of the enforcement table is checked by the server or the shop.
+  // Entitlements still being built say so rather than claiming enforcement.
   const p = renderPage('plans.html');
   const table = p.doc.getElementById('enforcement').textContent;
   assert.match(table, /Server/);
-  assert.match(table, /Interface only/);
-  assert.match(table, /would be theatre/);
+  assert.doesNotMatch(table, /Interface only/);
+  assert.match(table, /Not built yet/);
+  assert.doesNotMatch(table, /Outfit and set valuations/, 'a planned entitlement is not listed as enforced');
+});
+
+test('plans tick only what works today; the rest is "On the way"', () => {
+  const p = renderPage('plans.html');
+  const plans = p.doc.getElementById('plans');
+  const ticked = Array.from(plans.querySelectorAll('.plan-features li')).map((li) => li.textContent);
+  const soon = Array.from(plans.querySelectorAll('.plan-soon li')).map((li) => li.textContent);
+  assert.ok(soon.some((t) => /Outfit and set valuations/.test(t)), 'outfits are on the way');
+  assert.ok(soon.every((t) => /^On the way: /.test(t)), 'each soon item is announced as such');
+  assert.ok(!ticked.some((t) => /Outfit and set|Wishlist alerts|deal alerts|API access/i.test(t)),
+    'nothing still being built carries a tick: ' + ticked.join(' | '));
+  assert.ok(ticked.some((t) => /showcase of your top 12 bears/.test(t)), 'the showcase is sold, server-checked');
+  assert.doesNotMatch(plans.textContent, /Download the sold-price records|\(coming soon\)/);
+  const P = p.win.BearChartPlans;
+  assert.strictEqual(P.featureStatusFor('power', 'outfits'), 'soon');
+  assert.strictEqual(P.featureStatusFor('pro', 'outfits'), null);
+  assert.strictEqual(P.featureStatusFor('free', 'values'), 'included');
+  assert.ok(P.onTheWay().some((f) => f.id === 'outfits'));
+});
+
+test('the sold-comps CSV appears nowhere while its flag is off', () => {
+  assert.strictEqual(loadData().config.features.comps_export, false);
+  const index = renderPage('index.html');
+  assert.strictEqual(index.doc.getElementById('csv-sales'), null);
+  assert.ok(index.doc.getElementById('exports-note'), 'the note stays for other export messages');
+  const item = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+  assert.strictEqual(item.doc.getElementById('export-item'), null);
+  assert.ok(item.doc.querySelectorAll('.panel table tbody tr').length > 0, 'the comps themselves stay listed');
+  const plans = renderPage('plans.html');
+  assert.doesNotMatch(plans.doc.getElementById('plans').textContent, /CSV/);
+  const P = plans.win.BearChartPlans;
+  assert.ok(!P.plan('power').entitlements.includes('comps_export'));
+});
+
+test('with the flag on, the CSV button asks the export-comps function', async () => {
+  const win = renderWithAuth('index.html', null, null, (d) => { d.config.features.comps_export = true; });
+  const btn = win.document.getElementById('csv-sales');
+  assert.ok(btn, 'the button is added');
+  const invoked = [];
+  const client = mockClient({});
+  client.functions = { invoke: (name, opts) => {
+    invoked.push([name, opts.body.item_ids.length]);
+    return Promise.resolve({ data: null, error: { context: { status: 403 } } });
+  } };
+  await win.BearChartAuth._setClientForTests(client, { user: { id: 'u1', email: 'a@b.test' } });
+  btn.dispatchEvent(new win.Event('click'));
+  await new Promise((r) => setTimeout(r, 10));
+  assert.strictEqual(invoked.length, 1);
+  assert.strictEqual(invoked[0][0], 'export-comps');
+  assert.ok(invoked[0][1] > 0 && invoked[0][1] <= 500);
+  const note = win.document.getElementById('exports-note');
+  assert.strictEqual(note.hidden, false);
+  assert.match(note.textContent, /Power/);
+  assert.match(note.textContent, /free/);
 });
 
 test('the shared hot-slot limit is stated before anyone pays, not after', () => {

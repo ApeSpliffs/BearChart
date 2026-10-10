@@ -177,7 +177,10 @@ globalThis.BEARCHART_DATA = {
       "min_recent": 10,
       "as_of": "2026-10-09"
     },
-    "operator_cap": 0.25
+    "operator_cap": 0.25,
+    "features": {
+      "comps_export": false
+    }
   },
   "retail_reference": {
     "as_of": "2026-09",
@@ -235,6 +238,13 @@ globalThis.BEARCHART_DATA = {
     "stripe_publishable_key": null,
     "checkout_function": "create-checkout",
     "portal_function": "create-portal",
+    "export_function": "export-comps",
+    "tiers_order": [
+      "guest",
+      "free",
+      "pro",
+      "power"
+    ],
     "plans": {
       "free": {
         "name": "Free",
@@ -243,13 +253,6 @@ globalThis.BEARCHART_DATA = {
         "badge": null,
         "perk": null,
         "blurb": "Price any bear, any time. No account needed.",
-        "features": [
-          "Values for every bear in the guide, built from real sold prices",
-          "Condition calculator - NWT, played-with, missing outfit",
-          "Track your collection on this device",
-          "Collector checklists",
-          "Deal finder over the listings we have loaded"
-        ],
         "entitlements": []
       },
       "pro": {
@@ -259,13 +262,6 @@ globalThis.BEARCHART_DATA = {
         "badge": "Recommended",
         "perk": "A $5 coupon every month for the Jay's Retro Exchange store, on orders over $40. Not valid on marketplace sellers' items.",
         "blurb": "Know what your collection is worth, on every device.",
-        "features": [
-          "Your collection synced across phone, tablet and computer",
-          "Collection value history that is never lost",
-          "Wishlist alerts - an email when a bear you want is listed (coming soon)",
-          "Insurance-ready valuation report, with the evidence behind every figure",
-          "Bear identification help, answered first (coming soon)"
-        ],
         "entitlements": [
           "collection_sync",
           "hosted_history",
@@ -282,20 +278,6 @@ globalThis.BEARCHART_DATA = {
         "badge": null,
         "perk": "A $10 coupon every month for the Jay's Retro Exchange store, on orders over $75. Not valid on marketplace sellers' items.",
         "blurb": "Find underpriced bears before anyone else does.",
-        "features": [
-          "Instant deal alerts by push and email when a bear lists below its value, after fees (coming soon)",
-          "Your watched bears checked first in the scanning queue (coming soon)",
-          "A monthly email with what your collection is worth now (coming soon)",
-          "Outfit and complete-set valuations (coming soon)",
-          "Export and API access to your own data (coming soon)",
-          "Your collection synced across phone, tablet and computer",
-          "Collection value history that is never lost",
-          "Wishlist alerts - an email when a bear you want is listed (coming soon)",
-          "Insurance-ready valuation report, with the evidence behind every figure",
-          "Bear identification help, answered first (coming soon)",
-          "A showcase of your top 12 bears, shared with other members",
-          "Download the sold-price records behind any search (CSV)"
-        ],
         "entitlements": [
           "collection_sync",
           "hosted_history",
@@ -307,12 +289,126 @@ globalThis.BEARCHART_DATA = {
           "alerts_push",
           "alerts_email",
           "poll_priority",
-          "outfit_assembly",
           "api_access",
-          "comps_export"
+          "showcase"
         ]
       }
     },
+    "features": [
+      {
+        "id": "values",
+        "text": "Values for every bear, from real sold prices",
+        "from": "guest",
+        "status": "included"
+      },
+      {
+        "id": "calculator",
+        "text": "Condition calculator: NWT, played-with, missing outfit",
+        "from": "guest",
+        "status": "included"
+      },
+      {
+        "id": "local_coll",
+        "text": "Track your collection on this device",
+        "from": "guest",
+        "status": "included"
+      },
+      {
+        "id": "checklists",
+        "text": "Collector checklists",
+        "from": "free",
+        "status": "included"
+      },
+      {
+        "id": "deals",
+        "text": "Deal finder: bears listed below their value",
+        "from": "free",
+        "status": "included"
+      },
+      {
+        "id": "add_sales",
+        "text": "Add sold prices and photos",
+        "from": "free",
+        "status": "included"
+      },
+      {
+        "id": "sync",
+        "text": "Your collection synced across phone, tablet and computer",
+        "from": "pro",
+        "status": "included",
+        "entitlement": "collection_sync"
+      },
+      {
+        "id": "history",
+        "text": "Collection value history that is never lost",
+        "from": "pro",
+        "status": "included",
+        "entitlement": "hosted_history"
+      },
+      {
+        "id": "insurance",
+        "text": "Insurance-ready valuation report, with the evidence behind every figure",
+        "from": "pro",
+        "status": "included",
+        "entitlement": "insurance_archive"
+      },
+      {
+        "id": "wl_alerts",
+        "text": "Wishlist alerts: an email when a bear you want is listed",
+        "from": "pro",
+        "status": "soon",
+        "entitlement": "wishlist_alerts"
+      },
+      {
+        "id": "id_help",
+        "text": "Bear identification help, answered first",
+        "from": "pro",
+        "status": "soon",
+        "entitlement": "id_priority"
+      },
+      {
+        "id": "showcase",
+        "text": "A showcase of your top 12 bears, shared with other members",
+        "from": "power",
+        "status": "included",
+        "entitlement": "showcase"
+      },
+      {
+        "id": "deal_alerts",
+        "text": "Instant deal alerts by push and email, after fees",
+        "from": "power",
+        "status": "soon",
+        "entitlement": "alerts_push"
+      },
+      {
+        "id": "poll",
+        "text": "Your watched bears checked first in the scanning queue",
+        "from": "power",
+        "status": "soon",
+        "entitlement": "poll_priority"
+      },
+      {
+        "id": "digest",
+        "text": "A monthly email with what your collection is worth now",
+        "from": "power",
+        "status": "soon",
+        "entitlement": "value_digest"
+      },
+      {
+        "id": "outfits",
+        "text": "Outfit and set valuations",
+        "from": "power",
+        "status": "soon",
+        "entitlement": "outfit_assembly"
+      },
+      {
+        "id": "api",
+        "text": "Export and API access to your own data",
+        "from": "power",
+        "status": "soon",
+        "entitlement": "api_access"
+      }
+    ],
     "entitlements": {
       "collection_sync": {
         "label": "Collection sync",
@@ -339,7 +435,7 @@ globalThis.BEARCHART_DATA = {
         "enforced": "server"
       },
       "shop_discount": {
-        "label": "Monthly coupon for the Jay's Retro Exchange store ($5 Pro, $10 Power)",
+        "label": "Monthly coupon for the Jay's Retro Exchange store",
         "enforced": "shop"
       },
       "alerts_push": {
@@ -356,15 +452,20 @@ globalThis.BEARCHART_DATA = {
       },
       "outfit_assembly": {
         "label": "Outfit and set valuations",
-        "enforced": "ux"
+        "enforced": "ux",
+        "status": "planned"
       },
       "api_access": {
         "label": "Export and API access",
         "enforced": "server"
       },
+      "showcase": {
+        "label": "Member showcase",
+        "enforced": "server"
+      },
       "comps_export": {
-        "label": "Sold comps download (CSV)",
-        "enforced": "ux"
+        "label": "Sold comps download (CSV), when available",
+        "enforced": "server"
       }
     },
     "hot_slots_total": 3,

@@ -532,41 +532,72 @@
   $('csv-items').addEventListener('click', function () {
     BC.download('bearchart-items-' + BC.stamp() + '.csv', BC.itemsCsv(window.__lastResults));
   });
-  // The full sold-price records are BearChart's most valuable data, so the
-  // one-click download of them is a Power feature. This is a convenience
-  // lock, not a security one: the same records are in the page for anyone who
-  // looks. Admins can always download them.
-  var compsAllowed = null;   // null until the account service has answered
-  function compsAccess() {
-    var A = window.BearChartAuth;
-    var c = A && A.configured && A.configured() && A.getClient ? A.getClient() : null;
-    var s = A && A.state ? A.state() : null;
-    if (!c || !s || !s.signedIn) return Promise.resolve(false);
-    if (compsAllowed !== null) return Promise.resolve(compsAllowed);
-    return Promise.all([
-      c.rpc('has_entitlement', { feature: 'api_access' }).then(function (r) { return !!(r && r.data === true); }, function () { return false; }),
-      c.rpc('is_admin').then(function (r) { return !!(r && r.data === true); }, function () { return false; })
-    ]).then(function (res) { compsAllowed = res[0] || res[1]; return compsAllowed; });
-  }
-  if (window.BearChartAuth && window.BearChartAuth.onChange) {
-    window.BearChartAuth.onChange(function () { compsAllowed = null; });
-  }
-  $('csv-sales').addEventListener('click', function () {
-    var note = $('exports-note');
-    compsAccess().then(function (ok) {
-      if (ok) {
-        if (note) note.hidden = true;
-        BC.download('bearchart-sales-' + BC.stamp() + '.csv', BC.salesCsv(window.__lastResults));
-        return;
-      }
-      if (!note) return;
-      note.hidden = false;
-      note.innerHTML = 'Downloading the sold comps is part of ' +
-        '<a href="' + BC.rel('plans.html') + '">Power membership</a>. ' +
-        'Every sale is still listed on each bear\'s page for free.';
-      if (window.bcTrack) window.bcTrack('comps_export_locked', {});
+  // The sold-comps CSV (Power). Off unless config.features.comps_export is on,
+  // and then served by the export-comps edge function, which checks the
+  // membership and a daily quota on the server. That enforces the convenience
+  // of one bulk download, not access: every comp stays listed, free, on its
+  // bear's page.
+  if (BC.feature('comps_export')) initCompsExport();
+
+  function initCompsExport() {
+    var MAX_ITEMS = 500;   // export-comps accepts 1-500 item ids per request
+    var bar = document.querySelector('.exports');
+    if (!bar) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'csv-sales';
+    btn.innerHTML = 'Sold comps CSV <span class="tag-power">Power</span>';
+    bar.appendChild(btn);
+    btn.addEventListener('click', function () {
+      exportComps((window.__lastResults || []).slice(0, MAX_ITEMS).map(function (i) { return i.id; }));
     });
-  });
+  }
+
+  function exportNote(html) {
+    var note = $('exports-note');
+    if (!note) return;
+    note.hidden = !html;
+    note.innerHTML = html || '';
+  }
+
+  function exportComps(itemIds) {
+    var A = window.BearChartAuth;
+    var P = window.BearChartPlans;
+    var client = A && A.configured && A.configured() && A.getClient ? A.getClient() : null;
+    var s = A && A.state ? A.state() : null;
+    if (!client || !s || !s.signedIn) {
+      exportNote('<a href="' + BC.rel('account.html') + '">Sign in</a> to download the sold comps.');
+      return Promise.resolve(false);
+    }
+    if (!itemIds.length) { exportNote('Nothing to export.'); return Promise.resolve(false); }
+    var fn = ((BC.membership || {}).export_function) || 'export-comps';
+    return client.functions.invoke(fn, { body: { item_ids: itemIds } }).then(function (res) {
+      var status = res && res.error
+        ? ((res.error.context && res.error.context.status) || 500) : 200;
+      if (status === 200) {
+        exportNote('');
+        BC.download('bearchart-sales-' + BC.stamp() + '.csv', String(res.data || ''));
+        return true;
+      }
+      if (status === 401) {
+        exportNote('<a href="' + BC.rel('account.html') + '">Sign in</a> to download the sold comps.');
+      } else if (status === 403) {
+        var lock = P && P.lockMessage ? P.lockMessage('comps_export', s) : null;
+        exportNote(BC.esc(lock ? lock.text : 'The sold comps download is part of Power.') +
+          ' <a href="' + BC.rel('plans.html') + '">See membership</a>. ' +
+          'Every sale is still listed on each bear\'s page for free.');
+        if (window.bcTrack) window.bcTrack('comps_export_locked', {});
+      } else if (status === 429) {
+        exportNote('You have reached today\'s download limit. It resets within 24 hours.');
+      } else {
+        exportNote('The download is not available right now. Try again later.');
+      }
+      return false;
+    }, function () {
+      exportNote('The download is not available right now. Try again later.');
+      return false;
+    });
+  }
 
   // Restore state from the URL so searches are shareable.
   var params = new URLSearchParams(location.search);

@@ -1,6 +1,8 @@
-# Payments
+# Edge functions
 
-Three edge functions. The browser never sees the Stripe secret key, never names a
+## Payments
+
+Three edge functions handle payments. The browser never sees the Stripe secret key, never names a
 price, and never says who it is — all three are resolved server-side.
 
 | Function | JWT | Does |
@@ -15,7 +17,7 @@ before the body is parsed. That check is the only thing between a stranger and a
 free Power membership — an unverified webhook is an open endpoint that hands out
 subscriptions to anyone who finds the URL.
 
-## Setup
+## Setup (payments)
 
 1. In Stripe, create two recurring prices — Pro and Power — and copy their ids.
 
@@ -137,6 +139,38 @@ refunds change nothing. Charges with no invoice, or on an invoice that is not
 for one of our prices, are ignored. The switches are `REVOKE_ON_DISPUTE` and
 `REVOKE_ON_FULL_REFUND` in `_shared/billing/policy.ts`.
 
+## Sold comps export (`export-comps`, off)
+
+`export-comps` (JWT required) returns the sold comps of 1-500 catalogue items
+as a CSV, for Power members and admins. It is **switched off** pending the
+owner's legal review, twice over: the site shows no button while
+`config.features.comps_export` is false (`tools/build_data.py` FEATURE_FLAGS),
+and the function answers 404 unless `COMPS_EXPORT_ENABLED=true`.
+
+| Answer | When |
+|---|---|
+| 404 | `COMPS_EXPORT_ENABLED` is not `true` |
+| 401 | signed out |
+| 400 | body is not `{item_ids: [1-500 slugs]}` |
+| 403 | no `comps_export` entitlement (`has_entitlement`, Power) and not an admin |
+| 429 | over the quota: 10 exports or 20,000 rows per rolling 24 hours (`claim_export_quota`, migration `20261008000200`) |
+| 200 | `text/csv`, the columns of the browser's `BC.salesCsv` |
+
+What it enforces is the **convenience** of a bulk download, not access to the
+records: every comp is listed on its bear's page and `sales_public_read` lets
+anyone read the `sales` table. When it is switched on, the plans copy must say
+"the records stay free on every bear's page; this is a convenience download"
+(it does: `COMPS_EXPORT_FEATURE` in `tools/build_data.py`). Legal review should
+also cover the comps' `source_url`/`listing_id` on item pages, not only the CSV.
+
+To switch it on: deploy (`supabase functions deploy export-comps`), set
+`supabase secrets set COMPS_EXPORT_ENABLED=true`, set FEATURE_FLAGS
+`comps_export` to True and rebuild.
+
+The domain is `_shared/comps_export/service.ts` (pure; `tools/test_comps_export.mjs`),
+the Supabase adapter `_shared/comps_export/supabase_adapter.ts` runs under the
+caller's own JWT.
+
 ## Layout
 
 ```
@@ -148,6 +182,8 @@ _shared/billing/checkout_service.ts          checkout vs portal decision
 _shared/billing/webhook_handler.ts           HTTP: method, signature, status codes
 _shared/billing/stripe_gateway.ts            Stripe adapter (Deno only)
 _shared/billing/supabase_repository.ts       Supabase adapters (Deno only)
+_shared/comps_export/service.ts              comps CSV export: request, gate, CSV (pure)
+_shared/comps_export/supabase_adapter.ts     its Supabase adapter, caller's JWT (Deno only)
 _shared/auth.ts                              caller from the JWT (Deno only)
 <function>/index.ts                          wiring only
 ```

@@ -372,6 +372,11 @@
     return S.extLink(tagged, innerHtml, { sponsored: tagged !== url });
   }
 
+  /** A feature switch from config.features (tools/build_data.py FEATURE_FLAGS). */
+  function feature(name) {
+    return !!(CFG.features && CFG.features[name] === true);
+  }
+
   function businessEnabled() {
     return !!(BUSINESS.enabled && (BUSINESS.contact_email || BUSINESS.contact_url));
   }
@@ -1155,6 +1160,7 @@
     money: money, exact: exact, range: range, confClass: confClass, era: era, isVintage: isVintage,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,
+    feature: feature, membership: DATA.membership || {},
     business: BUSINESS, affiliate: affiliate, affiliateLink: affiliateLink, businessEnabled: businessEnabled,
     shopEnabled: shopEnabled, shopPromo: shopPromo,
     hasImage: hasImage, imageHtml: imageHtml, imageCredit: imageCredit,

@@ -9,7 +9,7 @@ select set_eq($$ select tablename::text from pg_tables where schemaname = 'publi
   array['admins','items','sales','valuation_config','collections','subscriptions','stripe_events',
         'holding_snapshots','portfolio_flows','comp_submissions','item_reports','photo_submissions',
         'item_photos','showcases','wishlists','collection_entries','value_history','saved_reports',
-        'showcase_likes','rate_limit_hits'],
+        'showcase_likes','rate_limit_hits','export_log'],
   'table inventory: a new table must come with RLS tests (add it here and in a test file)');
 select is_empty($$ select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid = p.pronamespace
                    where n.nspname = 'public' and p.prosecdef

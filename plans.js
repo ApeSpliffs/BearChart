@@ -31,18 +31,20 @@
       : '<a href="account.html">Sign in</a> to manage your membership.';
   }
 
-  // "Everything in Pro" heads a higher tier's list, styled as the line it
-  // builds on rather than as one more tick.
-  function featureItem(f) {
-    var inherit = /^Everything in /.test(f);
-    return '<li' + (inherit ? ' class="plan-inherit"' : '') + '>' + BC.esc(f) + '</li>';
+  // Each card lists what starts at its tier, under "Included"; a higher tier
+  // opens with the tier it builds on. Features still being built sit under
+  // "On the way" with no tick: they are not part of what anyone pays for.
+  function featureList(items) {
+    return items.map(function (f) { return '<li>' + BC.esc(f.text) + '</li>'; }).join('');
   }
 
   function renderPlans() {
     var current = P.currentTier(session());
-    $('plans').innerHTML = P.plans().map(function (p) {
+    var all = P.plans();
+    $('plans').innerHTML = all.map(function (p, i) {
       var isCurrent = P.configured() && p.id === current;
       var cls = 'plan' + (p.badge ? ' is-featured' : '') + (isCurrent ? ' is-current' : '');
+      var f = P.featuresFor(p.id);
       return '<div class="' + cls + '">' +
         (p.badge ? '<span class="plan-badge">' + BC.esc(p.badge) + '</span>' : '') +
         (p.audience ? '<p class="plan-audience">' + BC.esc(p.audience) + '</p>' : '') +
@@ -57,7 +59,17 @@
         (p.perk
           ? '<div class="plan-perk"><strong>Member perk</strong>' + BC.esc(p.perk) + '</div>'
           : '') +
-        '<ul class="plan-features">' + p.features.map(featureItem).join('') + '</ul>' +
+        '<h4 class="plan-list-h">Included</h4>' +
+        '<ul class="plan-features">' +
+          (i > 0 ? '<li class="plan-inherit">Everything in ' + BC.esc(all[i - 1].name) + '</li>' : '') +
+          featureList(f.included) +
+        '</ul>' +
+        (f.soon.length
+          ? '<h4 class="plan-list-h plan-soon-h">On the way</h4>' +
+            '<ul class="plan-soon">' + f.soon.map(function (x) {
+              return '<li><span class="sr-only">On the way: </span>' + BC.esc(x.text) + '</li>';
+            }).join('') + '</ul>'
+          : '') +
         (p.price_monthly === 0
           ? '<p class="fine plan-foot">Always free. No sign-up.</p>'
           : (P.configured()
@@ -99,7 +111,10 @@
     P.plans().forEach(function (p) {
       p.entitlements.forEach(function (e) {
         if (rows.some(function (r) { return r.key === e; })) return;
-        rows.push({ key: e, label: P.label(e), where: P.enforcedAt(e), plan: p.name });
+        // Defined but not built: not sold, so not listed as enforced.
+        if (P.status(e) === 'planned') return;
+        rows.push({ key: e, label: P.label(e), where: P.enforcedAt(e), plan: p.name,
+                    soon: P.soon(e) });
       });
     });
 
@@ -111,7 +126,8 @@
         return '<tr><td>' + BC.esc(r.label) + '</td>' +
           '<td>' + BC.esc(r.plan) + '</td>' +
           '<td><span class="tag ' + kind[0] + '">' + BC.esc(kind[1]) + '</span></td>' +
-          '<td class="fine">' + BC.esc(kind[2]) + '</td></tr>';
+          '<td class="fine">' + (r.soon ? '<strong>Not built yet.</strong> ' : '') +
+          BC.esc(kind[2]) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
   }
 

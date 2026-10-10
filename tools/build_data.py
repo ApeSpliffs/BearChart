@@ -2277,21 +2277,87 @@ BUSINESS = OrderedDict([
 # ---------------------------------------------------------------------------
 # Membership
 #
-# Tiering follows one rule: a paid feature must cost the operator real money or
-# real quota to provide. That is not a philosophy, it is a consequence of the
-# architecture.
+# The rule: a plan sells only what a SERVER enforces. That is a consequence of
+# the architecture, not a philosophy.
 #
-# BearChart ships as static files. data.js - the whole catalogue, every comp -
-# is downloaded by every visitor. Nothing computed in the browser from that file
-# can be paywalled, because the data is already on the visitor's machine and a
-# devtools panel is all it takes to prove it. Hiding the valuation engine behind
-# a tier would be a lock on a door with no wall attached.
+# BearChart ships as static files. The catalogue is split (site-config.js, a
+# hashed index of every item's value summary, one JSON file per item with its
+# comps) so a visitor downloads only what a page needs - but every value and
+# every comp is still public, on purpose: the evidence behind a price is free.
+# Nothing computed in the browser can be paywalled, because the data reaches
+# the visitor's machine and a devtools panel is all it takes to prove it.
 #
-# So the free tier is everything the static bundle can do, and paid tiers are
-# things a SERVER does: storing your collection, generating and retaining an
-# evidence-backed schedule, sending notifications, spending API quota. Those can
-# be enforced, and they are also the only things that cost anything to run.
+# So the free tiers are everything the static site can do, and the paid tiers
+# are things a server does: storing your collection, keeping an evidence-backed
+# schedule, sending notifications, spending API quota. Each one is refused by the
+# database or an edge function without a live membership (has_entitlement() in
+# supabase/migrations). An entitlement that is not built yet is listed under
+# "On the way" (status "soon") and is never shown with a tick.
 # ---------------------------------------------------------------------------
+
+# Switches for features that are built but not offered. One flag each, read by
+# the plans page, the gates and the buttons (config.features). Off means the
+# feature appears nowhere on the site.
+FEATURE_FLAGS = OrderedDict([
+    # The sold-comps CSV (Power). Paused by the owner pending legal review; the
+    # edge function export-comps also needs COMPS_EXPORT_ENABLED=true.
+    ("comps_export", False),
+])
+
+# Display order of the tiers. "guest" (no account) is a display tier only: it
+# is never sent to the server, and it unlocks nothing a free account does not.
+TIERS_ORDER = ["guest", "free", "pro", "power"]
+
+# The membership feature catalogue: one list drives the plan cards and the
+# comparison. "from" is the lowest tier that gets a feature (higher tiers
+# inherit it). status "included" works today; "soon" is being built, is not
+# part of what anyone pays for, and is shown as "On the way". A feature with an
+# "entitlement" is enforced by the server under that name.
+FEATURES = [
+    OrderedDict([("id", "values"), ("text", "Values for every bear, from real sold prices"),
+                 ("from", "guest"), ("status", "included")]),
+    OrderedDict([("id", "calculator"), ("text", "Condition calculator: NWT, played-with, missing outfit"),
+                 ("from", "guest"), ("status", "included")]),
+    OrderedDict([("id", "local_coll"), ("text", "Track your collection on this device"),
+                 ("from", "guest"), ("status", "included")]),
+    OrderedDict([("id", "checklists"), ("text", "Collector checklists"),
+                 ("from", "free"), ("status", "included")]),
+    OrderedDict([("id", "deals"), ("text", "Deal finder: bears listed below their value"),
+                 ("from", "free"), ("status", "included")]),
+    OrderedDict([("id", "add_sales"), ("text", "Add sold prices and photos"),
+                 ("from", "free"), ("status", "included")]),
+    OrderedDict([("id", "sync"), ("text", "Your collection synced across phone, tablet and computer"),
+                 ("from", "pro"), ("status", "included"), ("entitlement", "collection_sync")]),
+    OrderedDict([("id", "history"), ("text", "Collection value history that is never lost"),
+                 ("from", "pro"), ("status", "included"), ("entitlement", "hosted_history")]),
+    OrderedDict([("id", "insurance"),
+                 ("text", "Insurance-ready valuation report, with the evidence behind every figure"),
+                 ("from", "pro"), ("status", "included"), ("entitlement", "insurance_archive")]),
+    OrderedDict([("id", "wl_alerts"), ("text", "Wishlist alerts: an email when a bear you want is listed"),
+                 ("from", "pro"), ("status", "soon"), ("entitlement", "wishlist_alerts")]),
+    OrderedDict([("id", "id_help"), ("text", "Bear identification help, answered first"),
+                 ("from", "pro"), ("status", "soon"), ("entitlement", "id_priority")]),
+    OrderedDict([("id", "showcase"), ("text", "A showcase of your top 12 bears, shared with other members"),
+                 ("from", "power"), ("status", "included"), ("entitlement", "showcase")]),
+    OrderedDict([("id", "deal_alerts"), ("text", "Instant deal alerts by push and email, after fees"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "alerts_push")]),
+    OrderedDict([("id", "poll"), ("text", "Your watched bears checked first in the scanning queue"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "poll_priority")]),
+    OrderedDict([("id", "digest"), ("text", "A monthly email with what your collection is worth now"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "value_digest")]),
+    OrderedDict([("id", "outfits"), ("text", "Outfit and set valuations"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "outfit_assembly")]),
+    OrderedDict([("id", "api"), ("text", "Export and API access to your own data"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "api_access")]),
+]
+
+# Only switched on together with FEATURE_FLAGS["comps_export"] (see
+# apply_feature_flags), so the flag controls the plan card and the gate at once.
+COMPS_EXPORT_FEATURE = OrderedDict([
+    ("id", "comps_csv"),
+    ("text", "Download the sold-price records behind any search (CSV). The records "
+             "stay free on every bear's page; this is a convenience download"),
+    ("from", "power"), ("status", "included"), ("entitlement", "comps_export")])
 
 PLANS = OrderedDict([
     ("free", OrderedDict([
@@ -2301,13 +2367,6 @@ PLANS = OrderedDict([
         ("badge", None),
         ("perk", None),
         ("blurb", "Price any bear, any time. No account needed."),
-        ("features", [
-            "Values for every bear in the guide, built from real sold prices",
-            "Condition calculator - NWT, played-with, missing outfit",
-            "Track your collection on this device",
-            "Collector checklists",
-            "Deal finder over the listings we have loaded",
-        ]),
         ("entitlements", []),
     ])),
     ("pro", OrderedDict([
@@ -2319,13 +2378,6 @@ PLANS = OrderedDict([
         # anything on this site - see ENTITLEMENTS["shop_discount"].
         ("perk", "A $5 coupon every month for the Jay's Retro Exchange store, on orders over $40. Not valid on marketplace sellers' items."),
         ("blurb", "Know what your collection is worth, on every device."),
-        ("features", [
-            "Your collection synced across phone, tablet and computer",
-            "Collection value history that is never lost",
-            "Wishlist alerts - an email when a bear you want is listed (coming soon)",
-            "Insurance-ready valuation report, with the evidence behind every figure",
-            "Bear identification help, answered first (coming soon)",
-        ]),
         ("entitlements", [
             "collection_sync", "hosted_history", "wishlist_alerts",
             "insurance_archive", "id_priority", "shop_discount",
@@ -2338,32 +2390,19 @@ PLANS = OrderedDict([
         ("badge", None),
         ("perk", "A $10 coupon every month for the Jay's Retro Exchange store, on orders over $75. Not valid on marketplace sellers' items."),
         ("blurb", "Find underpriced bears before anyone else does."),
-        ("features", [
-            "Instant deal alerts by push and email when a bear lists below its value, after fees (coming soon)",
-            "Your watched bears checked first in the scanning queue (coming soon)",
-            "A monthly email with what your collection is worth now (coming soon)",
-            "Outfit and complete-set valuations (coming soon)",
-            "Export and API access to your own data (coming soon)",
-            "Your collection synced across phone, tablet and computer",
-            "Collection value history that is never lost",
-            "Wishlist alerts - an email when a bear you want is listed (coming soon)",
-            "Insurance-ready valuation report, with the evidence behind every figure",
-            "Bear identification help, answered first (coming soon)",
-            "A showcase of your top 12 bears, shared with other members",
-            "Download the sold-price records behind any search (CSV)",
-        ]),
         ("entitlements", [
             "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
             "insurance_archive", "id_priority", "shop_discount",
-            "alerts_push", "alerts_email", "poll_priority", "outfit_assembly", "api_access", "comps_export",
+            "alerts_push", "alerts_email", "poll_priority", "api_access", "showcase",
         ]),
     ])),
 ])
 
 # What each entitlement actually unlocks, and where it is enforced. "server"
-# means the database or an edge function refuses without it; "ux" means the
-# client only hides a prompt and enforcement is impossible or pointless; "shop"
-# means Jay's Retro Exchange checks the membership when an order is placed.
+# means the database or an edge function refuses without it; "shop" means Jay's
+# Retro Exchange checks the membership when an order is placed. "ux" (the page
+# only hides a prompt) may never be sold: tools/test_membership.py fails the
+# build if a plan lists one. status "planned" = defined, not built, not sold.
 ENTITLEMENTS = OrderedDict([
     ("collection_sync", OrderedDict([("label", "Collection sync"), ("enforced", "server")])),
     ("hosted_history", OrderedDict([("label", "Server-side collection history"), ("enforced", "server")])),
@@ -2371,15 +2410,19 @@ ENTITLEMENTS = OrderedDict([
     ("wishlist_alerts", OrderedDict([("label", "Wishlist alerts"), ("enforced", "server")])),
     ("insurance_archive", OrderedDict([("label", "Insurance valuation reports"), ("enforced", "server")])),
     ("id_priority", OrderedDict([("label", "Identification help, answered first"), ("enforced", "server")])),
-    ("shop_discount", OrderedDict([("label", "Monthly coupon for the Jay's Retro Exchange store ($5 Pro, $10 Power)"), ("enforced", "shop")])),
+    ("shop_discount", OrderedDict([("label", "Monthly coupon for the Jay's Retro Exchange store"), ("enforced", "shop")])),
     ("alerts_push", OrderedDict([("label", "Push deal alerts"), ("enforced", "server")])),
     ("alerts_email", OrderedDict([("label", "Email deal alerts"), ("enforced", "server")])),
     ("poll_priority", OrderedDict([("label", "Scanning priority"), ("enforced", "server")])),
-    ("outfit_assembly", OrderedDict([("label", "Outfit and set valuations"), ("enforced", "ux")])),
+    ("outfit_assembly", OrderedDict([("label", "Outfit and set valuations"), ("enforced", "ux"),
+                                     ("status", "planned")])),
     ("api_access", OrderedDict([("label", "Export and API access"), ("enforced", "server")])),
-    # The sold records are in the page for anyone who looks, so this only
-    # takes away the one-click download - said so on the plans page.
-    ("comps_export", OrderedDict([("label", "Sold comps download (CSV)"), ("enforced", "ux")])),
+    # The showcase is saved by save_showcase(), which refuses without it.
+    ("showcase", OrderedDict([("label", "Member showcase"), ("enforced", "server")])),
+    # The export-comps edge function checks it (and a daily quota). The records
+    # themselves stay public on every item page; this sells the bulk download.
+    ("comps_export", OrderedDict([("label", "Sold comps download (CSV), when available"),
+                                  ("enforced", "server")])),
 ])
 
 MEMBERSHIP = OrderedDict([
@@ -2391,7 +2434,10 @@ MEMBERSHIP = OrderedDict([
     # session against the secret key, and open the billing portal.
     ("checkout_function", "create-checkout"),
     ("portal_function", "create-portal"),
+    ("export_function", "export-comps"),
+    ("tiers_order", TIERS_ORDER),
     ("plans", PLANS),
+    ("features", FEATURES),
     ("entitlements", ENTITLEMENTS),
     # Hot polling slots are shared across the whole platform, not per subscriber.
     # A default eBay key affords about three 60-second queries in total, so
@@ -2405,6 +2451,22 @@ MEMBERSHIP = OrderedDict([
      "60-second queue; watching an item nobody else watches puts it in the "
      "30-minute tier."),
 ])
+
+
+def apply_feature_flags(membership, flags):
+    """A flagged feature is sold only while its flag is on: the plan card line
+    and the Power entitlement are added here, so one switch moves both."""
+    if flags.get("comps_export"):
+        power = membership["plans"]["power"]["entitlements"]
+        if "comps_export" not in power:
+            power.append("comps_export")
+        if not any(f["id"] == COMPS_EXPORT_FEATURE["id"] for f in membership["features"]):
+            membership["features"].append(COMPS_EXPORT_FEATURE)
+    return membership
+
+
+apply_feature_flags(MEMBERSHIP, FEATURE_FLAGS)
+CONFIG["features"] = FEATURE_FLAGS
 
 # ---------------------------------------------------------------------------
 # Bulk catalogue: The Build-A-Bear Wiki
