@@ -103150,7 +103150,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/126763706963",
@@ -103158,7 +103158,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Beach Day Hello Kitty Plush BUILD-A-BEAR ONLINE EXCLUSIVE NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Sanrio Beach Day Hello Kitty Plush BUILD-A-BEAR ONLINE EXCLUSIVE NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "beach-day-hello-kitty-i07",
@@ -104000,7 +104001,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "NWT",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/315789028238",
@@ -104008,7 +104009,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Giant Kuromi Plush Brand New No Tags or Certificate"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Sanrio Giant Kuromi Plush Brand New No Tags or Certificate",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "giant-kuromi-i03",
@@ -104354,7 +104356,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/365817923734",
@@ -104362,7 +104364,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: NWOT Build A Bear Monster Cinnamoroll Sanrio"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: NWOT Build A Bear Monster Cinnamoroll Sanrio",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "monster-cinnamoroll-i04",
@@ -105202,7 +105205,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/186879403337",
@@ -105210,7 +105213,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Zombie Pompompurin NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Zombie Pompompurin NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "zombie-pompompurin-i05",
@@ -105562,7 +105566,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/187210019180",
@@ -105570,7 +105574,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Harry Potter Build a Bear Plush Otter Patronus Stuffed Animal w/ Light NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Harry Potter Build a Bear Plush Otter Patronus Stuffed Animal w/ Light NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "winnie-the-pooh-disney-i01",
@@ -117539,7 +117544,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "NWT",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/388377809568",
@@ -117548,6 +117553,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Doctor WHO Build-A-Bear Tardis 10th 11th Dr. DALEK 9\" Plush NEW WITH NO TAGS",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 9.0,
         "sound": null
@@ -129379,7 +129385,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/136512747848",
@@ -129387,7 +129393,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: BUILD A BEAR MLP My Little Pony Zecora Stuffed Animal Plush Gray Zebra NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: BUILD A BEAR MLP My Little Pony Zecora Stuffed Animal Plush Gray Zebra NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "my-little-pony-zecora-i10",
@@ -133635,7 +133642,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/196049897398",
@@ -133644,6 +133651,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": 2,
       "notes": "Terapeak average across 2 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Seasons of Hugs Winter Blue Snowflake Stuffed Animal Plush 15\u201d NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 15.0,
         "sound": null
@@ -134751,7 +134759,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/127692347238",
@@ -134760,6 +134768,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Beagle Puppy Dog 11\u201d Promise Pets Plush Sound Works Video NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 11.0,
         "sound": "working"
@@ -148397,7 +148406,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "NWT",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/156802412573",
@@ -148405,7 +148414,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Everest Puppy Plush New No Tag."
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Everest Puppy Plush New No Tag.",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "everest-paw-patrol-i14",
@@ -172362,7 +172372,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/800144173983",
@@ -172371,6 +172381,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Chubby Cubby 13\" Plush Stuffed Animal 25th Anniversary NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 13.0,
         "sound": null
@@ -175734,7 +175745,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/117296075062",
@@ -175742,7 +175753,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Alien Cow Build A Bear 2026 NWOT Stuffed Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Alien Cow Build A Bear 2026 NWOT Stuffed Plush",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "alien-cow-i03",
@@ -184194,7 +184206,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/126877963980",
@@ -184203,6 +184215,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: RARE B-A-B 2016 Care Bears Grumpy Bear Build-A-Bear 18\u201d Plush NWOT Collectible!",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 18.0,
         "sound": null
@@ -184628,7 +184641,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/196051381987",
@@ -184637,6 +184650,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear 17\" Chilly Cheeks Hot Pink Blue Eyes Penguin Plush Retired NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 17.0,
         "sound": null
@@ -185568,7 +185582,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/287472290645",
@@ -185576,7 +185590,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear 2026 CHUMMY SHARK Brand New Without Tags"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear 2026 CHUMMY SHARK Brand New Without Tags",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "chummy-shark-i17",
@@ -198400,7 +198415,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/137242344062",
@@ -198408,7 +198423,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Gentle Cuddles Bunny NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Gentle Cuddles Bunny NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "gentle-cuddles-bunny-i04",
@@ -198526,7 +198542,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/236313695689",
@@ -198534,7 +198550,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Gentle Cuddles Bunny NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Gentle Cuddles Bunny NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "gentle-cuddles-bunny-i11",
@@ -198598,7 +198615,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/146816939230",
@@ -198606,7 +198623,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Gentle Cuddles Bunny Plush w/Birth Cert Recycled Materials NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Gentle Cuddles Bunny Plush w/Birth Cert Recycled Materials NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "gentle-cuddles-bunny-i15",
@@ -198688,7 +198706,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/236155371636",
@@ -198696,7 +198714,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Gentle Cuddles Bunny NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Gentle Cuddles Bunny NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "gentle-cuddles-bunny-i20",
@@ -198818,7 +198837,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/398294427544",
@@ -198826,7 +198845,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Giant Capybara Stuffed Animal 24\u2019 NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Giant Capybara Stuffed Animal 24\u2019 NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "giant-capybara-i02",
@@ -205588,7 +205608,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/356301523217",
@@ -205596,7 +205616,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BAB Workshop Wizarding World Harry Potter Gryffindor Lion NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BAB Workshop Wizarding World Harry Potter Gryffindor Lion NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "harry-potter-gryffindor-lion-i18",
@@ -209926,7 +209947,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/127339468093",
@@ -209934,7 +209955,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear How To Train Your Dragon \"BARF & BELCH\" New Without Tags"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear How To Train Your Dragon \"BARF & BELCH\" New Without Tags",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "how-to-train-your-dragon-barf-belch-i07",
@@ -214302,7 +214324,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "NWT",
+      "condition": "NWOT",
       "completeness": "unstuffed",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/187400512739",
@@ -214310,7 +214332,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Unstuff Jolly Jumps Frog Christmas New NO TAG"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Unstuff Jolly Jumps Frog Christmas New NO TAG",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "jolly-jumps-frog-i13",
@@ -218392,7 +218415,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/397649523331",
@@ -218400,7 +218423,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BABW 2024 Po Kung Fu Panda 4 With Staff Wrist New Without Tag NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BABW 2024 Po Kung Fu Panda 4 With Staff Wrist New Without Tag NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "kung-fu-panda-po-i12",
@@ -223688,7 +223712,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/277333331932",
@@ -223696,7 +223720,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Workshop Red Lucky Ladybug Insect Plush HTF *NEW WITHOUT TAGS*"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Workshop Red Lucky Ladybug Insect Plush HTF *NEW WITHOUT TAGS*",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "lucky-ladybug-i03",
@@ -232830,7 +232855,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/126581589800",
@@ -232838,7 +232863,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Mint Green Axolotl Build A Bear NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Mint Green Axolotl Build A Bear NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "mint-axolotl-i15",
@@ -233636,7 +233662,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/204517337388",
@@ -233645,6 +233671,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear 18\u201d Jumpin' Jack Rabbit Plush Mocha Brown Bunny Stuffed Animal NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 18.0,
         "sound": null
@@ -239112,7 +239139,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/275087827357",
@@ -239120,7 +239147,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Orangutan Orange HTF RARE NWOT St. Louis Zoo Monkey"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Orangutan Orange HTF RARE NWOT St. Louis Zoo Monkey",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "orangutan-i19",
@@ -243240,7 +243268,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/227251491866",
@@ -243248,7 +243276,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Pineapple Axolotl Plush. NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Pineapple Axolotl Plush. NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "pineapple-axolotl-i09",
@@ -250816,7 +250845,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/176628649952",
@@ -250825,6 +250854,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Quokka Plush 12\" Light Brown 2024 NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 12.0,
         "sound": null
@@ -251430,7 +251460,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/298032878341",
@@ -251438,7 +251468,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Rainbow Clouds Frog Pastel Tie-Dye NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Rainbow Clouds Frog Pastel Tie-Dye NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "rainbow-clouds-frog-i05",
@@ -251514,7 +251545,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/317814011746",
@@ -251522,7 +251553,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Rainbow Clouds Frog NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Rainbow Clouds Frog NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "rainbow-clouds-frog-i09",
@@ -260456,7 +260488,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/296221072189",
@@ -260465,6 +260497,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: NEW Build-A-Bear Sly Fox Orange Online Exclusive 16\" Stuffed Plush NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 16.0,
         "sound": null
@@ -261350,7 +261383,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/235391924507",
@@ -261358,7 +261391,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Snuggly Sea Monster NWOT (with Bandana and Cotton Candy Scent)"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Snuggly Sea Monster NWOT (with Bandana and Cotton Candy Scent)",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "snuggly-sea-monster-i19",
@@ -266370,7 +266404,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "NWT",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/168112919010",
@@ -266379,6 +266413,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop 16\" Surfs Up Cody Maverick Limited Plush - New No Tags",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 16.0,
         "sound": null
@@ -267158,7 +267193,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/205222170033",
@@ -267166,7 +267201,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Workshop Retired TOADally Teal Frog BABW Collectors Item NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Workshop Retired TOADally Teal Frog BABW Collectors Item NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "toadally-teal-frog-i15",
@@ -280580,7 +280616,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/136940940923",
@@ -280589,6 +280625,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear BEARCLOPS Plush 18\" Cyclops One Eye Monster Green RETIRED NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 18.0,
         "sound": null
@@ -284844,7 +284881,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/168124830233",
@@ -284852,7 +284889,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Coyote Stuffed Animal NWOT Rare Htf"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Coyote Stuffed Animal NWOT Rare Htf",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "coyote-i06",
@@ -291164,7 +291202,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/195985680703",
@@ -291172,7 +291210,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Lil Brownie Cub Plush Teddy Happy Birthday Stuffed Toy NWOT NEW"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Lil Brownie Cub Plush Teddy Happy Birthday Stuffed Toy NWOT NEW",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "happy-go-lucky-frog-i01",
@@ -293808,7 +293847,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/134946305934",
@@ -293817,6 +293856,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Hedwig the Owl 13\" plush Wizarding World of Harry Potter NWOT & Hat",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 13.0,
         "sound": null
@@ -299972,7 +300012,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/176484704778",
@@ -299980,7 +300020,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Meatlug Gronckle How To Train Your Dragon Rare W/ Outfit NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Meatlug Gronckle How To Train Your Dragon Rare W/ Outfit NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "meatlug-the-gronckle-i25",
@@ -301988,7 +302029,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/366057101529",
@@ -301996,7 +302037,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear X SANIRO Hello Kitty and Friends Mini Beans Chococat NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear X SANIRO Hello Kitty and Friends Mini Beans Chococat NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "mini-beans-chococat-i22",
@@ -308378,7 +308420,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unstuffed",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/177235709331",
@@ -308386,7 +308428,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear My Little Pony MLP Derpy Muffins Bubbles Ditzy Plush Unstuffed NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear My Little Pony MLP Derpy Muffins Bubbles Ditzy Plush Unstuffed NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "my-little-pony-muffins-i32",
@@ -308584,7 +308627,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/188679068210",
@@ -308592,7 +308635,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Loch Ness Monster Nessy Nessie NWOT Full Size Sea Blue"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Loch Ness Monster Nessy Nessie NWOT Full Size Sea Blue",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "nessie-i02",
@@ -308818,7 +308862,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/176628781546",
@@ -308827,6 +308871,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Online Exclusive Loch Ness Nessie Sea Monster 15\" Plush 2022 NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 15.0,
         "sound": null
@@ -318146,7 +318191,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/327138034547",
@@ -318154,7 +318199,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Sea Bunny Stuffed Plush Animal with Pink Fuchsia Sequin Bows NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Sea Bunny Stuffed Plush Animal with Pink Fuchsia Sequin Bows NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "sea-bunny-i08",
@@ -319878,7 +319924,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/397485333547",
@@ -319886,7 +319932,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: (NWOT) BUILD-A-BEAR SANRIO CHRISTMAS SUGAR COOKIE CINNAMOROLL PLUSH"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: (NWOT) BUILD-A-BEAR SANRIO CHRISTMAS SUGAR COOKIE CINNAMOROLL PLUSH",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "sunkissed-hello-kitty-i01",
@@ -329046,7 +329093,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/116351349624",
@@ -329054,7 +329101,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Plush Harry Potter Hogwarts Express Train Engine BAB Accessory NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Plush Harry Potter Hogwarts Express Train Engine BAB Accessory NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "hogwarts-express-train-harry-potter-i07",
@@ -339938,7 +339986,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/147483612787",
@@ -339946,7 +339994,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: EXCLUSIVE! Moodicorn Unicorn Plush Gift Set NWOT ! With Dress"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: EXCLUSIVE! Moodicorn Unicorn Plush Gift Set NWOT ! With Dress",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "moodicorn-unicorn-i11",
@@ -348724,7 +348773,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/116102009615",
@@ -348733,6 +348782,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Buddy Smallfry Zombear Zombie 7\u201d Halloween With Pumpkin Outfit NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 7.0,
         "sound": null
@@ -351980,7 +352030,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/156582078998",
@@ -351988,7 +352038,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Easter Hoppy Colors Frog Color Block Makes Noise NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Easter Hoppy Colors Frog Color Block Makes Noise NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "hoppy-colors-frog-i06",
@@ -354016,7 +354067,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/336025750330",
@@ -354024,7 +354075,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Red Hot Hugs Bear With Heat Pajamas NWOT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Red Hot Hugs Bear With Heat Pajamas NWOT",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "red-hot-hugs-bear-i22",
@@ -356192,7 +356244,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/197067186889",
@@ -356201,6 +356253,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Easter Spring Yellow Duck Chick Chicken 16\u201d Plush Stuffed NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 16.0,
         "sound": null
@@ -356214,7 +356267,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/197067191949",
@@ -356223,6 +356276,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Easter Spring Yellow Duck Chick Chicken 16\u201d Plush Stuffed NWOT NEW",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 16.0,
         "sound": null
@@ -361100,7 +361154,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/157110941684",
@@ -361109,6 +361163,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BAB Build A Bear Boxer Dog Puppy Plush 14\" Long Kennel Pals Bearemys 2010 NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 14.0,
         "sound": null
@@ -363510,7 +363565,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/135060983396",
@@ -363518,7 +363573,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blueberry Cow Plush Blueberry Scent NWOT ONLY DISPLAYED"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Blueberry Cow Plush Blueberry Scent NWOT ONLY DISPLAYED",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "blueberry-cow-tp166783063109",
@@ -365328,7 +365384,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/196000547357",
@@ -365337,6 +365393,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Plush 15\" Red Dino Brachiosaurus Dinosaur Stuffed Animal NWOT NEW",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 15.0,
         "sound": null
@@ -365608,7 +365665,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/196000537507",
@@ -365617,6 +365674,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Retired Vintage Dinosaur Green Spinosaurus Plush Dino 15\" NWOT NEW",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 15.0,
         "sound": null
@@ -367502,7 +367560,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/127894156359",
@@ -367511,6 +367569,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BAB Build a Bear Workshop Green Dino Dinosaur Triceratops 17\u201d Plush Toy NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 17.0,
         "sound": null
@@ -375296,7 +375355,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "some_originals",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/116508908817",
@@ -375305,6 +375364,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; with sound; title: Build A Bear Pokemon 15\" Espeon Plush w/ Cape & Sounds WORKING BAB NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 15.0,
         "sound": null
@@ -390628,7 +390688,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/204487139653",
@@ -390637,6 +390697,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Purple Sparkle Lightning Bug Butterfly 17\" Plush NWOT Caterpillar",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 17.0,
         "sound": null
@@ -391022,7 +391083,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "bare",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/298394743860",
@@ -391031,6 +391092,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; no working sound; title: Build-A-Bear Pokemon Litten Plush With Sleeper On & No Sound! NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": null,
         "sound": "broken"
@@ -404188,7 +404250,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/267383346668",
@@ -404196,7 +404258,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Pink Capybara Stuffed Plush New (no tag)"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Pink Capybara Stuffed Plush New (no tag)",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "pink-capybara-tp297636743836",
@@ -414933,7 +414996,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/156517398302",
@@ -414942,6 +415005,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Life Is Good Brown Shaggy Teddy Bear Plush 16 Inches NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 16.0,
         "sound": null
@@ -417835,7 +417899,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/195759703213",
@@ -417844,6 +417908,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: Build a Bear Green LARGE FROG 18\" Plush Stuffed Vintage Toy Spring NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 18.0,
         "sound": null
@@ -418899,7 +418964,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/195806821994",
@@ -418908,6 +418973,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: Build A Bear BAB Confetti Sprinkles CUPCAKE White Polka Dot Plush Teddy 17\" NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 17.0,
         "sound": null
@@ -418943,7 +419009,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/195806815506",
@@ -418952,6 +419018,7 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (3 sold); title: Build A Bear Blizzard Confetti Sprinkles Candy Dairy Queen DQ 17\" Plush NWOT",
+      "condition_basis": "reclassified_v2",
       "attributes": {
         "size_in": 17.0,
         "sound": null
@@ -421427,7 +421494,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/366015119032",
@@ -421435,7 +421502,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear X Sanrio - Usahana Plush Doll NWOT - U*SA*HA*NA- Scented"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear X Sanrio - Usahana Plush Doll NWOT - U*SA*HA*NA- Scented",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "u-sa-ha-na-tp147249079899",
@@ -421521,7 +421589,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/335644881263",
@@ -421529,7 +421597,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vampire Sloth Glow In The Dark New Without Tags Clothing Included"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Vampire Sloth Glow In The Dark New Without Tags Clothing Included",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "velvet-bear-tp115951843062",
@@ -421655,7 +421724,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unknown",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/184215561046",
@@ -421663,7 +421732,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: NWOT Build A Bear Workshop Velvet Hugs Light Brown Puppy Dog Asthma Allergy..."
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: NWOT Build A Bear Workshop Velvet Hugs Light Brown Puppy Dog Asthma Allergy...",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "velvet-puppy-tp266253691925",
@@ -427577,7 +427647,7 @@ globalThis.BEARCHART_DATA = {
       "price_high": null,
       "ranged": false,
       "currency": "USD",
-      "condition": "Mint",
+      "condition": "NWOT",
       "completeness": "unstuffed",
       "marketplace": "eBay",
       "source_url": "https://www.ebay.com/itm/226717786440",
@@ -427585,7 +427655,8 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: NWOT Build a Bear Workshop Woodland Friends Grizzly Brown Bear UNSTUFFED Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: NWOT Build a Bear Workshop Woodland Friends Grizzly Brown Bear UNSTUFFED Plush",
+      "condition_basis": "reclassified_v2"
     },
     {
       "id": "grizzly-bear-2021-tp255113829787",
