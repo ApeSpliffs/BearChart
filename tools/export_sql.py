@@ -102,6 +102,21 @@ def merges_migration(data, ledger):
                        "       reassigned_from = %s\n where %s;"
                        % (lit(s["item_id"]), lit(s.get("reassigned_from")), where))
     out.append("")
+    # Condition re-grades (tools/reclassify_conditions.py). seed.sql only
+    # inserts sales that are missing, so rows already seeded need an update.
+    regraded = [s for s in data["sales"] if s.get("condition_basis") == "reclassified_v2"]
+    if regraded:
+        out.append("-- Condition re-grades from tools/reclassify_conditions.py (%d rows)."
+                   % len(regraded))
+    for s in sorted(regraded, key=lambda x: x["id"]):
+        slugs = [s["item_id"]] + ([s["reassigned_from"]] if s.get("reassigned_from") else [])
+        out.append("update sales set condition = %s, condition_basis = 'reclassified_v2'\n"
+                   " where item_id in (select id from items where slug in (%s))\n"
+                   "   and sold_price = %s and sale_date is not distinct from %s\n"
+                   "   and listing_id is not distinct from %s;"
+                   % (lit(s["condition"]), ", ".join(lit(x) for x in slugs),
+                      lit(s["sold_price"]), lit(s.get("sale_date")), lit(s.get("listing_id"))))
+    out.append("")
     return "\n".join(out)
 
 

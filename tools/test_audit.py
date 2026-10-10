@@ -203,6 +203,32 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(items[0]["release_year"], 2020)
 
 
+class MergeMigrationTests(unittest.TestCase):
+    """Migration 000251 must carry every ledger decision and re-grade to a
+    database seeded before them (seed.sql only inserts missing sales)."""
+
+    def setUp(self):
+        with open(os.path.join(ROOT, "supabase", "migrations",
+                               "20261008000251_item_merges.sql")) as f:
+            self.sql = f.read()
+
+    def test_every_redirect_is_merged(self):
+        for old, new in data()["redirects"].items():
+            self.assertIn("select public.merge_item_slug('%s', '%s');" % (old, new), self.sql)
+
+    def test_every_regraded_sale_is_updated(self):
+        regraded = [s for s in data()["sales"] if s.get("condition_basis") == "reclassified_v2"]
+        self.assertTrue(regraded)
+        self.assertEqual(self.sql.count("condition_basis = 'reclassified_v2'"), len(regraded))
+
+    def test_the_migration_is_current(self):
+        import export_sql
+        with open(os.path.join(ROOT, "tools", "catalogue_identity.json")) as f:
+            ledger = json.load(f)
+        self.assertEqual(export_sql.merges_migration(data(), ledger), self.sql,
+                         "re-run: python3 tools/export_sql.py --merges-migration")
+
+
 class VariantDataTests(unittest.TestCase):
     def test_pikachu_stays_one_item_with_per_sale_attributes(self):
         pika = [i for i in data()["items"] if i["id"].startswith("pikachu")]

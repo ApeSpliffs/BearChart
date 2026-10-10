@@ -143,3 +143,289 @@ update sales set excluded = '{"reason": "A ''Champ'' teddy with a heart patch, n
  where item_id in (select id from items where slug in ('stitch-disney'))
    and sold_price = 15.82 and sale_date is not distinct from '2024-01-28'
    and listing_id is not distinct from '116036186728';
+
+-- Condition re-grades from tools/reclassify_conditions.py (71 rows).
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('25th-anniversary-chubby-cubby'))
+   and sold_price = 20 and sale_date is not distinct from '2026-07-04'
+   and listing_id is not distinct from '800144173983';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('alien-cow'))
+   and sold_price = 22 and sale_date is not distinct from '2026-07-20'
+   and listing_id is not distinct from '117296075062';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('beach-day-hello-kitty'))
+   and sold_price = 100 and sale_date is not distinct from '2025-05-07'
+   and listing_id is not distinct from '126763706963';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('bearclops'))
+   and sold_price = 30 and sale_date is not distinct from '2026-05-05'
+   and listing_id is not distinct from '136940940923';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('bearemy-s-kennel-pals-boxer'))
+   and sold_price = 19.97 and sale_date is not distinct from '2025-07-17'
+   and listing_id is not distinct from '157110941684';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('blueberry-cow'))
+   and sold_price = 46.76 and sale_date is not distinct from '2024-05-16'
+   and listing_id is not distinct from '135060983396';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('build-a-dino-brachiosaurus'))
+   and sold_price = 12.95 and sale_date is not distinct from '2024-09-23'
+   and listing_id is not distinct from '196000547357';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('build-a-dino-spinosaurus'))
+   and sold_price = 10.95 and sale_date is not distinct from '2023-11-04'
+   and listing_id is not distinct from '196000537507';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('build-a-dino-triceratops'))
+   and sold_price = 16.99 and sale_date is not distinct from '2026-07-23'
+   and listing_id is not distinct from '127894156359';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('care-bears-grumpy-bear'))
+   and sold_price = 145 and sale_date is not distinct from '2025-01-14'
+   and listing_id is not distinct from '126877963980';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('chilly-cheeks-penguin'))
+   and sold_price = 7.95 and sale_date is not distinct from '2025-10-02'
+   and listing_id is not distinct from '196051381987';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('chummy-shark'))
+   and sold_price = 80 and sale_date is not distinct from '2026-07-21'
+   and listing_id is not distinct from '287472290645';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('coyote'))
+   and sold_price = 70 and sale_date is not distinct from '2026-02-05'
+   and listing_id is not distinct from '168124830233';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('doctor-who-dalek'))
+   and sold_price = 24.99 and sale_date is not distinct from '2026-01-25'
+   and listing_id is not distinct from '388377809568';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('espeon-pokemon'))
+   and sold_price = 49.95 and sale_date is not distinct from '2025-03-16'
+   and listing_id is not distinct from '116508908817';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('everest-paw-patrol'))
+   and sold_price = 40 and sale_date is not distinct from '2025-03-20'
+   and listing_id is not distinct from '156802412573';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('gentle-cuddles-bunny'))
+   and sold_price = 106.25 and sale_date is not distinct from '2026-06-04'
+   and listing_id is not distinct from '137242344062';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('gentle-cuddles-bunny'))
+   and sold_price = 95 and sale_date is not distinct from '2026-01-12'
+   and listing_id is not distinct from '236313695689';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('gentle-cuddles-bunny'))
+   and sold_price = 100 and sale_date is not distinct from '2025-11-04'
+   and listing_id is not distinct from '146816939230';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('gentle-cuddles-bunny'))
+   and sold_price = 110 and sale_date is not distinct from '2025-07-12'
+   and listing_id is not distinct from '236155371636';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('giant-capybara'))
+   and sold_price = 100 and sale_date is not distinct from '2026-08-19'
+   and listing_id is not distinct from '398294427544';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('giant-kuromi'))
+   and sold_price = 100 and sale_date is not distinct from '2024-09-26'
+   and listing_id is not distinct from '315789028238';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('grizzly-bear-2021'))
+   and sold_price = 9 and sale_date is not distinct from '2025-07-11'
+   and listing_id is not distinct from '226717786440';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('happy-cub'))
+   and sold_price = 10.95 and sale_date is not distinct from '2023-11-14'
+   and listing_id is not distinct from '195985680703';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('gryffindor-lion-harry-potter'))
+   and sold_price = 14 and sale_date is not distinct from '2024-12-29'
+   and listing_id is not distinct from '356301523217';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('harry-potter-hedwig'))
+   and sold_price = 40 and sale_date is not distinct from '2024-02-27'
+   and listing_id is not distinct from '134946305934';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('harry-potter-otter-patronus'))
+   and sold_price = 50 and sale_date is not distinct from '2025-06-24'
+   and listing_id is not distinct from '187210019180';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('hogwarts-express-train-harry-potter'))
+   and sold_price = 29.99 and sale_date is not distinct from '2024-11-23'
+   and listing_id is not distinct from '116351349624';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('hoppy-colors-frog'))
+   and sold_price = 28 and sale_date is not distinct from '2024-12-15'
+   and listing_id is not distinct from '156582078998';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('how-to-train-your-dragon-barf-belch'))
+   and sold_price = 28.45 and sale_date is not distinct from '2025-11-28'
+   and listing_id is not distinct from '127339468093';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('jolly-jumps-frog'))
+   and sold_price = 12 and sale_date is not distinct from '2025-11-12'
+   and listing_id is not distinct from '187400512739';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('kung-fu-panda-po'))
+   and sold_price = 4.99 and sale_date is not distinct from '2026-03-02'
+   and listing_id is not distinct from '397649523331';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('lightning-bug'))
+   and sold_price = 10.95 and sale_date is not distinct from '2024-03-18'
+   and listing_id is not distinct from '204487139653';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('litten'))
+   and sold_price = 49.99 and sale_date is not distinct from '2026-06-17'
+   and listing_id is not distinct from '298394743860';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('lucky-ladybug'))
+   and sold_price = 67.49 and sale_date is not distinct from '2025-08-19'
+   and listing_id is not distinct from '277333331932';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('meatlug-the-gronckle'))
+   and sold_price = 159.99 and sale_date is not distinct from '2024-08-10'
+   and listing_id is not distinct from '176484704778';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('chococat-mini-beans'))
+   and sold_price = 16.99 and sale_date is not distinct from '2026-01-03'
+   and listing_id is not distinct from '366057101529';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('mint-axolotl'))
+   and sold_price = 38 and sale_date is not distinct from '2024-07-31'
+   and listing_id is not distinct from '126581589800';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('mocha-bunny'))
+   and sold_price = 8 and sale_date is not distinct from '2026-03-02'
+   and listing_id is not distinct from '204517337388';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('monster-cinnamoroll'))
+   and sold_price = 46.75 and sale_date is not distinct from '2025-08-27'
+   and listing_id is not distinct from '365817923734';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('moodicorn-unicorn'))
+   and sold_price = 150 and sale_date is not distinct from '2026-08-21'
+   and listing_id is not distinct from '147483612787';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('my-little-pony-muffins'))
+   and sold_price = 170 and sale_date is not distinct from '2025-09-06'
+   and listing_id is not distinct from '177235709331';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('zecora-my-little-pony'))
+   and sold_price = 45 and sale_date is not distinct from '2026-02-11'
+   and listing_id is not distinct from '136512747848';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('nessie'))
+   and sold_price = 39.9 and sale_date is not distinct from '2026-07-23'
+   and listing_id is not distinct from '188679068210';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('nessie'))
+   and sold_price = 55 and sale_date is not distinct from '2024-11-11'
+   and listing_id is not distinct from '176628781546';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('orangutan'))
+   and sold_price = 49.5 and sale_date is not distinct from '2024-02-18'
+   and listing_id is not distinct from '275087827357';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('pineapple-axolotl'))
+   and sold_price = 27 and sale_date is not distinct from '2026-06-22'
+   and listing_id is not distinct from '227251491866';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('pink-capybara'))
+   and sold_price = 20 and sale_date is not distinct from '2025-09-09'
+   and listing_id is not distinct from '267383346668';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('promise-pets-beagle'))
+   and sold_price = 8.99 and sale_date is not distinct from '2026-07-03'
+   and listing_id is not distinct from '127692347238';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('quokka'))
+   and sold_price = 45 and sale_date is not distinct from '2025-02-14'
+   and listing_id is not distinct from '176628649952';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('rainbow-clouds-frog'))
+   and sold_price = 25 and sale_date is not distinct from '2026-07-27'
+   and listing_id is not distinct from '298032878341';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('rainbow-clouds-frog'))
+   and sold_price = 17 and sale_date is not distinct from '2026-02-02'
+   and listing_id is not distinct from '317814011746';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('red-hot-hugs-bear'))
+   and sold_price = 25 and sale_date is not distinct from '2025-08-02'
+   and listing_id is not distinct from '336025750330';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('sea-bunny'))
+   and sold_price = 28.99 and sale_date is not distinct from '2026-05-21'
+   and listing_id is not distinct from '327138034547';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('shaggy-teddy'))
+   and sold_price = 7.28 and sale_date is not distinct from '2024-11-26'
+   and listing_id is not distinct from '156517398302';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('sly-fox'))
+   and sold_price = 75 and sale_date is not distinct from '2024-02-15'
+   and listing_id is not distinct from '296221072189';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('snuggly-sea-monster'))
+   and sold_price = 100 and sale_date is not distinct from '2024-01-19'
+   and listing_id is not distinct from '235391924507';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('spring-chick'))
+   and sold_price = 9.95 and sale_date is not distinct from '2025-04-20'
+   and listing_id is not distinct from '197067186889';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('spring-chick'))
+   and sold_price = 8 and sale_date is not distinct from '2026-09-26'
+   and listing_id is not distinct from '197067191949';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('spring-green-frog'))
+   and sold_price = 16.95 and sale_date is not distinct from '2024-04-27'
+   and listing_id is not distinct from '195759703213';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('sprinkle-heartables'))
+   and sold_price = 15.28 and sale_date is not distinct from '2025-06-07'
+   and listing_id is not distinct from '195806815506';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('sprinkle-heartables'))
+   and sold_price = 9.45 and sale_date is not distinct from '2025-03-09'
+   and listing_id is not distinct from '195806821994';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('sugar-cookie-cinnamoroll'))
+   and sold_price = 20 and sale_date is not distinct from '2026-01-27'
+   and listing_id is not distinct from '397485333547';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('surf-s-up-cody-maverick'))
+   and sold_price = 27.87 and sale_date is not distinct from '2026-02-09'
+   and listing_id is not distinct from '168112919010';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('toadally-teal-frog'))
+   and sold_price = 30 and sale_date is not distinct from '2025-04-03'
+   and listing_id is not distinct from '205222170033';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('u-sa-ha-na'))
+   and sold_price = 38.99 and sale_date is not distinct from '2025-11-26'
+   and listing_id is not distinct from '366015119032';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('vampire-glow-sloth'))
+   and sold_price = 45 and sale_date is not distinct from '2024-12-18'
+   and listing_id is not distinct from '335644881263';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('velvet-puppy'))
+   and sold_price = 15 and sale_date is not distinct from '2024-03-17'
+   and listing_id is not distinct from '184215561046';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('winter-hugs-bear'))
+   and sold_price = 8.98 and sale_date is not distinct from '2025-12-06'
+   and listing_id is not distinct from '196049897398';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('zombear'))
+   and sold_price = 39 and sale_date is not distinct from '2024-05-24'
+   and listing_id is not distinct from '116102009615';
+update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
+ where item_id in (select id from items where slug in ('zombie-pompompurin'))
+   and sold_price = 110 and sale_date is not distinct from '2025-01-10'
+   and listing_id is not distinct from '186879403337';
