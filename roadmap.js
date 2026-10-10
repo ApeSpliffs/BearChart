@@ -4,7 +4,9 @@
 (function () {
   'use strict';
 
-  var D = BC.data, E = BC.engine;
+  var E = BC.engine;
+  // Config only: the build's figures (site-config stats), no data load.
+  var ST = BC.catalogueStats();
   var $ = function (id) { return document.getElementById(id); };
 
   BC.renderChrome('roadmap.html');
@@ -17,9 +19,9 @@
     snapshots: typeof E.collectionSnapshot === 'function',
     twr: typeof E.windowStats === 'function',
     deals: typeof E.findDeals === 'function',
-    auth: !!(D.config.auth),
-    activeListings: !!(D.active_listings || []).length,
-    firstParty: D.sales.some(function (s) { return s.first_party; })
+    auth: !!BC.site.auth,
+    activeListings: !!ST.active_listing_count,
+    firstParty: !!ST.has_first_party
   };
 
   var PHASES = {

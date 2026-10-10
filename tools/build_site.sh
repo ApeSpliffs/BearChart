@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Assemble the deployable site into dist/.
 #
-# The item pages, sitemap.xml and sw.js are generated, not committed
-# (see .gitignore), so a host that deploys straight from the repo serves a
-# site with no item pages at all. This rebuilds them and copies only what a
-# browser should ever see - no tools/, no *.sql, no data.json, no node_modules.
+# site-config.js, data/, the item pages, sitemap.xml and sw.js are generated,
+# not committed (see .gitignore), so a host that deploys straight from the repo
+# serves a site with no data at all. This rebuilds them from data.json and
+# copies only what a browser should ever see - no tools/, no *.sql, no
+# data.json, no node_modules.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -36,19 +37,27 @@ else
   python3 tools/build_pages.py
 fi
 
+# Per-environment runtime config (accounts, error reporting, analytics) replaces
+# the inert committed copy. A preview with no staging settings gets accounts
+# switched off. See docs/ENVIRONMENTS.md. Written first so the service worker
+# precaches the deployed copy's hash, not the committed one's.
+RUNTIME_CONFIG="$(mktemp)"
+trap 'rm -f "$RUNTIME_CONFIG"' EXIT
+python3 tools/build_runtime_config.py > "$RUNTIME_CONFIG"
+
 # Must follow build_pages.py: it hashes item/_offline.html into the cache name.
-python3 tools/build_pwa.py
+BEARCHART_CONFIG_JS="$RUNTIME_CONFIG" python3 tools/build_pwa.py
 
 rm -rf "$DIST"
-mkdir -p "$DIST"
+mkdir -p "$DIST/data"
 cp -r item icons images vendor "$DIST"/
+# The browser's data: hashed index/listings and per-item files. Not
+# data/manifest.json (a build input), and never data.json itself.
+cp -r data/h data/items "$DIST/data/"
 cp ./*.html ./*.js ./*.css favicon.ico manifest.webmanifest robots.txt "$DIST"/
 [ -f sitemap.xml ] && cp sitemap.xml "$DIST"/
 
-# Per-environment runtime config (accounts, error reporting, analytics) replaces
-# the inert committed copy. A preview with no staging settings gets accounts
-# switched off. See docs/ENVIRONMENTS.md.
-python3 tools/build_runtime_config.py > "$DIST/config.js"
+cp "$RUNTIME_CONFIG" "$DIST/config.js"
 
 # Link previews (Facebook, iMessage, Discord) need an absolute image address,
 # which only the host knows. The pages carry a root-relative one for local use.

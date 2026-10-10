@@ -75,6 +75,23 @@ class ShippedDataIsClean(unittest.TestCase):
             self.assertNotIn('"%s"' % field, raw,
                              "%s reached data.json, which is published" % field)
 
+    def test_the_browser_files_carry_no_user_fields(self):
+        """site-config.js and data/ (tools/build_assets.js), when built, are what
+        a browser actually downloads."""
+        files = [os.path.join(ROOT, "site-config.js")]
+        for sub in ("h", "items"):
+            d = os.path.join(ROOT, "data", sub)
+            if os.path.isdir(d):
+                files += [os.path.join(d, f) for f in os.listdir(d)]
+        files = [f for f in files if os.path.isfile(f)]
+        if not files:
+            self.skipTest("no generated data files (run npm run build:assets)")
+        for path in files:
+            with open(path) as f:
+                raw = f.read()
+            for field in build_data.USER_DATA_FIELDS:
+                self.assertNotIn('"%s"' % field, raw, "%s reached %s" % (field, path))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=1)

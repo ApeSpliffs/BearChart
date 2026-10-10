@@ -154,7 +154,7 @@
     btn.disabled = true;
     btn.textContent = 'Opening checkout…';
     client.functions
-      .invoke((BC.data.membership || {}).checkout_function || 'create-checkout',
+      .invoke(BC.membership.checkout_function || 'create-checkout',
               { body: { plan: id } })
       .then(function (res) {
         if (res.error) throw new Error(res.error.message);

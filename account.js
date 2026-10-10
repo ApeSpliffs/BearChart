@@ -183,7 +183,7 @@
         if (!client) { msg('Could not reach the account service.', 'warn'); return; }
         msg('Opening billing…');
         client.functions
-          .invoke((BC.data.membership || {}).portal_function || 'create-portal', {})
+          .invoke(BC.membership.portal_function || 'create-portal', {})
           .then(function (res) {
             if (res.error) throw new Error(res.error.message);
             if (!res.data || !res.data.url) throw new Error('no portal url returned');

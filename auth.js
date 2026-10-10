@@ -53,10 +53,12 @@
   // Email-link types supabase verifyOtp accepts for a token_hash link.
   var OTP_TYPES = ['email', 'recovery', 'signup', 'magiclink', 'invite', 'email_change'];
 
-  // The one place the auth settings are resolved: data.json's config.auth with
-  // the deploy's config.js (BEARCHART_RUNTIME.auth) on top. Everything else that
-  // talks to Supabase reads them through BearChartAuth.config().
-  var dataCfg = ((root.BEARCHART_DATA || {}).config || {}).auth || {};
+  // The one place the auth settings are resolved: site-config.js's auth (built
+  // from data.json config.auth, read through bc-data.js) with the deploy's
+  // config.js (BEARCHART_RUNTIME.auth) on top. Everything else that talks to
+  // Supabase reads them through BearChartAuth.config().
+  var BD = root.BearChartData;
+  var dataCfg = (BD && BD.hasConfig() ? BD.config().auth : null) || {};
   var cfg = Object.assign({}, dataCfg, (root.BEARCHART_RUNTIME || {}).auth || {});
   var client = null;
   var session = null;

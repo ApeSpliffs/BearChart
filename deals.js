@@ -2,7 +2,9 @@
 (function () {
   'use strict';
 
-  var D = BC.data, E = BC.engine;
+  var CFG = BC.config, E = BC.engine;
+  // Today's asking prices, once loaded (data/h/listings.<hash>.json).
+  var L = null;
   var $ = function (id) { return document.getElementById(id); };
 
   BC.renderChrome('deals.html');
@@ -10,7 +12,7 @@
   // A working copy of the reseller assumptions, so they can be tuned on the page
   // without editing the config. Persisted per browser.
   var KEY = 'bearchart.reseller';
-  var base = D.config.reseller || {};
+  var base = CFG.reseller || {};
   var tuned = load();
 
   function load() {
@@ -44,13 +46,13 @@
   }
 
   function platformOr(p, fallback) {
-    var platforms = (D.config.fees && D.config.fees.platforms) || {};
+    var platforms = (CFG.fees && CFG.fees.platforms) || {};
     return (p && platforms[p]) ? p : fallback;
   }
 
   /** The fee schedule entry in force: the platform's, or the reader's override. */
   function schedule() {
-    var platforms = (D.config.fees && D.config.fees.platforms) || {};
+    var platforms = (CFG.fees && CFG.fees.platforms) || {};
     return platforms[tuned.platform] || {};
   }
 
@@ -72,13 +74,13 @@
   /** Config with the page's tuned economics swapped in. */
   function config() {
     var c = {};
-    Object.keys(D.config).forEach(function (k) { c[k] = D.config[k]; });
+    Object.keys(CFG).forEach(function (k) { c[k] = CFG[k]; });
     var r = {};
     Object.keys(base).forEach(function (k) { r[k] = base[k]; });
     Object.keys(tuned).forEach(function (k) { r[k] = tuned[k]; });
     c.reseller = r;
-    if (tuned.fee_pct_override != null && D.config.fees) {
-      var fees = JSON.parse(JSON.stringify(D.config.fees));
+    if (tuned.fee_pct_override != null && CFG.fees) {
+      var fees = JSON.parse(JSON.stringify(CFG.fees));
       if (fees.platforms && fees.platforms[tuned.platform]) {
         fees.platforms[tuned.platform].pct = tuned.fee_pct_override;
       }
@@ -90,7 +92,7 @@
   function findDeals() {
     return E.findDeals({
       config: config(),
-      listings: D.active_listings || [],
+      listings: L.listings,
       itemById: BC.itemById,
       valuationFor: BC.valuationFor
     });
@@ -103,7 +105,7 @@
     $('fee').value = Math.round(pct * 1000) / 10;
     var plat = $('platform');
     if (plat) {
-      var platforms = (D.config.fees && D.config.fees.platforms) || {};
+      var platforms = (CFG.fees && CFG.fees.platforms) || {};
       plat.innerHTML = Object.keys(platforms).map(function (k) {
         return '<option value="' + BC.esc(k) + '"' + (k === tuned.platform ? ' selected' : '') +
           '>' + BC.esc(platforms[k].label || k) + '</option>';
@@ -116,9 +118,9 @@
   }
 
   function renderStats(deals) {
-    var listings = (D.active_listings || []).length;
+    var listings = L.listings.length;
     var best = deals.length ? deals[0].margin : null;
-    var asOf = D.active_listings_fetched_at ? D.active_listings_fetched_at.slice(0, 10) : '--';
+    var asOf = L.fetched_at ? L.fetched_at.slice(0, 10) : '--';
 
     $('deal-stats').innerHTML = [
       [listings, 'Listings checked'],
@@ -132,7 +134,7 @@
   }
 
   function emptyState() {
-    if (!(D.active_listings || []).length) {
+    if (!L.listings.length) {
       return '<div class="empty">' +
         '<p><strong>No active listings loaded yet.</strong></p>' +
         '<p>Deals appear here once today\'s eBay listings have been checked. ' +
@@ -154,6 +156,7 @@
   }
 
   function render() {
+    if (!L) return;   // the catalogue and listings are still loading
     var deals = findDeals();
     renderStats(deals);
     $('deal-count').textContent = deals.length
@@ -256,5 +259,8 @@
   });
 
   renderInputs();
-  render();
+  BC.withCatalogue(function (cat, listings) {
+    L = listings;
+    render();
+  }, { listings: true });
 })();

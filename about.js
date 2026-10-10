@@ -38,7 +38,7 @@
   }
 
   document.getElementById('sources').innerHTML = '<dl class="kv">' +
-    BC.data.sources.map(function (s) {
+    BC.sources.map(function (s) {
       return '<dt>' + BC.extLink(s.url, BC.esc(s.name)) + '</dt><dd>' + BC.esc(s.role) + '</dd>';
     }).join('') + '</dl>';
 })();

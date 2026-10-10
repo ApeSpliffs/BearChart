@@ -23,8 +23,7 @@
 
   // The membership block of site-config.js, through the one data-access module.
   var BD = root.BearChartData;
-  var M = (BD && BD.hasConfig() ? BD.config().membership
-           : (root.BEARCHART_DATA || {}).membership) || {};
+  var M = (BD && BD.hasConfig() ? BD.config().membership : null) || {};
   var PLANS = M.plans || {};
   var DEFS = M.entitlements || {};
   var FEATURES = M.features || [];

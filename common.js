@@ -1,62 +1,164 @@
-/* Shared helpers for every BearChart page. Loaded after data.js and engine.js. */
+/* Shared helpers for every BearChart page. Loaded after site-config.js,
+   sanitize.js, bc-data.js and engine.js; before the page's own script. */
 (function (root) {
   'use strict';
 
-  var DATA = root.BEARCHART_DATA;
-  if (!DATA) throw new Error('BearChart: data.js did not load.');
+  var BD = root.BearChartData;
+  if (!BD) throw new Error('BearChart: bc-data.js did not load.');
   var S = root.BearChartSanitize;
   if (!S) throw new Error('BearChart: sanitize.js did not load.');
 
-  var CFG = DATA.config;
+  // The site manifest (site-config.js). Synchronous: config-only pages
+  // (about, plans, account, roadmap, privacy, terms) never load any data.
+  var SITE = BD.config();
+  var CFG = SITE.engine;
   var E = root.BearChartEngine;
+  var canonicalId = BD.canonicalId;
+  var REDIRECTS = BD.redirects();
 
-  // --- indexes -------------------------------------------------------------
+  // --- the loaded data ------------------------------------------------------
+  // A page asks for what it needs: BC.withCatalogue (every item's summary) or
+  // BC.withItem (one bear and its comps). Until then these lookups have
+  // nothing to answer from, and say so loudly rather than guess.
 
-  var salesByItem = {};
-  DATA.sales.forEach(function (s) {
-    (salesByItem[s.item_id] = salesByItem[s.item_id] || []).push(s);
-  });
-
-  var itemsById = {};
-  DATA.items.forEach(function (i) { itemsById[i.id] = i; });
-
-  var valuationCache = {};
-
-  // Item ids merged into another item (tools/catalogue_identity.json) resolve
-  // to the survivor everywhere, so an old link, bookmark, collection entry or
-  // showcase never loses its bear. Chains are resolved at build time; the loop
-  // guard only protects against a hand-edited data file.
-  var REDIRECTS = DATA.redirects || {};
-  function canonicalId(id) {
-    var seen = 0;
-    while (id && Object.prototype.hasOwnProperty.call(REDIRECTS, id) && seen++ < 10) {
-      id = REDIRECTS[id];
-    }
-    return id;
+  function notLoaded() {
+    throw new Error('BearChart: the catalogue is not loaded yet (use BC.withCatalogue).');
   }
 
-  function salesFor(id) { return salesByItem[canonicalId(id)] || []; }
+  var catalogue = null;
 
-  /** Headline numbers for a set of items (default: the whole catalogue). */
+  function itemById(id) { return catalogue ? catalogue.itemById(id) : notLoaded(); }
+  function valuationFor(id) { return catalogue ? catalogue.valuationFor(id) : notLoaded(); }
+
+  /**
+   * Headline numbers. No argument: the whole catalogue, from the build
+   * (site-config stats, engine.catalogueStats over every item). With a set of
+   * items: the same function over their summaries, so the unfiltered tile
+   * equals the hero and the footer.
+   */
   function catalogueStats(items) {
-    return E.catalogueStats(items || DATA.items, salesFor, valuationFor, CFG);
+    if (!items) return SITE.stats;
+    return E.catalogueStats(items, null, valuationFor, CFG);
   }
 
-  // Asking prices, indexed separately from sales. They are shown for context and
-  // never priced from.
-  var activeByItem = {};
-  (DATA.active_listings || []).forEach(function (l) {
-    (activeByItem[l.item_id] = activeByItem[l.item_id] || []).push(l);
-  });
-  function activeFor(id) { return activeByItem[canonicalId(id)] || []; }
-  function itemById(id) { return itemsById[canonicalId(id)] || null; }
+  // --- loading: status hook, error state, idle --------------------------------
 
-  function valuationFor(id) {
-    id = canonicalId(id);
-    if (!valuationCache[id]) {
-      valuationCache[id] = E.valuate(itemById(id), salesFor(id), CFG);
+  var inFlight = [];
+
+  /** Settles once every withCatalogue / withItem started so far has rendered. */
+  function whenIdle() {
+    var n = inFlight.length;
+    return Promise.all(inFlight.map(function (p) { return p.catch(function () {}); }))
+      .then(function () { return inFlight.length > n ? whenIdle() : undefined; });
+  }
+
+  function track(p) {
+    inFlight.push(p);
+    p.then(done, done);
+    function done() { var i = inFlight.indexOf(p); if (i !== -1) inFlight.splice(i, 1); }
+    return p;
+  }
+
+  /** Status text for any [data-bc-status] element (the UX workstream styles it). */
+  function setStatus(text) {
+    if (typeof document === 'undefined') return;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-bc-status]'), function (el) {
+      el.textContent = text;
+      el.hidden = !text;
+    });
+  }
+
+  function loadingText(what) {
+    var n = (SITE.meta && SITE.meta.item_count) || 0;
+    return what || ('Loading ' + n.toLocaleString('en-US') + ' bears…');
+  }
+
+  /**
+   * The data did not arrive: say so where the page would have been, with a
+   * retry. Opened from disk, say how to open it properly instead.
+   */
+  function dataError(err, retry) {
+    setStatus('');
+    if (typeof document === 'undefined') return;
+    var host = document.querySelector('main .wrap') || document.querySelector('main') || document.body;
+    var old = document.querySelector('[data-bc-error]');
+    if (old) old.parentNode.removeChild(old);
+    var box = document.createElement('div');
+    box.className = 'notice warn';
+    box.setAttribute('data-bc-error', '');
+    box.setAttribute('role', 'alert');
+    box.innerHTML = err && err.file
+      ? '<strong>Open BearChart through <code>npm start</code>.</strong> Browsers block ' +
+        'data files opened straight from disk.'
+      : '<strong>Couldn\'t load the price guide.</strong> Check your connection and try again. ' +
+        '<button type="button">Try again</button>';
+    var btn = box.querySelector('button');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        box.parentNode.removeChild(box);
+        retry();
+      });
     }
-    return valuationCache[id];
+    host.insertBefore(box, host.firstChild);
+  }
+
+  /** A bug in the page's own code: report it like any uncaught error. */
+  function rethrow(e) {
+    if (root.console && console.error) console.error(e && e.stack ? e.stack : e);
+    setTimeout(function () { throw e; }, 0);
+  }
+
+  function bindCatalogue(cat) {
+    catalogue = cat;
+    BC.catalogue = cat;
+  }
+
+  /**
+   * Load the catalogue index, then render. fn(catalogue[, listings]) runs once
+   * the data is in; until then [data-bc-status] says what is loading. With
+   * {listings: true} the active asking prices are loaded too (the deal finder).
+   */
+  function withCatalogue(fn, opts) {
+    setStatus(loadingText(opts && opts.label));
+    var jobs = [BD.loadIndex()];
+    if (opts && opts.listings) jobs.push(BD.loadListings());
+    return track(Promise.all(jobs).then(function (res) {
+      bindCatalogue(res[0]);
+      setStatus('');
+      try { fn(res[0], res[1]); } catch (e) { rethrow(e); }
+      return res[0];
+    }, function (err) {
+      dataError(err, function () { withCatalogue(fn, opts); });
+      return null;
+    }));
+  }
+
+  /**
+   * Load one bear (its record, comps, listings and related items), then
+   * render fn(detail). Offline and never visited, detail.partial is true and
+   * carries the index summary instead of the comps (bc-data.js). A missing
+   * bear calls fn(null, error).
+   */
+  function withItem(id, fn) {
+    setStatus(loadingText('Loading this bear…'));
+    return track(BD.loadItem(id).then(function (detail) {
+      // On an item page these answer for the bear on screen.
+      catalogue = {
+        itemById: function (x) { return canonicalId(x) === detail.item.id ? detail.item : null; },
+        valuationFor: function (x) { return canonicalId(x) === detail.item.id ? detail.valuation : null; }
+      };
+      setStatus('');
+      try { fn(detail); } catch (e) { rethrow(e); }
+      return detail;
+    }, function (err) {
+      setStatus('');
+      if (err && err.status === 404) {
+        try { fn(null, err); } catch (e) { rethrow(e); }
+        return null;
+      }
+      dataError(err, function () { withItem(id, fn); });
+      return null;
+    }));
   }
 
   /**
@@ -334,10 +436,7 @@
    * rules out root-relative "/item/x.html" links. So internal links get a
    * prefix worked out from where the current page actually sits.
    */
-  var PREFIX = /(^|\/)item\/[^/]*$/.test(root.location ? root.location.pathname : '')
-    ? '../' : '';
-
-  function rel(path) { return PREFIX + path; }
+  var rel = BD.rel;   // one definition, shared with the data URLs
 
   function itemUrl(id) {
     return rel('item/' + encodeURIComponent(canonicalId(id)) + '.html');
@@ -346,7 +445,7 @@
   /** Leave this page for another without a history entry (a redirect). */
   function go(url) { root.location.replace(url); }
 
-  var BUSINESS = DATA.business || {};
+  var BUSINESS = SITE.business || {};
 
   /**
    * Wrap an outbound eBay link with an affiliate campaign id, if one is set.
@@ -370,11 +469,6 @@
   function affiliateLink(url, innerHtml) {
     var tagged = affiliate(url);
     return S.extLink(tagged, innerHtml, { sponsored: tagged !== url });
-  }
-
-  /** A feature switch from config.features (tools/build_data.py FEATURE_FLAGS). */
-  function feature(name) {
-    return !!(CFG.features && CFG.features[name] === true);
   }
 
   function businessEnabled() {
@@ -602,20 +696,22 @@
     return toCsv(rows);
   }
 
-  /** One row per sold observation, provenance intact. */
-  function salesCsv(items) {
-    var allowed = {};
-    items.forEach(function (i) { allowed[i.id] = i; });
+  /**
+   * One row per sold observation, provenance intact. Pure: the caller passes
+   * the sales ({item_id: [sale]}), from the item files it loaded. The same
+   * columns as the export-comps edge function's CSV.
+   */
+  function salesCsv(items, salesById) {
     var head = ['sale_id', 'item_id', 'canonical_name', 'sale_date', 'sold_price',
       'price_high', 'ranged', 'currency', 'condition', 'completeness', 'marketplace',
       'listing_id', 'evidence_type', 'source_url', 'notes'];
     var rows = [head];
-    DATA.sales.forEach(function (s) {
-      var i = allowed[s.item_id];
-      if (!i) return;
-      rows.push([s.id, s.item_id, i.canonical_name, s.sale_date, s.sold_price, s.price_high,
-        s.ranged, s.currency, s.condition, s.completeness, s.marketplace, s.listing_id,
-        s.evidence_type, s.source_url, s.notes]);
+    items.forEach(function (i) {
+      ((salesById || {})[i.id] || []).forEach(function (s) {
+        rows.push([s.id, s.item_id, i.canonical_name, s.sale_date, s.sold_price, s.price_high,
+          s.ranged, s.currency, s.condition, s.completeness, s.marketplace, s.listing_id,
+          s.evidence_type, s.source_url, s.notes]);
+      });
     });
     return toCsv(rows);
   }
@@ -768,7 +864,7 @@
 
   // ---- free-account pages ----------------------------------------------------
   // The price guide is open to everyone. These tools need a free account. The
-  // page still renders underneath (the data is in data.js for anyone who looks),
+  // page still renders underneath (the data is published for anyone who looks),
   // so this is an invitation, not a lock - which is also why it costs nothing to
   // get wrong for a moment while the account service loads.
   var MEMBERS_ONLY = {
@@ -1101,12 +1197,12 @@
     }
     var bar = document.getElementById('disclaimer-bar');
     if (bar) {
-      bar.innerHTML = '<div class="wrap">' + esc(DATA.meta.disclaimer) + '</div>';
+      bar.innerHTML = '<div class="wrap">' + esc(SITE.meta.disclaimer) + '</div>';
     }
     var foot = document.getElementById('site-footer');
     if (foot) {
       foot.innerHTML = '<div class="wrap">' +
-        '<p><strong>BearChart</strong> &mdash; ' + esc(DATA.meta.disclaimer) + '</p>' +
+        '<p><strong>BearChart</strong> &mdash; ' + esc(SITE.meta.disclaimer) + '</p>' +
         '<p>Values are derived from completed/sold transactions only. Active asking ' +
         'prices are never treated as market value. Where no sold data exists, BearChart ' +
         'publishes no price.</p>' +
@@ -1121,7 +1217,7 @@
           var st = catalogueStats();
           return '<p class="fine">Database: ' + st.items.toLocaleString('en-US') + ' items, ' +
             st.sold_transactions.toLocaleString('en-US') + ' sold transactions recorded. ' +
-            'Schema v' + DATA.meta.schema_version + '.</p>';
+            'Schema v' + SITE.meta.schema_version + '.</p>';
         })() +
         '</div>';
     }
@@ -1152,15 +1248,20 @@
   }
   registerWorker();
 
-  root.BC = {
-    data: DATA, config: CFG, engine: E,
-    salesFor: salesFor, activeFor: activeFor, itemById: itemById,
+  var BC = root.BC = {
+    config: CFG, engine: E, site: SITE, catalogue: null,
+    withCatalogue: withCatalogue, withItem: withItem, whenIdle: whenIdle, busy: track,
+    // The raw loaders, for the UX layer's skeletons (BC.whenData).
+    loadIndex: BD.loadIndex, loadItem: BD.loadItem,
+    status: setStatus,
+    feature: BD.feature, sources: SITE.sources || [], retailReference: SITE.retail_reference || null,
+    itemById: itemById,
     itemChooser: itemChooser, rel: rel, evidenceStrip: evidenceStrip,
     valuationFor: valuationFor, catalogueStats: catalogueStats, canonicalId: canonicalId, go: go,
     money: money, exact: exact, range: range, confClass: confClass, era: era, isVintage: isVintage,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,
-    feature: feature, membership: DATA.membership || {},
+    membership: SITE.membership || {},
     business: BUSINESS, affiliate: affiliate, affiliateLink: affiliateLink, businessEnabled: businessEnabled,
     shopEnabled: shopEnabled, shopPromo: shopPromo,
     hasImage: hasImage, imageHtml: imageHtml, imageCredit: imageCredit,

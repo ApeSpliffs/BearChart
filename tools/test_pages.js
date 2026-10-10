@@ -91,7 +91,7 @@ function showAll(p) {
  */
 function pickItem(p, selectId, itemId) {
   const select = p.doc.getElementById(selectId);
-  const item = p.win.BEARCHART_DATA.items.find((i) => i.id === itemId);
+  const item = p.data.items.find((i) => i.id === itemId);
   assert.ok(item, 'fixture has no item ' + itemId);
   if (select.refill) select.refill(item.canonical_name);
   select.value = itemId;
@@ -183,108 +183,167 @@ function fixtureJson() {
   return FIXTURE_JSON;
 }
 
-function renderPage(file, url, opts) {
+/**
+ * The browser's data files for a catalogue (tools/build_assets.js), built in
+ * memory and memoised per catalogue: the same site-config, index, listings and
+ * per-item files a deploy serves, so a page under test makes exactly the
+ * requests it makes in production.
+ */
+const ASSETS = require('./build_assets.js');
+const ENGINE = require('../engine.js');
+const ASSET_CACHE = new Map();
+function assetsFor(json) {
+  if (ASSET_CACHE.has(json)) return ASSET_CACHE.get(json);
+  const data = JSON.parse(json);
+  const ctx = ASSETS.context(data, ENGINE);
+  const indexText = JSON.stringify(ASSETS.buildIndex(data, ENGINE, ctx));
+  const listingsText = JSON.stringify(ASSETS.buildListings(data));
+  const manifest = {
+    index: 'data/h/index.' + ASSETS.sha12(indexText) + '.json',
+    listings: 'data/h/listings.' + ASSETS.sha12(listingsText) + '.json'
+  };
+  const cfg = ASSETS.buildSiteConfig(data, manifest, ASSETS.buildStats(data, ENGINE, ctx));
+  const shards = new Map();
+  const a = {
+    data, cfg, cfgJs: ASSETS.siteConfigJs(cfg),
+    /** The body served at `url` (relative to the site root), or null for a 404. */
+    body(url) {
+      if (url === manifest.index) return indexText;
+      if (url === manifest.listings) return listingsText;
+      const m = /^data\/items\/([^/]+)\.json$/.exec(url);
+      if (!m) return null;
+      const id = decodeURIComponent(m[1]);
+      if (!shards.has(id)) {
+        const s = ASSETS.buildShard(data, id, ctx);
+        shards.set(id, s ? JSON.stringify(s) : null);
+      }
+      return shards.get(id);
+    }
+  };
+  if (ASSET_CACHE.size > 6) ASSET_CACHE.delete(ASSET_CACHE.keys().next().value);
+  ASSET_CACHE.set(json, a);
+  return a;
+}
+
+/**
+ * Load one page with its scripts executed, collecting anything that would have
+ * shown up as a console error or an uncaught exception in a browser. Resolves
+ * once the page's data has loaded and rendered (BC.whenIdle).
+ *
+ *   opts.full        the whole shipped catalogue instead of the fixture
+ *   opts.mutate(d)   edit a private copy of the catalogue first
+ *   opts.afterScript(src, win)   hook after each script
+ *   opts.transport(url, serve)   replace the data transport (serve(url) is the default)
+ *   opts.plain       no resource loader and no script-timeout override (the
+ *                    auth tests drive their own Supabase client)
+ *
+ * The result carries `requests`: every data URL the page asked for, in order.
+ */
+async function renderPage(file, url, opts) {
+  opts = opts || {};
   const errors = [];
   const vc = new VirtualConsole();
   vc.on('jsdomError', (e) => errors.push(e.message + '\n' + (e.stack || '')));
   vc.on('error', (...args) => errors.push('console.error: ' + args.join(' ')));
-  vc.on('warn', (...args) => errors.push('console.warn: ' + args.join(' ')));
+  vc.on('warn', (...args) => {
+    const msg = args.join(' ');
+    // The no-network fallback this harness forces on purpose (the Supabase
+    // client cannot load here, see __BEARCHART_SCRIPT_TIMEOUT_MS). Now that a
+    // render waits for its data, that timeout lands inside the test.
+    if (/^BearChart auth unavailable, continuing anonymously: timed out loading vendor\//.test(msg)) return;
+    errors.push('console.warn: ' + msg);
+  });
 
-  // Stop jsdom from running inline scripts while it parses.
-  //
-  // In a browser a classic <script src> blocks the parser, so about.html's
-  // inline script is guaranteed to run after common.js has defined BC. jsdom
-  // does not fetch those src scripts here, so the inline one would otherwise
-  // run first and die on an undefined BC. This used to pass only because the
-  // old resource loader left those fetches pending forever, which deferred the
-  // inline script as a side effect - and was also what hung the suite.
-  //
-  // Neutralising the type here and running every script below in document
-  // order gets the browser's ordering guarantee back, without depending on a
-  // fetch that never returns.
+  // Stop jsdom from running inline scripts while it parses (none ship - the
+  // CSP forbids them - but a test page may carry one); they run below, after
+  // every external script, as a browser's parser-blocking order would have it.
   const html = fs.readFileSync(path.join(ROOT, file), 'utf8')
     .replace(/<script(?![^>]*\bsrc=)([^>]*)>/gi, '<script$1 type="application/x-deferred">');
 
-  const dom = track(new JSDOM(html, {
+  const dom = track(new JSDOM(html, Object.assign({
     url: 'http://localhost:5173/' + (url || file),
     runScripts: 'dangerously',
-    resources: new OfflineLoader(),
     virtualConsole: vc,
     pretendToBeVisual: true
-  }));
+  }, opts.plain ? {} : { resources: new OfflineLoader() })));
 
   // There is no network here, so the Supabase client script can never load.
   // Production waits 8 seconds before giving up - right for a browser on a slow
-  // connection, ruinous across 150 renders. The fallback path is what we want to
-  // exercise; we just do not want to wait for it. Set on the window rather than
-  // in BEARCHART_DATA, so the shipped data stays byte-identical to data.json.
-  dom.window.__BEARCHART_SCRIPT_TIMEOUT_MS = 5;
+  // connection, ruinous across 150 renders.
+  if (!opts.plain) dom.window.__BEARCHART_SCRIPT_TIMEOUT_MS = 5;
+
+  let json = opts.full ? JSON.stringify(loadData()) : fixtureJson();
+  if (opts.mutate) {
+    const d = JSON.parse(json);
+    opts.mutate(d);
+    json = JSON.stringify(d);
+  }
+  const assets = assetsFor(json);
+  const requests = [];
+  const win = dom.window;
+  const serve = (u) => {
+    const body = assets.body(u);
+    if (body === null) {
+      return Promise.reject(win.BearChartData.DataUnavailableError('404 ' + u, { status: 404 }));
+    }
+    return Promise.resolve(win.JSON.parse(body));   // objects of the page's realm
+  };
+  const transport = (u) => {
+    u = String(u).replace(/^(\.\.\/)+/, '');
+    requests.push(u);
+    return opts.transport ? opts.transport(u, serve) : serve(u);
+  };
 
   // jsdom will not fetch local scripts for us here, so execute them in order,
   // exactly as the browser would.
-  const scripts = Array.from(dom.window.document.querySelectorAll('script'));
-  for (const el of scripts) {
-    const src = el.getAttribute('src');
-
-    // A deferred inline script: run it now that everything before it has run.
-    if (!src) {
-      try {
-        dom.window.eval(el.textContent);
-      } catch (e) {
-        errors.push('inline script in ' + file + ': ' + e.message);
-      }
-      continue;
-    }
-    // Anything remote (the webfont) is not this suite's business.
-    if (/^https?:/i.test(src)) continue;
-    // Skip the 2.4MB generated data.js entirely and hand the window a parsed
-    // fixture. Re-parsing that file for each of 150 renders was, on its own,
-    // about a quarter of the suite's runtime.
-    if (src === 'data.js' && !(opts && opts.full)) {
-      let json = fixtureJson();
-      // A test that needs a record the shipped data does not have (an
-      // operator sale, a stale item) edits a private copy of the fixture.
-      if (opts && opts.mutate) {
-        const data = JSON.parse(json);
-        opts.mutate(data);
-        json = JSON.stringify(data);
-      }
-      dom.window.eval('window.BEARCHART_DATA = JSON.parse(' + JSON.stringify(json) + ');');
-      continue;
-    }
-    const code = fs.readFileSync(path.join(ROOT, src), 'utf8');
+  for (const el of Array.from(win.document.querySelectorAll('script'))) {
+    const src0 = el.getAttribute('src');
+    if (!src0) continue;
+    if (/^https?:/i.test(src0)) continue;          // anything remote is not this suite's business
+    const src = src0.replace(/^(\.\.\/)+/, '');
     try {
-      dom.window.eval(code);
+      // site-config.js is generated; serve the one built from this catalogue.
+      win.eval(src === 'site-config.js' ? assets.cfgJs : fs.readFileSync(path.join(ROOT, src), 'utf8'));
     } catch (e) {
       errors.push('while running ' + src + ': ' + e.message + '\n' + e.stack);
     }
-    if (opts && opts.afterScript) opts.afterScript(src, dom.window);
-
+    if (src === 'bc-data.js' && win.BearChartData) win.BearChartData._setTransport(transport);
+    if (opts.afterScript) opts.afterScript(src, win);
   }
-  // Inline scripts (about.html uses one) run after the external ones.
-  for (const el of dom.window.document.querySelectorAll('script:not([src])')) {
+  for (const el of win.document.querySelectorAll('script:not([src])')) {
+    if (el.getAttribute('type') === 'application/ld+json') continue;
     try {
-      dom.window.eval(el.textContent);
+      win.eval(el.textContent);
     } catch (e) {
       errors.push('inline script: ' + e.message + '\n' + e.stack);
     }
   }
 
-  return { dom, doc: dom.window.document, win: dom.window, errors };
+  await settle(win);
+  return { dom, doc: win.document, win, errors, requests, data: assets.data, cfg: assets.cfg };
 }
+
+/** Wait until every BC.withCatalogue / BC.withItem the page started has rendered. */
+async function settle(win) {
+  if (win.BC && win.BC.whenIdle) await win.BC.whenIdle();
+  await new Promise((r) => setTimeout(r, 0));
+}
+
+const ROOT_JS_FILES = () => fs.readdirSync(ROOT)
+  .filter((f) => f.endsWith('.js') && !['site-config.js', 'sw.js'].includes(f)).sort();
 
 const noErrors = (p) => assert.deepStrictEqual(p.errors, [], p.errors.join('\n---\n'));
 
 // ---- index -----------------------------------------------------------------
 
-test('the price guide renders without errors', () => {
-  const p = renderPage('index.html');
+test('the price guide renders without errors', async () => {
+  const p = await renderPage('index.html');
   noErrors(p);
 });
 
-test('the price guide shows a page of cards, not the whole catalogue', () => {
-  const p = renderPage('index.html');
-  const total = p.win.BEARCHART_DATA.items.length;
+test('the price guide shows a page of cards, not the whole catalogue', async () => {
+  const p = await renderPage('index.html');
+  const total = p.data.items.length;
   const first = p.doc.querySelectorAll('#results .card');
   assert.ok(first.length < total, 'the first screen should not hold every item');
   assert.strictEqual(p.doc.getElementById('show-more').hidden, false);
@@ -292,23 +351,23 @@ test('the price guide shows a page of cards, not the whole catalogue', () => {
     new RegExp('of ' + total + ' matching'));
 });
 
-test('"show more" eventually lists every item as a card', () => {
-  const p = renderPage('index.html');
+test('"show more" eventually lists every item as a card', async () => {
+  const p = await renderPage('index.html');
   const cards = showAll(p);
-  assert.strictEqual(cards.length, p.win.BEARCHART_DATA.items.length);
+  assert.strictEqual(cards.length, p.data.items.length);
   assert.strictEqual(p.doc.getElementById('show-more').hidden, true);
 });
 
-test('the guide opens on a dozen bears, not the whole catalogue', () => {
+test('the guide opens on a dozen bears, not the whole catalogue', async () => {
   // Arriving and using are different jobs. A dozen is a shelf you can take in;
   // on a phone, one column, sixty cards was a page 64,000 pixels tall.
-  const p = renderPage('index.html');
+  const p = await renderPage('index.html');
   assert.strictEqual(p.doc.querySelectorAll('#results .card').length, 12);
   assert.match(p.doc.getElementById('show-more').textContent, /^Show 12 more/);
 });
 
-test('searching brings up more, and paging restarts', () => {
-  const p = renderPage('index.html');
+test('searching brings up more, and paging restarts', async () => {
+  const p = await renderPage('index.html');
   showAll(p);
   const q = p.doc.getElementById('q');
   q.value = 'bear';
@@ -324,8 +383,8 @@ test('searching brings up more, and paging restarts', () => {
   }, 200));
 });
 
-test('filtering also brings up more, and resetting goes back to a dozen', () => {
-  const p = renderPage('index.html');
+test('filtering also brings up more, and resetting goes back to a dozen', async () => {
+  const p = await renderPage('index.html');
   const box = p.doc.querySelector('#filters input[type="checkbox"][data-group="category"]');
   assert.ok(box, 'expected a category filter');
   box.checked = true;
@@ -335,7 +394,7 @@ test('filtering also brings up more, and resetting goes back to a dozen', () => 
   // counter reads "34 of 266 items", and a regex for /of (\d+)/ picks up the
   // size of the whole catalogue instead of the size of the result.
   const value = box.getAttribute('value');
-  const matching = p.win.BEARCHART_DATA.items.filter((i) => i.category === value).length;
+  const matching = p.data.items.filter((i) => i.category === value).length;
   const shown = p.doc.querySelectorAll('#results .card').length;
   assert.strictEqual(shown, Math.min(48, matching));
   assert.ok(matching > 12, 'pick a category with enough items to prove the point');
@@ -344,23 +403,23 @@ test('filtering also brings up more, and resetting goes back to a dozen', () => 
   assert.strictEqual(p.doc.querySelectorAll('#results .card').length, 12);
 });
 
-test('the masthead, disclaimer and footer are present', () => {
-  const p = renderPage('index.html');
+test('the masthead, disclaimer and footer are present', async () => {
+  const p = await renderPage('index.html');
   assert.match(p.doc.getElementById('masthead').textContent, /BearChart/);
   assert.match(p.doc.getElementById('disclaimer-bar').textContent,
     /not affiliated with Build-A-Bear Workshop/);
   assert.match(p.doc.getElementById('site-footer').textContent, /Jay's Retro Exchange/);
 });
 
-test('filters are built with counts', () => {
-  const p = renderPage('index.html');
+test('filters are built with counts', async () => {
+  const p = await renderPage('index.html');
   const boxes = p.doc.querySelectorAll('#filters input[type=checkbox]');
   assert.ok(boxes.length > 20, 'expected a full filter set, got ' + boxes.length);
   assert.ok(p.doc.querySelectorAll('#filters .count').length > 20);
 });
 
-test('search narrows the results', () => {
-  const p = renderPage('index.html');
+test('search narrows the results', async () => {
+  const p = await renderPage('index.html');
   const before = p.doc.querySelectorAll('#results .card').length;
   const q = p.doc.getElementById('q');
   q.value = 'axolotl';
@@ -369,7 +428,7 @@ test('search narrows the results', () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const after = p.doc.querySelectorAll('#results .card').length;
-               const total = p.win.BEARCHART_DATA.items.length;
+               const total = p.data.items.length;
          assert.ok(after > 0 && after < total, 'axolotl search returned ' + after + ' of ' + total);
       assert.match(p.doc.querySelector('#results .card').textContent, /Axolotl/i);
       resolve();
@@ -377,8 +436,8 @@ test('search narrows the results', () => {
   });
 });
 
-test('an alias finds its item', () => {
-  const p = renderPage('index.html');
+test('an alias finds its item', async () => {
+  const p = await renderPage('index.html');
   const q = p.doc.getElementById('q');
   q.value = 'original brown teddy';
   q.dispatchEvent(new p.win.Event('input'));
@@ -390,9 +449,9 @@ test('an alias finds its item', () => {
   });
 });
 
-test('a filter checkbox narrows the results', () => {
-  const p = renderPage('index.html');
-  const items = p.win.BEARCHART_DATA.items;
+test('a filter checkbox narrows the results', async () => {
+  const p = await renderPage('index.html');
+  const items = p.data.items;
   const box = p.doc.querySelector('#filters input[data-group="flag"][value="minibean"]');
   assert.ok(box, 'expected a Mini Beans filter');
   box.checked = true;
@@ -409,30 +468,30 @@ test('a filter checkbox narrows the results', () => {
     Math.min(48, expected));
 });
 
-test('sorting by price puts the most valuable item first and unpriced items last', () => {
-  const p = renderPage('index.html');
+test('sorting by price puts the most valuable item first and unpriced items last', async () => {
+  const p = await renderPage('index.html');
   const sort = p.doc.getElementById('sort');
   sort.value = 'price-desc';
   sort.dispatchEvent(new p.win.Event('change'));
   const cards = showAll(p);
        // Whichever item the engine values highest should lead, not one fixed bear.
-          const top = p.win.BEARCHART_DATA.items
+          const top = p.data.items
        .map((i) => [i.canonical_name, (p.win.BC.valuationFor(i.id) || {}).fair_market || 0])
        .sort((a, b) => b[1] - a[1])[0];
      assert.ok(cards[0].textContent.includes(top[0]), 'expected ' + top[0] + ' first');
   assert.match(cards[cards.length - 1].textContent, /No sold data yet/);
 });
 
-test('sorting by year orders oldest first', () => {
-  const p = renderPage('index.html');
+test('sorting by year orders oldest first', async () => {
+  const p = await renderPage('index.html');
   const sort = p.doc.getElementById('sort');
   sort.value = 'oldest';
   sort.dispatchEvent(new p.win.Event('change'));
   assert.match(p.doc.querySelector('#results .card').textContent, /1997/);
 });
 
-test('items with no sold data say so instead of showing a price', () => {
-  const p = renderPage('index.html');
+test('items with no sold data say so instead of showing a price', async () => {
+  const p = await renderPage('index.html');
   const q = p.doc.getElementById('q');
   q.value = 'floppy kitty';
   q.dispatchEvent(new p.win.Event('input'));
@@ -446,15 +505,15 @@ test('items with no sold data say so instead of showing a price', () => {
   });
 });
 
-test('the stats bar reports the database size', () => {
-  const p = renderPage('index.html');
+test('the stats bar reports the database size', async () => {
+  const p = await renderPage('index.html');
   const stats = p.doc.getElementById('stats').textContent;
-  assert.match(stats, new RegExp(String(p.win.BEARCHART_DATA.items.length)));
+  assert.match(stats, new RegExp(String(p.data.items.length)));
   assert.match(stats, /Sold transactions/);
 });
 
-test('the hero and the unfiltered stats tile show the same sold-transactions figure', () => {
-  const p = renderPage('index.html');
+test('the hero and the unfiltered stats tile show the same sold-transactions figure', async () => {
+  const p = await renderPage('index.html');
   const hero = p.doc.getElementById('hero-proof').textContent;
   const m = /([\d,]+) sold transactions recorded/.exec(hero);
   assert.ok(m, hero);
@@ -468,30 +527,30 @@ test('the hero and the unfiltered stats tile show the same sold-transactions fig
     new RegExp(st.sold_transactions.toLocaleString('en-US') + ' sold transactions recorded'));
 });
 
-test('the quick calculator prices an item it has comps for', () => {
-  const p = renderPage('index.html');
+test('the quick calculator prices an item it has comps for', async () => {
+  const p = await renderPage('index.html');
   const sel = p.doc.getElementById('calc-item');
   sel.value = 'original-pumpkin-kitty';
   sel.dispatchEvent(new p.win.Event('change'));
   assert.match(p.doc.getElementById('calc-out').textContent, /\$/);
 });
 
-test('the calculator offers only items it can actually price', () => {
+test('the calculator offers only items it can actually price', async () => {
   // The refusal used to happen after you picked an unpriceable item. Now it
   // happens by never offering one: a menu of 1,980 dead ends is worse than a
   // short menu that works.
-  const p = renderPage('index.html');
+  const p = await renderPage('index.html');
   const offered = Array.from(p.doc.querySelectorAll('#calc-item option'))
     .map((o) => o.value).filter(Boolean);
   assert.ok(offered.length > 0);
-  const priceable = new Set(p.win.BEARCHART_DATA.items
+  const priceable = new Set(p.data.items
     .filter((i) => p.win.BC.valuationFor(i.id).has_value).map((i) => i.id));
   assert.strictEqual(offered.length, priceable.size);
   for (const id of offered) assert.ok(priceable.has(id), id + ' has no comps');
 });
 
-test('changing condition changes the calculated value', () => {
-  const p = renderPage('index.html');
+test('changing condition changes the calculated value', async () => {
+  const p = await renderPage('index.html');
   const sel = p.doc.getElementById('calc-item');
   sel.value = 'original-pumpkin-kitty';
   sel.dispatchEvent(new p.win.Event('change'));
@@ -504,14 +563,14 @@ test('changing condition changes the calculated value', () => {
 
 // ---- item page -------------------------------------------------------------
 
-test('an item page renders without errors', () => {
-  const p = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+test('an item page renders without errors', async () => {
+  const p = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
   noErrors(p);
   assert.match(p.doc.title, /Kennel Pals Calico Cat/);
 });
 
-test('an item page shows its valuation, reasoning and sold comps', () => {
-  const p = renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
+test('an item page shows its valuation, reasoning and sold comps', async () => {
+  const p = await renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
   const text = p.doc.getElementById('item-root').textContent;
   assert.match(text, /Estimated market value/);
   assert.match(text, /Why this value/);
@@ -522,20 +581,20 @@ test('an item page shows its valuation, reasoning and sold comps', () => {
   assert.match(text, /\$60/);
 });
 
-test('a fully sourced sale shows its provenance', () => {
-  const p = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+test('a fully sourced sale shows its provenance', async () => {
+  const p = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
   const text = p.doc.getElementById('item-root').textContent;
   assert.match(text, /2023-07-18/);
        assert.match(text, /364353106238/);
   assert.match(text, /completed sale/);
 });
 
-test('an item with no comps publishes no price', () => {
+test('an item with no comps publishes no price', async () => {
   // Asserts the GUARANTEE, not the wording. This used to match the heading
   // "No published value" and broke the moment that panel was rewritten - while
   // the rule it exists to protect was never in danger. A test pinned to a
   // sentence stops guarding anything the first time somebody edits the copy.
-  const p = renderPage('item.html', 'item.html?id=floppy-kitty');
+  const p = await renderPage('item.html', 'item.html?id=floppy-kitty');
   const root = p.doc.getElementById('item-root');
 
   assert.strictEqual(p.win.BC.valuationFor('floppy-kitty').has_value, false);
@@ -553,15 +612,15 @@ test('an item with no comps publishes no price', () => {
   assert.ok(unpriced.textContent.indexOf('$') === -1, unpriced.textContent);
 });
 
-test('per-condition medians are shown when grades differ', () => {
-  const p = renderPage('item.html', 'item.html?id=loveable-lamb');
+test('per-condition medians are shown when grades differ', async () => {
+  const p = await renderPage('item.html', 'item.html?id=loveable-lamb');
   const text = p.doc.getElementById('item-root').textContent;
   assert.match(text, /Sold price by condition/);
   assert.match(text, /204\.49/);
 });
 
-test('a sale by the operator is labelled as our store, never as "your own sale"', () => {
-  const p = renderPage('item.html', 'item.html?id=original-pumpkin-kitty', {
+test('a sale by the operator is labelled as our store, never as "your own sale"', async () => {
+  const p = await renderPage('item.html', 'item.html?id=original-pumpkin-kitty', {
     mutate: (d) => {
       const s = d.sales.find((x) => x.item_id === 'original-pumpkin-kitty');
       s.seller_is_operator = true;
@@ -572,14 +631,14 @@ test('a sale by the operator is labelled as our store, never as "your own sale"'
   assert.doesNotMatch(text, /Your own sale/);
 });
 
-test('valuations in the page carry their staleness and window', () => {
-  const p = renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
+test('valuations in the page carry their staleness and window', async () => {
+  const p = await renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
   const v = p.win.BC.valuationFor('original-pumpkin-kitty');
   for (const k of ['stale', 'stale_reason', 'last_sale_date', 'window',
                    'operator_count', 'sold_transactions']) {
     assert.ok(k in v, 'valuation is missing ' + k);
   }
-  assert.strictEqual(v.window.as_of, p.win.BEARCHART_DATA.config.recency.as_of);
+  assert.strictEqual(v.window.as_of, p.data.config.recency.as_of);
 });
 
 // ---- merged items ------------------------------------------------------------
@@ -591,23 +650,24 @@ function firstRedirect() {
   return [old, red[old]];
 }
 
-test('an old id of a merged item redirects to the item that absorbed it', () => {
+test('an old id of a merged item redirects to the item that absorbed it', async () => {
   const [oldId, newId] = firstRedirect();
   let went = null;
-  const p = renderPage('item.html', 'item.html?id=' + oldId, {
+  const p = await renderPage('item.html', 'item.html?id=' + oldId, {
     afterScript: (src, win) => {
       if (src === 'common.js') win.BC.go = (url) => { went = url; };
     }
   });
   assert.strictEqual(went, 'item/' + newId + '.html');
-  assert.strictEqual(p.win.BC.itemById(oldId).id, newId);
-  assert.strictEqual(p.win.BC.valuationFor(oldId), p.win.BC.valuationFor(newId));
+  assert.strictEqual(p.win.BC.canonicalId(oldId), newId);
+  assert.strictEqual(p.win.BearChartData.canonicalId(oldId), newId);
+  assert.deepStrictEqual(p.requests, [], 'it redirects before loading anything');
 });
 
-test('a collection entry stored under a merged id still renders and is migrated', () => {
+test('a collection entry stored under a merged id still renders and is migrated', async () => {
   const [oldId, newId] = firstRedirect();
   // Stored before common.js runs, as a returning visitor's browser would have it.
-  const p = renderPage('collection.html', null, {
+  const p = await renderPage('collection.html', null, {
     afterScript: (src, win) => {
       if (src !== 'config.js') return;
       win.localStorage.setItem('bearchart.collection', JSON.stringify([
@@ -630,26 +690,26 @@ test('a collection entry stored under a merged id still renders and is migrated'
   assert.ok(p.win.BC.itemById(coll[0].item_id));
 });
 
-test('a versioned item warns against merging versions', () => {
-  const p = renderPage('item.html', 'item.html?id=vanilla-fudge-bunny');
+test('a versioned item warns against merging versions', async () => {
+  const p = await renderPage('item.html', 'item.html?id=vanilla-fudge-bunny');
   assert.match(p.doc.getElementById('item-root').textContent, /versions or variants/);
 });
 
-test('the retail reference is shown but labelled as a baseline only', () => {
-  const p = renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
+test('the retail reference is shown but labelled as a baseline only', async () => {
+  const p = await renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
   const text = p.doc.getElementById('item-root').textContent;
   assert.match(text, /Retail reference/);
   assert.match(text, /never secondary-market value/);
 });
 
-test('an unknown item id fails gracefully', () => {
-  const p = renderPage('item.html', 'item.html?id=does-not-exist');
+test('an unknown item id fails gracefully', async () => {
+  const p = await renderPage('item.html', 'item.html?id=does-not-exist');
   noErrors(p);
   assert.match(p.doc.getElementById('item-root').textContent, /Item not found/);
 });
 
-test('the item calculator recalculates on condition change', () => {
-  const p = renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
+test('the item calculator recalculates on condition change', async () => {
+  const p = await renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
   const before = p.doc.getElementById('c-out').textContent;
   const cond = p.doc.getElementById('c-cond');
   cond.value = 'NWT';
@@ -657,22 +717,22 @@ test('the item calculator recalculates on condition change', () => {
   assert.notStrictEqual(p.doc.getElementById('c-out').textContent, before);
 });
 
-test('a price history chart is drawn only where dated sales support one', () => {
-  const withHistory = renderPage('item.html', 'item.html?id=loveable-lamb');
+test('a price history chart is drawn only where dated sales support one', async () => {
+  const withHistory = await renderPage('item.html', 'item.html?id=loveable-lamb');
   assert.match(withHistory.doc.getElementById('item-root').textContent,
     /no trend to chart yet/);
 });
 
 // ---- collection ------------------------------------------------------------
 
-test('the collection page renders and starts empty', () => {
-  const p = renderPage('collection.html');
+test('the collection page renders and starts empty', async () => {
+  const p = await renderPage('collection.html');
   noErrors(p);
   assert.match(p.doc.getElementById('collection-body').textContent, /collection is empty/);
 });
 
-test('adding an item to the collection totals it', () => {
-  const p = renderPage('collection.html');
+test('adding an item to the collection totals it', async () => {
+  const p = await renderPage('collection.html');
   pickItem(p, 'add-item', 'kennel-pals-calico-cat');
   p.doc.getElementById('add-qty').value = '2';
   p.doc.getElementById('add-btn').dispatchEvent(new p.win.Event('click'));
@@ -686,8 +746,8 @@ test('adding an item to the collection totals it', () => {
 
 // ---- admin -----------------------------------------------------------------
 
-test('the admin dashboard renders its counts and gap lists', () => {
-  const p = renderPage('admin.html');
+test('the admin dashboard renders its counts and gap lists', async () => {
+  const p = await renderPage('admin.html');
   noErrors(p);
   const stats = p.doc.getElementById('admin-stats').textContent;
   assert.match(stats, /Total items/);
@@ -701,8 +761,8 @@ test('the admin dashboard renders its counts and gap lists', () => {
   assert.ok(newest, 'expected at least one dated, sourced sale');
   assert.match(p.doc.getElementById('recent').textContent, new RegExp(newest.sale_date));});
 
-test('admin refuses a completed_sale without full provenance', () => {
-  const p = renderPage('admin.html');
+test('admin refuses a completed_sale without full provenance', async () => {
+  const p = await renderPage('admin.html');
   pickItem(p, 's-item', 'classic-brown-teddy');
   p.doc.getElementById('s-price').value = '25';
   p.doc.getElementById('s-evidence').value = 'completed_sale';
@@ -713,8 +773,8 @@ test('admin refuses a completed_sale without full provenance', () => {
   assert.match(p.doc.getElementById('draft-body').textContent, /Nothing pending/);
 });
 
-test('admin accepts a fully sourced sale', () => {
-  const p = renderPage('admin.html');
+test('admin accepts a fully sourced sale', async () => {
+  const p = await renderPage('admin.html');
   pickItem(p, 's-item', 'classic-brown-teddy');
   p.doc.getElementById('s-price').value = '25';
   p.doc.getElementById('s-date').value = '2026-01-15';
@@ -726,8 +786,8 @@ test('admin accepts a fully sourced sale', () => {
   assert.match(p.doc.getElementById('draft-body').textContent, /Classic Brown Teddy/);
 });
 
-test('admin rejects a zero or missing price', () => {
-  const p = renderPage('admin.html');
+test('admin rejects a zero or missing price', async () => {
+  const p = await renderPage('admin.html');
   pickItem(p, 's-item', 'classic-brown-teddy');
   p.doc.getElementById('s-price').value = '0';
   p.doc.getElementById('s-add').dispatchEvent(new p.win.Event('click'));
@@ -736,8 +796,8 @@ test('admin rejects a zero or missing price', () => {
 
 // ---- method page -----------------------------------------------------------
 
-test('the method page renders and states the governing rule', () => {
-  const p = renderPage('about.html');
+test('the method page renders and states the governing rule', async () => {
+  const p = await renderPage('about.html');
   noErrors(p);
   const text = p.doc.body.textContent;
   assert.match(text, /Completed sold transactions outrank active asking prices/);
@@ -747,7 +807,7 @@ test('the method page renders and states the governing rule', () => {
 
 // ---- cross-page integrity --------------------------------------------------
 
-test('every internal link and asset reference resolves to a real file', () => {
+test('every internal link and asset reference resolves to a real file', async () => {
   const pages = ['index.html', 'item.html', 'collection.html', 'admin.html', 'about.html'];
   for (const page of pages) {
     // Strip inline scripts first: markup built inside JS strings is not a link.
@@ -762,9 +822,9 @@ test('every internal link and asset reference resolves to a real file', () => {
   }
 });
 
-test('every item card links to a page that resolves', () => {
-  const p = renderPage('index.html');
-  const ids = new Set(p.win.BEARCHART_DATA.items.map((i) => i.id));
+test('every item card links to a page that resolves', async () => {
+  const p = await renderPage('index.html');
+  const ids = new Set(p.data.items.map((i) => i.id));
   const cards = p.doc.querySelectorAll('#results .card');
   assert.ok(cards.length > 0);
   for (const a of cards) {
@@ -781,51 +841,137 @@ test('every item card links to a page that resolves', () => {
   }
 });
 
-test('the old query-string item url still works', () => {
+test('the old query-string item url still works', async () => {
   // Links people saved before the generated pages existed must not rot.
-  const p = renderPage('item.html', 'item.html?id=classic-brown-teddy');
+  const p = await renderPage('item.html', 'item.html?id=classic-brown-teddy');
   assert.match(p.doc.getElementById('item-root').textContent, /Classic Brown Teddy/);
 });
 
-test('the CSV export builds a header and one row per item', () => {
-  const p = renderPage('index.html');
-  const csv = p.win.BC.itemsCsv(p.win.BEARCHART_DATA.items);
+test('the CSV export builds a header and one row per item', async () => {
+  const p = await renderPage('index.html');
+  const csv = p.win.BC.itemsCsv(p.data.items);
   const lines = csv.trim().split('\r\n');
-  assert.strictEqual(lines.length, p.win.BEARCHART_DATA.items.length + 1);
+  assert.strictEqual(lines.length, p.data.items.length + 1);
   assert.match(lines[0], /^id,canonical_name,aliases/);
   assert.match(lines[0], /confidence/);
 });
 
-test('the sales CSV keeps provenance columns', () => {
-  const p = renderPage('index.html');
-  const csv = p.win.BC.salesCsv(p.win.BEARCHART_DATA.items);
+test('the sales CSV keeps provenance columns', async () => {
+  const p = await renderPage('index.html');
+  // Pure: the caller passes the sales it loaded (item files), keyed by item.
+  const byId = {};
+  for (const sale of p.data.sales) (byId[sale.item_id] = byId[sale.item_id] || []).push(sale);
+  const csv = p.win.BC.salesCsv(p.data.items, byId);
   assert.match(csv.split('\r\n')[0], /listing_id/);
   assert.match(csv, /364353106238/);
-  assert.strictEqual(csv.trim().split('\r\n').length, p.win.BEARCHART_DATA.sales.length + 1);
+  assert.strictEqual(csv.trim().split('\r\n').length, p.data.sales.length + 1);
 });
 
-test('CSV values containing commas are quoted', () => {
-  const p = renderPage('index.html');
+test('CSV values containing commas are quoted', async () => {
+  const p = await renderPage('index.html');
   const csv = p.win.BC.toCsv([['a', 'b,c', 'd"e']]);
   assert.strictEqual(csv.trim(), 'a,"b,c","d""e"');
 });
 
-test('data.js and data.json carry identical content', () => {
-  const json = JSON.parse(fs.readFileSync(path.join(ROOT, 'data.json'), 'utf8'));
-  const p = renderPage('index.html', null, { full: true });
-  // Re-parse across the realm boundary: jsdom objects carry a different
-  // Object prototype, which deepStrictEqual would otherwise reject.
-  const fromJs = JSON.parse(JSON.stringify(p.win.BEARCHART_DATA));
-  assert.deepStrictEqual(fromJs, json);
+// ---- data delivery (bc-data.js, tools/build_assets.js) ----------------------
+
+test('the price guide loads the catalogue index and nothing else', async () => {
+  const p = await renderPage('index.html');
+  assert.deepStrictEqual(p.requests, [p.cfg.data.index]);
+  noErrors(p);
+});
+
+test('the price guide never runs the valuation engine on load', async () => {
+  let calls = 0;
+  const p = await renderPage('index.html', null, { afterScript: (src, win) => {
+    if (src !== 'engine.js') return;
+    const real = win.BearChartEngine.valuate;
+    win.BearChartEngine.valuate = function () { calls += 1; return real.apply(this, arguments); };
+  } });
+  assert.ok(p.doc.querySelectorAll('#results .card').length > 0);
+  assert.strictEqual(calls, 0, 'list pages read the build\'s summaries');
+});
+
+test('an item page makes exactly one data request: its own file', async () => {
+  const p = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+  assert.deepStrictEqual(p.requests, ['data/items/kennel-pals-calico-cat.json']);
+  noErrors(p);
+});
+
+test('a generated item page resolves its file from the parent directory', async () => {
+  const p = await renderPage('item.html', 'item/kennel-pals-calico-cat.html');
+  assert.deepStrictEqual(p.requests, ['data/items/kennel-pals-calico-cat.json']);
+  assert.strictEqual(p.win.BearChartData.rel('data/x.json'), '../data/x.json');
+  assert.match(p.doc.getElementById('item-root').textContent, /Kennel Pals Calico Cat/i);
+});
+
+test('the deal finder loads the index and the listings', async () => {
+  const p = await renderPage('deals.html');
+  assert.deepStrictEqual(p.requests.slice().sort(), [p.cfg.data.index, p.cfg.data.listings].sort());
+});
+
+test('config-only pages make no data request at all', async () => {
+  for (const page of ['about.html', 'plans.html', 'privacy.html', 'terms.html', 'account.html', 'roadmap.html']) {
+    const p = await renderPage(page);
+    assert.deepStrictEqual(p.requests, [], page);
+    noErrors(p);
+  }
+});
+
+test('offline, an unvisited bear is priced from the index summary', async () => {
+  // The item file is not cached and the network is gone; the cached index is.
+  const p = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat', {
+    transport: (url, serve) => (/^data\/items\//.test(url)
+      ? Promise.reject(Object.assign(new Error('offline'), { offline: true }))
+      : serve(url))
+  });
+  noErrors(p);
+  const text = p.doc.getElementById('item-root').textContent;
+  const v = p.win.BearChartData.config();   // still configured
+  assert.ok(v);
+  assert.match(text, /Estimated market value/);
+  assert.match(text, /connect/i, 'it says the comps need a connection');
+  assert.strictEqual(p.requests.length, 2);
+});
+
+test('a missing item file says the bear was not found', async () => {
+  const p = await renderPage('item.html', 'item.html?id=no-such-bear-anywhere');
+  assert.match(p.doc.getElementById('item-root').textContent, /Item not found/);
+  assert.deepStrictEqual(p.requests, ['data/items/no-such-bear-anywhere.json']);
+});
+
+test('when the catalogue cannot load, the page says so and offers a retry', async () => {
+  let fail = true;
+  const p = await renderPage('index.html', null, {
+    transport: (url, serve) => (fail
+      ? Promise.reject(Object.assign(new Error('offline'), { offline: true }))
+      : serve(url))
+  });
+  const err = p.doc.querySelector('[data-bc-error]');
+  assert.ok(err, 'an error panel');
+  assert.match(err.textContent, /Couldn't load the price guide/);
+  assert.strictEqual(p.doc.documentElement.getAttribute('data-bc-data'), 'error');
+  fail = false;
+  err.querySelector('button').dispatchEvent(new p.win.Event('click'));
+  await settle(p.win);
+  assert.ok(p.doc.querySelectorAll('#results .card').length > 0, 'the retry renders the guide');
+  assert.strictEqual(p.doc.documentElement.getAttribute('data-bc-data'), 'ready');
+});
+
+test('pages never touch a global data blob', () => {
+  for (const f of ROOT_JS_FILES()) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    assert.doesNotMatch(src, /BEARCHART_DATA/, f);
+  }
 });
 
 // ---- images ----------------------------------------------------------------
 
-test('every card renders a picture, falling back to a generated placeholder', () => {
-  const p = renderPage('index.html');
+test('every card renders a picture, falling back to a generated placeholder', async () => {
+  const p = await renderPage('index.html');
   showAll(p);
   const imgs = p.doc.querySelectorAll('#results .card img.thumb');
-  assert.strictEqual(imgs.length, p.win.BEARCHART_DATA.items.length);
+  assert.strictEqual(imgs.length, p.data.items.length);
   // Nothing ships with a photo yet, so all of these are placeholders.
   for (const img of imgs) {
     assert.ok(img.getAttribute('src').startsWith('data:image/svg+xml'),
@@ -833,16 +979,16 @@ test('every card renders a picture, falling back to a generated placeholder', ()
   }
 });
 
-test('a placeholder is decorative and carries no alt text', () => {
-  const p = renderPage('index.html');
+test('a placeholder is decorative and carries no alt text', async () => {
+  const p = await renderPage('index.html');
   const img = p.doc.querySelector('#results .card img.thumb');
   assert.strictEqual(img.getAttribute('alt'), '');
   assert.strictEqual(img.getAttribute('aria-hidden'), 'true');
   assert.ok(img.classList.contains('is-placeholder'));
 });
 
-test('illustrations are deterministic per item and differ between items', () => {
-  const p = renderPage('index.html');
+test('illustrations are deterministic per item and differ between items', async () => {
+  const p = await renderPage('index.html');
   const tile = (id, species) =>
     p.win.BC.placeholderImage({ id: id, canonical_name: 'X', species: species });
   assert.strictEqual(tile('alpha', 'Bear'), tile('alpha', 'Bear'),
@@ -853,8 +999,8 @@ test('illustrations are deterministic per item and differ between items', () => 
     'a bear and a cat should not draw the same picture');
 });
 
-test('a real photo renders with alt text and an error fallback', () => {
-  const p = renderPage('index.html');
+test('a real photo renders with alt text and an error fallback', async () => {
+  const p = await renderPage('index.html');
   const html = p.win.BC.imageHtml({
     id: 'x', canonical_name: 'Lucky Kitty', image_url: '/images/lucky.jpg'
   }, 'hero');
@@ -867,23 +1013,23 @@ test('a real photo renders with alt text and an error fallback', () => {
   assert.match(html, /loading="lazy"/);
 });
 
-test('image markup escapes a hostile url or name', () => {
-  const p = renderPage('index.html');
+test('image markup escapes a hostile url or name', async () => {
+  const p = await renderPage('index.html');
   const html = p.win.BC.imageHtml({
     id: 'x', canonical_name: '"><script>bad()</script>', image_url: '"><script>bad()</script>'
   }, 'hero');
   assert.doesNotMatch(html, /<script>/);
 });
 
-test('an item page shows a hero image and says when no photo is on file', () => {
-  const p = renderPage('item.html', 'item.html?id=lucky-kitty');
+test('an item page shows a hero image and says when no photo is on file', async () => {
+  const p = await renderPage('item.html', 'item.html?id=lucky-kitty');
   const hero = p.doc.querySelector('.item-hero img.hero');
   assert.ok(hero, 'expected a hero image');
   assert.match(p.doc.getElementById('item-root').textContent, /No photo on file/);
 });
 
-test('a photo credit is shown only when an image exists', () => {
-  const p = renderPage('index.html');
+test('a photo credit is shown only when an image exists', async () => {
+  const p = await renderPage('index.html');
   assert.strictEqual(p.win.BC.imageCredit({ id: 'x', canonical_name: 'A' }), '');
   const credited = p.win.BC.imageCredit({
     id: 'x', canonical_name: 'A', image_url: '/a.jpg',
@@ -893,14 +1039,14 @@ test('a photo credit is shown only when an image exists', () => {
   assert.match(credited, /example\.com/);
 });
 
-test('admin reports photo coverage and lists items without one', () => {
-  const p = renderPage('admin.html');
+test('admin reports photo coverage and lists items without one', async () => {
+  const p = await renderPage('admin.html');
   assert.match(p.doc.getElementById('admin-stats').textContent, /Items with a photo/);
   assert.match(p.doc.getElementById('quality').textContent, /Items with no photo/);
 });
 
-test('admin refuses official Build-A-Bear imagery', () => {
-  const p = renderPage('admin.html');
+test('admin refuses official Build-A-Bear imagery', async () => {
+  const p = await renderPage('admin.html');
   pickItem(p, 'p-item', 'lucky-kitty');
   p.doc.getElementById('p-url').value = 'https://www.buildabear.com/dw/image/bear.jpg';
   p.doc.getElementById('p-add').dispatchEvent(new p.win.Event('click'));
@@ -908,8 +1054,8 @@ test('admin refuses official Build-A-Bear imagery', () => {
   assert.match(p.doc.getElementById('draft-body').textContent, /Nothing pending/);
 });
 
-test('admin queues a permitted photo and previews it', () => {
-  const p = renderPage('admin.html');
+test('admin queues a permitted photo and previews it', async () => {
+  const p = await renderPage('admin.html');
   pickItem(p, 'p-item', 'lucky-kitty');
   const url = p.doc.getElementById('p-url');
   url.value = '/images/lucky-kitty.jpg';
@@ -923,29 +1069,20 @@ test('admin queues a permitted photo and previews it', () => {
   assert.match(draft, /Lucky Kitty/);
 });
 
-test('the items CSV carries an image_url column', () => {
-  const p = renderPage('index.html');
-  assert.match(p.win.BC.itemsCsv(p.win.BEARCHART_DATA.items).split('\r\n')[0], /image_url/);
+test('the items CSV carries an image_url column', async () => {
+  const p = await renderPage('index.html');
+  assert.match(p.win.BC.itemsCsv(p.data.items).split('\r\n')[0], /image_url/);
 });
 
 // ---- asking prices ---------------------------------------------------------
 
 /** Render an item page with synthetic active listings injected into the data. */
-function renderWithListings(itemId, listings) {
-  const data = JSON.parse(JSON.stringify(loadData()));
-  data.active_listings = listings;
-  data.active_listings_fetched_at = '2026-09-08T12:00:00Z';
-
-  const html = fs.readFileSync(path.join(ROOT, 'item.html'), 'utf8');
-  const dom = track(new JSDOM(html, {
-    url: 'http://localhost:5173/item.html?id=' + itemId,
-    runScripts: 'dangerously', pretendToBeVisual: true
-  }));
-  dom.window.BEARCHART_DATA = data;
-  for (const src of ['sanitize.js', 'engine.js', 'common.js', 'item.js']) {
-    dom.window.eval(fs.readFileSync(path.join(ROOT, src), 'utf8'));
-  }
-  return dom.window.document;
+async function renderWithListings(itemId, listings) {
+  const p = await renderPage('item.html', 'item.html?id=' + itemId, { mutate: (data) => {
+    data.active_listings = listings;
+    data.active_listings_fetched_at = '2026-09-08T12:00:00Z';
+  } });
+  return p.doc;
 }
 
 const listing = (id, price, extra) => Object.assign({
@@ -955,8 +1092,8 @@ const listing = (id, price, extra) => Object.assign({
   source_url: 'https://www.ebay.com/itm/' + id
 }, extra || {});
 
-test('an item page shows asking prices in their own clearly marked panel', () => {
-  const doc = renderWithListings('original-pumpkin-kitty',
+test('an item page shows asking prices in their own clearly marked panel', async () => {
+  const doc = await renderWithListings('original-pumpkin-kitty',
     [listing(1, 90), listing(2, 100), listing(3, 110)]);
   const text = doc.getElementById('item-root').textContent;
   assert.match(text, /Current asking prices/);
@@ -964,8 +1101,8 @@ test('an item page shows asking prices in their own clearly marked panel', () =>
   assert.match(text, /none of these affect the valuation/i);
 });
 
-test('the asking panel reports the ask-vs-sold spread', () => {
-  const doc = renderWithListings('original-pumpkin-kitty',
+test('the asking panel reports the ask-vs-sold spread', async () => {
+  const doc = await renderWithListings('original-pumpkin-kitty',
     [listing(1, 90), listing(2, 100), listing(3, 110)]);
   const text = doc.getElementById('item-root').textContent;
   assert.match(text, /Median ask/);
@@ -973,9 +1110,9 @@ test('the asking panel reports the ask-vs-sold spread', () => {
   assert.match(text, /Spread/);
 });
 
-test('asking prices do not change the published valuation', () => {
-  const plain = renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
-  const withAsks = renderWithListings('original-pumpkin-kitty',
+test('asking prices do not change the published valuation', async () => {
+  const plain = await renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
+  const withAsks = await renderWithListings('original-pumpkin-kitty',
     [listing(1, 5000), listing(2, 6000)]);
 
   const valueOf = (doc) => doc.querySelector('.headline .big').textContent;
@@ -983,32 +1120,32 @@ test('asking prices do not change the published valuation', () => {
     'a $6000 asking price must not move the valuation');
 });
 
-test('a wildly optimistic asking price is called out as above market', () => {
-  const doc = renderWithListings('original-pumpkin-kitty', [listing(1, 5000)]);
+test('a wildly optimistic asking price is called out as above market', async () => {
+  const doc = await renderWithListings('original-pumpkin-kitty', [listing(1, 5000)]);
   assert.match(doc.getElementById('item-root').textContent, /above.*what this item actually sells for/i);
 });
 
-test('asking prices below the sold data flag stale comps', () => {
-  const doc = renderWithListings('original-pumpkin-kitty', [listing(1, 5)]);
+test('asking prices below the sold data flag stale comps', async () => {
+  const doc = await renderWithListings('original-pumpkin-kitty', [listing(1, 5)]);
   assert.match(doc.getElementById('item-root').textContent, /market has\s+moved/i);
 });
 
-test('no asking panel is rendered when there are no listings', () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('no asking panel is rendered when there are no listings', async () => {
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   assert.doesNotMatch(p.doc.getElementById('item-root').textContent, /Current asking prices/);
 });
 
-test('a hostile listing title cannot inject markup', () => {
-  const doc = renderWithListings('original-pumpkin-kitty',
+test('a hostile listing title cannot inject markup', async () => {
+  const doc = await renderWithListings('original-pumpkin-kitty',
     [listing(1, 100, { title: '<img src=x onerror=alert(1)>' })]);
   assert.strictEqual(doc.querySelectorAll('img[onerror*="alert"]').length, 0);
 });
 
 // ---- expanded catalogue ----------------------------------------------------
 
-test('the expanded catalogue is searchable and shows no invented prices', () => {
-  const p = renderPage('index.html');
-  const data = p.win.BEARCHART_DATA;
+test('the expanded catalogue is searchable and shows no invented prices', async () => {
+  const p = await renderPage('index.html');
+  const data = p.data;
   const added = data.items.find((i) => i.id === 'our-founding-bear');
   assert.ok(added, 'catalogue expansion should be present');
   assert.strictEqual(data.sales.filter((s) => s.item_id === added.id).length, 0);
@@ -1026,21 +1163,21 @@ test('the expanded catalogue is searchable and shows no invented prices', () => 
   });
 });
 
-test('WWF series items are catalogued under their franchise', () => {
+test('WWF series items are catalogued under their franchise', async () => {
   const wwf = loadData().items.filter((i) => i.franchise === 'WWF / Wildlife');
   assert.ok(wwf.length >= 12, 'expected the expanded WWF series, got ' + wwf.length);
   for (const i of wwf) assert.strictEqual(i.licensed, true);
 });
 
-test('the Sanrio anniversary edition sizes were recorded', () => {
-  const p = renderPage('index.html');
-  const byId = Object.fromEntries(p.win.BEARCHART_DATA.items.map((i) => [i.id, i]));
+test('the Sanrio anniversary edition sizes were recorded', async () => {
+  const p = await renderPage('index.html');
+  const byId = Object.fromEntries(p.data.items.map((i) => [i.id, i]));
   assert.strictEqual(byId['chococat-limited-edition'].edition_size, 56000);
   assert.strictEqual(byId['keroppi-limited-edition'].edition_size, 66000);
 });
 
-test('the unresolved Lucky Kitty year conflict is recorded, not silently resolved', () => {
-  const p = renderPage('item.html', 'item.html?id=lucky-kitty');
+test('the unresolved Lucky Kitty year conflict is recorded, not silently resolved', async () => {
+  const p = await renderPage('item.html', 'item.html?id=lucky-kitty');
   const text = p.doc.getElementById('item-root').textContent;
   assert.match(text, /Year needs confirmation/);
   assert.match(text, /1997/);
@@ -1048,8 +1185,8 @@ test('the unresolved Lucky Kitty year conflict is recorded, not silently resolve
 
 // ---- aggregate observations in the UI --------------------------------------
 
-test('admin refuses to record an average as a single completed sale', () => {
-  const p = renderPage('admin.html');
+test('admin refuses to record an average as a single completed sale', async () => {
+  const p = await renderPage('admin.html');
   pickItem(p, 's-item', 'lucky-kitty');
   p.doc.getElementById('s-price').value = '54';
   p.doc.getElementById('s-sample').value = '12';
@@ -1064,8 +1201,8 @@ test('admin refuses to record an average as a single completed sale', () => {
   assert.match(p.doc.getElementById('draft-body').textContent, /Nothing pending/);
 });
 
-test('admin accepts an average recorded as a collector report', () => {
-  const p = renderPage('admin.html');
+test('admin accepts an average recorded as a collector report', async () => {
+  const p = await renderPage('admin.html');
   pickItem(p, 's-item', 'lucky-kitty');
   p.doc.getElementById('s-price').value = '54';
   p.doc.getElementById('s-sample').value = '12';
@@ -1076,7 +1213,7 @@ test('admin accepts an average recorded as a collector report', () => {
 
 // ---- expanded catalogue, second pass ----------------------------------------
 
-test('the licensed franchise lines are catalogued without invented prices', () => {
+test('the licensed franchise lines are catalogued without invented prices', async () => {
   const data = loadData();
   const priced = new Set(data.sales.map((s) => s.item_id));
 
@@ -1102,28 +1239,28 @@ test('the licensed franchise lines are catalogued without invented prices', () =
   }
 });
 
-test('the Disney Princess edition sizes were captured', () => {
-  const p = renderPage('index.html');
-  const cinders = p.win.BEARCHART_DATA.items.find((i) => i.id === 'cinderella-disney');
+test('the Disney Princess edition sizes were captured', async () => {
+  const p = await renderPage('index.html');
+  const cinders = p.data.items.find((i) => i.id === 'cinderella-disney');
   assert.strictEqual(cinders.edition_size, 1500);
   assert.strictEqual(cinders.limited_edition, true);
 });
 
-test('a franchise filter narrows to that line', () => {
-  const p = renderPage('index.html');
+test('a franchise filter narrows to that line', async () => {
+  const p = await renderPage('index.html');
   const box = p.doc.querySelector('#filters input[data-group="franchise"][value="Pokemon"]');
   assert.ok(box, 'expected a Pokemon franchise filter');
   box.checked = true;
   box.dispatchEvent(new p.win.Event('change', { bubbles: true }));
   const cards = p.doc.querySelectorAll('#results .card');
   assert.strictEqual(cards.length,
-    p.win.BEARCHART_DATA.items.filter((i) => i.franchise === 'Pokemon').length);
+    p.data.items.filter((i) => i.franchise === 'Pokemon').length);
 });
 
 // ---- species illustrations -------------------------------------------------
 
-test('an illustration is drawn from the item species, not its name', () => {
-  const p = renderPage('index.html');
+test('an illustration is drawn from the item species, not its name', async () => {
+  const p = await renderPage('index.html');
   const I = p.win.BearChartIcons;
   assert.strictEqual(I.iconKeyFor({ species: 'Bear' }), 'bear');
   assert.strictEqual(I.iconKeyFor({ species: 'Panda' }), 'bear');
@@ -1135,11 +1272,11 @@ test('an illustration is drawn from the item species, not its name', () => {
   assert.strictEqual(I.iconKeyFor({ category: 'Clothing & Accessories' }), 'shirt');
 });
 
-test('an unrecorded species falls back to a paw print rather than breaking', () => {
+test('an unrecorded species falls back to a paw print rather than breaking', async () => {
   // Wombat used to stand in for "unmapped" here and now has a drawing of its
   // own, which is the point of the fallback: the map grows, and an unmapped
   // species must still come out as a paw rather than a near-miss animal.
-  const p = renderPage('index.html');
+  const p = await renderPage('index.html');
   assert.strictEqual(p.win.BearChartIcons.iconKeyFor({ species: 'Aardvark' }), 'paw');
   assert.strictEqual(p.win.BearChartIcons.iconKeyFor({ species: 'Nudibranch' }), 'paw');
   assert.strictEqual(p.win.BearChartIcons.iconKeyFor({}), 'paw');
@@ -1147,8 +1284,8 @@ test('an unrecorded species falls back to a paw print rather than breaking', () 
 
 // ---- showing the evidence ---------------------------------------------------
 
-test('a priced item draws the comps behind its number', () => {
-  const p = renderPage('item.html', 'item.html?id=grey-panda-mini-beans');
+test('a priced item draws the comps behind its number', async () => {
+  const p = await renderPage('item.html', 'item.html?id=grey-panda-mini-beans');
   const strip = p.doc.querySelector('.evidence .ev-strip');
   assert.ok(strip, 'expected an evidence strip');
   const v = p.win.BC.valuationFor('grey-panda-mini-beans');
@@ -1157,10 +1294,10 @@ test('a priced item draws the comps behind its number', () => {
   assert.ok(strip.querySelector('.ev-median'), 'the median');
 });
 
-test('the strip labels the range, never the padding either side of it', () => {
+test('the strip labels the range, never the padding either side of it', async () => {
   // The axis ends are chosen to give the drawing air. Printing them would put
   // a precise-looking figure under a price at which nothing happened.
-  const p = renderPage('item.html', 'item.html?id=grey-panda-mini-beans');
+  const p = await renderPage('item.html', 'item.html?id=grey-panda-mini-beans');
   const v = p.win.BC.valuationFor('grey-panda-mini-beans');
   const ticks = Array.from(p.doc.querySelectorAll('.ev-tick')).map((t) => t.textContent);
   assert.ok(ticks.includes(p.win.BC.money(v.range_low)), ticks.join(' '));
@@ -1168,10 +1305,10 @@ test('the strip labels the range, never the padding either side of it', () => {
   assert.strictEqual(ticks.length, 2, 'only the two range ends');
 });
 
-test('one comp draws one dot and says the range once', () => {
+test('one comp draws one dot and says the range once', async () => {
   // Any item resting on exactly one comp will do; this one has a single sale.
   // (Polar Bear II used to be the example; merging its wiki duplicate gave it four.)
-  const p = renderPage('item.html', 'item.html?id=cherry-blossom-teddy');
+  const p = await renderPage('item.html', 'item.html?id=cherry-blossom-teddy');
   assert.strictEqual(p.doc.querySelectorAll('.ev-dot').length, 1);
   // range_low === range_high here, so printing it twice would read as two
   // different figures that happen to match.
@@ -1179,15 +1316,15 @@ test('one comp draws one dot and says the range once', () => {
   assert.match(p.doc.querySelector('.ev-key').textContent, /the one recorded sale/);
 });
 
-test('an unpriced item draws no strip at all', () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('an unpriced item draws no strip at all', async () => {
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   assert.strictEqual(p.doc.querySelector('.evidence'), null);
   assert.strictEqual(p.win.BC.evidenceStrip(
     p.win.BC.valuationFor('buddy-bear-30-inch')), '');
 });
 
-test('the strip describes itself for a screen reader', () => {
-  const p = renderPage('item.html', 'item.html?id=grey-panda-mini-beans');
+test('the strip describes itself for a screen reader', async () => {
+  const p = await renderPage('item.html', 'item.html?id=grey-panda-mini-beans');
   const strip = p.doc.querySelector('.ev-strip');
   assert.strictEqual(strip.getAttribute('role'), 'img');
   assert.match(strip.getAttribute('aria-label'), /recorded sale/);
@@ -1195,8 +1332,8 @@ test('the strip describes itself for a screen reader', () => {
 
 // ---- the page with no price -------------------------------------------------
 
-test('an unpriced page leads with what is known instead of an apology', () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('an unpriced page leads with what is known instead of an apology', async () => {
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const panel = p.doc.querySelector('.unpriced');
   assert.ok(panel, 'expected the rebuilt empty state');
   assert.match(panel.querySelector('.unpriced-eyebrow').textContent, /No value published/i);
@@ -1204,21 +1341,21 @@ test('an unpriced page leads with what is known instead of an apology', () => {
   assert.match(panel.querySelector('.unpriced-known').textContent, /1997/);
 });
 
-test('it still refuses to publish a price', () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('it still refuses to publish a price', async () => {
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const panel = p.doc.querySelector('.unpriced');
   assert.match(panel.textContent, /publishes\s*no price/);
   assert.ok(panel.textContent.indexOf('$') === -1, 'no figure anywhere on it');
 });
 
-test('it does not repeat the tags already shown in the header', () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('it does not repeat the tags already shown in the header', async () => {
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   assert.strictEqual(p.doc.querySelectorAll('.unpriced .tag').length, 0);
 });
 
-test('the ask points at a panel that is actually on the page', () => {
+test('the ask points at a panel that is actually on the page', async () => {
   // A jump link to an anchor that does not exist is worse than no link.
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const jump = p.doc.querySelector('.unpriced-jump');
   if (jump) {
     const target = jump.getAttribute('href').replace('#', '');
@@ -1231,33 +1368,33 @@ test('the ask points at a panel that is actually on the page', () => {
 
 // ---- collector submissions --------------------------------------------------
 
-test('an item page invites a sold price and a problem report', () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('an item page invites a sold price and a problem report', async () => {
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   assert.ok(p.doc.getElementById('submit-panel'), 'expected the submit-a-sale panel');
   assert.ok(p.doc.getElementById('report-panel'), 'expected the report panel');
   assert.strictEqual(p.doc.querySelectorAll('#rep-reason option').length,
     p.win.BearChartSubmissions.reasons.length);
 });
 
-test('the panels survive the account library failing to load', () => {
+test('the panels survive the account library failing to load', async () => {
   // They key off whether accounts are CONFIGURED, not whether the CDN client
   // arrived. Keying on the live client made the whole feature vanish without
   // explanation whenever the script was slow, blocked, or the reader offline.
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   assert.strictEqual(p.win.BearChartAuth.getClient(), null, 'no client in this harness');
   assert.strictEqual(p.win.BearChartSubmissions.configured(), true);
   assert.ok(p.doc.getElementById('submit-panel'));
 });
 
-test('a signed-out reader is asked to sign in rather than shown a dead form', () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('a signed-out reader is asked to sign in rather than shown a dead form', async () => {
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const panel = p.doc.getElementById('submit-panel');
   assert.match(panel.textContent, /Sign in to add a sale/);
   assert.ok(!p.doc.getElementById('do-submit'), 'no submit button until signed in');
 });
 
 test('submitting a sale requires being signed in', async () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const res = await p.win.BearChartSubmissions.submitComp(
     { item_slug: 'buddy-bear-30-inch', sold_price: '40', marketplace: 'eBay' });
   assert.strictEqual(res.ok, false);
@@ -1265,7 +1402,7 @@ test('submitting a sale requires being signed in', async () => {
 });
 
 test('a report needs a reason from the list, not free text', async () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const S = p.win.BearChartSubmissions;
   const bad = await S.reportItem({ item_slug: 'buddy-bear-30-inch', reason: 'whatever' });
   assert.strictEqual(bad.ok, false);
@@ -1276,15 +1413,15 @@ test('an unreachable server says so instead of claiming the feature is off', asy
   // Two different problems with two different answers: "come back online" and
   // "this site does not do that". Reporting the first as the second sends
   // somebody looking for a setting that is already correct.
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const res = await p.win.BearChartSubmissions.reportItem(
     { item_slug: 'buddy-bear-30-inch', reason: 'duplicate' });
   assert.strictEqual(res.ok, false);
   assert.match(res.message, /connection|online/i);
 });
 
-test('the page states that a submission does not change a published value', () => {
-  const p = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('the page states that a submission does not change a published value', async () => {
+  const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   // Including submissions from the people who run the site - the operator
   // buys and sells what this guide values.
   assert.match(p.doc.getElementById('submit-panel').textContent,
@@ -1293,8 +1430,8 @@ test('the page states that a submission does not change a published value', () =
 
 // ---- the shop that runs the guide ------------------------------------------
 
-test('the price guide carries the shop panel, labelled as the shop', () => {
-  const p = renderPage('index.html');
+test('the price guide carries the shop panel, labelled as the shop', async () => {
+  const p = await renderPage('index.html');
   const promo = p.doc.querySelector('#sidebar-promo .promo');
   assert.ok(promo, 'expected the shop panel in the sidebar');
   assert.match(promo.textContent, /shop behind BearChart/i);
@@ -1305,25 +1442,25 @@ test('the price guide carries the shop panel, labelled as the shop', () => {
   assert.strictEqual(link.getAttribute('target'), '_blank');
 });
 
-test('the shop panel discloses that it buys what the guide values', () => {
+test('the shop panel discloses that it buys what the guide values', async () => {
   // The site's argument is that its numbers are not for sale. The operator's
   // own shop appearing on the page has to say so itself.
-  const p = renderPage('index.html');
+  const p = await renderPage('index.html');
   const note = p.doc.querySelector('#sidebar-promo .promo-note');
   assert.ok(note, 'the shop panel must carry a disclosure');
   assert.match(note.textContent, /No valuation on this site is adjusted/i);
 });
 
-test('the shop panel is reachable when the sidebar is collapsed away', () => {
+test('the shop panel is reachable when the sidebar is collapsed away', async () => {
   // The sidebar is display:none below 860px. Without this the shop would be
   // invisible to every phone visitor.
-  const p = renderPage('index.html');
+  const p = await renderPage('index.html');
   assert.ok(p.doc.querySelector('#mobile-promo .promo'));
 });
 
-test('an item with no comps shows the shop, an item with comps shows the offer', () => {
-  const priced = renderPage('item.html', 'item.html?id=classic-brown-teddy');
-  const unpriced = renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
+test('an item with no comps shows the shop, an item with comps shows the offer', async () => {
+  const priced = await renderPage('item.html', 'item.html?id=classic-brown-teddy');
+  const unpriced = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
 
   // One pitch per page. A reader should never get "buy from us" and "sell to
   // us" stacked on the same bear.
@@ -1337,8 +1474,8 @@ test('an item with no comps shows the shop, an item with comps shows the offer',
     /Sell yours to/);
 });
 
-test('the shop panel disappears entirely when the business is switched off', () => {
-  const p = renderPage('index.html');
+test('the shop panel disappears entirely when the business is switched off', async () => {
+  const p = await renderPage('index.html');
   const BC = p.win.BC;
   const saved = BC.business.enabled;
   try {
@@ -1350,8 +1487,8 @@ test('the shop panel disappears entirely when the business is switched off', () 
   }
 });
 
-test('shop copy is escaped, not injected', () => {
-  const p = renderPage('index.html');
+test('shop copy is escaped, not injected', async () => {
+  const p = await renderPage('index.html');
   const BC = p.win.BC;
   const saved = BC.business.shop_headline;
   try {
@@ -1362,19 +1499,19 @@ test('shop copy is escaped, not injected', () => {
   }
 });
 
-test('the illustration says it is an illustration', () => {
-  const p = renderPage('index.html');
+test('the illustration says it is an illustration', async () => {
+  const p = await renderPage('index.html');
   const svg = decodeURIComponent(
     p.win.BC.placeholderImage({ id: 'x', canonical_name: 'A', species: 'Bear' }));
   assert.match(svg, /ILLUSTRATION/);
   assert.match(svg, /NO PHOTO YET/);
 });
 
-test('every catalogued item draws valid, well-formed SVG', () => {
-  const p = renderPage('index.html');
+test('every catalogued item draws valid, well-formed SVG', async () => {
+  const p = await renderPage('index.html');
   const parser = new p.win.DOMParser();
   const seen = new Set();
-  for (const item of p.win.BEARCHART_DATA.items) {
+  for (const item of p.data.items) {
     const uri = p.win.BC.placeholderImage(item);
     assert.ok(uri.startsWith('data:image/svg+xml'), item.id);
     const svg = decodeURIComponent(uri.replace(/^data:image\/svg\+xml;charset=utf-8,/, ''));
@@ -1389,8 +1526,8 @@ test('every catalogued item draws valid, well-formed SVG', () => {
   assert.ok(seen.size >= 12, 'expected a varied icon set, used ' + seen.size);
 });
 
-test('every icon in the set renders without error', () => {
-  const p = renderPage('index.html');
+test('every icon in the set renders without error', async () => {
+  const p = await renderPage('index.html');
   const I = p.win.BearChartIcons;
   const parser = new p.win.DOMParser();
   for (const key of I.keys) {
@@ -1402,23 +1539,23 @@ test('every icon in the set renders without error', () => {
   }
 });
 
-test('items still show their illustration on cards and item pages', () => {
-  const p = renderPage('index.html');
+test('items still show their illustration on cards and item pages', async () => {
+  const p = await renderPage('index.html');
   showAll(p);
   assert.strictEqual(p.doc.querySelectorAll('#results .card img.thumb').length,
-    p.win.BEARCHART_DATA.items.length);
-  const item = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+    p.data.items.length);
+  const item = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
   assert.ok(item.doc.querySelector('.item-hero img.hero'));
 });
 
 // ---- upcoming and current releases -----------------------------------------
 
-test('an upcoming release says it is not out and publishes no price', () => {
-  const p = renderPage('index.html');
-  const upcoming = p.win.BEARCHART_DATA.items.find((i) => i.release_status === 'upcoming');
+test('an upcoming release says it is not out and publishes no price', async () => {
+  const p = await renderPage('index.html');
+  const upcoming = p.data.items.find((i) => i.release_status === 'upcoming');
   assert.ok(upcoming, 'expected an upcoming release in the data');
 
-  const item = renderPage('item.html', 'item.html?id=' + upcoming.id);
+  const item = await renderPage('item.html', 'item.html?id=' + upcoming.id);
   const root = item.doc.getElementById('item-root');
   assert.match(root.textContent, /Not released yet/);
   assert.match(root.textContent, /no secondary market/i);
@@ -1430,18 +1567,18 @@ test('an upcoming release says it is not out and publishes no price', () => {
   assert.ok(unpriced.textContent.indexOf('$') === -1, unpriced.textContent);
 });
 
-test('a current retail release is labelled and warns about the retail ceiling', () => {
-  const p = renderPage('index.html');
-  const current = p.win.BEARCHART_DATA.items.find((i) => i.release_status === 'current');
+test('a current retail release is labelled and warns about the retail ceiling', async () => {
+  const p = await renderPage('index.html');
+  const current = p.data.items.find((i) => i.release_status === 'current');
   assert.ok(current);
-  const item = renderPage('item.html', 'item.html?id=' + current.id);
+  const item = await renderPage('item.html', 'item.html?id=' + current.id);
   const text = item.doc.getElementById('item-root').textContent;
   assert.match(text, /Available at retail now/);
   assert.match(text, /ceiling/i);
 });
 
-test('release badges appear on cards', () => {
-  const p = renderPage('index.html');
+test('release badges appear on cards', async () => {
+  const p = await renderPage('index.html');
   const box = p.doc.querySelector('#filters input[data-group="flag"][value="current"]');
   assert.ok(box, 'expected an "at retail now" filter');
   box.checked = true;
@@ -1451,20 +1588,20 @@ test('release badges appear on cards', () => {
   assert.match(cards[0].textContent, /At Retail Now/);
 });
 
-test('upcoming releases can be filtered to on their own', () => {
-  const p = renderPage('index.html');
+test('upcoming releases can be filtered to on their own', async () => {
+  const p = await renderPage('index.html');
   const box = p.doc.querySelector('#filters input[data-group="flag"][value="upcoming"]');
   assert.ok(box, 'expected an upcoming filter');
   box.checked = true;
   box.dispatchEvent(new p.win.Event('change', { bubbles: true }));
   const cards = p.doc.querySelectorAll('#results .card');
   assert.strictEqual(cards.length,
-    p.win.BEARCHART_DATA.items.filter((i) => i.release_status === 'upcoming').length);
+    p.data.items.filter((i) => i.release_status === 'upcoming').length);
   assert.match(cards[0].textContent, /Upcoming/);
 });
 
-test('admin can mark a new item as an upcoming release', () => {
-  const p = renderPage('admin.html');
+test('admin can mark a new item as an upcoming release', async () => {
+  const p = await renderPage('admin.html');
   p.doc.getElementById('i-name').value = 'Test Upcoming Bear';
   p.doc.getElementById('i-status').value = 'upcoming';
   p.doc.getElementById('i-add').dispatchEvent(new p.win.Event('click'));
@@ -1474,46 +1611,38 @@ test('admin can mark a new item as an upcoming release', () => {
 // ---- monetisation hooks ----------------------------------------------------
 
 /** Render an item page with the business config switched on. */
-function renderWithBusiness(itemId, business) {
-  const data = JSON.parse(JSON.stringify(loadData()));
-  data.business = Object.assign({}, data.business, business);
-
-  const dom = track(new JSDOM(fs.readFileSync(path.join(ROOT, 'item.html'), 'utf8'), {
-    url: 'http://localhost:5173/item.html?id=' + itemId,
-    runScripts: 'dangerously', pretendToBeVisual: true
-  }));
-  dom.window.BEARCHART_DATA = data;
-  for (const src of ['sanitize.js', 'engine.js', 'icons.js', 'common.js', 'item.js']) {
-    dom.window.eval(fs.readFileSync(path.join(ROOT, src), 'utf8'));
-  }
-  return dom.window;
+async function renderWithBusiness(itemId, business) {
+  const p = await renderPage('item.html', 'item.html?id=' + itemId, { mutate: (data) => {
+    data.business = Object.assign({}, data.business, business);
+  } });
+  return p.win;
 }
 
-test('the sell-to-us panel is hidden until the business config is filled in', () => {
+test('the sell-to-us panel is hidden until the business config is filled in', async () => {
   // This used to pass by reading the shipped default, which was "off". The
   // business is switched on now, so the test had to start stating the rule it
   // was actually there to protect instead of the configuration of the day.
-  const off = renderWithBusiness('kennel-pals-calico-cat', { enabled: false });
+  const off = await renderWithBusiness('kennel-pals-calico-cat', { enabled: false });
   assert.doesNotMatch(off.document.getElementById('item-root').textContent,
     /Sell yours to/);
 
   // Enabled but with no way to reach anyone is not enabled: an offer button
   // that goes nowhere is worse than no offer.
-  const unreachable = renderWithBusiness('kennel-pals-calico-cat',
+  const unreachable = await renderWithBusiness('kennel-pals-calico-cat',
     { enabled: true, contact_email: null, contact_url: null });
   assert.strictEqual(unreachable.BC.businessEnabled(), false);
   assert.doesNotMatch(unreachable.document.getElementById('item-root').textContent,
     /Sell yours to/);
 });
 
-test('the shipped config does offer to buy a priced item', () => {
+test('the shipped config does offer to buy a priced item', async () => {
   // The other half: with the business live, a priced item carries the offer.
-  const p = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+  const p = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
   assert.match(p.doc.getElementById('item-root').textContent, /Sell yours to/);
 });
 
-test('enabling the business config shows an offer at the published buy price', () => {
-  const win = renderWithBusiness('kennel-pals-calico-cat',
+test('enabling the business config shows an offer at the published buy price', async () => {
+  const win = await renderWithBusiness('kennel-pals-calico-cat',
     { enabled: true, contact_email: 'hello@example.com' });
   const text = win.document.getElementById('item-root').textContent;
   assert.match(text, /Sell yours to Jay's Retro Exchange/);
@@ -1524,8 +1653,8 @@ test('enabling the business config shows an offer at the published buy price', (
   assert.ok(text.includes(win.BC.range(v.buy_low, v.buy_high)));
 });
 
-test('the offer carries a conflict-of-interest disclosure', () => {
-  const win = renderWithBusiness('kennel-pals-calico-cat',
+test('the offer carries a conflict-of-interest disclosure', async () => {
+  const win = await renderWithBusiness('kennel-pals-calico-cat',
     { enabled: true, contact_email: 'hello@example.com' });
   const text = win.document.getElementById('item-root').textContent;
   assert.match(text, /Disclosure/);
@@ -1533,21 +1662,21 @@ test('the offer carries a conflict-of-interest disclosure', () => {
   assert.match(text, /free to sell\s+elsewhere/);
 });
 
-test('turning the business on does not move any valuation', () => {
-  const plain = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
-  const win = renderWithBusiness('kennel-pals-calico-cat',
+test('turning the business on does not move any valuation', async () => {
+  const plain = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+  const win = await renderWithBusiness('kennel-pals-calico-cat',
     { enabled: true, contact_email: 'hello@example.com' });
   assert.strictEqual(
     win.document.querySelector('.headline .big').textContent,
     plain.doc.querySelector('.headline .big').textContent);
 });
 
-test('affiliate ids are only applied to eBay links, and only when configured', () => {
+test('affiliate ids are only applied to eBay links, and only when configured', async () => {
     const ebay = 'https://www.ebay.com/itm/123';
-  const off = renderWithBusiness('kennel-pals-calico-cat', { ebay_campaign_id: null });
+  const off = await renderWithBusiness('kennel-pals-calico-cat', { ebay_campaign_id: null });
   assert.strictEqual(off.BC.affiliate(ebay), ebay, 'inert with no campaign id');
 
-  const win = renderWithBusiness('kennel-pals-calico-cat', { ebay_campaign_id: '5338000000' });
+  const win = await renderWithBusiness('kennel-pals-calico-cat', { ebay_campaign_id: '5338000000' });
   assert.match(win.BC.affiliate(ebay), /campid=5338000000/);
   // Anything that is not eBay is left alone.
   assert.strictEqual(win.BC.affiliate('https://www.mercari.com/x'),
@@ -1555,9 +1684,9 @@ test('affiliate ids are only applied to eBay links, and only when configured', (
   assert.strictEqual(win.BC.affiliate(null), null);
 });
 
-test('an affiliate id cannot reach the valuation or reorder listings', () => {
-  const plain = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
-  const win = renderWithBusiness('kennel-pals-calico-cat', { ebay_campaign_id: '5338000000' });
+test('an affiliate id cannot reach the valuation or reorder listings', async () => {
+  const plain = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+  const win = await renderWithBusiness('kennel-pals-calico-cat', { ebay_campaign_id: '5338000000' });
   assert.strictEqual(
     win.document.querySelector('.headline .big').textContent,
     plain.doc.querySelector('.headline .big').textContent);
@@ -1568,20 +1697,12 @@ test('an affiliate id cannot reach the valuation or reorder listings', () => {
 // ---- deal finder page ------------------------------------------------------
 
 /** Render deals.html with synthetic active listings injected. */
-function renderDeals(listings) {
-  const data = JSON.parse(JSON.stringify(loadData()));
-  data.active_listings = listings || [];
-  data.active_listings_fetched_at = '2026-09-10T09:00:00Z';
-
-  const dom = track(new JSDOM(fs.readFileSync(path.join(ROOT, 'deals.html'), 'utf8'), {
-    url: 'http://localhost:5173/deals.html',
-    runScripts: 'dangerously', pretendToBeVisual: true
-  }));
-  dom.window.BEARCHART_DATA = data;
-  for (const src of ['sanitize.js', 'engine.js', 'icons.js', 'common.js', 'deals.js']) {
-    dom.window.eval(fs.readFileSync(path.join(ROOT, src), 'utf8'));
-  }
-  return dom.window;
+async function renderDeals(listings) {
+  const p = await renderPage('deals.html', null, { mutate: (data) => {
+    data.active_listings = listings || [];
+    data.active_listings_fetched_at = '2026-09-10T09:00:00Z';
+  } });
+  return p.win;
 }
 
 const activeFor = (itemId, ask, condition) => ({
@@ -1591,20 +1712,20 @@ const activeFor = (itemId, ask, condition) => ({
   evidence_type: 'active_listing', source_url: 'https://www.ebay.com/itm/' + ask
 });
 
-test('the deals page renders without errors', () => {
-  const p = renderPage('deals.html');
+test('the deals page renders without errors', async () => {
+  const p = await renderPage('deals.html');
   noErrors(p);
 });
 
-test('with no listings loaded the deals page explains how to get some', () => {
-  const win = renderDeals([]);
+test('with no listings loaded the deals page explains how to get some', async () => {
+  const win = await renderDeals([]);
   const text = win.document.getElementById('deals').textContent;
   assert.match(text, /No active listings loaded/);
   assert.match(text, /npm run ebay/);
 });
 
-test('an underpriced listing appears with its net margin', () => {
-  const win = renderDeals([activeFor('my-little-pony-muffins', 50)]);
+test('an underpriced listing appears with its net margin', async () => {
+  const win = await renderDeals([activeFor('my-little-pony-muffins', 50)]);
   const text = win.document.getElementById('deals').textContent;
   assert.match(text, /My Little Pony Muffins/);
   assert.match(text, /Net after fees/);
@@ -1612,14 +1733,14 @@ test('an underpriced listing appears with its net margin', () => {
   assert.strictEqual(rows.length, 1);
 });
 
-test('a fairly priced listing is not shown as a deal', () => {
-  const win = renderDeals([activeFor('my-little-pony-muffins', 250)]);
+test('a fairly priced listing is not shown as a deal', async () => {
+  const win = await renderDeals([activeFor('my-little-pony-muffins', 250)]);
   assert.match(win.document.getElementById('deals').textContent,
     /Nothing under your thresholds/);
 });
 
-test('tightening the margin threshold removes marginal deals', () => {
-  const win = renderDeals([activeFor('my-little-pony-muffins', 50)]);
+test('tightening the margin threshold removes marginal deals', async () => {
+  const win = await renderDeals([activeFor('my-little-pony-muffins', 50)]);
   assert.strictEqual(win.document.querySelectorAll('#deals tbody tr').length, 1);
 
   const input = win.document.getElementById('min-margin');
@@ -1629,8 +1750,8 @@ test('tightening the margin threshold removes marginal deals', () => {
     /Nothing under your thresholds/);
 });
 
-test('raising the fee assumption reduces the reported margin', () => {
-  const win = renderDeals([activeFor('my-little-pony-muffins', 50)]);
+test('raising the fee assumption reduces the reported margin', async () => {
+  const win = await renderDeals([activeFor('my-little-pony-muffins', 50)]);
   const marginOf = () => win.document.querySelectorAll('#deals tbody tr td')[4].textContent;
   const before = marginOf();
   const fee = win.document.getElementById('fee');
@@ -1641,28 +1762,28 @@ test('raising the fee assumption reduces the reported margin', () => {
   assert.notStrictEqual(marginOf(), before);
 });
 
-test('a deal shows the shipping and what the buyer pays in total', () => {
+test('a deal shows the shipping and what the buyer pays in total', async () => {
   const stated = Object.assign(activeFor('my-little-pony-muffins', 50), { ship_price: 6 });
-  let win = renderDeals([stated]);
+  let win = await renderDeals([stated]);
   let asking = win.document.querySelectorAll('#deals tbody tr td')[1].textContent;
   assert.match(asking, /\+ \$6 shipping/);
   assert.match(asking, /Buyer pays \$56/);
 
-  win = renderDeals([activeFor('my-little-pony-muffins', 50)]);
+  win = await renderDeals([activeFor('my-little-pony-muffins', 50)]);
   asking = win.document.querySelectorAll('#deals tbody tr td')[1].textContent;
   assert.match(asking, /shipping \(assumed\)/);
   assert.match(win.document.getElementById('deals').textContent, /Shipping not stated/);
 });
 
-test('the deals page states that no sold data means no deal', () => {
-  const p = renderPage('deals.html');
+test('the deals page states that no sold data means no deal', async () => {
+  const p = await renderPage('deals.html');
   assert.match(p.doc.getElementById('how-it-works').textContent, /No sold data, no deal/);
 });
 
 // ---- checklists ------------------------------------------------------------
 
-test('the checklists page renders and builds sets from the catalogue', () => {
-  const p = renderPage('checklists.html');
+test('the checklists page renders and builds sets from the catalogue', async () => {
+  const p = await renderPage('checklists.html');
   noErrors(p);
   const sets = p.doc.querySelectorAll('#set-list [data-set]');
   assert.ok(sets.length >= 10, 'expected a good spread of checklists, got ' + sets.length);
@@ -1672,17 +1793,17 @@ test('the checklists page renders and builds sets from the catalogue', () => {
   }
 });
 
-test('a checklist shows every item in its set with progress', () => {
-  const p = renderPage('checklists.html');
+test('a checklist shows every item in its set with progress', async () => {
+  const p = await renderPage('checklists.html');
   const rows = p.doc.querySelectorAll('#set-body tbody tr');
-  const miniBeans = p.win.BEARCHART_DATA.items.filter((i) => i.mini_bean).length;
+  const miniBeans = p.data.items.filter((i) => i.mini_bean).length;
   assert.strictEqual(rows.length, miniBeans, 'first set should be Mini Beans');
   assert.match(p.doc.getElementById('set-progress').textContent, /0 of /);
   assert.ok(p.doc.querySelector('.progress span'));
 });
 
-test('switching checklist changes the item list', () => {
-  const p = renderPage('checklists.html');
+test('switching checklist changes the item list', async () => {
+  const p = await renderPage('checklists.html');
   const before = p.doc.querySelectorAll('#set-body tbody tr').length;
   const row = p.doc.querySelector('#set-list [data-set="employee"]');
   assert.ok(row, 'expected an employee-exclusive checklist');
@@ -1691,8 +1812,8 @@ test('switching checklist changes the item list', () => {
   assert.notStrictEqual(p.doc.querySelectorAll('#set-body tbody tr').length, before);
 });
 
-test('ticking an item marks it owned and moves the progress bar', () => {
-  const p = renderPage('checklists.html');
+test('ticking an item marks it owned and moves the progress bar', async () => {
+  const p = await renderPage('checklists.html');
   const box = p.doc.querySelector('#set-body input[data-own]');
   const id = box.dataset.own;
   box.checked = true;
@@ -1704,8 +1825,8 @@ test('ticking an item marks it owned and moves the progress bar', () => {
     'ticking a checklist should add to the collection');
 });
 
-test('the missing-only filter hides what you already own', () => {
-  const p = renderPage('checklists.html');
+test('the missing-only filter hides what you already own', async () => {
+  const p = await renderPage('checklists.html');
   const total = p.doc.querySelectorAll('#set-body tbody tr').length;
   const box = p.doc.querySelector('#set-body input[data-own]');
   box.checked = true;
@@ -1717,17 +1838,17 @@ test('the missing-only filter hides what you already own', () => {
   assert.strictEqual(p.doc.querySelectorAll('#set-body tbody tr').length, total - 1);
 });
 
-test('checklist items with no comps show no price rather than a guess', () => {
-  const p = renderPage('checklists.html');
+test('checklist items with no comps show no price rather than a guess', async () => {
+  const p = await renderPage('checklists.html');
   const row = p.doc.querySelector('#set-list [data-set="employee"]');
   row.dispatchEvent(new p.win.Event('click', { bubbles: true }));
   const text = p.doc.getElementById('set-body').textContent;
   assert.match(text, /no data/);
 });
 
-test('the deals and checklists pages are reachable from every page', () => {
+test('the deals and checklists pages are reachable from every page', async () => {
   for (const page of ['index.html', 'item.html', 'collection.html', 'about.html']) {
-    const p = renderPage(page, page === 'item.html'
+    const p = await renderPage(page, page === 'item.html'
       ? 'item.html?id=kennel-pals-calico-cat' : page);
     const nav = p.doc.getElementById('masthead').innerHTML;
     assert.ok(nav.includes('deals.html'), page + ' should link to the deal finder');
@@ -1737,8 +1858,8 @@ test('the deals and checklists pages are reachable from every page', () => {
 
 // ---- identification work queue ---------------------------------------------
 
-test('admin surfaces the identification questions still to settle', () => {
-  const p = renderPage('admin.html');
+test('admin surfaces the identification questions still to settle', async () => {
+  const p = await renderPage('admin.html');
   noErrors(p);
   assert.match(p.doc.getElementById('admin-stats').textContent, /Questions to settle/);
   const quality = p.doc.getElementById('quality').textContent;
@@ -1746,7 +1867,7 @@ test('admin surfaces the identification questions still to settle', () => {
   assert.match(quality, /tush tag/);
 });
 
-test('every flagged item is one whose notes record an open question', () => {
+test('every flagged item is one whose notes record an open question', async () => {
   // Kept in step with OPEN_QUESTION in tools/build_data.py - if you widen the
   // vocabulary there, widen it here too.
   const OPEN = /unresolved|confirm before|before merging|may overlap|may be the same|whether they are the same|needs confirmation/i;
@@ -1758,7 +1879,7 @@ test('every flagged item is one whose notes record an open question', () => {
   }
 });
 
-test('no item with an open question is left unflagged', () => {
+test('no item with an open question is left unflagged', async () => {
   const OPEN = /unresolved|confirm before|before merging|may overlap|may be the same|whether they are the same|needs confirmation/i;
   for (const i of loadData().items) {
     if (OPEN.test(i.notes || '')) {
@@ -1768,7 +1889,7 @@ test('no item with an open question is left unflagged', () => {
   }
 });
 
-test('items with no open question are not flagged for review', () => {
+test('items with no open question are not flagged for review', async () => {
   const data = loadData();
   const clean = data.items.find((i) => i.id === 'kennel-pals-calico-cat');
   assert.strictEqual(clean.needs_review, false);
@@ -1777,29 +1898,20 @@ test('items with no open question are not flagged for review', () => {
 // ---- accounts --------------------------------------------------------------
 
 /** Render a page with the auth config switched on, without a real backend. */
-function renderWithoutAuth(file, url) {
-  return renderWithAuth(file, url, { enabled: false, supabase_url: null,
+async function renderWithoutAuth(file, url) {
+  return await renderWithAuth(file, url, { enabled: false, supabase_url: null,
                                      supabase_anon_key: null });
 }
 
-function renderWithAuth(file, url, authCfg, mutate) {
-  const data = JSON.parse(JSON.stringify(loadData()));
-  data.config = Object.assign({}, data.config, {
-    auth: Object.assign({ enabled: true, supabase_url: 'https://x.supabase.co',
-                          supabase_anon_key: 'anon-key' }, authCfg || {})
-  });
-  if (mutate) mutate(data);
-  const dom = track(new JSDOM(fs.readFileSync(path.join(ROOT, file), 'utf8'), {
-    url: 'http://localhost:5173/' + (url || file),
-    runScripts: 'dangerously', pretendToBeVisual: true
-  }));
-  dom.window.BEARCHART_DATA = data;
-  const scripts = Array.from(dom.window.document.querySelectorAll('script[src]'))
-    .map((s) => s.getAttribute('src')).filter((s) => s !== 'data.js');
-  for (const src of scripts) {
-    dom.window.eval(fs.readFileSync(path.join(ROOT, src), 'utf8'));
-  }
-  return dom.window;
+async function renderWithAuth(file, url, authCfg, mutate) {
+  const p = await renderPage(file, url, { plain: true, mutate: (data) => {
+    data.config = Object.assign({}, data.config, {
+      auth: Object.assign({ enabled: true, supabase_url: 'https://x.supabase.co',
+                            supabase_anon_key: 'anon-key' }, authCfg || {})
+    });
+    if (mutate) mutate(data);
+  } });
+  return p.win;
 }
 
 /** A stand-in for the Supabase client, so auth can be driven without a network. */
@@ -1825,15 +1937,15 @@ function mockClient(opts) {
   };
 }
 
-test('with no auth configured the site works anonymously and says so', () => {
-  const win = renderWithoutAuth('account.html');
+test('with no auth configured the site works anonymously and says so', async () => {
+  const win = await renderWithoutAuth('account.html');
   const text = win.document.getElementById('account-root').textContent;
   assert.match(text, /Accounts are not switched on/);
   assert.match(text, /work exactly as they do now/);
 });
 
-test('with a live project the account page offers sign in', () => {
-  const p = renderPage('account.html');
+test('with a live project the account page offers sign in', async () => {
+  const p = await renderPage('account.html');
   noErrors(p);
   const text = p.doc.getElementById('account-root').textContent;
   assert.match(text, /Sign in/);
@@ -1841,21 +1953,21 @@ test('with a live project the account page offers sign in', () => {
   assert.match(text, /do not need an account/);
 });
 
-test('the account tab is always reachable, configured or not', () => {
+test('the account tab is always reachable, configured or not', async () => {
   // It was hidden while accounts were off, which made the feature and its own
   // setup instructions impossible to find from the site.
-  const off = renderWithoutAuth('index.html');
+  const off = await renderWithoutAuth('index.html');
   assert.match(off.document.getElementById('masthead').innerHTML, /account\.html/);
-  const on = renderPage('index.html');
+  const on = await renderPage('index.html');
   assert.match(on.doc.getElementById('masthead').innerHTML, /account\.html/);
 });
 
-test('the tab reads as a sign-in prompt once accounts are configured', () => {
-  const win = renderWithAuth('index.html');
+test('the tab reads as a sign-in prompt once accounts are configured', async () => {
+  const win = await renderWithAuth('index.html');
   assert.match(win.document.getElementById('masthead').innerHTML, />Sign in</);
 });
 
-test('there is no client-side session flag anywhere', () => {
+test('there is no client-side session flag anywhere', async () => {
   // A "signed in" boolean in storage would be settable from the console, which
   // is why auth is delegated to a server rather than faked here.
   for (const f of ['auth.js', 'account.js', 'common.js', 'admin.js']) {
@@ -1865,7 +1977,7 @@ test('there is no client-side session flag anywhere', () => {
   }
 });
 
-test('the anon key is used but the service-role key never appears', () => {
+test('the anon key is used but the service-role key never appears', async () => {
   for (const f of ['auth.js', 'account.js', 'tools/build_data.py']) {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     assert.doesNotMatch(src, /service_role_key\s*[:=]\s*['"][A-Za-z0-9._-]{10,}/,
@@ -1874,7 +1986,7 @@ test('the anon key is used but the service-role key never appears', () => {
 });
 
 test('signing in is refused when accounts are not configured', async () => {
-  const win = renderWithoutAuth('account.html');
+  const win = await renderWithoutAuth('account.html');
   const A = win.BearChartAuth;
   assert.strictEqual(A.configured(), false);
   const res = await A.signIn('a@example.com', 'password123');
@@ -1882,20 +1994,20 @@ test('signing in is refused when accounts are not configured', async () => {
   assert.match(res.message, /not set up/);
 });
 
-test('a live project reports itself as configured', () => {
-  const p = renderPage('account.html');
+test('a live project reports itself as configured', async () => {
+  const p = await renderPage('account.html');
   assert.strictEqual(p.win.BearChartAuth.configured(), true);
 });
 
 test('a short password is rejected before any request is made', async () => {
-  const win = renderWithAuth('account.html');
+  const win = await renderWithAuth('account.html');
   const res = await win.BearChartAuth.signUp('a@example.com', 'short');
   assert.strictEqual(res.ok, false);
   assert.match(res.message, /at least 8/);
 });
 
 test('sign up and sign in require an email', async () => {
-  const win = renderWithAuth('account.html');
+  const win = await renderWithAuth('account.html');
   const A = win.BearChartAuth;
   assert.match((await A.signUp('', 'password123')).message, /email/i);
   assert.match((await A.signIn('', '')).message, /email/i);
@@ -1903,7 +2015,7 @@ test('sign up and sign in require an email', async () => {
 });
 
 test('admin status is asked of the server, never assumed', async () => {
-  const win = renderWithAuth('admin.html');
+  const win = await renderWithAuth('admin.html');
   const A = win.BearChartAuth;
   const session = { user: { id: 'u1', email: 'jay@example.com' } };
 
@@ -1915,7 +2027,7 @@ test('admin status is asked of the server, never assumed', async () => {
 });
 
 test('admin page tells a non-admin the database will refuse their writes', async () => {
-  const win = renderWithAuth('admin.html');
+  const win = await renderWithAuth('admin.html');
   const A = win.BearChartAuth;
   await A._setClientForTests(mockClient({ isAdmin: false }),
     { user: { id: 'u1', email: 'someone@example.com' } });
@@ -1924,21 +2036,21 @@ test('admin page tells a non-admin the database will refuse their writes', async
   assert.match(text, /whatever this page shows/);
 });
 
-test('with no accounts configured the admin page says it is unprotected', () => {
-  const win = renderWithoutAuth('admin.html');
+test('with no accounts configured the admin page says it is unprotected', async () => {
+  const win = await renderWithoutAuth('admin.html');
   const text = win.document.getElementById('access-notice').textContent;
   assert.match(text, /No account system is switched on/);
   assert.match(text, /only writes to/);
 });
 
-test('with a live project the admin page asks you to sign in', () => {
-  const p = renderPage('admin.html');
+test('with a live project the admin page asks you to sign in', async () => {
+  const p = await renderPage('admin.html');
   assert.match(p.doc.getElementById('access-notice').textContent,
     /not signed in/i);
 });
 
 test('the collection upload sends slugs and never a user id', async () => {
-  const win = renderWithAuth('account.html');
+  const win = await renderWithAuth('account.html');
   const A = win.BearChartAuth;
   win.localStorage.setItem('bearchart.collection', JSON.stringify([
     { item_id: 'lucky-kitty', condition: 'Good', completeness: 'bare', qty: 2 }
@@ -1953,7 +2065,7 @@ test('the collection upload sends slugs and never a user id', async () => {
 });
 
 test('a failed upload keeps the local collection intact', async () => {
-  const win = renderWithAuth('account.html');
+  const win = await renderWithAuth('account.html');
   win.localStorage.setItem('bearchart.collection', JSON.stringify([
     { item_id: 'lucky-kitty', condition: 'Good', completeness: 'bare', qty: 1 }
   ]));
@@ -1963,14 +2075,14 @@ test('a failed upload keeps the local collection intact', async () => {
   assert.strictEqual(stored.length, 1, 'local data must survive a server failure');
 });
 
-test('the schema stamps the user id server-side rather than trusting the client', () => {
+test('the schema stamps the user id server-side rather than trusting the client', async () => {
   const sql = readSchema();
   assert.match(sql, /create or replace function add_collection_items/);
   assert.match(sql, /auth\.uid\(\),\s*--\s*never taken from the caller/);
   assert.match(sql, /raise exception 'not signed in'/);
 });
 
-test('every page loads auth before common so the nav can show the session', () => {
+test('every page loads auth before common so the nav can show the session', async () => {
   for (const page of ['index.html', 'item.html', 'collection.html', 'admin.html',
                       'about.html', 'deals.html', 'checklists.html', 'account.html']) {
     const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
@@ -1982,8 +2094,8 @@ test('every page loads auth before common so the nav can show the session', () =
 
 // ---- portfolio history & roadmap -------------------------------------------
 
-test('the collection page records a snapshot and says history starts today', () => {
-  const p = renderPage('collection.html');
+test('the collection page records a snapshot and says history starts today', async () => {
+  const p = await renderPage('collection.html');
   noErrors(p);
   assert.match(p.doc.getElementById('history-body').textContent, /History starts today/);
   const snaps = JSON.parse(p.win.localStorage.getItem('bearchart.snapshots'));
@@ -1991,8 +2103,8 @@ test('the collection page records a snapshot and says history starts today', () 
   assert.ok(snaps[0].d.match(/^\d{4}-\d{2}-\d{2}$/));
 });
 
-test('adding an item is recorded as an external flow, not appreciation', () => {
-  const p = renderPage('collection.html');
+test('adding an item is recorded as an external flow, not appreciation', async () => {
+  const p = await renderPage('collection.html');
   pickItem(p, 'add-item', 'kennel-pals-calico-cat');
   p.doc.getElementById('add-btn').dispatchEvent(new p.win.Event('click'));
 
@@ -2002,8 +2114,8 @@ test('adding an item is recorded as an external flow, not appreciation', () => {
   assert.ok(flows[0].v > 0);
 });
 
-test('re-opening the page on the same day does not add a second snapshot', () => {
-  const p = renderPage('collection.html');
+test('re-opening the page on the same day does not add a second snapshot', async () => {
+  const p = await renderPage('collection.html');
   pickItem(p, 'add-item', 'lucky-kitty');
   p.doc.getElementById('add-btn').dispatchEvent(new p.win.Event('click'));
   p.doc.getElementById('add-btn').dispatchEvent(new p.win.Event('click'));
@@ -2011,8 +2123,8 @@ test('re-opening the page on the same day does not add a second snapshot', () =>
   assert.strictEqual(snaps.length, 1);
 });
 
-test('the roadmap renders and counts what is actually built', () => {
-  const p = renderPage('roadmap.html');
+test('the roadmap renders and counts what is actually built', async () => {
+  const p = await renderPage('roadmap.html');
   noErrors(p);
   for (const id of ['p2', 'p3', 'p4', 'never']) {
     assert.ok(p.doc.querySelectorAll('#' + id + ' .road-row').length > 0,
@@ -2022,15 +2134,15 @@ test('the roadmap renders and counts what is actually built', () => {
   assert.ok(p.doc.querySelectorAll('.road-tag.ship').length >= 5);
 });
 
-test('the roadmap states the data constraint rather than promising around it', () => {
-  const p = renderPage('roadmap.html');
+test('the roadmap states the data constraint rather than promising around it', async () => {
+  const p = await renderPage('roadmap.html');
   const text = p.doc.body.textContent;
   assert.match(text, /cannot be bought or fetched/);
   assert.match(text, /Not possible/);
   assert.match(text, /Never/);
 });
 
-test('a shipped claim drops to planned if the capability is missing', () => {
+test('a shipped claim drops to planned if the capability is missing', async () => {
   // The roadmap checks the engine rather than trusting a hand-maintained label,
   // so it cannot keep advertising something that has been removed.
   const src = fs.readFileSync(path.join(ROOT, 'roadmap.js'), 'utf8');
@@ -2038,17 +2150,17 @@ test('a shipped claim drops to planned if the capability is missing', () => {
   assert.match(src, /if \(state === 'shipped' && entry\.length > 3 && !entry\[3\]\)/);
 });
 
-test('the roadmap is in the menu for admins only, for now', () => {
-  const p = renderPage('index.html');
+test('the roadmap is in the menu for admins only, for now', async () => {
+  const p = await renderPage('index.html');
   assert.doesNotMatch(p.doc.getElementById('masthead').innerHTML, /roadmap\.html/);
-  const r = renderPage('roadmap.html');
+  const r = await renderPage('roadmap.html');
   assert.match(r.doc.getElementById('masthead').innerHTML, /roadmap\.html/);
 });
 
 // ---- insurance schedule -----------------------------------------------------
 
-function collectionWith(itemIds) {
-  const p = renderPage('collection.html');
+async function collectionWith(itemIds) {
+  const p = await renderPage('collection.html');
   for (const id of itemIds) {
     pickItem(p, 'add-item', id);
     p.doc.getElementById('add-btn').dispatchEvent(new p.win.Event('click'));
@@ -2056,16 +2168,17 @@ function collectionWith(itemIds) {
   return p;
 }
 
-function captureDownload(p, buttonId) {
+async function captureDownload(p, buttonId) {
   let captured = null;
   p.win.BC.download = (name, text) => { captured = { name, text }; };
   p.doc.getElementById(buttonId).dispatchEvent(new p.win.Event('click'));
+  await settle(p.win);   // the insurance schedule loads each bear's comps first
   return captured;
 }
 
-test('the insurance schedule carries the evidence, not just the number', () => {
-  const p = collectionWith(['kennel-pals-calico-cat']);
-  const out = captureDownload(p, 'export-insurance');
+test('the insurance schedule carries the evidence, not just the number', async () => {
+  const p = await collectionWith(['kennel-pals-calico-cat']);
+  const out = await captureDownload(p, 'export-insurance');
   assert.match(out.name, /insurance-schedule/);
 
   const header = out.text.split('\r\n')[0];
@@ -2074,11 +2187,17 @@ test('the insurance schedule carries the evidence, not just the number', () => {
                      'valuation_method', 'valued_on']) {
     assert.ok(header.includes(col), 'missing column: ' + col);
   }
+  // The comps come from the bear's own file, loaded for the schedule.
+  assert.ok(p.requests.includes('data/items/kennel-pals-calico-cat.json'), p.requests.join(' '));
+  const urls = p.data.sales.filter((x) => x.item_id === 'kennel-pals-calico-cat' && x.source_url)
+    .map((x) => x.source_url);
+  assert.ok(urls.length, 'the fixture bear has sourced comps');
+  for (const u of urls) assert.ok(out.text.includes(u), 'evidence url ' + u);
 });
 
-test('actual cash value is the conservative floor, below replacement cost', () => {
-  const p = collectionWith(['kennel-pals-calico-cat']);
-  const rows = captureDownload(p, 'export-insurance').text.split('\r\n');
+test('actual cash value is the conservative floor, below replacement cost', async () => {
+  const p = await collectionWith(['kennel-pals-calico-cat']);
+  const rows = (await captureDownload(p, 'export-insurance')).text.split('\r\n');
   const header = rows[0].split(',');
   const cells = rows[1].split(',');
   const rc = parseFloat(cells[header.indexOf('replacement_cost_usd')]);
@@ -2087,9 +2206,9 @@ test('actual cash value is the conservative floor, below replacement cost', () =
   assert.ok(acv < rc, 'ACV must sit below replacement cost');
 });
 
-test('an unvalued item is left blank rather than valued at zero', () => {
-  const p = collectionWith(['floppy-kitty']);
-  const rows = captureDownload(p, 'export-insurance').text.split('\r\n');
+test('an unvalued item is left blank rather than valued at zero', async () => {
+  const p = await collectionWith(['floppy-kitty']);
+  const rows = (await captureDownload(p, 'export-insurance')).text.split('\r\n');
   const header = rows[0].split(',');
   const cells = rows[1].split(',');
   assert.strictEqual(cells[header.indexOf('replacement_cost_usd')], '');
@@ -2097,9 +2216,9 @@ test('an unvalued item is left blank rather than valued at zero', () => {
   assert.ok(rows[1].includes('No comparable sales on record'));
 });
 
-test('the cover statement refuses the word appraisal', () => {
-  const p = collectionWith(['kennel-pals-calico-cat']);
-  const cover = captureDownload(p, 'export-cover').text;
+test('the cover statement refuses the word appraisal', async () => {
+  const p = await collectionWith(['kennel-pals-calico-cat']);
+  const cover = (await captureDownload(p, 'export-cover')).text;
   assert.match(cover, /NOT a professional/);
   assert.match(cover, /not prepared by a licensed appraiser/);
   assert.match(cover, /Active asking prices are never used/);
@@ -2107,17 +2226,17 @@ test('the cover statement refuses the word appraisal', () => {
   assert.match(cover, /ACTUAL CASH VALUE/);
 });
 
-test('the cover statement counts how much of the schedule is well supported', () => {
-  const p = collectionWith(['kennel-pals-calico-cat', 'floppy-kitty']);
-  const cover = captureDownload(p, 'export-cover').text;
+test('the cover statement counts how much of the schedule is well supported', async () => {
+  const p = await collectionWith(['kennel-pals-calico-cat', 'floppy-kitty']);
+  const cover = (await captureDownload(p, 'export-cover')).text;
   assert.match(cover, /Items on schedule:\s+2/);
   assert.match(cover, /Lines with a supported value:\s+1/);
 });
 
 // ---- membership -------------------------------------------------------------
 
-test('with no provider connected, nothing is gated and the page says so', () => {
-  const p = renderPage('plans.html');
+test('with no provider connected, nothing is gated and the page says so', async () => {
+  const p = await renderPage('plans.html');
   noErrors(p);
   const P = p.win.BearChartPlans;
   assert.strictEqual(P.configured(), false);
@@ -2129,8 +2248,8 @@ test('with no provider connected, nothing is gated and the page says so', () => 
     /Nothing is for sale yet/);
 });
 
-test('the three plans render with their prices', () => {
-  const p = renderPage('plans.html');
+test('the three plans render with their prices', async () => {
+  const p = await renderPage('plans.html');
   const cards = p.doc.querySelectorAll('.plan');
   assert.strictEqual(cards.length, 3);
   const text = p.doc.getElementById('plans').textContent;
@@ -2139,8 +2258,8 @@ test('the three plans render with their prices', () => {
   assert.match(text, /\$14/);
 });
 
-test('entitlements resolve by tier once a provider exists', () => {
-  const p = renderPage('plans.html');
+test('entitlements resolve by tier once a provider exists', async () => {
+  const p = await renderPage('plans.html');
   const P = p.win.BearChartPlans;
   // Simulate a configured provider by asking the pure resolver directly.
   const plans = P.plans();
@@ -2158,18 +2277,18 @@ test('entitlements resolve by tier once a provider exists', () => {
   for (const e of pro.entitlements) assert.ok(power.entitlements.includes(e), e);
 });
 
-test('an upgrade prompt names the cheapest plan that includes the feature', () => {
-  const p = renderPage('plans.html');
+test('an upgrade prompt names the cheapest plan that includes the feature', async () => {
+  const p = await renderPage('plans.html');
   const P = p.win.BearChartPlans;
   assert.strictEqual(P.requiredPlan('collection_sync').id, 'pro');
   assert.strictEqual(P.requiredPlan('alerts_push').id, 'power');
   assert.strictEqual(P.requiredPlan('not_a_feature'), null);
 });
 
-test('no plan sells a feature only the page enforces', () => {
+test('no plan sells a feature only the page enforces', async () => {
   // Every row of the enforcement table is checked by the server or the shop.
   // Entitlements still being built say so rather than claiming enforcement.
-  const p = renderPage('plans.html');
+  const p = await renderPage('plans.html');
   const table = p.doc.getElementById('enforcement').textContent;
   assert.match(table, /Server/);
   assert.doesNotMatch(table, /Interface only/);
@@ -2177,8 +2296,8 @@ test('no plan sells a feature only the page enforces', () => {
   assert.doesNotMatch(table, /Outfit and set valuations/, 'a planned entitlement is not listed as enforced');
 });
 
-test('plans tick only what works today; the rest is "On the way"', () => {
-  const p = renderPage('plans.html');
+test('plans tick only what works today; the rest is "On the way"', async () => {
+  const p = await renderPage('plans.html');
   const plans = p.doc.getElementById('plans');
   const ticked = Array.from(plans.querySelectorAll('.plan-features li')).map((li) => li.textContent);
   const soon = Array.from(plans.querySelectorAll('.plan-soon li')).map((li) => li.textContent);
@@ -2195,22 +2314,22 @@ test('plans tick only what works today; the rest is "On the way"', () => {
   assert.ok(P.onTheWay().some((f) => f.id === 'outfits'));
 });
 
-test('the sold-comps CSV appears nowhere while its flag is off', () => {
+test('the sold-comps CSV appears nowhere while its flag is off', async () => {
   assert.strictEqual(loadData().config.features.comps_export, false);
-  const index = renderPage('index.html');
+  const index = await renderPage('index.html');
   assert.strictEqual(index.doc.getElementById('csv-sales'), null);
   assert.ok(index.doc.getElementById('exports-note'), 'the note stays for other export messages');
-  const item = renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
+  const item = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
   assert.strictEqual(item.doc.getElementById('export-item'), null);
   assert.ok(item.doc.querySelectorAll('.panel table tbody tr').length > 0, 'the comps themselves stay listed');
-  const plans = renderPage('plans.html');
+  const plans = await renderPage('plans.html');
   assert.doesNotMatch(plans.doc.getElementById('plans').textContent, /CSV/);
   const P = plans.win.BearChartPlans;
   assert.ok(!P.plan('power').entitlements.includes('comps_export'));
 });
 
 test('with the flag on, the CSV button asks the export-comps function', async () => {
-  const win = renderWithAuth('index.html', null, null, (d) => { d.config.features.comps_export = true; });
+  const win = await renderWithAuth('index.html', null, null, (d) => { d.config.features.comps_export = true; });
   const btn = win.document.getElementById('csv-sales');
   assert.ok(btn, 'the button is added');
   const invoked = [];
@@ -2231,21 +2350,21 @@ test('with the flag on, the CSV button asks the export-comps function', async ()
   assert.match(note.textContent, /free/);
 });
 
-test('the shared hot-slot limit is stated before anyone pays, not after', () => {
-  const p = renderPage('plans.html');
+test('the shared hot-slot limit is stated before anyone pays, not after', async () => {
+  const p = await renderPage('plans.html');
   const text = p.doc.getElementById('hot-slots').textContent;
   assert.match(text, /shared, not personal/);
   assert.match(text, /for the whole site/);
   assert.match(text, /breaks at the fourth customer/);
 });
 
-test('no checkout button appears while nothing is purchasable', () => {
-  const p = renderPage('plans.html');
+test('no checkout button appears while nothing is purchasable', async () => {
+  const p = await renderPage('plans.html');
   assert.strictEqual(p.doc.querySelectorAll('#plans button[data-plan]').length, 0);
   assert.match(p.doc.getElementById('plans').textContent, /Not purchasable yet/);
 });
 
-test('paid server features are gated in the database, not just the page', () => {
+test('paid server features are gated in the database, not just the page', async () => {
   const sql = readSchema();
   assert.match(sql, /create or replace function current_tier/);
   assert.match(sql, /create or replace function has_entitlement/);
@@ -2255,29 +2374,29 @@ test('paid server features are gated in the database, not just the page', () => 
   assert.match(sql, /has_entitlement\('hosted_history'\)/);
 });
 
-test('a client cannot write its own subscription row', () => {
+test('a client cannot write its own subscription row', async () => {
   const sql = readSchema();
   assert.match(sql, /create policy subs_read_own on subscriptions for select/);
   assert.doesNotMatch(sql, /create policy \w+ on subscriptions for (all|insert|update)/,
     'a client that could write this table could grant itself the top tier');
 });
 
-test('a lapsed subscription reads as free', () => {
+test('a lapsed subscription reads as free', async () => {
   const sql = readSchema();
   assert.match(sql, /current_period_end is null or s\.current_period_end > now\(\)/);
   assert.match(sql, /status in \('active','trialing'\)/);
 });
 
-test('a lapsed member can still read their own history', () => {
+test('a lapsed member can still read their own history', async () => {
   // Losing access to data you already created would be punitive, and is a
   // different decision from losing the ability to add more.
   const sql = readSchema();
   assert.match(sql, /snapshots_read_own on holding_snapshots for select\s+using \(auth\.uid\(\) = user_id\)/);
 });
 
-test('the membership tab is reachable from every page', () => {
+test('the membership tab is reachable from every page', async () => {
   for (const page of ['index.html', 'collection.html', 'account.html']) {
-    const p = renderPage(page);
+    const p = await renderPage(page);
     assert.match(p.doc.getElementById('masthead').innerHTML, /plans\.html/,
       page + ' should link to membership');
   }
@@ -2304,7 +2423,7 @@ const edgeFn = (name) =>
   [fs.readFileSync(path.join(ROOT, 'supabase', 'functions', name, 'index.ts'), 'utf8')]
     .concat(sharedSources(SHARED_DIR)).join('\n');
 
-test('the webhook verifies the Stripe signature before trusting the body', () => {
+test('the webhook verifies the Stripe signature before trusting the body', async () => {
   const src = edgeFn('stripe-webhook');
   assert.match(src, /constructEventAsync/,
     'Deno crypto is async-only; the sync variant fails silently');
@@ -2314,7 +2433,7 @@ test('the webhook verifies the Stripe signature before trusting the body', () =>
   assert.match(src, /const body = await req\.text\(\)/);
 });
 
-test('the webhook never takes the tier or the user from the request', () => {
+test('the webhook never takes the tier or the user from the request', async () => {
   const src = edgeFn('stripe-webhook');
   // Tier comes from the price id Stripe reports, matched against env.
   assert.match(src, /function tierForPrice/);
@@ -2327,7 +2446,7 @@ test('the webhook never takes the tier or the user from the request', () => {
     'a request that could name its own tier would not need to pay');
 });
 
-test('the webhook is idempotent, because Stripe delivers at least once', () => {
+test('the webhook is idempotent, because Stripe delivers at least once', async () => {
   const src = edgeFn('stripe-webhook');
   assert.match(src, /stripe_events/);
   assert.match(src, /duplicate: true/);
@@ -2337,7 +2456,7 @@ test('the webhook is idempotent, because Stripe delivers at least once', () => {
   assert.match(src, /await events\.release\(e\.id\)/);
 });
 
-test('the webhook writes with the service role, which no client holds', () => {
+test('the webhook writes with the service role, which no client holds', async () => {
   const src = edgeFn('stripe-webhook');
   assert.match(src, /SUPABASE_SERVICE_ROLE_KEY/);
   assert.match(src, /rpc\("apply_subscription_state"/);
@@ -2347,7 +2466,7 @@ test('the webhook writes with the service role, which no client holds', () => {
     'RLS on with no policies denies every client, which is the intent');
 });
 
-test('checkout resolves the buyer from their token, not from the body', () => {
+test('checkout resolves the buyer from their token, not from the body', async () => {
   const src = edgeFn('create-checkout');
   assert.match(src, /client\.auth\.getUser\(\)/);
   assert.match(src, /client_reference_id: i\.userId/);
@@ -2355,7 +2474,7 @@ test('checkout resolves the buyer from their token, not from the body', () => {
   assert.doesNotMatch(src, /body\.user_id|body\?\.user_id/);
 });
 
-test('checkout takes a plan name and resolves the price itself', () => {
+test('checkout takes a plan name and resolves the price itself', async () => {
   const src = edgeFn('create-checkout');
   assert.match(src, /function priceForPlan/);
   assert.match(src, /line_items: \[\{ price: i\.priceId, quantity: 1 \}\]/);
@@ -2366,14 +2485,14 @@ test('checkout takes a plan name and resolves the price itself', () => {
   assert.doesNotMatch(src, /unknown plan: \$\{/);
 });
 
-test('checkout does not leak provider errors to the browser', () => {
+test('checkout does not leak provider errors to the browser', async () => {
   const src = edgeFn('create-checkout');
   assert.match(src, /could not start checkout/);
   assert.doesNotMatch(src, /error: \(err as Error\)\.message/,
     'Stripe error text can name internal configuration');
 });
 
-test('members can cancel without emailing anyone', () => {
+test('members can cancel without emailing anyone', async () => {
   const src = edgeFn('create-portal');
   assert.match(src, /billingPortal\.sessions\.create/);
   // The customer is looked up for the caller under their own RLS, so nobody
@@ -2382,7 +2501,7 @@ test('members can cancel without emailing anyone', () => {
   assert.match(src, /\.eq\("user_id", userId\)/);
 });
 
-test('every edge function checks the Stripe key against the environment and is observed', () => {
+test('every edge function checks the Stripe key against the environment and is observed', async () => {
   for (const name of ['stripe-webhook', 'create-checkout', 'create-portal']) {
     const idx = fs.readFileSync(path.join(ROOT, 'supabase', 'functions', name, 'index.ts'), 'utf8');
     assert.match(idx, /stripeSecretKey\(get\)/, name + ' must use the live/test key guard');
@@ -2392,7 +2511,7 @@ test('every edge function checks the Stripe key against the environment and is o
   }
 });
 
-test('pure billing modules never import esm.sh or touch Deno', () => {
+test('pure billing modules never import esm.sh or touch Deno', async () => {
   const pure = ['http.ts', 'env.ts', 'billing/types.ts', 'billing/ports.ts', 'billing/policy.ts',
     'billing/service.ts', 'billing/checkout_service.ts', 'billing/webhook_handler.ts'];
   for (const f of pure) {
@@ -2402,14 +2521,14 @@ test('pure billing modules never import esm.sh or touch Deno', () => {
   }
 });
 
-test('the client sends a plan name and never a price', () => {
+test('the client sends a plan name and never a price', async () => {
   const src = fs.readFileSync(path.join(ROOT, 'plans.js'), 'utf8');
   assert.match(src, /body: \{ plan: id \}/);
   assert.doesNotMatch(src, /price_id|priceId/);
 });
 
-test('checkout stays inert until a provider is configured', () => {
-  const p = renderPage('plans.html');
+test('checkout stays inert until a provider is configured', async () => {
+  const p = await renderPage('plans.html');
   assert.strictEqual(p.doc.querySelectorAll('#plans button[data-plan]').length, 0);
   assert.match(p.doc.getElementById('plans').textContent, /Not purchasable yet/);
 });
@@ -2420,7 +2539,7 @@ test('checkout stays inert until a provider is configured', () => {
 
 const ROOT_PAGES = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
 
-test('every page loads config.js then observability.js before anything else', () => {
+test('every page loads config.js then observability.js before anything else', async () => {
   for (const page of ROOT_PAGES) {
     const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
     const srcs = Array.from(html.matchAll(/<script[^>]*\bsrc="([^"]+)"/g), (m) => m[1]
@@ -2428,26 +2547,66 @@ test('every page loads config.js then observability.js before anything else', ()
     assert.deepStrictEqual(srcs.slice(0, 2), ['config.js', 'observability.js'], page);
   }
   const itemHtml = fs.readFileSync(path.join(ROOT, 'item', '_offline.html'), 'utf8');
-  // Script order per the master brief: sanitize.js follows observability.js.
-  assert.match(itemHtml, /<script src="\.\.\/config\.js"><\/script>\s*<script src="\.\.\/observability\.js"><\/script>\s*<script src="\.\.\/sanitize\.js"><\/script>\s*<script src="\.\.\/data\.js">/);
+  // Script order per the master brief (#13).
+  assert.match(itemHtml, /<script src="\.\.\/config\.js"><\/script>\s*<script src="\.\.\/observability\.js"><\/script>\s*<script src="\.\.\/site-config\.js"><\/script>\s*<script src="\.\.\/sanitize\.js"><\/script>\s*<script src="\.\.\/bc-data\.js">/);
 });
 
-test('the service worker precaches the runtime config and error reporter', () => {
+test('the service worker precaches the shell by per-file hash, data index included', async () => {
   const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
-  assert.match(sw, /"config\.js"/);
-  assert.match(sw, /"observability\.js"/);
+  const pre = JSON.parse(sw.match(/const PRECACHE = (\[[\s\S]*?\]);/)[1]);
+  const urls = pre.map((e) => e.url);
+  for (const f of ['config.js', 'observability.js', 'site-config.js', 'bc-data.js', 'item/_offline.html']) {
+    assert.ok(urls.includes(f), f + ' precached');
+  }
+  assert.ok(!urls.includes('data.js'), 'data.js is gone');
+  const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'manifest.json'), 'utf8'));
+  assert.ok(urls.includes(manifest.index), 'the catalogue index is precached');
+  assert.ok(urls.includes(manifest.listings), 'the listings are precached');
+  assert.ok(!urls.some((u) => /^data\/items\//.test(u)), 'item files are cached as visited');
+  const crypto = require('node:crypto');
+  for (const e of pre) {
+    if (e.url === 'config.js') continue;   // the deploy's copy, see build_site.sh
+    const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, e.url)))
+      .digest('hex').slice(0, 12);
+    assert.strictEqual(e.rev, sha, e.url + ' rev is its own hash');
+  }
+  // config.js and site-config.js must not go stale while online.
+  assert.deepStrictEqual(JSON.parse(sw.match(/const NETWORK_FIRST = (\[[^\]]*\]);/)[1]),
+    ['config.js', 'site-config.js']);
+  assert.match(sw, /const SHELL = 'bearchart-shell-[0-9a-f]{12}'/);
+  assert.match(sw, /bearchart-items-v1/);
+  assert.match(sw, /bearchart-pages-v1/);
 });
 
-test('the committed config.js sets nothing', () => {
+test('cache headers: hashed data is immutable, the manifest and item files revalidate', () => {
+  const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
+  const cc = (src) => ((vercel.headers.find((h) => h.source === src) || { headers: [] }).headers
+    .find((h) => h.key === 'Cache-Control') || {}).value;
+  assert.strictEqual(cc('/data/h/(.*)'), 'public, max-age=31536000, immutable');
+  assert.strictEqual(cc('/data/items/(.*)'), 'public, max-age=0, must-revalidate');
+  assert.strictEqual(cc('/site-config.js'), 'public, max-age=0, must-revalidate');
+  assert.strictEqual(cc('/sw.js'), 'public, max-age=0, must-revalidate');
+});
+
+test('generated files are not committed', () => {
+  const tracked = require('node:child_process').execSync('git ls-files', { cwd: ROOT, encoding: 'utf8' })
+    .split('\n');
+  for (const f of ['data.js', 'sw.js', 'site-config.js']) assert.ok(!tracked.includes(f), f + ' is tracked');
+  assert.ok(!tracked.some((f) => /^(data|item)\//.test(f)), 'data/ or item/ is tracked');
+  assert.ok(tracked.includes('data.json'), 'data.json is the dataset of record');
+  assert.ok(tracked.includes('tools/imported_sales.json'), 'imported sales stay tracked (owner decision)');
+});
+
+test('the committed config.js sets nothing', async () => {
   const dom = track(new JSDOM('<!doctype html><html><head></head><body></body></html>',
     { url: 'https://bearchart.test/', runScripts: 'outside-only' }));
   dom.window.eval(fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8'));
   assert.deepStrictEqual(Object.keys(dom.window.BEARCHART_RUNTIME), []);
 });
 
-test('error reporting is inert without a DSN on every page', () => {
+test('error reporting is inert without a DSN on every page', async () => {
   for (const page of ['index.html', 'item.html', 'collection.html', 'account.html', 'plans.html']) {
-    const p = renderPage(page);
+    const p = await renderPage(page);
     noErrors(p);
     assert.strictEqual(p.win.bcObs.enabled, false, page);
     assert.strictEqual(p.doc.querySelectorAll('script[src*="sentry"]').length, 0,
@@ -2470,19 +2629,19 @@ function observabilityWindow(runtime, url) {
   return dom.window;
 }
 
-test('without a DSN, even on a deployed host, nothing is loaded', () => {
+test('without a DSN, even on a deployed host, nothing is loaded', async () => {
   const win = observabilityWindow({});
   assert.strictEqual(win.document.querySelectorAll('script').length, 0);
   assert.strictEqual(win.bcObs.enabled, false);
 });
 
-test('a DSN is ignored on localhost', () => {
+test('a DSN is ignored on localhost', async () => {
   const win = observabilityWindow({ sentry_dsn: 'https://k@o1.ingest.us.sentry.io/1' },
     'http://localhost:5173/index.html');
   assert.strictEqual(win.document.querySelectorAll('script').length, 0);
 });
 
-test('with a DSN the pinned SDK loads with SRI, and reports carry no tokens or email', () => {
+test('with a DSN the pinned SDK loads with SRI, and reports carry no tokens or email', async () => {
   const win = observabilityWindow({ sentry_dsn: 'https://k@o1.ingest.us.sentry.io/1',
                                     env: 'preview', release: 'abc123' });
   const el = win.document.querySelector('script');
@@ -2532,16 +2691,15 @@ test('with a DSN the pinned SDK loads with SRI, and reports carry no tokens or e
   assert.strictEqual(JSON.stringify(calls.user), '[{"id":"user-1"},null]');
 });
 
-test('a deploy can switch accounts off through config.js, overriding data.json', () => {
+test('a deploy can switch accounts off through config.js, overriding site-config.js', async () => {
   const dom = track(new JSDOM('<!doctype html><html><head></head><body></body></html>',
     { url: 'https://preview.bearchart.test/', runScripts: 'outside-only' }));
-  const data = JSON.parse(JSON.stringify(loadData()));
-  data.config = Object.assign({}, data.config, { auth: { enabled: true,
-    supabase_url: 'https://prod.supabase.co', supabase_anon_key: 'prod-anon' } });
-  dom.window.BEARCHART_DATA = data;
+  dom.window.BEARCHART_CONFIG = { auth: { enabled: true,
+    supabase_url: 'https://prod.supabase.co', supabase_anon_key: 'prod-anon' } };
   dom.window.BEARCHART_RUNTIME = { auth: { enabled: false } };
-  dom.window.eval(fs.readFileSync(path.join(ROOT, 'config.js'), 'utf8'));
-  dom.window.eval(fs.readFileSync(path.join(ROOT, 'auth.js'), 'utf8'));
+  for (const f of ['config.js', 'bc-data.js', 'auth.js']) {
+    dom.window.eval(fs.readFileSync(path.join(ROOT, f), 'utf8'));
+  }
   assert.strictEqual(dom.window.BearChartAuth.configured(), false);
 });
 
@@ -2552,14 +2710,12 @@ test('member photos follow the deploy override: accounts off means no request at
     resources: new OfflineLoader({ userAgent: 'Mozilla/5.0 (BearChart test browser)' })
   }));
   const win = dom.window;
-  const data = JSON.parse(JSON.stringify(loadData()));
-  data.config = Object.assign({}, data.config, { auth: { enabled: true,
-    supabase_url: 'https://prod.supabase.co', supabase_anon_key: 'prod-anon' } });
-  win.BEARCHART_DATA = data;
+  win.BEARCHART_CONFIG = { auth: { enabled: true,
+    supabase_url: 'https://prod.supabase.co', supabase_anon_key: 'prod-anon' } };
   win.BEARCHART_RUNTIME = { auth: { enabled: false } };
   const fetched = [];
   win.fetch = (url) => { fetched.push(String(url)); return Promise.resolve({ ok: true, json: () => [] }); };
-  for (const f of ['config.js', 'auth.js', 'submissions.js']) {
+  for (const f of ['config.js', 'bc-data.js', 'auth.js', 'submissions.js']) {
     win.eval(fs.readFileSync(path.join(ROOT, f), 'utf8'));
   }
   assert.strictEqual(win.BearChartAuth.config().enabled, false);
@@ -2580,15 +2736,15 @@ test('member photos follow the deploy override: accounts off means no request at
 const ROOT_HTML = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html')).sort();
 const ROOT_JS = fs.readdirSync(ROOT).filter((f) => f.endsWith('.js')).sort();
 
-test('an image with a javascript: url renders the placeholder, not the url', () => {
-  const p = renderPage('index.html');
+test('an image with a javascript: url renders the placeholder, not the url', async () => {
+  const p = await renderPage('index.html');
   const html = p.win.BC.imageHtml({ id: 'x', canonical_name: 'X', image_url: 'javascript:alert(1)' }, 'hero');
   assert.doesNotMatch(html, /javascript:/i);
   assert.match(html, /is-placeholder/);
 });
 
-test('a broken photo swaps in its fallback through the delegated listener', () => {
-  const p = renderPage('index.html');
+test('a broken photo swaps in its fallback through the delegated listener', async () => {
+  const p = await renderPage('index.html');
   const host = p.doc.createElement('div');
   host.innerHTML = p.win.BC.imageHtml({ id: 'x', canonical_name: 'X', image_url: '/nope.jpg' }, 'thumb');
   p.doc.body.appendChild(host);
@@ -2598,8 +2754,8 @@ test('a broken photo swaps in its fallback through the delegated listener', () =
   assert.ok(img.classList.contains('is-placeholder'));
 });
 
-test('the admin queue never turns a member-supplied javascript: link into an href', () => {
-  const win = renderWithAuth('admin.html');
+test('the admin queue never turns a member-supplied javascript: link into an href', async () => {
+  const win = await renderWithAuth('admin.html');
   const row = win.__adminTest.compRow({ id: 'c1', item_slug: 'lucky-kitty', sold_price: 10,
     status: 'pending', listing_url: 'javascript:alert(1)', listing_id: '12345' });
   assert.doesNotMatch(row, /href="javascript/i);
@@ -2610,22 +2766,22 @@ test('the admin queue never turns a member-supplied javascript: link into an hre
   assert.match(ok, /rel="noopener noreferrer"/);
 });
 
-test('no dynamic href is built with esc() alone', () => {
+test('no dynamic href is built with esc() alone', async () => {
   for (const f of ROOT_JS.filter((x) => x !== 'data.js' && x !== 'sanitize.js')) {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     assert.doesNotMatch(src, /href="' \+ (BC\.)?esc\(/, f + ': use BC.extLink / BC.safeUrl for outbound links');
   }
 });
 
-test('every CSV goes through the formula-safe toCsv in sanitize.js', () => {
+test('every CSV goes through the formula-safe toCsv in sanitize.js', async () => {
   for (const f of ROOT_JS.filter((x) => x !== 'data.js' && x !== 'sanitize.js')) {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     assert.doesNotMatch(src, /replace\(\/"\/g, '""'\)/, f + ' hand-rolls CSV quoting');
   }
 });
 
-test('the listing field takes an https link or a bare id, nothing else', () => {
-  const win = renderWithAuth('item.html', 'item.html?id=lucky-kitty');
+test('the listing field takes an https link or a bare id, nothing else', async () => {
+  const win = await renderWithAuth('item.html', 'item.html?id=lucky-kitty');
   const S = win.BearChartSubmissions;
   assert.deepStrictEqual(Object.assign({}, S.classifyListingRef('https://www.ebay.com/itm/123')),
     { listing_url: 'https://www.ebay.com/itm/123' });
@@ -2636,7 +2792,7 @@ test('the listing field takes an https link or a bare id, nothing else', () => {
 });
 
 test('a problem report sends the page path, never the full address', async () => {
-  const win = renderWithAuth('item.html', 'item.html?id=lucky-kitty&code=secret#access_token=t');
+  const win = await renderWithAuth('item.html', 'item.html?id=lucky-kitty&code=secret#access_token=t');
   const client = mockClient({});
   await win.BearChartAuth._setClientForTests(client, null);
   const res = await win.BearChartSubmissions.reportItem({ item_slug: 'lucky-kitty', reason: 'other' });
@@ -2646,7 +2802,7 @@ test('a problem report sends the page path, never the full address', async () =>
   assert.strictEqual(args.entry.page_url, '/item.html');
 });
 
-test('no page runs an inline script (the CSP allows none)', () => {
+test('no page runs an inline script (the CSP allows none)', async () => {
   for (const f of ROOT_HTML) {
     const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
     for (const m of html.matchAll(/<script\b([^>]*)>/gi)) {
@@ -2658,14 +2814,14 @@ test('no page runs an inline script (the CSP allows none)', () => {
   }
 });
 
-test('no script builds markup with an inline event handler', () => {
+test('no script builds markup with an inline event handler', async () => {
   for (const f of ROOT_JS.filter((x) => x !== 'data.js' && x !== 'icons.js')) {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     assert.doesNotMatch(src, /\son[a-z]+=\s*["']/, f);
   }
 });
 
-test('the CSP and security headers are set for every path', () => {
+test('the CSP and security headers are set for every path', async () => {
   const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
   const all = vercel.headers.find((h) => h.source === '/(.*)');
   assert.ok(all, 'a catch-all header block');
@@ -2693,21 +2849,21 @@ test('the CSP and security headers are set for every path', () => {
   assert.strictEqual(get('X-Frame-Options'), 'DENY');
 });
 
-test('the Sentry bundle observability.js loads is the one the CSP allows', () => {
+test('the Sentry bundle observability.js loads is the one the CSP allows', async () => {
   const src = fs.readFileSync(path.join(ROOT, 'observability.js'), 'utf8');
   const url = src.match(/SDK_URL = '([^']+)'/)[1];
   assert.strictEqual(new URL(url).origin, 'https://browser.sentry-cdn.com');
   assert.match(src, /SDK_SRI = 'sha384-/);
 });
 
-test('supabase-js is vendored and pinned: no CDN anywhere', () => {
+test('supabase-js is vendored and pinned: no CDN anywhere', async () => {
   for (const f of ROOT_HTML.concat(['auth.js'])) {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     assert.doesNotMatch(src, /jsdelivr|unpkg/, f);
   }
 });
 
-test('the vendored supabase-js matches the SRI hash auth.js loads it with', () => {
+test('the vendored supabase-js matches the SRI hash auth.js loads it with', async () => {
   const src = fs.readFileSync(path.join(ROOT, 'auth.js'), 'utf8');
   const ver = src.match(/SUPABASE_VERSION = '([^']+)'/)[1];
   const sri = src.match(/SUPABASE_SRI = '([^']+)'/)[1];
@@ -2722,7 +2878,7 @@ test('the vendored supabase-js matches the SRI hash auth.js loads it with', () =
     /cp -r [^\n]*\bvendor\b/, 'build_site.sh ships vendor/');
 });
 
-test('sanitize.js loads before auth.js on every page that loads auth', () => {
+test('sanitize.js loads before auth.js on every page that loads auth', async () => {
   for (const f of ROOT_HTML) {
     const html = fs.readFileSync(path.join(ROOT, f), 'utf8');
     if (html.indexOf('auth.js') === -1) continue;
@@ -2738,12 +2894,30 @@ test('sanitize.js loads before auth.js on every page that loads auth', () => {
   for (const f of ['sanitize.js', 'about.js', 'page.js']) assert.ok(pwa.indexOf('"' + f + '"') > -1, f + ' precached');
 });
 
-test('the dead direct collections upload is gone from the account page', () => {
+test('every page loads the shared scripts in the one agreed order', () => {
+  const ORDER = ['config.js', 'observability.js', 'site-config.js', 'sanitize.js', 'bc-data.js',
+    'engine.js', 'icons.js', 'auth.js', 'entitlements.js', 'submissions.js', 'common.js'];
+  for (const f of ROOT_HTML) {
+    const srcs = Array.from(fs.readFileSync(path.join(ROOT, f), 'utf8')
+      .matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)).map((m) => m[1].replace(/^\//, ''));
+    if (!srcs.includes('common.js')) continue;   // 404.html: config and error reporting only
+    assert.deepStrictEqual(srcs.slice(0, ORDER.length), ORDER, f);
+    assert.ok(!srcs.includes('data.js'), f + ' still loads data.js');
+  }
+  const pages = fs.readFileSync(path.join(ROOT, 'tools', 'build_pages.py'), 'utf8');
+  const scripts = JSON.parse(pages.match(/SCRIPTS = (\[[^\]]+\])/)[1]);
+  assert.deepStrictEqual(scripts, ORDER.concat(['item.js']), 'generated item pages');
+  const pwa = fs.readFileSync(path.join(ROOT, 'tools', 'build_pwa.py'), 'utf8');
+  for (const f of ORDER) assert.ok(pwa.indexOf('"' + f + '"') > -1, f + ' precached');
+  assert.ok(pwa.indexOf('"data.js"') === -1, 'data.js is not precached');
+});
+
+test('the dead direct collections upload is gone from the account page', async () => {
   const src = fs.readFileSync(path.join(ROOT, 'account.js'), 'utf8');
   assert.doesNotMatch(src, /add_collection_items/);
 });
 
-test('auth uses PKCE and listens for PASSWORD_RECOVERY before reading the session', () => {
+test('auth uses PKCE and listens for PASSWORD_RECOVERY before reading the session', async () => {
   const src = fs.readFileSync(path.join(ROOT, 'auth.js'), 'utf8');
   assert.match(src, /flowType: 'pkce'/);
   const listen = src.indexOf('onAuthStateChange(');
@@ -2762,7 +2936,7 @@ function recoveryClient() {
 }
 
 test('a password-reset link asks for a new password and checks it', async () => {
-  const win = renderWithAuth('account.html');
+  const win = await renderWithAuth('account.html');
   const A = win.BearChartAuth;
   const client = recoveryClient();
   await A._setClientForTests(client, { user: { id: 'u1', email: 'jay@example.com' } });
@@ -2781,22 +2955,22 @@ test('a password-reset link asks for a new password and checks it', async () => 
   assert.ok(!win.document.getElementById('new-password'), 'back to the normal account view');
 });
 
-test('the password minimum has one definition', () => {
-  const win = renderWithAuth('account.html');
+test('the password minimum has one definition', async () => {
+  const win = await renderWithAuth('account.html');
   const A = win.BearChartAuth;
   assert.strictEqual(A.MIN_PASSWORD_LENGTH, 8);
   assert.match(A.passwordProblem('1234567'), /at least 8/);
   assert.strictEqual(A.passwordProblem('12345678'), null);
 });
 
-test('analytics never receives login codes from the address bar', () => {
+test('analytics never receives login codes from the address bar', async () => {
   const src = fs.readFileSync(path.join(ROOT, 'common.js'), 'utf8');
   assert.match(src, /before_send: S \? S\.scrubEvent/);
   assert.match(src, /sanitize_properties:/);
   assert.match(src, /custom_personal_data_properties/);
 });
 
-test('member uploads are sniffed and re-encoded, and approval re-encodes before publishing', () => {
+test('member uploads are sniffed and re-encoded, and approval re-encodes before publishing', async () => {
   const subs = fs.readFileSync(path.join(ROOT, 'submissions.js'), 'utf8');
   assert.match(subs, /sniffImageType\(/);
   assert.doesNotMatch(subs, /file\.type/, 'the declared type is never trusted');
@@ -2807,7 +2981,7 @@ test('member uploads are sniffed and re-encoded, and approval re-encodes before 
   assert.doesNotMatch(body, /reviewed_at:/, 'the database stamps the reviewer');
 });
 
-test('billing redirects only ever go to Stripe', () => {
+test('billing redirects only ever go to Stripe', async () => {
   for (const f of ['account.js', 'plans.js']) {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     assert.match(src, /BC\.safeRedirect\(res\.data\.url, \['checkout\.stripe\.com', 'billing\.stripe\.com'\]\)/, f);
@@ -2815,8 +2989,8 @@ test('billing redirects only ever go to Stripe', () => {
   }
 });
 
-test('affiliate links are marked sponsored', () => {
-  const p = renderPage('index.html');
+test('affiliate links are marked sponsored', async () => {
+  const p = await renderPage('index.html');
   const BC = p.win.BC;
   const saved = BC.business.ebay_campaign_id;
   BC.business.ebay_campaign_id = '5338000000';
@@ -2828,8 +3002,8 @@ test('affiliate links are marked sponsored', () => {
   } finally { BC.business.ebay_campaign_id = saved; }
 });
 
-test('the guide rewrites only its own URL parameters, never an auth link\'s', () => {
-  const p = renderPage('index.html', 'index.html?code=abc&sort=relevance#access_token=t');
+test('the guide rewrites only its own URL parameters, never an auth link\'s', async () => {
+  const p = await renderPage('index.html', 'index.html?code=abc&sort=relevance#access_token=t');
   const q = p.doc.getElementById('q');
   q.value = 'bear';
   q.dispatchEvent(new p.win.Event('input'));
@@ -2843,7 +3017,7 @@ test('the guide rewrites only its own URL parameters, never an auth link\'s', ()
 });
 
 test('a failed email link shows a fixed message, not text from the URL', async () => {
-  const win = renderWithAuth('account.html',
+  const win = await renderWithAuth('account.html',
     'account.html?error=access_denied&error_description=Call+0800+SCAM+now');
   // init() runs on load; the link error is captured before anything else.
   await new Promise((r) => setTimeout(r, 20));
@@ -2853,16 +3027,16 @@ test('a failed email link shows a fixed message, not text from the URL', async (
   assert.match(msg, /expired or has already been used/);
 });
 
-test('a contact email that could add mailto parameters gets no button', () => {
-  const win = renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '',
+test('a contact email that could add mailto parameters gets no button', async () => {
+  const win = await renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '',
     contact_email: 'jay@example.com?bcc=x@evil.test' });
   assert.doesNotMatch(win.document.body.innerHTML, /mailto:/);
-  const ok = renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '',
+  const ok = await renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '',
     contact_email: 'jay@example.com' });
   assert.match(ok.document.body.innerHTML, /mailto:jay@example\.com\?subject=/);
 });
 
-test('no test-only hooks leak into a real browser', () => {
+test('no test-only hooks leak into a real browser', async () => {
   const admin = fs.readFileSync(path.join(ROOT, 'admin.js'), 'utf8');
   const hook = admin.indexOf('window.__adminTest =');
   assert.ok(hook > -1 && admin.lastIndexOf('/jsdom/i.test(', hook) > hook - 200,

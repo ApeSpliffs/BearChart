@@ -48,11 +48,13 @@ FONTS = (
     '&family=Nunito+Sans:wght@400..800&display=swap">'
 )
 
-# config.js and observability.js come first so an error in any later script
-# can be reported (observability.js is inert without a DSN).
+# The one script order every page uses. config.js and observability.js come
+# first so an error in any later script can be reported (observability.js is
+# inert without a DSN); site-config.js is the data manifest bc-data.js reads;
 # sanitize.js (URL/CSV/escape helpers) must precede auth.js and common.js.
-SCRIPTS = ["config.js", "observability.js", "sanitize.js", "data.js", "engine.js", "icons.js",
-           "auth.js", "entitlements.js", "submissions.js", "common.js", "item.js"]
+SCRIPTS = ["config.js", "observability.js", "site-config.js", "sanitize.js", "bc-data.js",
+           "engine.js", "icons.js", "auth.js", "entitlements.js", "submissions.js",
+           "common.js", "item.js"]
 
 # Pages that are not items but still belong in the sitemap.
 TOP_LEVEL = ["index.html", "deals.html", "checklists.html", "collection.html",
@@ -256,6 +258,7 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
 <main>
+  <p class="fine bc-status" data-bc-status aria-live="polite" hidden></p>
   <div class="wrap" id="item-root">
     <!-- Rendered at build time so this page says something before any
          JavaScript runs. item.js replaces it with the interactive version. -->
@@ -304,22 +307,17 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 
 
 def valuations(data):
-    """Ask the real engine, through node, so the pages cannot drift from it."""
-    import subprocess
-    script = """
-      global.window = global;
-      require('%s/data.js'); require('%s/engine.js');
-      const D = global.BEARCHART_DATA, E = global.BearChartEngine;
-      const byItem = {};
-      for (const s of D.sales) (byItem[s.item_id] = byItem[s.item_id] || []).push(s);
-      const out = {};
-      for (const i of D.items) out[i.id] = E.valuate(i, byItem[i.id] || [], D.config);
-      process.stdout.write(JSON.stringify(out));
-    """ % (ROOT, ROOT)
-    res = subprocess.run(["node", "-e", script], capture_output=True, text=True)
-    if res.returncode != 0:
-        raise SystemExit("could not run the valuation engine:\n" + res.stderr)
-    return json.loads(res.stdout)
+    """Each item's valuation summary, from the catalogue index tools/build_assets.js
+    wrote with the real engine (E.summary), so the pages cannot drift from it."""
+    path = os.path.join(ROOT, "data", "manifest.json")
+    if not os.path.exists(path):
+        raise SystemExit("data/manifest.json is missing: run `npm run build:assets` "
+                         "(node tools/build_assets.js) before building the pages.")
+    with open(path) as f:
+        manifest = json.load(f)
+    with open(os.path.join(ROOT, manifest["index"])) as f:
+        index = json.load(f)
+    return {rec["id"]: rec["v"] for rec in index["items"]}
 
 
 def redirect_stub_html(old_id, new_item, base_url):

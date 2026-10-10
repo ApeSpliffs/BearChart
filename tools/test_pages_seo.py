@@ -119,7 +119,9 @@ class PageShapeTests(unittest.TestCase):
     def test_assets_and_links_reach_back_out_of_the_item_directory(self):
         html = page(PRICED, VAL)
         self.assertIn('href="../styles.css"', html)
-        self.assertIn('src="../data.js"', html)
+        self.assertIn('src="../site-config.js"', html)
+        self.assertIn('src="../bc-data.js"', html)
+        self.assertNotIn('data.js"', html.replace('bc-data.js"', ''))
         self.assertIn('src="../item.js"', html)
         self.assertIn('href="../index.html"', html)
 
