@@ -1254,7 +1254,7 @@
     // The raw loaders, for the UX layer's skeletons (BC.whenData).
     loadIndex: BD.loadIndex, loadItem: BD.loadItem,
     status: setStatus,
-    feature: BD.feature, sources: SITE.sources || [], retailReference: SITE.retail_reference || null,
+    feature: BD.feature, sources: SITE.sources || [],
     itemById: itemById,
     itemChooser: itemChooser, rel: rel, evidenceStrip: evidenceStrip,
     valuationFor: valuationFor, catalogueStats: catalogueStats, canonicalId: canonicalId, go: go,

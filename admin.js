@@ -444,7 +444,7 @@
     }
 
     function renderRecent() {
-      var recent = BC.catalogueStats().recent_sales || [];
+      var recent = D.recentSales;   // from the index (tools/build_assets.js)
       $('recent').innerHTML = '<div class="table-scroll"><table><thead><tr><th>Date</th>' +
         '<th>Item</th><th class="num">Price</th><th>Marketplace</th><th>Listing</th>' +
         '</tr></thead><tbody>' + recent.map(function (s) {

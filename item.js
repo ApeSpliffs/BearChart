@@ -590,7 +590,7 @@
     }
 
     function retailPanel() {
-      var r = BC.retailReference;
+      var r = detail.retail_reference;
       if (!r) return '';
       return '<div class="panel"><h2>Retail reference</h2>' +
         '<p class="fine">Current official retail as of ' + BC.esc(r.as_of) + '. ' +

@@ -135,6 +135,10 @@ test('site-config.js evaluates and points at files that exist', () => {
   assert.strictEqual(CFG.features.comps_export, false);
   assert.ok(!('auth' in CFG.engine) && !('features' in CFG.engine), 'engine config is the engine\'s only');
   assert.ok(CFG.engine.condition_multipliers && CFG.engine.recency.as_of);
+  for (const [k, p] of Object.entries(CFG.engine.fees.platforms)) {
+    assert.strictEqual(typeof p.pct, 'number', k);
+    assert.ok(!('verify' in p), k + ': owner notes stay in data.json');
+  }
   assert.strictEqual(CFG.data.index, MANIFEST.index);
   assert.strictEqual(CFG.data.listings, MANIFEST.listings);
   assert.ok(fs.existsSync(path.join(OUT, CFG.data.index)));
@@ -159,10 +163,12 @@ test('the headline stats are engine.catalogueStats, the same numbers data.json s
   assert.strictEqual(st.completed_sale_count,
     DATA.sales.filter((s) => s.evidence_type === 'completed_sale').length);
   assert.strictEqual(st.active_listing_count, (DATA.active_listings || []).length);
-  assert.ok(st.recent_sales.length <= 10);
-  for (let k = 1; k < st.recent_sales.length; k++) {
-    assert.ok(st.recent_sales[k - 1].sale_date >= st.recent_sales[k].sale_date);
-  }
+  assert.ok(!('recent_sales' in st), 'admin-only rows stay out of site-config.js');
+  assert.ok(!('retail_reference' in CFG), 'item-page-only data stays out of site-config.js');
+  const recent = INDEX.recent_sales;
+  assert.ok(recent.length > 0 && recent.length <= 10);
+  for (let k = 1; k < recent.length; k++) assert.ok(recent[k - 1].sale_date >= recent[k].sale_date);
+  assert.deepStrictEqual(shard(DATA.items[0].id).retail_reference, DATA.retail_reference);
 });
 
 test('the downloads stay small', () => {
@@ -170,7 +176,8 @@ test('the downloads stay small', () => {
   const indexGz = gz(read(MANIFEST.index));
   const cfgGz = gz(read('site-config.js'));
   assert.ok(indexGz < 160 * 1024, 'index ' + indexGz + ' bytes gzipped');
-  assert.ok(cfgGz < 6 * 1024, 'site-config ' + cfgGz + ' bytes gzipped');
+  // 1 KB of headroom under the 6 KB budget is kept for the UX workstream.
+  assert.ok(cfgGz < 5 * 1024, 'site-config ' + cfgGz + ' bytes gzipped');
   const biggest = Math.max(...DATA.items.map((i) =>
     fs.statSync(path.join(OUT, 'data', 'items', i.id + '.json')).size));
   assert.ok(biggest < 40 * 1024, 'largest shard ' + biggest + ' bytes');

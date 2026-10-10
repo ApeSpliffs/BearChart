@@ -157,6 +157,7 @@
     return {
       items: items,
       meta: { schema: json.schema, generated_at: json.generated_at || null },
+      recentSales: json.recent_sales || [],
       itemById: itemById,
       valuationFor: valuationFor,
       soldConditions: function (id) { return sold[canonicalId(id)] || []; }
@@ -200,6 +201,7 @@
       listings: json.listings || [],
       listings_fetched_at: json.listings_fetched_at || null,
       related: json.related || [],
+      retail_reference: json.retail_reference || null,
       valuation: E.valuate(json.item, json.sales || [], config().engine),
       partial: false
     };
