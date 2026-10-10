@@ -209,5 +209,29 @@ class SeenListingTests(unittest.TestCase):
         self.assertEqual(seen, {})
 
 
+class RedirectStateTests(unittest.TestCase):
+    def test_merged_ids_keep_their_watch_and_polling_history(self):
+        import json as _json
+        import tempfile as _tempfile
+        tmp = _tempfile.mkdtemp()
+        orig = (pe.STATE, pe.WATCHLIST)
+        pe.STATE = os.path.join(tmp, "state.json")
+        pe.WATCHLIST = os.path.join(tmp, "watch.json")
+        try:
+            with open(pe.STATE, "w") as f:
+                _json.dump({"last_polled": {"item:old": 10, "item:new": 5, "group:x": 3},
+                            "bucket": None,
+                            "seen": {"1": {"item_id": "old", "price": 9}}}, f)
+            with open(pe.WATCHLIST, "w") as f:
+                _json.dump(["old", "new"], f)
+            data = {"redirects": {"old": "new"}}
+            st = pe.load_state(data)
+            self.assertEqual(st["last_polled"], {"item:new": 10, "group:x": 3})
+            self.assertEqual(st["seen"]["1"]["item_id"], "new")
+            self.assertEqual(pe.load_watchlist(data), ["new"])
+        finally:
+            pe.STATE, pe.WATCHLIST = orig
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

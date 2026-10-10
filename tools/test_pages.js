@@ -613,8 +613,17 @@ test('a collection entry stored under a merged id still renders and is migrated'
       win.localStorage.setItem('bearchart.collection', JSON.stringify([
         { item_id: oldId, condition: 'Good', completeness: 'unknown', qty: 1 }]));
       win.localStorage.setItem('bearchart.wishlist', JSON.stringify([oldId, newId]));
+      const hold = {}; hold[oldId] = 1; hold[newId] = 2;
+      win.localStorage.setItem('bearchart.lastHoldings', JSON.stringify(hold));
+      win.localStorage.setItem('bearchart.flows', JSON.stringify([
+        { item_id: oldId, dir: 'acquire', qty: 1, v: 10, d: '2026-01-01' }]));
     }
   });
+  const held = JSON.parse(p.win.localStorage.getItem('bearchart.lastHoldings'));
+  assert.strictEqual(held[oldId], undefined);
+  assert.ok(held[newId] >= 1, 'holdings are re-keyed, so a merge is not a sale');
+  const flows = JSON.parse(p.win.localStorage.getItem('bearchart.flows'));
+  assert.ok(flows.every((f) => f.item_id !== oldId));
   const coll = JSON.parse(p.win.localStorage.getItem('bearchart.collection'));
   assert.strictEqual(coll[0].item_id, newId);
   assert.deepStrictEqual(JSON.parse(p.win.localStorage.getItem('bearchart.wishlist')), [newId]);

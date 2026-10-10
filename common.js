@@ -658,6 +658,29 @@
         });
         if (changed) localStorage.setItem('bearchart.collection', JSON.stringify(coll));
       }
+      // Portfolio history: the last holdings map (id -> qty, merged ids summed)
+      // and the recorded flows, so a merge never reads as buying or selling.
+      var hold = JSON.parse(localStorage.getItem('bearchart.lastHoldings') || 'null');
+      if (hold && typeof hold === 'object' && !Array.isArray(hold)) {
+        var held = {}, moved = false;
+        Object.keys(hold).forEach(function (id) {
+          var c = canonicalId(id);
+          if (c !== id) moved = true;
+          held[c] = (held[c] || 0) + (Number(hold[id]) || 0);
+        });
+        if (moved) localStorage.setItem('bearchart.lastHoldings', JSON.stringify(held));
+      }
+      var flows = JSON.parse(localStorage.getItem('bearchart.flows') || 'null');
+      if (Array.isArray(flows)) {
+        var fmoved = false;
+        flows.forEach(function (f) {
+          if (f && f.item_id && canonicalId(f.item_id) !== f.item_id) {
+            f.item_id = canonicalId(f.item_id);
+            fmoved = true;
+          }
+        });
+        if (fmoved) localStorage.setItem('bearchart.flows', JSON.stringify(flows));
+      }
       var wl = JSON.parse(localStorage.getItem(WL_KEY) || 'null');
       if (Array.isArray(wl)) {
         var out = [];
