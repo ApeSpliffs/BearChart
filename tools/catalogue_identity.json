@@ -839,6 +839,134 @@
     "paw-patrol-skye-tp126883169283": {
       "action": "exclude",
       "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp186767121723": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp136175433483": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp167692105065": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp167721861033": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp257070973224": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "hufflepuff-house-bear-harry-potter-tp286394305583": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "hufflepuff-house-bear-harry-potter-tp385646371156": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp226534090407": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp156637932184": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp256968234610": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp257448233576": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp287100395435": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp318525557170": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp389357701631": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "ravenclaw-house-bear-harry-potter-tp257278445443": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "ravenclaw-house-bear-harry-potter-tp326285648394": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "gryffindor-house-bear-harry-potter-tp166431463905": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "frozen-anna-bear-tp116645420807": {
+      "action": "exclude",
+      "reason": "Frozen dress, wig or clothing sold without the plush."
+    },
+    "frozen-anna-bear-tp224325130491": {
+      "action": "exclude",
+      "reason": "Frozen dress, wig or clothing sold without the plush."
+    },
+    "frozen-elsa-bear-tp376174602679": {
+      "action": "exclude",
+      "reason": "Frozen dress, wig or clothing sold without the plush."
+    },
+    "frozen-olaf-tp135148280210": {
+      "action": "exclude",
+      "reason": "Frozen dress, wig or clothing sold without the plush."
+    },
+    "star-wars-grogu-tp256598300545": {
+      "action": "exclude",
+      "reason": "Slippers or sleeper sold without the plush."
+    },
+    "star-wars-grogu-tp136053699481": {
+      "action": "exclude",
+      "reason": "Slippers or sleeper sold without the plush."
+    },
+    "grogu-star-wars-tp127420860575": {
+      "action": "exclude",
+      "reason": "Slippers or sleeper sold without the plush."
+    },
+    "disney-stitch-tp176088976937": {
+      "action": "exclude",
+      "reason": "Slippers or sleeper sold without the plush."
+    },
+    "lucky-teddy-tp187896116745": {
+      "action": "exclude",
+      "reason": "Pot of Gold wrist accessory sold without the plush."
+    },
+    "lucky-teddy-tp187900298939": {
+      "action": "exclude",
+      "reason": "Pot of Gold wrist accessory sold without the plush."
+    },
+    "lucky-teddy-tp188175489973": {
+      "action": "exclude",
+      "reason": "Pot of Gold wrist accessory sold without the plush."
+    },
+    "lucky-teddy-tp277684812539": {
+      "action": "exclude",
+      "reason": "Pot of Gold wrist accessory sold without the plush."
+    },
+    "princess-luna-my-little-pony-i09": {
+      "action": "exclude",
+      "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
+    },
+    "princess-luna-my-little-pony-i19": {
+      "action": "exclude",
+      "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
+    },
+    "rarity-my-little-pony-i13": {
+      "action": "exclude",
+      "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
     }
   }
 }

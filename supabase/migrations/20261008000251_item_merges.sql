@@ -92,6 +92,26 @@ update sales set excluded = '{"reason": "A replacement sound chip sold on its ow
  where item_id in (select id from items where slug in ('chase-paw-patrol'))
    and sold_price = 11.64 and sale_date is not distinct from '2026-06-05'
    and listing_id is not distinct from '144910113982';
+update sales set excluded = '{"reason": "Slippers or sleeper sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('stitch-disney'))
+   and sold_price = 15.99 and sale_date is not distinct from '2024-07-02'
+   and listing_id is not distinct from '176088976937';
+update sales set excluded = '{"reason": "Frozen dress, wig or clothing sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('anna-frozen'))
+   and sold_price = 9.9 and sale_date is not distinct from '2025-12-08'
+   and listing_id is not distinct from '116645420807';
+update sales set excluded = '{"reason": "Frozen dress, wig or clothing sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('anna-frozen'))
+   and sold_price = 11.9 and sale_date is not distinct from '2026-09-15'
+   and listing_id is not distinct from '224325130491';
+update sales set excluded = '{"reason": "Frozen dress, wig or clothing sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('elsa-frozen'))
+   and sold_price = 4.75 and sale_date is not distinct from '2026-10-05'
+   and listing_id is not distinct from '376174602679';
+update sales set excluded = '{"reason": "Frozen dress, wig or clothing sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('olaf-frozen'))
+   and sold_price = 10 and sale_date is not distinct from '2025-06-01'
+   and listing_id is not distinct from '135148280210';
 update sales set excluded = '{"reason": "Pajama sleeper sold on its own (clothing), not the plush."}'::jsonb
  where item_id in (select id from items where slug in ('the-grinch'))
    and sold_price = 12 and sale_date is not distinct from '2023-12-01'
@@ -100,6 +120,62 @@ update sales set excluded = '{"reason": "Pajama sleeper sold on its own (clothin
  where item_id in (select id from items where slug in ('the-grinch'))
    and sold_price = 9 and sale_date is not distinct from '2023-11-29'
    and listing_id is not distinct from '126197760216';
+update sales set excluded = '{"reason": "Slippers or sleeper sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('grogu-star-wars'))
+   and sold_price = 12 and sale_date is not distinct from '2025-12-13'
+   and listing_id is not distinct from '127420860575';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('gryffindor-house-bear-harry-potter'))
+   and sold_price = 7.99 and sale_date is not distinct from '2023-12-06'
+   and listing_id is not distinct from '166431463905';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('hufflepuff-house-bear-harry-potter'))
+   and sold_price = 10.87 and sale_date is not distinct from '2025-07-27'
+   and listing_id is not distinct from '136175433483';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('hufflepuff-house-bear-harry-potter'))
+   and sold_price = 12 and sale_date is not distinct from '2025-09-12'
+   and listing_id is not distinct from '167692105065';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('hufflepuff-house-bear-harry-potter'))
+   and sold_price = 10.8 and sale_date is not distinct from '2025-10-10'
+   and listing_id is not distinct from '167721861033';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('hufflepuff-house-bear-harry-potter'))
+   and sold_price = 19.95 and sale_date is not distinct from '2024-11-13'
+   and listing_id is not distinct from '186767121723';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('hufflepuff-house-bear-harry-potter'))
+   and sold_price = 9.89 and sale_date is not distinct from '2025-09-05'
+   and listing_id is not distinct from '257070973224';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 17.49 and sale_date is not distinct from '2025-01-24'
+   and listing_id is not distinct from '156637932184';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 11.04 and sale_date is not distinct from '2025-01-17'
+   and listing_id is not distinct from '226534090407';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 14 and sale_date is not distinct from '2026-01-01'
+   and listing_id is not distinct from '256968234610';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 5.1 and sale_date is not distinct from '2026-04-21'
+   and listing_id is not distinct from '257448233576';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 8.99 and sale_date is not distinct from '2026-05-26'
+   and listing_id is not distinct from '287100395435';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 14.39 and sale_date is not distinct from '2026-09-24'
+   and listing_id is not distinct from '318525557170';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 5 and sale_date is not distinct from '2026-05-23'
+   and listing_id is not distinct from '389357701631';
 update sales set excluded = '{"reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."}'::jsonb
  where item_id in (select id from items where slug in ('light-fury'))
    and sold_price = 35.9 and sale_date is not distinct from '2025-12-17'
@@ -112,6 +188,30 @@ update sales set excluded = '{"reason": "A 4-inch Light Fury wristlet, not the 1
  where item_id in (select id from items where slug in ('light-fury'))
    and sold_price = 38 and sale_date is not distinct from '2025-02-28'
    and listing_id is not distinct from '116497211038';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('hufflepuff-house-bear-harry-potter'))
+   and sold_price = 11.8 and sale_date is not distinct from '2025-04-03'
+   and listing_id is not distinct from '286394305583';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('hufflepuff-house-bear-harry-potter'))
+   and sold_price = 15 and sale_date is not distinct from '2023-10-30'
+   and listing_id is not distinct from '385646371156';
+update sales set excluded = '{"reason": "Pot of Gold wrist accessory sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('lucky-teddy-st-patrick-s-day'))
+   and sold_price = 9.99 and sale_date is not distinct from '2026-01-02'
+   and listing_id is not distinct from '187896116745';
+update sales set excluded = '{"reason": "Pot of Gold wrist accessory sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('lucky-teddy-st-patrick-s-day'))
+   and sold_price = 8 and sale_date is not distinct from '2026-03-16'
+   and listing_id is not distinct from '187900298939';
+update sales set excluded = '{"reason": "Pot of Gold wrist accessory sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('lucky-teddy-st-patrick-s-day'))
+   and sold_price = 9.99 and sale_date is not distinct from '2026-09-09'
+   and listing_id is not distinct from '188175489973';
+update sales set excluded = '{"reason": "Pot of Gold wrist accessory sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('lucky-teddy-st-patrick-s-day'))
+   and sold_price = 7.95 and sale_date is not distinct from '2026-04-04'
+   and listing_id is not distinct from '277684812539';
 update sales set excluded = '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb
  where item_id in (select id from items where slug in ('marshall-paw-patrol'))
    and sold_price = 10 and sale_date is not distinct from '2026-08-11'
@@ -148,6 +248,14 @@ update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet 
  where item_id in (select id from items where slug in ('tracker-paw-patrol'))
    and sold_price = 10.99 and sale_date is not distinct from '2024-01-13'
    and listing_id is not distinct from '126183176723';
+update sales set excluded = '{"reason": "My Little Pony cape (and collar/necklace) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('princess-luna-my-little-pony'))
+   and sold_price = 10.79 and sale_date is not distinct from '2024-11-19'
+   and listing_id is not distinct from '116312721891';
+update sales set excluded = '{"reason": "My Little Pony cape (and collar/necklace) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('princess-luna-my-little-pony'))
+   and sold_price = 9.26 and sale_date is not distinct from '2024-10-18'
+   and listing_id is not distinct from '126688227484';
 update sales set excluded = '{"reason": "Original pre-Vault Pumpkin Pal Teddy (2023-2024 sale); not catalogued - see tools/catalogue_gaps.md."}'::jsonb
  where item_id in (select id from items where slug in ('pumpkin-pal-teddy-2026-halloween'))
    and sold_price = 90 and sale_date is not distinct from '2024-08-17'
@@ -160,6 +268,18 @@ update sales set excluded = '{"reason": "Original pre-Vault Pumpkin Pal Teddy (2
  where item_id in (select id from items where slug in ('pumpkin-pal-teddy-2026-halloween'))
    and sold_price = 24 and sale_date is not distinct from '2023-11-22'
    and listing_id is not distinct from '155890275573';
+update sales set excluded = '{"reason": "My Little Pony cape (and collar/necklace) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('rarity-my-little-pony'))
+   and sold_price = 9.99 and sale_date is not distinct from '2023-12-13'
+   and listing_id is not distinct from '134831803479';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 10 and sale_date is not distinct from '2026-01-01'
+   and listing_id is not distinct from '257278445443';
+update sales set excluded = '{"reason": "Harry Potter house robe, uniform or scarf sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('ravenclaw-house-bear-harry-potter'))
+   and sold_price = 21.25 and sale_date is not distinct from '2024-10-21'
+   and listing_id is not distinct from '326285648394';
 update sales set excluded = '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb
  where item_id in (select id from items where slug in ('rubble-paw-patrol'))
    and sold_price = 25 and sale_date is not distinct from '2026-06-05'
@@ -219,6 +339,14 @@ update sales set excluded = '{"reason": "Aloha Christmas Stitch, not Snowflake F
  where item_id in (select id from items where slug in ('disney-snowflake-fun-stitch'))
    and sold_price = 27 and sale_date is not distinct from '2024-03-23'
    and listing_id is not distinct from '134989169448';
+update sales set excluded = '{"reason": "Slippers or sleeper sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('grogu-star-wars'))
+   and sold_price = 11 and sale_date is not distinct from '2026-10-03'
+   and listing_id is not distinct from '136053699481';
+update sales set excluded = '{"reason": "Slippers or sleeper sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('grogu-star-wars'))
+   and sold_price = 9.99 and sale_date is not distinct from '2025-01-07'
+   and listing_id is not distinct from '256598300545';
 update sales set excluded = '{"reason": "A ''Champ'' teddy with a heart patch, not Stitch."}'::jsonb
  where item_id in (select id from items where slug in ('stitch-disney'))
    and sold_price = 10.99 and sale_date is not distinct from '2024-03-21'

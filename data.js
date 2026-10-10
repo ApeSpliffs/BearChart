@@ -14,7 +14,7 @@ globalThis.BEARCHART_DATA = {
     "stats": {
       "items": 1959,
       "priced_items": 1497,
-      "sold_transactions": 21575,
+      "sold_transactions": 21543,
       "stale_items": 235
     }
   },
@@ -314398,7 +314398,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: My little pony cape build a bear BAB purple gold Princess Luna"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: My little pony cape build a bear BAB purple gold Princess Luna",
+      "excluded": {
+        "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
+      }
     },
     {
       "id": "princess-luna-my-little-pony-i10",
@@ -314590,7 +314593,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear My Little Pony Princess Luna Cape And Collar Purple Clouds Stars"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear My Little Pony Princess Luna Cape And Collar Purple Clouds Stars",
+      "excluded": {
+        "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
+      }
     },
     {
       "id": "princess-luna-my-little-pony-i20",
@@ -316062,7 +316068,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: \ud83c\udf4c Build A Bear Workshop BAB My Little Pony MLP Jeweled Cape Necklace FOR RARITY"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: \ud83c\udf4c Build A Bear Workshop BAB My Little Pony MLP Jeweled Cape Necklace FOR RARITY",
+      "excluded": {
+        "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
+      }
     },
     {
       "id": "rarity-my-little-pony-i14",
@@ -373830,7 +373839,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: Build a Bear Full Size Teddy Slippers - Disney's Stitch Slippers - New"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: Build a Bear Full Size Teddy Slippers - Disney's Stitch Slippers - New",
+      "excluded": {
+        "reason": "Slippers or sleeper sold without the plush."
+      }
     },
     {
       "id": "disney-stitch-tp266458440188",
@@ -379999,7 +380011,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Disney Anna Frozen Dress Teddy Bear Outfit"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Disney Anna Frozen Dress Teddy Bear Outfit",
+      "excluded": {
+        "reason": "Frozen dress, wig or clothing sold without the plush."
+      }
     },
     {
       "id": "frozen-anna-bear-tp125292737648",
@@ -380071,7 +380086,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (14 sold); title: Build A Bear Disney Frozen Anna Teddy Bear Sized Braided Pigtails Wig ONLY"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (14 sold); title: Build A Bear Disney Frozen Anna Teddy Bear Sized Braided Pigtails Wig ONLY",
+      "excluded": {
+        "reason": "Frozen dress, wig or clothing sold without the plush."
+      }
     },
     {
       "id": "frozen-elsa-bear-tp116037848642",
@@ -380285,7 +380303,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: BABW / Build a Bear Workshop Disney Frozen ELSA Dress Outfit for Plush Toys"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: BABW / Build a Bear Workshop Disney Frozen ELSA Dress Outfit for Plush Toys",
+      "excluded": {
+        "reason": "Frozen dress, wig or clothing sold without the plush."
+      }
     },
     {
       "id": "frozen-elsa-inspired-bear-tp115946071229",
@@ -380599,7 +380620,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Frozen Olaf T Shirt & Bear Boxers"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Frozen Olaf T Shirt & Bear Boxers",
+      "excluded": {
+        "reason": "Frozen dress, wig or clothing sold without the plush."
+      }
     },
     {
       "id": "frozen-olaf-tp292358132390",
@@ -385299,7 +385323,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Robe Stuffed Animal Costume Toy"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Robe Stuffed Animal Costume Toy",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-hufflepuff-house-bear-tp176553918468",
@@ -385407,7 +385434,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Robe Stuffed Animal Costume Toy NWT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Robe Stuffed Animal Costume Toy NWT",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-hufflepuff-house-bear-tp257070973224",
@@ -385425,7 +385455,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Hoodie Stuffed Animal Costume Shirt"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Hoodie Stuffed Animal Costume Shirt",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-hufflepuff-house-bear-tp167692105065",
@@ -385443,7 +385476,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: NWT Build A Bear Harry Potter Hufflepuff House Robe Stuffed Animal Costume Toy"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: NWT Build A Bear Harry Potter Hufflepuff House Robe Stuffed Animal Costume Toy",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-hufflepuff-house-bear-tp205682063882",
@@ -385479,7 +385515,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Robe Stuffed Animal Costume Toy"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Robe Stuffed Animal Costume Toy",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-hufflepuff-house-bear-tp236381238885",
@@ -385605,7 +385644,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Ravenclaws House Hooded Robe Stuffed Animal Outfit VTG"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Harry Potter Ravenclaws House Hooded Robe Stuffed Animal Outfit VTG",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-ravenclaw-house-bear-tp156637932184",
@@ -385623,7 +385665,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-ravenclaw-house-bear-tp276906911241",
@@ -385677,7 +385722,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-ravenclaw-house-bear-tp256782428534",
@@ -385713,7 +385761,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-ravenclaw-house-bear-tp389357701631",
@@ -385731,7 +385782,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Only BAB For Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Only BAB For Plush",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-ravenclaw-house-bear-tp287100395435",
@@ -385749,7 +385803,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-ravenclaw-house-bear-tp306996165607",
@@ -385785,7 +385842,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: BUILD A BEAR HARRY POTTER Ravenclaw House Robe Shirt & Tie Combo BAB For Plush",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "harry-potter-ravenclaw-house-bear-tp168683956395",
@@ -392559,7 +392619,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear St Patrick\u2019s Day Pot Of Gold Shamrock Lucky Coins Teddy Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear St Patrick\u2019s Day Pot Of Gold Shamrock Lucky Coins Teddy Accessory",
+      "excluded": {
+        "reason": "Pot of Gold wrist accessory sold without the plush."
+      }
     },
     {
       "id": "lucky-teddy-tp168011581379",
@@ -392639,7 +392702,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear St Patrick\u2019s Day Pot Of Gold Shamrock Lucky Coins Teddy Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear St Patrick\u2019s Day Pot Of Gold Shamrock Lucky Coins Teddy Accessory",
+      "excluded": {
+        "reason": "Pot of Gold wrist accessory sold without the plush."
+      }
     },
     {
       "id": "lucky-teddy-tp188138100434",
@@ -392679,7 +392745,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: Build-A-Bear Pot of Gold Coins, Lucky Shamrock St Patricks Teddy Wrist Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (2 sold); title: Build-A-Bear Pot of Gold Coins, Lucky Shamrock St Patricks Teddy Wrist Accessory",
+      "excluded": {
+        "reason": "Pot of Gold wrist accessory sold without the plush."
+      }
     },
     {
       "id": "lucky-teddy-tp188625741165",
@@ -392719,7 +392788,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear St Patrick\u2019s Day Pot Of Gold Shamrock Lucky Coins Teddy Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear St Patrick\u2019s Day Pot Of Gold Shamrock Lucky Coins Teddy Accessory",
+      "excluded": {
+        "reason": "Pot of Gold wrist accessory sold without the plush."
+      }
     },
     {
       "id": "mall-of-america-bear-tp296112871648",
@@ -419167,7 +419239,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (11 sold); title: Build a Bear Workshop Star Wars Grogu PJ Sleeper Stuffed Toy Sleepwear"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (11 sold); title: Build a Bear Workshop Star Wars Grogu PJ Sleeper Stuffed Toy Sleepwear",
+      "excluded": {
+        "reason": "Slippers or sleeper sold without the plush."
+      }
     },
     {
       "id": "star-wars-grogu-tp266939911855",
@@ -419257,7 +419332,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (5 sold); title: Official Build-A-Bear Star Wars Grogu Teddy Slippers Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; multi-qty listing avg (5 sold); title: Official Build-A-Bear Star Wars Grogu Teddy Slippers Accessory",
+      "excluded": {
+        "reason": "Slippers or sleeper sold without the plush."
+      }
     },
     {
       "id": "star-wars-the-mandalorian-tp126154918453",
@@ -428149,7 +428227,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build a Bear Full Size Teddy Slippers -Star Wars Grogu Baby Yoda Slippers"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build a Bear Full Size Teddy Slippers -Star Wars Grogu Baby Yoda Slippers",
+      "excluded": {
+        "reason": "Slippers or sleeper sold without the plush."
+      }
     },
     {
       "id": "grogu-star-wars-tp127697705303",
@@ -428301,7 +428382,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Harry Potter Build A Bear Gryffindor House Scarf Plush Bear Accessory Clothes"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Harry Potter Build A Bear Gryffindor House Scarf Plush Bear Accessory Clothes",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "gryffindor-house-bear-harry-potter-tp177851917335",
@@ -429119,7 +429203,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build a Bear Harry Potter Hufflepuff House Uniform Outfit Top + Pants"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build a Bear Harry Potter Hufflepuff House Uniform Outfit Top + Pants",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "hufflepuff-house-bear-harry-potter-tp297527349288",
@@ -429191,7 +429278,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Robe Uniform Only Fits Standard Bear"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build A Bear Harry Potter Hufflepuff House Robe Uniform Only Fits Standard Bear",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "koala-2007-tp284622058096",
@@ -432573,7 +432663,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build A Bear Accessory Harry Potter Ravenclaw House Scarf with Tag"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build A Bear Accessory Harry Potter Ravenclaw House Scarf with Tag",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "ravenclaw-house-bear-harry-potter-tp326285648394",
@@ -432591,7 +432684,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build A Bear Harry Potter Ravenclaw House Outfit w/ Accessories Scarf and Shoes"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Build A Bear Harry Potter Ravenclaw House Outfit w/ Accessories Scarf and Shoes",
+      "excluded": {
+        "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+      }
     },
     {
       "id": "red-fox-2020-tp265808440938",
