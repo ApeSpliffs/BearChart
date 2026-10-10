@@ -49,8 +49,8 @@
     "build:site": "./tools/build_site.sh",
     "test:deletion": "node --test tools/test_ebay_deletion.js",
     "test:userdata": "python3 tools/test_user_data.py",
-    "build:ci": "python3 tools/build_pages.py",
-    "build:daily": "python3 tools/build_data.py && python3 tools/export_sql.py && python3 tools/build_pages.py && python3 tools/build_pwa.py",
+    "build:ci": "npm run build:dev",
+    "build:daily": "python3 tools/build_data.py && python3 tools/export_sql.py && npm run build:dev",
     "test:db": "supabase test db",
     "test:functions": "deno task --cwd supabase/functions ci",
     "test:runtime": "python3 tools/test_runtime_config.py"

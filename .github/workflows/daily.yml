@@ -52,6 +52,8 @@ jobs:
           if [ "$(date -u +%u)" = 1 ]; then python3 tools/update_wiki_catalogue.py
           else echo "Not Monday; skipping"; fi
 
+      # data.json + seed.sql, then the generated site files the tests read
+      # (site-config.js, data/, item pages, sw.js; none of them committed).
       - name: Build
         run: npm run build:daily
 
@@ -127,7 +129,9 @@ jobs:
           # than publish data built and tested against a different tree.
           git push origin HEAD:refs/heads/main
 
-      - name: Trigger deploy (inert without hook; needed once data is build-time)
+      # The site's data files are generated at build time from data.json, so a
+      # commit above is what publishes; the hook covers a host not watching main.
+      - name: Trigger deploy (inert without a hook)
         env:
           HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
         run: |

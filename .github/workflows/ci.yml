@@ -61,7 +61,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup
-      - name: Build generated inputs (item pages are gitignored)
+      - name: Build generated inputs (site-config.js, data/, item pages, sw.js are gitignored)
         run: npm run build:ci
       - run: npm test
 
