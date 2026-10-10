@@ -137,7 +137,7 @@ def facts_list(item):
         ("Release year", item.get("release_year") or "Not recorded"),
         ("Species", item.get("species")),
         ("Category", item.get("category")),
-        ("Line", item.get("variant")),
+        ("Line", item.get("line")),
         ("Franchise", item.get("franchise")),
     ]
     out = []

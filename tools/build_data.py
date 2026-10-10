@@ -25,6 +25,7 @@ from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import domain_vocab as V  # noqa: E402
+import sale_attributes as SA  # noqa: E402
 
 ITEMS = []
 SALES = []
@@ -47,7 +48,15 @@ def I(name, category, species=None, year=None, month=None, aliases=None, **flags
     item["release_year"] = year
     item["release_month"] = month
     item["version"] = flags.pop("version", None)
-    item["variant"] = flags.pop("variant", None)
+    # The product line ("Mini", "Promise Pets", "Jumbo"). It used to be stored
+    # as "variant", which made every item in a line warn that it had variants.
+    item["line"] = flags.pop("line", None)
+    # Real variants: the parent item this is a variant of, the group of
+    # siblings (defaults to the parent id), and the size that tells them apart.
+    item["variant_of"] = flags.pop("variant_of", None)
+    item["variant_group"] = flags.pop("variant_group", None) or item["variant_of"]
+    item["size_in"] = flags.pop("size_in", None)
+    item["size_class"] = flags.pop("size_class", None)
     item["licensed"] = flags.pop("licensed", False)
     item["franchise"] = flags.pop("franchise", None)
     item["limited_edition"] = flags.pop("limited_edition", False)
@@ -768,6 +777,8 @@ EMPLOYEE = [
 ]
 for nm, sp, yr, note in EMPLOYEE:
     I(nm, "Stuffed Animal", sp, yr, employee_exclusive=True, rarity="Exclusive",
+      # The two Merry Mouse sizes are siblings: linked, never averaged.
+      variant_group="merry-mouse" if nm.startswith("Merry Mouse") else None,
       notes=((note + " ") if note else "") +
             "Employee exclusive. Catalogued from the CollectionHero index; no "
             "sourced price captured yet.")
@@ -922,7 +933,7 @@ I("Giant Pumpkin Kitty (2024)", "Stuffed Animal", "Cat", 2024, vault_release=Tru
   notes="28 inch online exclusive. Size variants price separately from the standard "
         "Pumpkin Kitty.")
 I("Masked Pumpkin Kitty (2024)", "Stuffed Animal", "Cat", 2024, vault_release=True,
-  original_release=False, variant="Masked",
+  original_release=False, version="Masked",
   notes="Mask-style eye patches; sold as a duo in some listings. A pattern variant, "
         "priced apart from the plain Vault release.")
 
@@ -1337,6 +1348,8 @@ SLOTHS = [
     ("Mini Fluffy Sloth (9-inch)", 2019, "Blue and purple colourways noted.", {}),
 ]
 for nm, yr, note, flags in SLOTHS:
+    if nm.startswith("Brown Sloth"):
+        flags = dict(flags, variant_group="brown-sloth")
     I(nm, "Stuffed Animal", "Sloth", yr,
       notes=((note + " ") if note else "") +
             "Catalogued from the CollectionHero index; no sourced price captured yet.",
@@ -2482,6 +2495,10 @@ def load_wiki_catalogue():
             continue
         flags = {k: v for k, v in e.items()
                  if k not in ("canonical_name", "category", "species", "year")}
+        # catalogue_wiki.json files written before the rename call the
+        # product line "variant".
+        if "variant" in flags:
+            flags["line"] = flags.pop("variant")
         # The wiki and the curated entries spell some franchises differently
         # ("Pokemon" / "Pokémon"). Two spellings means two filter chips for one
         # franchise, which looks like a bug to anybody browsing.
@@ -2814,6 +2831,50 @@ def guard_shrink(prev_count, new_count, allow=False):
                          "--allow-shrink if this is intended." % (prev_count, new_count))
 
 
+SIZE_IN_NAME = re.compile(r"\((\d{1,2}(?:\.\d)?)[- ]?inch\)", re.I)
+
+
+def assign_sizes_and_variants(items):
+    """size_in from a "(15-inch)" in the name, size_class from size_in (or the
+    Mini Bean flag), and has_variants on any item another names as its parent.
+    Never from price."""
+    parents = {i["variant_of"] for i in items if i.get("variant_of")}
+    for item in items:
+        if item.get("size_in") is None:
+            m = SIZE_IN_NAME.search(item["canonical_name"])
+            if m:
+                item["size_in"] = float(m.group(1))
+        if not item.get("size_class"):
+            item["size_class"] = SA.parse_size_class(item.get("size_in")) or (
+                "mini" if item.get("mini_bean") else None)
+        item["has_variants"] = item["id"] in parents
+
+
+def backfill_sale_attributes(sales):
+    """Size and sound parsed from each sale's recorded listing title.
+
+    Deterministic, attributes only - never the condition (that is
+    tools/reclassify_conditions.py's job, and the owner's call). Only set when
+    something was found, so a title with nothing to say adds nothing.
+    """
+    n = 0
+    for s in sales:
+        if s.get("attributes") is not None:
+            continue
+        notes = s.get("notes") or ""
+        m = TITLE_IN_NOTES.search(notes)
+        # The listing title when one was recorded, otherwise the research note
+        # itself ("18in", "speaker does not work").
+        attrs = SA.stored(SA.parse(m.group(1) if m else notes))
+        if attrs["size_in"] is not None or attrs["sound"] is not None:
+            s["attributes"] = OrderedDict(sorted(attrs.items()))
+            n += 1
+    return n
+
+
+TITLE_IN_NOTES = re.compile(r"title:\s*(.*)", re.I)
+
+
 def assert_sales_are_sold_evidence(sales):
     """No row in SALES may be anything but sold evidence."""
     bad = [s["id"] for s in sales if s.get("evidence_type") in V.NON_SALE_EVIDENCE_TYPES
@@ -2853,6 +2914,7 @@ def main(argv=None):
     ledger = load_identity()
     REDIRECTS.update(apply_identity(ITEMS, SALES, ledger))
     assign_catalogue_source(ITEMS)
+    assign_sizes_and_variants(ITEMS)
     apply_note_policy(ITEMS)
     open_questions = flag_open_questions()
     active, active_fetched_at = load_active_listings(root)
@@ -2860,6 +2922,7 @@ def main(argv=None):
     imported = merge_imported_sales(root, REDIRECTS)
     excluded, reassigned = apply_sale_overrides(SALES, ledger, {i["id"] for i in ITEMS},
                                                 REDIRECTS)
+    attributed = backfill_sale_attributes(SALES)
     assert_sales_are_sold_evidence(SALES)
     guard_shrink(previous_sale_count(root), len(SALES), args.allow_shrink)
     out = OrderedDict([

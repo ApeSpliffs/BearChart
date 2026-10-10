@@ -384,7 +384,7 @@
       var ev = evidenceFor(e.item_id);
       var qty = e.qty || 1;
 
-      var ids = [item.version, item.variant, item.release_year ? 'released ' +
+      var ids = [item.version, item.line, item.release_year ? 'released ' +
                  item.release_year : null].filter(Boolean).join('; ');
 
       var method = v.has_value

@@ -308,8 +308,7 @@ SMALL_RE = re.compile(
 CLOTHING_RE = re.compile(
     r"\b(?:outfits?|costumes?|clothes|clothing|shoes|sneakers|boots|pajamas?|pjs|sleeper"
     r"|dress|skirt|shirt|hoodie|jacket|hat)\s+(?:set|only|\d+\s*(?:pc|piece))")
-FITS_RE = re.compile(
-    r"\b(?:fits|for)\s+(?:most\s+|all\s+)?(?:build|bab|babw|\d{2}|stuffed|plush|bears?\b|teddy)")
+from sale_attributes import FITS_RE  # noqa: E402  (one definition, shared)
 BRAND_STRIP_RE = re.compile(r"build[\s-]*a[\s-]*bear(?:\s*workshop)?|buildabear|babw|\bbab\b")
 
 

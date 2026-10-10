@@ -563,7 +563,9 @@
       why.push('Comps span more than one condition grade - check the per-condition ' +
                'medians before pricing your own copy.');
     }
-    if (item.version || item.variant) {
+    // A product line ("Mini", "Promise Pets") is not a variant. Only a named
+    // version, a variant of a parent, or a parent with variants warns.
+    if (item.version || item.variant_of || item.has_variants) {
       result.caveats.push('variant');
       why.push('This item has known versions or variants. Confirm which one you ' +
                'have; versions are priced separately and must not be averaged.');

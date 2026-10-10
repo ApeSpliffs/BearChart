@@ -59,7 +59,7 @@
       // asks for the one thing that would change it.
       var known = [
         ['Released', item.release_year || null],
-        ['Line', item.variant || null],
+        ['Line', item.line || null],
         ['Animal', item.species || null],
         ['Franchise', item.franchise || null]
       ].filter(function (r) { return r[1]; });
@@ -540,7 +540,7 @@
       ['Expected', item.expected_release],
       ['Announced retail', item.announced_msrp != null ? BC.money(item.announced_msrp) : null],
       ['Version', item.version],
-      ['Variant', item.variant],
+      ['Line', item.line],
       ['Licensed', item.licensed ? 'Yes' + (item.franchise ? ' — ' + item.franchise : '') : 'No'],
       ['Limited edition', item.limited_edition ? 'Yes' : 'No'],
       ['Edition size', item.edition_size],

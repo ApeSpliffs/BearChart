@@ -203,6 +203,33 @@ class LedgerTests(unittest.TestCase):
         self.assertEqual(items[0]["release_year"], 2020)
 
 
+class VariantDataTests(unittest.TestCase):
+    def test_pikachu_stays_one_item_with_per_sale_attributes(self):
+        pika = [i for i in data()["items"] if i["id"].startswith("pikachu")]
+        self.assertEqual([i["id"] for i in pika], ["pikachu-pokemon"])
+        sales = [s for s in data()["sales"] if s["item_id"] == "pikachu-pokemon"]
+        self.assertTrue(any((s.get("attributes") or {}).get("size_in") for s in sales))
+
+    def test_size_siblings_are_linked_not_merged(self):
+        by = {i["id"]: i for i in data()["items"]}
+        self.assertEqual(by["merry-mouse-13-inch"]["variant_group"],
+                         by["merry-mouse-15-inch"]["variant_group"])
+        self.assertEqual(by["brown-sloth-15-inch"]["variant_group"],
+                         by["brown-sloth-18-inch"]["variant_group"])
+        self.assertEqual(by["brown-sloth-18-inch"]["size_in"], 18.0)
+
+    def test_size_classes_come_from_the_vocabulary(self):
+        for i in data()["items"]:
+            self.assertIn(i.get("size_class"), V.SIZE_CLASS_CODES + [None], i["id"])
+
+
+class GapsTests(unittest.TestCase):
+    def test_the_gaps_backlog_exists_and_is_never_data(self):
+        self.assertTrue(os.path.exists(os.path.join(ROOT, "tools", "catalogue_gaps.md")))
+        with open(os.path.join(ROOT, "tools", "build_data.py")) as f:
+            self.assertNotIn("catalogue_gaps", f.read())
+
+
 class RedirectDataTests(unittest.TestCase):
     def test_redirects_point_at_live_items_and_nothing_points_at_a_redirect(self):
         live = {i["id"] for i in data()["items"]}

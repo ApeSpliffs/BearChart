@@ -548,7 +548,7 @@
     var hay = [
       item.canonical_name, (item.aliases || []).join(' '), item.franchise,
       item.species, item.category, item.release_year, item.version,
-      item.variant, item.notes, item.rarity
+      item.line, item.notes, item.rarity
     ].filter(Boolean).join(' ').toLowerCase();
     return query.toLowerCase().split(/\s+/).filter(Boolean)
       .every(function (term) { return hay.indexOf(term) !== -1; });

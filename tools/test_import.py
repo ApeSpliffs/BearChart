@@ -362,6 +362,78 @@ class OperatorTests(ImportTests):
         self.assertNotIn('"seller"', blob)
 
 
+import sale_attributes as SA  # noqa: E402
+
+
+class AttributeTests(unittest.TestCase):
+    GROUP = [{"id": "merry-mouse-13-inch", "variant_group": "merry-mouse", "size_in": 13.0},
+             {"id": "merry-mouse-15-inch", "variant_group": "merry-mouse", "size_in": 15.0}]
+
+    def test_a_parsed_size_picks_the_one_member_it_fits(self):
+        item, basis = SA.resolve_variant(self.GROUP[0], SA.parse('Merry Mouse 15" grey'),
+                                         self.GROUP)
+        self.assertEqual(item["id"], "merry-mouse-15-inch")
+        self.assertEqual(basis, "size_parsed")
+
+    def test_a_size_between_members_is_ambiguous_and_stays_put(self):
+        item, basis = SA.resolve_variant(self.GROUP[0], SA.parse("Merry Mouse 14in"), self.GROUP)
+        self.assertEqual(item["id"], "merry-mouse-13-inch")
+        self.assertEqual(basis, "unverified", "no parent to fall back to")
+
+    def test_no_size_leaves_the_match_alone(self):
+        item, basis = SA.resolve_variant(self.GROUP[1], SA.parse("Merry Mouse"), self.GROUP)
+        self.assertEqual(item["id"], "merry-mouse-15-inch")
+        self.assertEqual(basis, "unverified")
+
+    def test_an_ambiguous_size_goes_to_the_parent_when_there_is_one(self):
+        cat = [{"id": "p", "size_in": None},
+               {"id": "a", "variant_of": "p", "size_in": 13.0},
+               {"id": "b", "variant_of": "p", "size_in": 15.0}]
+        self.assertEqual(SA.resolve_variant(cat[0], SA.parse("x 14in"), cat), (cat[0], "ambiguous"))
+        self.assertEqual(SA.resolve_variant(cat[0], SA.parse("x 15in"), cat)[0]["id"], "b")
+
+    def test_an_item_with_no_group_never_moves(self):
+        # Pikachu: sellers measure one standard plush at 15 to 20 inches. That
+        # spread is not evidence of two products.
+        pika = {"id": "pikachu", "size_in": None}
+        for t in ["Build-A-Bear Pikachu 15in", "Build-A-Bear Pikachu 18 inch with sound"]:
+            self.assertEqual(SA.resolve_variant(pika, SA.parse(t), [pika]), (pika, None))
+
+    def test_sound_reports(self):
+        self.assertEqual(SA.parse_sound("Pikachu with sound"), "working")
+        self.assertEqual(SA.parse_sound("talking Elmo"), "working")
+        self.assertEqual(SA.parse_sound("voice box works"), "working")
+        self.assertEqual(SA.parse_sound("speaker does not work"), "broken")
+        self.assertEqual(SA.parse_sound("sound doesn't work, otherwise great"), "broken")
+        self.assertEqual(SA.parse_sound("Bowser No Sound"), "broken")
+        self.assertIsNone(SA.parse_sound("Pikachu plush"))
+
+    def test_sizes_are_read_but_never_from_a_fits_phrase_or_a_year(self):
+        self.assertEqual(SA.parse_size('Pikachu 16" plush'), 16.0)
+        self.assertEqual(SA.parse_size("Pikachu 18 inch"), 18.0)
+        self.assertIsNone(SA.parse_size("Hoodie fits 18in bears"))
+        self.assertIsNone(SA.parse_size("Pikachu 2016"))
+        self.assertEqual(SA.parse_size_class(None, "Giant 3 ft teddy"), "giant")
+        self.assertEqual(SA.parse_size_class(9.0), "mini")
+
+    def test_condition_basis_names_its_source(self):
+        self.assertEqual(imp.condition_basis("New with tags", "x"), "column")
+        self.assertEqual(imp.condition_basis("", "Lucky Kitty NWT"), "title")
+        self.assertEqual(imp.condition_basis("", "Lucky Kitty"), "default")
+
+
+class ImportedAttributeTests(ImportTests):
+    def test_an_import_records_attributes_and_where_the_condition_came_from(self):
+        path = write_csv([{"Title": 'Lucky Kitty 16" with sound', "Sold Price": "54",
+                           "Condition": "Pre-owned"}],
+                         ["Title", "Sold Price", "Condition"])
+        self.capture(Args(path))
+        row = self.imported()[0]
+        self.assertEqual(row["attributes"], {"size_in": 16.0, "sound": "working"})
+        self.assertEqual(row["condition_basis"], "column")
+        self.assertIsNone(row["variant_basis"])
+
+
 class AggregateTests(ImportTests):
     """Terapeak reports an average across N sales, not a list of transactions."""
 

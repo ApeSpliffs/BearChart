@@ -137,6 +137,9 @@ def main():
         for c in ITEM_COLS:
             if c == "aliases":
                 vals.append(arr(item.get("aliases")))
+            elif c == "variant":
+                # Deprecated column: carries the product line, now items.line.
+                vals.append(lit(item.get("line")))
             elif c == "slug":
                 # data.json keys items by "id"; the database calls it "slug".
                 vals.append(lit(item["id"]))

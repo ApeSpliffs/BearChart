@@ -35,6 +35,7 @@ from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import domain_vocab as V  # noqa: E402
+import sale_attributes as SA  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMPORTED = os.path.join(ROOT, "tools", "imported_sales.json")
@@ -160,6 +161,15 @@ def parse_date(raw):
     if not (1990 <= y <= 2100 and 1 <= mo <= 12 and 1 <= d <= 31):
         return None
     return "%04d-%02d-%02d" % (y, mo, d)
+
+
+def condition_basis(condition_col, title):
+    """Where a sale's condition came from: "column" | "title" | "default"."""
+    if condition_col and match_pattern(CONDITION_PATTERNS, condition_col, None):
+        return "column"
+    if title and match_pattern(CONDITION_PATTERNS, title, None):
+        return "title"
+    return "default"
 
 
 def match_pattern(patterns, text, default):
@@ -376,6 +386,10 @@ def run(args):
 
         condition_text = " ".join(filter(None, [str(rec.get("condition") or ""),
                                                 str(rec.get("title") or "")]))
+        # Size and sound from the title. A size can place the sale on the right
+        # member of a wired variant group; it never invents one.
+        attrs = SA.parse(rec.get("title"), rec.get("condition"))
+        item, variant_basis = SA.resolve_variant(item, attrs, data["items"])
         sale = OrderedDict([
             ("id", None),
             ("item_id", item["id"]),
@@ -385,6 +399,7 @@ def run(args):
             ("ranged", False),
             ("currency", "USD"),
             ("condition", match_pattern(CONDITION_PATTERNS, condition_text, "Unknown")),
+            ("condition_basis", condition_basis(rec.get("condition"), rec.get("title"))),
             ("completeness", match_pattern(COMPLETENESS_PATTERNS, condition_text, "unknown")),
             ("marketplace", marketplace),
             ("source_url", (rec.get("source_url") or "").strip() or None),
@@ -397,6 +412,8 @@ def run(args):
             # name that told us so is dropped here and never written.
             ("seller_is_operator", is_operator_seller(rec.get("seller"), operators,
                                                       marketplace)),
+            ("attributes", SA.stored(attrs)),
+            ("variant_basis", variant_basis),
             ("notes", (rec.get("notes") or "").strip() or None),
             ("import_match", how),
         ])

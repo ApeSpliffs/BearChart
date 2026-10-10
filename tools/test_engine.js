@@ -181,6 +181,15 @@ test('a lot is flagged as an invalid single-item comparable', () => {
   assert.ok(v.caveats.includes('lot'));
 });
 
+test('a product line is not a variant; a version or a variant parent is', () => {
+  const sales = [{ id: 'a', sold_price: 20, evidence_type: 'completed_sale', condition: 'Good' }];
+  assert.ok(!E.valuate({ id: 'x', line: 'Promise Pets' }, sales, CFG).caveats.includes('variant'));
+  assert.ok(E.valuate({ id: 'x', version: 'II' }, sales, CFG).caveats.includes('variant'));
+  assert.ok(E.valuate({ id: 'x', variant_of: 'p' }, sales, CFG).caveats.includes('variant'));
+  assert.ok(E.valuate({ id: 'x', has_variants: true }, sales, CFG).caveats.includes('variant'));
+  assert.ok(DATA.items.every((i) => !('variant' in i)), 'variant was renamed to line');
+});
+
 test('a versioned item warns against averaging versions', () => {
   const v = valueOf('vanilla-fudge-bunny');
   assert.ok(v.caveats.includes('variant'));

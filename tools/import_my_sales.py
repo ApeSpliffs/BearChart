@@ -42,7 +42,9 @@ from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from import_sales import (Matcher, parse_price, parse_date, match_pattern,  # noqa: E402
-                          CONDITION_PATTERNS, COMPLETENESS_PATTERNS, normalise)
+                          CONDITION_PATTERNS, COMPLETENESS_PATTERNS, normalise,
+                          condition_basis)
+import sale_attributes as SA  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMPORTED = os.path.join(ROOT, "tools", "imported_sales.json")
@@ -174,6 +176,8 @@ def run(args):
                                       str(rec.get("title") or "")]))
         condition = match_pattern(CONDITION_PATTERNS, text, args.condition)
         completeness = match_pattern(COMPLETENESS_PATTERNS, text, args.completeness)
+        attrs = SA.parse(rec.get("title"), rec.get("condition"))
+        item, variant_basis = SA.resolve_variant(item, attrs, data["items"])
 
         # A first-party sale still has to satisfy the provenance rule to claim
         # completed_sale. You know it sold, but the database records how it can
@@ -194,6 +198,7 @@ def run(args):
             ("ranged", False),
             ("currency", "USD"),
             ("condition", condition),
+            ("condition_basis", condition_basis(rec.get("condition"), rec.get("title"))),
             ("completeness", completeness),
             ("marketplace", args.marketplace),
             ("source_url", None),
@@ -205,6 +210,8 @@ def run(args):
             # Sold by the operator. Capped in every valuation, never boosted.
             ("first_party", True),
             ("seller_is_operator", True),
+            ("attributes", SA.stored(attrs)),
+            ("variant_basis", variant_basis),
             ("notes", "Own sale (%s)." % args.marketplace),
         ]))
 
