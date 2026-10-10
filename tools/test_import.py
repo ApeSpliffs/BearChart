@@ -434,6 +434,53 @@ class ImportedAttributeTests(ImportTests):
         self.assertIsNone(row["variant_basis"])
 
 
+import reclassify_conditions as RC  # noqa: E402
+
+
+class ReclassifyTests(unittest.TestCase):
+    ROWS = [
+        {"id": "a", "condition": "Mint", "notes": "Terapeak; title: Build A Bear Bunny NWOT"},
+        {"id": "b", "condition": "NWT", "notes": "Terapeak; title: Build A Bear Bunny New"},
+        {"id": "c", "condition": "NWT", "notes": "Terapeak; title: Build A Bear Bunny NWT"},
+        {"id": "d", "condition": "Unknown", "notes": "Terapeak; title: Lunar New Year Dragon No Tag"},
+        {"id": "e", "condition": "Mint", "notes": "no title recorded, NWOT"},
+    ]
+
+    def run_tool(self, *flags):
+        fd, path = tempfile.mkstemp(suffix=".json")
+        with os.fdopen(fd, "w") as f:
+            json.dump(self.ROWS, f)
+        with open(path) as f:
+            before = f.read()
+        out = io.StringIO()
+        stdout, sys.stdout = sys.stdout, out
+        try:
+            RC.main(["--file", path, "--no-fmv"] + list(flags))
+        finally:
+            sys.stdout = stdout
+        with open(path) as f:
+            after = f.read()
+        return before, after, {r["id"]: r for r in json.loads(after)}
+
+    def test_a_dry_run_writes_nothing(self):
+        before, after, _ = self.run_tool()
+        self.assertEqual(before, after)
+
+    def test_rule_a_regrades_an_explicit_nwot_row_and_leaves_rule_b_alone(self):
+        _, _, rows = self.run_tool("--apply")
+        self.assertEqual(rows["a"]["condition"], "NWOT")
+        self.assertEqual(rows["a"]["condition_basis"], "reclassified_v2")
+        self.assertEqual(rows["b"]["condition"], "NWT", "Rule B needs the owner's flag")
+        self.assertEqual(rows["c"]["condition"], "NWT")
+        self.assertEqual(rows["d"]["condition"], "Unknown", "'New Year' is not a condition")
+        self.assertEqual(rows["e"]["condition"], "Mint", "only rows with a recorded title")
+
+    def test_rule_b_applies_only_with_its_flag(self):
+        _, _, rows = self.run_tool("--apply", "--include-bare-new")
+        self.assertEqual(rows["b"]["condition"], "NWOT")
+        self.assertEqual(rows["c"]["condition"], "NWT", "tag evidence stays NWT")
+
+
 class AggregateTests(ImportTests):
     """Terapeak reports an average across N sales, not a list of transactions."""
 
