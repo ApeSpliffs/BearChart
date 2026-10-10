@@ -299,9 +299,12 @@
     };
   }
 
-  /** Back-compat: the recent subset when the window applies, else null. */
-  function recentOnly(usable, config) {
-    var w = recencyWindow(usable, config);
+  /**
+   * The recent subset when the window applies, else null. valuate passes the
+   * window it already computed; callers without one get it computed here.
+   */
+  function recentOnly(usable, config, window) {
+    var w = window || recencyWindow(usable, config);
     if (!w.use_recent) return null;
     return { sales: w.recent, since: w.since, dropped: usable.length - w.recent.length };
   }
@@ -313,9 +316,7 @@
     });
     var soldTransactions = usable.reduce(function (a, s) { return a + sampleSize(s); }, 0);
     var win = usable.length ? recencyWindow(usable, config) : null;
-    var recency = win && win.use_recent
-      ? { sales: win.recent, since: win.since, dropped: usable.length - win.recent.length }
-      : null;
+    var recency = win ? recentOnly(usable, config, win) : null;
     if (recency) usable = recency.sales;
     // Stale: a value is published from older sales because none fall in the
     // window. Only reported when the data states its as_of date.

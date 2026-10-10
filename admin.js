@@ -322,11 +322,12 @@
     });
     var strong = D.sales.filter(function (s) { return s.evidence_type === 'completed_sale'; });
 
+    var stats = BC.catalogueStats();
     $('admin-stats').innerHTML = [
-      [BC.catalogueStats().items, 'Total items'],
-      [BC.catalogueStats().sold_transactions, 'Sold transactions recorded'],
-      [BC.catalogueStats().sold_records, 'Sale rows (incl. averages and quarantined)'],
-      [BC.catalogueStats().stale_items, 'Stale values (no sale in 12 months)'],
+      [stats.items, 'Total items'],
+      [stats.sold_transactions, 'Sold transactions recorded'],
+      [stats.sold_records, 'Sale rows (incl. averages and quarantined)'],
+      [stats.stale_items, 'Stale values (no sale in 12 months)'],
       [strong.length, 'Fully sourced sales'],
       [missing.length, 'Items missing sales'],
       [lowConf.length, 'Low-confidence items'],

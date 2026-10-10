@@ -1128,7 +1128,7 @@
     data: DATA, config: CFG, engine: E,
     salesFor: salesFor, activeFor: activeFor, itemById: itemById,
     itemChooser: itemChooser, rel: rel, evidenceStrip: evidenceStrip,
-    valuationFor: valuationFor, catalogueStats: catalogueStats, canonicalId: canonicalId, redirects: REDIRECTS, go: go,
+    valuationFor: valuationFor, catalogueStats: catalogueStats, canonicalId: canonicalId, go: go,
     money: money, exact: exact, range: range, confClass: confClass, era: era, isVintage: isVintage,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,
