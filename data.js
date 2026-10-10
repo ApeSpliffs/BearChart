@@ -14,7 +14,7 @@ globalThis.BEARCHART_DATA = {
     "stats": {
       "items": 1959,
       "priced_items": 1497,
-      "sold_transactions": 21604,
+      "sold_transactions": 21575,
       "stale_items": 235
     }
   },
@@ -145671,6 +145671,9 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": 4,
       "notes": "Terapeak average across 4 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear SOUNDCHIP Sound Paw Patrol Chase is on the case Soundbox Chip",
+      "excluded": {
+        "reason": "A replacement sound chip sold on its own, not the plush."
+      },
       "attributes": {
         "size_in": null,
         "sound": "working"
@@ -145887,6 +145890,9 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": 3,
       "notes": "Terapeak average across 3 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear SOUNDCHIP Sound Paw Patrol Skye Dog Talking Soundbox for Plush",
+      "excluded": {
+        "reason": "A replacement sound chip sold on its own, not the plush."
+      },
       "attributes": {
         "size_in": null,
         "sound": "working"
@@ -145908,7 +145914,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Paw Patrol Skye\u2019s Vest & Helmet Pink W/ Wear Fits 12\u201d Plush (d7)"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Paw Patrol Skye\u2019s Vest & Helmet Pink W/ Wear Fits 12\u201d Plush (d7)",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "skye-paw-patrol-i04",
@@ -146010,7 +146019,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-a-Bear Paw Patrol Skye's Vest & Helmet Pink Halloween"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-a-Bear Paw Patrol Skye's Vest & Helmet Pink Halloween",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "skye-paw-patrol-i09",
@@ -146166,7 +146178,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Skye Jetpack Plush Accessory."
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Skye Jetpack Plush Accessory.",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "skye-paw-patrol-i17",
@@ -146290,7 +146305,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Paw Patrol Build A Bear Marshall Pup Pack"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Paw Patrol Build A Bear Marshall Pup Pack",
+      "excluded": {
+        "reason": "A Pup Pack accessory sold on its own, not the plush."
+      }
     },
     {
       "id": "marshall-paw-patrol-i04",
@@ -146712,7 +146730,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory",
+      "excluded": {
+        "reason": "A Pup Pack accessory sold on its own, not the plush."
+      }
     },
     {
       "id": "rubble-paw-patrol-i05",
@@ -146748,7 +146769,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory",
+      "excluded": {
+        "reason": "A Pup Pack accessory sold on its own, not the plush."
+      }
     },
     {
       "id": "rubble-paw-patrol-i07",
@@ -146900,7 +146924,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory",
+      "excluded": {
+        "reason": "A Pup Pack accessory sold on its own, not the plush."
+      }
     },
     {
       "id": "rubble-paw-patrol-i15",
@@ -147794,7 +147821,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Zuma Pup Pack Action Orange Accessory"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Zuma Pup Pack Action Orange Accessory",
+      "excluded": {
+        "reason": "A Pup Pack accessory sold on its own, not the plush."
+      }
     },
     {
       "id": "zuma-paw-patrol-i02",
@@ -147812,7 +147842,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Zuma Pup Pack"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Zuma Pup Pack",
+      "excluded": {
+        "reason": "A Pup Pack accessory sold on its own, not the plush."
+      }
     },
     {
       "id": "zuma-paw-patrol-i03",
@@ -210834,7 +210867,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlet (FREE SHIPPING)"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlet (FREE SHIPPING)",
+      "excluded": {
+        "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+      }
     },
     {
       "id": "how-to-train-your-dragon-light-fury-i04",
@@ -210853,6 +210889,9 @@ globalThis.BEARCHART_DATA = {
       "shipping_included": false,
       "sample_size": null,
       "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear How To Train Your Dragon Light Fury 4\" Plush Wristlet White- Tags",
+      "excluded": {
+        "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+      },
       "attributes": {
         "size_in": 4.0,
         "sound": null
@@ -211038,7 +211077,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlets Retired Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlets Retired Plush",
+      "excluded": {
+        "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+      }
     },
     {
       "id": "how-to-train-your-dragon-light-fury-i14",
@@ -258858,7 +258900,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Workshop Sesame Street Elmo's Smartie Smart Phone plush wristlet"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Workshop Sesame Street Elmo's Smartie Smart Phone plush wristlet",
+      "excluded": {
+        "reason": "An Elmo smart-phone wristlet, not the Elmo plush."
+      }
     },
     {
       "id": "sesame-street-elmo-2004-i09",
@@ -310781,7 +310826,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Chase Hat Police Dog with Elastic for Ears"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Chase Hat Police Dog with Elastic for Ears",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "paw-patrol-chase-i02",
@@ -310821,7 +310869,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Nickelodeon PAW Patrol Chase Police Pup Vest and Replacement Collar"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Nickelodeon PAW Patrol Chase Police Pup Vest and Replacement Collar",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "paw-patrol-chase-i05",
@@ -311953,7 +312004,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol RUBBLE Crane Construction Tool BABW Replacement Plush"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol RUBBLE Crane Construction Tool BABW Replacement Plush",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "paw-patrol-rubble-i02",
@@ -312119,7 +312173,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Rubble (?) Paw Patrol Nickelodeon Hat"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Rubble (?) Paw Patrol Nickelodeon Hat",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "paw-patrol-rubble-i11",
@@ -312293,7 +312350,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "collector_report",
       "shipping_included": false,
       "sample_size": 2,
-      "notes": "Terapeak average across 2 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: PAW Patrol Build-A-Bear Tracker Hat and Vest NWT"
+      "notes": "Terapeak average across 2 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: PAW Patrol Build-A-Bear Tracker Hat and Vest NWT",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "paw-patrol-tracker-i02",
@@ -312329,7 +312389,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: PAW Patrol Build-A-Bear Tracker Vest NWT"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: PAW Patrol Build-A-Bear Tracker Vest NWT",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "paw-patrol-tracker-i04",
@@ -403476,7 +403539,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Workshop Paw Patrol Skye VEST & HAT for Full Size Plush Toys"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Workshop Paw Patrol Skye VEST & HAT for Full Size Plush Toys",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "paw-patrol-skye-tp125908912594",
@@ -403592,7 +403658,10 @@ globalThis.BEARCHART_DATA = {
       "evidence_type": "completed_sale",
       "shipping_included": false,
       "sample_size": null,
-      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: B-A-B Build A Bear Paw Patrol Outfits Skye & Liberty 6 pieces *pre-owned*"
+      "notes": "Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: B-A-B Build A Bear Paw Patrol Outfits Skye & Liberty 6 pieces *pre-owned*",
+      "excluded": {
+        "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+      }
     },
     {
       "id": "paw-patrol-skye-tp115675962794",

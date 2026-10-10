@@ -103973,7 +103973,7 @@ select i.id, '2026-08-19', 13.68, null, 'USD', 'Mint', 'unstuffed', 'eBay', 'htt
       and s.notes is not distinct from 'Terapeak average across 12 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Chase -UNSTUFFED- BAB');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2026-06-05', 11.64, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/144910113982', '144910113982', 'collector_report', false, 4, false, 'Terapeak average across 4 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear SOUNDCHIP Sound Paw Patrol Chase is on the case Soundbox Chip', null, false, '{"size_in": null, "sound": "working"}'::jsonb, null, null, null, null from items i where i.slug = 'chase-paw-patrol'
+select i.id, '2026-06-05', 11.64, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/144910113982', '144910113982', 'collector_report', false, 4, false, 'Terapeak average across 4 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear SOUNDCHIP Sound Paw Patrol Chase is on the case Soundbox Chip', null, false, '{"size_in": null, "sound": "working"}'::jsonb, '{"reason": "A replacement sound chip sold on its own, not the plush."}'::jsonb, null, null, null from items i where i.slug = 'chase-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 11.64
@@ -104063,7 +104063,7 @@ select i.id, '2026-08-30', 5.25, null, 'USD', 'Unknown', 'unknown', 'eBay', 'htt
       and s.notes is not distinct from 'Terapeak average across 4 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: BABW / Build a Bear Workshop Paw Patrol SKYE 12” Plush Stuffed Toy');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2026-08-17', 10.19, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/134052418294', '134052418294', 'collector_report', false, 3, false, 'Terapeak average across 3 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear SOUNDCHIP Sound Paw Patrol Skye Dog Talking Soundbox for Plush', null, false, '{"size_in": null, "sound": "working"}'::jsonb, null, null, null, null from items i where i.slug = 'skye-paw-patrol'
+select i.id, '2026-08-17', 10.19, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/134052418294', '134052418294', 'collector_report', false, 3, false, 'Terapeak average across 3 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear SOUNDCHIP Sound Paw Patrol Skye Dog Talking Soundbox for Plush', null, false, '{"size_in": null, "sound": "working"}'::jsonb, '{"reason": "A replacement sound chip sold on its own, not the plush."}'::jsonb, null, null, null from items i where i.slug = 'skye-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 10.19
@@ -104072,7 +104072,7 @@ select i.id, '2026-08-17', 10.19, null, 'USD', 'Unknown', 'some_originals', 'eBa
       and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear SOUNDCHIP Sound Paw Patrol Skye Dog Talking Soundbox for Plush');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2026-07-13', 18, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/117265720201', '117265720201', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Paw Patrol Skye’s Vest & Helmet Pink W/ Wear Fits 12” Plush (d7)', null, false, null, null, null, null, null from items i where i.slug = 'skye-paw-patrol'
+select i.id, '2026-07-13', 18, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/117265720201', '117265720201', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-A-Bear Paw Patrol Skye’s Vest & Helmet Pink W/ Wear Fits 12” Plush (d7)', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'skye-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 18
@@ -104117,7 +104117,7 @@ select i.id, '2025-12-16', 12, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Paw Patrol Skye Stuffed Animal Plush 11"');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2025-11-14', 12.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116793623926', '116793623926', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-a-Bear Paw Patrol Skye''s Vest & Helmet Pink Halloween', null, false, null, null, null, null, null from items i where i.slug = 'skye-paw-patrol'
+select i.id, '2025-11-14', 12.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116793623926', '116793623926', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build-a-Bear Paw Patrol Skye''s Vest & Helmet Pink Halloween', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'skye-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 12.99
@@ -104189,7 +104189,7 @@ select i.id, '2024-12-04', 3, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https:
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Skye Girl Sky Pink Puppy Dog Plush Stuffed Doll Toy BAB');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2024-05-19', 0.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116176149179', '116176149179', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Skye Jetpack Plush Accessory.', null, false, null, null, null, null, null from items i where i.slug = 'skye-paw-patrol'
+select i.id, '2024-05-19', 0.99, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/116176149179', '116176149179', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Skye Jetpack Plush Accessory.', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'skye-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 0.99
@@ -104243,7 +104243,7 @@ select i.id, '2026-08-12', 32, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BAB Paw Patrol Marshall 12" Dalmatian Dog Plush Nickelodeon 2015');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2026-08-11', 10, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/128021743318', '128021743318', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Paw Patrol Build A Bear Marshall Pup Pack', null, false, null, null, null, null, null from items i where i.slug = 'marshall-paw-patrol'
+select i.id, '2026-08-11', 10, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/128021743318', '128021743318', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Paw Patrol Build A Bear Marshall Pup Pack', null, false, null, '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb, null, null, null from items i where i.slug = 'marshall-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 10
@@ -104432,7 +104432,7 @@ select i.id, '2026-08-20', 24.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: 2015 build a bear babe paw patrol rescue real rubble bulldog plush 11"');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2026-06-05', 25, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/127269852390', '127269852390', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory', null, false, null, null, null, null, null from items i where i.slug = 'rubble-paw-patrol'
+select i.id, '2026-06-05', 25, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/127269852390', '127269852390', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory', null, false, null, '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb, null, null, null from items i where i.slug = 'rubble-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 25
@@ -104450,7 +104450,7 @@ select i.id, '2026-05-26', 35, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Nickelodeon Rubble Plush BAB Dog Rare Pup Puppy Toy Disc');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2026-03-14', 28.11, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/167768443288', '167768443288', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory', null, false, null, null, null, null, null from items i where i.slug = 'rubble-paw-patrol'
+select i.id, '2026-03-14', 28.11, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/167768443288', '167768443288', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory', null, false, null, '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb, null, null, null from items i where i.slug = 'rubble-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 28.11
@@ -104522,7 +104522,7 @@ select i.id, '2025-06-11', 159.99, null, 'USD', 'Mint', 'unstuffed', 'eBay', 'ht
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Rubble English Bulldog Puppy Unstuffed Plush BABW 2016');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2025-05-30', 30, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/167245393339', '167245393339', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory', null, false, null, null, null, null, null from items i where i.slug = 'rubble-paw-patrol'
+select i.id, '2025-05-30', 30, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/167245393339', '167245393339', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Rubble Pup Pack Yellow Digger Construction Accessory', null, false, null, '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb, null, null, null from items i where i.slug = 'rubble-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 30
@@ -104945,7 +104945,7 @@ select i.id, '2025-04-12', 120, null, 'USD', 'Unknown', 'some_originals', 'eBay'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Retired Build A Bear Paw Patrol Rocky With Working Soundbox, Collar, & Tag 2016');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2026-09-02', 37.5, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/188868111153', '188868111153', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Zuma Pup Pack Action Orange Accessory', null, false, null, null, null, null, null from items i where i.slug = 'zuma-paw-patrol'
+select i.id, '2026-09-02', 37.5, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/188868111153', '188868111153', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Zuma Pup Pack Action Orange Accessory', null, false, null, '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb, null, null, null from items i where i.slug = 'zuma-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 37.5
@@ -104954,7 +104954,7 @@ select i.id, '2026-09-02', 37.5, null, 'USD', 'Unknown', 'some_originals', 'eBay
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Paw Patrol Zuma Pup Pack Action Orange Accessory');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2026-08-21', 35.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127969895309', '127969895309', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Zuma Pup Pack', null, false, null, null, null, null, null from items i where i.slug = 'zuma-paw-patrol'
+select i.id, '2026-08-21', 35.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/127969895309', '127969895309', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Zuma Pup Pack', null, false, null, '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb, null, null, null from items i where i.slug = 'zuma-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 35.99
@@ -133448,7 +133448,7 @@ select i.id, '2026-09-19', 49.99, null, 'USD', 'Mint', 'some_originals', 'eBay',
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear BABW How To Train Your Dragon 15” Light Fury with Wings Plush');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2025-12-17', 35.9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116918144752', '116918144752', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlet (FREE SHIPPING)', null, false, null, null, null, null, null from items i where i.slug = 'light-fury'
+select i.id, '2025-12-17', 35.9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116918144752', '116918144752', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlet (FREE SHIPPING)', null, false, null, '{"reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."}'::jsonb, null, null, null from items i where i.slug = 'light-fury'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 35.9
@@ -133457,7 +133457,7 @@ select i.id, '2025-12-17', 35.9, null, 'USD', 'Unknown', 'unknown', 'eBay', 'htt
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlet (FREE SHIPPING)');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2025-07-14', 49.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116236342504', '116236342504', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear How To Train Your Dragon Light Fury 4" Plush Wristlet White- Tags', null, false, '{"size_in": 4.0, "sound": null}'::jsonb, null, null, null, null from items i where i.slug = 'light-fury'
+select i.id, '2025-07-14', 49.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116236342504', '116236342504', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear How To Train Your Dragon Light Fury 4" Plush Wristlet White- Tags', null, false, '{"size_in": 4.0, "sound": null}'::jsonb, '{"reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."}'::jsonb, null, null, null from items i where i.slug = 'light-fury'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 49.99
@@ -133538,7 +133538,7 @@ select i.id, '2025-03-02', 38.75, null, 'USD', 'Mint', 'unknown', 'eBay', 'https
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear How To Train Your Dragon Light Fury 15" Plush - White');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2025-02-28', 38, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116497211038', '116497211038', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlets Retired Plush', null, false, null, null, null, null, null from items i where i.slug = 'light-fury'
+select i.id, '2025-02-28', 38, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116497211038', '116497211038', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear How To Train Your Dragon Night Light Fury Wristlets Retired Plush', null, false, null, '{"reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."}'::jsonb, null, null, null from items i where i.slug = 'light-fury'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 38
@@ -155021,7 +155021,7 @@ select i.id, '2024-11-27', 6, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https:
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Sesame Street Elmo 19" Plush Stuffed Animal Toy.');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2024-07-08', 33.29, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/155730144426', '155730144426', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Workshop Sesame Street Elmo''s Smartie Smart Phone plush wristlet', null, false, null, null, null, null, null from items i where i.slug = 'elmo'
+select i.id, '2024-07-08', 33.29, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/155730144426', '155730144426', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build a Bear Workshop Sesame Street Elmo''s Smartie Smart Phone plush wristlet', null, false, null, '{"reason": "An Elmo smart-phone wristlet, not the Elmo plush."}'::jsonb, null, null, null from items i where i.slug = 'elmo'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 33.29
@@ -178862,7 +178862,7 @@ select i.id, '2025-06-23', 127, null, 'USD', 'NWT', 'some_originals', 'eBay', 'h
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: BUILD A BEAR Patriotic Pup Canada Maple Leaf Heart Bear With Original Outfit NWT');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2023-11-28', 12.08, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115979486831', '115979486831', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Chase Hat Police Dog with Elastic for Ears', null, false, null, null, null, null, null from items i where i.slug = 'chase-paw-patrol'
+select i.id, '2023-11-28', 12.08, null, 'USD', 'Unknown', 'some_originals', 'eBay', 'https://www.ebay.com/itm/115979486831', '115979486831', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Chase Hat Police Dog with Elastic for Ears', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'chase-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 12.08
@@ -178880,7 +178880,7 @@ select i.id, '2024-05-29', 19.04, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol 15" Plush Chase German Shepherd Blue Shirt Collar');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2025-02-22', 7.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116447915212', '116447915212', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Nickelodeon PAW Patrol Chase Police Pup Vest and Replacement Collar', null, false, null, null, null, null, null from items i where i.slug = 'chase-paw-patrol'
+select i.id, '2025-02-22', 7.49, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/116447915212', '116447915212', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Nickelodeon PAW Patrol Chase Police Pup Vest and Replacement Collar', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'chase-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 7.49
@@ -179402,7 +179402,7 @@ select i.id, '2025-12-07', 100, null, 'USD', 'Unknown', 'some_originals', 'eBay'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Rocky Plush Nickelodeon With Vest Collar Tag Hat Stuffy');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2023-11-21', 28, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126176307205', '126176307205', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol RUBBLE Crane Construction Tool BABW Replacement Plush', null, false, null, null, null, null, null from items i where i.slug = 'rubble-paw-patrol'
+select i.id, '2023-11-21', 28, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/126176307205', '126176307205', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol RUBBLE Crane Construction Tool BABW Replacement Plush', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'rubble-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 28
@@ -179483,7 +179483,7 @@ select i.id, '2024-04-02', 12, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Paw Patrol Plush Nickelodeon Rubble Retired Plush BAB Stuffed Dog');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2024-07-03', 2.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/145861670624', '145861670624', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Rubble (?) Paw Patrol Nickelodeon Hat', null, false, null, null, null, null, null from items i where i.slug = 'rubble-paw-patrol'
+select i.id, '2024-07-03', 2.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/145861670624', '145861670624', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Rubble (?) Paw Patrol Nickelodeon Hat', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'rubble-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 2.99
@@ -179564,7 +179564,7 @@ select i.id, '2026-02-03', 39.99, null, 'USD', 'Mint', 'unstuffed', 'eBay', 'htt
       and s.notes is not distinct from 'Terapeak average across 3 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: Rare Build-A-Bear Workshop PAW PATROL SKYE Dog Plush UNSTUFFED 25th Anniversary');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2023-12-07', 17.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126183111351', '126183111351', 'collector_report', false, 2, false, 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: PAW Patrol Build-A-Bear Tracker Hat and Vest NWT', null, false, null, null, null, null, null from items i where i.slug = 'tracker-paw-patrol'
+select i.id, '2023-12-07', 17.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126183111351', '126183111351', 'collector_report', false, 2, false, 'Terapeak average across 2 units sold on one listing; matched by title and reviewed; item price, shipping excluded; title: PAW Patrol Build-A-Bear Tracker Hat and Vest NWT', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'tracker-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 17.99
@@ -179582,7 +179582,7 @@ select i.id, '2023-11-21', 30, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: Build A Bear Workshop Paw Patrol Tracker Dog Stuffed Animal Plush Chihuahua');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2024-01-13', 10.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126183176723', '126183176723', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: PAW Patrol Build-A-Bear Tracker Vest NWT', null, false, null, null, null, null, null from items i where i.slug = 'tracker-paw-patrol'
+select i.id, '2024-01-13', 10.99, null, 'USD', 'NWT', 'unknown', 'eBay', 'https://www.ebay.com/itm/126183176723', '126183176723', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title and reviewed; item price, shipping excluded; title: PAW Patrol Build-A-Bear Tracker Vest NWT', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'tracker-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 10.99
@@ -221036,7 +221036,7 @@ select i.id, '2026-04-19', 219.5, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build A Bear Workshop Dalmatian White Patchwork Hearts Puppy Dog - (RARE)');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2023-11-25', 7, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115925247931', '115925247931', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Workshop Paw Patrol Skye VEST & HAT for Full Size Plush Toys', null, false, null, null, null, null, null from items i where i.slug = 'skye-paw-patrol'
+select i.id, '2023-11-25', 7, null, 'USD', 'Unknown', 'unknown', 'eBay', 'https://www.ebay.com/itm/115925247931', '115925247931', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Workshop Paw Patrol Skye VEST & HAT for Full Size Plush Toys', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'skye-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 7
@@ -221090,7 +221090,7 @@ select i.id, '2025-01-16', 19.75, null, 'USD', 'NWT', 'unknown', 'eBay', 'https:
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: Build a Bear Paw Patrol Chase & Skye Plush Stuffed Animal 2018 Nickelodeon W/Tag');
 
 insert into sales (item_id, sale_date, sold_price, price_high, currency, condition, completeness, marketplace, source_url, listing_id, evidence_type, shipping_included, sample_size, first_party, notes, ship_price, seller_is_operator, attributes, excluded, reassigned_from, condition_basis, variant_basis)
-select i.id, '2025-02-22', 15.49, null, 'USD', 'Good', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126883169283', '126883169283', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: B-A-B Build A Bear Paw Patrol Outfits Skye & Liberty 6 pieces *pre-owned*', null, false, null, null, null, null, null from items i where i.slug = 'skye-paw-patrol'
+select i.id, '2025-02-22', 15.49, null, 'USD', 'Good', 'some_originals', 'eBay', 'https://www.ebay.com/itm/126883169283', '126883169283', 'completed_sale', false, null, false, 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks; item price, shipping excluded; title: B-A-B Build A Bear Paw Patrol Outfits Skye & Liberty 6 pieces *pre-owned*', null, false, null, '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb, null, null, null from items i where i.slug = 'skye-paw-patrol'
   and not exists (
     select 1 from sales s where s.item_id = i.id
       and s.sold_price = 15.49

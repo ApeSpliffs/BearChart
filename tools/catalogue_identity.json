@@ -747,6 +747,98 @@
       "action": "reassign",
       "to": "zombie-pompompurin",
       "reason": "Title names Zombie Pompompurin (2024 Halloween). OWNER: confirm."
+    },
+    "sesame-street-elmo-2004-i08": {
+      "action": "exclude",
+      "reason": "An Elmo smart-phone wristlet, not the Elmo plush."
+    },
+    "how-to-train-your-dragon-light-fury-i03": {
+      "action": "exclude",
+      "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+    },
+    "how-to-train-your-dragon-light-fury-i04": {
+      "action": "exclude",
+      "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+    },
+    "how-to-train-your-dragon-light-fury-i13": {
+      "action": "exclude",
+      "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+    },
+    "chase-paw-patrol-i02": {
+      "action": "exclude",
+      "reason": "A replacement sound chip sold on its own, not the plush."
+    },
+    "skye-paw-patrol-i02": {
+      "action": "exclude",
+      "reason": "A replacement sound chip sold on its own, not the plush."
+    },
+    "marshall-paw-patrol-i03": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "rubble-paw-patrol-i04": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "rubble-paw-patrol-i06": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "rubble-paw-patrol-i14": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "zuma-paw-patrol-i01": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "zuma-paw-patrol-i02": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "skye-paw-patrol-i03": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "skye-paw-patrol-i08": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "skye-paw-patrol-i16": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-chase-i01": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-chase-i03": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-rubble-i01": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-rubble-i10": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-tracker-i01": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-tracker-i03": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-skye-tp115925247931": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-skye-tp126883169283": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
     }
   }
 }

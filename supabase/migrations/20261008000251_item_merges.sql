@@ -88,6 +88,10 @@ select public.merge_item_slug('star-wars-the-mandalorian', 'the-mandalorian-star
 select public.merge_item_slug('super-mario-bowser', 'bowser-super-mario');
 select public.merge_item_slug('vault-collection-pumpkin-pal-teddy', 'pumpkin-pal-teddy-2026-halloween');
 
+update sales set excluded = '{"reason": "A replacement sound chip sold on its own, not the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('chase-paw-patrol'))
+   and sold_price = 11.64 and sale_date is not distinct from '2026-06-05'
+   and listing_id is not distinct from '144910113982';
 update sales set excluded = '{"reason": "Pajama sleeper sold on its own (clothing), not the plush."}'::jsonb
  where item_id in (select id from items where slug in ('the-grinch'))
    and sold_price = 12 and sale_date is not distinct from '2023-12-01'
@@ -96,6 +100,54 @@ update sales set excluded = '{"reason": "Pajama sleeper sold on its own (clothin
  where item_id in (select id from items where slug in ('the-grinch'))
    and sold_price = 9 and sale_date is not distinct from '2023-11-29'
    and listing_id is not distinct from '126197760216';
+update sales set excluded = '{"reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."}'::jsonb
+ where item_id in (select id from items where slug in ('light-fury'))
+   and sold_price = 35.9 and sale_date is not distinct from '2025-12-17'
+   and listing_id is not distinct from '116918144752';
+update sales set excluded = '{"reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."}'::jsonb
+ where item_id in (select id from items where slug in ('light-fury'))
+   and sold_price = 49.99 and sale_date is not distinct from '2025-07-14'
+   and listing_id is not distinct from '116236342504';
+update sales set excluded = '{"reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."}'::jsonb
+ where item_id in (select id from items where slug in ('light-fury'))
+   and sold_price = 38 and sale_date is not distinct from '2025-02-28'
+   and listing_id is not distinct from '116497211038';
+update sales set excluded = '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('marshall-paw-patrol'))
+   and sold_price = 10 and sale_date is not distinct from '2026-08-11'
+   and listing_id is not distinct from '128021743318';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('chase-paw-patrol'))
+   and sold_price = 12.08 and sale_date is not distinct from '2023-11-28'
+   and listing_id is not distinct from '115979486831';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('chase-paw-patrol'))
+   and sold_price = 7.49 and sale_date is not distinct from '2025-02-22'
+   and listing_id is not distinct from '116447915212';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('rubble-paw-patrol'))
+   and sold_price = 28 and sale_date is not distinct from '2023-11-21'
+   and listing_id is not distinct from '126176307205';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('rubble-paw-patrol'))
+   and sold_price = 2.99 and sale_date is not distinct from '2024-07-03'
+   and listing_id is not distinct from '145861670624';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('skye-paw-patrol'))
+   and sold_price = 7 and sale_date is not distinct from '2023-11-25'
+   and listing_id is not distinct from '115925247931';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('skye-paw-patrol'))
+   and sold_price = 15.49 and sale_date is not distinct from '2025-02-22'
+   and listing_id is not distinct from '126883169283';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('tracker-paw-patrol'))
+   and sold_price = 17.99 and sale_date is not distinct from '2023-12-07'
+   and listing_id is not distinct from '126183111351';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('tracker-paw-patrol'))
+   and sold_price = 10.99 and sale_date is not distinct from '2024-01-13'
+   and listing_id is not distinct from '126183176723';
 update sales set excluded = '{"reason": "Original pre-Vault Pumpkin Pal Teddy (2023-2024 sale); not catalogued - see tools/catalogue_gaps.md."}'::jsonb
  where item_id in (select id from items where slug in ('pumpkin-pal-teddy-2026-halloween'))
    and sold_price = 90 and sale_date is not distinct from '2024-08-17'
@@ -108,6 +160,18 @@ update sales set excluded = '{"reason": "Original pre-Vault Pumpkin Pal Teddy (2
  where item_id in (select id from items where slug in ('pumpkin-pal-teddy-2026-halloween'))
    and sold_price = 24 and sale_date is not distinct from '2023-11-22'
    and listing_id is not distinct from '155890275573';
+update sales set excluded = '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('rubble-paw-patrol'))
+   and sold_price = 25 and sale_date is not distinct from '2026-06-05'
+   and listing_id is not distinct from '127269852390';
+update sales set excluded = '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('rubble-paw-patrol'))
+   and sold_price = 28.11 and sale_date is not distinct from '2026-03-14'
+   and listing_id is not distinct from '167768443288';
+update sales set excluded = '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('rubble-paw-patrol'))
+   and sold_price = 30 and sale_date is not distinct from '2025-05-30'
+   and listing_id is not distinct from '167245393339';
 update sales set item_id = (select id from items where slug = 'zombie-pompompurin'),
        reassigned_from = 'sanrio-pompompurin'
  where item_id in (select id from items where slug in ('zombie-pompompurin', 'sanrio-pompompurin'))
@@ -123,6 +187,10 @@ update sales set item_id = (select id from items where slug = 'zombie-pompompuri
  where item_id in (select id from items where slug in ('zombie-pompompurin', 'sanrio-pompompurin'))
    and sold_price = 75 and sale_date is not distinct from '2026-05-07'
    and listing_id is not distinct from '358133140326';
+update sales set excluded = '{"reason": "An Elmo smart-phone wristlet, not the Elmo plush."}'::jsonb
+ where item_id in (select id from items where slug in ('elmo'))
+   and sold_price = 33.29 and sale_date is not distinct from '2024-07-08'
+   and listing_id is not distinct from '155730144426';
 update sales set excluded = '{"reason": "A Posable Bat listing; ''Share'' is seller boilerplate in the title."}'::jsonb
  where item_id in (select id from items where slug in ('share-bear-care-bears'))
    and sold_price = 50 and sale_date is not distinct from '2026-08-15'
@@ -131,6 +199,22 @@ update sales set excluded = '{"reason": "A Posable Bat listing; ''Share'' is sel
  where item_id in (select id from items where slug in ('share-bear-care-bears'))
    and sold_price = 18.18 and sale_date is not distinct from '2026-05-29'
    and listing_id is not distinct from '198276865336';
+update sales set excluded = '{"reason": "A replacement sound chip sold on its own, not the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('skye-paw-patrol'))
+   and sold_price = 10.19 and sale_date is not distinct from '2026-08-17'
+   and listing_id is not distinct from '134052418294';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('skye-paw-patrol'))
+   and sold_price = 18 and sale_date is not distinct from '2026-07-13'
+   and listing_id is not distinct from '117265720201';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('skye-paw-patrol'))
+   and sold_price = 12.99 and sale_date is not distinct from '2025-11-14'
+   and listing_id is not distinct from '116793623926';
+update sales set excluded = '{"reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('skye-paw-patrol'))
+   and sold_price = 0.99 and sale_date is not distinct from '2024-05-19'
+   and listing_id is not distinct from '116176149179';
 update sales set excluded = '{"reason": "Aloha Christmas Stitch, not Snowflake Fun Stitch."}'::jsonb
  where item_id in (select id from items where slug in ('disney-snowflake-fun-stitch'))
    and sold_price = 27 and sale_date is not distinct from '2024-03-23'
@@ -143,6 +227,14 @@ update sales set excluded = '{"reason": "A ''Champ'' teddy with a heart patch, n
  where item_id in (select id from items where slug in ('stitch-disney'))
    and sold_price = 15.82 and sale_date is not distinct from '2024-01-28'
    and listing_id is not distinct from '116036186728';
+update sales set excluded = '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('zuma-paw-patrol'))
+   and sold_price = 37.5 and sale_date is not distinct from '2026-09-02'
+   and listing_id is not distinct from '188868111153';
+update sales set excluded = '{"reason": "A Pup Pack accessory sold on its own, not the plush."}'::jsonb
+ where item_id in (select id from items where slug in ('zuma-paw-patrol'))
+   and sold_price = 35.99 and sale_date is not distinct from '2026-08-21'
+   and listing_id is not distinct from '127969895309';
 
 -- Condition re-grades from tools/reclassify_conditions.py (71 rows).
 update sales set condition = 'NWOT', condition_basis = 'reclassified_v2'
