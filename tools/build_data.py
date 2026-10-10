@@ -2790,10 +2790,13 @@ def load_active_listings(root):
     engine's own evidence-type filter.
     """
     path = os.path.join(root, "tools", "active_listings.json")
-    if not os.path.exists(path):
-        return [], None
-    with open(path) as f:
-        payload = json.load(f)
+    if os.path.exists(path):
+        with open(path) as f:
+            payload = json.load(f)
+    else:
+        payload = carried_forward_listings(root)
+        if payload is None:
+            return [], None
     known = {i["id"] for i in ITEMS}
     for l in payload.get("listings", []):
         l["item_id"] = REDIRECTS.get(l.get("item_id"), l.get("item_id"))
@@ -2811,6 +2814,28 @@ def load_active_listings(root):
         # publish; dropping it also keeps data.json smaller.
         l.pop("image_url", None)
     return listings, payload.get("fetched_at")
+
+
+def carried_forward_listings(root):
+    """The listings the committed data.json already publishes.
+
+    tools/active_listings.json is local-only (gitignored), so a CI checkout
+    never has it: when the eBay fetch is skipped or fails, the daily build would
+    otherwise publish a deal finder with nothing in it. Yesterday's asks are
+    better than none, and their fetched_at keeps saying how old they are.
+    """
+    try:
+        with open(os.path.join(root, "data.json")) as f:
+            prev = json.load(f)
+    except (OSError, ValueError):
+        return None
+    listings = prev.get("active_listings") or []
+    if not listings:
+        return None
+    print("  carried forward %d active listing(s) from data.json, fetched %s "
+          "(tools/active_listings.json not present)"
+          % (len(listings), prev.get("active_listings_fetched_at") or "at an unknown time"))
+    return {"fetched_at": prev.get("active_listings_fetched_at"), "listings": listings}
 
 
 OPEN_QUESTION = re.compile(

@@ -63,5 +63,57 @@ class ShrinkGuard(unittest.TestCase):
             shutil.rmtree(tmp)
 
 
+class ListingsCarryForward(unittest.TestCase):
+    """tools/active_listings.json is gitignored, so CI never has it. A skipped
+    or failed eBay fetch must not publish an empty deal finder."""
+
+    def setUp(self):
+        import build_data as B
+        self.B = B
+        self.tmp = tempfile.mkdtemp()
+        os.makedirs(os.path.join(self.tmp, "tools"))
+        self.item = B.ITEMS[0]["id"]
+        self.row = {"id": "active-1", "item_id": self.item, "listing_id": "1", "ask_price": 12.0,
+                    "currency": "USD", "condition": "Good", "marketplace": "eBay",
+                    "evidence_type": "active_listing", "seller": "someone"}
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp)
+
+    def write_data(self, listings, fetched):
+        with open(os.path.join(self.tmp, "data.json"), "w") as f:
+            json.dump({"active_listings": listings, "active_listings_fetched_at": fetched}, f)
+
+    def test_missing_file_carries_forward_the_published_listings(self):
+        self.write_data([self.row], "2026-10-01T06:15:00Z")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            listings, fetched = self.B.load_active_listings(self.tmp)
+        self.assertEqual([l["id"] for l in listings], ["active-1"])
+        self.assertEqual(fetched, "2026-10-01T06:15:00Z", "the age stays visible")
+        self.assertNotIn("seller", listings[0], "user data is still stripped")
+        self.assertIn("carried forward 1 active listing", out.getvalue())
+
+    def test_a_present_file_is_authoritative(self):
+        self.write_data([self.row], "2026-10-01T06:15:00Z")
+        fresh = dict(self.row, id="active-2", listing_id="2")
+        with open(os.path.join(self.tmp, "tools", "active_listings.json"), "w") as f:
+            json.dump({"fetched_at": "2026-10-10T06:15:00Z", "listings": [fresh]}, f)
+        listings, fetched = self.B.load_active_listings(self.tmp)
+        self.assertEqual([l["id"] for l in listings], ["active-2"])
+        self.assertEqual(fetched, "2026-10-10T06:15:00Z")
+
+    def test_nothing_to_carry_is_still_empty(self):
+        self.write_data([], None)
+        self.assertEqual(self.B.load_active_listings(self.tmp), ([], None))
+        os.remove(os.path.join(self.tmp, "data.json"))
+        self.assertEqual(self.B.load_active_listings(self.tmp), ([], None))
+
+    def test_the_committed_data_keeps_its_listings(self):
+        with open(os.path.join(ROOT, "data.json")) as f:
+            d = json.load(f)
+        self.assertTrue(d["active_listings"], "data.json should carry listings")
+        self.assertTrue(d["active_listings_fetched_at"])
+
+
 if __name__ == "__main__":
     unittest.main()
