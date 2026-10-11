@@ -17,15 +17,12 @@ the first section blocks launch.
 
 ### Supabase
 - [ ] Confirm production's Postgres major version (`supabase/config.toml` says 17).
-- [ ] Export the live 7-argument `save_showcase` into
-      `supabase/migrations/20261008000011_save_showcase_details.sql`; confirm it
-      requires photo paths to start with `auth.uid()||'/'`; drop the 5-argument
-      overload. (The only failing pgTAP item is this TODO.)
-- [ ] Reconcile production before the first `db push` (`db pull` diff, then
-      `migration repair`), then apply migrations in order:
-      000001–000010 (base), 000100–000104 (security; review the cleanup UPDATE
-      counts from 000100), 000200 (comps export, stays off), 000250–000251
-      (data accuracy and merges), 000300 (waitlist). Then load `seed.sql`.
+- [x] Export the live 7-argument `save_showcase` (000011) and record the
+      dashboard-only changes (000012, 000310). Done 2026-10-11.
+- [x] Reconcile production's migration history and apply every migration
+      through 000310; load `seed.sql` (1,959 items, 17,584 sales). Done
+      2026-10-11, rehearsed first on a restored copy of production. History and
+      schema now match the repo exactly.
 - [ ] Decide on dropping `collections`, `portfolio_flows`, `holding_snapshots`
       (if all are empty) — writes to them are already blocked.
 - [ ] Auth → URL Configuration: Site URL, and `https://<domain>/account.html`
