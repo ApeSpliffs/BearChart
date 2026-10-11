@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy — BearChart</title>
+<title>Privacy — BearChart, an independent Build-A-Bear price guide</title>
 <meta name="description" content="What BearChart collects, why, and how to have it deleted.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BearChart">
-<meta property="og:title" content="Privacy — BearChart">
+<meta property="og:title" content="Privacy — BearChart, an independent Build-A-Bear price guide">
 <meta property="og:description" content="What BearChart collects, why, and how to have it deleted.">
 <meta property="og:image" content="/icons/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -23,6 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BearChart">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="privacy.html">
@@ -30,10 +31,10 @@
 <header class="masthead" id="masthead"></header>
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
-<main>
+<main id="main" tabindex="-1">
 <div class="wrap">
 <div class="panel legal">
-<h2>Privacy policy</h2>
+<h1>Privacy policy</h1>
 <p class="fine">Last updated October 7, 2026</p>
 
 <p>BearChart is a Build-A-Bear price guide run by Jay's Retro Exchange. This page
@@ -80,6 +81,14 @@ A showcase is shown to other signed-in members only if you switch it on.</li>
 store your card number.</li>
 </ul>
 
+<h3 id="waitlist">The membership waitlist</h3>
+<p>Before memberships open, you can leave your email on the membership page to hear when
+they do. We keep the email address, which plan you said you were interested in, your
+account if you were signed in, and a scrambled (hashed) form of your internet address that
+is only used to stop the form being flooded. We never keep the address itself. We use your
+email once, to tell you memberships are open, and for nothing else. To be taken off the
+list, ask through the contact link below.</p>
+
 <h3>Who helps us run the site</h3>
 <p>Vercel hosts the site. Supabase stores accounts, submissions and photos. PostHog
 counts visits. Sentry receives error reports. Stripe will take membership payments. Each only gets what it needs for
@@ -96,7 +105,7 @@ applies.</p>
 <h3>Seeing, changing or deleting your information</h3>
 <p>You can ask us for a copy of what we hold about you, or ask us to delete your
 account and everything linked to it. Send the request through
-<a href="https://jaysretroexchange.com" target="_blank" rel="noopener">jaysretroexchange.com</a>
+<a href="https://jaysretroexchange.com" target="_blank" rel="noopener noreferrer" data-shop-placement="privacy">jaysretroexchange.com</a>
 from the email address on the account and we will do it within 30 days. An approved
 photo can stay on the site without any link to you, or be removed too &mdash; your choice.</p>
 

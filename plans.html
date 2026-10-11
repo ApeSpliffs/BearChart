@@ -3,26 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Membership — BearChart</title>
+<title>Membership — BearChart, an independent Build-A-Bear price guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
 <meta name="theme-color" content="#b3131c">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<meta name="description" content="BearChart memberships: deal alerts, collection sync, value history and money off at Jay&#x27;s Retro Exchange.">
+<meta name="description" content="BearChart memberships: your collection synced to every device, its value history kept, insurance-ready reports and a monthly coupon at Jay&#x27;s Retro Exchange.">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BearChart">
-<meta property="og:title" content="Membership — BearChart">
-<meta property="og:description" content="BearChart memberships: deal alerts, collection sync, value history and money off at Jay&#x27;s Retro Exchange.">
+<meta property="og:title" content="Membership — BearChart, an independent Build-A-Bear price guide">
+<meta property="og:description" content="BearChart memberships: your collection synced to every device, its value history kept, insurance-ready reports and a monthly coupon at Jay&#x27;s Retro Exchange.">
 <meta property="og:image" content="/icons/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BearChart">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,42 +31,45 @@
 <header class="masthead" id="masthead"></header>
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
-<main>
+<main id="main" tabindex="-1">
+<p class="fine bc-status" data-bc-status aria-live="polite" hidden></p>
 <div class="wrap">
 
-<div class="panel plans-hero">
-<h2>Membership</h2>
-<p class="plans-lead">The price guide is free and stays free. Membership adds the things
-that run behind the scenes: your collection on every device, alerts that find bears for
-you, and a coupon every month for the Jay's Retro Exchange store.</p>
+<section class="panel plans-hero" aria-labelledby="plans-h1">
+<h1 id="plans-h1">Membership</h1>
+<p class="plans-lead" id="plans-intro">The guide is free forever. Membership keeps your
+collection's value current and finds underpriced bears for you.</p>
 <div id="status-notice"></div>
-</div>
+</section>
 
-<div class="plan-grid" id="plans"></div>
+<div class="plan-grid plan-grid-4" id="plans"></div>
 
-<div class="panel faq">
-<h2>Questions</h2>
-<dl>
+<section class="panel" aria-labelledby="compare-h">
+<h2 id="compare-h">Compare plans</h2>
+<div id="compare"></div>
+</section>
+
+<!-- The coupon answer is built from the config (the perks and their terms
+     live once, in tools/build_data.py) and inserted first by plans.js. -->
+<section class="panel faq" aria-labelledby="faq-h">
+<h2 id="faq-h">Questions</h2>
+<dl id="faq">
+<dt>Can I cancel any time?</dt>
+<dd>Yes, in one click from your account page. You keep membership until the end of the
+month you paid for.</dd>
+<dt>What does &ldquo;On the way&rdquo; mean?</dt>
+<dd>We are building it now. It is not part of what you pay for until it ships, and we will
+not charge more for it when it does. Anything with a &#10003; works today.</dd>
 <dt>Will the price guide stay free?</dt>
 <dd>Yes. Every value and calculator on BearChart is free for everyone, and checklists, the
 collection tracker and the deal finder are free with an account.
 Membership pays for the work our servers do for you: syncing, alerts, reports and
 scanning eBay.</dd>
-<dt>How does the Jay's Retro Exchange coupon work?</dt>
-<dd>Each billing month you get one coupon code for the Jay's Retro Exchange store: $5 off
-an order over $40 for Pro members, or $10 off an order over $75 for Power members. The
-order total is counted before tax and shipping. Coupons work on items Jay's Retro Exchange
-sells itself, not on items listed by other sellers on the Jay's Retro Exchange
-marketplace. Each code is for one order, cannot be shared or combined with other offers,
-and expires at the end of that billing month if you do not use it. The full rules are in
-the <a href="terms.html">terms</a>.</dd>
 <dt>Does being a member change what a bear is worth?</dt>
 <dd>No. Members and non-members see exactly the same values, worked out from the same
 sold prices.</dd>
-<dt>Can I cancel any time?</dt>
-<dd>Yes, in one click from your account page. No emails, no phone calls.</dd>
 </dl>
-</div>
+</section>
 
 <details class="panel fineprint">
 <summary>The fine print</summary>
