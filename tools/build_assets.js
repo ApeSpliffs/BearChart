@@ -14,6 +14,10 @@
  *                               SUMMARY (v) and sold conditions (sc). List pages
  *                               need nothing else, so none of them valuates.
  *   data/h/listings.<sha12>.json  active asking prices (the deal finder).
+ *   data/h/plans.<sha12>.json   the plans page's copy: the feature catalogue,
+ *                               who each tier is for, the coupon terms. Only
+ *                               plans.html needs it, so it stays out of
+ *                               site-config.js (which every page downloads).
  *   data/items/<id>.json        one item, its sales and listings, and up to 8
  *                               related items. Stable URL, revalidated (ETag).
  *   data/manifest.json          what was written, for build_pages/build_pwa and
@@ -186,6 +190,41 @@ function buildStats(data, E, ctx) {
   });
 }
 
+// Membership keys only the plans page reads (see buildPlans).
+const PLANS_ONLY = ['features', 'coupon_terms', 'hot_slot_note'];
+
+/**
+ * The plans page's copy, split out of the membership config: the feature
+ * catalogue (cards, comparison, "On the way"), each tier's who-it's-for line
+ * and the coupon terms. Perks, prices and entitlements stay in site-config.js,
+ * because the nudge, the upsell and the gates need them on every page.
+ */
+function buildPlans(data) {
+  const m = data.membership || {};
+  const whoFor = {};
+  for (const [id, p] of Object.entries(m.plans || {})) {
+    if (p.who_for) whoFor[id] = p.who_for;
+  }
+  const out = { schema: SCHEMA, who_for: whoFor };
+  for (const k of PLANS_ONLY) out[k] = m[k] === undefined ? null : m[k];
+  return out;
+}
+
+/** The membership block for site-config.js: everything but the plans page's copy. */
+function membershipConfig(m) {
+  const out = Object.assign({}, m || {});
+  for (const k of PLANS_ONLY) delete out[k];
+  if (out.plans) {
+    const plans = {};
+    for (const [id, p] of Object.entries(out.plans)) {
+      plans[id] = Object.assign({}, p);
+      delete plans[id].who_for;
+    }
+    out.plans = plans;
+  }
+  return out;
+}
+
 /**
  * site-config.js's payload. `engine` is data.config without auth and features
  * (each has its own key); `data` points at the hashed files. Pages read all of
@@ -211,12 +250,15 @@ function buildSiteConfig(data, manifest, stats) {
       name: data.meta.name, subtitle: data.meta.subtitle,
       schema_version: data.meta.schema_version, built_at: data.meta.built_at,
       site_url: data.meta.site_url, disclaimer: data.meta.disclaimer,
+      disclaimer_short: data.meta.disclaimer_short || null,
+      trademark_notice: data.meta.trademark_notice || null,
+      suggest_url: data.meta.suggest_url || null,
       item_count: data.items.length, sale_count: (data.sales || []).length
     },
     engine: engine,
     auth: data.config.auth || {},
     features: data.config.features || {},
-    membership: data.membership || {},
+    membership: membershipConfig(data.membership),
     business: data.business || {},
     sources: data.sources || [],
     redirects: data.redirects || {},
@@ -224,6 +266,7 @@ function buildSiteConfig(data, manifest, stats) {
     data: {
       index: manifest.index,
       listings: manifest.listings,
+      plans: manifest.plans || null,
       items_base: 'data/items/'
     }
   };
@@ -248,13 +291,16 @@ function writeAll(data, E, out) {
 
   const indexText = JSON.stringify(buildIndex(data, E, ctx));
   const listingsText = JSON.stringify(buildListings(data));
+  const plansText = JSON.stringify(buildPlans(data));
   const manifest = {
     index: 'data/h/index.' + sha12(indexText) + '.json',
     listings: 'data/h/listings.' + sha12(listingsText) + '.json',
+    plans: 'data/h/plans.' + sha12(plansText) + '.json',
     items: {}
   };
   fs.writeFileSync(path.join(out, manifest.index), indexText);
   fs.writeFileSync(path.join(out, manifest.listings), listingsText);
+  fs.writeFileSync(path.join(out, manifest.plans), plansText);
 
   for (const i of data.items) {
     const text = JSON.stringify(buildShard(data, i.id, ctx));
@@ -288,7 +334,7 @@ function main(argv) {
 
 module.exports = {
   SCHEMA, USER_DATA_FIELDS, INDEX_GZ_BUDGET, compactItem, soldConditions, context,
-  buildIndex, recentSales, buildListings, listingsFetchedAt, buildShard, buildShards, buildStats, buildSiteConfig,
+  buildIndex, recentSales, buildListings, buildPlans, membershipConfig, PLANS_ONLY, listingsFetchedAt, buildShard, buildShards, buildStats, buildSiteConfig,
   siteConfigJs, relatedFor, writeAll, sha12
 };
 

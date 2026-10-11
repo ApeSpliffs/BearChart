@@ -157,8 +157,26 @@ test('site-config.js evaluates and points at files that exist', () => {
   assert.ok(fs.existsSync(path.join(OUT, CFG.data.listings)));
   assert.strictEqual(CFG.data.items_base, 'data/items/');
   assert.deepStrictEqual(CFG.redirects, DATA.redirects);
-  assert.deepStrictEqual(CFG.membership, DATA.membership);
+  // Membership minus the plans page's copy, which rides in its own file.
+  assert.deepStrictEqual(CFG.membership, A.membershipConfig(DATA.membership));
+  for (const k of A.PLANS_ONLY) assert.ok(!(k in CFG.membership), k + ' stays out of site-config.js');
   assert.strictEqual(CFG.meta.item_count, DATA.items.length);
+  assert.strictEqual(CFG.meta.trademark_notice, DATA.meta.trademark_notice);
+});
+
+test('the plans page copy is its own hashed file, with nothing lost in the split', () => {
+  assert.strictEqual(CFG.data.plans, MANIFEST.plans);
+  assert.match(MANIFEST.plans, /^data\/h\/plans\.[0-9a-f]{12}\.json$/);
+  const plans = JSON.parse(read(MANIFEST.plans));
+  assert.deepStrictEqual(plans.features, DATA.membership.features);
+  assert.strictEqual(plans.coupon_terms, DATA.membership.coupon_terms);
+  assert.strictEqual(plans.hot_slot_note, DATA.membership.hot_slot_note);
+  for (const [id, p] of Object.entries(DATA.membership.plans)) {
+    assert.strictEqual(plans.who_for[id], p.who_for, id);
+    assert.ok(!('who_for' in CFG.membership.plans[id]), id);
+    // Everything else about a plan (perk, price, entitlements) stays in site-config.
+    assert.strictEqual(CFG.membership.plans[id].perk, p.perk);
+  }
 });
 
 test('the headline stats are engine.catalogueStats, the same numbers data.json states', () => {

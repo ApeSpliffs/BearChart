@@ -36,7 +36,7 @@ SHELL = [
     "collection.html", "admin.html", "about.html", "roadmap.html",
     "plans.html", "account.html", "showcase.html", "privacy.html", "terms.html",
     "item/_offline.html",
-    "styles.css",
+    "styles.css", "theme.js",
     "config.js", "observability.js", "site-config.js", "sanitize.js", "bc-data.js",
     "engine.js", "icons.js", "auth.js", "entitlements.js",
     "submissions.js", "common.js", "app.js", "item.js", "deals.js", "checklists.js",
@@ -75,10 +75,16 @@ def file_rev(rel):
         return hashlib.sha256(f.read()).hexdigest()[:12]
 
 
+def data_files(manifest):
+    """The hashed data files the shell carries: the index, the listings and the
+    plans page's copy (older manifests have no plans file)."""
+    return [manifest[k] for k in ("index", "listings", "plans") if manifest.get(k)]
+
+
 def precache_entries(manifest):
     """[{url, rev}] for every shell file on disk. rev is the file's own hash, so
     a deploy re-downloads exactly the entries whose bytes changed."""
-    urls = SHELL + [manifest["index"], manifest["listings"]]
+    urls = SHELL + data_files(manifest)
     out = []
     for rel in urls:
         if os.path.isfile(source_path(rel)):
@@ -398,7 +404,7 @@ def main():
 
     manifest = data_manifest()
     entries = precache_entries(manifest)
-    wanted = SHELL + [manifest["index"], manifest["listings"]]
+    wanted = SHELL + data_files(manifest)
     missing = [p for p in wanted if p not in {e["url"] for e in entries}]
     print("wrote %s  (cache bearchart-shell-%s, %d files precached)"
           % (os.path.relpath(write_sw(entries), ROOT), version(entries), len(entries)))
