@@ -80,6 +80,26 @@ function check(name, ok, detail) {
 
   await send('Page.enable');
   await send('Network.enable');
+
+  // Nothing leaves this machine: every request to a host other than the local
+  // server (Supabase, analytics, fonts, eBay images) is failed in the browser.
+  // A test run must never touch a production backend.
+  const LOCAL = new Set(['localhost', '127.0.0.1', '[::1]', new URL(BASE).hostname]);
+  const blocked = [];
+  ws.addEventListener('message', (ev) => {
+    const m = JSON.parse(ev.data);
+    if (m.method !== 'Fetch.requestPaused') return;
+    let host = '';
+    try { host = new URL(m.params.request.url).hostname; } catch (e) { /* data: etc */ }
+    if (!host || LOCAL.has(host)) {
+      send('Fetch.continueRequest', { requestId: m.params.requestId }).catch(() => null);
+    } else {
+      blocked.push(host);
+      send('Fetch.failRequest', { requestId: m.params.requestId, errorReason: 'BlockedByClient' })
+        .catch(() => null);
+    }
+  });
+  await send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
   await send('Runtime.enable');
   await send('Log.enable').catch(() => null);
 
@@ -173,6 +193,10 @@ function check(name, ok, detail) {
   // installed client should re-download only site-config.js, the new index
   // and listings and sw.js (see the Network log in DevTools).
   ws.close(); chrome.kill();
+  if (blocked.length) {
+    console.log('  (blocked ' + blocked.length + ' request(s) to: ' +
+                Array.from(new Set(blocked)).join(', ') + ')');
+  }
   console.log(failures ? `\n${failures} failure(s)` : '\nall offline checks passed');
   process.exit(failures ? 1 : 0);
 })().catch((e) => { console.error(e); chrome.kill(); process.exit(1); });

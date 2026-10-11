@@ -236,7 +236,7 @@
     var sensitive = S.SENSITIVE_URL_PARAMS.some(function (k) { return k in p; });
     if (!sensitive) return;   // leave ordinary #anchors alone
     var clean = S.scrubUrl(href);
-    if (clean !== href) root.history.replaceState(root.history.state, '', clean);
+    if (clean !== href) root.history.replaceState(null, '', clean);
   }
 
   // --- actions ---------------------------------------------------------------

@@ -351,7 +351,7 @@ test('the price guide shows a page of cards, not the whole catalogue', async () 
   assert.ok(first.length < total, 'the first screen should not hold every item');
   assert.strictEqual(p.doc.getElementById('show-more').hidden, false);
   assert.match(p.doc.getElementById('result-count').textContent,
-    new RegExp('of ' + total + ' matching'));
+    new RegExp('of ' + total.toLocaleString('en-US') + ' matching'));
 });
 
 test('"show more" eventually lists every item as a card', async () => {
@@ -377,7 +377,7 @@ test('searching brings up more, and paging restarts', async () => {
   q.dispatchEvent(new p.win.Event('input'));
   return new Promise((done) => setTimeout(() => {
     const shown = p.doc.querySelectorAll('#results .card').length;
-    const matching = Number(p.doc.getElementById('result-count').textContent.match(/of (\d+)/)[1]);
+    const matching = Number(p.doc.getElementById('result-count').textContent.match(/of ([\d,]+)/)[1].replace(/,/g, ''));
     // Having asked a question, you should not get the answer a dozen at a time.
     assert.ok(shown > 12, 'a search should show more than the browsing page');
     assert.ok(shown <= 48);
@@ -3431,8 +3431,20 @@ test('every link to the store goes through the builder and carries the disclosur
   assertShopLinks(await renderPage('item.html', 'item.html?id=classic-brown-teddy'), 'item (priced)');
   assertShopLinks(await renderPage('item.html', 'item.html?id=buddy-bear-30-inch'), 'item (unpriced)');
   assertShopLinks(await renderPage('about.html'), 'about');
-  assertShopLinks(await renderPage('privacy.html'), 'privacy');
-  assertShopLinks(await renderPage('terms.html'), 'terms');
+  // The contact links on the legal pages are not shop links: no tags, no
+  // sponsored rel, no disclosure (WS5 QA).
+  for (const page of ['privacy.html', 'terms.html']) {
+    const p = await renderPage(page);
+    const links = p.doc.querySelectorAll('main a[href*="jaysretroexchange.com"]');
+    assert.ok(links.length, page);
+    for (const a of links) {
+      assert.strictEqual(a.getAttribute('data-shop-placement'), null, page);
+      assert.doesNotMatch(a.getAttribute('href'), /utm_/, page);
+      assert.doesNotMatch(a.getAttribute('rel') || '', /sponsored/, page);
+    }
+    assert.strictEqual(p.doc.querySelectorAll('.shop-disclosure').length,
+      p.doc.querySelectorAll('#site-footer .shop-disclosure').length, page + ': only the footer');
+  }
 });
 
 test('the shop address is written only in the config', () => {
@@ -3592,7 +3604,8 @@ test('the prompt shows on the first bear added to a collection, and not again wi
   p.doc.getElementById('add-collection').dispatchEvent(new p.win.Event('click'));
   const nudge = p.doc.getElementById('bc-nudge');
   assert.ok(nudge);
-  assert.match(nudge.textContent, /Don't lose this collection/);
+  assert.match(nudge.textContent, /Keep track of this collection/);
+  assert.doesNotMatch(nudge.textContent, /keeps it safe/, 'sync is Pro, not a free account');
   nudge.querySelector('.nudge-x').dispatchEvent(new p.win.Event('click'));
   assert.strictEqual(p.doc.getElementById('bc-nudge'), null);
   p.win.BC.prompt.maybeShow('views');
@@ -3933,4 +3946,86 @@ test('the deal finder says its totals include shipping, and when shipping is ass
   assert.match(p.doc.getElementById('deals').textContent, /asking price plus shipping/);
   assert.match(p.doc.querySelector('.deal-table thead').textContent, /Asking \+ shipping/);
   assert.match(p.doc.getElementById('deals').textContent, /shipping \(not listed, assumed\)/);
+});
+
+test('hidden controls stay hidden under the real stylesheet', async () => {
+  const p = await renderPage('index.html');
+  const style = p.doc.createElement('style');
+  style.textContent = fs.readFileSync(path.join(ROOT, 'styles.css'), 'utf8');
+  p.doc.head.appendChild(style);
+  const hiddenNow = Array.from(p.doc.querySelectorAll('[hidden]'));
+  assert.ok(hiddenNow.some((el) => el.id === 'clear-all'), 'clear-all starts hidden');
+  for (const el of hiddenNow) {
+    assert.strictEqual(p.win.getComputedStyle(el).display, 'none', (el.id || el.tagName) + ' is hidden but displayed');
+  }
+});
+
+test('closing the prompt returns focus to where it was, or to the page', async () => {
+  const p = await renderPage('item.html', 'item.html?id=classic-brown-teddy', {
+    afterScript: fakeAuth({ afterScript: (src, win) => {
+      if (src === 'auth.js') win.localStorage.setItem('bc.prompt', JSON.stringify({ views: 2 }));
+    } })
+  });
+  const before = p.doc.getElementById('c-cond');
+  before.focus();
+  const x = p.doc.querySelector('#bc-nudge .nudge-x');
+  x.focus();
+  x.dispatchEvent(new p.win.FocusEvent('focusin', { bubbles: true, relatedTarget: before }));
+  x.dispatchEvent(new p.win.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  assert.strictEqual(p.doc.activeElement, before);
+  p.win.localStorage.removeItem('bc.prompt');
+  p.win.localStorage.setItem('bc.prompt', JSON.stringify({ views: 9 }));
+  p.win.BC.prompt.maybeShow('views');
+  const x2 = p.doc.querySelector('#bc-nudge .nudge-x');
+  if (p.doc.activeElement && p.doc.activeElement.blur) p.doc.activeElement.blur();
+  x2.focus();
+  x2.dispatchEvent(new p.win.Event('click'));
+  assert.strictEqual(p.doc.activeElement, p.doc.getElementById('main'));
+});
+
+test('no copy claims an on-the-way feature works today', async () => {
+  // Deal alerts, scanning and notifications are "On the way": nothing may say
+  // members get them now, and nothing says a free account syncs.
+  const files = fs.readdirSync(ROOT).filter((f) => /\.(js|html)$/.test(f) &&
+    !['site-config.js', 'sw.js', 'engine.js'].includes(f));
+  const banned = [/get deal alerts/i, /before anyone else/i, /finds underpriced bears/i,
+    /found for them/i, /keeps it safe/i, /notify you when/i];
+  for (const f of files) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    for (const re of banned) assert.doesNotMatch(src, re, f);
+  }
+  const d = loadData();
+  const shipped = d.membership.features.filter((x) => x.status === 'included').map((x) => x.text).join(' ');
+  for (const plan of Object.values(d.membership.plans)) {
+    for (const text of [plan.who_for, plan.blurb]) {
+      for (const re of banned) assert.doesNotMatch(text, re, plan.name);
+    }
+  }
+  assert.doesNotMatch(shipped, /alert/i, 'no alert is listed as included');
+  const lc = d.membership.features.find((x) => x.id === 'local_coll');
+  assert.strictEqual(lc.from, 'free', 'the collection page needs a free account');
+});
+
+test('the fine print never shows an unbuilt feature as enforced', async () => {
+  const p = await renderPage('plans.html');
+  const rows = Array.from(p.doc.querySelectorAll('#enforcement tbody tr'));
+  const row = (label) => rows.find((r) => r.cells[0].textContent === label);
+  for (const label of ['Email deal alerts', 'Push deal alerts', 'Wishlist alerts', 'Scanning priority']) {
+    const r = row(label);
+    assert.ok(r, label);
+    assert.match(r.textContent, /On the way/, label);
+    assert.match(r.textContent, /Not built yet/, label);
+    assert.doesNotMatch(r.textContent, /refuses this/, label);
+  }
+  assert.doesNotMatch(row('Collection sync').textContent, /Not built yet/);
+  assert.match(row('Collection sync').textContent, /refuses this/);
+  assert.doesNotMatch(row('Monthly coupon for the Jay\'s Retro Exchange store').textContent, /Not built yet/);
+});
+
+test('the coupon answer says which perk is Pro and which is Power', async () => {
+  const p = await renderPage('plans.html');
+  const dd = p.doc.getElementById('faq-coupon').nextElementSibling.textContent;
+  const M = p.data.membership.plans;
+  assert.ok(dd.includes('Pro: ' + M.pro.perk), dd);
+  assert.ok(dd.includes('Power: ' + M.power.perk), dd);
 });
