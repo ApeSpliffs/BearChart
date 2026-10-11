@@ -234689,9 +234689,13 @@ insert into valuation_config (key, value) values ('reseller', '{"platform": "eba
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('fees', '{"as_of": "2026-10", "default_platform": "ebay", "platforms": {"ebay": {"label": "eBay", "pct": 0.136, "fixed_over": 0.4, "fixed_under": 0.3, "fixed_threshold": 10.0, "applies_to": "item_plus_shipping", "verify": "VERIFY on https://www.ebay.com/help/selling/fees-credits-invoices/selling-fees?id=4822 (category rate; eBay also charges on sales tax - approximated as item+shipping)"}, "mercari": {"label": "Mercari", "pct": 0.1, "fixed_over": 0, "fixed_under": 0, "fixed_threshold": 0, "applies_to": "item_plus_shipping", "verify": "VERIFY on Mercari fee page"}}}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
+insert into valuation_config (key, value) values ('listings_max_age_days', '7'::jsonb)
+on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('recency', '{"window_days": 365, "min_recent": 10, "as_of": "2026-10-09"}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('operator_cap', '0.25'::jsonb)
+on conflict (key) do update set value = excluded.value, updated_at = now();
+insert into valuation_config (key, value) values ('features', '{"comps_export": false}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 
 commit;
