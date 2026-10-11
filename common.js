@@ -720,8 +720,10 @@
   // (tools/build_data.py BUSINESS).
 
   var SHOP_PLACEMENTS = ['footer', 'guide_sidebar', 'guide_mobile', 'item_store_panel',
-    'item_offer', 'item_quote', 'item_search', 'about_disclosure', 'privacy', 'terms',
+    'item_offer', 'item_quote', 'item_search', 'about_disclosure',
     'nudge_perk', 'plans_perk', 'other'];
+  // Not here on purpose: the contact links on privacy.html and terms.html.
+  // Asking about your data is not shopping - they stay plain links.
   var SHOP_REL = 'sponsored noopener noreferrer';
 
   function shopPlacement(p) {
@@ -1352,9 +1354,10 @@
 
   var NUDGE_COPY = {
     views: ['Keep the bears you look up in one place',
-            'A free account saves your collection and wishlist.'],
-    collection: ['Don\'t lose this collection',
-                 'It\'s saved in this browser only. A free account keeps it safe.']
+            'A free account gives you a collection page and a wishlist that follows you to every device.'],
+    collection: ['Keep track of this collection',
+                 'It\'s saved in this browser. A free account opens your collection page; ' +
+                 'Pro also syncs it across your devices.']
   };
 
   function promptPage() {
@@ -1396,10 +1399,17 @@
     '</aside>';
   }
 
-  function closeNudge(trigger) {
+  function closeNudge(trigger, returnTo) {
     var el = document.getElementById('bc-nudge');
     if (!el) return;
+    var hadFocus = el.contains(document.activeElement);
     el.parentNode.removeChild(el);
+    // Focus goes back where it came from (or to the page), never to <body>.
+    if (hadFocus) {
+      var to = returnTo && returnTo.focus && document.documentElement.contains(returnTo) &&
+               returnTo !== document.body ? returnTo : document.getElementById('main');
+      if (to && to.focus) to.focus();
+    }
     try { var st = promptRead(); st.dismissedAt = Date.now(); promptWrite(st); } catch (e) { /* blocked */ }
     if (root.bcTrack) root.bcTrack('nudge_dismissed', { trigger: trigger });
   }
@@ -1417,9 +1427,14 @@
     var el = box.firstChild;
     if (foot && foot.parentNode) foot.parentNode.insertBefore(el, foot);
     else document.body.appendChild(el);
-    el.querySelector('.nudge-x').addEventListener('click', function () { closeNudge(trigger); });
+    // Where focus was before someone tabbed or clicked into the prompt.
+    var returnTo = null;
+    el.addEventListener('focusin', function (e) {
+      if (e.relatedTarget && !el.contains(e.relatedTarget)) returnTo = e.relatedTarget;
+    });
+    el.querySelector('.nudge-x').addEventListener('click', function () { closeNudge(trigger, returnTo); });
     el.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' || e.key === 'Esc') closeNudge(trigger);
+      if (e.key === 'Escape' || e.key === 'Esc') closeNudge(trigger, returnTo);
     });
     el.addEventListener('click', function (e) {
       var a = e.target && e.target.closest ? e.target.closest('a[data-nudge]') : null;
@@ -1477,8 +1492,7 @@
     var pro = P.plan ? P.plan('pro') : null;
     return '<aside class="upsell" aria-labelledby="up-h">' +
       '<h2 id="up-h" class="upsell-h">Own this one?</h2>' +
-      '<p>Add it to your collection and see what everything you own is worth.' +
-      (pro && pro.blurb ? ' ' + esc(pro.blurb) : '') + '</p>' +
+      '<p>Add it to your collection and see what everything you own is worth.</p>' +
       '<p><a class="btn btn-primary" href="#calc-panel">Add to my collection</a> ' +
       '<a href="' + rel('plans.html') + '" class="upsell-more">What Pro adds</a></p>' +
     '</aside>';

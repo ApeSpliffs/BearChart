@@ -2325,8 +2325,10 @@ FEATURES = [
                  ("from", "guest"), ("status", "included")]),
     OrderedDict([("id", "calculator"), ("text", "Condition calculator: NWT, played-with, missing outfit"),
                  ("from", "guest"), ("status", "included")]),
+    # The collection page needs a free account (it is gated signed out), so the
+    # claim sits on the free tier; the list itself lives in this browser.
     OrderedDict([("id", "local_coll"), ("text", "Track your collection on this device"),
-                 ("from", "guest"), ("status", "included")]),
+                 ("from", "free"), ("status", "included")]),
     OrderedDict([("id", "checklists"), ("text", "Collector checklists"),
                  ("from", "free"), ("status", "included")]),
     OrderedDict([("id", "deals"), ("text", "Deal finder: bears listed below their value"),
@@ -2374,7 +2376,7 @@ COMPS_EXPORT_FEATURE = OrderedDict([
 PLANS = OrderedDict([
     ("guest", OrderedDict([
         ("name", "Free, no account"),
-        ("short", "No account"),
+        ("short", "Free guide"),
         ("price_monthly", 0),
         ("who_for", "For looking up a bear's value in seconds."),
         ("badge", None),
@@ -2413,10 +2415,10 @@ PLANS = OrderedDict([
         ("name", "Power"),
         ("short", "Power"),
         ("price_monthly", 14),
-        ("who_for", "For resellers who want underpriced bears found for them."),
+        ("who_for", "For collectors who want a showcase of their best bears, plus everything in Pro."),
         ("badge", None),
         ("perk", "A $10 coupon every month for the Jay's Retro Exchange store, on orders over $75. Not valid on marketplace sellers' items."),
-        ("blurb", "Find underpriced bears before anyone else does."),
+        ("blurb", "Show your top 12 bears to other members. Deal alerts are on the way."),
         ("entitlements", [
             "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
             "insurance_archive", "id_priority", "shop_discount",

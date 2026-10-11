@@ -28,8 +28,8 @@
     var lede = $('hero-lede');
     if (lede) {
       lede.textContent = 'Real sold prices for ' + BC.fmtInt(stats.items) +
-        ' Build-A-Bears, not asking prices. Search free; members track their whole ' +
-        'collection and get deal alerts.';
+        ' Build-A-Bears, not asking prices. Search free; a free account tracks your ' +
+        'collection and finds bears listed below their value.';
     }
     var q = $('q');
     if (q) q.placeholder = 'Search ' + BC.fmtInt(stats.items) + ' bears, e.g. "vanilla fudge bunny"';
@@ -398,8 +398,8 @@
 
       var page = items.slice(0, state.shown);
       var count = page.length < items.length
-        ? page.length + ' of ' + items.length + ' matching'
-        : items.length + ' of ' + D.items.length + ' items';
+        ? BC.fmtInt(page.length) + ' of ' + BC.fmtInt(items.length) + ' matching'
+        : BC.fmtInt(items.length) + ' of ' + BC.fmtInt(D.items.length) + ' items';
       // A live region: only write when it changed, or it re-announces.
       if ($('result-count').textContent !== count) $('result-count').textContent = count;
       $('clear-all').hidden = !searching();

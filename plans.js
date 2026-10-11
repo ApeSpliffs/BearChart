@@ -173,7 +173,7 @@
         (p.perk ? '<div class="plan-perk"><strong>Member perk</strong>' + BC.esc(p.perk) + '</div>' : '') +
         '<h3 class="plan-list-h">Included</h3>' +
         '<ul class="plan-features">' +
-          (i > 0 ? '<li class="plan-inherit">Everything in ' + BC.esc(all[i - 1].name) + '</li>' : '') +
+          (i > 0 ? '<li class="plan-inherit">Everything in ' + BC.esc(all[i - 1].short) + '</li>' : '') +
           f.included.map(function (x) { return '<li>' + BC.esc(x.text) + '</li>'; }).join('') +
         '</ul>' +
         (f.soon.length
@@ -233,13 +233,16 @@
   function renderFaq() {
     var faq = $('faq');
     if (!faq || !copyReady || $('faq-coupon')) return;
-    var perks = ['pro', 'power'].map(P.perk).filter(Boolean);
+    // Each perk named with its plan, both from config.
+    var perks = ['pro', 'power'].filter(function (id) { return P.perk(id); }).map(function (id) {
+      return '<strong>' + BC.esc(P.plan(id).name) + ':</strong> ' + BC.esc(P.perk(id));
+    });
     if (!perks.length) return;
     var dt = document.createElement('dt');
     dt.id = 'faq-coupon';
     dt.textContent = 'How does the Jay\'s Retro Exchange coupon work?';
     var dd = document.createElement('dd');
-    dd.innerHTML = perks.map(BC.esc).join(' ') + ' ' + BC.esc(P.couponTerms()) +
+    dd.innerHTML = perks.join(' ') + ' ' + BC.esc(P.couponTerms()) +
       ' The full rules are in the <a href="terms.html">terms</a>.';
     faq.insertBefore(dd, faq.firstChild);
     faq.insertBefore(dt, dd);
@@ -251,7 +254,7 @@
     // Still stated before anyone pays - just in the fine print rather than
     // ahead of the plans.
     $('hot-slots').innerHTML =
-      '<strong>Alert speed is shared, not personal.</strong> ' +
+      '<strong>Deal alerts are not built yet. When they arrive, alert speed is shared, not personal.</strong> ' +
       'Scanning eBay for new listings costs API quota, and the budget covers about ' +
       '<strong>' + P.hotSlots + ' continuously-scanned searches for the whole site</strong> ' +
       '&mdash; not ' + P.hotSlots + ' each. So Power cannot promise 60-second checks on ' +
@@ -289,11 +292,19 @@
       '</tr></thead><tbody>' +
       rows.map(function (r) {
         var kind = ENFORCED[r.where] || ENFORCED.ux;
+        // Not built: nothing enforces it yet, so say only what will happen.
+        if (r.soon) {
+          return '<tr><td>' + BC.esc(r.label) + '</td>' +
+            '<td>' + BC.esc(r.plan) + '</td>' +
+            '<td><span class="tag upcoming">On the way</span></td>' +
+            '<td class="fine"><strong>Not built yet.</strong> When it ships, ' +
+            (r.where === 'server' ? 'the server will check the membership.' : 'it will say here how it is checked.') +
+            '</td></tr>';
+        }
         return '<tr><td>' + BC.esc(r.label) + '</td>' +
           '<td>' + BC.esc(r.plan) + '</td>' +
           '<td><span class="tag ' + kind[0] + '">' + BC.esc(kind[1]) + '</span></td>' +
-          '<td class="fine">' + (r.soon ? '<strong>Not built yet.</strong> ' : '') +
-          BC.esc(kind[2]) + '</td></tr>';
+          '<td class="fine">' + BC.esc(kind[2]) + '</td></tr>';
       }).join('') + '</tbody></table></div>';
   }
 

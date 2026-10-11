@@ -172,9 +172,15 @@
     return (DEFS[feature] || {}).status || null;
   }
 
-  /** Is an entitlement on the way rather than working today? */
+  /**
+   * Is an entitlement on the way rather than working today? Built means a
+   * feature that works today names it, or the shop honours it (the coupon).
+   * Anything else - "soon", or listed under no feature at all - is not built,
+   * and must never read as enforced.
+   */
   function soon(feature) {
-    return COPY.features.some(function (f) { return f.entitlement === feature && f.status === 'soon'; });
+    if ((DEFS[feature] || {}).enforced === 'shop') return false;
+    return !COPY.features.some(function (f) { return f.entitlement === feature && f.status === 'included'; });
   }
 
   /** Where a feature is actually enforced: "server", "ux", or null if unknown. */
