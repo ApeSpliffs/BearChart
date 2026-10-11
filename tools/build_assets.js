@@ -132,15 +132,31 @@ function relatedFor(item, items) {
   return out;
 }
 
+/**
+ * When an item's listings were fetched: the oldest of its rows. A row that
+ * tools/ebay_active.py carried forward for a failed query keeps its own
+ * fetched_at; every other row was fetched with the run.
+ */
+function listingsFetchedAt(rows, runAt) {
+  let oldest = null;
+  for (const r of rows) {
+    const at = r.fetched_at || runAt || null;
+    if (at && (oldest === null || at < oldest)) oldest = at;
+  }
+  return oldest || runAt || null;
+}
+
 function buildShard(data, id, ctx) {
   const item = data.items.find((i) => i.id === id);
   if (!item) return null;
+  const rows = ctx.listings.get(id) || [];
   return {
     schema: SCHEMA,
     item: item,
     sales: (ctx.sales.get(id) || []).map(stripUserData),
     listings: (ctx.listings.get(id) || []).map(stripUserData),
-    listings_fetched_at: data.active_listings_fetched_at || null,
+    listings_fetched_at: rows.length ? listingsFetchedAt(rows, data.active_listings_fetched_at)
+                                     : (data.active_listings_fetched_at || null),
     related: relatedFor(item, data.items),
     // Only the item page shows it, so it rides here, not in site-config.js.
     retail_reference: data.retail_reference || null
@@ -272,7 +288,7 @@ function main(argv) {
 
 module.exports = {
   SCHEMA, USER_DATA_FIELDS, INDEX_GZ_BUDGET, compactItem, soldConditions, context,
-  buildIndex, recentSales, buildListings, buildShard, buildShards, buildStats, buildSiteConfig,
+  buildIndex, recentSales, buildListings, listingsFetchedAt, buildShard, buildShards, buildStats, buildSiteConfig,
   siteConfigJs, relatedFor, writeAll, sha12
 };
 

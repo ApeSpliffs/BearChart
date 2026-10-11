@@ -242,23 +242,82 @@ class RunTests(unittest.TestCase):
         code, out = self.capture(Args(limit=50), searcher)
         self.assertLessEqual(len(calls), 3, "should give up after 3 failures")
 
-    def test_any_failed_query_writes_nothing(self):
-        # A partial fetch must not replace yesterday's complete one.
-        calls = []
+    def test_a_failed_item_keeps_its_published_listings_with_their_real_date(self):
+        # One query eBay keeps refusing must not empty the deal finder, nor
+        # dress old asks up as today's.
+        import datetime
+        import shutil
+        today = datetime.datetime.utcnow().date()
+        orig_root = eb.ROOT
+        try:
+            eb.ROOT = self.tmp
+            with open(os.path.join(orig_root, "data.json")) as f:
+                data = json.load(f)
+            eligible = eb.load_items(Args(limit=5), data)[:5]
+            failing = eligible[1]["id"]
+            data["active_listings"] = [
+                {"id": "old-1", "item_id": failing, "listing_id": "old1", "ask_price": 9.0,
+                 "evidence_type": "active_listing", "title": "x", "condition": "Good"},
+                {"id": "old-2", "item_id": failing, "listing_id": "old2", "ask_price": 9.5,
+                 "evidence_type": "active_listing", "title": "x", "condition": "Good",
+                 "fetched_at": (today - datetime.timedelta(days=30)).isoformat()}]
+            data["active_listings_fetched_at"] = (today - datetime.timedelta(days=2)).isoformat() + "T06:00:00Z"
+            with open(os.path.join(self.tmp, "data.json"), "w") as f:
+                json.dump(data, f)
+            os.makedirs(os.path.join(self.tmp, "tools"), exist_ok=True)
+            for name in ("operator_identities.json",):
+                src = os.path.join(orig_root, "tools", name)
+                if os.path.exists(src):
+                    shutil.copy(src, os.path.join(self.tmp, "tools", name))
+            calls = []
 
-        def searcher(q):
-            calls.append(q)
-            if len(calls) == 2:
+            def searcher(q):
+                calls.append(q)
+                if len(calls) == 2:
+                    raise eb.EbayError("boom")
+                return {"itemSummaries": []}
+
+            with contextlib.redirect_stderr(io.StringIO()):
+                code, out = self.capture(Args(limit=5), searcher)
+        finally:
+            eb.ROOT = orig_root
+        self.assertEqual(code, 0)
+        rows = self.written()["listings"]
+        self.assertEqual([r["id"] for r in rows], ["old-1"], "the 30-day-old row is refused")
+        self.assertEqual(rows[0]["fetched_at"], data["active_listings_fetched_at"],
+                         "carried with the date it was really fetched")
+        self.assertIn("::warning::eBay queries failed for 1 item(s): " + failing, out)
+        self.assertIn("::warning::NOT carrying forward 1 listing(s) older than", out)
+
+    def test_carry_forward_for_stamps_and_caps(self):
+        data = {"active_listings_fetched_at": "2026-10-08T06:00:00Z", "active_listings": [
+            {"id": "a", "item_id": "x"}, {"id": "b", "item_id": "x", "fetched_at": "2026-09-01"},
+            {"id": "c", "item_id": "y"}]}
+        kept, refused = eb.carry_forward_for(data, ["x"], as_of="2026-10-10")
+        self.assertEqual([r["id"] for r in kept], ["a"])
+        self.assertEqual(kept[0]["fetched_at"], "2026-10-08T06:00:00Z")
+        self.assertEqual([r["id"] for r in refused], ["b"])
+        kept, refused = eb.carry_forward_for(data, ["x"], as_of="2026-10-20")
+        self.assertEqual(kept, [])
+
+    def test_when_every_query_fails_and_nothing_is_published_nothing_is_written(self):
+        orig_root = eb.ROOT
+        try:
+            eb.ROOT = self.tmp
+            with open(os.path.join(orig_root, "data.json")) as f:
+                data = json.load(f)
+            data["active_listings"] = []
+            with open(os.path.join(self.tmp, "data.json"), "w") as f:
+                json.dump(data, f)
+
+            def searcher(q):
                 raise eb.EbayError("boom")
-            return {"itemSummaries": [summary(str(len(calls)), "Build-A-Bear " + q, 100)]}
-
-        buf = io.StringIO()
-        with contextlib.redirect_stderr(buf):
-            code, out = self.capture(Args(limit=5), searcher)
-        self.assertGreater(len(calls), 2, "one failure is not three in a row")
+            with contextlib.redirect_stderr(io.StringIO()):
+                code, out = self.capture(Args(limit=2), searcher)
+        finally:
+            eb.ROOT = orig_root
         self.assertEqual(code, 1)
         self.assertFalse(os.path.exists(eb.OUT))
-        self.assertIn("not writing a partial", buf.getvalue())
 
     def test_failures_must_be_consecutive_to_stop_the_run(self):
         calls = []

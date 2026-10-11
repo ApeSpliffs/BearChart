@@ -43,6 +43,9 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import domain_vocab as V  # noqa: E402
 from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -463,6 +466,27 @@ def attach_images(listings, data):
     return attached, path
 
 
+def carry_forward_for(data, item_ids, as_of=None):
+    """(kept, refused): data.json's listings for these items, each stamped with
+    the date it was really fetched; rows past V.LISTINGS_MAX_AGE_DAYS refused."""
+    import datetime
+    wanted = set(item_ids)
+    published_at = data.get("active_listings_fetched_at")
+    today = datetime.date.fromisoformat(as_of) if as_of else datetime.datetime.utcnow().date()
+    kept, refused = [], []
+    for row in data.get("active_listings") or []:
+        if row.get("item_id") not in wanted:
+            continue
+        row = OrderedDict(row)
+        row["fetched_at"] = row.get("fetched_at") or published_at
+        try:
+            age = (today - datetime.date.fromisoformat(str(row["fetched_at"])[:10])).days
+        except (TypeError, ValueError):
+            age = None
+        (refused if age is None or age > V.LISTINGS_MAX_AGE_DAYS else kept).append(row)
+    return kept, refused
+
+
 def run(args, searcher=None, token=None):
     with open(os.path.join(ROOT, "data.json")) as f:
         data = json.load(f)
@@ -511,6 +535,7 @@ def run(args, searcher=None, token=None):
         searcher = lambda q: search(token, q, args.per_item)  # noqa: E731
 
     listings, unmatched, errors = [], 0, []
+    failed_ids = []       # catalogue items whose query failed or never ran
     rejected = []
     seen = set()
     in_a_row = 0          # consecutive failures; three in a row means eBay is down
@@ -522,9 +547,13 @@ def run(args, searcher=None, token=None):
             payload = searcher(q)
         except EbayError as e:
             errors.append("%s: %s" % (q, e))
+            if item and item.get("id"):
+                failed_ids.append(item["id"])
             in_a_row += 1
             if in_a_row >= 3:
                 print("stopping after 3 consecutive failures", file=sys.stderr)
+                # The rest were never asked: treated like failed queries.
+                failed_ids.extend(i["id"] for i, _ in queries[n:] if i and i.get("id"))
                 break
             continue
         in_a_row = 0
@@ -579,20 +608,28 @@ def run(args, searcher=None, token=None):
         print("\ndry run - nothing written")
         return 0
 
-    # A run where any query failed would publish a deal finder missing those
-    # bears under a fresh date. Write nothing instead: the build then keeps the
-    # listings data.json already publishes, with their honest older date
-    # (tools/build_data.py carried_forward_listings).
-    if errors:
-        print("%d of %d quer%s failed: not writing a partial %s; the build keeps the "
-              "previously published listings"
-              % (len(errors), len(queries), "y" if len(queries) == 1 else "ies",
-                 os.path.basename(OUT)), file=sys.stderr)
-        return 1
+    # Items whose query failed keep the listings data.json already publishes
+    # for them, each row with the date it was really fetched, so one query
+    # eBay keeps refusing cannot empty the deal finder - nor pass old asks off
+    # as today's. Past V.LISTINGS_MAX_AGE_DAYS they are dropped.
+    carried = []
+    if failed_ids:
+        carried, refused = carry_forward_for(data, failed_ids)
+        names = ", ".join(sorted(set(failed_ids))[:20]) + (" ..." if len(set(failed_ids)) > 20 else "")
+        print("::warning::eBay queries failed for %d item(s): %s; carried forward %d of their "
+              "previous listing(s)" % (len(set(failed_ids)), names, len(carried)))
+        if refused:
+            print("::warning::NOT carrying forward %d listing(s) older than %d days for: %s"
+                  % (len(refused), V.LISTINGS_MAX_AGE_DAYS,
+                     ", ".join(sorted({r["item_id"] for r in refused})[:20])))
+        have = {r["id"] for r in listings}
+        listings.extend(r for r in carried if r["id"] not in have)
+    if errors and not failed_ids and not listings:
+        return 1   # a free-text search failed: nothing to write, nothing to keep
 
     if not listings:
         print("nothing to write")
-        return 0
+        return 1 if errors else 0
 
     payload = OrderedDict([
         ("fetched_at", time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())),

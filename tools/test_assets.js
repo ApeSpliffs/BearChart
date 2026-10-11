@@ -88,6 +88,18 @@ test('the index carries no sales, and shards carry exactly their own', () => {
   assert.strictEqual(LISTINGS.fetched_at, DATA.active_listings_fetched_at || null);
 });
 
+test('an item whose listings were carried forward shows their real fetch date', () => {
+  assert.strictEqual(A.listingsFetchedAt([{}, {}], '2026-10-09T06:00:00Z'), '2026-10-09T06:00:00Z');
+  assert.strictEqual(A.listingsFetchedAt([{}, { fetched_at: '2026-10-05T06:00:00Z' }],
+    '2026-10-09T06:00:00Z'), '2026-10-05T06:00:00Z');
+  const d = JSON.parse(JSON.stringify(DATA));
+  const id = d.items[0].id;
+  d.active_listings = [{ id: 'l1', item_id: id, evidence_type: 'active_listing', ask_price: 5,
+                         fetched_at: '2026-10-01T06:00:00Z' }];
+  d.active_listings_fetched_at = '2026-10-09T06:00:00Z';
+  assert.strictEqual(A.buildShard(d, id, A.context(d, E)).listings_fetched_at, '2026-10-01T06:00:00Z');
+});
+
 test('related lists hold at most 8 items and never the item itself', () => {
   for (const i of DATA.items) {
     const rel = shard(i.id).related;

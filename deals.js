@@ -121,7 +121,13 @@
     var listings = L.listings.length;
     var best = deals.length ? deals[0].margin : null;
     var asOf = L.fetched_at ? L.fetched_at.slice(0, 10) : '--';
-    if ($('deal-age')) $('deal-age').innerHTML = L.listings.length ? BC.listingsAgeNote(L.fetched_at) : '';
+    // The oldest row decides: a row carried forward for a failed query keeps
+    // the date it was really fetched.
+    var oldest = L.listings.reduce(function (o, l) {
+      var at = l.fetched_at || L.fetched_at;
+      return at && (!o || at < o) ? at : o;
+    }, null);
+    if ($('deal-age')) $('deal-age').innerHTML = L.listings.length ? BC.listingsAgeNote(oldest) : '';
 
     $('deal-stats').innerHTML = [
       [listings, 'Listings checked'],
