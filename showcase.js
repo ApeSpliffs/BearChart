@@ -94,7 +94,7 @@
           '<span class="fine">' + esc(String(it.release_year || 'Year unknown')) + '</span>' +
           (d.note ? '<p class="sc-note">&ldquo;' + esc(d.note) + '&rdquo;</p>' : '') +
           BC.tagsHtml(it) +
-          '<span class="sc-val">' + (v != null ? BC.money(v) : '<span class="fine">No sold data yet</span>') + '</span>' +
+          '<span class="sc-val">' + (v != null ? BC.money(v) : '<span class="fine">No public sales yet</span>') + '</span>' +
         '</div>' +
       '</article>';
     }
@@ -163,7 +163,7 @@
       var top = bears.slice().sort(function (a, b) { return (valueOf(b) || 0) - (valueOf(a) || 0); })[0];
       document.title = sc.display_name + "'s showcase - BearChart";
       $('sc-main').innerHTML =
-        '<p class="fine" style="margin:0 0 10px"><a href="' + BC.rel('showcase.html') + '">&larr; All showcases</a></p>' +
+        '<p class="fine backlink"><a href="' + BC.rel('showcase.html') + '">&larr; All showcases</a></p>' +
         '<section class="sc-hero theme-' + theme + '">' +
           '<div class="sc-avatar" aria-hidden="true">' + esc((sc.display_name || '?').charAt(0).toUpperCase()) + '</div>' +
           '<div>' +
@@ -183,7 +183,7 @@
           ? bearTile(bears[0], details, true) +
             (bears.length > 1 ? '<div class="sc-grid">' + bears.slice(1).map(function (id) { return bearTile(id, details, false); }).join('') + '</div>' : '')
           : '<div class="panel"><p class="fine">No bears picked yet.</p></div>') +
-        '<p class="fine" style="margin-top:14px">Values are BearChart\'s current estimates from recorded sold prices. ' +
+        '<p class="fine mt-3">Values are BearChart\'s current estimates from recorded sold prices. ' +
           'Photos marked &ldquo;Their photo&rdquo; were taken by this member.</p>';
       wireLike(sc);
     }

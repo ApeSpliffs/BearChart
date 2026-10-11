@@ -149,7 +149,7 @@
       var windows = [[30, '30 days'], [90, '90 days'], [365, '1 year']];
       body.innerHTML =
         sparkline(snaps) +
-        '<div class="table-scroll" style="margin-top:16px"><table><thead><tr>' +
+        '<div class="table-scroll mt-3"><table><thead><tr>' +
         '<th>Window</th><th class="num">Value now</th><th class="num">Raw change</th>' +
         '<th class="num">Market only</th><th class="num">You bought / sold</th>' +
         '</tr></thead><tbody>' +
@@ -157,7 +157,7 @@
           return windowRow(w[1], E.windowStats(snaps, flows, w[0]));
         }).join('') +
         '</tbody></table></div>' +
-        '<p class="fine" style="margin-top:12px"><strong>Raw change</strong> is what the ' +
+        '<p class="fine mt-2"><strong>Raw change</strong> is what the ' +
         'total did. <strong>Market only</strong> nets out what you bought and sold, so it ' +
         'answers whether the bears you already held went up &mdash; buying three more is ' +
         'not appreciation. Both are shown because either one alone gets misread as the ' +
@@ -236,7 +236,7 @@
         var each = p.adjusted
           ? '<span class="price">' + BC.money(p.adjusted.fair_market) + '</span>' +
             '<div class="val-note">' + sales + ' sale' + (sales === 1 ? '' : 's') + '</div>'
-          : '<span class="val-note">No sold data yet</span>';
+          : '<span class="val-note">No public sales yet</span>';
         var line = p.adjusted ? BC.money(p.adjusted.fair_market * p.qty) : '&mdash;';
         return '<tr data-idx="' + idx + '">' +
           '<td data-label="Bear"><a class="bear-link" href="' + BC.itemUrl(item.id) + '">' +
@@ -291,6 +291,7 @@
         qty: qty
       });
       if (!save(list)) alert('This browser is blocking local storage, so the collection cannot be saved.');
+      else if (BC.prompt) BC.prompt.noteCollectionAdd();
       render();
       $('add-msg').textContent = 'Added ' + (qty > 1 ? qty + ' \u00d7 ' : '') +
         item.canonical_name + ' to your collection.';
@@ -564,7 +565,7 @@
           var v = BC.valuationFor(id);
           return '<tr><td><a href="' + BC.itemUrl(id) + '">' + BC.esc(it.canonical_name) + '</a>' +
             (it.release_year ? ' <span class="fine">' + BC.esc(String(it.release_year)) + '</span>' : '') + '</td>' +
-            '<td class="num">' + (v && v.has_value ? BC.money(v.fair_market) : '<span class="fine">No sold data yet</span>') + '</td>' +
+            '<td class="num">' + (v && v.has_value ? BC.money(v.fair_market) : '<span class="fine">No public sales yet</span>') + '</td>' +
             '<td><button type="button" class="link-btn" data-unwish="' + BC.esc(id) + '">Remove</button></td></tr>';
         }).join('') + '</tbody></table></div>';
     }

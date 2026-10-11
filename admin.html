@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin — BearChart</title>
+<title>Admin — BearChart, an independent Build-A-Bear price guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
@@ -16,7 +16,7 @@
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BearChart">
-<meta property="og:title" content="Admin — BearChart">
+<meta property="og:title" content="Admin — BearChart, an independent Build-A-Bear price guide">
 <meta property="og:description" content="BearChart admin.">
 <meta property="og:image" content="/icons/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -24,6 +24,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BearChart">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -31,12 +32,12 @@
 <header class="masthead" id="masthead"></header>
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
-<main>
+<main id="main" tabindex="-1">
 <p class="fine bc-status" data-bc-status aria-live="polite" hidden></p>
   <div class="wrap">
 
     <div class="panel">
-      <h2>Admin dashboard</h2>
+      <h1>Admin dashboard</h1>
       <div class="notice" id="access-notice"></div>
       <p class="fine" style="margin-top:12px">
         Entries drafted here are held in this browser and exported as JSON or SQL. Once

@@ -30,6 +30,9 @@
     if (b.ebay_campaign_id) {
       bits.push('<p>' + BC.esc(b.affiliate_disclosure) + '</p>');
     }
+    if (b.enabled && BC.shopEnabled()) {
+      bits.push('<p>' + BC.shopLink('about_disclosure', { className: '' }) + '</p>' + BC.shopDisclosure());
+    }
     bits.push('<p class="fine">Neither affects a valuation. Every price on this site ' +
       'comes from the sold data on the item page and nothing else, and there are tests ' +
       'that fail the build if a valuation ever moves because of them.</p>');

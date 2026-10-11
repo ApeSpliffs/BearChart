@@ -6,6 +6,12 @@
   var A = window.BearChartAuth;
   var root = document.getElementById('account-root');
   var COLLECTION_KEY = 'bearchart.collection';
+  // ?next= from a gated page's invitation, and ?mode=signup. Only page names
+  // on this list are followed - never an arbitrary address.
+  var NEXT_PAGES = ['deals', 'checklists', 'collection', 'plans', 'showcase', 'index'];
+  var params = new URLSearchParams(window.location.search);
+  var NEXT = NEXT_PAGES.indexOf(params.get('next')) !== -1 ? params.get('next') : null;
+  var MODE = params.get('mode') === 'signup' ? 'signup' : 'signin';
 
   BC.renderChrome('account.html');
 
@@ -26,7 +32,7 @@
 
   function notConfigured() {
     return '<div class="panel">' +
-      '<h2>Accounts are not switched on</h2>' +
+      '<h1>Accounts are not switched on</h1>' +
       '<div class="notice">BearChart runs as a static site with no server of its own, ' +
       'so there is nothing here to sign in to yet. Your collection and checklists are ' +
       'kept in this browser and work exactly as they do now &mdash; they just do not ' +
@@ -55,7 +61,7 @@
 
   function signedOut() {
     return '<div class="panel">' +
-      '<h2>Sign in</h2>' +
+      (MODE === 'signup' ? '<h1>Create a free account</h1>' : '<h1>Sign in</h1>') +
       '<p class="fine">A free account unlocks the deal finder, checklists, your collection and wishlist, ' +
       'and member showcases. Pro and Power also keep your collection on your account, on every device.</p>' +
       '<p id="auth-msg" hidden></p>' +
@@ -79,7 +85,7 @@
   function signedIn(s) {
     var local = localCollection();
     return '<div class="panel">' +
-      '<h2>Your account</h2>' +
+      '<h1>Your account</h1>' +
       '<dl class="kv"><dt>Signed in as</dt><dd>' + BC.esc(s.email) + '</dd>' +
       '<dt>Role</dt><dd>' + (s.isAdmin ? 'Admin' : 'Collector') + '</dd></dl>' +
       '<p id="auth-msg" hidden></p>' +
@@ -110,7 +116,7 @@
   /** Reached through a password-reset link: the only thing to do is choose a new password. */
   function recoveryView() {
     return '<div class="panel">' +
-      '<h2>Choose a new password</h2>' +
+      '<h1>Choose a new password</h1>' +
       '<p id="auth-msg" hidden></p>' +
       '<div class="row" style="margin-top:12px">' +
         '<div class="field"><label for="new-password">New password</label>' +
@@ -219,6 +225,12 @@
 
   function render() {
     var s = A.state();
+    // Signed in from a gated page's invitation: back to that page.
+    if (s.signedIn && !s.recovery && NEXT && !render._went) {
+      render._went = true;
+      BC.go(BC.rel(NEXT + '.html'));
+      return;
+    }
     if (!s.configured) {
       root.innerHTML = notConfigured();
       return;

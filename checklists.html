@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Checklists — BearChart</title>
+<title>Checklists — BearChart, an independent Build-A-Bear price guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BearChart">
-<meta property="og:title" content="Checklists — BearChart">
+<meta property="og:title" content="Checklists — BearChart, an independent Build-A-Bear price guide">
 <meta property="og:description" content="Build-A-Bear checklists by series and year. Tick off what you own and see what you still need.">
 <meta property="og:image" content="/icons/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -23,6 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BearChart">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,17 +31,20 @@
 <header class="masthead" id="masthead"></header>
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
-<main>
+<main id="main" tabindex="-1">
 <p class="fine bc-status" data-bc-status aria-live="polite" hidden></p>
 <div class="wrap">
 
 <div class="panel page-intro">
-<h2>Collector checklists</h2>
+<h1>Collector checklists</h1>
 <p class="lead">Pick a set, then tick the bears you own. We keep count of what you're
 missing and what your bears are worth. Everything you tick also appears in
 <a href="collection.html">My collection</a>.</p>
 <p class="fine">Saved on this device. Pro and Power members also keep it on their account.</p>
 </div>
+
+<div data-gate-slot></div>
+<div class="gate-locked" data-gate-locked>
 
 <div class="stats" id="overall"></div>
 
@@ -62,6 +66,7 @@ missing and what your bears are worth. Everything you tick also appears in
 <div id="set-body"></div>
 </div>
 
+</div>
 </div>
 </main>
 
