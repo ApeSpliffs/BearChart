@@ -210,6 +210,20 @@ self.addEventListener('activate', (event) => {
       const legacy = /^bearchart-[0-9a-f]{12}$/.test(name);
       if (oldShell || legacy) await caches.delete(name);
     }
+    // The runtime cache holds what the previous version fetched after its
+    // install: a newer deploy's hashed index and listings (1-2 MB each, a new
+    // name every day) and fresh copies of shell files. This version precaches
+    // its own, so drop every data/h entry and everything now precached -
+    // otherwise each deploy would leave another dead index behind.
+    try {
+      const runtime = await caches.open(RUNTIME);
+      for (const req of await runtime.keys()) {
+        const rel = relPath(new URL(req.url));
+        if (rel !== null && (rel.startsWith('data/h/') || REV[rel] || REV[rel === '' ? 'index.html' : rel])) {
+          await runtime.delete(req);
+        }
+      }
+    } catch (err) { /* a cleanup failure must not block activation */ }
     await self.clients.claim();
   })());
 });
@@ -220,10 +234,16 @@ async function trim(cache, max) {
 }
 
 /** Network first with a timeout, the precached copy when it fails or stalls. */
+/**
+ * Store a copy for later. Never throws: a full quota (or any storage error)
+ * must not turn a good network response into a failed request.
+ */
 async function putIn(cacheName, key, res, max) {
-  const cache = await caches.open(cacheName);
-  await cache.put(key, res);
-  if (max) await trim(cache, max);
+  try {
+    const cache = await caches.open(cacheName);
+    await cache.put(key, res);
+    if (max) await trim(cache, max);
+  } catch (err) { /* not cached; the response is still served */ }
 }
 const putRuntime = (key, res) => putIn(RUNTIME, key, res, RUNTIME_MAX);
 
@@ -281,13 +301,16 @@ async function staleWhileRevalidate(event, lookup, store) {
   return (await fetching) || Response.error();
 }
 
+/** This version's precached copy (item.html?id=... included), else the network. */
+async function precached(request, rel) {
+  const hit = await fromAnyShell(revKey(rel));
+  return hit || fetch(request);
+}
+
 async function navigate(event, rel) {
   const isItem = /^item\\/[^/]+\\.html$/.test(rel);
   const target = rel === '' ? 'index.html' : rel;
-  if (REV[target]) {
-    return staleWhileRevalidate(event, () => cached(event.request, target),
-      (res) => putRuntime(event.request, res));
-  }
+  if (REV[target]) return precached(event.request, target);
   const cacheName = isItem ? PAGES : RUNTIME;
   const cache = await caches.open(cacheName);
   const hit = await cache.match(event.request, { ignoreVary: true });
@@ -334,6 +357,10 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(staleWhileRevalidate(event,
       async () => (await caches.open(ITEMS)).match(request, { ignoreVary: true }),
       (res) => putIn(ITEMS, request, res, ITEMS_MAX)));
+  } else if (REV[rel]) {
+    // Precached by this version: serve it; the next deploy's worker brings
+    // the next copy. No runtime refetch or second stored copy.
+    event.respondWith(precached(request, rel));
   } else {
     event.respondWith(staleWhileRevalidate(event, () => cached(request, rel),
       (res) => putRuntime(request, res)));
