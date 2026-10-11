@@ -496,9 +496,19 @@
             return BC.valuationFor(e.item_id).has_value && !(d && !d.partial && d.sales);
           });
           if (missing.length) {
-            say('Could not load the sales behind ' + missing.length + ' of your bears' +
-              ' (are you offline?). The schedule lists the evidence for every value, so ' +
-              'connect and try again.');
+            // Offline (or the item file is only known from the cached index)
+            // is worth a retry; a file that is gone (404) is not.
+            var gone = missing.filter(function (e) {
+              var d = details.get(BC.canonicalId(e.item_id));
+              return d && d.error && d.error.status === 404;
+            });
+            say(gone.length
+              ? gone.length + ' of your bears could not be found in the price guide (' +
+                gone.map(function (e) { return e.item_id; }).slice(0, 3).join(', ') +
+                (gone.length > 3 ? ', …' : '') + '). Remove or re-add them, then try again.'
+              : 'Could not load the sales behind ' + missing.length + ' of your bears - ' +
+                'you seem to be offline. The schedule lists the evidence for every value, so ' +
+                'connect and try again.');
             return;
           }
           var name = 'bearchart-insurance-schedule-' + BC.stamp() + '.csv';

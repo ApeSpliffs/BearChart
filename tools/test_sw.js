@@ -172,3 +172,17 @@ test('precached files are served without a refetch, item.html?id= included', asy
   assert.deepStrictEqual(env.state.fetched, [], 'nothing precached went back to the network');
   assert.deepStrictEqual(await runtimeUrls(env), []);
 });
+
+test('a visited item file is kept for offline use', async () => {
+  const env = makeEnv();
+  const w = await deploy(env, 1);
+  await w.fetch('data/items/some-bear.json');
+  const items = env.caches.all.get('bearchart-items-v1');
+  assert.ok(items && (await items.keys()).some((r) => r.url.endsWith('data/items/some-bear.json')));
+  const fetch0 = env.state.fetched.length;
+  env.fetch = async () => { throw new Error('offline'); };
+  const w2 = worker(env, 'v1', precacheFor(1));
+  const res = await w2.fetch('data/items/some-bear.json');
+  assert.ok(res && res.ok, 'served from the items cache offline');
+  assert.strictEqual(env.state.fetched.length, fetch0);
+});

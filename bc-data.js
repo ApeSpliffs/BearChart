@@ -246,7 +246,10 @@
     return p;
   }
 
-  /** Several items, a few requests at a time (the insurance export). */
+  /**
+   * Several items, a few requests at a time (the insurance export). A bear
+   * whose file failed maps to {error} (error.offline / error.status say why).
+   */
   function loadItems(ids, opts) {
     var queue = Array.from(new Set((ids || []).map(canonicalId)));
     var out = new Map();
@@ -254,7 +257,8 @@
     function worker() {
       var id = queue.shift();
       if (id === undefined) return Promise.resolve();
-      return loadItem(id).then(function (d) { out.set(id, d); }, function () { out.set(id, null); })
+      return loadItem(id).then(function (d) { out.set(id, d); },
+                               function (err) { out.set(id, { error: err }); })
         .then(worker);
     }
     var workers = [];

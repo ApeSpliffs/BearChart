@@ -71,8 +71,12 @@ restore() {
   done
   [ -f "$BACKUP/catalogue_wiki.json" ] && \
     cp "$BACKUP/catalogue_wiki.json" "$ROOT/tools/catalogue_wiki.json"
-  [ -f "$BACKUP/active_listings.json" ] && \
+  if [ -f "$BACKUP/active_listings.json" ]; then
     cp "$BACKUP/active_listings.json" "$ROOT/tools/active_listings.json"
+  else
+    # None existed before this run: a file the failed run wrote must go too.
+    rm -f "$ROOT/tools/active_listings.json"
+  fi
   # The generated site files (site-config.js, data/, item pages, sw.js) were
   # rebuilt from the data being rolled back; rebuild them from the restored
   # data.json so a local `npm start` serves what is committed.

@@ -2234,9 +2234,22 @@ test('offline, the insurance schedule is refused rather than shipped without its
   assert.strictEqual(out, null, 'no schedule without the comps behind it');
   const msg = p.doc.getElementById('export-msg');
   assert.strictEqual(msg.hidden, false);
-  assert.match(msg.textContent, /Could not load the sales behind 1 of your bears/);
+  assert.match(msg.textContent, /Could not load the sales behind 1 of your bears - you seem to be offline/);
   assert.strictEqual(p.doc.getElementById('export-insurance').disabled, false);
   noErrors(p);
+});
+
+test('a bear whose file is gone is named, not blamed on the connection', async () => {
+  const p = await renderPage('collection.html', null, {
+    transport: (url, serve) => serve(/^data\/items\/kennel-pals-calico-cat/.test(url)
+      ? 'data/items/no-such-file.json' : url)
+  });
+  pickItem(p, 'add-item', 'kennel-pals-calico-cat');
+  p.doc.getElementById('add-btn').dispatchEvent(new p.win.Event('click'));
+  assert.strictEqual(await captureDownload(p, 'export-insurance'), null);
+  const text = p.doc.getElementById('export-msg').textContent;
+  assert.match(text, /could not be found in the price guide \(kennel-pals-calico-cat\)/);
+  assert.doesNotMatch(text, /offline/);
 });
 
 test('actual cash value is the conservative floor, below replacement cost', async () => {
