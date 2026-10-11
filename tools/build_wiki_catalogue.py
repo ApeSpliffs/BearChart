@@ -251,7 +251,7 @@ def classify(title, raw_cats):
         ("category", category),
         ("species", species),
         ("year", years[0] if years else None),
-        ("variant", variant),
+        ("line", variant),
         ("mini_bean", mini),
         ("franchise", franchise),
         ("licensed", bool(franchise)),

@@ -12,6 +12,7 @@ import csv
 import io
 import json
 import os
+import re
 import sys
 import tempfile
 import unittest
@@ -20,6 +21,17 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import import_sales as imp  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def schema_sql():
+    """Every migration, in the order they apply."""
+    d = os.path.join(ROOT, "supabase", "migrations")
+    out = []
+    for name in sorted(os.listdir(d)):
+        if name.endswith(".sql"):
+            with open(os.path.join(d, name)) as f:
+                out.append(f.read())
+    return "\n".join(out)
 
 
 class Args:
@@ -39,6 +51,23 @@ def write_csv(rows, header):
         w.writeheader()
         w.writerows(rows)
     return path
+
+
+class CsvRoundTripTests(unittest.TestCase):
+    """BearChart's own CSV exports guard formula cells with a leading quote
+    (sanitize.js csvCell); importing one of those files gives the text back."""
+
+    def test_guarded_cells_are_restored(self):
+        self.assertEqual(imp.unneutralise("'=1+1"), "=1+1")
+        self.assertEqual(imp.unneutralise("'@SUM(A1)"), "@SUM(A1)")
+        self.assertEqual(imp.unneutralise("'-cmd"), "-cmd")
+        self.assertEqual(imp.unneutralise("'+x"), "+x")
+
+    def test_ordinary_text_is_untouched(self):
+        self.assertEqual(imp.unneutralise("'tis the season"), "'tis the season")
+        self.assertEqual(imp.unneutralise("'"), "'")
+        self.assertEqual(imp.unneutralise("-12.50"), "-12.50")
+        self.assertIsNone(imp.unneutralise(None))
 
 
 class ParsingTests(unittest.TestCase):
@@ -64,8 +93,11 @@ class ParsingTests(unittest.TestCase):
 
     def test_condition_normalisation(self):
         cases = [
-            ("New with tags", "NWT"), ("NWT", "NWT"), ("Brand New", "NWT"),
-            ("New without tags", "Mint"), ("Like New", "Mint"),
+            ("New with tags", "NWT"), ("NWT", "NWT"), ("tags attached", "NWT"),
+            # Only explicit tag evidence is NWT. A bare "new" is new without tags.
+            ("New without tags", "NWOT"), ("NWOT", "NWOT"), ("Brand New", "NWOT"),
+            ("new", "NWOT"), ("New (Other)", "NWOT"), ("Like New", "Mint"),
+            ("new with no tags", "NWOT"),
             ("Pre-owned", "Good"), ("Used", "Good"), ("Excellent condition", "Excellent"),
             ("well loved", "Poor"), ("For parts or not working", "Damaged"),
             ("", "Unknown"), ("something odd", "Unknown"),
@@ -73,6 +105,36 @@ class ParsingTests(unittest.TestCase):
         for text, expected in cases:
             self.assertEqual(imp.match_pattern(imp.CONDITION_PATTERNS, text, "Unknown"),
                              expected, text)
+
+    def test_new_with_tags_unstuffed_keeps_both_facts(self):
+        text = "Build-A-Bear new with tags unstuffed"
+        self.assertEqual(imp.match_pattern(imp.CONDITION_PATTERNS, text, "Unknown"), "NWT")
+        self.assertEqual(imp.match_pattern(imp.COMPLETENESS_PATTERNS, text, "unknown"),
+                         "unstuffed")
+
+    def test_the_vocabulary_is_the_only_definition(self):
+        import domain_vocab as V
+        self.assertEqual(imp.CONDITION_PATTERNS, V.CONDITION_PATTERNS)
+        self.assertEqual(imp.COMPLETENESS_PATTERNS, V.COMPLETENESS_PATTERNS)
+        codes = set(V.CONDITION_CODES)
+        for _, code in V.CONDITION_PATTERNS:
+            self.assertIn(code, codes)
+        with open(os.path.join(ROOT, "data.json")) as f:
+            cfg = json.load(f)["config"]
+        self.assertEqual(cfg["condition_order"], V.CONDITION_CODES)
+        self.assertEqual(list(cfg["condition_multipliers"]), V.CONDITION_CODES)
+        self.assertEqual(list(cfg["completeness_multipliers"]), V.COMPLETENESS_CODES)
+
+    def test_the_database_condition_checks_match_the_vocabulary(self):
+        import domain_vocab as V
+        sql = schema_sql()
+        conds = re.findall(r"check\s*\(\s*condition\s+in\s*\(([^)]*)\)", sql, re.I)
+        comps = re.findall(r"check\s*\(\s*completeness\s+in\s*\(([^)]*)\)", sql, re.I)
+        self.assertTrue(conds and comps)
+        # The last definition is the one in force once every migration has run.
+        self.assertEqual(re.findall(r"'([^']+)'", conds[-1]), V.CONDITION_CODES)
+        self.assertEqual(sorted(re.findall(r"'([^']+)'", comps[-1])),
+                         sorted(V.COMPLETENESS_CODES))
 
     def test_completeness_normalisation(self):
         self.assertEqual(
@@ -259,6 +321,166 @@ class ImportTests(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)))
 
 
+class ShippingTests(ImportTests):
+    def test_a_shipping_column_is_captured_beside_the_price(self):
+        path = write_csv([{"Title": "Lucky Kitty", "Sold Price": "54.00", "Shipping": "$7.95"},
+                          {"Title": "Lucky Kitty", "Sold Price": "60.00", "Shipping": "$0.00"}],
+                         ["Title", "Sold Price", "Shipping"])
+        self.capture(Args(path))
+        rows = self.imported()
+        self.assertEqual(rows[0]["ship_price"], 7.95)
+        self.assertEqual(rows[0]["sold_price"], 54.0, "the price stays the item price")
+        self.assertEqual(rows[1]["ship_price"], 0.0, "free shipping is zero, not missing")
+        self.assertIs(rows[0]["shipping_included"], False)
+
+    def test_zero_is_only_a_price_where_it_is_allowed(self):
+        self.assertIsNone(imp.parse_price("$0.00"))
+        self.assertEqual(imp.parse_price("$0.00", allow_zero=True), 0.0)
+        self.assertIsNone(imp.parse_price("-3", allow_zero=True))
+
+
+class OperatorTests(ImportTests):
+    def test_a_seller_column_naming_the_operator_flags_the_sale(self):
+        ids_path = os.path.join(self.tmp, "operator_identities.json")
+        with open(ids_path, "w") as f:
+            json.dump({"ebay": ["JaysRetro"]}, f)
+        original = imp.OPERATOR_IDS
+        imp.OPERATOR_IDS = ids_path
+        try:
+            path = write_csv([{"Title": "Lucky Kitty", "Sold Price": "54", "Seller": "jaysretro"},
+                              {"Title": "Lucky Kitty", "Sold Price": "55", "Seller": "someone"}],
+                             ["Title", "Sold Price", "Seller"])
+            self.capture(Args(path, marketplace="eBay"))
+        finally:
+            imp.OPERATOR_IDS = original
+        rows = self.imported()
+        self.assertTrue(rows[0]["seller_is_operator"])
+        self.assertFalse(rows[1]["seller_is_operator"])
+        blob = json.dumps(rows)
+        self.assertNotIn("jaysretro", blob.lower())
+        self.assertNotIn("someone", blob)
+        self.assertNotIn('"seller"', blob)
+
+
+import sale_attributes as SA  # noqa: E402
+
+
+class AttributeTests(unittest.TestCase):
+    GROUP = [{"id": "merry-mouse-13-inch", "variant_group": "merry-mouse", "size_in": 13.0},
+             {"id": "merry-mouse-15-inch", "variant_group": "merry-mouse", "size_in": 15.0}]
+
+    def test_a_parsed_size_picks_the_one_member_it_fits(self):
+        item, basis = SA.resolve_variant(self.GROUP[0], SA.parse('Merry Mouse 15" grey'),
+                                         self.GROUP)
+        self.assertEqual(item["id"], "merry-mouse-15-inch")
+        self.assertEqual(basis, "size_parsed")
+
+    def test_a_size_between_members_is_ambiguous_and_stays_put(self):
+        item, basis = SA.resolve_variant(self.GROUP[0], SA.parse("Merry Mouse 14in"), self.GROUP)
+        self.assertEqual(item["id"], "merry-mouse-13-inch")
+        self.assertEqual(basis, "unverified", "no parent to fall back to")
+
+    def test_no_size_leaves_the_match_alone(self):
+        item, basis = SA.resolve_variant(self.GROUP[1], SA.parse("Merry Mouse"), self.GROUP)
+        self.assertEqual(item["id"], "merry-mouse-15-inch")
+        self.assertEqual(basis, "unverified")
+
+    def test_an_ambiguous_size_goes_to_the_parent_when_there_is_one(self):
+        cat = [{"id": "p", "size_in": None},
+               {"id": "a", "variant_of": "p", "size_in": 13.0},
+               {"id": "b", "variant_of": "p", "size_in": 15.0}]
+        self.assertEqual(SA.resolve_variant(cat[0], SA.parse("x 14in"), cat), (cat[0], "ambiguous"))
+        self.assertEqual(SA.resolve_variant(cat[0], SA.parse("x 15in"), cat)[0]["id"], "b")
+
+    def test_an_item_with_no_group_never_moves(self):
+        # Pikachu: sellers measure one standard plush at 15 to 20 inches. That
+        # spread is not evidence of two products.
+        pika = {"id": "pikachu", "size_in": None}
+        for t in ["Build-A-Bear Pikachu 15in", "Build-A-Bear Pikachu 18 inch with sound"]:
+            self.assertEqual(SA.resolve_variant(pika, SA.parse(t), [pika]), (pika, None))
+
+    def test_sound_reports(self):
+        self.assertEqual(SA.parse_sound("Pikachu with sound"), "working")
+        self.assertEqual(SA.parse_sound("talking Elmo"), "working")
+        self.assertEqual(SA.parse_sound("voice box works"), "working")
+        self.assertEqual(SA.parse_sound("speaker does not work"), "broken")
+        self.assertEqual(SA.parse_sound("sound doesn't work, otherwise great"), "broken")
+        self.assertEqual(SA.parse_sound("Bowser No Sound"), "broken")
+        self.assertIsNone(SA.parse_sound("Pikachu plush"))
+
+    def test_sizes_are_read_but_never_from_a_fits_phrase_or_a_year(self):
+        self.assertEqual(SA.parse_size('Pikachu 16" plush'), 16.0)
+        self.assertEqual(SA.parse_size("Pikachu 18 inch"), 18.0)
+        self.assertIsNone(SA.parse_size("Hoodie fits 18in bears"))
+        self.assertIsNone(SA.parse_size("Pikachu 2016"))
+        self.assertEqual(SA.parse_size_class(None, "Giant 3 ft teddy"), "giant")
+        self.assertEqual(SA.parse_size_class(9.0), "mini")
+
+    def test_condition_basis_names_its_source(self):
+        self.assertEqual(imp.condition_basis("New with tags", "x"), "column")
+        self.assertEqual(imp.condition_basis("", "Lucky Kitty NWT"), "title")
+        self.assertEqual(imp.condition_basis("", "Lucky Kitty"), "default")
+
+
+class ImportedAttributeTests(ImportTests):
+    def test_an_import_records_attributes_and_where_the_condition_came_from(self):
+        path = write_csv([{"Title": 'Lucky Kitty 16" with sound', "Sold Price": "54",
+                           "Condition": "Pre-owned"}],
+                         ["Title", "Sold Price", "Condition"])
+        self.capture(Args(path))
+        row = self.imported()[0]
+        self.assertEqual(row["attributes"], {"size_in": 16.0, "sound": "working"})
+        self.assertEqual(row["condition_basis"], "column")
+        self.assertIsNone(row["variant_basis"])
+
+
+import reclassify_conditions as RC  # noqa: E402
+
+
+class ReclassifyTests(unittest.TestCase):
+    ROWS = [
+        {"id": "a", "condition": "Mint", "notes": "Terapeak; title: Build A Bear Bunny NWOT"},
+        {"id": "b", "condition": "NWT", "notes": "Terapeak; title: Build A Bear Bunny New"},
+        {"id": "c", "condition": "NWT", "notes": "Terapeak; title: Build A Bear Bunny NWT"},
+        {"id": "d", "condition": "Unknown", "notes": "Terapeak; title: Lunar New Year Dragon No Tag"},
+        {"id": "e", "condition": "Mint", "notes": "no title recorded, NWOT"},
+    ]
+
+    def run_tool(self, *flags):
+        fd, path = tempfile.mkstemp(suffix=".json")
+        with os.fdopen(fd, "w") as f:
+            json.dump(self.ROWS, f)
+        with open(path) as f:
+            before = f.read()
+        out = io.StringIO()
+        stdout, sys.stdout = sys.stdout, out
+        try:
+            RC.main(["--file", path, "--no-fmv"] + list(flags))
+        finally:
+            sys.stdout = stdout
+        with open(path) as f:
+            after = f.read()
+        return before, after, {r["id"]: r for r in json.loads(after)}
+
+    def test_a_dry_run_writes_nothing(self):
+        before, after, _ = self.run_tool()
+        self.assertEqual(before, after)
+
+    def test_rule_a_regrades_an_explicit_nwot_row_and_leaves_rule_b_alone(self):
+        _, _, rows = self.run_tool("--apply")
+        self.assertEqual(rows["a"]["condition"], "NWOT")
+        self.assertEqual(rows["a"]["condition_basis"], "reclassified_v2")
+        self.assertEqual(rows["b"]["condition"], "NWT", "Rule B needs the owner's flag")
+        self.assertEqual(rows["c"]["condition"], "NWT")
+        self.assertEqual(rows["d"]["condition"], "Unknown", "'New Year' is not a condition")
+        self.assertEqual(rows["e"]["condition"], "Mint", "only rows with a recorded title")
+
+    def test_rule_b_applies_only_with_its_flag(self):
+        _, _, rows = self.run_tool("--apply", "--include-bare-new")
+        self.assertEqual(rows["b"]["condition"], "NWOT")
+        self.assertEqual(rows["c"]["condition"], "NWT", "tag evidence stays NWT")
+
+
 class AggregateTests(ImportTests):
     """Terapeak reports an average across N sales, not a list of transactions."""
 
@@ -372,6 +594,18 @@ class MySalesTests(unittest.TestCase):
                        "jane@example.com"]:
             self.assertNotIn(secret, blob, "%r leaked into the database" % secret)
 
+    def test_shipping_charged_is_read_but_addresses_never_are(self):
+        headers = self.ORDER_HEADERS + ["Shipping And Handling"]
+        mapping, ignored = mine.map_columns(headers)
+        self.assertEqual(mapping.get("Shipping And Handling"), "ship_price")
+        for header in ["Ship To Address 1", "Ship To Zip"]:
+            self.assertNotIn(header, mapping)
+        path = write_csv([self.order_row(**{"Shipping And Handling": "$9.50"})], headers)
+        self.capture(MyArgs(path))
+        row = self.imported()[0]
+        self.assertEqual(row["ship_price"], 9.5)
+        self.assertNotIn("12 Example St", json.dumps(row))
+
     def test_the_item_number_wins_over_the_sales_record_number(self):
         # The item number is what other comps for the same listing are keyed on.
         mapping, _ = mine.map_columns(self.ORDER_HEADERS)
@@ -385,6 +619,7 @@ class MySalesTests(unittest.TestCase):
         self.capture(MyArgs(path))
         row = self.imported()[0]
         self.assertTrue(row["first_party"])
+        self.assertTrue(row["seller_is_operator"], "own sales are always operator sales")
         self.assertEqual(row["item_id"], "lucky-kitty")
         self.assertEqual(row["sold_price"], 128.0)
         self.assertEqual(row["evidence_type"], "completed_sale")

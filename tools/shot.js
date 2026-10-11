@@ -23,20 +23,39 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawn } = require('node:child_process');
 
-function findChrome() {
-  const fromEnv = process.env.CHROME_PATH;
-  if (fromEnv && fs.existsSync(fromEnv)) return fromEnv;
+/** Every place a usable Chrome might be, most specific first. */
+function chromeCandidates() {
+  const list = [];
+  if (process.env.CHROME_PATH) list.push(process.env.CHROME_PATH);
+
+  // Chrome for Testing installed by `npx puppeteer browsers install chrome`,
+  // newest version first, on Linux and on both Mac architectures.
+  const cft = 'Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing';
   const base = path.join(os.homedir(), '.cache', 'puppeteer', 'chrome');
   if (fs.existsSync(base)) {
     for (const dir of fs.readdirSync(base).sort().reverse()) {
-      const bin = path.join(base, dir, 'chrome-linux64', 'chrome');
-      if (fs.existsSync(bin)) return bin;
+      list.push(path.join(base, dir, 'chrome-linux64', 'chrome'),
+                path.join(base, dir, 'chrome-mac-arm64', cft),
+                path.join(base, dir, 'chrome-mac-x64', cft));
     }
   }
-  for (const bin of ['/usr/bin/chromium', '/usr/bin/google-chrome']) {
-    if (fs.existsSync(bin)) return bin;
-  }
-  throw new Error('No Chrome found. Set CHROME_PATH, or install one with:\n' +
+
+  list.push(
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    path.join(os.homedir(), 'Applications/Google Chrome.app/Contents/MacOS/Google Chrome'),
+    '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary',
+    '/usr/bin/chromium', '/usr/bin/chromium-browser',
+    '/usr/bin/google-chrome', '/usr/bin/google-chrome-stable');
+  return list;
+}
+
+function findChrome() {
+  const tried = chromeCandidates();
+  const hit = tried.find((bin) => fs.existsSync(bin));
+  if (hit) return hit;
+  throw new Error('No Chrome found. Tried:\n  ' + tried.join('\n  ') +
+                  '\nSet CHROME_PATH, or install one with:\n' +
                   '  npx puppeteer browsers install chrome');
 }
 

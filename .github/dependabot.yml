@@ -1,0 +1,19 @@
+# Keeps action SHA pins (and their # vX comments) and npm devDependencies
+# current. Deno (supabase/functions/deno.json), the Supabase CLI pin and the
+# Sentry pins are a quarterly manual task - see docs/ENVIRONMENTS.md.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directories: ["/", "/.github/actions/*"]
+    schedule: { interval: weekly, day: monday, time: "05:00", timezone: Etc/UTC }
+    groups:
+      actions: { patterns: ["*"] }
+    commit-message: { prefix: ci }
+  - package-ecosystem: npm
+    directory: /
+    schedule: { interval: weekly, day: monday, time: "05:00", timezone: Etc/UTC }
+    open-pull-requests-limit: 5
+    versioning-strategy: increase-if-necessary
+    groups:
+      dev: { dependency-type: development }
+    commit-message: { prefix: deps }

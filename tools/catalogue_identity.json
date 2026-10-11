@@ -1,0 +1,972 @@
+{
+  "_doc": "Catalogue identity ledger: hand decisions about duplicates. Read by tools/build_data.py (apply_identity) and tools/audit_duplicates.py. merges: old id -> surviving id (redirected everywhere). distinct: pairs checked and kept apart; 'pending': true means the owner still has to decide. sale_overrides: exclude (kept for the record, never priced) or reassign a single sale.",
+  "merges": {
+    "35th-anniversary-hello-kitty": {
+      "into": "hello-kitty-35th-anniversary",
+      "reason": "Wiki title for the curated item (was WIKI_DUPLICATES).",
+      "decided": "2026-10-09"
+    },
+    "pok-mon-jumbo-snorlax": {
+      "into": "jumbo-snorlax-24-inch",
+      "reason": "Wiki title for the curated item (was WIKI_DUPLICATES).",
+      "decided": "2026-10-09"
+    },
+    "happy-hugs-teddy-iv": {
+      "into": "happy-hugs-iv-teddy",
+      "reason": "Wiki title for the curated item (was WIKI_DUPLICATES); the wiki dates it 2018.",
+      "decided": "2026-10-09",
+      "fields_from_merged": [
+        "release_year"
+      ]
+    },
+    "mini-beans-zombie-axolotl": {
+      "into": "zombie-axolotl-mini-beans",
+      "reason": "Wiki title for the curated item (was WIKI_DUPLICATES).",
+      "decided": "2026-10-09"
+    },
+    "snowflake-fun-stitch": {
+      "into": "disney-snowflake-fun-stitch",
+      "reason": "Same Snowflake Fun Stitch; the wiki record holds the evidence and the correct year (2023). The Aloha Christmas comp is quarantined.",
+      "decided": "2026-10-09",
+      "fields_from_merged": []
+    },
+    "disney-stitch": {
+      "into": "stitch-disney",
+      "reason": "Same generic Stitch. Two 'Champ' teddies with a stitch-patch are quarantined; Halloween, Disney100 and Tie-Dye comps await re-homing (owner).",
+      "decided": "2026-10-09"
+    },
+    "disney-giant-stitch": {
+      "into": "giant-stitch-25-inch",
+      "reason": "Both 2023; titles say 'Giant 25\" Stitch'.",
+      "decided": "2026-10-09"
+    },
+    "star-wars-grogu": {
+      "into": "grogu-star-wars",
+      "reason": "Same Grogu; medians $15.11 vs $14.99.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-autumn-puppy": {
+      "into": "autumn-puppy-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-batty-kitty": {
+      "into": "batty-kitty-mini-beans-2026",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-be-mine-dalmatian": {
+      "into": "be-mine-dalmatian-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-be-mine-kitty": {
+      "into": "be-mine-kitty-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-blue-pterodactyl": {
+      "into": "blue-pterodactyl-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-blueberry-cow": {
+      "into": "blueberry-cow-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-candy-corn-longhorn": {
+      "into": "candy-corn-longhorn-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-pink-capybara": {
+      "into": "pink-capybara-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-sunshine-cuddles-chick": {
+      "into": "sunshine-cuddles-chick-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-swirly-clouds-lamb": {
+      "into": "swirly-clouds-lamb-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-hoppy-colors-frog": {
+      "into": "hoppy-colors-frog-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-strawberry-cow": {
+      "into": "strawberry-cow-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-cozy-cuddles-teddy": {
+      "into": "cozy-cuddles-teddy-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-dragon-fruit-dragon": {
+      "into": "dragon-fruit-dragon-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-spring-pink-frog": {
+      "into": "spring-pink-frog-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-fuzzy-pink-pig": {
+      "into": "fuzzy-pink-pig-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-gargoyle-bear": {
+      "into": "gargoyle-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-pink-gingham-pawlette": {
+      "into": "pink-gingham-pawlette-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-hamster": {
+      "into": "hamster-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-heartwarming-hippo": {
+      "into": "heartwarming-hippo-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-spooky-kitty": {
+      "into": "spooky-kitty-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-kiwi-koala": {
+      "into": "kiwi-koala-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-spring-pastures-longhorn": {
+      "into": "spring-pastures-longhorn-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-mystical-werewolf": {
+      "into": "mystical-werewolf-mini-beans-2026",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-posh-penguin": {
+      "into": "posh-penguin-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-pumpkin-bear": {
+      "into": "pumpkin-bear-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-rainbow-triceratops": {
+      "into": "rainbow-triceratops-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-red-raptor": {
+      "into": "red-raptor-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-skelebara": {
+      "into": "skelebara-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-timeless-teddy": {
+      "into": "timeless-teddy-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-mothman": {
+      "into": "mothman-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-jumping-spider": {
+      "into": "jumping-spider-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-skunk": {
+      "into": "skunk-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-pastel-paws-pawlette": {
+      "into": "pastel-paws-pawlette-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-chococat": {
+      "into": "chococat-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "mini-beans-kuromi": {
+      "into": "kuromi-mini-beans",
+      "reason": "Same Mini Bean, same year and line: curated '(Mini Beans)' record and the wiki 'Mini Beans ...' copy.",
+      "decided": "2026-10-09"
+    },
+    "vault-collection-pumpkin-pal-teddy": {
+      "into": "pumpkin-pal-teddy-2026-halloween",
+      "reason": "2026 titles on both say 'Exclusive Vault 2026'. The three 2023-2024 sales are an earlier original release with no catalogue entry and are quarantined.",
+      "decided": "2026-10-09",
+      "set": {
+        "vault_release": true,
+        "original_release": false
+      }
+    },
+    "grinch-2015": {
+      "into": "the-grinch",
+      "reason": "Same Grinch by name (the wiki year 2025 is wrong). Both pools mix the 2015/2018/2021 releases; a version split belongs in tools/catalogue_gaps.md. Two pajama-sleeper (clothing only) sales are quarantined.",
+      "decided": "2026-10-09",
+      "fields_from_merged": []
+    },
+    "harry-potter-gryffindor-house-bear": {
+      "into": "gryffindor-house-bear-harry-potter",
+      "reason": "Same Harry Potter house release. OWNER: confirm the year (curated 2020, wiki 2021; titles cite 2021).",
+      "decided": "2026-10-09"
+    },
+    "harry-potter-gryffindor-lion": {
+      "into": "gryffindor-lion-harry-potter",
+      "reason": "Same Harry Potter house release. OWNER: confirm the year (curated 2020, wiki 2021; titles cite 2021).",
+      "decided": "2026-10-09"
+    },
+    "harry-potter-hufflepuff-badger": {
+      "into": "hufflepuff-badger-harry-potter",
+      "reason": "Same Harry Potter house release. OWNER: confirm the year (curated 2020, wiki 2021; titles cite 2021).",
+      "decided": "2026-10-09"
+    },
+    "harry-potter-hufflepuff-house-bear": {
+      "into": "hufflepuff-house-bear-harry-potter",
+      "reason": "Same Harry Potter house release. OWNER: confirm the year (curated 2020, wiki 2021; titles cite 2021).",
+      "decided": "2026-10-09"
+    },
+    "harry-potter-ravenclaw-house-bear": {
+      "into": "ravenclaw-house-bear-harry-potter",
+      "reason": "Same Harry Potter house release. OWNER: confirm the year (curated 2020, wiki 2021; titles cite 2021).",
+      "decided": "2026-10-09"
+    },
+    "harry-potter-slytherin-house-bear": {
+      "into": "slytherin-house-bear-harry-potter",
+      "reason": "Same Harry Potter house release. OWNER: confirm the year (curated 2020, wiki 2021; titles cite 2021).",
+      "decided": "2026-10-09"
+    },
+    "star-wars-the-mandalorian": {
+      "into": "the-mandalorian-star-wars",
+      "reason": "Same Mandalorian (2020).",
+      "decided": "2026-10-09"
+    },
+    "honey-girls-keely": {
+      "into": "keely-honey-girls",
+      "reason": "Same Honey Girls doll; medians close.",
+      "decided": "2026-10-09"
+    },
+    "honey-girls-misha": {
+      "into": "misha-honey-girls",
+      "reason": "Same Honey Girls doll; medians close.",
+      "decided": "2026-10-09"
+    },
+    "honey-girls-stella": {
+      "into": "stella-honey-girls",
+      "reason": "Same Honey Girls doll; medians close.",
+      "decided": "2026-10-09"
+    },
+    "polar-bear-ii": {
+      "into": "polar-bear-ii-20-inch",
+      "reason": "Both 2001 Polar Bear II.",
+      "decided": "2026-10-09"
+    },
+    "bearemy-s-kennel-pals-calico-cat": {
+      "into": "kennel-pals-calico-cat",
+      "reason": "Same Kennel Pals Calico Cat; the wiki copy has no comps. OWNER: confirm the year (2001 kept, wiki says 2002).",
+      "decided": "2026-10-09",
+      "fields_from_merged": [
+        "line"
+      ]
+    },
+    "frozen-anna-bear": {
+      "into": "anna-frozen",
+      "reason": "Same Frozen Anna (2014).",
+      "decided": "2026-10-09",
+      "fields_from_merged": [
+        "release_year"
+      ]
+    },
+    "frozen-elsa-bear": {
+      "into": "elsa-frozen",
+      "reason": "Same Frozen Elsa (2014).",
+      "decided": "2026-10-09",
+      "fields_from_merged": [
+        "release_year"
+      ]
+    },
+    "frozen-olaf": {
+      "into": "olaf-frozen",
+      "reason": "Same Frozen Olaf (2014).",
+      "decided": "2026-10-09",
+      "fields_from_merged": [
+        "release_year"
+      ]
+    },
+    "disney100-celebration-stitch": {
+      "into": "disney100-stitch-celebration",
+      "reason": "Same Disney100 Stitch; Disney100 was 2023.",
+      "decided": "2026-10-09",
+      "fields_from_merged": [],
+      "set": {
+        "release_year": 2023
+      }
+    },
+    "lucky-teddy": {
+      "into": "lucky-teddy-st-patrick-s-day",
+      "reason": "Titles read 'Lucky Teddy 2003 St Pats'; both 2003.",
+      "decided": "2026-10-09"
+    },
+    "mothman": {
+      "into": "mothman-loveable-legends",
+      "reason": "Both 2024 full-size Mothman; medians $69 vs $75. OWNER: confirm.",
+      "decided": "2026-10-09"
+    },
+    "sesame-street-big-bird": {
+      "into": "big-bird-sesame-street",
+      "reason": "Both the 2006 22-inch limited-edition Big Bird.",
+      "decided": "2026-10-09"
+    },
+    "super-mario-bowser": {
+      "into": "bowser-super-mario",
+      "reason": "Same Nintendo Bowser plush; titles cite 2017-2018.",
+      "decided": "2026-10-09"
+    },
+    "sesame-street-elmo-2004": {
+      "into": "elmo",
+      "reason": "Same 2004 Sesame Street Elmo.",
+      "decided": "2026-10-09"
+    },
+    "how-to-train-your-dragon-light-fury": {
+      "into": "light-fury",
+      "reason": "Same Light Fury (2019); medians $26.72 vs $23.62.",
+      "decided": "2026-10-09"
+    },
+    "care-bears-share-bear": {
+      "into": "share-bear-care-bears",
+      "reason": "Same Care Bears Share Bear. The two comps on the CollectionHero record are a Posable Bat listing ('Share' is seller boilerplate) and are quarantined.",
+      "decided": "2026-10-09"
+    },
+    "paw-patrol-chase": {
+      "into": "chase-paw-patrol",
+      "reason": "Same PAW Patrol pup, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "paw-patrol-everest": {
+      "into": "everest-paw-patrol",
+      "reason": "Same PAW Patrol pup, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "paw-patrol-marshall": {
+      "into": "marshall-paw-patrol",
+      "reason": "Same PAW Patrol pup, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "paw-patrol-rocky": {
+      "into": "rocky-paw-patrol",
+      "reason": "Same PAW Patrol pup, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "paw-patrol-rubble": {
+      "into": "rubble-paw-patrol",
+      "reason": "Same PAW Patrol pup, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "paw-patrol-skye": {
+      "into": "skye-paw-patrol",
+      "reason": "Same PAW Patrol pup, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "paw-patrol-tracker": {
+      "into": "tracker-paw-patrol",
+      "reason": "Same PAW Patrol pup, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "paw-patrol-zuma": {
+      "into": "zuma-paw-patrol",
+      "reason": "Same PAW Patrol pup, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "my-little-pony-dj-pon-3": {
+      "into": "dj-pon-3-my-little-pony",
+      "reason": "Same My Little Pony release, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "my-little-pony-princess-luna": {
+      "into": "princess-luna-my-little-pony",
+      "reason": "Same My Little Pony release, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "my-little-pony-rarity": {
+      "into": "rarity-my-little-pony",
+      "reason": "Same My Little Pony release, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "my-little-pony-shining-armor": {
+      "into": "shining-armor-my-little-pony",
+      "reason": "Same My Little Pony release, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "my-little-pony-sunset-shimmer": {
+      "into": "sunset-shimmer-my-little-pony",
+      "reason": "Same My Little Pony release, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    },
+    "my-little-pony-zecora": {
+      "into": "zecora-my-little-pony",
+      "reason": "Same My Little Pony release, CollectionHero and wiki records.",
+      "decided": "2026-10-09"
+    }
+  },
+  "distinct": [
+    {
+      "ids": [
+        "bearemy-s-kennel-pals-black-lab",
+        "bearemy-s-kennel-pals-black-labrador"
+      ],
+      "reason": "2008 and 2001 Kennel Pals releases; titles carry the year. OWNER: spot-check that the 2008 comps are not 2001 copies."
+    },
+    {
+      "ids": [
+        "pompompurin",
+        "sanrio-pompompurin"
+      ],
+      "reason": "The Sanrio record's Zombie Pompompurin comps are reassigned to zombie-pompompurin; what is left is a different listing."
+    },
+    {
+      "ids": [
+        "curly-bear",
+        "curly-teddy"
+      ],
+      "reason": "1997 and 2005 releases."
+    },
+    {
+      "ids": [
+        "velvet-bear",
+        "velvet-teddy"
+      ],
+      "reason": "2007 and 2005 releases."
+    },
+    {
+      "ids": [
+        "lil-chocolate-cub",
+        "lil-cub-chocolate"
+      ],
+      "reason": "2008 and 1997 releases."
+    },
+    {
+      "ids": [
+        "lil-curly",
+        "lil-curly-teddy"
+      ],
+      "reason": "2001 and 2006 releases."
+    },
+    {
+      "ids": [
+        "baby-blue-bear",
+        "blue-baby-bear"
+      ],
+      "reason": "2025 and 2021 releases."
+    },
+    {
+      "ids": [
+        "harry-potter-bear",
+        "harry-potter-bear-2026"
+      ],
+      "reason": "Wiki year-disambiguated releases."
+    },
+    {
+      "ids": [
+        "jurassic-world-t-rex",
+        "jurassic-world-t-rex-2025"
+      ],
+      "reason": "Wiki year-disambiguated releases."
+    },
+    {
+      "ids": [
+        "read-teddy",
+        "read-teddy-2022"
+      ],
+      "reason": "Wiki year-disambiguated releases."
+    },
+    {
+      "ids": [
+        "bearemy-s-kennel-pals-pug",
+        "bearemy-s-kennel-pals-pug-2007"
+      ],
+      "reason": "2013 and 2007 releases."
+    },
+    {
+      "ids": [
+        "pumpkin-glow-bear",
+        "pumpkin-glow-bear-2024"
+      ],
+      "reason": "Wiki year-disambiguated releases."
+    },
+    {
+      "ids": [
+        "pumpkin-glow-bear",
+        "pumpkin-glow-bear-2025"
+      ],
+      "reason": "Wiki year-disambiguated releases."
+    },
+    {
+      "ids": [
+        "bearemy-ii",
+        "rudolph-the-red-nosed-reindeer-ii"
+      ],
+      "reason": "Unrelated: both reduce to 'II' once the franchise word is stripped."
+    },
+    {
+      "ids": [
+        "knuckles",
+        "knuckles-movie"
+      ],
+      "reason": "2016 game figure and 2024 film version."
+    },
+    {
+      "ids": [
+        "shadow-the-hedgehog",
+        "shadow-the-hedgehog-movie"
+      ],
+      "reason": "Game figure and 2024 film version."
+    },
+    {
+      "ids": [
+        "my-melody",
+        "my-melody-japan"
+      ],
+      "reason": "Japan release is a separate product."
+    },
+    {
+      "ids": [
+        "brown-sloth-15-inch",
+        "brown-sloth-18-inch"
+      ],
+      "reason": "Two sizes; linked by variant_group."
+    },
+    {
+      "ids": [
+        "merry-mouse-13-inch",
+        "merry-mouse-15-inch"
+      ],
+      "reason": "Two sizes; linked by variant_group."
+    },
+    {
+      "ids": [
+        "wwf-leopard",
+        "wwf-leopard-international-version"
+      ],
+      "reason": "International version is a separate product."
+    },
+    {
+      "ids": [
+        "nascar-groundhog",
+        "groundhog"
+      ],
+      "reason": "NASCAR tie-in versus the 2007 Groundhog Day CollectiBear."
+    },
+    {
+      "ids": [
+        "red-panda",
+        "wwf-red-panda"
+      ],
+      "reason": "13-inch 2019/2022 Red Panda versus the 2013 21-inch WWF Red Panda."
+    },
+    {
+      "ids": [
+        "koala",
+        "cody-simpson-koala"
+      ],
+      "reason": "Cody Simpson signature koala (2013) is a tie-in product."
+    },
+    {
+      "ids": [
+        "koala-2007",
+        "cody-simpson-koala"
+      ],
+      "reason": "Cody Simpson signature koala (2013) is a tie-in product."
+    },
+    {
+      "ids": [
+        "cheetah",
+        "cheetah-busch-gardens"
+      ],
+      "reason": "OWNER: Busch Gardens exclusive or the same 2007 Cheetah?",
+      "pending": true
+    },
+    {
+      "ids": [
+        "coqui-frog",
+        "coqui-frog-lil-furry-friends"
+      ],
+      "reason": "OWNER: Lil Furry Friends line or the same 2008 Coqui Frog?",
+      "pending": true
+    },
+    {
+      "ids": [
+        "rainbow-sloth",
+        "rainbow-sloth-heartables"
+      ],
+      "reason": "OWNER: existing open question (Heartables line?).",
+      "pending": true
+    },
+    {
+      "ids": [
+        "koala",
+        "koala-2007"
+      ],
+      "reason": "OWNER: documented UNRESOLVED - may be the same product.",
+      "pending": true
+    },
+    {
+      "ids": [
+        "hello-kitty-tropical",
+        "tropical-hello-kitty-2007"
+      ],
+      "reason": "OWNER: which Tropical Hello Kitty release is the undated record?",
+      "pending": true
+    },
+    {
+      "ids": [
+        "hello-kitty-tropical",
+        "tropical-hello-kitty-2008"
+      ],
+      "reason": "OWNER: which Tropical Hello Kitty release is the undated record?",
+      "pending": true
+    },
+    {
+      "ids": [
+        "toothless",
+        "how-to-train-your-dragon-toothless-2014"
+      ],
+      "reason": "OWNER: the undated Toothless record may be any of the 2014/2019/2025 releases.",
+      "pending": true
+    },
+    {
+      "ids": [
+        "toothless",
+        "how-to-train-your-dragon-toothless-2019"
+      ],
+      "reason": "OWNER: the undated Toothless record may be any of the 2014/2019/2025 releases.",
+      "pending": true
+    },
+    {
+      "ids": [
+        "toothless",
+        "how-to-train-your-dragon-toothless-2025"
+      ],
+      "reason": "OWNER: the undated Toothless record may be any of the 2014/2019/2025 releases.",
+      "pending": true
+    },
+    {
+      "ids": [
+        "black-labrador-retriever-puppy",
+        "promise-pets-black-labrador"
+      ],
+      "reason": "OWNER: the 2001 limited edition's comps are titled 'Promise Pets Black Lab'; likely reassign them to promise-pets-black-labrador. Never merge with Kennel Pals.",
+      "pending": true
+    }
+  ],
+  "sale_overrides": {
+    "pumpkin-pal-teddy-2026-halloween-i06": {
+      "action": "exclude",
+      "reason": "Original pre-Vault Pumpkin Pal Teddy (2023-2024 sale); not catalogued - see tools/catalogue_gaps.md."
+    },
+    "pumpkin-pal-teddy-2026-halloween-i07": {
+      "action": "exclude",
+      "reason": "Original pre-Vault Pumpkin Pal Teddy (2023-2024 sale); not catalogued - see tools/catalogue_gaps.md."
+    },
+    "pumpkin-pal-teddy-2026-halloween-i08": {
+      "action": "exclude",
+      "reason": "Original pre-Vault Pumpkin Pal Teddy (2023-2024 sale); not catalogued - see tools/catalogue_gaps.md."
+    },
+    "stitch-disney-tp116036186728": {
+      "action": "exclude",
+      "reason": "A 'Champ' teddy with a heart patch, not Stitch."
+    },
+    "stitch-disney-tp115888313216": {
+      "action": "exclude",
+      "reason": "A 'Champ' teddy with a heart patch, not Stitch."
+    },
+    "snowflake-fun-stitch-i01": {
+      "action": "exclude",
+      "reason": "Aloha Christmas Stitch, not Snowflake Fun Stitch."
+    },
+    "grinch-2015-tp126197760216": {
+      "action": "exclude",
+      "reason": "Pajama sleeper sold on its own (clothing), not the plush."
+    },
+    "grinch-2015-tp115984018446": {
+      "action": "exclude",
+      "reason": "Pajama sleeper sold on its own (clothing), not the plush."
+    },
+    "share-bear-care-bears-tp198276865336": {
+      "action": "exclude",
+      "reason": "A Posable Bat listing; 'Share' is seller boilerplate in the title."
+    },
+    "share-bear-care-bears-tp137442193031": {
+      "action": "exclude",
+      "reason": "A Posable Bat listing; 'Share' is seller boilerplate in the title."
+    },
+    "sanrio-pompompurin-tp116388709713": {
+      "action": "reassign",
+      "to": "zombie-pompompurin",
+      "reason": "Title names Zombie Pompompurin (2024 Halloween). OWNER: confirm."
+    },
+    "sanrio-pompompurin-tp196876437649": {
+      "action": "reassign",
+      "to": "zombie-pompompurin",
+      "reason": "Title names Zombie Pompompurin (2024 Halloween). OWNER: confirm."
+    },
+    "sanrio-pompompurin-tp358133140326": {
+      "action": "reassign",
+      "to": "zombie-pompompurin",
+      "reason": "Title names Zombie Pompompurin (2024 Halloween). OWNER: confirm."
+    },
+    "sesame-street-elmo-2004-i08": {
+      "action": "exclude",
+      "reason": "An Elmo smart-phone wristlet, not the Elmo plush."
+    },
+    "how-to-train-your-dragon-light-fury-i03": {
+      "action": "exclude",
+      "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+    },
+    "how-to-train-your-dragon-light-fury-i04": {
+      "action": "exclude",
+      "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+    },
+    "how-to-train-your-dragon-light-fury-i13": {
+      "action": "exclude",
+      "reason": "A 4-inch Light Fury wristlet, not the 15-inch plush."
+    },
+    "chase-paw-patrol-i02": {
+      "action": "exclude",
+      "reason": "A replacement sound chip sold on its own, not the plush."
+    },
+    "skye-paw-patrol-i02": {
+      "action": "exclude",
+      "reason": "A replacement sound chip sold on its own, not the plush."
+    },
+    "marshall-paw-patrol-i03": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "rubble-paw-patrol-i04": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "rubble-paw-patrol-i06": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "rubble-paw-patrol-i14": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "zuma-paw-patrol-i01": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "zuma-paw-patrol-i02": {
+      "action": "exclude",
+      "reason": "A Pup Pack accessory sold on its own, not the plush."
+    },
+    "skye-paw-patrol-i03": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "skye-paw-patrol-i08": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "skye-paw-patrol-i16": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-chase-i01": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-chase-i03": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-rubble-i01": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-rubble-i10": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-tracker-i01": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-tracker-i03": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-skye-tp115925247931": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "paw-patrol-skye-tp126883169283": {
+      "action": "exclude",
+      "reason": "Outfit or gear (vest, hat, helmet, jet pack, tool) sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp186767121723": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp136175433483": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp167692105065": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp167721861033": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-hufflepuff-house-bear-tp257070973224": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "hufflepuff-house-bear-harry-potter-tp286394305583": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "hufflepuff-house-bear-harry-potter-tp385646371156": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp226534090407": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp156637932184": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp256968234610": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp257448233576": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp287100395435": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp318525557170": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "harry-potter-ravenclaw-house-bear-tp389357701631": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "ravenclaw-house-bear-harry-potter-tp257278445443": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "ravenclaw-house-bear-harry-potter-tp326285648394": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "gryffindor-house-bear-harry-potter-tp166431463905": {
+      "action": "exclude",
+      "reason": "Harry Potter house robe, uniform or scarf sold without the plush."
+    },
+    "frozen-anna-bear-tp116645420807": {
+      "action": "exclude",
+      "reason": "Frozen dress, wig or clothing sold without the plush."
+    },
+    "frozen-anna-bear-tp224325130491": {
+      "action": "exclude",
+      "reason": "Frozen dress, wig or clothing sold without the plush."
+    },
+    "frozen-elsa-bear-tp376174602679": {
+      "action": "exclude",
+      "reason": "Frozen dress, wig or clothing sold without the plush."
+    },
+    "frozen-olaf-tp135148280210": {
+      "action": "exclude",
+      "reason": "Frozen dress, wig or clothing sold without the plush."
+    },
+    "star-wars-grogu-tp256598300545": {
+      "action": "exclude",
+      "reason": "Slippers or sleeper sold without the plush."
+    },
+    "star-wars-grogu-tp136053699481": {
+      "action": "exclude",
+      "reason": "Slippers or sleeper sold without the plush."
+    },
+    "grogu-star-wars-tp127420860575": {
+      "action": "exclude",
+      "reason": "Slippers or sleeper sold without the plush."
+    },
+    "disney-stitch-tp176088976937": {
+      "action": "exclude",
+      "reason": "Slippers or sleeper sold without the plush."
+    },
+    "lucky-teddy-tp187896116745": {
+      "action": "exclude",
+      "reason": "Pot of Gold wrist accessory sold without the plush."
+    },
+    "lucky-teddy-tp187900298939": {
+      "action": "exclude",
+      "reason": "Pot of Gold wrist accessory sold without the plush."
+    },
+    "lucky-teddy-tp188175489973": {
+      "action": "exclude",
+      "reason": "Pot of Gold wrist accessory sold without the plush."
+    },
+    "lucky-teddy-tp277684812539": {
+      "action": "exclude",
+      "reason": "Pot of Gold wrist accessory sold without the plush."
+    },
+    "princess-luna-my-little-pony-i09": {
+      "action": "exclude",
+      "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
+    },
+    "princess-luna-my-little-pony-i19": {
+      "action": "exclude",
+      "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
+    },
+    "rarity-my-little-pony-i13": {
+      "action": "exclude",
+      "reason": "My Little Pony cape (and collar/necklace) sold without the plush."
+    }
+  }
+}

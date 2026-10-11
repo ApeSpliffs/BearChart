@@ -17,7 +17,7 @@ import re
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SQL_PATH = os.path.join(ROOT, "supabase_migration_02_submissions.sql")
+SQL_PATH = os.path.join(ROOT, "supabase", "migrations", "20261008000002_submissions.sql")
 
 with open(SQL_PATH) as f:
     SQL = f.read()

@@ -8,8 +8,8 @@ Generate one real HTML page per catalogued item, plus a sitemap.
 
 WHY THIS EXISTS
     Every item used to live at item.html?id=<slug> and be drawn by JavaScript
-    after the page loaded. To a search engine that is ONE page - the catalogue
-    of 2,042 bears was, as far as Google was concerned, a single empty
+    after the page loaded. To a search engine that is ONE page - the whole
+    catalogue was, as far as Google was concerned, a single empty
     document. People searching "1997 build a bear brown teddy value" were
     typing the exact question this site answers and could not find it.
 
@@ -36,6 +36,7 @@ import os
 import re
 import shutil
 from datetime import date
+from urllib.parse import parse_qsl, quote, urlencode, urlsplit, urlunsplit
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "item")
@@ -48,8 +49,13 @@ FONTS = (
     '&family=Nunito+Sans:wght@400..800&display=swap">'
 )
 
-SCRIPTS = ["data.js", "engine.js", "icons.js", "auth.js", "entitlements.js",
-           "submissions.js", "common.js", "item.js"]
+# The one script order every page uses. config.js and observability.js come
+# first so an error in any later script can be reported (observability.js is
+# inert without a DSN); site-config.js is the data manifest bc-data.js reads;
+# sanitize.js (URL/CSV/escape helpers) must precede auth.js and common.js.
+SCRIPTS = ["config.js", "observability.js", "site-config.js", "sanitize.js", "bc-data.js",
+           "engine.js", "icons.js", "auth.js", "entitlements.js", "submissions.js",
+           "common.js", "item.js"]
 
 # Pages that are not items but still belong in the sitemap.
 TOP_LEVEL = ["index.html", "deals.html", "checklists.html", "collection.html",
@@ -95,11 +101,10 @@ def describe(item, val):
 
 
 def title_for(item, val):
+    """"{name} value - BearChart (independent price guide)", the item.js title
+    too. The year stays: it is how collectors tell two bears of one name apart."""
     year = " (%s)" % item["release_year"] if item.get("release_year") else ""
-    if val and val.get("has_value"):
-        return "%s%s value - %s | BearChart" % (
-            item["canonical_name"], year, money(val["fair_market"]))
-    return "%s%s - Build-A-Bear value guide | BearChart" % (item["canonical_name"], year)
+    return "%s%s value \u2014 BearChart (independent price guide)" % (item["canonical_name"], year)
 
 
 def json_ld(item, val, url):
@@ -122,7 +127,11 @@ def json_ld(item, val, url):
     if item.get("image_url"):
         node["image"] = item["image_url"]
     node = {k: v for k, v in node.items() if v}
-    return json.dumps(node, indent=1)
+    # Catalogue names come from a weekly wiki import. Escape the characters that
+    # could close the <script> block or open a comment: JSON still parses
+    # identically, but "</script>" can no longer appear inside it.
+    return (json.dumps(node, indent=1)
+            .replace("<", "\\u003c").replace(">", "\\u003e").replace("&", "\\u0026"))
 
 
 def facts_list(item):
@@ -130,7 +139,7 @@ def facts_list(item):
         ("Release year", item.get("release_year") or "Not recorded"),
         ("Species", item.get("species")),
         ("Category", item.get("category")),
-        ("Line", item.get("variant")),
+        ("Line", item.get("line")),
         ("Franchise", item.get("franchise")),
     ]
     out = []
@@ -144,7 +153,7 @@ def value_block(item, val, sales):
     """The part a crawler reads. Priced items state the figure and its basis."""
     if not (val and val.get("has_value")):
         return (
-            '<h2>No sold data yet</h2>'
+            '<h2>No sold price on record yet</h2>'
             '<p>BearChart has no recorded sold transactions for the '
             '%s, so it publishes <strong>no value</strong> for it. '
             'An estimate with nothing behind it is a guess, and a guess printed '
@@ -178,33 +187,93 @@ def value_block(item, val, sales):
            e(money(val["median_raw"])), rows))
 
 
-def shop_promo(business, val):
+SHOP_REL = "sponsored noopener noreferrer"
+
+
+def _encode_component(text):
+    """JavaScript's encodeURIComponent."""
+    return quote(str(text), safe="-_.!~*'()")
+
+
+def shop_href(business, placement, item_id=None, kind="home", item_name=None, condition=None):
+    """The Python twin of common.js BC.shopHref: the same template choice, the
+    same UTM parameters in the same order, the same URL. tools/test_pages_seo.py
+    holds the two equal. '' when the shop is off or its URL is not https."""
+    if not business.get("enabled") or not business.get("shop_url"):
+        return ""
+    tpl = None
+    if kind == "search":
+        tpl = business.get("shop_search_url")
+    elif kind in ("offer", "quote"):
+        tpl = business.get("shop_offer_url")
+    raw = ((tpl or business["shop_url"])
+           .replace("{q}", _encode_component(item_name or ""))
+           .replace("{item}", _encode_component(item_id or ""))
+           .replace("{condition}", _encode_component(condition or "")))
+    safe = re.compile(r"^https://[^\s\"'<>\\]+$")
+    if not safe.match(raw):
+        raw = business["shop_url"]
+        if not safe.match(raw):
+            return ""
+    parts = urlsplit(raw)
+    params = parse_qsl(parts.query, keep_blank_values=True)
+
+    def put(key, value):
+        # URLSearchParams.set: replace the first in place, drop the rest, or append.
+        nonlocal params
+        out, done = [], False
+        for k, v in params:
+            if k == key:
+                if not done:
+                    out.append((k, value))
+                    done = True
+                continue
+            out.append((k, v))
+        if not done:
+            out.append((key, value))
+        params = out
+
+    put("utm_source", "bearchart")
+    put("utm_medium", "referral")
+    put("utm_campaign", "guide")
+    put("utm_content", placement)
+    if item_id:
+        put("utm_term", item_id)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path or "/", urlencode(params),
+                       parts.fragment))
+
+
+def shop_promo(business, val, item_id=None):
     """The operator's own shop, in the static markup.
 
-    Same rule as the live page: only where the item has no sold data, so a
-    reader never gets a shop pitch and a "sell yours to us" offer on one page.
-    Labelled as the shop behind the guide, because an unlabelled advert from
-    the person publishing the valuations is how a price guide loses its reader.
+    Only where the item has no sold data: a priced item gets the store panel
+    after its evidence once item.js runs. Labelled as our store, followed by
+    the one-line disclosure, rel="sponsored", UTM-tagged like every store link.
     """
-    if not (business.get("enabled") and business.get("shop_url")):
-        return ""
     if val and val.get("has_value"):
+        return ""
+    href = shop_href(business, "item_quote", item_id, kind="quote")
+    if not href:
         return ""
     return (
         '<aside class="promo">'
         '<p class="promo-eyebrow">%s</p>'
-        '<h3 class="promo-title">%s</h3>'
+        '<h2 class="promo-title">%s</h2>'
         '<p class="promo-blurb">%s</p>'
-        '<p class="promo-act"><a class="btn btn-primary" href="%s" '
-        'target="_blank" rel="noopener">%s</a></p>'
-        '<p class="promo-note">%s</p>'
+        '<p class="promo-act"><a class="btn btn-primary" href="%s" target="_blank" rel="%s" '
+        'data-shop-placement="item_quote" data-shop-kind="quote" data-item="%s">%s'
+        '<span class="ext" aria-hidden="true"> &#8599;</span>'
+        '<span class="sr-only"> (opens our shop)</span></a></p>'
+        '<p class="shop-disclosure fine">%s <a href="../about.html#conflicts">How we keep it '
+        'separate</a></p>'
         '</aside>'
         % (e(business.get("shop_eyebrow") or business.get("name")),
            e(business.get("shop_headline") or business.get("name")),
            e(business.get("shop_blurb") or ""),
-           e(business["shop_url"]),
-           e(business.get("shop_cta") or "Visit the shop"),
-           e(business.get("shop_disclosure") or "")))
+           e(href), SHOP_REL, e(item_id or ""),
+           e("Ask Jay's Retro Exchange for a quote"),
+           e(business.get("shop_disclosure_short") or
+             "Jay's Retro Exchange is our store. It never changes a value in this guide.")))
 
 
 def page_html(item, val, sales, base_url, disclaimer, business=None):
@@ -236,6 +305,7 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 <meta property="og:site_name" content="BearChart">
 %(social)s
 %(fonts)s
+<script src="../theme.js"></script>
 <link rel="stylesheet" href="../styles.css">
 <script type="application/ld+json">
 %(jsonld)s
@@ -246,7 +316,8 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 <header class="masthead" id="masthead"></header>
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
-<main>
+<main id="main" tabindex="-1">
+  <p class="fine bc-status" data-bc-status aria-live="polite" hidden></p>
   <div class="wrap" id="item-root">
     <!-- Rendered at build time so this page says something before any
          JavaScript runs. item.js replaces it with the interactive version. -->
@@ -289,28 +360,64 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
         "facts": facts_list(item),
         "value": value_block(item, val, sales),
         "disclaimer": e(disclaimer),
-        "promo": shop_promo(business or {}, val),
+        "promo": shop_promo(business or {}, val, slug),
         "scripts": "\n".join('<script src="../%s"></script>' % s for s in SCRIPTS),
     }
 
 
 def valuations(data):
-    """Ask the real engine, through node, so the pages cannot drift from it."""
-    import subprocess
-    script = """
-      global.window = global;
-      require('%s/data.js'); require('%s/engine.js');
-      const D = global.BEARCHART_DATA, E = global.BearChartEngine;
-      const byItem = {};
-      for (const s of D.sales) (byItem[s.item_id] = byItem[s.item_id] || []).push(s);
-      const out = {};
-      for (const i of D.items) out[i.id] = E.valuate(i, byItem[i.id] || [], D.config);
-      process.stdout.write(JSON.stringify(out));
-    """ % (ROOT, ROOT)
-    res = subprocess.run(["node", "-e", script], capture_output=True, text=True)
-    if res.returncode != 0:
-        raise SystemExit("could not run the valuation engine:\n" + res.stderr)
-    return json.loads(res.stdout)
+    """Each item's valuation summary, from the catalogue index tools/build_assets.js
+    wrote with the real engine (E.summary), so the pages cannot drift from it."""
+    path = os.path.join(ROOT, "data", "manifest.json")
+    if not os.path.exists(path):
+        raise SystemExit("data/manifest.json is missing: run `npm run build:assets` "
+                         "(node tools/build_assets.js) before building the pages.")
+    with open(path) as f:
+        manifest = json.load(f)
+    with open(os.path.join(ROOT, manifest["index"])) as f:
+        index = json.load(f)
+    return {rec["id"]: rec["v"] for rec in index["items"]}
+
+
+def redirect_stub_html(old_id, new_item, base_url):
+    """item/<old>.html for an id merged into another item.
+
+    Works on any static host with no host-specific redirect config: a meta
+    refresh, a script (external - the CSP forbids inline script), a canonical
+    link and a visible link. noindex keeps the old URL out of search results.
+    """
+    target = "%s.html" % new_item["id"]
+    canonical = ("%s/item/%s" % (base_url.rstrip("/"), target)) if base_url else target
+    return """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>%(name)s - BearChart</title>
+<link rel="canonical" href="%(canonical)s">
+<meta http-equiv="refresh" content="0; url=%(target)s">
+<script src="../redirect.js"></script>
+</head>
+<body>
+<p>This bear now lives at <a href="%(target)s">%(name)s</a>.</p>
+<!-- merged: %(old)s -->
+</body>
+</html>
+""" % {"name": e(new_item["canonical_name"]), "canonical": e(canonical),
+       "target": e(target), "old": e(old_id)}
+
+
+def write_redirect_stubs(data, base_url):
+    items = {i["id"]: i for i in data["items"]}
+    n = 0
+    for old, new in sorted((data.get("redirects") or {}).items()):
+        if old in items or new not in items:
+            continue
+        with open(os.path.join(OUT_DIR, "%s.html" % old), "w") as f:
+            f.write(redirect_stub_html(old, items[new], base_url))
+        n += 1
+    return n
 
 
 def write_sitemap(data, base_url):
@@ -319,6 +426,7 @@ def write_sitemap(data, base_url):
     base = base_url.rstrip("/")
     today = date.today().isoformat()
     urls = ["%s/%s" % (base, p) for p in TOP_LEVEL]
+    # Items only: redirect stubs for merged ids are noindex and never listed.
     urls += ["%s/item/%s.html" % (base, i["id"]) for i in data["items"]]
     body = "".join(
         "  <url><loc>%s</loc><lastmod>%s</lastmod></url>\n" % (e(u), today)
@@ -389,8 +497,8 @@ def main():
     # One shell that stands in for any item page the browser has not cached.
     # The service worker serves this for /item/<anything>.html when offline;
     # the address bar still says which bear, so item.js reads the slug from the
-    # path and renders it from the cached catalogue. One file, and all 2,042
-    # items work offline - precaching them all would be 8MB.
+    # path and renders it from the cached catalogue. One file, and every
+    # item works offline - precaching them all would be 8MB.
     offline = page_html(
         {"id": "_offline", "canonical_name": "Loading…", "aliases": [],
          "category": None, "species": None, "release_year": None},
@@ -399,6 +507,11 @@ def main():
     with open(os.path.join(OUT_DIR, "_offline.html"), "w") as f:
         f.write(offline)
     print("wrote item/_offline.html  (offline stand-in for any item)")
+
+    stubs = write_redirect_stubs(data, base_url)
+    if stubs:
+        print("wrote %d redirect stub(s) for merged item ids (noindex, not in the sitemap)"
+              % stubs)
 
     robots = write_robots(base_url)
     print("wrote %s" % os.path.relpath(robots, ROOT))

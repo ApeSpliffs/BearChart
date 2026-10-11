@@ -2,7 +2,9 @@
 (function () {
   'use strict';
 
-  var D = BC.data, E = BC.engine;
+  var CFG = BC.config, E = BC.engine;
+  // Today's asking prices, once loaded (data/h/listings.<hash>.json).
+  var L = null;
   var $ = function (id) { return document.getElementById(id); };
 
   BC.renderChrome('deals.html');
@@ -10,20 +12,48 @@
   // A working copy of the reseller assumptions, so they can be tuned on the page
   // without editing the config. Persisted per browser.
   var KEY = 'bearchart.reseller';
-  var base = D.config.reseller || {};
+  var base = CFG.reseller || {};
   var tuned = load();
 
   function load() {
     var saved = {};
     try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { saved = {}; }
+    saved = migrate(saved);
     return {
-      marketplace_fee_pct: num(saved.marketplace_fee_pct, base.marketplace_fee_pct),
-      payment_fee_fixed: num(saved.payment_fee_fixed, base.payment_fee_fixed),
+      platform: platformOr(saved.platform, base.platform),
+      // null = use the published fee schedule for the platform.
+      fee_pct_override: num(saved.fee_pct_override, null),
       shipping_cost: num(saved.shipping_cost, base.shipping_cost),
+      shipping_charged: num(saved.shipping_charged, base.shipping_charged),
       min_net_margin: num(saved.min_net_margin, base.min_net_margin),
       min_discount_pct: num(saved.min_discount_pct, base.min_discount_pct),
       min_confidence: atLeastMedium(saved.min_confidence || base.min_confidence)
     };
+  }
+
+  // Settings saved before fees became a per-platform schedule carried a flat
+  // percentage. The old default is dropped so the schedule applies; anything
+  // the reader typed themselves is kept as their override.
+  function migrate(saved) {
+    if (saved && typeof saved.marketplace_fee_pct === 'number') {
+      if (saved.fee_pct_override == null && saved.marketplace_fee_pct !== 0.1325) {
+        saved.fee_pct_override = saved.marketplace_fee_pct;
+      }
+      delete saved.marketplace_fee_pct;
+    }
+    if (saved) delete saved.payment_fee_fixed;
+    return saved || {};
+  }
+
+  function platformOr(p, fallback) {
+    var platforms = (CFG.fees && CFG.fees.platforms) || {};
+    return (p && platforms[p]) ? p : fallback;
+  }
+
+  /** The fee schedule entry in force: the platform's, or the reader's override. */
+  function schedule() {
+    var platforms = (CFG.fees && CFG.fees.platforms) || {};
+    return platforms[tuned.platform] || {};
   }
 
   // Deals only lean on sold records we trust. A bear with one or two recorded
@@ -44,15 +74,25 @@
   /** Config with the page's tuned economics swapped in. */
   function config() {
     var c = {};
-    Object.keys(D.config).forEach(function (k) { c[k] = D.config[k]; });
-    c.reseller = tuned;
+    Object.keys(CFG).forEach(function (k) { c[k] = CFG[k]; });
+    var r = {};
+    Object.keys(base).forEach(function (k) { r[k] = base[k]; });
+    Object.keys(tuned).forEach(function (k) { r[k] = tuned[k]; });
+    c.reseller = r;
+    if (tuned.fee_pct_override != null && CFG.fees) {
+      var fees = JSON.parse(JSON.stringify(CFG.fees));
+      if (fees.platforms && fees.platforms[tuned.platform]) {
+        fees.platforms[tuned.platform].pct = tuned.fee_pct_override;
+      }
+      c.fees = fees;
+    }
     return c;
   }
 
   function findDeals() {
     return E.findDeals({
       config: config(),
-      listings: D.active_listings || [],
+      listings: L.listings,
       itemById: BC.itemById,
       valuationFor: BC.valuationFor
     });
@@ -61,7 +101,16 @@
   // ---- rendering ------------------------------------------------------------
 
   function renderInputs() {
-    $('fee').value = Math.round(tuned.marketplace_fee_pct * 1000) / 10;
+    var pct = tuned.fee_pct_override != null ? tuned.fee_pct_override : (schedule().pct || 0);
+    $('fee').value = Math.round(pct * 1000) / 10;
+    var plat = $('platform');
+    if (plat) {
+      var platforms = (CFG.fees && CFG.fees.platforms) || {};
+      plat.innerHTML = Object.keys(platforms).map(function (k) {
+        return '<option value="' + BC.esc(k) + '"' + (k === tuned.platform ? ' selected' : '') +
+          '>' + BC.esc(platforms[k].label || k) + '</option>';
+      }).join('');
+    }
     $('ship').value = tuned.shipping_cost;
     $('min-margin').value = tuned.min_net_margin;
     $('min-disc').value = tuned.min_discount_pct;
@@ -69,15 +118,23 @@
   }
 
   function renderStats(deals) {
-    var listings = (D.active_listings || []).length;
+    var listings = L.listings.length;
     var best = deals.length ? deals[0].margin : null;
-    var asOf = D.active_listings_fetched_at ? D.active_listings_fetched_at.slice(0, 10) : '--';
+    // The oldest row decides: a row carried forward for a failed query keeps
+    // the date it was really fetched. The run date alone would claim a check
+    // that may not have happened for every listing on screen.
+    var oldest = L.listings.reduce(function (o, l) {
+      var at = l.fetched_at || L.fetched_at;
+      return at && (!o || at < o) ? at : o;
+    }, null);
+    var asOf = oldest ? String(oldest).slice(0, 10) : '--';
+    if ($('deal-age')) $('deal-age').innerHTML = L.listings.length ? BC.listingsAgeNote(oldest) : '';
 
     $('deal-stats').innerHTML = [
       [listings, 'Listings checked'],
       [deals.length, 'Deals found'],
       [best == null ? '--' : BC.money(best), 'Best profit'],
-      [BC.esc(asOf), 'Last checked']
+      [BC.esc(asOf), 'Listings checked since']
     ].map(function (c) {
       return '<div class="stat"><div class="v">' + c[0] + '</div><div class="k">' +
         BC.esc(c[1]) + '</div></div>';
@@ -85,7 +142,7 @@
   }
 
   function emptyState() {
-    if (!(D.active_listings || []).length) {
+    if (!L.listings.length) {
       return '<div class="empty">' +
         '<p><strong>No active listings loaded yet.</strong></p>' +
         '<p>Deals appear here once today\'s eBay listings have been checked. ' +
@@ -107,6 +164,7 @@
   }
 
   function render() {
+    if (!L) return;   // the catalogue and listings are still loading
     var deals = findDeals();
     renderStats(deals);
     $('deal-count').textContent = deals.length
@@ -119,19 +177,29 @@
       return;
     }
 
+    // Signed out (and accounts on): a teaser of three, then the invitation.
+    // The rest are not rendered at all.
+    var locked = BC.gate && BC.gate.locked();
+    var shown = locked ? deals.slice(0, 3) : deals;
+    var hidden = deals.length - shown.length;
+    var assumed = (CFG.reseller && CFG.reseller.assumed_inbound_shipping) || 0;
+
     // Column order matters to the tests: the fifth cell is the profit, which
     // moves when the fee assumption does.
-    $('deals').innerHTML = '<div class="table-scroll"><table class="stack-table deal-table">' +
+    $('deals').innerHTML =
+      '<p class="fine deal-basis">Profit is worked out from what the buyer pays: the asking ' +
+      'price <strong>plus shipping</strong>. Where a listing does not say what shipping costs, ' +
+      'we assume ' + BC.exact(assumed) + ' and mark it.</p>' +
+      '<div class="table-scroll"><table class="stack-table deal-table">' +
       '<thead><tr>' +
-      '<th>Listing</th><th class="num">Asking</th><th class="num">Usually sells for</th>' +
+      '<th>Listing</th><th class="num">Asking + shipping</th><th class="num">Usually sells for</th>' +
       '<th class="num">Net after fees</th><th class="num">Your profit</th>' +
       '<th>How sure</th>' +
       '</tr></thead><tbody>' +
-      deals.map(function (d) {
+      shown.map(function (d) {
         var title = BC.esc(d.listing.title || d.item_name);
         if (d.listing.source_url) {
-          title = '<a href="' + BC.esc(BC.affiliate(d.listing.source_url)) +
-            '" target="_blank" rel="noopener">' + title + '</a>';
+          title = BC.affiliateLink(d.listing.source_url, title);
         }
         return '<tr>' +
           '<td data-label="Listing"><div class="deal-title">' + title + '</div>' +
@@ -141,7 +209,11 @@
               ? '<div class="risk">Watch out: ' + d.risks.map(BC.esc).join('; ') + '</div>'
               : '') +
           '</td>' +
-          '<td class="num price" data-label="Asking">' + BC.exact(d.ask) + '</td>' +
+          '<td class="num price" data-label="Asking">' + BC.exact(d.ask) +
+            '<div class="fine buyer-pays">' + (d.ship_assumed
+              ? '+ ' + BC.exact(d.buyer_total - d.ask) + ' shipping (not listed, assumed)'
+              : (d.ship_price ? '+ ' + BC.exact(d.ship_price) + ' shipping' : 'free shipping')) +
+            '<br>Buyer pays ' + BC.exact(d.buyer_total) + '</div></td>' +
           '<td class="num" data-label="Usually sells for">' + BC.money(d.gross_value) +
             '<div class="fine">safe value ' + BC.money(d.floor_value) + '</div></td>' +
           '<td class="num" data-label="Net after fees">' + BC.money(d.net_proceeds) + '</td>' +
@@ -149,13 +221,16 @@
             BC.money(d.margin) + '</strong>' +
             '<div class="fine">' + Math.round(d.margin_pct) + '% on cost &middot; ' +
             Math.round(d.discount_pct) + '% below value</div></td>' +
-          '<td data-label="How sure"><span class="' + BC.confClass(d.confidence) + '">' +
-            d.confidence + '</span><div class="fine">' + d.comparable_count + ' sale' +
+          '<td data-label="How sure">' + BC.confChip(d.confidence, { link: true, n: d.comparable_count }) +
+            '<div class="fine">' + d.comparable_count + ' sale' +
             (d.comparable_count === 1 ? '' : 's') + ' on record</div></td>' +
           '</tr>';
-      }).join('') + '</tbody></table></div>';
+      }).join('') + '</tbody></table></div>' +
+      (hidden ? '<p class="sr-only">' + hidden + ' more deal' + (hidden === 1 ? '' : 's') +
+                ' with a free account.</p>' : '');
 
-    window.__deals = deals;
+    // The CSV holds what is on screen, no more.
+    window.__deals = shown;
   }
 
   // ---- events ---------------------------------------------------------------
@@ -170,7 +245,17 @@
     });
   }
 
-  bind('fee', 'marketplace_fee_pct', function (v) { return v / 100; });
+  bind('fee', 'fee_pct_override', function (v) { return v / 100; });
+  if ($('platform')) {
+    $('platform').addEventListener('change', function (e) {
+      tuned.platform = platformOr(e.target.value, base.platform);
+      // A typed percentage belonged to the old platform.
+      tuned.fee_pct_override = null;
+      save();
+      renderInputs();
+      render();
+    });
+  }
   bind('ship', 'shipping_cost');
   bind('min-margin', 'min_net_margin');
   bind('min-disc', 'min_discount_pct');
@@ -182,11 +267,12 @@
   });
 
   $('export-deals').addEventListener('click', function () {
-    var rows = [['item_id', 'item_name', 'listing_title', 'ask', 'condition',
+    var rows = [['item_id', 'item_name', 'listing_title', 'ask', 'shipping', 'buyer_total', 'condition',
       'gross_value', 'net_after_fees', 'margin', 'margin_pct_on_cost',
       'discount_pct', 'confidence', 'comparable_sales', 'listing_url', 'risks']];
     (window.__deals || []).forEach(function (d) {
-      rows.push([d.item_id, d.item_name, d.listing.title, BC.r2(d.ask), d.condition,
+      rows.push([d.item_id, d.item_name, d.listing.title, BC.r2(d.ask),
+        d.ship_assumed ? '' : BC.r2(d.ship_price || 0), BC.r2(d.buyer_total), d.condition,
         BC.r2(d.gross_value), BC.r2(d.net_proceeds), BC.r2(d.margin),
         Math.round(d.margin_pct), Math.round(d.discount_pct), d.confidence,
         d.comparable_count, d.listing.source_url, d.risks.join(' | ')]);
@@ -195,5 +281,9 @@
   });
 
   renderInputs();
-  render();
+  if (BC.gate) BC.gate.onChange(render);
+  BC.withCatalogue(function (cat, listings) {
+    L = listings;
+    render();
+  }, { listings: true, skeleton: [[$('deals'), 'table', 5]] });
 })();

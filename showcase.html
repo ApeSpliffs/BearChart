@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Member showcases — BearChart</title>
+<title>Member showcases — BearChart, an independent Build-A-Bear price guide</title>
 <meta name="description" content="Power members show off their top Build-A-Bears and what they are worth.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,7 @@
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BearChart">
-<meta property="og:title" content="Member showcases — BearChart">
+<meta property="og:title" content="Member showcases — BearChart, an independent Build-A-Bear price guide">
 <meta property="og:description" content="Power members show off their top Build-A-Bears and what they are worth.">
 <meta property="og:image" content="/icons/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -23,6 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BearChart">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,13 +31,14 @@
 <header class="masthead" id="masthead"></header>
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
-<main>
+<main id="main" tabindex="-1">
+<p class="fine bc-status" data-bc-status aria-live="polite" hidden></p>
 <div class="wrap">
 <div id="sc-main"></div>
 
 <div class="panel" id="sc-list-panel">
 <div class="toolbar">
-<h2 style="margin:0">Member showcases</h2>
+<h1>Member showcases</h1>
 <span class="grow"></span>
 <label class="fine" for="sc-sort">Sort</label>
 <select id="sc-sort"><option value="new">Newest</option><option value="value">Most valuable</option><option value="liked">Most liked</option></select>
@@ -52,8 +54,11 @@
 
 <footer class="site" id="site-footer"></footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="data.js"></script>
+<script src="config.js"></script>
+<script src="observability.js"></script>
+<script src="site-config.js"></script>
+<script src="sanitize.js"></script>
+<script src="bc-data.js"></script>
 <script src="engine.js"></script>
 <script src="icons.js"></script>
 <script src="auth.js"></script>

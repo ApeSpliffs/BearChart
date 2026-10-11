@@ -6,6 +6,12 @@
   var A = window.BearChartAuth;
   var root = document.getElementById('account-root');
   var COLLECTION_KEY = 'bearchart.collection';
+  // ?next= from a gated page's invitation, and ?mode=signup. Only page names
+  // on this list are followed - never an arbitrary address.
+  var NEXT_PAGES = ['deals', 'checklists', 'collection', 'plans', 'showcase', 'index'];
+  var params = new URLSearchParams(window.location.search);
+  var NEXT = NEXT_PAGES.indexOf(params.get('next')) !== -1 ? params.get('next') : null;
+  var MODE = params.get('mode') === 'signup' ? 'signup' : 'signin';
 
   BC.renderChrome('account.html');
 
@@ -26,7 +32,7 @@
 
   function notConfigured() {
     return '<div class="panel">' +
-      '<h2>Accounts are not switched on</h2>' +
+      '<h1>Accounts are not switched on</h1>' +
       '<div class="notice">BearChart runs as a static site with no server of its own, ' +
       'so there is nothing here to sign in to yet. Your collection and checklists are ' +
       'kept in this browser and work exactly as they do now &mdash; they just do not ' +
@@ -34,11 +40,11 @@
       '<h3 style="margin-top:22px">Turning accounts on</h3>' +
       '<p class="fine">Accounts run on Supabase Auth, which works from the browser, so ' +
       'the site can stay static. The database schema is already written for it: ' +
-      '<span class="mono">supabase_schema.sql</span> has an <span class="mono">admins</span> ' +
+      'the migrations in <span class="mono">supabase/migrations/</span> have an <span class="mono">admins</span> ' +
       'table and row-level security policies keyed on the signed-in user.</p>' +
       '<ol class="why" style="padding-left:20px">' +
-      '<li>Create a project at supabase.com and run ' +
-      '<span class="mono">supabase_schema.sql</span>, then <span class="mono">seed.sql</span>.</li>' +
+      '<li>Create a project at supabase.com and apply the migrations in ' +
+      '<span class="mono">supabase/migrations/</span>, then <span class="mono">seed.sql</span>.</li>' +
       '<li>Put the project URL and the <strong>anon</strong> key into ' +
       '<span class="mono">AUTH</span> in <span class="mono">tools/build_data.py</span> ' +
       'and set <span class="mono">enabled</span> to true.</li>' +
@@ -55,7 +61,7 @@
 
   function signedOut() {
     return '<div class="panel">' +
-      '<h2>Sign in</h2>' +
+      (MODE === 'signup' ? '<h1>Create a free account</h1>' : '<h1>Sign in</h1>') +
       '<p class="fine">A free account unlocks the deal finder, checklists, your collection and wishlist, ' +
       'and member showcases. Pro and Power also keep your collection on your account, on every device.</p>' +
       '<p id="auth-msg" hidden></p>' +
@@ -71,15 +77,15 @@
         '<button type="button" id="do-link">Email me a sign-in link</button>' +
       '</p>' +
       '<p class="fine"><a href="#" id="do-reset">Forgot your password?</a></p>' +
-      '<p class="fine" style="margin-top:14px">You do not need an account to use ' +
-      'BearChart. Everything except syncing works signed out.</p>' +
+      '<p class="fine" style="margin-top:14px">You do not need an account to look up ' +
+      'prices. The deal finder, checklists and your collection need a free one.</p>' +
       '</div>';
   }
 
   function signedIn(s) {
     var local = localCollection();
     return '<div class="panel">' +
-      '<h2>Your account</h2>' +
+      '<h1>Your account</h1>' +
       '<dl class="kv"><dt>Signed in as</dt><dd>' + BC.esc(s.email) + '</dd>' +
       '<dt>Role</dt><dd>' + (s.isAdmin ? 'Admin' : 'Collector') + '</dd></dl>' +
       '<p id="auth-msg" hidden></p>' +
@@ -105,6 +111,24 @@
           'database. Writes are enforced by row-level security on the server, not by ' +
           'the page.</p></div>'
         : '');
+  }
+
+  /** Reached through a password-reset link: the only thing to do is choose a new password. */
+  function recoveryView() {
+    return '<div class="panel">' +
+      '<h1>Choose a new password</h1>' +
+      '<p id="auth-msg" hidden></p>' +
+      '<div class="row" style="margin-top:12px">' +
+        '<div class="field"><label for="new-password">New password</label>' +
+        '<input type="password" id="new-password" autocomplete="new-password"></div>' +
+        '<div class="field"><label for="confirm-password">Type it again</label>' +
+        '<input type="password" id="confirm-password" autocomplete="new-password"></div>' +
+      '</div>' +
+      '<p class="fine">At least ' + A.MIN_PASSWORD_LENGTH + ' characters.</p>' +
+      '<p style="margin-top:14px">' +
+        '<button type="button" class="primary" id="do-update-password">Save new password</button>' +
+      '</p>' +
+      '</div>';
   }
 
   // --- behaviour -------------------------------------------------------------
@@ -141,6 +165,14 @@
     });
   }
 
+  function bindRecovery() {
+    document.getElementById('do-update-password').addEventListener('click', function () {
+      var pw = document.getElementById('new-password').value;
+      var again = document.getElementById('confirm-password').value;
+      handle(A.updatePassword(pw, again), 'Password updated.');
+    });
+  }
+
   function bindSignedIn() {
     document.getElementById('do-signout').addEventListener('click', function () {
       A.signOut().then(render);
@@ -157,11 +189,13 @@
         if (!client) { msg('Could not reach the account service.', 'warn'); return; }
         msg('Opening billing…');
         client.functions
-          .invoke((BC.data.membership || {}).portal_function || 'create-portal', {})
+          .invoke(BC.membership.portal_function || 'create-portal', {})
           .then(function (res) {
             if (res.error) throw new Error(res.error.message);
             if (!res.data || !res.data.url) throw new Error('no portal url returned');
-            window.location.href = res.data.url;
+            var to = BC.safeRedirect(res.data.url, ['checkout.stripe.com', 'billing.stripe.com']);
+            if (!to) throw new Error('unexpected billing address');
+            window.location.href = to;
           })
           .catch(function (err) { msg(err.message, 'warn'); });
       });
@@ -184,50 +218,35 @@
       });
       return;
     }
+    // The only sync path is BC.cloud (collection_entries, gated server-side).
     var out = document.getElementById('sync-out');
-    var client = A.getClient();
-    var s = A.state();
-    if (!client || !s.signedIn) {
-      out.innerHTML = '<div class="notice warn">Not signed in.</div>';
-      return;
-    }
-    var rows = localCollection().map(function (e) {
-      return {
-        user_id: s.user.id,
-        item_id_slug: e.item_id,
-        condition: e.condition,
-        completeness: e.completeness,
-        qty: e.qty || 1
-      };
-    });
-    if (!rows.length) return;
-
-    out.innerHTML = '<p class="fine">Uploading ' + rows.length + ' item(s)…</p>';
-    client.rpc('add_collection_items', { entries: rows })
-      .then(function (res) {
-        if (res && res.error) throw new Error(res.error.message);
-        out.innerHTML = '<div class="notice">Uploaded. Your collection is now on your ' +
-          'account.</div>';
-      })
-      .catch(function (err) {
-        out.innerHTML = '<div class="notice warn">Could not upload: ' +
-          BC.esc(err.message) + '<br>Your collection is still safe in this browser.</div>';
-      });
+    if (out) out.innerHTML = '<div class="notice warn">Sync is not available right now.</div>';
   }
 
   function render() {
     var s = A.state();
+    // Signed in from a gated page's invitation: back to that page.
+    if (s.signedIn && !s.recovery && NEXT && !render._went) {
+      render._went = true;
+      BC.go(BC.rel(NEXT + '.html'));
+      return;
+    }
     if (!s.configured) {
       root.innerHTML = notConfigured();
       return;
     }
-    if (s.signedIn) {
+    if (s.signedIn && s.recovery) {
+      root.innerHTML = recoveryView();
+      bindRecovery();
+    } else if (s.signedIn) {
       root.innerHTML = signedIn(s);
       bindSignedIn();
     } else {
       root.innerHTML = signedOut();
       bindSignedOut();
     }
+    // An email link that failed (expired, already used) says why.
+    if (s.linkError) msg(s.linkError, 'warn');
   }
 
   A.ready.then(render);

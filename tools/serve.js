@@ -44,10 +44,10 @@ http.createServer((req, res) => {
       'cache-control': 'no-store'
     };
 
-    // The catalogue is 2,048 items, so data.js is a couple of megabytes of
-    // mostly-repeated JSON - and about 80KB once gzipped. Real hosts compress
-    // by default; without this the dev server is the only place the site feels
-    // slow, which is a misleading thing for it to be.
+    // The catalogue index is over a megabyte of mostly-repeated JSON and a
+    // fraction of that gzipped. Real hosts compress by default; without this
+    // the dev server is the only place the site feels slow, which is a
+    // misleading thing for it to be.
     const compressible = /^(text\/|application\/(json|javascript))/.test(headers['content-type']);
     if (compressible && /\bgzip\b/.test(req.headers['accept-encoding'] || '') && buf.length > 1024) {
       zlib.gzip(buf, (gzErr, gz) => {
@@ -62,4 +62,7 @@ http.createServer((req, res) => {
   });
 }).listen(PORT, () => {
   console.log('BearChart running at http://localhost:' + PORT);
+  if (!fs.existsSync(path.join(ROOT, 'site-config.js'))) {
+    console.log('No site-config.js yet: run `npm run build:dev` so the pages have data.');
+  }
 });

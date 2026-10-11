@@ -11,15 +11,15 @@ Where to get the file:
   Mercari / Poshmark / Depop: export or copy your sold history into a CSV with
   columns for the item title, the price and the sale date.
 
-WHY THIS DATA IS BETTER THAN ANYTHING ELSE HERE
-===============================================
-A comp scraped off a listing title is a guess about what was in the box. Your own
-sale is not: you know what condition it was in, what came with it, and exactly
-what it cleared. That makes these rows first-party evidence, and the engine
-counts them as the strongest kind - stronger than a third-party completed sale,
-because nobody had to infer anything.
-
-It is also data no competitor can copy.
+WHAT THESE ROWS ARE, AND HOW THEY ARE COUNTED
+=============================================
+These are sales by Jay's Retro Exchange, the store that runs BearChart. The
+condition and contents are known rather than inferred, but a price guide run by
+a store that also sells has a conflict of interest in its own sales. So every
+row is marked first_party and seller_is_operator, and the engine CAPS them:
+operator sales make up at most 25% of the comps behind any value, and an item
+with only operator sales publishes no value at all. They get no evidence bonus;
+provenance rules apply to them exactly as to anyone else.
 
 PRIVACY
 =======
@@ -42,7 +42,9 @@ from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from import_sales import (Matcher, parse_price, parse_date, match_pattern,  # noqa: E402
-                          CONDITION_PATTERNS, COMPLETENESS_PATTERNS, normalise)
+                          CONDITION_PATTERNS, COMPLETENESS_PATTERNS, normalise,
+                          condition_basis)
+import sale_attributes as SA  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMPORTED = os.path.join(ROOT, "tools", "imported_sales.json")
@@ -62,6 +64,12 @@ ALLOWED = OrderedDict([
     ("condition",    ["condition", "itemcondition"]),
     ("item_id",      ["bearchartid", "slug", "itemslug"]),
 ])
+
+# Shipping the buyer paid. These exact normalised headers are the only ones
+# containing "ship" that are ever read, and they are checked BEFORE NEVER_READ:
+# they are an amount of money, not an address. "Ship To Address 1",
+# "Ship To Zip" and the rest still never reach this tool.
+SHIP_PRICE_HEADERS = ["shippingandhandling", "shippingcharged", "postageandpackaging"]
 
 # Columns that must never be read, named explicitly so the intent is obvious even
 # though the allowlist above already excludes them.
@@ -83,9 +91,14 @@ def map_columns(fieldnames):
     # field -> (alias priority, header)
     best = {}
     for h in fieldnames or []:
+        key = normalise(h)
+        if key in SHIP_PRICE_HEADERS:
+            rank = SHIP_PRICE_HEADERS.index(key)
+            if "ship_price" not in best or rank < best["ship_price"][0]:
+                best["ship_price"] = (rank, h)
+            continue
         if NEVER_READ.search(h):
             continue
-        key = normalise(h)
         for field, aliases in ALLOWED.items():
             if key in aliases:
                 rank = aliases.index(key)
@@ -163,6 +176,8 @@ def run(args):
                                       str(rec.get("title") or "")]))
         condition = match_pattern(CONDITION_PATTERNS, text, args.condition)
         completeness = match_pattern(COMPLETENESS_PATTERNS, text, args.completeness)
+        attrs = SA.parse(rec.get("title"), rec.get("condition"))
+        item, variant_basis = SA.resolve_variant(item, attrs, data["items"])
 
         # A first-party sale still has to satisfy the provenance rule to claim
         # completed_sale. You know it sold, but the database records how it can
@@ -183,15 +198,20 @@ def run(args):
             ("ranged", False),
             ("currency", "USD"),
             ("condition", condition),
+            ("condition_basis", condition_basis(rec.get("condition"), rec.get("title"))),
             ("completeness", completeness),
             ("marketplace", args.marketplace),
             ("source_url", None),
             ("listing_id", listing_id),
             ("evidence_type", evidence),
-            ("shipping_included", None),
+            ("shipping_included", False),
+            ("ship_price", parse_price(rec.get("ship_price"), allow_zero=True)),
             ("sample_size", None),
-            # The flag that makes these worth more than anything else here.
+            # Sold by the operator. Capped in every valuation, never boosted.
             ("first_party", True),
+            ("seller_is_operator", True),
+            ("attributes", SA.stored(attrs)),
+            ("variant_basis", variant_basis),
             ("notes", "Own sale (%s)." % args.marketplace),
         ]))
 

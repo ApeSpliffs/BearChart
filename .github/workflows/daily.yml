@@ -1,81 +1,139 @@
 name: Daily refresh
-
 # Refreshes eBay ASKING prices only. Sold comps are not obtainable from any API
 # we can use, so valuations do not change here - see README, "Live data".
+#
+# Two jobs, so the job that runs repo code never holds a write token:
+#   refresh  - read-only checkout, fetch, build, npm test; uploads the changed
+#              allow-listed files (tools/daily_outputs.txt) as an artifact.
+#   publish  - runs no npm/python; verifies the artifact against the allow-list
+#              and fast-forwards main to it. If main moved since the tested
+#              commit, the push fails rather than publishing untested data.
 on:
   schedule:
     - cron: '15 6 * * *'
   workflow_dispatch:
 
-permissions:
-  contents: write
+permissions: {}
+
+concurrency:
+  group: daily-refresh
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   refresh:
+    if: github.repository == 'ApeSpliffs/BearChart'
     runs-on: ubuntu-latest
+    timeout-minutes: 50                     # fetch + build + npm test (~16 min locally)
+    permissions:
+      contents: read
+    outputs:
+      changed: ${{ steps.collect.outputs.changed }}
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: '24'
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - run: npm ci
+          persist-credentials: false        # no write token in a job that runs repo code
+      - uses: ./.github/actions/setup
 
       - name: Refresh asking prices
-        env:
+        env:                                 # secrets only in this step, only via env
           EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
           EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
-        run: |
-          if [ -n "$EBAY_CLIENT_ID" ]; then
-            python3 tools/ebay_active.py --priced-only --limit 40 || \
-              echo "eBay fetch failed; keeping yesterday's listings"
-          else
-            echo "No eBay credentials configured; skipping fetch"
-          fi
+        run: tools/ci/daily_fetch.sh
 
       # Mondays: add any bears newly listed on The Build-A-Bear Wiki. It only
       # ever adds (never removes) and keeps the catalogue as-is if the wiki is
-      # down. New bears show "No sold data yet" and appear in the admin page's
-      # "Recently added" list for review.
-      - name: Weekly new-bear check
+      # down.
+      - name: Weekly new-bear check (Mondays)
         run: |
-          if [ "$(date -u +%u)" = "1" ]; then
-            python3 tools/update_wiki_catalogue.py
-          else
-            echo "Not Monday; skipping the wiki check"
-          fi
+          if [ "$(date -u +%u)" = 1 ]; then python3 tools/update_wiki_catalogue.py
+          else echo "Not Monday; skipping"; fi
 
-      - name: Rebuild
-        run: |
-          python3 tools/build_data.py
-          python3 tools/export_sql.py
-          # item/*.html is gitignored, so a fresh checkout has none; the page
-          # tests need them. Generate them here (they are not committed).
-          python3 tools/build_pages.py
-          # Re-hash the offline cache. The service worker's cache name is a hash
-          # of what it precaches, so without this, installed visitors keep the
-          # old catalogue forever (tools/daily_update.sh does the same).
-          python3 tools/build_pwa.py
+      # data.json + seed.sql, then the generated site files the tests read
+      # (site-config.js, data/, item pages, sw.js; none of them committed).
+      - name: Build
+        run: npm run build:daily
 
-      # Nothing is committed unless the whole suite passes.
-      - name: Verify
+      - name: Verify (nothing is published unless this passes)
         run: npm test
 
-      - name: Commit refreshed data
+      - name: Collect publishable outputs
+        id: collect
         run: |
-          git config user.name "bearchart-bot"
+          mapfile -t allow < <(grep -vE '^\s*(#|$)' tools/daily_outputs.txt)
+          if [ "${#allow[@]}" -eq 0 ]; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          mapfile -t changed < <(git status --porcelain -- "${allow[@]}" | cut -c4-)
+          if [ "${#changed[@]}" -eq 0 ]; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          out="$RUNNER_TEMP/out"; mkdir -p "$out"
+          tar -czf "$out/daily.tgz" -- "${changed[@]}"
+          (cd "$out" && sha256sum daily.tgz > daily.tgz.sha256)
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - if: steps.collect.outputs.changed == 'true'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: daily-${{ github.run_id }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 3
+          if-no-files-found: error
+
+  publish:
+    needs: refresh
+    if: needs.refresh.result == 'success' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production-data
+    permissions:
+      contents: write
+    steps:
+      # Preferred: a GitHub App that is the only allowed bypass actor on main.
+      - id: app-token
+        if: vars.BOT_APP_ID != ''
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ vars.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
+
+      - if: needs.refresh.outputs.changed == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}             # the exact commit that was tested
+          token: ${{ steps.app-token.outputs.token || github.token }}
+
+      - if: needs.refresh.outputs.changed == 'true'
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: daily-${{ github.run_id }}
+          path: ${{ runner.temp }}/in
+
+      # No npm, no python, no repo scripts run in the job holding the write token.
+      - name: Verify, apply, commit, push
+        if: needs.refresh.outputs.changed == 'true'
+        run: |
+          (cd "$RUNNER_TEMP/in" && sha256sum -c daily.tgz.sha256)
+          mapfile -t allow < <(grep -vE '^\s*(#|$)' tools/daily_outputs.txt)
+          while read -r f; do
+            printf '%s\n' "${allow[@]}" | grep -qxF -- "$f" || { echo "::error::unexpected path $f"; exit 1; }
+          done < <(tar -tzf "$RUNNER_TEMP/in/daily.tgz")
+          tar -xzf "$RUNNER_TEMP/in/daily.tgz"
+          git config user.name  "bearchart-bot"
           git config user.email "bearchart-bot@users.noreply.github.com"
-          # tools/active_listings.json is gitignored (and may not exist), so it
-          # is not staged here - the listings already ship inside data.json.
-          git add data.json data.js seed.sql sw.js manifest.webmanifest tools/catalogue_wiki.json recent_bears.js
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Daily refresh: rebuild data $(date -u +%Y-%m-%d)"
-            git push
-          fi
+          git add -- "${allow[@]}"
+          git diff --staged --quiet && { echo "No changes"; exit 0; }
+          git commit -m "Daily refresh: rebuild data $(date -u +%Y-%m-%d)"
+          # Fast-forward only: if main moved since the tested commit, fail rather
+          # than publish data built and tested against a different tree.
+          git push origin HEAD:refs/heads/main
+
+      # The site's data files are generated at build time from data.json, so a
+      # commit above is what publishes; the hook covers a host not watching main.
+      - name: Trigger deploy (inert without a hook)
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          [ -n "$HOOK" ] || { echo "No deploy hook configured"; exit 0; }
+          curl -fsS -X POST "$HOOK" > /dev/null

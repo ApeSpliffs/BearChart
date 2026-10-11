@@ -8,6 +8,7 @@ No network. The searcher is injected, so every eBay response here is a fixture
 shaped like a real Browse API itemSummary payload.
 """
 
+import contextlib
 import io
 import json
 import os
@@ -36,13 +37,18 @@ def summary(item_id, title, price, **kw):
     }
     if kw.get("no_price"):
         s.pop("price")
+    if "shipping" in kw:
+        s["shippingOptions"] = kw["shipping"]
     return s
+
+
+def fixed(v):
+    return {"shippingCostType": "FIXED", "shippingCost": {"value": str(v), "currency": "USD"}}
 
 
 class Args:
     def __init__(self, **kw):
         self.client_id = None
-        self.client_secret = None
         self.limit = kw.get("limit", 5)
         self.per_item = kw.get("per_item", 20)
         self.item = kw.get("item")
@@ -97,6 +103,40 @@ class NormalisationTests(unittest.TestCase):
     def test_listings_without_a_price_are_dropped(self):
         self.assertIsNone(
             eb.normalise_listing(summary("1", "Build-A-Bear Lucky Kitty", 0, no_price=True), self.item))
+
+    def test_shipping_takes_the_cheapest_fixed_option(self):
+        s = summary("1", "Build-A-Bear Lucky Kitty", 40, shipping=[fixed(12.5), fixed(8)])
+        self.assertEqual(eb.shipping_of(s), (8.0, "fixed"))
+
+    def test_free_shipping_is_zero(self):
+        s = summary("1", "Build-A-Bear Lucky Kitty", 40, shipping=[fixed(0)])
+        self.assertEqual(eb.shipping_of(s), (0.0, "free"))
+
+    def test_calculated_or_missing_shipping_is_not_invented(self):
+        calc = summary("1", "x", 40, shipping=[{"shippingCostType": "CALCULATED"}])
+        self.assertEqual(eb.shipping_of(calc), (None, "calculated"))
+        self.assertEqual(eb.shipping_of(summary("1", "x", 40)), (None, "unknown"))
+
+    def test_the_record_carries_what_the_buyer_pays(self):
+        rec = eb.normalise_listing(
+            summary("1", "Build-A-Bear Lucky Kitty", 40, shipping=[fixed(12)]), self.item)
+        self.assertEqual(rec["ship_price"], 12.0)
+        self.assertEqual(rec["ship_type"], "fixed")
+        self.assertEqual(rec["buyer_total"], 52.0)
+        rec = eb.normalise_listing(summary("2", "Build-A-Bear Lucky Kitty", 40), self.item)
+        self.assertIsNone(rec["buyer_total"])
+        self.assertEqual(rec["ship_type"], "unknown")
+
+    def test_an_operator_listing_is_flagged_and_the_name_dropped(self):
+        ops = {"ebay": {"jaysretro"}}
+        rec = eb.normalise_listing(
+            summary("1", "Build-A-Bear Lucky Kitty", 40, seller="JaysRetro"), self.item, ops)
+        self.assertTrue(rec["seller_is_operator"])
+        self.assertNotIn("JaysRetro", json.dumps(rec))
+        self.assertNotIn("jaysretro", json.dumps(rec).lower().replace("seller_is_operator", ""))
+        rec = eb.normalise_listing(
+            summary("2", "Build-A-Bear Lucky Kitty", 40, seller="someoneelse"), self.item, ops)
+        self.assertFalse(rec["seller_is_operator"])
 
     def test_image_falls_back_to_a_thumbnail(self):
         s = summary("1", "Build-A-Bear Lucky Kitty", 10)
@@ -201,6 +241,96 @@ class RunTests(unittest.TestCase):
 
         code, out = self.capture(Args(limit=50), searcher)
         self.assertLessEqual(len(calls), 3, "should give up after 3 failures")
+
+    def test_a_failed_item_keeps_its_published_listings_with_their_real_date(self):
+        # One query eBay keeps refusing must not empty the deal finder, nor
+        # dress old asks up as today's.
+        import datetime
+        import shutil
+        today = datetime.datetime.utcnow().date()
+        orig_root = eb.ROOT
+        try:
+            eb.ROOT = self.tmp
+            with open(os.path.join(orig_root, "data.json")) as f:
+                data = json.load(f)
+            eligible = eb.load_items(Args(limit=5), data)[:5]
+            failing = eligible[1]["id"]
+            data["active_listings"] = [
+                {"id": "old-1", "item_id": failing, "listing_id": "old1", "ask_price": 9.0,
+                 "evidence_type": "active_listing", "title": "x", "condition": "Good"},
+                {"id": "old-2", "item_id": failing, "listing_id": "old2", "ask_price": 9.5,
+                 "evidence_type": "active_listing", "title": "x", "condition": "Good",
+                 "fetched_at": (today - datetime.timedelta(days=30)).isoformat()}]
+            data["active_listings_fetched_at"] = (today - datetime.timedelta(days=2)).isoformat() + "T06:00:00Z"
+            with open(os.path.join(self.tmp, "data.json"), "w") as f:
+                json.dump(data, f)
+            os.makedirs(os.path.join(self.tmp, "tools"), exist_ok=True)
+            for name in ("operator_identities.json",):
+                src = os.path.join(orig_root, "tools", name)
+                if os.path.exists(src):
+                    shutil.copy(src, os.path.join(self.tmp, "tools", name))
+            calls = []
+
+            def searcher(q):
+                calls.append(q)
+                if len(calls) == 2:
+                    raise eb.EbayError("boom")
+                return {"itemSummaries": []}
+
+            with contextlib.redirect_stderr(io.StringIO()):
+                code, out = self.capture(Args(limit=5), searcher)
+        finally:
+            eb.ROOT = orig_root
+        self.assertEqual(code, 0)
+        rows = self.written()["listings"]
+        self.assertEqual([r["id"] for r in rows], ["old-1"], "the 30-day-old row is refused")
+        self.assertEqual(rows[0]["fetched_at"], data["active_listings_fetched_at"],
+                         "carried with the date it was really fetched")
+        self.assertIn("::warning::eBay queries failed for 1 item(s): " + failing, out)
+        self.assertIn("::warning::NOT carrying forward 1 listing(s) older than", out)
+
+    def test_carry_forward_for_stamps_and_caps(self):
+        data = {"active_listings_fetched_at": "2026-10-08T06:00:00Z", "active_listings": [
+            {"id": "a", "item_id": "x"}, {"id": "b", "item_id": "x", "fetched_at": "2026-09-01"},
+            {"id": "c", "item_id": "y"}]}
+        kept, refused = eb.carry_forward_for(data, ["x"], as_of="2026-10-10")
+        self.assertEqual([r["id"] for r in kept], ["a"])
+        self.assertEqual(kept[0]["fetched_at"], "2026-10-08T06:00:00Z")
+        self.assertEqual([r["id"] for r in refused], ["b"])
+        kept, refused = eb.carry_forward_for(data, ["x"], as_of="2026-10-20")
+        self.assertEqual(kept, [])
+
+    def test_when_every_query_fails_and_nothing_is_published_nothing_is_written(self):
+        orig_root = eb.ROOT
+        try:
+            eb.ROOT = self.tmp
+            with open(os.path.join(orig_root, "data.json")) as f:
+                data = json.load(f)
+            data["active_listings"] = []
+            with open(os.path.join(self.tmp, "data.json"), "w") as f:
+                json.dump(data, f)
+
+            def searcher(q):
+                raise eb.EbayError("boom")
+            with contextlib.redirect_stderr(io.StringIO()):
+                code, out = self.capture(Args(limit=2), searcher)
+        finally:
+            eb.ROOT = orig_root
+        self.assertEqual(code, 1)
+        self.assertFalse(os.path.exists(eb.OUT))
+
+    def test_failures_must_be_consecutive_to_stop_the_run(self):
+        calls = []
+
+        def searcher(q):
+            calls.append(q)
+            if len(calls) % 2 == 0:
+                raise eb.EbayError("boom")
+            return {"itemSummaries": []}
+
+        with contextlib.redirect_stderr(io.StringIO()):
+            self.capture(Args(limit=8), searcher)
+        self.assertGreater(len(calls), 3, "alternating failures are not consecutive")
 
     def test_unknown_item_id_is_rejected(self):
         with self.assertRaises(SystemExit):
@@ -319,6 +449,45 @@ class TitleConfirmationTests(unittest.TestCase):
         ok, why = eb.title_confirms({"canonical_name": "Bear"}, "Build-A-Bear Bear")
         self.assertFalse(ok)
         self.assertIn("generic", why)
+
+
+class ImagePolicyTests(unittest.TestCase):
+    def test_images_are_off_by_default_and_never_in_the_daily_jobs(self):
+        self.assertFalse(eb.build_parser().parse_args([]).images)
+        for rel in (".github/workflows/daily.yml", "tools/daily_update.sh"):
+            path = os.path.join(ROOT, rel)
+            if os.path.exists(path):
+                with open(path) as f:
+                    self.assertNotIn("--images", f.read(), rel)
+
+    def test_the_build_skips_hotlinked_ebay_images(self):
+        import build_data as B
+        tmp = tempfile.mkdtemp()
+        os.makedirs(os.path.join(tmp, "tools"))
+        item = B.ITEMS[0]
+        before = item.get("image_url")
+        with open(os.path.join(tmp, "tools", "image_overrides.json"), "w") as f:
+            json.dump({item["id"]: {"image_url": "https://i.ebayimg.com/images/g/x/s-l500.jpg",
+                                    "image_credit": "eBay listing photo"}}, f)
+        os.environ.pop("BEARCHART_ALLOW_HOTLINKED_IMAGES", None)
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(B.apply_image_overrides(tmp), 0)
+        self.assertEqual(item.get("image_url"), before)
+
+    def test_the_shipped_data_carries_no_ebay_image(self):
+        with open(os.path.join(ROOT, "data.json")) as f:
+            raw = f.read()
+        self.assertNotIn("ebayimg.com", raw)
+
+
+class CredentialTests(unittest.TestCase):
+    def test_client_secret_is_not_a_cli_flag(self):
+        # A secret on the command line lands in shell history and `ps`.
+        with self.assertRaises(SystemExit), contextlib.redirect_stderr(io.StringIO()):
+            eb.build_parser().parse_args(["--client-secret", "x"])
+
+    def test_client_id_is_still_a_flag(self):
+        self.assertEqual(eb.build_parser().parse_args(["--client-id", "abc"]).client_id, "abc")
 
 
 class QueryTests(unittest.TestCase):

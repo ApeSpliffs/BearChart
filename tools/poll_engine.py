@@ -251,8 +251,44 @@ def save_json(path, data):
         f.write("\n")
 
 
-def load_state():
-    return load_json(STATE, {"last_polled": {}, "bucket": None, "seen": {}})
+def load_watchlist(data=None):
+    """Watched item ids, each resolved through data.json's redirects so an id
+    merged into another item keeps being watched under its survivor."""
+    watched = load_json(WATCHLIST, [])
+    redirects = (data or {}).get("redirects") or {}
+    out = []
+    for wid in watched:
+        wid = resolve_id(wid, redirects)
+        if wid not in out:
+            out.append(wid)
+    return out
+
+
+def resolve_id(item_id, redirects):
+    seen = 0
+    while item_id in redirects and seen < 10:
+        item_id = redirects[item_id]
+        seen += 1
+    return item_id
+
+
+def load_state(data=None):
+    """Polling state, with item ids from before a merge mapped to the survivor:
+    a watched item's schedule ("item:<id>") and the listings already seen keep
+    their history instead of starting over."""
+    state = load_json(STATE, {"last_polled": {}, "bucket": None, "seen": {}})
+    redirects = (data or {}).get("redirects") or {}
+    if redirects:
+        polled = {}
+        for key, at in (state.get("last_polled") or {}).items():
+            if key.startswith("item:"):
+                key = "item:" + resolve_id(key[5:], redirects)
+            polled[key] = max(at, polled.get(key, 0))
+        state["last_polled"] = polled
+        for entry in (state.get("seen") or {}).values():
+            if isinstance(entry, dict) and entry.get("item_id"):
+                entry["item_id"] = resolve_id(entry["item_id"], redirects)
+    return state
 
 
 # ---------------------------------------------------------------------------
@@ -269,8 +305,8 @@ def load_catalogue():
 
 
 def cmd_watch(args):
-    watched = load_json(WATCHLIST, [])
     data, _ = load_catalogue()
+    watched = load_watchlist(data)
     known = {i["id"]: i for i in data["items"]}
 
     action = args.watch[0]
@@ -318,8 +354,8 @@ def cmd_watch(args):
 
 def cmd_plan(args):
     data, sales_by_item = load_catalogue()
-    watched = set(load_json(WATCHLIST, []))
-    state = load_state()
+    watched = set(load_watchlist(data))
+    state = load_state(data)
     now = time.time()
 
     pool = build_query_pool(data["items"], watched, sales_by_item)
@@ -386,8 +422,8 @@ def cmd_once(args):
             "--plan works without credentials if you just want the schedule.")
 
     data, sales_by_item = load_catalogue()
-    watched = set(load_json(WATCHLIST, []))
-    state = load_state()
+    watched = set(load_watchlist(data))
+    state = load_state(data)
     now = time.time()
 
     pool = build_query_pool(data["items"], watched, sales_by_item)

@@ -5,7 +5,7 @@
 #   ./tools/daily_update.sh
 #
 # Refreshes the ASKING-PRICE side of the database from the eBay Browse API,
-# rebuilds data.json/data.js and seed.sql, and runs the test suite. Safe to run
+# rebuilds data.json and seed.sql (and the site's generated files), and runs the test suite. Safe to run
 # unattended: it writes to a temp copy first and only swaps it in if the tests
 # pass, so a bad fetch can never leave a broken site published.
 #
@@ -59,18 +59,31 @@ fail() { echo "FAILED: $*"; exit 1; }
 # --- 1. back up what we have, so a bad run is always reversible --------------
 BACKUP="$(mktemp -d)"
 trap 'rm -rf "$BACKUP"' EXIT
-for f in data.json data.js seed.sql sitemap.xml sw.js manifest.webmanifest tools/active_listings.json; do
+for f in data.json seed.sql recent_bears.js tools/catalogue_wiki.json tools/active_listings.json; do
   [ -f "$f" ] && cp "$f" "$BACKUP/$(basename "$f")"
 done
 echo "backed up current state to $BACKUP"
 
 restore() {
   echo "restoring previous state"
-  for f in data.json data.js seed.sql; do
+  for f in data.json seed.sql recent_bears.js; do
     [ -f "$BACKUP/$f" ] && cp "$BACKUP/$f" "$ROOT/$f"
   done
-  [ -f "$BACKUP/active_listings.json" ] && \
+  [ -f "$BACKUP/catalogue_wiki.json" ] && \
+    cp "$BACKUP/catalogue_wiki.json" "$ROOT/tools/catalogue_wiki.json"
+  if [ -f "$BACKUP/active_listings.json" ]; then
     cp "$BACKUP/active_listings.json" "$ROOT/tools/active_listings.json"
+  else
+    # None existed before this run: a file the failed run wrote must go too.
+    rm -f "$ROOT/tools/active_listings.json"
+  fi
+  # The generated site files (site-config.js, data/, item pages, sw.js) were
+  # rebuilt from the data being rolled back; rebuild them from the restored
+  # data.json so a local `npm start` serves what is committed.
+  echo "rebuilding generated files from the restored data.json"
+  node tools/build_assets.js && python3 tools/build_pages.py && python3 tools/build_pwa.py \
+    || echo "WARNING: could not rebuild generated files; run npm run build:dev"
+  return 0
 }
 
 # --- 2. refresh asking prices ------------------------------------------------
@@ -91,9 +104,10 @@ echo
 echo "--- rebuilding ---"
 python3 tools/build_data.py || { restore; fail "build_data.py"; }
 python3 tools/export_sql.py || { restore; fail "export_sql.py"; }
-# The per-item pages are generated from data.json, so they go stale the moment
-# it changes. Regenerating here keeps what a search engine reads in step with
-# what the site shows.
+# The browser's data files, the per-item pages and the service worker are all
+# generated from data.json (never committed; the deploy rebuilds them too).
+# Regenerated here so the tests below check what will be published.
+node tools/build_assets.js || { restore; fail "build_assets.js"; }
 python3 tools/build_pages.py || { restore; fail "build_pages.py"; }
 # Rebuilds the service worker cache name from a hash of what it precaches. Skip
 # this and installed visitors keep yesterday's catalogue forever - offline

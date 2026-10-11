@@ -33,8 +33,13 @@ import re
 import sys
 from collections import OrderedDict
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import domain_vocab as V  # noqa: E402
+import sale_attributes as SA  # noqa: E402
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMPORTED = os.path.join(ROOT, "tools", "imported_sales.json")
+OPERATOR_IDS = os.path.join(ROOT, "tools", "operator_identities.json")
 
 # Header aliases. Terapeak, Seller Hub and hand-kept sheets all name things
 # differently; normalise() strips case, spaces and punctuation before matching.
@@ -52,31 +57,44 @@ COLUMNS = OrderedDict([
                       "totalsold", "sales", "salescount", "transactions"]),
     ("completeness", ["completeness", "complete"]),
     ("notes",        ["notes", "note", "comment", "comments", "subtitle"]),
+    # What the buyer paid for shipping. Recorded and shown, never folded into a
+    # valuation: every comp is priced on the item alone.
+    ("ship_price",   ["shipping", "shippingcost", "shippingprice", "postage",
+                      "avgshipping", "averageshipping", "shippingpaid"]),
+    # Read only to recognise the operator's own sales (seller_is_operator).
+    # The value itself is never stored: it is eBay user data.
+    ("seller",       ["seller", "sellerusername", "sellerid"]),
 ])
 
-# Free-text condition wording -> BearChart's vocabulary. Order matters: the first
-# pattern that matches wins, so the most specific phrasings come first.
-CONDITION_PATTERNS = [
-    (r"new\s*with\s*tag|nwt|bnwt|brand\s*new.*tag", "NWT"),
-    (r"new\s*without\s*tag|nwot", "Mint"),
-    (r"\bmint\b|like\s*new|new\s*\(other\)|open\s*box", "Mint"),
-    (r"\bnew\b|\bsealed\b|\bbnib\b", "NWT"),
-    (r"excellent|near\s*mint|\bvgc\b|very\s*good", "Excellent"),
-    (r"\bgood\b|pre[\s-]*owned|\bused\b|second\s*hand|previously\s*owned", "Good"),
-    (r"\bfair\b|acceptable|played\s*with", "Fair"),
-    (r"\bpoor\b|\brough\b|well\s*loved", "Poor"),
-    (r"damaged|broken|for\s*parts|not\s*working|repair", "Damaged"),
-    (r"incomplete|missing", "Incomplete"),
-]
 
-COMPLETENESS_PATTERNS = [
-    (r"\bcomplete\b|with\s*outfit|full\s*set|all\s*accessories", "complete"),
-    (r"\bpackag|\bboxed\b|in\s*box", "packaged"),
-    (r"unstuffed|flat|skin\s*only", "unstuffed"),
-    (r"some\s*original|with\s*clothes|with\s*sound|with\s*accessor", "some_originals"),
-    (r"\bbare\b|no\s*clothes|nude", "bare"),
-    (r"altered|custom|missing", "altered"),
-]
+def load_operator_identities(path=None):
+    """{platform: set(lowercased usernames)} for Jay's Retro Exchange, the store
+    that runs BearChart. Committed, filled in by the owner, never emitted."""
+    p = path or OPERATOR_IDS
+    if not os.path.exists(p):
+        return {}
+    with open(p) as f:
+        raw = json.load(f)
+    return {k.lower(): {str(u).strip().lower() for u in v if str(u).strip()}
+            for k, v in raw.items() if isinstance(v, list)}
+
+
+def is_operator_seller(username, identities, platform=None):
+    """Is this seller one of the operator's accounts? Platform-scoped when known."""
+    u = str(username or "").strip().lower()
+    if not u:
+        return False
+    if platform and str(platform).lower() in identities:
+        return u in identities[str(platform).lower()]
+    return any(u in names for names in identities.values())
+
+# Free-text condition and completeness wording -> BearChart's vocabulary. The
+# patterns live in tools/domain_vocab.py, the one definition shared with the
+# build, the engine config and the database checks. Order matters: the first
+# pattern that matches wins. Re-exported here under the names
+# import_my_sales.py and ebay_active.py import.
+CONDITION_PATTERNS = list(V.CONDITION_PATTERNS)
+COMPLETENESS_PATTERNS = list(V.COMPLETENESS_PATTERNS)
 
 STOPWORDS = {"build", "a", "bear", "buildabear", "the", "workshop", "bab", "plush",
              "stuffed", "animal", "toy", "inch", "in", "with", "and", "rare", "vintage",
@@ -92,7 +110,8 @@ def tokens(s):
     return {w for w in words if w not in STOPWORDS and len(w) > 1}
 
 
-def parse_price(raw):
+def parse_price(raw, allow_zero=False):
+    """A positive price, or None. allow_zero accepts 0 (free shipping)."""
     if raw is None:
         return None
     text = str(raw).strip()
@@ -107,6 +126,8 @@ def parse_price(raw):
         v = float(s)
     except ValueError:
         return None
+    if allow_zero:
+        return v if v >= 0 else None
     return v if v > 0 else None
 
 
@@ -140,6 +161,15 @@ def parse_date(raw):
     if not (1990 <= y <= 2100 and 1 <= mo <= 12 and 1 <= d <= 31):
         return None
     return "%04d-%02d-%02d" % (y, mo, d)
+
+
+def condition_basis(condition_col, title):
+    """Where a sale's condition came from: "column" | "title" | "default"."""
+    if condition_col and match_pattern(CONDITION_PATTERNS, condition_col, None):
+        return "column"
+    if title and match_pattern(CONDITION_PATTERNS, title, None):
+        return "title"
+    return "default"
 
 
 def match_pattern(patterns, text, default):
@@ -258,6 +288,18 @@ class Matcher:
         return None, "ambiguous" if runner else "weak-match", best_score
 
 
+def unneutralise(v):
+    """Undo the CSV-injection guard BearChart's own exports add.
+
+    sanitize.js prefixes a cell starting with = + - @ tab or CR with a single
+    quote so a spreadsheet will not run it as a formula. Reading one of those
+    files back must give the original text, not the guarded one.
+    """
+    if isinstance(v, str) and len(v) > 1 and v[0] == "'" and v[1] in "=+-@\t\r":
+        return v[1:]
+    return v
+
+
 def load_json(path, default):
     if not os.path.exists(path):
         return default
@@ -280,6 +322,7 @@ def run(args):
     seen |= {dedupe_key(s) for s in existing}
 
     matcher = Matcher(data["items"])
+    operators = load_operator_identities()
 
     with open(args.csvfile, newline="", encoding="utf-8-sig") as f:
         reader = csv.DictReader(f)
@@ -301,7 +344,7 @@ def run(args):
     for n, row in enumerate(rows, start=2):
         rec = {}
         for header, field in mapping.items():
-            rec[field] = row.get(header)
+            rec[field] = unneutralise(row.get(header))
 
         price = parse_price(rec.get("sold_price"))
         if price is None:
@@ -343,6 +386,10 @@ def run(args):
 
         condition_text = " ".join(filter(None, [str(rec.get("condition") or ""),
                                                 str(rec.get("title") or "")]))
+        # Size and sound from the title. A size can place the sale on the right
+        # member of a wired variant group; it never invents one.
+        attrs = SA.parse(rec.get("title"), rec.get("condition"))
+        item, variant_basis = SA.resolve_variant(item, attrs, data["items"])
         sale = OrderedDict([
             ("id", None),
             ("item_id", item["id"]),
@@ -352,13 +399,21 @@ def run(args):
             ("ranged", False),
             ("currency", "USD"),
             ("condition", match_pattern(CONDITION_PATTERNS, condition_text, "Unknown")),
+            ("condition_basis", condition_basis(rec.get("condition"), rec.get("title"))),
             ("completeness", match_pattern(COMPLETENESS_PATTERNS, condition_text, "unknown")),
             ("marketplace", marketplace),
             ("source_url", (rec.get("source_url") or "").strip() or None),
             ("listing_id", listing_id),
             ("evidence_type", evidence),
-            ("shipping_included", None),
+            ("shipping_included", False),
+            ("ship_price", parse_price(rec.get("ship_price"), allow_zero=True)),
             ("sample_size", sample),
+            # Sold by Jay's Retro Exchange: capped in every valuation. The seller
+            # name that told us so is dropped here and never written.
+            ("seller_is_operator", is_operator_seller(rec.get("seller"), operators,
+                                                      marketplace)),
+            ("attributes", SA.stored(attrs)),
+            ("variant_basis", variant_basis),
             ("notes", (rec.get("notes") or "").strip() or None),
             ("import_match", how),
         ])

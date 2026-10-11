@@ -47,21 +47,21 @@ class StripsUserDataOnLoad(unittest.TestCase):
 
     def test_a_legacy_seller_username_is_stripped(self):
         self.write(self.legacy_listing(seller="someseller"))
-        listings, _ = build_data.load_active_listings(self.tmp)
+        listings, _ = build_data.load_active_listings(self.tmp, "2026-01-02")
         self.assertEqual(len(listings), 1)
         self.assertNotIn("seller", listings[0])
         self.assertNotIn("someseller", json.dumps(listings[0]))
 
     def test_every_known_user_field_is_stripped(self):
         self.write(self.legacy_listing(**{f: "x" for f in build_data.USER_DATA_FIELDS}))
-        listings, _ = build_data.load_active_listings(self.tmp)
+        listings, _ = build_data.load_active_listings(self.tmp, "2026-01-02")
         for field in build_data.USER_DATA_FIELDS:
             self.assertNotIn(field, listings[0])
 
     def test_the_listing_itself_survives(self):
         """Stripping must not quietly drop the asking price we came for."""
         self.write(self.legacy_listing(seller="someseller"))
-        listings, fetched = build_data.load_active_listings(self.tmp)
+        listings, fetched = build_data.load_active_listings(self.tmp, "2026-01-02")
         self.assertEqual(listings[0]["ask_price"], 10.0)
         self.assertEqual(listings[0]["evidence_type"], "active_listing")
         self.assertEqual(fetched, "2026-01-01")
@@ -74,6 +74,23 @@ class ShippedDataIsClean(unittest.TestCase):
         for field in build_data.USER_DATA_FIELDS:
             self.assertNotIn('"%s"' % field, raw,
                              "%s reached data.json, which is published" % field)
+
+    def test_the_browser_files_carry_no_user_fields(self):
+        """site-config.js and data/ (tools/build_assets.js), when built, are what
+        a browser actually downloads."""
+        files = [os.path.join(ROOT, "site-config.js")]
+        for sub in ("h", "items"):
+            d = os.path.join(ROOT, "data", sub)
+            if os.path.isdir(d):
+                files += [os.path.join(d, f) for f in os.listdir(d)]
+        files = [f for f in files if os.path.isfile(f)]
+        if not files:
+            self.skipTest("no generated data files (run npm run build:assets)")
+        for path in files:
+            with open(path) as f:
+                raw = f.read()
+            for field in build_data.USER_DATA_FIELDS:
+                self.assertNotIn('"%s"' % field, raw, "%s reached %s" % (field, path))
 
 
 if __name__ == "__main__":

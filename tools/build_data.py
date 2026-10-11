@@ -20,7 +20,13 @@ To expand the database, add rows to ITEMS / SALES below and re-run:
 import json
 import os
 import re
+import sys
 from collections import OrderedDict
+from urllib.parse import urlparse
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import domain_vocab as V  # noqa: E402
+import sale_attributes as SA  # noqa: E402
 
 ITEMS = []
 SALES = []
@@ -43,7 +49,15 @@ def I(name, category, species=None, year=None, month=None, aliases=None, **flags
     item["release_year"] = year
     item["release_month"] = month
     item["version"] = flags.pop("version", None)
-    item["variant"] = flags.pop("variant", None)
+    # The product line ("Mini", "Promise Pets", "Jumbo"). It used to be stored
+    # as "variant", which made every item in a line warn that it had variants.
+    item["line"] = flags.pop("line", None)
+    # Real variants: the parent item this is a variant of, the group of
+    # siblings (defaults to the parent id), and the size that tells them apart.
+    item["variant_of"] = flags.pop("variant_of", None)
+    item["variant_group"] = flags.pop("variant_group", None) or item["variant_of"]
+    item["size_in"] = flags.pop("size_in", None)
+    item["size_class"] = flags.pop("size_class", None)
     item["licensed"] = flags.pop("licensed", False)
     item["franchise"] = flags.pop("franchise", None)
     item["limited_edition"] = flags.pop("limited_edition", False)
@@ -70,6 +84,10 @@ def I(name, category, species=None, year=None, month=None, aliases=None, **flags
     item["scent"] = flags.pop("scent", None)
     item["rarity"] = flags.pop("rarity", None)
     item["notes"] = flags.pop("notes", None)
+    # Where the catalogue entry itself came from: curated | wiki |
+    # collectionhero | mini_beans_guide. Unset here means "derive it at build"
+    # (see assign_catalogue_source); the wiki loader sets it explicitly.
+    item["catalogue_source"] = flags.pop("catalogue_source", None)
     # Images: BearChart ships with none. Official Build-A-Bear product photography
     # is copyrighted, so nothing is hotlinked or bundled. Attach your own photos, or
     # images you have the right to use, via the admin tools or tools/attach_images.py.
@@ -760,6 +778,8 @@ EMPLOYEE = [
 ]
 for nm, sp, yr, note in EMPLOYEE:
     I(nm, "Stuffed Animal", sp, yr, employee_exclusive=True, rarity="Exclusive",
+      # The two Merry Mouse sizes are siblings: linked, never averaged.
+      variant_group="merry-mouse" if nm.startswith("Merry Mouse") else None,
       notes=((note + " ") if note else "") +
             "Employee exclusive. Catalogued from the CollectionHero index; no "
             "sourced price captured yet.")
@@ -914,7 +934,7 @@ I("Giant Pumpkin Kitty (2024)", "Stuffed Animal", "Cat", 2024, vault_release=Tru
   notes="28 inch online exclusive. Size variants price separately from the standard "
         "Pumpkin Kitty.")
 I("Masked Pumpkin Kitty (2024)", "Stuffed Animal", "Cat", 2024, vault_release=True,
-  original_release=False, variant="Masked",
+  original_release=False, version="Masked",
   notes="Mask-style eye patches; sold as a duo in some listings. A pattern variant, "
         "priced apart from the plain Vault release.")
 
@@ -1329,6 +1349,8 @@ SLOTHS = [
     ("Mini Fluffy Sloth (9-inch)", 2019, "Blue and purple colourways noted.", {}),
 ]
 for nm, yr, note, flags in SLOTHS:
+    if nm.startswith("Brown Sloth"):
+        flags = dict(flags, variant_group="brown-sloth")
     I(nm, "Stuffed Animal", "Sloth", yr,
       notes=((note + " ") if note else "") +
             "Catalogued from the CollectionHero index; no sourced price captured yet.",
@@ -2082,21 +2104,9 @@ for nm, sp in GUIDE_2025:
       notes="Listed in the official 2025 Mini Beans collector guide. "
             "No sold comps captured yet.")
 
-# Wiki titles for items already curated above. Registering each as an alias
-# makes load_wiki_catalogue skip the wiki's copy, so one bear is one item and
-# its sold comps are not split between two pages.
-WIKI_DUPLICATES = [
-    ("hello-kitty-35th-anniversary", "35th Anniversary Hello Kitty"),
-    ("jumbo-snorlax-24-inch", "Pokémon Jumbo Snorlax"),
-    ("happy-hugs-iv-teddy", "Happy Hugs Teddy IV"),
-    ("zombie-axolotl-mini-beans", "Mini Beans Zombie Axolotl"),
-]
-for _id, _alias in WIKI_DUPLICATES:
-    _item = next(i for i in ITEMS if i["id"] == _id)
-    if _alias not in _item["aliases"]:
-        _item["aliases"].append(_alias)
-# The wiki dates Happy Hugs Teddy IV to 2018; keep that now its row is skipped.
-next(i for i in ITEMS if i["id"] == "happy-hugs-iv-teddy")["release_year"] = 2018
+# Wiki titles for items already curated above used to be listed here
+# (WIKI_DUPLICATES). Every duplicate decision now lives in one hand-maintained
+# ledger, tools/catalogue_identity.json, applied by apply_identity() below.
 
 # ---------------------------------------------------------------------------
 # Config and reference data
@@ -2104,22 +2114,14 @@ next(i for i in ITEMS if i["id"] == "happy-hugs-iv-teddy")["release_year"] = 201
 
 CONFIG = OrderedDict([
     # Section 4 - condition multipliers. Configurable, not hard-coded in the app.
-    ("condition_multipliers", OrderedDict([
-        ("NWT", 1.25), ("Mint", 1.25), ("Excellent", 1.10), ("Good", 1.00),
-        ("Fair", 0.75), ("Poor", 0.50), ("Damaged", 0.35), ("Incomplete", 0.60),
-        ("Unknown", 1.00),
-    ])),
+    # Every condition, completeness and modifier code comes from
+    # tools/domain_vocab.py, the one definition the importers and the database
+    # check constraints share.
+    ("condition_multipliers", OrderedDict((c["code"], c["multiplier"]) for c in V.CONDITIONS)),
+    ("condition_labels", OrderedDict((c["code"], c["label"]) for c in V.CONDITIONS)),
     # Section 5 - completeness multipliers.
-    ("completeness_multipliers", OrderedDict([
-        ("complete", 1.15), ("packaged", 1.15), ("some_originals", 1.05),
-        ("bare", 1.00), ("unstuffed", 1.00), ("altered", 0.85), ("unknown", 1.00),
-    ])),
-    ("completeness_labels", OrderedDict([
-        ("complete", "Complete - outfit + extras"), ("packaged", "With original packaging"),
-        ("some_originals", "Some originals present"), ("bare", "Bare bear"),
-        ("unstuffed", "Unstuffed"), ("altered", "Missing / altered"),
-        ("unknown", "Not recorded"),
-    ])),
+    ("completeness_multipliers", OrderedDict((c["code"], c["multiplier"]) for c in V.COMPLETENESS)),
+    ("completeness_labels", OrderedDict((c["code"], c["label"]) for c in V.COMPLETENESS)),
     # Per-copy modifiers, applied on top of condition and completeness.
     #
     # Two kinds, deliberately modelled differently:
@@ -2131,31 +2133,16 @@ CONFIG = OrderedDict([
     #   module is about $7 whether it is in a $12 Mini Bean or a $250 exclusive;
     #   pricing it as a percentage would value the same chip at $25 on one and
     #   $1.50 on the other.
+    #
+    # Multipliers compound silently: 1.15 x 1.10 x 1.25 x 1.15 = 1.82, a figure
+    # no comp supports and no user can trace. max_combined_multiplier is the
+    # backstop; if it binds often, the attribute wanted to be additive.
     ("modifiers", OrderedDict([
-        ("multiplicative", OrderedDict([
-            ("birth_certificate", 1.15),
-            ("hang_tag", 1.10),
-            ("tush_tag_missing", 0.70),
-            ("unstuffed", 0.85),
-            ("customised", 0.80),
-        ])),
-        ("additive_usd", OrderedDict([
-            ("sound_module", 7.00),
-            ("scent_chip", 6.00),
-        ])),
-        ("labels", OrderedDict([
-            ("birth_certificate", "Birth certificate present"),
-            ("hang_tag", "Hang tag attached"),
-            ("tush_tag_missing", "Tush tag missing or cut"),
-            ("unstuffed", "Unstuffed"),
-            ("customised", "Customised or altered"),
-            ("sound_module", "Sound module fitted"),
-            ("scent_chip", "Scent chip fitted"),
-        ])),
-        # Multipliers compound silently: 1.15 x 1.10 x 1.25 x 1.15 = 1.82, a
-        # figure no comp supports and no user can trace. The cap is the
-        # backstop; if it binds often, the attribute wanted to be additive.
-        ("max_combined_multiplier", 1.45),
+        ("multiplicative", OrderedDict(V.MODIFIERS["multiplicative"])),
+        ("additive_usd", OrderedDict(V.MODIFIERS["additive_usd"])),
+        ("labels", OrderedDict(V.MODIFIERS["labels"])),
+        ("exclusive_with", OrderedDict(V.MODIFIERS["exclusive_with"])),
+        ("max_combined_multiplier", V.MODIFIERS["max_combined_multiplier"]),
     ])),
     # Section 8 - buy / trade / sell bands, as fractions of fair market value.
     ("bands", OrderedDict([
@@ -2182,11 +2169,9 @@ CONFIG = OrderedDict([
         ("supabase_anon_key", "sb_publishable___jAIp9os6_gs7v9N8JD7A_Tj67O96i"),
     ])),
     # Evidence types that count as market evidence at all.
-    ("market_evidence_types", ["completed_sale", "auction_result", "collector_report",
-                               "historical_archive"]),
-    ("strong_evidence_types", ["completed_sale", "auction_result"]),
-    ("condition_order", ["NWT", "Mint", "Excellent", "Good", "Fair", "Poor",
-                         "Damaged", "Incomplete", "Unknown"]),
+    ("market_evidence_types", list(V.MARKET_EVIDENCE_TYPES)),
+    ("strong_evidence_types", list(V.STRONG_EVIDENCE_TYPES)),
+    ("condition_order", list(V.CONDITION_CODES)),
     # How the conservative lower bound is derived. A deal is judged against this,
     # never against the median: with three comps a point estimate carries the same
     # authority as with thirty, which is what makes naive deal rules fire endlessly
@@ -2198,15 +2183,30 @@ CONFIG = OrderedDict([
     ])),
     # Reseller economics for the deal finder. These are ASSUMPTIONS, not facts -
     # check them against your own account before trusting a margin figure.
-    # A gross discount is not profit: fees and shipping come out first.
+    # A gross discount is not profit: fees and shipping come out first. The fee
+    # itself comes from the "fees" schedule below, per platform.
     ("reseller", OrderedDict([
-        ("marketplace_fee_pct", 0.1325),   # eBay final value fee, typical category
-        ("payment_fee_fixed", 0.30),       # per-order fixed fee
+        ("platform", V.FEE_SCHEDULE["default_platform"]),
         ("shipping_cost", 9.00),           # what it costs YOU to ship one
+        ("shipping_charged", 0.00),        # what you charge the buyer for shipping
+        ("assumed_inbound_shipping", 9.00),  # a listing that does not state shipping
         ("min_net_margin", 15.00),         # ignore anything thinner than this
         ("min_discount_pct", 20.0),        # and anything not this far below value
         ("min_confidence", "LOW"),         # never flag a deal with no sold data
+        ("exclude_stale", True),           # a value with no recent sale is no basis for a deal
     ])),
+    # Marketplace selling fees, per platform. Owner to verify the figures.
+    ("fees", V.FEE_SCHEDULE),
+    # Prefer recent sales. as_of (the build date) is added in main(), so the
+    # engine anchors on a date the data states rather than on the clock.
+    # Active listings older than this are flagged on the page and no longer
+    # carried forward by the build (load_active_listings).
+    ("listings_max_age_days", V.LISTINGS_MAX_AGE_DAYS),
+    ("recency", OrderedDict([("window_days", V.RECENCY["window_days"]),
+                             ("min_recent", V.RECENCY["min_recent"])])),
+    # Sales by the operator (Jay's Retro Exchange) may make up at most this share
+    # of the points behind any value; an operator-only item publishes none.
+    ("operator_cap", V.OPERATOR_EVIDENCE_CAP),
 ])
 
 # Section 26 - current official retail, kept strictly separate from resale value.
@@ -2246,25 +2246,29 @@ BUSINESS = OrderedDict([
 
     # The shop promo. Shown where it is useful rather than everywhere: in the
     # sidebar of the price guide, and on item pages that have no sold data -
-    # the 1,974 pages that currently have nothing to offer a visitor. Priced
+    # the item pages that have nothing to offer a visitor. Priced
     # items get the "sell yours" panel below instead, so nobody sees both.
     ("shop_url", "https://jaysretroexchange.com"),
+    # Deep-link patterns for the store. Null until the owner confirms the real
+    # ones; every link then falls back to shop_url, so nothing breaks before.
+    #   shop_search_url  e.g. "https://jaysretroexchange.com/search?q={q}"
+    #   shop_offer_url   e.g. "https://jaysretroexchange.com/pages/sell?item={item}&condition={condition}"
+    ("shop_search_url", None),
+    ("shop_offer_url", None),
     ("shop_eyebrow", "The shop behind BearChart"),
     ("shop_headline", "Buying and selling Build-A-Bear all week"),
     ("shop_blurb", "BearChart is built and run by Jay's Retro Exchange. Shop what is "
                    "in stock, sell your own bears on the Jay's Retro Exchange "
                    "marketplace, or send us a collection and we will make an offer "
                    "on it."),
-    ("shop_cta", "Shop or sell your bears"),
-    # Said plainly, because the site's whole argument is that its numbers are
-    # not for sale. A reader who works out for themselves that the person
-    # publishing the valuations also buys at them will trust nothing else here.
-    ("shop_disclosure", "We buy and sell the same items this guide values. No "
-                        "valuation on this site is adjusted because of it - the "
-                        "numbers come from recorded sold transactions, and you can "
-                        "see every one of them."),
-    ("blurb", "We buy Build-A-Bear collections. The range below is what we would pay, "
-              "calculated from the same sold data shown on this page."),
+    ("shop_cta", "Buy or sell at Jay's Retro Exchange"),
+    # Said plainly under every link to the store, because the site's whole
+    # argument is that its numbers are not for sale. The full statement is on
+    # about.html#conflicts, which this line links to.
+    ("shop_disclosure_short", "Jay's Retro Exchange is our store. It never changes a value "
+                              "in this guide."),
+    ("blurb", "Jay's Retro Exchange, the store that runs BearChart, buys and sells "
+              "Build-A-Bear. Its offers start from the same sold prices shown above."),
     ("disclosure", "Jay's Retro Exchange buys and sells Build-A-Bear items, and would "
                    "be buying this one from you. Our offer is generated from the same "
                    "public sold-comp data you can see above - we do not adjust a "
@@ -2280,55 +2284,128 @@ BUSINESS = OrderedDict([
 # ---------------------------------------------------------------------------
 # Membership
 #
-# Tiering follows one rule: a paid feature must cost the operator real money or
-# real quota to provide. That is not a philosophy, it is a consequence of the
-# architecture.
+# The rule: a plan sells only what a SERVER enforces. That is a consequence of
+# the architecture, not a philosophy.
 #
-# BearChart ships as static files. data.js - the whole catalogue, every comp -
-# is downloaded by every visitor. Nothing computed in the browser from that file
-# can be paywalled, because the data is already on the visitor's machine and a
-# devtools panel is all it takes to prove it. Hiding the valuation engine behind
-# a tier would be a lock on a door with no wall attached.
+# BearChart ships as static files. The catalogue is split (site-config.js, a
+# hashed index of every item's value summary, one JSON file per item with its
+# comps) so a visitor downloads only what a page needs - but every value and
+# every comp is still public, on purpose: the evidence behind a price is free.
+# Nothing computed in the browser can be paywalled, because the data reaches
+# the visitor's machine and a devtools panel is all it takes to prove it.
 #
-# So the free tier is everything the static bundle can do, and paid tiers are
-# things a SERVER does: storing your collection, generating and retaining an
-# evidence-backed schedule, sending notifications, spending API quota. Those can
-# be enforced, and they are also the only things that cost anything to run.
+# So the free tiers are everything the static site can do, and the paid tiers
+# are things a server does: storing your collection, keeping an evidence-backed
+# schedule, sending notifications, spending API quota. Each one is refused by the
+# database or an edge function without a live membership (has_entitlement() in
+# supabase/migrations). An entitlement that is not built yet is listed under
+# "On the way" (status "soon") and is never shown with a tick.
 # ---------------------------------------------------------------------------
 
+# Switches for features that are built but not offered. One flag each, read by
+# the plans page, the gates and the buttons (config.features). Off means the
+# feature appears nowhere on the site.
+FEATURE_FLAGS = OrderedDict([
+    # The sold-comps CSV (Power). Paused by the owner pending legal review; the
+    # edge function export-comps also needs COMPS_EXPORT_ENABLED=true.
+    ("comps_export", False),
+])
+
+# Display order of the tiers. "guest" (no account) is a display tier only: it
+# is never sent to the server, and it unlocks nothing a free account does not.
+TIERS_ORDER = ["guest", "free", "pro", "power"]
+
+# The membership feature catalogue: one list drives the plan cards and the
+# comparison. "from" is the lowest tier that gets a feature (higher tiers
+# inherit it). status "included" works today; "soon" is being built, is not
+# part of what anyone pays for, and is shown as "On the way". A feature with an
+# "entitlement" is enforced by the server under that name.
+FEATURES = [
+    OrderedDict([("id", "values"), ("text", "Values for every bear, from real sold prices"),
+                 ("from", "guest"), ("status", "included")]),
+    OrderedDict([("id", "calculator"), ("text", "Condition calculator: NWT, played-with, missing outfit"),
+                 ("from", "guest"), ("status", "included")]),
+    # The collection page needs a free account (it is gated signed out), so the
+    # claim sits on the free tier; the list itself lives in this browser.
+    OrderedDict([("id", "local_coll"), ("text", "Track your collection on this device"),
+                 ("from", "free"), ("status", "included")]),
+    OrderedDict([("id", "checklists"), ("text", "Collector checklists"),
+                 ("from", "free"), ("status", "included")]),
+    OrderedDict([("id", "deals"), ("text", "Deal finder: bears listed below their value"),
+                 ("from", "free"), ("status", "included")]),
+    OrderedDict([("id", "add_sales"), ("text", "Add sold prices and photos"),
+                 ("from", "free"), ("status", "included")]),
+    OrderedDict([("id", "sync"), ("text", "Your collection synced across phone, tablet and computer"),
+                 ("from", "pro"), ("status", "included"), ("entitlement", "collection_sync")]),
+    OrderedDict([("id", "history"), ("text", "Collection value history that is never lost"),
+                 ("from", "pro"), ("status", "included"), ("entitlement", "hosted_history")]),
+    OrderedDict([("id", "insurance"),
+                 ("text", "Insurance-ready valuation report, with the evidence behind every figure"),
+                 ("from", "pro"), ("status", "included"), ("entitlement", "insurance_archive")]),
+    OrderedDict([("id", "wl_alerts"), ("text", "Wishlist alerts: an email when a bear you want is listed"),
+                 ("from", "pro"), ("status", "soon"), ("entitlement", "wishlist_alerts")]),
+    OrderedDict([("id", "id_help"), ("text", "Bear identification help, answered first"),
+                 ("from", "pro"), ("status", "soon"), ("entitlement", "id_priority")]),
+    OrderedDict([("id", "showcase"), ("text", "A showcase of your top 12 bears, shared with other members"),
+                 ("from", "power"), ("status", "included"), ("entitlement", "showcase")]),
+    OrderedDict([("id", "deal_alerts"), ("text", "Instant deal alerts by push and email, after fees"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "alerts_push")]),
+    OrderedDict([("id", "poll"), ("text", "Your watched bears checked first in the scanning queue"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "poll_priority")]),
+    OrderedDict([("id", "digest"), ("text", "A monthly email with what your collection is worth now"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "value_digest")]),
+    OrderedDict([("id", "outfits"), ("text", "Outfit and set valuations"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "outfit_assembly")]),
+    OrderedDict([("id", "api"), ("text", "Export and API access to your own data"),
+                 ("from", "power"), ("status", "soon"), ("entitlement", "api_access")]),
+]
+
+# Only switched on together with FEATURE_FLAGS["comps_export"] (see
+# apply_feature_flags), so the flag controls the plan card and the gate at once.
+COMPS_EXPORT_FEATURE = OrderedDict([
+    ("id", "comps_csv"),
+    ("text", "Download the sold-price records behind any search (CSV). The records "
+             "stay free on every bear's page; this is a convenience download"),
+    ("from", "power"), ("status", "included"), ("entitlement", "comps_export")])
+
+# The four tiers, in tiers_order. "guest" and "free" both cost nothing and
+# unlock nothing on the server: "guest" is a display tier only (no account) and
+# is never sent to the server. who_for is the one-line "who it's for" on each
+# card. "price_annual" is rendered only when present; none is set, so none is
+# shown - do not invent one.
 PLANS = OrderedDict([
-    ("free", OrderedDict([
-        ("name", "Free"),
+    ("guest", OrderedDict([
+        ("name", "Free, no account"),
+        ("short", "Free guide"),
         ("price_monthly", 0),
-        ("audience", "For looking things up"),
+        ("who_for", "For looking up a bear's value in seconds."),
         ("badge", None),
         ("perk", None),
-        ("blurb", "Price any bear, any time. No account needed."),
-        ("features", [
-            "Values for every bear in the guide, built from real sold prices",
-            "Condition calculator - NWT, played-with, missing outfit",
-            "Track your collection on this device",
-            "Collector checklists",
-            "Deal finder over the listings we have loaded",
-        ]),
+        ("blurb", "Price any bear, any time. No sign-up."),
+        ("entitlements", []),
+    ])),
+    ("free", OrderedDict([
+        ("name", "Free account"),
+        ("short", "Free account"),
+        ("price_monthly", 0),
+        ("who_for", "For collectors keeping a list and hunting deals."),
+        ("badge", None),
+        ("perk", None),
+        ("blurb", "Your checklists, collection and the deal finder, free."),
         ("entitlements", []),
     ])),
     ("pro", OrderedDict([
         ("name", "Pro"),
+        ("short", "Pro"),
         ("price_monthly", 7),
-        ("audience", "For collectors"),
+        ("who_for", "For collectors who want their collection's value on every device."),
         ("badge", "Recommended"),
         # A shop perk, honoured by Jay's Retro Exchange at the till rather than by
-        # anything on this site - see ENTITLEMENTS["shop_discount"].
+        # anything on this site - see ENTITLEMENTS["shop_discount"]. The ONLY
+        # place the coupon amounts are written (tests hold every page to it;
+        # terms.html is checked against these numbers).
         ("perk", "A $5 coupon every month for the Jay's Retro Exchange store, on orders over $40. Not valid on marketplace sellers' items."),
         ("blurb", "Know what your collection is worth, on every device."),
-        ("features", [
-            "Your collection synced across phone, tablet and computer",
-            "Collection value history that is never lost",
-            "Wishlist alerts - an email when a bear you want is listed (coming soon)",
-            "Insurance-ready valuation report, with the evidence behind every figure",
-            "Bear identification help, answered first (coming soon)",
-        ]),
         ("entitlements", [
             "collection_sync", "hosted_history", "wishlist_alerts",
             "insurance_archive", "id_priority", "shop_discount",
@@ -2336,37 +2413,25 @@ PLANS = OrderedDict([
     ])),
     ("power", OrderedDict([
         ("name", "Power"),
+        ("short", "Power"),
         ("price_monthly", 14),
-        ("audience", "For resellers"),
+        ("who_for", "For collectors who want a showcase of their best bears, plus everything in Pro."),
         ("badge", None),
         ("perk", "A $10 coupon every month for the Jay's Retro Exchange store, on orders over $75. Not valid on marketplace sellers' items."),
-        ("blurb", "Find underpriced bears before anyone else does."),
-        ("features", [
-            "Instant deal alerts by push and email when a bear lists below its value, after fees (coming soon)",
-            "Your watched bears checked first in the scanning queue (coming soon)",
-            "A monthly email with what your collection is worth now (coming soon)",
-            "Outfit and complete-set valuations (coming soon)",
-            "Export and API access to your own data (coming soon)",
-            "Your collection synced across phone, tablet and computer",
-            "Collection value history that is never lost",
-            "Wishlist alerts - an email when a bear you want is listed (coming soon)",
-            "Insurance-ready valuation report, with the evidence behind every figure",
-            "Bear identification help, answered first (coming soon)",
-            "A showcase of your top 12 bears, shared with other members",
-            "Download the sold-price records behind any search (CSV)",
-        ]),
+        ("blurb", "Show your top 12 bears to other members. Deal alerts are on the way."),
         ("entitlements", [
             "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
             "insurance_archive", "id_priority", "shop_discount",
-            "alerts_push", "alerts_email", "poll_priority", "outfit_assembly", "api_access", "comps_export",
+            "alerts_push", "alerts_email", "poll_priority", "api_access", "showcase",
         ]),
     ])),
 ])
 
 # What each entitlement actually unlocks, and where it is enforced. "server"
-# means the database or an edge function refuses without it; "ux" means the
-# client only hides a prompt and enforcement is impossible or pointless; "shop"
-# means Jay's Retro Exchange checks the membership when an order is placed.
+# means the database or an edge function refuses without it; "shop" means Jay's
+# Retro Exchange checks the membership when an order is placed. "ux" (the page
+# only hides a prompt) may never be sold: tools/test_membership.py fails the
+# build if a plan lists one. status "planned" = defined, not built, not sold.
 ENTITLEMENTS = OrderedDict([
     ("collection_sync", OrderedDict([("label", "Collection sync"), ("enforced", "server")])),
     ("hosted_history", OrderedDict([("label", "Server-side collection history"), ("enforced", "server")])),
@@ -2374,15 +2439,19 @@ ENTITLEMENTS = OrderedDict([
     ("wishlist_alerts", OrderedDict([("label", "Wishlist alerts"), ("enforced", "server")])),
     ("insurance_archive", OrderedDict([("label", "Insurance valuation reports"), ("enforced", "server")])),
     ("id_priority", OrderedDict([("label", "Identification help, answered first"), ("enforced", "server")])),
-    ("shop_discount", OrderedDict([("label", "Monthly coupon for the Jay's Retro Exchange store ($5 Pro, $10 Power)"), ("enforced", "shop")])),
+    ("shop_discount", OrderedDict([("label", "Monthly coupon for the Jay's Retro Exchange store"), ("enforced", "shop")])),
     ("alerts_push", OrderedDict([("label", "Push deal alerts"), ("enforced", "server")])),
     ("alerts_email", OrderedDict([("label", "Email deal alerts"), ("enforced", "server")])),
     ("poll_priority", OrderedDict([("label", "Scanning priority"), ("enforced", "server")])),
-    ("outfit_assembly", OrderedDict([("label", "Outfit and set valuations"), ("enforced", "ux")])),
+    ("outfit_assembly", OrderedDict([("label", "Outfit and set valuations"), ("enforced", "ux"),
+                                     ("status", "planned")])),
     ("api_access", OrderedDict([("label", "Export and API access"), ("enforced", "server")])),
-    # The sold records are in the page for anyone who looks, so this only
-    # takes away the one-click download - said so on the plans page.
-    ("comps_export", OrderedDict([("label", "Sold comps download (CSV)"), ("enforced", "ux")])),
+    # The showcase is saved by save_showcase(), which refuses without it.
+    ("showcase", OrderedDict([("label", "Member showcase"), ("enforced", "server")])),
+    # The export-comps edge function checks it (and a daily quota). The records
+    # themselves stay public on every item page; this sells the bulk download.
+    ("comps_export", OrderedDict([("label", "Sold comps download (CSV), when available"),
+                                  ("enforced", "server")])),
 ])
 
 MEMBERSHIP = OrderedDict([
@@ -2394,8 +2463,17 @@ MEMBERSHIP = OrderedDict([
     # session against the secret key, and open the billing portal.
     ("checkout_function", "create-checkout"),
     ("portal_function", "create-portal"),
+    ("export_function", "export-comps"),
+    ("tiers_order", TIERS_ORDER),
     ("plans", PLANS),
+    ("features", FEATURES),
     ("entitlements", ENTITLEMENTS),
+    # The coupon rules, shown with the perks on the plans page. Amounts live
+    # only in the perks above.
+    ("coupon_terms", "One code per billing month, for one order. Order total counted "
+                     "before tax and shipping. Works on items Jay's Retro Exchange sells "
+                     "itself, not on other sellers' marketplace items. Cannot be shared "
+                     "or combined, and expires at the end of the billing month."),
     # Hot polling slots are shared across the whole platform, not per subscriber.
     # A default eBay key affords about three 60-second queries in total, so
     # "60-second polling on anything you like" is a promise that cannot be kept
@@ -2408,6 +2486,22 @@ MEMBERSHIP = OrderedDict([
      "60-second queue; watching an item nobody else watches puts it in the "
      "30-minute tier."),
 ])
+
+
+def apply_feature_flags(membership, flags):
+    """A flagged feature is sold only while its flag is on: the plan card line
+    and the Power entitlement are added here, so one switch moves both."""
+    if flags.get("comps_export"):
+        power = membership["plans"]["power"]["entitlements"]
+        if "comps_export" not in power:
+            power.append("comps_export")
+        if not any(f["id"] == COMPS_EXPORT_FEATURE["id"] for f in membership["features"]):
+            membership["features"].append(COMPS_EXPORT_FEATURE)
+    return membership
+
+
+apply_feature_flags(MEMBERSHIP, FEATURE_FLAGS)
+CONFIG["features"] = FEATURE_FLAGS
 
 # ---------------------------------------------------------------------------
 # Bulk catalogue: The Build-A-Bear Wiki
@@ -2433,6 +2527,9 @@ FRANCHISE_SPELLING = {
     "PAW Patrol": "Paw Patrol",
     "PEEPS": "Peeps",
 }
+
+
+WIKI_NOTE = "Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0)."
 
 
 def load_wiki_catalogue():
@@ -2496,13 +2593,20 @@ def load_wiki_catalogue():
             continue
         flags = {k: v for k, v in e.items()
                  if k not in ("canonical_name", "category", "species", "year")}
+        # catalogue_wiki.json files written before the rename call the
+        # product line "variant".
+        if "variant" in flags:
+            flags["line"] = flags.pop("variant")
         # The wiki and the curated entries spell some franchises differently
         # ("Pokemon" / "Pokémon"). Two spellings means two filter chips for one
         # franchise, which looks like a bug to anybody browsing.
         if flags.get("franchise") in FRANCHISE_SPELLING:
             flags["franchise"] = FRANCHISE_SPELLING[flags["franchise"]]
-        flags["notes"] = "Catalogued from The Build-A-Bear Wiki (CC BY-SA 4.0). " \
-                         "Identification only - no sold comps recorded yet."
+        # The attribution is a licence condition and must stay. Nothing about the
+        # evidence is said here: that is stated from the valuation, so it can
+        # never go stale the day a comp arrives.
+        flags["notes"] = WIKI_NOTE
+        flags["catalogue_source"] = "wiki"
         I(name, e["category"], species=e["species"], year=e["year"], **flags)
         taken.add(slug(name))
         known.add(key(name))
@@ -2532,6 +2636,110 @@ SOURCES = [
 ]
 
 
+# ---------------------------------------------------------------------------
+# Catalogue identity: merges, redirects and per-sale overrides
+# ---------------------------------------------------------------------------
+
+IDENTITY_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "catalogue_identity.json")
+# Fields a survivor takes from the record merged into it, only where its own
+# value is empty. A ledger entry can name its own list ("fields_from_merged").
+DEFAULT_FILL = ["release_year", "release_month", "franchise", "line"]
+REDIRECTS = OrderedDict()
+
+
+def load_identity(path=None):
+    with open(path or IDENTITY_PATH) as f:
+        return json.load(f)
+
+
+def resolve_redirects(merges, live_ids):
+    """old id -> final surviving id. Chains are followed; a cycle or a target
+    that does not exist is an error in the ledger, never silently skipped."""
+    out = OrderedDict()
+    for old in merges:
+        seen = [old]
+        cur = merges[old]["into"]
+        while cur in merges:
+            if cur in seen:
+                raise ValueError("catalogue_identity.json: merge cycle %s"
+                                 % " -> ".join(seen + [cur]))
+            seen.append(cur)
+            cur = merges[cur]["into"]
+        if cur not in live_ids:
+            raise ValueError("catalogue_identity.json: %s merges into %s, which does not "
+                             "exist" % (old, cur))
+        out[old] = cur
+    return out
+
+
+def _name_key(text):
+    return re.sub(r"[^a-z0-9]", "", str(text or "").lower())
+
+
+def apply_identity(items, sales, ledger):
+    """Fold every merged record into its survivor; returns the redirects.
+
+    The survivor keeps its id (curated wins unless the ledger says otherwise),
+    gains the merged canonical name as an alias - so the weekly wiki loader
+    and the importers resolve that name to it - and takes the listed fields
+    only where its own are empty. Curated sales on a merged record move with
+    it, keeping their ids. Imported sales are moved in merge_imported_sales.
+    """
+    merges = ledger.get("merges") or {}
+    by_id = {i["id"]: i for i in items}
+    live = {i for i in by_id if i not in merges}
+    redirects = resolve_redirects(merges, live)
+    for old, new in redirects.items():
+        dst = by_id[new]
+        src = by_id.get(old)
+        if src is not None:
+            name = src["canonical_name"]
+            known = {_name_key(dst["canonical_name"])} | {_name_key(a) for a in dst["aliases"]}
+            if _name_key(name) not in known:
+                dst["aliases"].append(name)
+            for f in merges[old].get("fields_from_merged", DEFAULT_FILL):
+                if dst.get(f) in (None, "") and src.get(f) not in (None, ""):
+                    dst[f] = src[f]
+        for k, v in (merges[old].get("set") or {}).items():
+            dst[k] = v
+    items[:] = [i for i in items if i["id"] not in redirects]
+    for s in sales:
+        if s["item_id"] in redirects:
+            s["item_id"] = redirects[s["item_id"]]
+    return redirects
+
+
+def apply_sale_overrides(sales, ledger, item_ids, redirects):
+    """exclude: kept in the data for transparency, never priced.
+    reassign: moved to the item the title actually names."""
+    by_id = {s["id"]: s for s in sales}
+    excluded = reassigned = 0
+    for sid, ov in (ledger.get("sale_overrides") or {}).items():
+        s = by_id.get(sid)
+        if s is None:
+            raise ValueError("catalogue_identity.json: sale_overrides names unknown sale %s "
+                             "(is tools/imported_sales.json missing or incomplete?)" % sid)
+        action = ov.get("action")
+        if action == "exclude":
+            s["excluded"] = OrderedDict([("reason", ov.get("reason"))])
+            excluded += 1
+        elif action == "reassign":
+            to = redirects.get(ov["to"], ov["to"])
+            if to not in item_ids:
+                raise ValueError("catalogue_identity.json: %s reassigned to unknown item %s"
+                                 % (sid, to))
+            s["reassigned_from"] = s["item_id"]
+            s["item_id"] = to
+            reassigned += 1
+        else:
+            raise ValueError("catalogue_identity.json: %s has unknown action %r" % (sid, action))
+    return excluded, reassigned
+
+
+HOTLINK_HOST = re.compile(r"(^|\.)ebayimg\.com$", re.I)
+
+
 def apply_image_overrides(root):
     """Photos attached via tools/attach_images.py survive every rebuild."""
     path = os.path.join(root, "tools", "image_overrides.json")
@@ -2540,39 +2748,68 @@ def apply_image_overrides(root):
     with open(path) as f:
         overrides = json.load(f)
     by_id = {i["id"]: i for i in ITEMS}
-    applied = 0
+    allow_hotlinks = os.environ.get("BEARCHART_ALLOW_HOTLINKED_IMAGES") == "1"
+    applied = skipped = 0
     for item_id, img in overrides.items():
-        item = by_id.get(item_id)
+        item = by_id.get(REDIRECTS.get(item_id, item_id))
         if not item:
+            continue
+        # An eBay listing photo expires with the listing and is not ours to
+        # publish. ebay_active.py --images is for a local preview only.
+        if HOTLINK_HOST.search(urlparse(img.get("image_url") or "").hostname or "") \
+                and not allow_hotlinks:
+            skipped += 1
             continue
         item["image_url"] = img.get("image_url")
         item["image_credit"] = img.get("image_credit")
         item["image_source"] = img.get("image_source")
         applied += 1
+    if skipped:
+        print("  skipped %d hotlinked eBay image override(s) "
+              "(set BEARCHART_ALLOW_HOTLINKED_IMAGES=1 for a local preview)" % skipped)
     return applied
 
 
-def merge_imported_sales(root):
-    """Sales brought in by tools/import_sales.py survive every rebuild."""
+def merge_imported_sales(root, redirects=None):
+    """Sales brought in by tools/import_sales.py survive every rebuild.
+
+    A sale recorded against a merged item follows the redirect to its survivor
+    (keeping its own id). A sale whose item is not in the catalogue at all is
+    dropped - and counted and printed, so a lost comp is never silent.
+    """
+    redirects = redirects or {}
     path = os.path.join(root, "tools", "imported_sales.json")
     if not os.path.exists(path):
         return 0
     with open(path) as f:
         imported = json.load(f)
     known = {i["id"] for i in ITEMS}
+    unknown = {}
     have = {(s["item_id"], round(float(s["sold_price"]), 2),
              s.get("sale_date") or "", s.get("listing_id") or "") for s in SALES}
     merged = 0
     for s in imported:
+        # Only sold evidence may enter SALES. An operator offer or ask, an active
+        # listing or a retail price is never a sale, whatever file it came from.
+        if s.get("evidence_type") not in V.MARKET_EVIDENCE_TYPES:
+            raise ValueError("imported_sales.json row %s has evidence_type %r, which is "
+                             "not sold evidence" % (s.get("id"), s.get("evidence_type")))
+        s = OrderedDict(s)
+        s["item_id"] = redirects.get(s["item_id"], s["item_id"])
         if s["item_id"] not in known:
+            unknown[s["item_id"]] = unknown.get(s["item_id"], 0) + 1
             continue
         key = (s["item_id"], round(float(s["sold_price"]), 2),
                s.get("sale_date") or "", s.get("listing_id") or "")
         if key in have:
             continue
         have.add(key)
-        SALES.append(OrderedDict(s))
+        SALES.append(s)
         merged += 1
+    if unknown:
+        print("  WARNING: %d imported sale(s) dropped - their item is not in the catalogue: %s"
+              % (sum(unknown.values()),
+                 ", ".join("%s (%d)" % kv for kv in sorted(unknown.items())[:10])))
     return merged
 
 
@@ -2580,20 +2817,72 @@ def merge_imported_sales(root):
 USER_DATA_FIELDS = ("seller", "seller_username", "username", "eiasToken", "userId")
 
 
-def load_active_listings(root):
+def _listings_payload(path):
+    try:
+        with open(path) as f:
+            payload = json.load(f)
+    except (OSError, ValueError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def load_active_listings(root, as_of=None):
     """Active eBay listings, kept in their own array.
 
     These are asking prices. They live apart from SALES so they cannot be
     swept into a valuation by accident - a second line of defence behind the
     engine's own evidence-type filter.
+
+    Two sources: tools/active_listings.json (written by ebay_active.py, local
+    and gitignored) and the listings the committed data.json already
+    publishes. The newer fetched_at wins, so neither a CI checkout (no file)
+    nor a forgotten local file ever publishes older asks than are live. Asks
+    older than V.LISTINGS_MAX_AGE_DAYS are not published at all - per run, and
+    per row for rows ebay_active.py carried forward with their own date.
     """
     path = os.path.join(root, "tools", "active_listings.json")
-    if not os.path.exists(path):
+    local = _listings_payload(path) if os.path.exists(path) else None
+    prev_data = _listings_payload(os.path.join(root, "data.json")) or {}
+    prev = ({"fetched_at": prev_data.get("active_listings_fetched_at"),
+             "listings": prev_data.get("active_listings") or []}
+            if prev_data.get("active_listings") else None)
+    payload = local
+    if prev and (local is None or str(prev.get("fetched_at") or "") > str(local.get("fetched_at") or "")):
+        payload = prev
+        if local is not None:
+            print("  tools/active_listings.json (fetched %s) is older than the listings in "
+                  "data.json (fetched %s): keeping data.json's"
+                  % (local.get("fetched_at"), prev.get("fetched_at")))
+    if payload is None or not payload.get("listings"):
         return [], None
-    with open(path) as f:
-        payload = json.load(f)
+    source = "data.json" if payload is prev else "tools/active_listings.json"
+    # A fetch that keeps failing (expired credentials, zero results write no
+    # file) must not keep last week's asks on the deal finder for ever.
+    age = listings_age_days(payload.get("fetched_at"), as_of)
+    if age is None or age > V.LISTINGS_MAX_AGE_DAYS:
+        print("  WARNING: NOT carrying forward %d active listing(s) from %s: fetched %s, "
+              "%s day(s) old (limit %d). The deal finder will be empty until a fetch "
+              "succeeds - check the eBay credentials and tools/ci/daily_fetch.sh."
+              % (len(payload["listings"]), source, payload.get("fetched_at"),
+                 "unknown" if age is None else age, V.LISTINGS_MAX_AGE_DAYS))
+        return [], None
+    if payload is prev:
+        print("  carried forward %d active listing(s) from data.json, fetched %s%s"
+              % (len(prev["listings"]), prev.get("fetched_at"),
+                 "" if local is not None else " (tools/active_listings.json not present)"))
     known = {i["id"] for i in ITEMS}
+    for l in payload.get("listings", []):
+        l["item_id"] = REDIRECTS.get(l.get("item_id"), l.get("item_id"))
     listings = [l for l in payload.get("listings", []) if l.get("item_id") in known]
+    # Rows ebay_active.py carried forward for an item whose query failed keep
+    # their own fetched_at; past the limit they go too.
+    expired = [l for l in listings if l.get("fetched_at")
+               and (listings_age_days(l["fetched_at"], as_of) or 0) > V.LISTINGS_MAX_AGE_DAYS]
+    if expired:
+        print("  WARNING: dropped %d carried-forward listing(s) older than %d days (%s)"
+              % (len(expired), V.LISTINGS_MAX_AGE_DAYS,
+                 ", ".join(sorted({l["item_id"] for l in expired})[:10])))
+        listings = [l for l in listings if l not in expired]
     for l in listings:
         assert l.get("evidence_type") == "active_listing", \
             "active_listings.json contained a non-listing row: %s" % l.get("id")
@@ -2603,7 +2892,21 @@ def load_active_listings(root):
         # would otherwise publish names nobody agreed to publish.
         for field in USER_DATA_FIELDS:
             l.pop(field, None)
+        # No page renders a listing photo, and an eBay image URL is not ours to
+        # publish; dropping it also keeps data.json smaller.
+        l.pop("image_url", None)
     return listings, payload.get("fetched_at")
+
+
+def listings_age_days(fetched_at, as_of):
+    """Whole days between a listings fetch and the build date, or None."""
+    import datetime
+    try:
+        fetched = datetime.date.fromisoformat(str(fetched_at)[:10])
+        today = datetime.date.fromisoformat(as_of) if as_of else datetime.datetime.utcnow().date()
+    except (TypeError, ValueError):
+        return None
+    return (today - fetched).days
 
 
 OPEN_QUESTION = re.compile(
@@ -2622,27 +2925,284 @@ def flag_open_questions():
     return n
 
 
-def main():
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def assign_catalogue_source(items):
+    """Derive catalogue_source for entries that did not set it explicitly.
+
+    The curated tables record their provenance in the notes text; reading it
+    once here keeps hundreds of literals from each needing a flag.
+    """
+    for item in items:
+        if item.get("catalogue_source"):
+            continue
+        notes = item.get("notes") or ""
+        if "CollectionHero index" in notes and "Catalogued from" in notes:
+            item["catalogue_source"] = "collectionhero"
+        elif "Mini Beans collector guide" in notes:
+            item["catalogue_source"] = "mini_beans_guide"
+        else:
+            item["catalogue_source"] = "curated"
+        assert item["catalogue_source"] in V.CATALOGUE_SOURCES
+
+
+# Hand-written claims about the evidence ("no sold comps yet") go stale the
+# moment a comp arrives, and 1,486 of them already had. They are rewritten
+# out of every note at build; the UI states the evidence from the valuation.
+EVIDENCE_CLAIM_REWRITES = [
+    (re.compile(r"\s*Identification only - no sold comps recorded yet\.", re.I), ""),
+    (re.compile(r";\s*no sourced price captured yet\.", re.I), "."),
+    (re.compile(r"\s*No sold comps captured yet\.", re.I), ""),
+    (re.compile(r"\s*No secondary market yet\.", re.I), ""),
+    (re.compile(r"Historical sales (?:are known to )?exist(?:[;,]| but)?\s*(?:but )?"
+                r"no price (?:was )?captured during research(?: - needs a sourced comp)?\.",
+                re.I), "Historical sales are known to exist."),
+    (re.compile(r"year and price not yet sourced", re.I), "year not yet sourced"),
+]
+
+
+def strip_evidence_claims(notes):
+    if not notes:
+        return notes
+    out = notes
+    for pat, repl in EVIDENCE_CLAIM_REWRITES:
+        out = pat.sub(repl, out)
+    out = re.sub(r"\s{2,}", " ", out).strip()
+    return out or None
+
+
+def apply_note_policy(items):
+    """Strip evidence claims; fail the build if any survive."""
+    for item in items:
+        item["notes"] = strip_evidence_claims(item.get("notes"))
+    bad = [i["id"] for i in items if i.get("notes") and V.EVIDENCE_CLAIM.search(i["notes"])]
+    if bad:
+        raise SystemExit("notes still claim something about the evidence: %s"
+                         % ", ".join(bad[:10]))
+
+
+def previous_sale_count(root):
+    """meta.sale_count of the data.json this build is about to replace."""
+    path = os.path.join(root, "data.json")
+    try:
+        with open(path) as f:
+            return json.load(f)["meta"]["sale_count"]
+    except (OSError, ValueError, KeyError):
+        return None
+
+
+def guard_shrink(prev_count, new_count, allow=False):
+    """Refuse to publish a build that silently lost sales.
+
+    tools/imported_sales.json is the record of every imported comp; a build
+    missing it (or most of it) would otherwise overwrite data.json with a
+    fraction of the evidence. Identity-ledger exclusions keep their rows (they
+    are flagged, not removed), so the ledger's own decisions never trip this;
+    a sale whose item vanished is printed by merge_imported_sales.
+    """
+    if not prev_count or allow:
+        return
+    if new_count < prev_count * 0.98:
+        raise SystemExit("refusing to write: sale_count would drop from %d to %d (more than "
+                         "2%%). Is tools/imported_sales.json missing? Re-run with "
+                         "--allow-shrink if this is intended." % (prev_count, new_count))
+
+
+SIZE_IN_NAME = re.compile(r"\((\d{1,2}(?:\.\d)?)[- ]?inch\)", re.I)
+
+
+def assign_sizes_and_variants(items):
+    """size_in from a "(15-inch)" in the name, size_class from size_in (or the
+    Mini Bean flag), and has_variants on any item another names as its parent.
+    Never from price."""
+    parents = {i["variant_of"] for i in items if i.get("variant_of")}
+    for item in items:
+        if item.get("size_in") is None:
+            m = SIZE_IN_NAME.search(item["canonical_name"])
+            if m:
+                item["size_in"] = float(m.group(1))
+        if not item.get("size_class"):
+            item["size_class"] = SA.parse_size_class(item.get("size_in")) or (
+                "mini" if item.get("mini_bean") else None)
+        item["has_variants"] = item["id"] in parents
+
+
+def backfill_sale_attributes(sales):
+    """Size and sound parsed from each sale's recorded listing title.
+
+    Deterministic, attributes only - never the condition (that is
+    tools/reclassify_conditions.py's job, and the owner's call). Only set when
+    something was found, so a title with nothing to say adds nothing.
+    """
+    n = 0
+    for s in sales:
+        if s.get("attributes") is not None:
+            continue
+        notes = s.get("notes") or ""
+        m = TITLE_IN_NOTES.search(notes)
+        # The listing title when one was recorded, otherwise the research note
+        # itself ("18in", "speaker does not work").
+        attrs = SA.stored(SA.parse(m.group(1) if m else notes))
+        if attrs["size_in"] is not None or attrs["sound"] is not None:
+            s["attributes"] = OrderedDict(sorted(attrs.items()))
+            n += 1
+    return n
+
+
+TITLE_IN_NOTES = re.compile(r"title:\s*(.*)", re.I)
+
+
+def catalogue_stats(items, sales, as_of=None):
+    """meta.stats: the Python twin of engine.js catalogueStats (a test pins them
+    equal). sold_transactions counts every recorded sold transaction, averages
+    expanded, quarantined rows and non-sale evidence left out."""
+    ids = {i["id"] for i in items}
+    usable = [s for s in sales if s["item_id"] in ids and not s.get("excluded")
+              and s.get("evidence_type") in V.MARKET_EVIDENCE_TYPES
+              and s.get("sold_price") is not None]
+
+    def n(s):
+        k = s.get("sample_size")
+        return int(k) if isinstance(k, (int, float)) and k > 0 else 1
+    priced = {s["item_id"] for s in usable
+              if not (s.get("first_party") or s.get("seller_is_operator"))}
+    stale = 0
+    if as_of:
+        import datetime
+        since = (datetime.date.fromisoformat(as_of)
+                 - datetime.timedelta(days=V.RECENCY["window_days"])).isoformat()
+        recent = {s["item_id"] for s in usable
+                  if s.get("sale_date") and since <= s["sale_date"] <= as_of}
+        stale = len(priced - recent)
+    return OrderedDict([("items", len(items)), ("priced_items", len(priced)),
+                        ("sold_transactions", sum(n(s) for s in usable)),
+                        ("stale_items", stale)])
+
+
+def fee_example(price=200.0):
+    """What an item worth `price` nets on the default platform: README copy
+    generated from the fee schedule, so the example can never drift from it."""
+    r = CONFIG["reseller"]
+    sched = V.FEE_SCHEDULE["platforms"][r["platform"]]
+    ship_in = r.get("shipping_charged") or 0
+    base = price if sched["applies_to"] == "item" else price + ship_in
+    fixed = sched["fixed_over"] if base > sched["fixed_threshold"] else sched["fixed_under"]
+    return price + ship_in - (base * sched["pct"] + fixed) - (r.get("shipping_cost") or 0)
+
+
+README_STATS = re.compile(r"(<!-- stats:start -->\n).*?(<!-- stats:end -->)", re.S)
+
+
+def write_readme_stats(root, stats, built_at):
+    """Rewrite the generated block in README.md; everything else is untouched."""
+    path = os.path.join(root, "README.md")
+    if not os.path.exists(path):
+        return False
+    with open(path) as f:
+        text = f.read()
+    sched = V.FEE_SCHEDULE["platforms"][CONFIG["reseller"]["platform"]]
+    block = (
+        "_Generated by `tools/build_data.py` from the data built %s; do not edit by hand._\n\n"
+        "- **%s** items catalogued, **%s** of them priced on recorded sales.\n"
+        "- **%s** sold transactions recorded (averages counted as the sales they cover).\n"
+        "- **%s** priced items are stale: no sale in the 12 months to %s.\n"
+        "- Fee example (%s schedule, owner to verify: %.1f%% + $%.2f per order, $%.2f "
+        "shipping): an item worth $200 nets about $%.0f.\n"
+        % (built_at, "{:,}".format(stats["items"]), "{:,}".format(stats["priced_items"]),
+           "{:,}".format(stats["sold_transactions"]), "{:,}".format(stats.get("stale_items", 0)),
+           built_at, sched["label"], sched["pct"] * 100, sched["fixed_over"],
+           CONFIG["reseller"]["shipping_cost"], fee_example()))
+    new, n = README_STATS.subn(lambda m: m.group(1) + block + m.group(2), text)
+    if n and new != text:
+        with open(path, "w") as f:
+            f.write(new)
+    return bool(n)
+
+
+def assert_sales_are_sold_evidence(sales):
+    """No row in SALES may be anything but sold evidence."""
+    bad = [s["id"] for s in sales if s.get("evidence_type") in V.NON_SALE_EVIDENCE_TYPES
+           or s.get("evidence_type") not in V.MARKET_EVIDENCE_TYPES]
+    if bad:
+        raise SystemExit("sales with a non-sale evidence_type: %s" % ", ".join(bad[:10]))
+
+
+def parse_args(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(description="Build data.json, the dataset of record.")
+    ap.add_argument("--as-of", metavar="YYYY-MM-DD",
+                    help="the build date valuations anchor on (default: today, UTC; "
+                         "or BEARCHART_AS_OF)")
+    ap.add_argument("--readme", action="store_true",
+                    help="also rewrite the generated stats block in README.md (off in the "
+                         "daily refresh, which may only commit tools/daily_outputs.txt)")
+    ap.add_argument("--root", help=argparse.SUPPRESS)
+    ap.add_argument("--allow-shrink", action="store_true",
+                    help="build even if the sale count drops more than 2%% against "
+                         "the committed data.json")
+    return ap.parse_args(argv)
+
+
+def build_date(arg=None):
+    """The date this build states as its as_of. UTC, so a build is the same
+    date wherever it runs; overridable for a reproducible rebuild."""
+    import datetime
+    v = arg or os.environ.get("BEARCHART_AS_OF")
+    if v:
+        datetime.date.fromisoformat(v)  # raises on a malformed date
+        return v
+    return datetime.datetime.utcnow().date().isoformat()
+
+
+def main(argv=None):
+    args = parse_args(argv)
+    root = args.root or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    built_at = build_date(args.as_of)
+    CONFIG["recency"]["as_of"] = built_at
+    ledger = load_identity()
+    REDIRECTS.update(apply_identity(ITEMS, SALES, ledger))
+    assign_catalogue_source(ITEMS)
+    assign_sizes_and_variants(ITEMS)
+    apply_note_policy(ITEMS)
     open_questions = flag_open_questions()
-    active, active_fetched_at = load_active_listings(root)
+    active, active_fetched_at = load_active_listings(root, built_at)
     photos = apply_image_overrides(root)
-    imported = merge_imported_sales(root)
+    imported = merge_imported_sales(root, REDIRECTS)
+    # Before anything else can fail on a missing comp: a build that lost the
+    # imported sales must say so plainly.
+    guard_shrink(previous_sale_count(root), len(SALES), args.allow_shrink)
+    excluded, reassigned = apply_sale_overrides(SALES, ledger, {i["id"] for i in ITEMS},
+                                                REDIRECTS)
+    attributed = backfill_sale_attributes(SALES)
+    assert_sales_are_sold_evidence(SALES)
     out = OrderedDict([
         ("meta", OrderedDict([
             ("name", "BearChart"),
             ("subtitle", "Build-A-Bear Price Guide"),
             ("generated_by", "tools/build_data.py"),
             ("schema_version", 1),
+            # The date valuations are anchored on (config.recency.as_of).
+            ("built_at", built_at),
         # Where the site lives, once it lives somewhere. Needed for canonical
         # links and the sitemap; both are absolute by specification, and a
         # sitemap full of wrong URLs is worse than no sitemap at all.
         ("site_url", ""),
             ("disclaimer", "BearChart is an independent collector/reseller research tool and "
                            "is not affiliated with Build-A-Bear Workshop. Market values fluctuate."),
+            # The one-line version for the bar under the masthead on a phone.
+            ("disclaimer_short", "Independent guide \u00b7 not affiliated with Build-A-Bear Workshop."),
+            # In the footer of every page.
+            ("trademark_notice", "Build-A-Bear Workshop\u00ae, Build-A-Bear\u00ae and related names "
+                                 "are trademarks of Build-A-Bear Workshop, Inc. BearChart is "
+                                 "independent and is not affiliated with, sponsored or endorsed by "
+                                 "Build-A-Bear Workshop, Inc. Names are used only to identify items."),
+            # Where "Missing a bear? Tell us" goes from an empty search: a form
+            # URL or a mailto. None hides the sentence. OWNER: fill in.
+            ("suggest_url", None),
             ("item_count", len(ITEMS)),
             ("photo_count", sum(1 for i in ITEMS if i.get("image_url"))),
             ("sale_count", len(SALES)),
+            # The headline numbers (engine.js catalogueStats is the same
+            # definition; a test pins the two equal).
+            ("stats", catalogue_stats(ITEMS, SALES, built_at)),
         ])),
         ("config", CONFIG),
         ("retail_reference", RETAIL_REFERENCE),
@@ -2653,20 +3213,21 @@ def main():
         ("sales", SALES),
         ("active_listings", active),
         ("active_listings_fetched_at", active_fetched_at),
+        # Merged item ids -> the item that absorbed them. Every page resolves an
+        # id through this (common.js canonicalId), so old links, bookmarks and
+        # collection entries keep working.
+        ("redirects", OrderedDict(sorted(REDIRECTS.items()))),
     ])
     path = os.path.join(root, "data.json")
     with open(path, "w") as f:
         json.dump(out, f, indent=2)
         f.write("\n")
 
-    # data.js carries the same payload as a global so the site also works when
-    # opened straight off the filesystem, where fetch() of a local file is blocked.
-    js_path = os.path.join(root, "data.js")
-    with open(js_path, "w") as f:
-        f.write("/* Generated by tools/build_data.py - do not edit by hand. */\n")
-        f.write("globalThis.BEARCHART_DATA = ")
-        json.dump(out, f, indent=2)
-        f.write(";\n")
+    if args.readme:
+        write_readme_stats(root, out["meta"]["stats"], built_at)
+
+    # The browser never loads data.json: tools/build_assets.js splits it into
+    # site-config.js, a hashed catalogue index and one file per item.
     priced = len({s["item_id"] for s in SALES})
     print("wrote %s" % path)
     print("  items: %d  (%d with sold data, %d awaiting comps)"
@@ -2676,6 +3237,9 @@ def main():
     if active:
         print("  active listings: %d (asking prices - never used in a valuation)"
               % len(active))
+    if REDIRECTS or excluded or reassigned:
+        print("  identity ledger: %d merged item(s) redirected, %d sale(s) excluded, "
+              "%d reassigned" % (len(REDIRECTS), excluded, reassigned))
     if open_questions:
         print("  open questions: %d item(s) flagged for a human to settle"
               % open_questions)

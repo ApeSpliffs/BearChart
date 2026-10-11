@@ -195,12 +195,47 @@
     return (typeof n === 'number' && n > 0) ? Math.floor(n) : 1;
   }
 
+  /**
+   * Provenance alone decides strength. A sale by the operator gets no bonus:
+   * Jay's Retro Exchange runs this site, so its own sales are a conflict of
+   * interest to be capped (see valuate), not the best evidence there is.
+   */
   function isStrongEvidence(sale, config) {
-    // Your own sale is the strongest evidence available: you knew the condition,
-    // you knew what was in the box, and you saw the money. Nothing had to be
-    // inferred from a listing title.
-    if (sale.first_party) return true;
     return config.strong_evidence_types.indexOf(sale.evidence_type) !== -1;
+  }
+
+  /** Sold by the operator: imported from its own records, or a known seller id. */
+  function isOperator(sale) {
+    return !!(sale && (sale.first_party || sale.seller_is_operator));
+  }
+
+  /**
+   * Operator points kept behind a value: at most config.operator_cap of all
+   * points, i.e. floor(third * cap / (1 - cap)). The most recent are kept
+   * (date desc, then id asc, so the choice is deterministic). Without a
+   * configured cap, none are kept - the safe direction.
+   */
+  function capOperator(points, config) {
+    var cap = typeof config.operator_cap === 'number' ? config.operator_cap : 0;
+    var third = points.filter(function (p) { return !isOperator(p.sale); });
+    var op = points.filter(function (p) { return isOperator(p.sale); });
+    var maxOp = cap > 0 && cap < 1 ? Math.floor(third.length * cap / (1 - cap) + 1e-9) : 0;
+    op.sort(function (a, b) {
+      var da = a.sale.sale_date || '', db = b.sale.sale_date || '';
+      if (da !== db) return da < db ? 1 : -1;
+      var ia = String(a.sale.id || ''), ib = String(b.sale.id || '');
+      return ia < ib ? -1 : ia > ib ? 1 : 0;
+    });
+    var keepOp = op.slice(0, maxOp);
+    var kept = {};
+    keepOp.forEach(function (p) { kept[p.sale.id] = true; });
+    return {
+      third: third.length,
+      points: points.filter(function (p) { return !isOperator(p.sale) || kept[p.sale.id]; }),
+      excluded: op.slice(maxOp).map(function (p) {
+        return { sale_id: p.sale.id, reason: 'operator_cap' };
+      })
+    };
   }
 
   // ---- confidence ---------------------------------------------------------
@@ -229,41 +264,80 @@
   }
 
   /**
-   * Prefer what a bear sells for now. When an item has enough sales in the
-   * twelve months up to its most recent one, older sales are left out of the
-   * value: a hyped release that crashed, or a retired bear that climbed, should
-   * not be priced by what it did three years ago. Anchored on the item's own
-   * latest sale rather than today's date, so the same data always gives the
-   * same answer. Below the threshold every sale is used, because thin recent
-   * data is worse than old data.
+   * Prefer what a bear sells for now.
+   *
+   * The window is the twelve months (config.recency.window_days) up to
+   * config.recency.as_of - the date the data was built, stated in the data
+   * rather than read from the clock, so the same data always gives the same
+   * answer. When an item has enough sales in the window (min_recent, counting
+   * transactions), older sales are left out of the value: a hyped release that
+   * crashed, or a retired bear that climbed, should not be priced by what it
+   * did three years ago. Below the threshold every sale is used, because thin
+   * recent data is worse than old data. With NO sale in the window the value
+   * is still published from every sale, but it is marked stale.
+   *
+   * Legacy config without as_of anchors on the item's own latest sale, as
+   * before, and never reports stale.
    */
-  function recentOnly(usable, config) {
+  function recencyWindow(usable, config) {
     var rc = config.recency || {};
     var windowDays = rc.window_days || 365;
     var minRecent = rc.min_recent || 10;
     var latest = '';
     usable.forEach(function (s) { if (s.sale_date && s.sale_date > latest) latest = s.sale_date; });
-    if (!latest) return null;
-    var since = shiftDate(latest, -windowDays);
-    if (!since) return null;
-    var recent = usable.filter(function (s) { return s.sale_date && s.sale_date >= since; });
+    var anchored = !!rc.as_of;
+    var asOf = rc.as_of || latest;
+    var since = asOf ? shiftDate(asOf, -windowDays) : null;
+    var recent = since ? usable.filter(function (s) {
+      return s.sale_date && s.sale_date >= since && s.sale_date <= asOf;
+    }) : [];
     var n = recent.reduce(function (a, s) { return a + sampleSize(s); }, 0);
-    if (recent.length === usable.length || n < minRecent) return null;
-    return { sales: recent, since: since, dropped: usable.length - recent.length };
+    return {
+      anchored: anchored, as_of: asOf || null, since: since, latest: latest || null,
+      recent: recent, transactions: n, min_recent: minRecent,
+      use_recent: !!since && n >= minRecent && recent.length < usable.length
+    };
+  }
+
+  /**
+   * The recent subset when the window applies, else null. valuate passes the
+   * window it already computed; callers without one get it computed here.
+   */
+  function recentOnly(usable, config, window) {
+    var w = window || recencyWindow(usable, config);
+    if (!w.use_recent) return null;
+    return { sales: w.recent, since: w.since, dropped: usable.length - w.recent.length };
   }
 
   function valuate(item, sales, config) {
     var why = [];
     var usable = (sales || []).filter(function (s) {
-      return isMarketEvidence(s, config) && effectivePrice(s) != null;
+      return !s.excluded && isMarketEvidence(s, config) && effectivePrice(s) != null;
     });
-    var recency = usable.length ? recentOnly(usable, config) : null;
+    var soldTransactions = usable.reduce(function (a, s) { return a + sampleSize(s); }, 0);
+    var win = usable.length ? recencyWindow(usable, config) : null;
+    var recency = win ? recentOnly(usable, config, win) : null;
     if (recency) usable = recency.sales;
+    // Stale: a value is published from older sales because none fall in the
+    // window. Only reported when the data states its as_of date.
+    var stale = !!(win && win.anchored && win.transactions === 0);
+    var staleReason = stale ? (win.latest ? 'no_sales_in_window' : 'undated_only') : null;
 
     var result = {
       item_id: item.id,
       comparable_count: 0,
+      // Every recorded sold transaction behind this item (averages expanded),
+      // all-time, before the recency window, outliers and the operator cap.
+      // catalogueStats sums this; it is the "sold transactions recorded" figure.
+      sold_transactions: soldTransactions,
       total_observations: (sales || []).length,
+      stale: stale,
+      stale_reason: staleReason,
+      last_sale_date: win ? win.latest : null,
+      window: win && win.since
+        ? { as_of: win.as_of, since: win.since,
+            basis: win.transactions >= win.min_recent ? 'recent' : 'all_time' }
+        : null,
       confidence: 'VERY LOW',
       has_value: false,
       fair_market: null,
@@ -280,6 +354,8 @@
       lower_bound_basis: null,
       outlier_note: null,
       first_party_count: 0,
+      operator_count: 0,
+      operator_excluded: [],
       aggregate_count: 0,
       observation_count: 0,
       excluded_outliers: [],
@@ -331,6 +407,24 @@
     result.outlier_note = verdict.note;
     if (!kept.length) kept = points; // never throw away every comp
 
+    // Jay's Retro Exchange runs BearChart. Its own sales are capped, never
+    // boosted, and on their own they publish nothing.
+    var capped = capOperator(kept, config);
+    if (!capped.third) {
+      result.operator_count = kept.length;
+      result.operator_excluded = kept.map(function (p) {
+        return { sale_id: p.sale.id, reason: 'operator_only' };
+      });
+      result.excluded_outliers = [];
+      why.length = 0;
+      why.push('The only sales recorded are by Jay\'s Retro Exchange, which runs this ' +
+               'site, so no value is published from them.');
+      result.caveats.push('operator-only');
+      return result;
+    }
+    kept = capped.points;
+    result.operator_excluded = capped.excluded;
+
     var keptNorms = sortNums(kept.map(function (p) { return p.norm; }));
     var n = kept.reduce(function (a, p) { return a + sampleSize(p.sale); }, 0);
 
@@ -352,6 +446,7 @@
         completeness: p.sale.completeness || null,
         evidence_type: p.sale.evidence_type || null,
         first_party: !!p.sale.first_party,
+        operator: isOperator(p.sale),
         sale_date: p.sale.sale_date || null
       };
     });
@@ -369,6 +464,7 @@
     }).length;
     result.ranged_count = kept.filter(function (p) { return p.sale.ranged; }).length;
     result.first_party_count = kept.filter(function (p) { return !!p.sale.first_party; }).length;
+    result.operator_count = kept.filter(function (p) { return isOperator(p.sale); }).length;
 
     var fmv = percentile(keptNorms, 0.5);
     result.fair_market = fmv;
@@ -417,9 +513,18 @@
                 (points_n === 1 ? '' : 's') + ', each adjusted to a baseline of Good ' +
                 'condition with no extras.');
 
+    if (stale) {
+      result.caveats.push('stale');
+      why.push(staleReason === 'undated_only'
+        ? 'None of these sales is dated, so there is no telling how current this value ' +
+          'is. It may be out of date.'
+        : 'No sale recorded in the 12 months to ' + win.as_of + '; last sale ' + win.latest +
+          '. This value may be out of date.');
+    }
+
     if (recency) {
       result.recent_since = recency.since;
-      why.push('Uses the sales from the twelve months up to the latest one (since ' +
+      why.push('Uses the sales from the twelve months to ' + win.as_of + ' (since ' +
                recency.since + '). ' + recency.dropped + ' older sale' +
                (recency.dropped === 1 ? ' is' : 's are') + ' listed below but left out of ' +
                'the value, because prices move.');
@@ -434,11 +539,15 @@
                'than reality.');
     }
 
-    if (result.first_party_count) {
-      why.push(result.first_party_count + ' of these ' +
-               (result.first_party_count === 1 ? 'is a sale you made yourself'
-                                               : 'are sales you made yourself') +
-               ', where the condition and contents are known rather than inferred.');
+    if (result.operator_count || result.operator_excluded.length) {
+      why.push(result.operator_count + ' of these comps ' +
+               (result.operator_count === 1 ? 'was' : 'were') + ' sold by Jay\'s Retro ' +
+               'Exchange, which runs BearChart; operator sales are capped at ' +
+               Math.round((config.operator_cap || 0) * 100) + '% of the comps behind a value' +
+               (result.operator_excluded.length
+                 ? ', so ' + result.operator_excluded.length + ' more ' +
+                   (result.operator_excluded.length === 1 ? 'is' : 'are') + ' listed but left out.'
+                 : '.'));
     }
     if (result.strong_evidence_count === 0) {
       result.caveats.push('no-strong-evidence');
@@ -455,7 +564,9 @@
       why.push('Comps span more than one condition grade - check the per-condition ' +
                'medians before pricing your own copy.');
     }
-    if (item.version || item.variant) {
+    // A product line ("Mini", "Promise Pets") is not a variant. Only a named
+    // version, a variant of a parent, or a parent with variants warns.
+    if (item.version || item.variant_of || item.has_variants) {
       result.caveats.push('variant');
       why.push('This item has known versions or variants. Confirm which one you ' +
                'have; versions are priced separately and must not be averaged.');
@@ -488,17 +599,21 @@
    * take apart is a number they cannot argue with - and on a $250 bear the
    * difference between 1.15 and 1.45 is real money.
    */
-  function modifierChain(mods, config) {
+  function modifierChain(mods, config, condition) {
     var cfg = (config && config.modifiers) || {};
     var mult = cfg.multiplicative || {};
     var add = cfg.additive_usd || {};
     var labels = cfg.labels || {};
+    var exclusive = cfg.exclusive_with || {};
     var cap = cfg.max_combined_multiplier || 1.45;
 
     var factor = 1, additive = 0, applied = [];
 
     Object.keys(mods || {}).forEach(function (key) {
       if (!mods[key]) return;
+      // A modifier the condition already prices is not counted twice: an NWT
+      // grade already pays for the hang tag.
+      if (condition && exclusive[key] && exclusive[key].indexOf(condition) !== -1) return;
       if (mult[key] != null) {
         factor *= mult[key];
         applied.push({ key: key, label: labels[key] || key,
@@ -524,7 +639,7 @@
     if (!valuation || !valuation.has_value) return null;
     var mult = conditionMultiplier(config, condition) *
                completenessMultiplier(config, completeness);
-    var chain = modifierChain(mods, config);
+    var chain = modifierChain(mods, config, condition);
     mult *= chain.factor;
 
     var b = config.bands;
@@ -574,7 +689,9 @@
   function askSpread(valuation, listings) {
     if (!valuation || !valuation.has_value) return null;
     var asks = (listings || [])
-      .filter(function (l) { return l && l.evidence_type === 'active_listing'; })
+      .filter(function (l) {
+        return l && l.evidence_type === 'active_listing' && !l.seller_is_operator;
+      })
       .map(function (l) { return l.ask_price; })
       .filter(function (p) { return typeof p === 'number' && p > 0; });
     if (!asks.length) return null;
@@ -599,16 +716,55 @@
   var CONFIDENCE_RANK = { 'VERY LOW': 0, LOW: 1, MEDIUM: 2, HIGH: 3 };
 
   /**
+   * The fee schedule for one platform, from config.fees. Every figure lives in
+   * the config (tools/domain_vocab.py), never in this file. A config without a
+   * schedule charges nothing, rather than a number nobody chose.
+   */
+  function platformFees(config, platform) {
+    var f = (config && config.fees) || {};
+    var platforms = f.platforms || {};
+    var s = platforms[platform || f.default_platform];
+    if (s) return s;
+    return { label: 'none', pct: 0, fixed_over: 0, fixed_under: 0, fixed_threshold: 0,
+             applies_to: 'item' };
+  }
+
+  /** The marketplace's cut of one order: a percentage plus a per-order fixed fee. */
+  function sellingFee(orderTotal, sched) {
+    var fixed = orderTotal > (sched.fixed_threshold || 0)
+      ? (sched.fixed_over || 0) : (sched.fixed_under || 0);
+    return orderTotal * (sched.pct || 0) + fixed;
+  }
+
+  /**
    * What one copy actually nets you after fees and shipping.
    *
    * A gross discount is not profit. An item worth $60 that you buy for $30 is
-   * not a $30 win: the marketplace takes its cut of the $60 and you pay to ship
-   * it. This is the number that decides whether something is worth buying.
+   * not a $30 win: the marketplace takes its cut of the $60 (and, on eBay, of
+   * the shipping the buyer pays) and you pay to ship it. This is the number
+   * that decides whether something is worth buying.
+   *
+   * opts: {platform, shipping_charged}; both default from config.reseller.
    */
-  function netProceeds(grossValue, config) {
-    var r = config.reseller || {};
-    var fee = grossValue * (r.marketplace_fee_pct || 0);
-    return grossValue - fee - (r.payment_fee_fixed || 0) - (r.shipping_cost || 0);
+  function netProceeds(itemPrice, config, opts) {
+    var r = (config && config.reseller) || {};
+    var o = opts || {};
+    var s = platformFees(config, o.platform || r.platform);
+    var shipIn = o.shipping_charged != null ? o.shipping_charged : (r.shipping_charged || 0);
+    var base = s.applies_to === 'item' ? itemPrice : itemPrice + shipIn;
+    return itemPrice + shipIn - sellingFee(base, s) - (r.shipping_cost || 0);
+  }
+
+  /**
+   * What a buyer actually pays for a listing: the ask plus its stated shipping,
+   * or plus an assumed figure (config.reseller.assumed_inbound_shipping) when
+   * the listing does not state one. A $40 ask with $12 shipping costs $52.
+   */
+  function buyerTotal(listing, config) {
+    var r = (config && config.reseller) || {};
+    var ship = listing.ship_price != null ? listing.ship_price
+      : (r.assumed_inbound_shipping || 0);
+    return listing.ask_price + ship;
   }
 
   /**
@@ -628,6 +784,8 @@
 
     (opts.listings || []).forEach(function (l) {
       if (!l || l.evidence_type !== 'active_listing') return;
+      // Never offer the operator's own listings as bargains on its own guide.
+      if (l.seller_is_operator) return;
       var ask = l.ask_price;
       if (!(typeof ask === 'number' && ask > 0)) return;
 
@@ -635,6 +793,8 @@
       var v = opts.valuationFor(l.item_id);
       if (!item || !v || !v.has_value) return;
       if ((CONFIDENCE_RANK[v.confidence] || 0) < minRank) return;
+      // A value nobody has confirmed in a year is no basis for spending money.
+      if (v.stale && r.exclude_stale !== false) return;
 
       // Price the listing as the condition it is actually in.
       var adj = adjust(v, l.condition || 'Unknown', 'unknown', config);
@@ -650,8 +810,10 @@
         ? adj.lower_bound : gross;
 
       var net = netProceeds(floor, config);
-      var margin = net - ask;
-      var discountPct = ((floor - ask) / floor) * 100;
+      var shipAssumed = l.ship_price == null;
+      var cost = buyerTotal(l, config);
+      var margin = net - cost;
+      var discountPct = ((floor - cost) / floor) * 100;
 
       if (margin < (r.min_net_margin || 0)) return;
       if (discountPct < (r.min_discount_pct || 0)) return;
@@ -678,9 +840,16 @@
       if (item.is_lot) {
         risks.push('Catalogued as a multi-item lot.');
       }
+      if (v.stale) {
+        risks.push('Value is stale (last sale ' + (v.last_sale_date || 'undated') + ').');
+      }
       if (!l.condition || l.condition === 'Unknown') {
         risks.push('The listing does not state a condition, so this assumes an ' +
                    'average copy.');
+      }
+      if (shipAssumed) {
+        risks.push('Shipping not stated; assumed $' +
+                   (cost - ask).toFixed(2) + '.');
       }
 
       deals.push({
@@ -688,13 +857,16 @@
         item_id: l.item_id,
         item_name: item.canonical_name,
         ask: ask,
+        ship_price: l.ship_price != null ? l.ship_price : null,
+        buyer_total: cost,
+        ship_assumed: shipAssumed,
         condition: l.condition || 'Unknown',
         gross_value: gross,
         floor_value: floor,
         floor_basis: adj.lower_bound_basis,
         net_proceeds: net,
         margin: margin,
-        margin_pct: (margin / ask) * 100,
+        margin_pct: (margin / cost) * 100,
         discount_pct: discountPct,
         confidence: v.confidence,
         comparable_count: v.comparable_count,
@@ -871,6 +1043,85 @@
     }, { conservative: 0, median: 0, high: 0, priced: 0, unpriced: 0 });
   }
 
+  /**
+   * The one definition of the catalogue's headline numbers. The hero, the
+   * stats tile, the footer, the roadmap and the admin page all call this, so
+   * no two of them can disagree about what "sold transactions" means.
+   *
+   *   items             catalogue entries counted
+   *   priced_items      entries that publish a value
+   *   sold_transactions every recorded sold transaction (averages expanded),
+   *                     market evidence only, quarantined sales left out
+   *   sold_records      sale rows (admin only); null without salesFor
+   *   stale_items       priced entries whose value is marked stale
+   */
+  function catalogueStats(items, salesFor, valuationFor, config) {
+    var out = { items: 0, priced_items: 0, sold_transactions: 0,
+                sold_records: salesFor ? 0 : null, stale_items: 0 };
+    (items || []).forEach(function (i) {
+      var v = valuationFor(i.id);
+      out.items += 1;
+      if (v && v.has_value) {
+        out.priced_items += 1;
+        if (v.stale) out.stale_items += 1;
+      }
+      out.sold_transactions += (v && v.sold_transactions) || 0;
+      if (salesFor) out.sold_records += salesFor(i.id).length;
+    });
+    return out;
+  }
+
+  /**
+   * The part of a valuation a list page needs, and nothing it does not.
+   *
+   * The build writes one summary per item into the catalogue index
+   * (tools/build_assets.js), so the price guide, checklists, collection, deals
+   * and admin pages never valuate anything: a phone no longer runs the engine
+   * two thousand times on every visit. Numbers are NOT rounded, so collection
+   * history does not drift.
+   *
+   * The buy / trade / sell / high-ask bands are left out: they are fixed
+   * multiples of fair_market (config.bands) and the range, so storing them
+   * would only make the index bigger. withBands() puts them back - the same
+   * arithmetic valuate() does, so the numbers are identical - and adjust(),
+   * findDeals(), collectionSnapshot() and catalogueStats() all work on the
+   * result.
+   */
+  var SUMMARY_KEYS = [
+    'has_value', 'confidence', 'comparable_count', 'observation_count',
+    'aggregate_count', 'strong_evidence_count', 'fair_market', 'median_raw',
+    'range_low', 'range_high', 'lower_bound', 'lower_bound_basis', 'recent_since',
+    'sold_transactions', 'stale', 'stale_reason', 'last_sale_date', 'operator_count',
+    'window', 'caveats'
+  ];
+
+  function summary(v) {
+    var out = {};
+    SUMMARY_KEYS.forEach(function (k) {
+      var x = v ? v[k] : undefined;
+      out[k] = x === undefined ? null : x;
+    });
+    return out;
+  }
+
+  /** A summary with item_id and the price bands restored (see summary()). */
+  function withBands(s, itemId, config) {
+    var out = { item_id: itemId };
+    Object.keys(s || {}).forEach(function (k) { out[k] = s[k]; });
+    var fmv = out.fair_market;
+    var b = config.bands;
+    var priced = out.has_value && typeof fmv === 'number';
+    out.buy_low = priced ? fmv * b.buy[0] : null;
+    out.buy_high = priced ? fmv * b.buy[1] : null;
+    out.trade_low = priced ? fmv * b.trade[0] : null;
+    out.trade_high = priced ? fmv * b.trade[1] : null;
+    out.sell_low = priced ? out.range_low : null;
+    out.sell_high = priced ? out.range_high : null;
+    out.ask_low = priced ? fmv * b.high_ask[0] : null;
+    out.ask_high = priced ? fmv * b.high_ask[1] : null;
+    return out;
+  }
+
   var api = {
     percentile: percentile,
     median: median,
@@ -882,20 +1133,29 @@
     completenessMultiplier: completenessMultiplier,
     confidenceFor: confidenceFor,
     sampleSize: sampleSize,
+    isOperator: isOperator,
     valuate: valuate,
     recentOnly: recentOnly,
+    recencyWindow: recencyWindow,
     adjust: adjust,
     modifierChain: modifierChain,
     priceHistory: priceHistory,
     askSpread: askSpread,
     findDeals: findDeals,
     netProceeds: netProceeds,
+    buyerTotal: buyerTotal,
+    platformFees: platformFees,
+    sellingFee: sellingFee,
     collectionValue: collectionValue,
     collectionSnapshot: collectionSnapshot,
     holdingsMap: holdingsMap,
     diffHoldings: diffHoldings,
     timeWeightedReturn: timeWeightedReturn,
-    windowStats: windowStats
+    windowStats: windowStats,
+    catalogueStats: catalogueStats,
+    summary: summary,
+    withBands: withBands,
+    SUMMARY_KEYS: SUMMARY_KEYS
   };
 
   root.BearChartEngine = api;

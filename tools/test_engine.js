@@ -181,6 +181,15 @@ test('a lot is flagged as an invalid single-item comparable', () => {
   assert.ok(v.caveats.includes('lot'));
 });
 
+test('a product line is not a variant; a version or a variant parent is', () => {
+  const sales = [{ id: 'a', sold_price: 20, evidence_type: 'completed_sale', condition: 'Good' }];
+  assert.ok(!E.valuate({ id: 'x', line: 'Promise Pets' }, sales, CFG).caveats.includes('variant'));
+  assert.ok(E.valuate({ id: 'x', version: 'II' }, sales, CFG).caveats.includes('variant'));
+  assert.ok(E.valuate({ id: 'x', variant_of: 'p' }, sales, CFG).caveats.includes('variant'));
+  assert.ok(E.valuate({ id: 'x', has_variants: true }, sales, CFG).caveats.includes('variant'));
+  assert.ok(DATA.items.every((i) => !('variant' in i)), 'variant was renamed to line');
+});
+
 test('a versioned item warns against averaging versions', () => {
   const v = valueOf('vanilla-fudge-bunny');
   assert.ok(v.caveats.includes('variant'));
@@ -592,6 +601,133 @@ test('an announced retail price is never treated as a resale value', () => {
   }
 });
 
+// ---- headline numbers ----------------------------------------------------------
+
+test('catalogueStats is the one definition, and the build agrees with it', () => {
+  const cache = {};
+  const st = E.catalogueStats(DATA.items, salesFor,
+    (id) => cache[id] || (cache[id] = valueOf(id)), CFG);
+  assert.strictEqual(st.items, DATA.meta.stats.items);
+  assert.strictEqual(st.priced_items, DATA.meta.stats.priced_items);
+  assert.strictEqual(st.sold_transactions, DATA.meta.stats.sold_transactions);
+  assert.strictEqual(st.stale_items, DATA.meta.stats.stale_items);
+  assert.strictEqual(st.sold_records, DATA.sales.length);
+});
+
+test('no hand-typed catalogue counts or fee figures survive in the docs', () => {
+  const root = path.join(__dirname, '..');
+  const files = ['README.md'];
+  for (const f of fs.readdirSync(root)) {
+    if (/\.(js|css)$/.test(f) && !['data.js', 'site-config.js', 'sw.js'].includes(f)) files.push(f);
+  }
+  for (const f of fs.readdirSync(path.join(root, 'tools'))) {
+    if (/\.py$/.test(f)) files.push(path.join('tools', f));
+  }
+  for (const f of files) {
+    const src = fs.readFileSync(path.join(root, f), 'utf8');
+    assert.doesNotMatch(src, /\b1,?974\b|\b2,?042\b|79 sold/, f);
+  }
+  // The fee literal: only deals.js may name it, to migrate settings saved
+  // before fees became a schedule.
+  for (const f of files.filter((x) => x !== 'deals.js')) {
+    assert.doesNotMatch(fs.readFileSync(path.join(root, f), 'utf8'), /0\.1325/, f);
+  }
+});
+
+// ---- recency and staleness ---------------------------------------------------
+
+const dated = (id, price, date, extra) => Object.assign({
+  id: id, sold_price: price, sale_date: date, evidence_type: 'completed_sale',
+  marketplace: 'eBay', listing_id: id, condition: 'Good', completeness: 'bare'
+}, extra || {});
+const asOf = (d) => Object.assign({}, CFG, {
+  recency: { window_days: 365, min_recent: 10, as_of: d }
+});
+
+test('the window is anchored on the build date, not the latest sale', () => {
+  const sales = [];
+  for (let i = 0; i < 10; i++) sales.push(dated('r' + i, 50, '2026-0' + (1 + (i % 9)) + '-01'));
+  sales.push(dated('old', 500, '2024-01-01'));
+  const v = E.valuate({ id: 'x' }, sales, asOf('2026-10-01'));
+  assert.strictEqual(v.observation_count, 10, 'the 2024 sale is left out');
+  assert.strictEqual(v.window.basis, 'recent');
+  assert.strictEqual(v.window.as_of, '2026-10-01');
+  assert.strictEqual(v.window.since, '2025-10-01');
+  assert.strictEqual(v.stale, false);
+});
+
+test('a thin recent window uses every sale and is not stale', () => {
+  const sales = [dated('a', 50, '2026-05-01'), dated('b', 60, '2023-01-01')];
+  const v = E.valuate({ id: 'x' }, sales, asOf('2026-10-01'));
+  assert.strictEqual(v.observation_count, 2);
+  assert.strictEqual(v.window.basis, 'all_time');
+  assert.strictEqual(v.stale, false);
+  assert.strictEqual(v.stale_reason, null);
+  assert.strictEqual(v.last_sale_date, '2026-05-01');
+});
+
+test('no sale in the window publishes the all-time value, marked stale', () => {
+  const sales = [dated('a', 50, '2024-03-02'), dated('b', 60, '2023-01-01')];
+  const v = E.valuate({ id: 'x' }, sales, asOf('2026-10-01'));
+  assert.strictEqual(v.has_value, true);
+  assert.strictEqual(v.observation_count, 2);
+  assert.strictEqual(v.stale, true);
+  assert.strictEqual(v.stale_reason, 'no_sales_in_window');
+  assert.strictEqual(v.last_sale_date, '2024-03-02');
+  assert.strictEqual(v.window.basis, 'all_time');
+  assert.ok(v.caveats.includes('stale'));
+  assert.ok(v.why.some((w) => /No sale recorded in the 12 months to 2026-10-01; last sale 2024-03-02/.test(w)));
+});
+
+test('undated sales alone are stale for want of a date', () => {
+  const v = E.valuate({ id: 'x' }, [
+    { id: 'a', sold_price: 50, evidence_type: 'collector_report', condition: 'Good' }
+  ], asOf('2026-10-01'));
+  assert.strictEqual(v.stale, true);
+  assert.strictEqual(v.stale_reason, 'undated_only');
+  assert.strictEqual(v.last_sale_date, null);
+});
+
+test('a config without as_of behaves as before and never reports stale', () => {
+  const legacy = Object.assign({}, CFG, { recency: { window_days: 365, min_recent: 10 } });
+  const sales = [dated('a', 50, '2019-03-02'), dated('b', 60, '2018-01-01')];
+  const v = E.valuate({ id: 'x' }, sales, legacy);
+  assert.strictEqual(v.stale, false);
+  assert.strictEqual(v.observation_count, 2);
+});
+
+test('the shipped data states its as_of date', () => {
+  assert.match(CFG.recency.as_of, /^\d{4}-\d{2}-\d{2}$/);
+  assert.strictEqual(CFG.recency.as_of, DATA.meta.built_at);
+});
+
+test('a stale value is never offered as a deal, unless asked for, with a risk', () => {
+  const sales = [];
+  for (let i = 0; i < 12; i++) sales.push(dated('s' + i, 100 + i, '2023-0' + (1 + (i % 9)) + '-01'));
+  const item = { id: 'stale-bear', canonical_name: 'Stale Bear' };
+  const cfg = asOf('2026-10-01');
+  const v = E.valuate(item, sales, cfg);
+  assert.strictEqual(v.stale, true);
+  const ctx = (c) => ({ config: c, itemById: () => item, valuationFor: () => v,
+    listings: [{ evidence_type: 'active_listing', item_id: 'stale-bear', ask_price: 20,
+                 ship_price: 0, condition: 'Good' }] });
+  assert.strictEqual(E.findDeals(ctx(cfg)).length, 0);
+  const lax = Object.assign({}, cfg, { reseller: Object.assign({}, cfg.reseller, { exclude_stale: false }) });
+  const d = E.findDeals(ctx(lax));
+  assert.strictEqual(d.length, 1);
+  assert.ok(d[0].risks.some((r) => /Value is stale \(last sale 2023-/.test(r)));
+});
+
+test('sold_transactions counts every recorded transaction, averages expanded', () => {
+  const v = E.valuate({ id: 'x' }, [
+    dated('a', 50, '2026-01-01'),
+    dated('b', 55, '2026-02-01', { sample_size: 12, evidence_type: 'collector_report' }),
+    dated('c', 60, '2026-03-01', { excluded: { reason: 'x' } }),
+    dated('d', 60, '2026-03-01', { evidence_type: 'active_listing' })
+  ], asOf('2026-10-01'));
+  assert.strictEqual(v.sold_transactions, 13);
+});
+
 // ---- deal finder -----------------------------------------------------------
 
 const listingFor = (itemId, ask, condition) => ({
@@ -600,16 +736,66 @@ const listingFor = (itemId, ask, condition) => ({
   source_url: 'https://www.ebay.com/itm/1'
 });
 
+// The deal mechanics below are exercised on long-established curated items,
+// several of which have no sale in the last twelve months. Staleness has its
+// own tests; here it is switched off so each test isolates one rule.
+const DEAL_CFG = Object.assign({}, CFG, {
+  reseller: Object.assign({}, CFG.reseller, { exclude_stale: false })
+});
 const dealCtx = (listings, cfg) => ({
-  config: cfg || CFG, listings: listings, itemById: itemById, valuationFor: valueOf
+  config: cfg || DEAL_CFG, listings: listings, itemById: itemById, valuationFor: valueOf
 });
 
 test('net proceeds subtract fees and shipping from the gross value', () => {
   const r = CFG.reseller;
+  const sched = CFG.fees.platforms[r.platform];
   const net = E.netProceeds(100, CFG);
-  const expected = 100 - 100 * r.marketplace_fee_pct - r.payment_fee_fixed - r.shipping_cost;
+  const shipIn = r.shipping_charged || 0;
+  const base = sched.applies_to === 'item' ? 100 : 100 + shipIn;
+  const fixed = base > sched.fixed_threshold ? sched.fixed_over : sched.fixed_under;
+  const expected = 100 + shipIn - (base * sched.pct + fixed) - r.shipping_cost;
   assert.ok(Math.abs(net - expected) < 1e-9);
   assert.ok(net < 100, 'a gross discount is not profit');
+});
+
+// ---- fee schedule ------------------------------------------------------------
+
+const feeCfg = (reseller) => Object.assign({}, CFG, {
+  reseller: Object.assign({}, CFG.reseller, reseller || {})
+});
+
+test('the eBay per-order fee is the higher one above the threshold', () => {
+  const s = CFG.fees.platforms.ebay;
+  assert.ok(Math.abs(E.sellingFee(20, s) - (20 * s.pct + s.fixed_over)) < 1e-9);
+  assert.ok(Math.abs(E.sellingFee(10, s) - (10 * s.pct + s.fixed_under)) < 1e-9);
+  assert.ok(Math.abs(E.sellingFee(5, s) - (5 * s.pct + s.fixed_under)) < 1e-9);
+  assert.ok(s.fixed_over > s.fixed_under);
+});
+
+test('eBay fees are charged on item plus shipping', () => {
+  const s = CFG.fees.platforms.ebay;
+  const cfg = feeCfg({ platform: 'ebay', shipping_charged: 10, shipping_cost: 0 });
+  const net = E.netProceeds(100, cfg);
+  assert.ok(Math.abs(net - (110 - E.sellingFee(110, s))) < 1e-9);
+});
+
+test('Mercari has no fixed per-order fee', () => {
+  const s = CFG.fees.platforms.mercari;
+  assert.ok(Math.abs(E.sellingFee(100, s) - 100 * s.pct) < 1e-9);
+  const cfg = feeCfg({ platform: 'mercari', shipping_charged: 0, shipping_cost: 0 });
+  assert.ok(Math.abs(E.netProceeds(100, cfg) - (100 - 100 * s.pct)) < 1e-9);
+});
+
+test('a platform can be chosen per call', () => {
+  const cfg = feeCfg({ shipping_charged: 0, shipping_cost: 0 });
+  assert.notStrictEqual(E.netProceeds(100, cfg, { platform: 'mercari' }),
+                        E.netProceeds(100, cfg, { platform: 'ebay' }));
+});
+
+test('no fee figure is written into the engine', () => {
+  const src = fs.readFileSync(path.join(__dirname, '..', 'engine.js'), 'utf8');
+  assert.doesNotMatch(src, /0\.13\d*/);
+  assert.doesNotMatch(src, /marketplace_fee_pct|payment_fee_fixed/);
 });
 
 test('a listing well below value is flagged with a real margin', () => {
@@ -618,6 +804,31 @@ test('a listing well below value is flagged with a real margin', () => {
   assert.ok(deals[0].margin > 0);
   assert.strictEqual(deals[0].item_name, 'Kennel Pals Calico Cat');
   assert.ok(deals[0].discount_pct > 20);
+});
+
+test('a deal is judged on the ask plus its shipping', () => {
+  const l = Object.assign(listingFor('kennel-pals-calico-cat', 40), { ship_price: 12 });
+  assert.strictEqual(E.buyerTotal(l, CFG), 52);
+  const d = E.findDeals(dealCtx([l]))[0];
+  assert.ok(d, 'still a deal');
+  assert.strictEqual(d.buyer_total, 52);
+  assert.strictEqual(d.ship_price, 12);
+  assert.strictEqual(d.ship_assumed, false);
+  assert.ok(Math.abs(d.margin - (d.net_proceeds - 52)) < 1e-9);
+  assert.ok(!d.risks.some((r) => /Shipping not stated/.test(r)));
+});
+
+test('free shipping costs nothing extra', () => {
+  const l = Object.assign(listingFor('kennel-pals-calico-cat', 40), { ship_price: 0 });
+  assert.strictEqual(E.buyerTotal(l, CFG), 40);
+});
+
+test('unstated shipping is assumed, and the deal says so', () => {
+  const l = listingFor('kennel-pals-calico-cat', 40);
+  assert.strictEqual(E.buyerTotal(l, CFG), 40 + CFG.reseller.assumed_inbound_shipping);
+  const d = E.findDeals(dealCtx([l]))[0];
+  assert.strictEqual(d.ship_assumed, true);
+  assert.ok(d.risks.some((r) => /Shipping not stated; assumed \$/.test(r)));
 });
 
 test('a listing at or above value is not a deal', () => {
@@ -677,10 +888,11 @@ test('a listing with no stated condition says so', () => {
 
 test('deals are ranked by margin, best first', () => {
   // All three clear the conservative floor; only the ordering is under test.
+  const free = (l) => Object.assign(l, { ship_price: 0 });
   const deals = E.findDeals(dealCtx([
-    listingFor('kennel-pals-calico-cat', 100),
-    listingFor('kennel-pals-calico-cat', 30),
-    listingFor('kennel-pals-calico-cat', 60)
+    free(listingFor('kennel-pals-calico-cat', 100)),
+    free(listingFor('kennel-pals-calico-cat', 30)),
+    free(listingFor('kennel-pals-calico-cat', 60))
   ]));
   assert.strictEqual(deals.length, 3);
   assert.ok(deals[0].margin > deals[1].margin);
@@ -696,22 +908,106 @@ test('anything that is not an active listing is ignored', () => {
 
 // ---- first-party sales -----------------------------------------------------
 
-test('your own sale counts as the strongest evidence', () => {
+const opSale = (id, price, date, extra) => Object.assign({
+  id: id, sold_price: price, sale_date: date, evidence_type: 'completed_sale',
+  marketplace: 'eBay', listing_id: id, condition: 'Good', completeness: 'bare'
+}, extra || {});
+
+test('an operator sale is not strong evidence without provenance', () => {
   const v = E.valuate({ id: 'x' }, [
-    { id: 'a', sold_price: 60, evidence_type: 'collector_report', first_party: true,
+    { id: 'a', sold_price: 60, evidence_type: 'collector_report', condition: 'Good',
+      completeness: 'bare' },
+    { id: 'b', sold_price: 62, evidence_type: 'collector_report', first_party: true,
       condition: 'Good', completeness: 'bare' }
   ], CFG);
-  assert.strictEqual(v.strong_evidence_count, 1,
-    'a first-party sale is strong even without a listing id');
-  assert.strictEqual(v.first_party_count, 1);
-  assert.ok(v.why.some((w) => /yourself/.test(w)));
+  assert.strictEqual(v.strong_evidence_count, 0,
+    'provenance rules apply to the operator exactly as to anyone else');
+  assert.strictEqual(v.operator_count, 0, 'one third-party comp supports no operator comp');
+  assert.ok(v.why.some((w) => /Jay's Retro Exchange/.test(w)));
+  assert.ok(!v.why.some((w) => /yourself/.test(w)));
 });
 
-test('a first-party sale does not suppress the usual caveats', () => {
+test('operator comps are capped at a quarter of the comps behind a value', () => {
+  const sales = [
+    opSale('t1', 50, '2026-01-01'), opSale('t2', 52, '2026-01-02'), opSale('t3', 54, '2026-01-03'),
+    opSale('o1', 90, '2026-02-01', { first_party: true }),
+    opSale('o2', 91, '2026-03-01', { seller_is_operator: true }),
+    opSale('o3', 92, '2026-04-01', { first_party: true })
+  ];
+  const v = E.valuate({ id: 'x' }, sales, CFG);
+  assert.strictEqual(v.operator_count, 1);
+  assert.deepStrictEqual(v.operator_excluded.map((e) => e.sale_id).sort(), ['o1', 'o2']);
+  assert.ok(v.operator_excluded.every((e) => e.reason === 'operator_cap'));
+  assert.deepStrictEqual(v.points.filter((p) => p.operator).map((p) => p.sale_id), ['o3'],
+    'the most recent operator comp is the one kept');
+  assert.strictEqual(v.comparable_count, 4);
+});
+
+test('operator points never exceed the cap, whatever the mix', () => {
+  for (let third = 1; third <= 40; third++) {
+    const sales = [];
+    for (let i = 0; i < third; i++) sales.push(opSale('t' + i, 50 + (i % 7), '2026-01-01'));
+    for (let i = 0; i < 40; i++) {
+      sales.push(opSale('o' + i, 50 + (i % 5), '2026-02-01', { seller_is_operator: true }));
+    }
+    const v = E.valuate({ id: 'x' }, sales, CFG);
+    const op = v.points.filter((p) => p.operator).length;
+    assert.ok(op <= CFG.operator_cap * v.points.length + 1e-9,
+      third + ' third-party: ' + op + ' of ' + v.points.length);
+  }
+});
+
+test('an item with only operator sales publishes no value', () => {
+  const v = E.valuate({ id: 'x' }, [
+    opSale('o1', 90, '2026-02-01', { first_party: true }),
+    opSale('o2', 95, '2026-03-01', { seller_is_operator: true })
+  ], CFG);
+  assert.strictEqual(v.has_value, false);
+  assert.strictEqual(v.fair_market, null);
+  assert.ok(v.caveats.includes('operator-only'));
+  assert.ok(v.why.some((w) => /Jay's Retro Exchange, which runs this site/.test(w)));
+});
+
+test('operator offers, asks and listings never count as sales', () => {
+  for (const t of ['operator_offer', 'operator_ask', 'active_listing', 'retail_reference']) {
+    const v = E.valuate({ id: 'x' }, [opSale('a', 60, '2026-01-01', { evidence_type: t })], CFG);
+    assert.strictEqual(v.has_value, false, t);
+  }
+});
+
+test('the business offer bands never feed a valuation', () => {
+  const sales = salesFor('kennel-pals-calico-cat');
+  const item = itemById('kennel-pals-calico-cat');
+  const a = E.valuate(item, sales, CFG);
+  const b = E.valuate(item, sales, Object.assign({}, CFG, {
+    business: { buy_pct: [0.01, 0.02], offer: 1, enabled: true }
+  }));
+  assert.deepStrictEqual(b, a);
+});
+
+test('operator listings are never offered as deals or counted in the ask spread', () => {
+  const own = Object.assign(listingFor('kennel-pals-calico-cat', 40),
+    { ship_price: 0, seller_is_operator: true });
+  assert.strictEqual(E.findDeals(dealCtx([own])).length, 0);
+  const v = valueOf('kennel-pals-calico-cat');
+  assert.strictEqual(E.askSpread(v, [own]), null);
+});
+
+test('excluded sales are kept for the record but never priced', () => {
+  const v = E.valuate({ id: 'x' }, [
+    opSale('a', 60, '2026-01-01', { excluded: { reason: 'not this item' } })
+  ], CFG);
+  assert.strictEqual(v.has_value, false);
+});
+
+test('an operator sale does not suppress the usual caveats', () => {
   const v = E.valuate({ id: 'x', release_status: 'current' }, [
     { id: 'a', sold_price: 60, evidence_type: 'completed_sale', first_party: true,
+      condition: 'Good', completeness: 'bare' },
+    { id: 'b', sold_price: 61, evidence_type: 'completed_sale',
       condition: 'Good', completeness: 'bare' }
   ], CFG);
+  assert.strictEqual(v.has_value, true);
   assert.ok(v.caveats.includes('current-retail'));
 });
 
@@ -812,8 +1108,9 @@ test('a thin-evidence item must be a better bargain to qualify', () => {
   // The Holiday Moose has one comp. Against the median it looks like a 40% discount;
   // against the floor it is not cheap enough, which is the correct answer.
   const listing = (ask) => ({ evidence_type: 'active_listing',
-    item_id: 'employee-exclusive-holiday-moose', ask_price: ask, condition: 'Good', title: 't' });
-  const ctx = (ask) => ({ config: CFG, listings: [listing(ask)],
+    item_id: 'employee-exclusive-holiday-moose', ask_price: ask, ship_price: 0,
+    condition: 'Good', title: 't' });
+  const ctx = (ask) => ({ config: DEAL_CFG, listings: [listing(ask)],
     itemById: itemById, valuationFor: valueOf });
 
   const v = valueOf('employee-exclusive-holiday-moose');
@@ -825,7 +1122,7 @@ test('a thin-evidence item must be a better bargain to qualify', () => {
 });
 
 test('a deal reports both the median and the floor it was judged against', () => {
-  const d = E.findDeals({ config: CFG, itemById: itemById, valuationFor: valueOf,
+  const d = E.findDeals({ config: DEAL_CFG, itemById: itemById, valuationFor: valueOf,
     listings: [{ evidence_type: 'active_listing', item_id: 'kennel-pals-calico-cat',
       ask_price: 40, condition: 'Good', title: 't' }] })[0];
   assert.ok(d.floor_value > 0);
@@ -949,9 +1246,32 @@ test('stacked bonuses are capped, losses are not', () => {
   // A battered copy is allowed all the way down: the floor is what the market
   // says, not a rule.
   const wrecked = E.adjust(v, 'Good', 'bare', CFG,
-    { tush_tag_missing: true, customised: true, unstuffed: true });
-  assert.ok(wrecked.modifiers.factor < 0.5);
+    { tush_tag_missing: true, customised: true });
+  assert.ok(wrecked.modifiers.factor < 0.6);
   assert.strictEqual(wrecked.modifiers.capped, false);
+});
+
+test('a hang tag is not counted twice on a copy already graded NWT', () => {
+  const v = valueOf('kennel-pals-calico-cat');
+  const nwt = E.adjust(v, 'NWT', 'bare', CFG);
+  const nwtTag = E.adjust(v, 'NWT', 'bare', CFG, { hang_tag: true });
+  assert.strictEqual(nwtTag.fair_market, nwt.fair_market);
+  assert.ok(!nwtTag.modifiers.applied.some((m) => m.key === 'hang_tag'));
+  const good = E.adjust(v, 'Good', 'bare', CFG, { hang_tag: true });
+  assert.ok(good.modifiers.applied.some((m) => m.key === 'hang_tag'));
+});
+
+test('unstuffed is a completeness grade, not a second calculator modifier', () => {
+  assert.strictEqual(CFG.modifiers.multiplicative.unstuffed, undefined);
+  assert.strictEqual(CFG.completeness_multipliers.unstuffed, 1);
+});
+
+test('a new-without-tags sale normalises by its own multiplier', () => {
+  assert.ok(CFG.condition_order.includes('NWOT'));
+  const s = { sold_price: 115, condition: 'NWOT', completeness: 'bare',
+              evidence_type: 'completed_sale' };
+  assert.ok(Math.abs(E.normalisedPrice(s, CFG) - 115 / CFG.condition_multipliers.NWOT) < 1e-9);
+  assert.ok(CFG.condition_multipliers.NWOT < CFG.condition_multipliers.NWT);
 });
 
 test('the modifier chain is itemised so a figure can be taken apart', () => {
@@ -1032,3 +1352,44 @@ test('a rejected outlier is not among the exposed comps', () => {
     'a comp the median ignored must not be drawn as if it counted');
 });
 
+
+// ---- the index summary (tools/build_assets.js) ------------------------------
+
+test('summary() returns exactly SUMMARY_KEYS', () => {
+  const v = valueOf('kennel-pals-calico-cat');
+  assert.deepStrictEqual(Object.keys(E.summary(v)), E.SUMMARY_KEYS);
+  assert.deepStrictEqual(Object.keys(E.summary(E.valuate({ id: 'x' }, [], CFG))), E.SUMMARY_KEYS);
+  for (const k of ['sold_transactions', 'stale', 'stale_reason', 'last_sale_date', 'operator_count', 'window']) {
+    assert.ok(E.SUMMARY_KEYS.includes(k), k);
+  }
+  assert.ok(!E.SUMMARY_KEYS.includes('points') && !E.SUMMARY_KEYS.includes('why'));
+});
+
+test('adjust() of a summary equals adjust() of the full valuation', () => {
+  const priced = DATA.items.filter((i) => valueOf(i.id).has_value).slice(0, 50);
+  assert.strictEqual(priced.length, 50);
+  for (const i of priced) {
+    const v = valueOf(i.id);
+    for (const [cond, comp] of [['Good', 'bare'], ['NWT', 'complete'], ['Fair', 'unknown']]) {
+      assert.deepStrictEqual(E.adjust(E.summary(v), cond, comp, CFG), E.adjust(v, cond, comp, CFG), i.id);
+    }
+  }
+});
+
+test('withBands() restores exactly the bands valuate() computed', () => {
+  for (const i of DATA.items.slice(0, 400)) {
+    const v = valueOf(i.id);
+    const w = E.withBands(E.summary(v), i.id, CFG);
+    assert.strictEqual(w.item_id, i.id);
+    for (const k of ['buy_low', 'buy_high', 'trade_low', 'trade_high', 'sell_low', 'sell_high',
+                     'ask_low', 'ask_high', 'fair_market', 'range_low', 'confidence']) {
+      assert.strictEqual(w[k], v[k], i.id + '.' + k);
+    }
+  }
+});
+
+test('valuate is deterministic across runs (seeded bootstrap)', () => {
+  for (const i of DATA.items.slice(0, 200)) {
+    assert.deepStrictEqual(valueOf(i.id), valueOf(i.id), i.id);
+  }
+});

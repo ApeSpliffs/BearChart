@@ -13,6 +13,7 @@ import json
 import os
 import re
 import sys
+import subprocess
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -119,7 +120,9 @@ class PageShapeTests(unittest.TestCase):
     def test_assets_and_links_reach_back_out_of_the_item_directory(self):
         html = page(PRICED, VAL)
         self.assertIn('href="../styles.css"', html)
-        self.assertIn('src="../data.js"', html)
+        self.assertIn('src="../site-config.js"', html)
+        self.assertIn('src="../bc-data.js"', html)
+        self.assertNotIn('data.js"', html.replace('bc-data.js"', ''))
         self.assertIn('src="../item.js"', html)
         self.assertIn('href="../index.html"', html)
 
@@ -145,6 +148,30 @@ class PageShapeTests(unittest.TestCase):
         self.assertNotIn('onload="alert(1)', html)
         self.assertIn("&quot;", html)
 
+    def test_a_hostile_name_cannot_close_the_structured_data_block(self):
+        # Names arrive weekly from a wiki import. "</script>" inside the JSON-LD
+        # would end the block and run whatever follows as script.
+        nasty = dict(PRICED, canonical_name="</script><script>x()</script> & <!--")
+        html = page(nasty, VAL, SALES)
+        m = re.search(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        self.assertIsNotNone(m)
+        block = m.group(1)
+        self.assertNotIn("<", block)
+        self.assertNotIn(">", block)
+        self.assertEqual(json.loads(block)["name"], "</script><script>x()</script> & <!--")
+        self.assertNotIn("<script>x()", html)
+
+    def test_no_inline_executable_script(self):
+        # The CSP (vercel.json) allows no inline script; JSON-LD is data, not code.
+        html = page(PRICED, VAL, SALES)
+        for attrs in re.findall(r"<script\b([^>]*)>", html):
+            self.assertTrue("src=" in attrs or 'type="application/ld+json"' in attrs, attrs)
+        self.assertIsNone(re.search(r"\son[a-z]+\s*=", html))
+
+    def test_sanitize_loads_before_auth(self):
+        html = page(PRICED, VAL, SALES)
+        self.assertLess(html.index('src="../sanitize.js"'), html.index('src="../auth.js"'))
+
 
 SHOP = {"enabled": True, "name": "Jay's Retro Exchange",
         "shop_url": "https://jaysretroexchange.com",
@@ -152,7 +179,7 @@ SHOP = {"enabled": True, "name": "Jay's Retro Exchange",
         "shop_headline": "Buying and selling all week",
         "shop_blurb": "Browse what is in stock.",
         "shop_cta": "Visit the shop",
-        "shop_disclosure": "We buy and sell the same items this guide values."}
+        "shop_disclosure_short": "Jay's Retro Exchange is our store. It never changes a value in this guide."}
 
 
 class ShopPromoTests(unittest.TestCase):
@@ -166,7 +193,8 @@ class ShopPromoTests(unittest.TestCase):
     def test_it_is_labelled_and_discloses_the_conflict(self):
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
         self.assertIn("promo-eyebrow", html)
-        self.assertIn("We buy and sell the same items this guide values.", html)
+        self.assertIn("Jay&#x27;s Retro Exchange is our store. It never changes a value in this guide.", html)
+        self.assertIn('class="shop-disclosure fine"', html)
 
     def test_it_stays_off_a_priced_page(self):
         # Those pages carry the "sell yours to us" offer instead. One pitch per
@@ -179,7 +207,15 @@ class ShopPromoTests(unittest.TestCase):
 
     def test_the_outbound_link_is_safe(self):
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
-        self.assertIn('rel="noopener"', html)
+        self.assertIn('rel="sponsored noopener noreferrer"', html)
+        self.assertIn('target="_blank"', html)
+        self.assertIn('<span class="sr-only"> (opens our shop)</span>', html)
+
+    def test_the_shop_link_matches_the_site_rel_and_is_https_only(self):
+        html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
+        self.assertIn('rel="sponsored noopener noreferrer"', html)
+        for bad in ("javascript:alert(1)", "http://jaysretroexchange.com", "//evil.test"):
+            self.assertNotIn("promo-title", bp.page_html(UNPRICED, NO_VAL, [], "", "d", dict(SHOP, shop_url=bad)), bad)
 
     def test_shop_copy_is_escaped(self):
         nasty = dict(SHOP, shop_headline='<script>alert(1)</script>')
@@ -190,6 +226,60 @@ class ShopPromoTests(unittest.TestCase):
         # An unpriced page must stay unpriced, shop panel or not.
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
         self.assertNotIn("$", html.split("</head>")[0])
+
+
+class ShopLinkParityTests(unittest.TestCase):
+    """The static pages' store link and common.js BC.shopHref build one URL."""
+
+    def js_href(self, business, placement, opts):
+        script = r"""
+const { JSDOM } = require('jsdom');
+const fs = require('fs');
+const [business, placement, opts] = JSON.parse(process.argv[1]);
+const dom = new JSDOM('<!doctype html><body></body>', { url: 'http://localhost/', runScripts: 'outside-only' });
+const w = dom.window;
+w.BEARCHART_CONFIG = { meta: { disclaimer: '' }, engine: {}, business, membership: {}, redirects: {}, stats: {} };
+for (const f of ['sanitize.js', 'bc-data.js', 'engine.js', 'common.js']) w.eval(fs.readFileSync(f, 'utf8'));
+process.stdout.write(w.BC.shopHref(placement, opts));
+"""
+        out = subprocess.run(["node", "-e", script, json.dumps([business, placement, opts])],
+                             cwd=ROOT, capture_output=True, text=True, check=True)
+        return out.stdout
+
+    def test_the_utm_tags_match_the_javascript_builder(self):
+        item = {"id": "classic-brown-teddy", "canonical_name": "Classic Brown Teddy"}
+        py = bp.shop_href(SHOP, "item_quote", item["id"], kind="quote")
+        self.assertEqual(py, self.js_href(SHOP, "item_quote", {"kind": "quote", "item": item}))
+        self.assertIn("utm_source=bearchart", py)
+        self.assertIn("utm_medium=referral", py)
+        self.assertIn("utm_content=item_quote", py)
+        self.assertIn("utm_term=classic-brown-teddy", py)
+
+    def test_templates_and_existing_parameters_match_too(self):
+        shop = dict(SHOP, shop_url="https://jaysretroexchange.com/?ref=x",
+                    shop_offer_url="https://jaysretroexchange.com/sell?item={item}&utm_source=old")
+        item = {"id": "a b&c", "canonical_name": "A"}
+        py = bp.shop_href(shop, "item_offer", item["id"], kind="offer")
+        self.assertEqual(py, self.js_href(shop, "item_offer", {"kind": "offer", "item": item}))
+        self.assertEqual(bp.shop_href(shop, "footer"), self.js_href(shop, "footer", {}))
+
+
+class PageShapeTests(unittest.TestCase):
+
+    def test_exactly_one_h1_and_a_main_landmark(self):
+        for html in (page(PRICED, VAL, SALES), page(UNPRICED, NO_VAL)):
+            self.assertEqual(len(re.findall(r"<h1\b", html)), 1)
+            self.assertIn('<main id="main" tabindex="-1">', html)
+
+    def test_the_title_says_value_and_independent_guide(self):
+        title = re.search(r"<title>([^<]*)</title>", page(PRICED, VAL, SALES)).group(1)
+        self.assertRegex(title, r" value \u2014 BearChart \(independent price guide\)$")
+
+    def test_the_theme_loads_in_the_head_before_the_stylesheet(self):
+        html = page(PRICED, VAL, SALES)
+        head = html.split("</head>")[0]
+        self.assertIn('<script src="../theme.js"></script>', head)
+        self.assertLess(head.index("theme.js"), head.index("styles.css"))
 
 
 class SitemapTests(unittest.TestCase):
@@ -211,6 +301,33 @@ class SitemapTests(unittest.TestCase):
             os.remove(path)
 
 
+class RedirectStubTests(unittest.TestCase):
+    ITEM = {"id": "grogu-star-wars", "canonical_name": "Grogu (Star Wars)"}
+
+    def test_a_stub_is_noindex_canonical_and_refreshes(self):
+        html = bp.redirect_stub_html("star-wars-grogu", self.ITEM, "https://example.test")
+        self.assertIn('<meta name="robots" content="noindex">', html)
+        self.assertIn('<link rel="canonical" href="https://example.test/item/grogu-star-wars.html">',
+                      html)
+        self.assertIn('<meta http-equiv="refresh" content="0; url=grogu-star-wars.html">', html)
+        self.assertIn('<a href="grogu-star-wars.html">', html)
+        self.assertIn('<script src="../redirect.js"></script>', html)
+        # The CSP allows no inline script.
+        self.assertIsNone(re.search(r"<script(?![^>]*\bsrc=)[^>]*>", html))
+
+    def test_stubs_are_never_in_the_sitemap(self):
+        data = {"items": [{"id": "grogu-star-wars"}], "sales": [],
+                "redirects": {"star-wars-grogu": "grogu-star-wars"}}
+        path, count = bp.write_sitemap(data, "https://example.test/")
+        try:
+            with open(path) as f:
+                xml = f.read()
+            self.assertNotIn("star-wars-grogu", xml)
+            self.assertIn("grogu-star-wars", xml)
+        finally:
+            os.remove(path)
+
+
 class LivePagesTests(unittest.TestCase):
     """The pages actually on disk, against the catalogue that produced them."""
 
@@ -226,6 +343,16 @@ class LivePagesTests(unittest.TestCase):
         for item in self.data["items"]:
             path = os.path.join(self.dir, "%s.html" % item["id"])
             self.assertTrue(os.path.exists(path), "missing page for " + item["id"])
+
+    def test_every_merged_id_has_a_redirect_stub(self):
+        if not os.path.isdir(self.dir):
+            self.skipTest("run tools/build_pages.py first")
+        for old, new in (self.data.get("redirects") or {}).items():
+            path = os.path.join(self.dir, "%s.html" % old)
+            self.assertTrue(os.path.exists(path), "missing stub for " + old)
+            html = open(path).read()
+            self.assertIn('content="noindex"', html)
+            self.assertIn("url=%s.html" % new, html)
 
     def test_no_page_for_an_item_with_no_comps_mentions_a_dollar_value(self):
         if not os.path.isdir(self.dir):

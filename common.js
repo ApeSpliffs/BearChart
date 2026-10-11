@@ -1,41 +1,309 @@
-/* Shared helpers for every BearChart page. Loaded after data.js and engine.js. */
+/* Shared helpers for every BearChart page. Loaded after site-config.js,
+   sanitize.js, bc-data.js and engine.js; before the page's own script. */
 (function (root) {
   'use strict';
 
-  var DATA = root.BEARCHART_DATA;
-  if (!DATA) throw new Error('BearChart: data.js did not load.');
+  var BD = root.BearChartData;
+  if (!BD) throw new Error('BearChart: bc-data.js did not load.');
+  var S = root.BearChartSanitize;
+  if (!S) throw new Error('BearChart: sanitize.js did not load.');
 
-  var CFG = DATA.config;
+  // The site manifest (site-config.js). Synchronous: config-only pages
+  // (about, plans, account, roadmap, privacy, terms) never load any data.
+  var SITE = BD.config();
+  var CFG = SITE.engine;
   var E = root.BearChartEngine;
+  var canonicalId = BD.canonicalId;
+  var REDIRECTS = BD.redirects();
 
-  // --- indexes -------------------------------------------------------------
+  // --- the loaded data ------------------------------------------------------
+  // A page asks for what it needs: BC.withCatalogue (every item's summary) or
+  // BC.withItem (one bear and its comps). Until then these lookups have
+  // nothing to answer from, and say so loudly rather than guess.
 
-  var salesByItem = {};
-  DATA.sales.forEach(function (s) {
-    (salesByItem[s.item_id] = salesByItem[s.item_id] || []).push(s);
-  });
+  function notLoaded() {
+    throw new Error('BearChart: the catalogue is not loaded yet (use BC.withCatalogue).');
+  }
 
-  var itemsById = {};
-  DATA.items.forEach(function (i) { itemsById[i.id] = i; });
+  var catalogue = null;
 
-  var valuationCache = {};
+  function itemById(id) { return catalogue ? catalogue.itemById(id) : notLoaded(); }
+  function valuationFor(id) { return catalogue ? catalogue.valuationFor(id) : notLoaded(); }
 
-  function salesFor(id) { return salesByItem[id] || []; }
+  /**
+   * Headline numbers. No argument: the whole catalogue, from the build
+   * (site-config stats, engine.catalogueStats over every item). With a set of
+   * items: the same function over their summaries, so the unfiltered tile
+   * equals the hero and the footer.
+   */
+  function catalogueStats(items) {
+    if (!items) return SITE.stats;
+    return E.catalogueStats(items, null, valuationFor, CFG);
+  }
 
-  // Asking prices, indexed separately from sales. They are shown for context and
-  // never priced from.
-  var activeByItem = {};
-  (DATA.active_listings || []).forEach(function (l) {
-    (activeByItem[l.item_id] = activeByItem[l.item_id] || []).push(l);
-  });
-  function activeFor(id) { return activeByItem[id] || []; }
-  function itemById(id) { return itemsById[id] || null; }
-
-  function valuationFor(id) {
-    if (!valuationCache[id]) {
-      valuationCache[id] = E.valuate(itemById(id), salesFor(id), CFG);
+  /**
+   * Every number a page shows about a set of bears, from one place: the hero,
+   * the stats tiles, the footer and the search placeholder all read this, so
+   * no two of them can disagree. `comps` is engine.catalogueStats'
+   * sold_transactions (labelled "sold transactions recorded" everywhere).
+   * No argument: the whole catalogue, from the build (no data load needed;
+   * median and top need the index, so they are null there). Memoised per array.
+   */
+  var statsMemo = typeof WeakMap === 'function' ? new WeakMap() : null;
+  function statsFor(items) {
+    if (!items) {
+      var st = SITE.stats || {};
+      return { items: st.items || 0, priced: st.priced_items || 0, comps: st.sold_transactions || 0,
+               sales: st.sold_records != null ? st.sold_records : null, stale: st.stale_items || 0,
+               median: null, top: null, yearMin: st.year_min || null, yearMax: st.year_max || null };
     }
-    return valuationCache[id];
+    if (statsMemo && statsMemo.has(items)) return statsMemo.get(items);
+    var e = catalogueStats(items);
+    var values = [], years = [];
+    items.forEach(function (i) {
+      var v = valuationFor(i.id);
+      if (v && v.has_value && typeof v.fair_market === 'number') values.push(v.fair_market);
+      if (i.release_year) years.push(i.release_year);
+    });
+    var out = {
+      items: e.items, priced: e.priced_items, comps: e.sold_transactions,
+      sales: e.sold_records, stale: e.stale_items,
+      median: values.length ? E.median(values) : null,
+      top: values.length ? Math.max.apply(null, values) : null,
+      yearMin: years.length ? Math.min.apply(null, years) : null,
+      yearMax: years.length ? Math.max.apply(null, years) : null
+    };
+    if (statsMemo) statsMemo.set(items, out);
+    return out;
+  }
+
+  /** statsFor over the whole catalogue: the build's figures, the same everywhere. */
+  function stats() { return statsFor(); }
+
+  function fmtInt(n) { return Number(n || 0).toLocaleString('en-US'); }
+
+  // --- loading: status hook, error state, idle --------------------------------
+
+  var inFlight = [];
+
+  /** Settles once every withCatalogue / withItem started so far has rendered. */
+  function whenIdle() {
+    var n = inFlight.length;
+    return Promise.all(inFlight.map(function (p) { return p.catch(function () {}); }))
+      .then(function () { return inFlight.length > n ? whenIdle() : undefined; });
+  }
+
+  function track(p) {
+    inFlight.push(p);
+    p.then(done, done);
+    function done() { var i = inFlight.indexOf(p); if (i !== -1) inFlight.splice(i, 1); }
+    return p;
+  }
+
+  /** Status text for any [data-bc-status] element (the UX workstream styles it). */
+  function setStatus(text) {
+    if (typeof document === 'undefined') return;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-bc-status]'), function (el) {
+      el.textContent = text;
+      el.hidden = !text;
+    });
+  }
+
+  function loadingText(what) {
+    var n = (SITE.meta && SITE.meta.item_count) || 0;
+    return what || ('Loading ' + n.toLocaleString('en-US') + ' bears…');
+  }
+
+  /**
+   * The data did not arrive: say so where the page would have been, with a
+   * retry. Opened from disk, say how to open it properly instead.
+   */
+  function dataError(err, retry, what) {
+    setStatus('');
+    if (typeof document === 'undefined') return;
+    var host = document.querySelector('main .wrap') || document.querySelector('main') || document.body;
+    var old = document.querySelector('[data-bc-error]');
+    if (old) old.parentNode.removeChild(old);
+    var box = document.createElement('div');
+    box.className = 'notice warn';
+    box.setAttribute('data-bc-error', '');
+    box.setAttribute('role', 'alert');
+    box.innerHTML = err && err.file
+      ? '<strong>Open BearChart through <code>npm start</code>.</strong> Browsers block ' +
+        'data files opened straight from disk.'
+      : '<strong>Couldn\'t load ' + esc(what || 'the price guide') + '.</strong> ' +
+        'Check your connection and try again. ' +
+        '<button type="button">Try again</button>';
+    var btn = box.querySelector('button');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        box.parentNode.removeChild(box);
+        retry();
+      });
+    }
+    host.insertBefore(box, host.firstChild);
+  }
+
+  /** A bug in the page's own code: report it like any uncaught error. */
+  function rethrow(e) {
+    if (root.console && console.error) console.error(e && e.stack ? e.stack : e);
+    setTimeout(function () { throw e; }, 0);
+  }
+
+  function bindCatalogue(cat) {
+    catalogue = cat;
+    BC.catalogue = cat;
+  }
+
+  /**
+   * Load the catalogue index, then render. fn(catalogue[, listings]) runs once
+   * the data is in; until then [data-bc-status] says what is loading. With
+   * {listings: true} the active asking prices are loaded too (the deal finder).
+   */
+  function withCatalogue(fn, opts) {
+    setStatus(loadingText(opts && opts.label));
+    var marks = paintSkeletons(opts && opts.skeleton, opts && opts.label);
+    var jobs = [BD.loadIndex()];
+    if (opts && opts.listings) jobs.push(BD.loadListings());
+    return track(Promise.all(jobs).then(function (res) {
+      bindCatalogue(res[0]);
+      setStatus('');
+      clearSkeletons(marks, false);
+      try { fn(res[0], res[1]); } catch (e) { rethrow(e); }
+      return res[0];
+    }, function (err) {
+      clearSkeletons(marks, true);
+      dataError(err, function () { withCatalogue(fn, opts); });
+      return null;
+    }));
+  }
+
+  // --- skeletons: what a page looks like while its data is on the way -------
+  // Presentation only: nothing here fetches.
+
+  /** Placeholder markup, aria-hidden. kind: 'cards' | 'item' | 'table' | 'stats'. */
+  function skeleton(kind, n) {
+    var out = '';
+    var i;
+    n = n || ({ cards: 12, table: 5, stats: 5, item: 1 }[kind] || 3);
+    if (kind === 'cards') {
+      for (i = 0; i < n; i++) {
+        out += '<div class="card sk" aria-hidden="true"><div class="sk-img"></div>' +
+               '<div class="sk-line w70"></div><div class="sk-line w40"></div></div>';
+      }
+    } else if (kind === 'stats') {
+      for (i = 0; i < n; i++) {
+        out += '<div class="stat sk" aria-hidden="true"><div class="sk-line w40"></div>' +
+               '<div class="sk-line w70"></div></div>';
+      }
+    } else if (kind === 'table') {
+      out = '<div class="sk sk-table" aria-hidden="true">';
+      for (i = 0; i < n; i++) out += '<div class="sk-line"></div>';
+      out += '</div>';
+    } else {
+      out = '<div class="panel sk sk-item" aria-hidden="true"><div class="sk-img"></div>' +
+            '<div class="sk-line w70"></div><div class="sk-line w40"></div>' +
+            '<div class="sk-line"></div></div>';
+    }
+    return out;
+  }
+
+  /** Fill each [mount, kind, n] with its skeleton and mark it busy. */
+  function paintSkeletons(list, label) {
+    if (!list || typeof document === 'undefined') return [];
+    return list.filter(function (s) { return s && s[0]; }).map(function (s) {
+      s[0].setAttribute('aria-busy', 'true');
+      s[0].innerHTML = skeleton(s[1], s[2]) +
+        '<p class="sr-only">' + esc(label || 'Loading the price guide…') + '</p>';
+      return s[0];
+    });
+  }
+
+  function clearSkeletons(marks, empty) {
+    (marks || []).forEach(function (m) {
+      m.removeAttribute('aria-busy');
+      if (empty) m.innerHTML = '';
+    });
+  }
+
+  /** "Couldn't load" with a retry, inside `mount` (the skeleton's place). */
+  function errorState(mount, opts) {
+    opts = opts || {};
+    mount.removeAttribute('aria-busy');
+    mount.innerHTML = '<div class="notice warn" role="alert" data-bc-error>' +
+      '<strong>Couldn\'t load ' + esc(opts.what || 'the price guide') + '.</strong> ' +
+      'Check your connection and try again. <button type="button">Try again</button></div>';
+    var btn = mount.querySelector('button');
+    if (btn && opts.retry) btn.addEventListener('click', function () { opts.retry(); });
+  }
+
+  /**
+   * Render `source` into `mount`. A plain value renders at once; a promise
+   * shows a skeleton (aria-busy, with a screen-reader "Loading ..." line) until
+   * it settles, then renders, or shows errorState with a retry.
+   *   opts: {kind, n, label, what, retry}
+   */
+  function whenData(source, mount, render, opts) {
+    opts = opts || {};
+    if (!source || typeof source.then !== 'function') {
+      render(source);
+      return Promise.resolve(source);
+    }
+    var marks = mount ? paintSkeletons([[mount, opts.kind || 'cards', opts.n]],
+                                       'Loading ' + (opts.label || 'the price guide') + '…') : [];
+    return track(source.then(function (data) {
+      clearSkeletons(marks, false);
+      try { render(data); } catch (e) { rethrow(e); }
+      return data;
+    }, function (err) {
+      if (mount) errorState(mount, { what: opts.what, retry: opts.retry });
+      else dataError(err, opts.retry || function () {}, opts.what);
+      return null;
+    }));
+  }
+
+  /**
+   * The plans page's copy (features, who each tier is for, coupon terms),
+   * installed into BearChartPlans before fn runs.
+   */
+  function withPlans(fn) {
+    var P = root.BearChartPlans;
+    return track(BD.loadPlans().then(function (copy) {
+      if (P && P.useCopy) P.useCopy(copy);
+      try { fn(copy); } catch (e) { rethrow(e); }
+      return copy;
+    }, function (err) {
+      dataError(err, function () { withPlans(fn); }, 'the plan details');
+      return null;
+    }));
+  }
+
+  /**
+   * Load one bear (its record, comps, listings and related items), then
+   * render fn(detail). Offline and never visited, detail.partial is true and
+   * carries the index summary instead of the comps (bc-data.js). A missing
+   * bear calls fn(null, error).
+   */
+  function withItem(id, fn) {
+    setStatus(loadingText('Loading this bear…'));
+    return track(BD.loadItem(id).then(function (detail) {
+      // On an item page these answer for the bear on screen.
+      catalogue = {
+        itemById: function (x) { return canonicalId(x) === detail.item.id ? detail.item : null; },
+        valuationFor: function (x) { return canonicalId(x) === detail.item.id ? detail.valuation : null; }
+      };
+      setStatus('');
+      try { fn(detail); } catch (e) { rethrow(e); }
+      return detail;
+    }, function (err) {
+      setStatus('');
+      if (err && err.status === 404) {
+        try { fn(null, err); } catch (e) { rethrow(e); }
+        return null;
+      }
+      dataError(err, function () { withItem(id, fn); }, 'this bear');
+      return null;
+    }));
   }
 
   /**
@@ -169,10 +437,14 @@
         '" x2="' + x(v.fair_market).toFixed(1) + '" y2="' + (AXIS + 24) + '"/>'
       : '';
 
+    var anyOwn = false;
     var dots = v.points.map(function (p) {
-      var cls = 'ev-dot' + (p.first_party ? ' ev-dot-own' : '');
+      var own = isOperatorSale(p);
+      if (own) anyOwn = true;
+      var cls = 'ev-dot' + (own ? ' ev-dot-own' : '');
       var title = exact(p.raw) + (p.condition ? ' · ' + p.condition : '') +
-                  (p.norm !== p.raw ? ' → ' + exact(p.norm) + ' adjusted' : '');
+                  (p.norm !== p.raw ? ' → ' + exact(p.norm) + ' adjusted' : '') +
+                  (own ? ' · sold by our store' : '');
       return '<circle class="' + cls + '" cx="' + x(p.norm).toFixed(1) +
              '" cy="' + AXIS + '" r="7"><title>' + esc(title) + '</title></circle>';
     }).join('');
@@ -217,6 +489,7 @@
         ', adjusted to Good condition with no extras ' +
         '<span class="ev-k-band"></span> published range ' +
         '<span class="ev-k-med"></span> median' +
+        (anyOwn ? ' <span class="ev-k-own"></span> sold by our store' : '') +
       '</figcaption>' +
       '</figure>';
   }
@@ -254,6 +527,65 @@
   }
 
   function confClass(c) { return 'conf conf-' + String(c).toLowerCase().replace(/\s+/g, '-'); }
+
+  /** 'HIGH' -> 'High confidence', 'VERY LOW' -> 'Very low confidence'. */
+  function confLabel(c) {
+    var s = String(c || 'VERY LOW').toLowerCase();
+    return s.charAt(0).toUpperCase() + s.slice(1) + ' confidence';
+  }
+
+  var chipSeq = 0;
+  /**
+   * The confidence chip. Linked to how confidence is rated, with a tooltip
+   * giving the count behind it (shown on hover and keyboard focus, and kept
+   * open while the pointer is over it). On a card it is a plain span - the
+   * card is already one link.
+   *   opts: {link: bool, n: comparable_count}
+   */
+  function confChip(conf, opts) {
+    opts = opts || {};
+    var label = esc(confLabel(conf));
+    if (!opts.link) return '<span class="' + confClass(conf) + '">' + label + '</span>';
+    var id = 'conf-tip-' + (++chipSeq);
+    var n = opts.n == null ? null : Number(opts.n);
+    return '<span class="conf-wrap"><a class="' + confClass(conf) + '" href="' +
+      rel('about.html') + '#confidence" aria-describedby="' + id + '">' + label + '</a>' +
+      '<span role="tooltip" id="' + id + '" class="conf-tip">' +
+      (n == null ? '' : 'Based on ' + n + ' sale' + (n === 1 ? '' : 's') + '. ') +
+      'How we rate confidence &rarr;</span></span>';
+  }
+
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  /** '2024-03-02' -> 'Mar 2024'; null for anything that is not a date. */
+  function monthYear(iso) {
+    var m = /^(\d{4})-(\d{2})/.exec(String(iso || ''));
+    if (!m || +m[2] < 1 || +m[2] > 12) return null;
+    return MONTHS[+m[2] - 1] + ' ' + m[1];
+  }
+
+  /**
+   * How fresh a value is, from its valuation (engine fields stale and
+   * last_sale_date; the data workstream owns the threshold).
+   *   item page: "Older data · last sale Mar 2024" or "Last sale Mar 2024"
+   *   card ({card: true}): only "Older data", only when stale
+   */
+  function freshness(v, opts) {
+    if (!v) return '';
+    var when = monthYear(v.last_sale_date);
+    if (opts && opts.card) {
+      return v.stale ? '<span class="chip chip-stale chip-sm">Older data</span>' : '';
+    }
+    if (!when) return '';
+    return v.stale
+      ? '<span class="chip chip-stale"><span aria-hidden="true">&#9201;</span> Older data &middot; last sale ' +
+        esc(when) + '</span>'
+      : '<span class="chip chip-fresh">Last sale ' + esc(when) + '</span>';
+  }
+
+  /** A sale made by Jay's Retro Exchange, the store that runs this guide. */
+  function isOperatorSale(s) { return !!(s && (s.seller_is_operator || s.first_party || s.operator)); }
+
+  var OPERATOR_LABEL = 'Seller: Jay\'s Retro Exchange (our store)';
 
   function era(item) {
     var y = item.release_year;
@@ -302,11 +634,7 @@
     }).join('') + '</div>';
   }
 
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  }
+  var esc = S.esc;
 
   /**
    * Where "here" is, relative to the site root.
@@ -317,16 +645,16 @@
    * rules out root-relative "/item/x.html" links. So internal links get a
    * prefix worked out from where the current page actually sits.
    */
-  var PREFIX = /(^|\/)item\/[^/]*$/.test(root.location ? root.location.pathname : '')
-    ? '../' : '';
-
-  function rel(path) { return PREFIX + path; }
+  var rel = BD.rel;   // one definition, shared with the data URLs
 
   function itemUrl(id) {
-    return rel('item/' + encodeURIComponent(id) + '.html');
+    return rel('item/' + encodeURIComponent(canonicalId(id)) + '.html');
   }
 
-  var BUSINESS = DATA.business || {};
+  /** Leave this page for another without a history entry (a redirect). */
+  function go(url) { root.location.replace(url); }
+
+  var BUSINESS = SITE.business || {};
 
   /**
    * Wrap an outbound eBay link with an affiliate campaign id, if one is set.
@@ -342,12 +670,161 @@
            encodeURIComponent(BUSINESS.ebay_campaign_id) + '&toolid=10001';
   }
 
+  /**
+   * An outbound marketplace link, affiliate-tagged when a campaign is set, and
+   * then marked rel="sponsored" as search engines require. Unsafe URLs render
+   * as plain text.
+   */
+  function affiliateLink(url, innerHtml) {
+    var tagged = affiliate(url);
+    // eBay links are marketplace links this guide may earn from: always
+    // rel="sponsored", tagged or not (cross-spec decision #5).
+    return S.extLink(tagged, innerHtml,
+      { sponsored: tagged !== url || /^https?:\/\/(www\.)?ebay\./i.test(String(url || '')) });
+  }
+
+  /**
+   * How many days old a listings fetch is, when that is past the limit
+   * (config.listings_max_age_days); 0 while it is current or undated.
+   */
+  function listingsAge(fetchedAt) {
+    var t = Date.parse(fetchedAt || '');
+    if (!isFinite(t)) return 0;
+    var days = Math.floor((Date.now() - t) / 86400000);
+    return days > (CFG.listings_max_age_days || 7) ? days : 0;
+  }
+
+  /** The "may be out of date" note for old asking prices, or ''. */
+  function listingsAgeNote(fetchedAt) {
+    var days = listingsAge(fetchedAt);
+    return days
+      ? '<p class="notice warn listings-stale">These asking prices were last checked ' + days +
+        ' days ago and may be out of date. Listings sell or end every day.</p>'
+      : '';
+  }
+
   function businessEnabled() {
     return !!(BUSINESS.enabled && (BUSINESS.contact_email || BUSINESS.contact_url));
   }
 
   function shopEnabled() {
     return !!(BUSINESS.enabled && BUSINESS.shop_url);
+  }
+
+  // --- the hand-off to Jay's Retro Exchange ----------------------------------
+  // BearChart sells nothing but memberships. Buying and selling a bear happens
+  // at Jay's Retro Exchange, the store that runs the guide, and every link
+  // there is built here: UTM-tagged, https only, opened in a new tab, marked
+  // rel="sponsored", announced to screen readers, counted as a shop_click and
+  // followed by a one-line disclosure. The shop's address lives only in config
+  // (tools/build_data.py BUSINESS).
+
+  var SHOP_PLACEMENTS = ['footer', 'guide_sidebar', 'guide_mobile', 'item_store_panel',
+    'item_offer', 'item_quote', 'item_search', 'about_disclosure',
+    'nudge_perk', 'plans_perk', 'other'];
+  // Not here on purpose: the contact links on privacy.html and terms.html.
+  // Asking about your data is not shopping - they stay plain links.
+  var SHOP_REL = 'sponsored noopener noreferrer';
+
+  function shopPlacement(p) {
+    if (SHOP_PLACEMENTS.indexOf(p) !== -1) return p;
+    if (root.console && console.warn && /^(localhost|127\.0\.0\.1)$/.test((root.location || {}).hostname || '')) {
+      console.warn('BearChart: unknown shop placement "' + p + '"');
+    }
+    return 'other';
+  }
+
+  /**
+   * The address of a store link, or '' when the shop is off or its URL is
+   * not https.
+   *   opts: {kind: 'home'|'search'|'offer'|'quote', item, condition,
+   *          medium: 'referral'|'member_perk', campaign}
+   */
+  function shopHref(placement, opts) {
+    if (!shopEnabled()) return '';
+    opts = opts || {};
+    var b = BUSINESS;
+    var kind = opts.kind || 'home';
+    var tpl = kind === 'search' ? b.shop_search_url
+      : (kind === 'offer' || kind === 'quote') ? b.shop_offer_url : null;
+    var item = opts.item || null;
+    var raw = (tpl || b.shop_url)
+      .replace(/\{q\}/g, encodeURIComponent(item ? item.canonical_name || '' : ''))
+      .replace(/\{item\}/g, encodeURIComponent(item ? item.id || '' : ''))
+      .replace(/\{condition\}/g, encodeURIComponent(opts.condition || ''));
+    var safe = S.safeUrl(raw, { schemes: ['https:'] }) ||
+               S.safeUrl(b.shop_url, { schemes: ['https:'] });
+    if (!safe) return '';
+    var url;
+    try { url = new URL(safe); } catch (e) { return ''; }
+    var medium = opts.medium || 'referral';
+    url.searchParams.set('utm_source', 'bearchart');
+    url.searchParams.set('utm_medium', medium);
+    url.searchParams.set('utm_campaign', opts.campaign || (medium === 'member_perk' ? 'perk' : 'guide'));
+    url.searchParams.set('utm_content', shopPlacement(placement));
+    if (item && item.id) url.searchParams.set('utm_term', item.id);
+    return url.toString();
+  }
+
+  /**
+   * A link to the store, or '' when the shop is off.
+   *   opts: shopHref's, plus label (default business.shop_cta) and className
+   *         (default 'btn btn-primary'; '' for a plain text link)
+   */
+  function shopLink(placement, opts) {
+    opts = opts || {};
+    var href = shopHref(placement, opts);
+    if (!href) return '';
+    var cls = opts.className === undefined ? 'btn btn-primary' : opts.className;
+    var item = opts.item || null;
+    // The anchor itself is sanitize.js extLink's (https only); the data-*
+    // attributes say where it sits, for the shop_click count.
+    var link = S.extLink(href, esc(opts.label || BUSINESS.shop_cta || BUSINESS.name) +
+      '<span class="ext" aria-hidden="true"> &#8599;</span>' +
+      '<span class="sr-only"> (opens our shop)</span>',
+      { className: cls || undefined, rel: SHOP_REL, schemes: ['https:'] });
+    return link.replace(/^<a /, '<a data-shop-placement="' + esc(shopPlacement(placement)) +
+      '" data-shop-kind="' + esc(opts.kind || 'home') + '"' +
+      (item && item.id ? ' data-item="' + esc(item.id) + '"' : '') + ' ');
+  }
+
+  /** The one line that follows every store link. */
+  function shopDisclosure() {
+    if (!shopEnabled()) return '';
+    return '<p class="shop-disclosure fine">' + esc(BUSINESS.shop_disclosure_short ||
+      'Jay\'s Retro Exchange is our store. It never changes a value in this guide.') +
+      ' <a href="' + rel('about.html') + '#conflicts">How we keep it separate</a></p>';
+  }
+
+  /**
+   * Static pages (privacy, terms) carry a plain link with data-shop-placement
+   * so they work without script; this upgrades each to a real store link.
+   */
+  function upgradeShopLinks(scope) {
+    if (typeof document === 'undefined') return;
+    var host = scope || document;
+    Array.prototype.forEach.call(host.querySelectorAll('a[data-shop-placement]'), function (a) {
+      if (a.getAttribute('data-shop-upgraded')) return;
+      var href = shopHref(a.getAttribute('data-shop-placement'),
+                          { kind: a.getAttribute('data-shop-kind') || 'home' });
+      if (!href) return;
+      a.setAttribute('href', href);
+      a.setAttribute('target', '_blank');
+      a.setAttribute('rel', SHOP_REL);
+      a.setAttribute('data-shop-upgraded', '1');
+      if (!a.querySelector('.ext')) {
+        a.insertAdjacentHTML('beforeend', '<span class="ext" aria-hidden="true"> &#8599;</span>');
+      }
+      if (!a.querySelector('.sr-only')) {
+        a.insertAdjacentHTML('beforeend', '<span class="sr-only"> (opens our shop)</span>');
+      }
+      // Every store link is followed by the one-line disclosure.
+      var block = a.closest('p, li, dd') || a;
+      var next = block.nextElementSibling;
+      if (!next || !next.classList.contains('shop-disclosure')) {
+        block.insertAdjacentHTML('afterend', shopDisclosure());
+      }
+    });
   }
 
   /**
@@ -359,8 +836,9 @@
    * single fastest way to lose a reader who works it out for themselves.
    *
    * @param {string} [variant] 'compact' for the sidebar, full card otherwise.
+   * @param {string} [placement] where it sits (SHOP_PLACEMENTS)
    */
-  function shopPromo(variant) {
+  function shopPromo(variant, placement) {
     if (!shopEnabled()) return '';
     var b = BUSINESS;
     var compact = variant === 'compact';
@@ -368,12 +846,10 @@
       '<p class="promo-eyebrow">' + esc(b.shop_eyebrow || b.name) + '</p>' +
       '<h3 class="promo-title">' + esc(b.shop_headline || b.name) + '</h3>' +
       '<p class="promo-blurb">' + esc(b.shop_blurb || '') + '</p>' +
-      '<p class="promo-act"><a class="btn btn-primary" href="' + esc(b.shop_url) +
-      '" target="_blank" rel="noopener">' + esc(b.shop_cta || 'Visit the shop') +
-      '</a></p>' +
-      (b.shop_disclosure
-        ? '<p class="promo-note">' + esc(b.shop_disclosure) + '</p>'
-        : '') +
+      '<p class="promo-act">' +
+      shopLink(placement || (compact ? 'guide_sidebar' : 'other')) +
+      '</p>' +
+      shopDisclosure() +
       '</aside>';
   }
 
@@ -421,7 +897,7 @@
     mouse: [292, 40], dino: [138, 48], dragon: [166, 46], unicorn: [276, 52],
     bird: [200, 58], penguin: [214, 40], frog: [96, 50], axolotl: [330, 62],
     pig: [350, 52], cow: [228, 34], elephant: [208, 32], monkey: [22, 52],
-    butterfly: [266, 54], spider: [282, 42], fish: [186, 52],
+    butterfly: [266, 54], spider: [282, 42], fish: [186, 52], bat: [268, 30],
     character: [220, 58], vehicle: [6, 56], shirt: [174, 46],
     shoe: [246, 44], hat: [312, 48], bag: [68, 44], props: [44, 60],
     furniture: [30, 38], paw: [38, 44]
@@ -458,7 +934,9 @@
     var loud = !!(opts && opts.caption);
     var caption = '<text x="200" y="' + (loud ? 286 : 290) + '" text-anchor="middle" ' +
       'font-size="' + (loud ? 13 : 11) + '" fill="' + fg + '" ' +
-      'font-family="system-ui, sans-serif" opacity="' + (loud ? '.55' : '.34') + '" ' +
+      // Legible on both: full strength on the item page, where the HTML text
+      // under the picture says the same for screen readers; lighter on cards.
+      'font-family="system-ui, sans-serif" opacity="' + (loud ? '1' : '.6') + '" ' +
       'letter-spacing="1.5">ILLUSTRATION &#183; NO PHOTO YET</text>';
 
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">' +
@@ -470,7 +948,7 @@
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
 
-  function hasImage(item) { return !!(item.image_url && String(item.image_url).trim()); }
+  function hasImage(item) { return !!S.safeUrl(item.image_url, { allowRelative: true }); }
 
   /**
    * Markup for an item's picture. A real photo that fails to load falls back to
@@ -482,10 +960,25 @@
       return '<img class="' + (cls || 'thumb') + ' is-placeholder" src="' + placeholder +
              '" alt="" aria-hidden="true" loading="lazy">';
     }
-    return '<img class="' + (cls || 'thumb') + '" src="' + esc(item.image_url) +
+    // No inline onerror (the CSP forbids inline handlers): the fallback rides
+    // in data-fallback and one capture-phase listener below swaps it in.
+    return '<img class="' + (cls || 'thumb') + '" src="' +
+           esc(S.safeUrl(item.image_url, { allowRelative: true })) +
            '" alt="' + esc(item.canonical_name) + '" loading="lazy" ' +
-           'onerror="this.onerror=null;this.src=\'' + placeholder +
-           '\';this.classList.add(\'is-placeholder\');this.alt=\'\';">';
+           'data-fallback="' + esc(placeholder) + '">';
+  }
+
+  // A real photo that fails to load falls back to its monogram. Error events
+  // do not bubble, so listen in the capture phase - once, for every <img>.
+  if (typeof document !== 'undefined' && document.addEventListener) {
+    document.addEventListener('error', function (e) {
+      var t = e.target;
+      if (t && t.tagName === 'IMG' && t.dataset && t.dataset.fallback) {
+        var f = t.dataset.fallback;
+        delete t.dataset.fallback;
+        t.src = f; t.classList.add('is-placeholder'); t.alt = '';
+      }
+    }, true);
   }
 
   /** Credit line for a photo, so image provenance is recorded like sale provenance. */
@@ -494,7 +987,7 @@
     var bits = [];
     if (item.image_credit) bits.push(esc(item.image_credit));
     if (item.image_source) {
-      bits.push('<a href="' + esc(item.image_source) + '" target="_blank" rel="noopener">source</a>');
+      bits.push(S.extLink(item.image_source, 'source'));
     }
     return bits.length ? '<p class="fine img-credit">Photo: ' + bits.join(' &middot; ') + '</p>' : '';
   }
@@ -507,7 +1000,7 @@
     var hay = [
       item.canonical_name, (item.aliases || []).join(' '), item.franchise,
       item.species, item.category, item.release_year, item.version,
-      item.variant, item.notes, item.rarity
+      item.line, item.notes, item.rarity
     ].filter(Boolean).join(' ').toLowerCase();
     return query.toLowerCase().split(/\s+/).filter(Boolean)
       .every(function (term) { return hay.indexOf(term) !== -1; });
@@ -515,15 +1008,8 @@
 
   // --- CSV -----------------------------------------------------------------
 
-  function csvCell(v) {
-    if (v == null) return '';
-    var s = String(v);
-    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
-  }
-
-  function toCsv(rows) {
-    return rows.map(function (r) { return r.map(csvCell).join(','); }).join('\r\n') + '\r\n';
-  }
+  // csvCell/toCsv live in sanitize.js (formula-injection safe); every export uses them.
+  var toCsv = S.toCsv;
 
   function download(filename, text, mime) {
     var blob = new Blob([text], { type: (mime || 'text/csv') + ';charset=utf-8' });
@@ -558,20 +1044,22 @@
     return toCsv(rows);
   }
 
-  /** One row per sold observation, provenance intact. */
-  function salesCsv(items) {
-    var allowed = {};
-    items.forEach(function (i) { allowed[i.id] = i; });
+  /**
+   * One row per sold observation, provenance intact. Pure: the caller passes
+   * the sales ({item_id: [sale]}), from the item files it loaded. The same
+   * columns as the export-comps edge function's CSV.
+   */
+  function salesCsv(items, salesById) {
     var head = ['sale_id', 'item_id', 'canonical_name', 'sale_date', 'sold_price',
       'price_high', 'ranged', 'currency', 'condition', 'completeness', 'marketplace',
       'listing_id', 'evidence_type', 'source_url', 'notes'];
     var rows = [head];
-    DATA.sales.forEach(function (s) {
-      var i = allowed[s.item_id];
-      if (!i) return;
-      rows.push([s.id, s.item_id, i.canonical_name, s.sale_date, s.sold_price, s.price_high,
-        s.ranged, s.currency, s.condition, s.completeness, s.marketplace, s.listing_id,
-        s.evidence_type, s.source_url, s.notes]);
+    items.forEach(function (i) {
+      ((salesById || {})[i.id] || []).forEach(function (s) {
+        rows.push([s.id, s.item_id, i.canonical_name, s.sale_date, s.sold_price, s.price_high,
+          s.ranged, s.currency, s.condition, s.completeness, s.marketplace, s.listing_id,
+          s.evidence_type, s.source_url, s.notes]);
+      });
     });
     return toCsv(rows);
   }
@@ -602,6 +1090,60 @@
   // aggregate, never one person's list.
 
   var WL_KEY = 'bearchart.wishlist';
+
+  // One-time rewrite of stored ids that now redirect. Runs on every load but
+  // only writes when something changed, so it is cheap once a browser is clean.
+  function migrateStoredIds() {
+    if (!Object.keys(REDIRECTS).length) return;
+    try {
+      var coll = JSON.parse(localStorage.getItem('bearchart.collection') || 'null');
+      if (Array.isArray(coll)) {
+        var changed = false;
+        coll.forEach(function (e) {
+          if (e && e.item_id && canonicalId(e.item_id) !== e.item_id) {
+            e.item_id = canonicalId(e.item_id);
+            changed = true;
+          }
+        });
+        if (changed) localStorage.setItem('bearchart.collection', JSON.stringify(coll));
+      }
+      // Portfolio history: the last holdings map (id -> qty, merged ids summed)
+      // and the recorded flows, so a merge never reads as buying or selling.
+      var hold = JSON.parse(localStorage.getItem('bearchart.lastHoldings') || 'null');
+      if (hold && typeof hold === 'object' && !Array.isArray(hold)) {
+        var held = {}, moved = false;
+        Object.keys(hold).forEach(function (id) {
+          var c = canonicalId(id);
+          if (c !== id) moved = true;
+          held[c] = (held[c] || 0) + (Number(hold[id]) || 0);
+        });
+        if (moved) localStorage.setItem('bearchart.lastHoldings', JSON.stringify(held));
+      }
+      var flows = JSON.parse(localStorage.getItem('bearchart.flows') || 'null');
+      if (Array.isArray(flows)) {
+        var fmoved = false;
+        flows.forEach(function (f) {
+          if (f && f.item_id && canonicalId(f.item_id) !== f.item_id) {
+            f.item_id = canonicalId(f.item_id);
+            fmoved = true;
+          }
+        });
+        if (fmoved) localStorage.setItem('bearchart.flows', JSON.stringify(flows));
+      }
+      var wl = JSON.parse(localStorage.getItem(WL_KEY) || 'null');
+      if (Array.isArray(wl)) {
+        var out = [];
+        wl.forEach(function (id) {
+          var c = typeof id === 'string' ? canonicalId(id) : id;
+          if (out.indexOf(c) === -1) out.push(c);
+        });
+        if (JSON.stringify(out) !== JSON.stringify(wl)) {
+          localStorage.setItem(WL_KEY, JSON.stringify(out));
+        }
+      }
+    } catch (e) { /* storage blocked: lookups still resolve through canonicalId */ }
+  }
+  migrateStoredIds();
   var wlListeners = [];
   var wlSynced = false;
 
@@ -669,15 +1211,25 @@
   };
 
   // ---- free-account pages ----------------------------------------------------
-  // The price guide is open to everyone. These tools need a free account. The
-  // page still renders underneath (the data is in data.js for anyone who looks),
-  // so this is an invitation, not a lock - which is also why it costs nothing to
-  // get wrong for a moment while the account service loads.
+  // The price guide is open to everyone. These tools need a free account.
+  // Each page shows a usable teaser (the deal finder: three deals; checklists
+  // and the collection: their intro), then an inline invitation in the page's
+  // [data-gate-slot]. What sits behind it ([data-gate-locked]) is inert and
+  // hidden from assistive tech while locked. Not a dialog: no overlay, no
+  // Escape, no focus trap. The data is published for anyone who looks, so this
+  // is an invitation, not a lock - and it costs nothing to get wrong for a
+  // moment while the account service loads.
   var MEMBERS_ONLY = {
-    'deals.html': 'the deal finder',
+    'deals.html': 'deals',
     'checklists.html': 'checklists',
-    'collection.html': 'your collection and wishlist'
+    'collection.html': 'collection'
   };
+  var GATE_COPY = {
+    deals: 'See bears listed below their value right now.',
+    checklists: 'Tick off every bear you own, set by set.',
+    collection: 'Track what your bears are worth, all in one place.'
+  };
+  var gateState = { page: null, locked: false, painted: false, focused: false, listeners: [] };
 
   function storedSession() {
     try {
@@ -689,46 +1241,261 @@
     return false;
   }
 
+  /** The inline invitation for a gated page. */
+  function gateCard(page) {
+    var name = MEMBERS_ONLY[page] ? page : (page || '').replace(/\.html$/, '');
+    var next = encodeURIComponent(name);
+    return '<section class="gate-card" id="members-gate-card" aria-labelledby="gate-h">' +
+      '<p class="kicker">Free account</p>' +
+      '<h2 id="gate-h" tabindex="-1">Free with an account</h2>' +
+      '<p class="gate-sub">' + esc(GATE_COPY[name] || '') + '</p>' +
+      '<p class="fine">Takes a minute. The price guide stays open to everyone.</p>' +
+      '<div class="actions-row">' +
+        '<a class="btn btn-primary" data-gate-action="signup" href="' +
+          rel('account.html') + '?mode=signup&amp;next=' + next + '">Create a free account</a>' +
+        '<a class="btn" data-gate-action="signin" href="' + rel('account.html') + '?next=' + next +
+          '">Sign in</a>' +
+      '</div>' +
+    '</section>';
+  }
+
+  function paintGate() {
+    if (typeof document === 'undefined') return;
+    var locked = gateState.locked;
+    var page = MEMBERS_ONLY[gateState.page];
+    Array.prototype.forEach.call(document.querySelectorAll('[data-gate-locked]'), function (el) {
+      if (locked) {
+        el.setAttribute('inert', '');
+        el.setAttribute('aria-hidden', 'true');
+        el.classList.add('is-gated');
+      } else {
+        el.removeAttribute('inert');
+        el.removeAttribute('aria-hidden');
+        el.classList.remove('is-gated');
+      }
+    });
+    var card = document.getElementById('members-gate-card');
+    if (!locked) { if (card) card.parentNode.removeChild(card); return; }
+    if (card) return;
+    var slot = document.querySelector('[data-gate-slot]');
+    if (!slot) return;
+    slot.innerHTML = gateCard(page);
+    if (root.bcTrack) root.bcTrack('members_gate_shown', { page: gateState.page });
+    // Move focus to the invitation once, and only if nobody is typing.
+    if (!gateState.focused) {
+      gateState.focused = true;
+      var a = document.activeElement;
+      if (!a || a === document.body || a === document.documentElement) {
+        var h = document.getElementById('gate-h');
+        if (h && h.focus) h.focus();
+      }
+    }
+  }
+
+  function setGate(locked) {
+    if (gateState.painted && gateState.locked === locked) return;
+    gateState.locked = locked;
+    gateState.painted = true;
+    paintGate();
+    gateState.listeners.forEach(function (fn) { try { fn(locked); } catch (e) { /* listener */ } });
+  }
+
   function membersGate(current) {
-    var what = MEMBERS_ONLY[current];
     var A = root.BearChartAuth;
-    if (!what || !A || !A.configured || !A.configured() || membersGate._bound) return;
+    if (!MEMBERS_ONLY[current] || !A || !A.configured || !A.configured() || membersGate._bound) return;
     membersGate._bound = true;
-    function paint(signedIn) {
-      document.body.classList.toggle('members-gate', !signedIn);
-      var card = document.getElementById('members-gate-card');
-      if (signedIn) { if (card) card.parentNode.removeChild(card); return; }
-      if (card) return;
-      card = document.createElement('div');
-      card.id = 'members-gate-card';
-      card.className = 'members-gate-card';
-      card.setAttribute('role', 'region');
-      card.setAttribute('aria-label', 'Free account needed');
-      card.innerHTML =
-        '<p class="welcome-kicker">Free for members</p>' +
-        '<h2>Make a free account to use ' + esc(what) + '</h2>' +
-        '<p>It takes a minute and costs nothing. The price guide stays open to everyone, no account needed.</p>' +
-        '<div class="welcome-actions">' +
-          '<a class="btn btn-primary" href="' + rel('account.html') + '">Sign in or create a free account</a>' +
-          '<a class="btn" href="' + rel('index.html') + '">Back to the price guide</a>' +
-        '</div>';
-      document.body.appendChild(card);
-      if (root.bcTrack) root.bcTrack('members_gate_shown', { page: current });
+    gateState.page = current;
+    if (typeof document !== 'undefined') {
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('#members-gate-card a[data-gate-action]') : null;
+        if (a && root.bcTrack) {
+          root.bcTrack('gate_click', { page: current, action: a.getAttribute('data-gate-action') });
+        }
+      });
     }
     // Until the account service has checked the saved sign-in, go by whether
     // this browser holds one. auth.js reports "signed out" to every listener
     // the moment it is registered - before it has looked - so acting on that
-    // early report flashed this card at signed-in members on every page.
-    paint(storedSession());
+    // early report flashed the invitation at signed-in members on every page.
+    setGate(!storedSession());
     var settled = false;
     function settle(s) {
       settled = true;
       // No account service (it failed to load): keep the stored-session guess.
-      if (A.getClient && A.getClient()) paint(!!(s && s.signedIn));
+      if (A.getClient && A.getClient()) setGate(!(s && s.signedIn));
     }
     if (A.ready && typeof A.ready.then === 'function') A.ready.then(settle, function () { settled = true; });
     else settled = true;
-    A.onChange(function (s) { if (settled) paint(!!(s && s.signedIn)); });
+    A.onChange(function (s) { if (settled) setGate(!(s && s.signedIn)); });
+  }
+
+  /** What a gated page asks before rendering its teaser. */
+  var gate = {
+    locked: function () { return gateState.locked; },
+    onChange: function (fn) { gateState.listeners.push(fn); }
+  };
+
+  // ---- the contextual prompt (replaces the old welcome pop-up) --------------
+  // A small, non-modal invitation to make a free account, shown only when it
+  // is relevant: on the third bear looked up, or the first one added to a
+  // collection. Never to anyone signed in, never on the account, plans or admin
+  // pages, at most once a week, and not for 30 days after it is dismissed. It
+  // never takes focus. If this browser's storage is blocked it never shows.
+
+  var PROMPT_KEY = 'bc.prompt';
+  var DAY = 86400000;
+  try { localStorage.removeItem('bc_welcome_seen'); } catch (e) { /* the old pop-up's key */ }
+
+  function promptRead() {
+    var v = JSON.parse(localStorage.getItem(PROMPT_KEY) || '{}');
+    return v && typeof v === 'object' ? v : {};
+  }
+  function promptWrite(v) { localStorage.setItem(PROMPT_KEY, JSON.stringify(v)); }
+
+  var NUDGE_COPY = {
+    views: ['Keep the bears you look up in one place',
+            'A free account gives you a collection page and a wishlist that follows you to every device.'],
+    collection: ['Keep track of this collection',
+                 'It\'s saved in this browser. A free account opens your collection page; ' +
+                 'Pro also syncs it across your devices.']
+  };
+
+  function promptPage() {
+    var p = ((root.location && root.location.pathname) || '').split('/').pop() || 'index.html';
+    return p.toLowerCase();
+  }
+
+  function promptAllowed(st) {
+    var A = root.BearChartAuth;
+    if (!A || !A.configured || !A.configured()) return false;
+    if (['account.html', 'plans.html', 'admin.html'].indexOf(promptPage()) !== -1) return false;
+    var now = Date.now();
+    if (st.dismissedAt && now - st.dismissedAt < 30 * DAY) return false;
+    if (st.shownAt && now - st.shownAt < 7 * DAY) return false;
+    return true;
+  }
+
+  function signedInNow() {
+    var A = root.BearChartAuth;
+    var s = A && A.state ? A.state() : null;
+    return !!(s && s.signedIn) || storedSession();
+  }
+
+  function nudgeHtml(trigger) {
+    var P = root.BearChartPlans;
+    var perkText = P && P.perk ? P.perk('power') : null;
+    var c = NUDGE_COPY[trigger] || NUDGE_COPY.views;
+    return '<aside class="nudge" id="bc-nudge" aria-labelledby="nudge-h">' +
+      '<button type="button" class="nudge-x" aria-label="Dismiss">&times;</button>' +
+      '<p class="kicker">Free account</p>' +
+      '<h2 id="nudge-h">' + esc(c[0]) + '</h2>' +
+      '<p>' + esc(c[1]) + '</p>' +
+      (perkText ? '<p class="fine nudge-perk">Power members also get: ' + esc(perkText) + '</p>' : '') +
+      '<div class="actions-stack">' +
+        '<a class="btn btn-primary" href="' + rel('account.html') + '?mode=signup" data-nudge="nudge_join">' +
+          'Create a free account</a>' +
+        '<a class="btn" href="' + rel('plans.html') + '" data-nudge="nudge_plans">See membership</a>' +
+      '</div>' +
+    '</aside>';
+  }
+
+  function closeNudge(trigger, returnTo) {
+    var el = document.getElementById('bc-nudge');
+    if (!el) return;
+    var hadFocus = el.contains(document.activeElement);
+    el.parentNode.removeChild(el);
+    // Focus goes back where it came from (or to the page), never to <body>.
+    if (hadFocus) {
+      var to = returnTo && returnTo.focus && document.documentElement.contains(returnTo) &&
+               returnTo !== document.body ? returnTo : document.getElementById('main');
+      if (to && to.focus) to.focus();
+    }
+    try { var st = promptRead(); st.dismissedAt = Date.now(); promptWrite(st); } catch (e) { /* blocked */ }
+    if (root.bcTrack) root.bcTrack('nudge_dismissed', { trigger: trigger });
+  }
+
+  function showNudge(trigger) {
+    if (typeof document === 'undefined' || document.getElementById('bc-nudge')) return;
+    if (signedInNow()) return;
+    var st;
+    try { st = promptRead(); } catch (e) { return; }
+    if (!promptAllowed(st)) return;
+    try { st.shownAt = Date.now(); promptWrite(st); } catch (e) { return; }
+    var foot = document.getElementById('site-footer');
+    var box = document.createElement('div');
+    box.innerHTML = nudgeHtml(trigger);
+    var el = box.firstChild;
+    if (foot && foot.parentNode) foot.parentNode.insertBefore(el, foot);
+    else document.body.appendChild(el);
+    // Where focus was before someone tabbed or clicked into the prompt.
+    var returnTo = null;
+    el.addEventListener('focusin', function (e) {
+      if (e.relatedTarget && !el.contains(e.relatedTarget)) returnTo = e.relatedTarget;
+    });
+    el.querySelector('.nudge-x').addEventListener('click', function () { closeNudge(trigger, returnTo); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' || e.key === 'Esc') closeNudge(trigger, returnTo);
+    });
+    el.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[data-nudge]') : null;
+      if (a && root.bcTrack) root.bcTrack(a.getAttribute('data-nudge'), { trigger: trigger });
+    });
+    if (root.bcTrack) root.bcTrack('nudge_shown', { trigger: trigger });
+  }
+
+  /** Show it now if signed out - and check again once auth has settled. */
+  function maybeShow(trigger) {
+    var A = root.BearChartAuth;
+    if (signedInNow()) return;
+    showNudge(trigger);
+    if (A && A.ready && typeof A.ready.then === 'function') {
+      A.ready.then(function (s) {
+        if (s && s.signedIn) {
+          var el = document.getElementById('bc-nudge');
+          if (el) el.parentNode.removeChild(el);
+        }
+      }, function () {});
+    }
+  }
+
+  var prompt = {
+    /** item.js, once per page load. The third bear looked up shows it. */
+    noteItemView: function () {
+      var st;
+      try { st = promptRead(); st.views = (Number(st.views) || 0) + 1; promptWrite(st); }
+      catch (e) { return; }
+      if (st.views >= 3) maybeShow('views');
+    },
+    /** The first bear added to a collection shows it. */
+    noteCollectionAdd: function () {
+      var st;
+      try { st = promptRead(); var first = !st.added; st.added = true; promptWrite(st); }
+      catch (e) { return; }
+      if (first) maybeShow('collection');
+    },
+    maybeShow: maybeShow
+  };
+
+  /**
+   * An upsell where the value is (the item page, under the evidence). Hidden
+   * for anyone who already has sync, and - before memberships open - for
+   * anyone signed in: nothing is sold that cannot be bought.
+   */
+  function upsell(kind, opts) {
+    var P = root.BearChartPlans;
+    var A = root.BearChartAuth;
+    if (!P || kind !== 'item_value') return '';
+    var s = A && A.state ? A.state() : { signedIn: false };
+    var session = { signedIn: !!(s && s.signedIn), tier: s && s.tier };
+    if (P.configured() && P.can('collection_sync', session)) return '';
+    if (!P.configured() && (session.signedIn || storedSession())) return '';
+    var pro = P.plan ? P.plan('pro') : null;
+    return '<aside class="upsell" aria-labelledby="up-h">' +
+      '<h2 id="up-h" class="upsell-h">Own this one?</h2>' +
+      '<p>Add it to your collection and see what everything you own is worth.</p>' +
+      '<p><a class="btn btn-primary" href="#calc-panel">Add to my collection</a> ' +
+      '<a href="' + rel('plans.html') + '" class="upsell-more">What Pro adds</a></p>' +
+    '</aside>';
   }
 
   // ---- member cloud: collection sync, value history, saved reports ----------
@@ -948,6 +1715,92 @@
     getReport: getReport
   };
 
+  // ---- chrome: masthead, menu, disclaimer, footer ----------------------------
+
+  var navOpen = false;
+
+  function setNav(open) {
+    navOpen = !!open;
+    var t = document.querySelector('.nav-toggle');
+    var list = document.getElementById('nav-list');
+    if (t) t.setAttribute('aria-expanded', navOpen ? 'true' : 'false');
+    if (list) list.setAttribute('data-open', navOpen ? 'true' : 'false');
+  }
+
+  /** Listeners that must exist once however often the chrome re-renders. */
+  function bindChromeOnce(current) {
+    if (bindChromeOnce._done || typeof document === 'undefined') return;
+    bindChromeOnce._done = true;
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+      // Every store link reports itself, wherever on the page it is.
+      var shop = t.closest('a[data-shop-placement]');
+      if (shop && root.bcTrack) {
+        root.bcTrack('shop_click', {
+          placement: shop.getAttribute('data-shop-placement'),
+          kind: shop.getAttribute('data-shop-kind') || 'home',
+          item: shop.getAttribute('data-item') || null,
+          page: current
+        });
+      }
+      // The phone menu: the toggle flips it, a click anywhere else closes it.
+      if (t.closest('.nav-toggle')) { setNav(!navOpen); return; }
+      if (navOpen && !t.closest('#nav-list')) setNav(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if ((e.key === 'Escape' || e.key === 'Esc') && navOpen) {
+        setNav(false);
+        var tog = document.querySelector('.nav-toggle');
+        if (tog && tog.focus) tog.focus();
+      }
+    });
+    document.addEventListener('change', function (e) {
+      var t = e.target;
+      if (t && t.id === 'theme-pick' && root.BearChartTheme) root.BearChartTheme.set(t.value);
+    });
+  }
+
+  /** "Skip to content" first in the page, and a focusable <main id="main">. */
+  function skipLink() {
+    var main = document.getElementById('main') || document.querySelector('main');
+    if (main) {
+      if (!main.id) main.id = 'main';
+      if (!main.hasAttribute('tabindex')) main.setAttribute('tabindex', '-1');
+    }
+    if (!document.querySelector('a.skip-link') && document.body) {
+      var a = document.createElement('a');
+      a.className = 'skip-link';
+      a.href = '#main';
+      a.textContent = 'Skip to content';
+      document.body.insertBefore(a, document.body.firstChild);
+    }
+  }
+
+  function navLabel(n) {
+    var label = n[1];
+    // The account link doubles as the session indicator. Always shown: hiding
+    // it when accounts are switched off made the whole feature - and the
+    // instructions for turning it on - impossible to find.
+    if (n[0] === 'account.html') {
+      var A = root.BearChartAuth;
+      if (!A || !A.configured()) return 'Account';
+      var st = A.state();
+      return st.signedIn ? (st.isAdmin ? 'Admin account' : 'My account') : 'Sign in';
+    }
+    return label;
+  }
+
+  function themePicker() {
+    var T = root.BearChartTheme;
+    var now = T ? T.get() : 'system';
+    return '<p class="fine theme-row"><label for="theme-pick">Theme</label> ' +
+      '<select id="theme-pick">' + [['system', 'Match device'], ['light', 'Light'], ['dark', 'Dark']]
+        .map(function (o) {
+          return '<option value="' + o[0] + '"' + (o[0] === now ? ' selected' : '') + '>' + o[1] + '</option>';
+        }).join('') + '</select></p>';
+  }
+
   function renderChrome(current) {
     var A = root.BearChartAuth;
     if (A && !renderChrome._bound) {
@@ -960,70 +1813,74 @@
       });
       A.init();
     }
+    bindChromeOnce(current);
+    skipLink();
     membersGate(current);
     var head = document.getElementById('masthead');
     if (head) {
+      var items = NAV.filter(function (n) {
+        // Admin tools (and the roadmap, for now) are not destinations: only
+        // admins see them in the menu. The pages still work by address.
+        if (['admin.html', 'roadmap.html'].indexOf(n[0]) === -1 || current === n[0]) return true;
+        var A2 = root.BearChartAuth;
+        return !!(A2 && A2.configured && A2.configured() && A2.state().isAdmin);
+      });
+      var here = items.filter(function (n) { return n[0] === current; })[0];
       head.innerHTML =
         '<div class="wrap">' +
           '<a class="brand" href="' + rel('index.html') + '">' +
             '<img class="brand-mark" src="' + rel('icons/icon-192.png') + '" alt="" width="52" height="52">' +
             '<div class="brand-text">' +
-              '<h1>BearChart</h1>' +
-              '<div class="sub">Build-A-Bear Price Guide</div>' +
+              '<span class="brand-name">BearChart</span>' +
+              '<div class="sub">Independent Build-A-Bear price guide</div>' +
             '</div>' +
           '</a>' +
-          '<nav class="nav">' + NAV.filter(function (n) {
-            // Admin tools (and the roadmap, for now) are not destinations: only
-            // admins see them in the menu. The pages still work by address.
-            if (['admin.html', 'roadmap.html'].indexOf(n[0]) === -1 || current === n[0]) return true;
-            var A = root.BearChartAuth;
-            return !!(A && A.configured && A.configured() && A.state().isAdmin);
-          }).map(function (n) {
-            var label = n[1];
-            // The account link doubles as the session indicator.
-            if (n[0] === 'account.html') {
-              // Always shown. Hiding this when accounts are switched off made the
-              // whole feature - and the instructions for turning it on -
-              // impossible to find.
-              var A = root.BearChartAuth;
-              if (!A || !A.configured()) {
-                label = 'Account';
-              } else {
-                var st = A.state();
-                label = st.signedIn
-                  ? (st.isAdmin ? 'Admin account' : 'My account')
-                  : 'Sign in';
-              }
-            }
-            return '<a href="' + rel(n[0]) + '"' +
-                   (n[0] === current ? ' aria-current="page"' : '') +
-                   '>' + esc(label) + '</a>';
-          }).join('') + '</nav>' +
+          '<nav class="nav" aria-label="Main">' +
+            '<div class="nav-bar">' +
+              (here ? '<span class="nav-current" aria-hidden="true">' + esc(navLabel(here)) + '</span>' : '') +
+              '<button type="button" class="nav-toggle" aria-expanded="' + (navOpen ? 'true' : 'false') +
+                '" aria-controls="nav-list"><span aria-hidden="true">&#9776;</span> Menu</button>' +
+            '</div>' +
+            '<ul id="nav-list" class="nav-list" data-open="' + (navOpen ? 'true' : 'false') + '">' +
+            items.map(function (n) {
+              return '<li><a href="' + rel(n[0]) + '"' +
+                     (n[0] === current ? ' aria-current="page"' : '') +
+                     '>' + esc(navLabel(n)) + '</a></li>';
+            }).join('') + '</ul>' +
+          '</nav>' +
         '</div>';
     }
     var bar = document.getElementById('disclaimer-bar');
     if (bar) {
-      bar.innerHTML = '<div class="wrap">' + esc(DATA.meta.disclaimer) + '</div>';
+      bar.innerHTML = '<div class="wrap"><span class="disc-full">' + esc(SITE.meta.disclaimer) +
+        '</span><span class="disc-short">' +
+        esc(SITE.meta.disclaimer_short || SITE.meta.disclaimer) + '</span></div>';
     }
     var foot = document.getElementById('site-footer');
     if (foot) {
+      var st = statsFor();
       foot.innerHTML = '<div class="wrap">' +
-        '<p><strong>BearChart</strong> &mdash; ' + esc(DATA.meta.disclaimer) + '</p>' +
+        '<p><strong>BearChart</strong> &mdash; ' + esc(SITE.meta.disclaimer) + '</p>' +
         '<p>Values are derived from completed/sold transactions only. Active asking ' +
         'prices are never treated as market value. Where no sold data exists, BearChart ' +
         'publishes no price.</p>' +
         '<p>Built as a collector and reseller research tool for ' +
         (shopEnabled()
-          ? '<a href="' + esc(BUSINESS.shop_url) + '" target="_blank" rel="noopener">' +
-            esc(BUSINESS.name) + '</a>'
+          ? shopLink('footer', { className: '', label: BUSINESS.name })
           : esc(BUSINESS.name)) + '.</p>' +
+        shopDisclosure() +
         '<p class="fine legal-links"><a href="' + rel('privacy.html') + '">Privacy</a>' +
         '<a href="' + rel('terms.html') + '">Terms</a>' +
         '<a href="' + rel('about.html') + '">How prices work</a></p>' +
-        '<p class="fine">Database: ' + DATA.items.length + ' items, ' + DATA.sales.length +
-        ' sold observations. Schema v' + DATA.meta.schema_version + '.</p>' +
+        '<p class="fine">Database: ' + fmtInt(st.items) + ' items, ' +
+          fmtInt(st.comps) + ' sold transactions recorded. ' +
+          'Schema v' + SITE.meta.schema_version + '.</p>' +
+        (SITE.meta.trademark_notice
+          ? '<p class="fine trademark">' + esc(SITE.meta.trademark_notice) + '</p>' : '') +
+        themePicker() +
         '</div>';
     }
+    upgradeShopLinks(document);
   }
 
   /**
@@ -1051,18 +1908,32 @@
   }
   registerWorker();
 
-  root.BC = {
-    data: DATA, config: CFG, engine: E,
-    salesFor: salesFor, activeFor: activeFor, itemById: itemById,
+  var BC = root.BC = {
+    config: CFG, engine: E, site: SITE, catalogue: null,
+    withCatalogue: withCatalogue, withItem: withItem, whenIdle: whenIdle, busy: track,
+    // The raw loaders, for the UX layer's skeletons (BC.whenData).
+    loadIndex: BD.loadIndex, loadItem: BD.loadItem, loadPlans: BD.loadPlans, withPlans: withPlans,
+    skeleton: skeleton, whenData: whenData, errorState: errorState,
+    status: setStatus,
+    feature: BD.feature, sources: SITE.sources || [],
+    itemById: itemById,
     itemChooser: itemChooser, rel: rel, evidenceStrip: evidenceStrip,
-    valuationFor: valuationFor,
+    valuationFor: valuationFor, catalogueStats: catalogueStats, canonicalId: canonicalId, go: go,
+    statsFor: statsFor, stats: stats, fmtInt: fmtInt,
     money: money, exact: exact, range: range, confClass: confClass, era: era, isVintage: isVintage,
+    confLabel: confLabel, confChip: confChip, monthYear: monthYear, freshness: freshness,
+    isOperatorSale: isOperatorSale, operatorLabel: OPERATOR_LABEL,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,
-    business: BUSINESS, affiliate: affiliate, businessEnabled: businessEnabled,
-    shopEnabled: shopEnabled, shopPromo: shopPromo,
+    membership: SITE.membership || {}, listingsAge: listingsAge, listingsAgeNote: listingsAgeNote,
+    business: BUSINESS, affiliate: affiliate, affiliateLink: affiliateLink, businessEnabled: businessEnabled,
+    shopEnabled: shopEnabled, shopPromo: shopPromo, shopHref: shopHref, shopLink: shopLink,
+    shopDisclosure: shopDisclosure, upgradeShopLinks: upgradeShopLinks, SHOP_PLACEMENTS: SHOP_PLACEMENTS,
+    gate: gate, gateCard: gateCard, prompt: prompt, upsell: upsell,
     hasImage: hasImage, imageHtml: imageHtml, imageCredit: imageCredit,
     placeholderImage: placeholderImage,
+    safeUrl: S.safeUrl, extLink: S.extLink, safeRedirect: S.safeRedirect,
+    csvCell: S.csvCell, scrubUrl: S.scrubUrl,
     toCsv: toCsv, download: download, itemsCsv: itemsCsv, salesCsv: salesCsv,
     r2: r2, stamp: stamp, renderChrome: renderChrome, wishlist: wishlist, cloud: cloud
   };
@@ -1083,8 +1954,12 @@
   if (/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return;
   var dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
   if (dnt === '1' || dnt === 'yes') return;
+  // Per-deploy settings from config.js: previews stay off unless opted in.
+  var rt = window.BEARCHART_RUNTIME || {};
+  if (rt.posthog_enabled === false) return;
+  var S = window.BearChartSanitize;
 
-  var KEY = 'phc_xYXLmfqEVM324GUuzn474TPp8fGd7N65yRvbToCNZCMt';
+  var KEY = rt.posthog_key || 'phc_xYXLmfqEVM324GUuzn474TPp8fGd7N65yRvbToCNZCMt';
   !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
   window.posthog.init(KEY, {
     api_host: 'https://us.i.posthog.com',
@@ -1093,117 +1968,13 @@
     respect_dnt: true,
     disable_session_recording: true,
     capture_pageview: true,
-    capture_pageleave: true
+    capture_pageleave: true,
+    // Login links carry one-time codes; never let them reach analytics.
+    mask_personal_data_properties: true,
+    custom_personal_data_properties: S ? S.SENSITIVE_URL_PARAMS : [],
+    before_send: S ? S.scrubEvent : undefined,                                  // posthog-js >= 1.187
+    sanitize_properties: function (p) { return S ? S.scrubProps(p) : p; }       // older builds
   });
   // The same PostHog project also hears from other sites; tag every event.
-  window.posthog.register({ site: 'bearchart' });
-})();
-
-/* Welcome pop-up: invites first-time visitors to make a free account and
-   points at the Power perk. Shown once, never to signed-in members, never on
-   the sign-in or membership pages themselves, and never inside tests. */
-(function () {
-  if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  if (/jsdom/i.test(navigator.userAgent || '')) return;
-
-  var KEY = 'bc_welcome_seen';
-  var page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-  if (page === 'account.html' || page === 'plans.html' || page === 'admin.html') return;
-  // These pages already ask visitors to sign in.
-  if (page === 'deals.html' || page === 'checklists.html' || page === 'collection.html') return;
-
-  function seenRecently() {
-    try {
-      var at = Number(localStorage.getItem(KEY) || 0);
-      return at && (Date.now() - at) < 14 * 24 * 3600 * 1000;
-    } catch (e) { return true; } // no storage: don't nag on every page
-  }
-  function markSeen() {
-    try { localStorage.setItem(KEY, String(Date.now())); } catch (e) { /* blocked */ }
-  }
-  function rel(p) {
-    return window.BC && BC.rel ? BC.rel(p) : p;
-  }
-  function signedIn() {
-    var A = window.BearChartAuth;
-    if (!A || !A.state) return false;
-    var s = A.state();
-    return !!(s && s.signedIn);
-  }
-  function authReady() {
-    var A = window.BearChartAuth;
-    return !!(A && A.configured && A.configured());
-  }
-
-  if (seenRecently()) return;
-
-  var shown = false;
-  var followed = false;
-  var lastFocus = null;
-  function track(name, props) {
-    if (window.bcTrack) window.bcTrack(name, props);
-  }
-
-  function close() {
-    var el = document.getElementById('welcome-pop');
-    if (el) el.parentNode.removeChild(el);
-    document.removeEventListener('keydown', onKey);
-    if (!followed) track('welcome_popup_dismissed');
-    markSeen();
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
-  }
-  function onKey(e) {
-    if (e.key === 'Escape') close();
-  }
-
-  function show() {
-    if (shown || seenRecently() || signedIn() || !authReady()) return;
-    shown = true;
-    lastFocus = document.activeElement;
-    var wrap = document.createElement('div');
-    wrap.id = 'welcome-pop';
-    wrap.className = 'welcome-backdrop';
-    wrap.innerHTML =
-      '<div class="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcome-title">' +
-        '<button type="button" class="welcome-x" aria-label="Close">&times;</button>' +
-        '<p class="welcome-kicker">Free for collectors</p>' +
-        '<h2 id="welcome-title">Join BearChart</h2>' +
-        '<p class="welcome-lead">A free account lets you add the first photo of a bear ' +
-          'we are missing and send in sold prices you have seen.</p>' +
-        '<div class="welcome-perk">' +
-          '<span class="welcome-badge">Power</span>' +
-          '<p><strong>10% off one bear every month</strong> at Jay\'s Retro Exchange, ' +
-          'plus a monthly email with what your collection is worth and everything in Pro.' +
-          '<span class="fine">Memberships open soon. Make an account now and you will hear first.</span></p>' +
-        '</div>' +
-        '<div class="welcome-actions">' +
-          '<a class="btn btn-primary" id="welcome-join" href="' + rel('account.html') + '">Create a free account</a>' +
-          '<a class="btn" id="welcome-plans" href="' + rel('plans.html') + '">See Power membership</a>' +
-        '</div>' +
-        '<button type="button" class="link-btn welcome-later">Not now</button>' +
-      '</div>';
-    document.body.appendChild(wrap);
-
-    wrap.addEventListener('click', function (e) {
-      if (e.target === wrap || e.target.classList.contains('welcome-x') ||
-          e.target.classList.contains('welcome-later')) {
-        close();
-      }
-    });
-    // Following a link counts as having seen it, too.
-    ['welcome-join', 'welcome-plans'].forEach(function (id) {
-      document.getElementById(id).addEventListener('click', function () {
-        followed = true;
-        track(id === 'welcome-join' ? 'welcome_popup_join_clicked' : 'welcome_popup_plans_clicked');
-        markSeen();
-      });
-    });
-    track('welcome_popup_shown');
-    document.addEventListener('keydown', onKey);
-    document.getElementById('welcome-join').focus();
-  }
-
-  // Give the page a moment first: nobody wants a pop-up before they have seen
-  // what the site is. Auth needs that moment too, to know who is signed in.
-  window.setTimeout(show, 6000);
+  window.posthog.register({ site: 'bearchart', env: rt.env || 'production' });
 })();

@@ -11,6 +11,10 @@ Get a free key at https://developer.ebay.com — create an application, then use
 Production "App ID" (client id) and "Cert ID" (client secret). No approval process:
 Browse is a general-release API, unlike Marketplace Insights.
 
+Secrets come only from the environment or the gitignored .env file (EBAY_CLIENT_SECRET).
+There is deliberately no --client-secret flag: a CLI argument ends up in shell
+history and in `ps` output for every user on the machine.
+
 =============================================================================
 WHAT THIS IS NOT
 =============================================================================
@@ -39,11 +43,15 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import domain_vocab as V  # noqa: E402
 from collections import OrderedDict
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from import_sales import (Matcher, match_pattern, normalise, tokens,  # noqa: E402
-                          CONDITION_PATTERNS)
+                          CONDITION_PATTERNS, load_operator_identities,
+                          is_operator_seller)
 import env_file  # noqa: E402
 
 env_file.load()
@@ -157,6 +165,34 @@ def price_of(summary):
     return (v if v > 0 else None), p.get("currency") or "USD"
 
 
+def shipping_of(summary):
+    """What the buyer pays to have it shipped -> (cost, type).
+
+    The cheapest FIXED option, as eBay states it. 0.0 is free shipping. A
+    CALCULATED option depends on the buyer's address, and no options at all
+    means the listing did not say: both return (None, "calculated"|"unknown"),
+    and the deal finder assumes a figure and says so rather than treating the
+    ask alone as the cost.
+    """
+    options = summary.get("shippingOptions") or []
+    fixed, calculated = [], False
+    for o in options:
+        kind = str(o.get("shippingCostType") or "").upper()
+        if kind == "CALCULATED":
+            calculated = True
+            continue
+        try:
+            v = float((o.get("shippingCost") or {}).get("value"))
+        except (TypeError, ValueError):
+            continue
+        if kind in ("FIXED", "") and v >= 0:
+            fixed.append(v)
+    if fixed:
+        cost = round(min(fixed), 2)
+        return cost, ("free" if cost == 0 else "fixed")
+    return None, ("calculated" if calculated else "unknown")
+
+
 def image_of(summary):
     img = (summary.get("image") or {}).get("imageUrl")
     if img:
@@ -165,12 +201,21 @@ def image_of(summary):
     return thumbs[0].get("imageUrl") if thumbs else None
 
 
-def normalise_listing(summary, item):
-    """One Browse result -> one active_listing record. Always an asking price."""
+def normalise_listing(summary, item, operators=None):
+    """One Browse result -> one active_listing record. Always an asking price.
+
+    operators: {platform: usernames} from tools/operator_identities.json. The
+    seller's username is compared against it and then dropped; only the
+    resulting seller_is_operator flag is kept.
+    """
+    if operators is None:
+        operators = load_operator_identities()
+    seller = ((summary.get("seller") or {}).get("username"))
     price, currency = price_of(summary)
     if price is None:
         return None
     title = summary.get("title") or ""
+    ship_price, ship_type = shipping_of(summary)
     return OrderedDict([
         ("id", "active-%s" % summary.get("itemId", "")),
         ("item_id", item["id"]),
@@ -178,6 +223,11 @@ def normalise_listing(summary, item):
         ("title", title),
         ("ask_price", round(price, 2)),
         ("currency", currency),
+        ("ship_price", ship_price),
+        ("ship_type", ship_type),
+        # What a buyer actually pays, when the listing says. Null when shipping
+        # is calculated or unstated; the deal finder then assumes a figure.
+        ("buyer_total", round(price + ship_price, 2) if ship_price is not None else None),
         ("condition", match_pattern(CONDITION_PATTERNS,
                                     (summary.get("condition") or "") + " " + title, "Unknown")),
         ("buying_option", ",".join(summary.get("buyingOptions") or [])),
@@ -189,6 +239,9 @@ def normalise_listing(summary, item):
         # Deletion obligation - every closure notice would mean rebuilding and
         # redeploying a static site to erase a name. The ask-vs-sold signal
         # this file exists for does not need to know who is asking.
+        # Listed by Jay's Retro Exchange, which runs BearChart: never a "deal"
+        # and never in the ask spread.
+        ("seller_is_operator", is_operator_seller(seller, operators, "ebay")),
         # The whole point: this can never be mistaken for a sale.
         ("evidence_type", "active_listing"),
     ])
@@ -258,8 +311,7 @@ SMALL_RE = re.compile(
 CLOTHING_RE = re.compile(
     r"\b(?:outfits?|costumes?|clothes|clothing|shoes|sneakers|boots|pajamas?|pjs|sleeper"
     r"|dress|skirt|shirt|hoodie|jacket|hat)\s+(?:set|only|\d+\s*(?:pc|piece))")
-FITS_RE = re.compile(
-    r"\b(?:fits|for)\s+(?:most\s+|all\s+)?(?:build|bab|babw|\d{2}|stuffed|plush|bears?\b|teddy)")
+from sale_attributes import FITS_RE  # noqa: E402  (one definition, shared)
 BRAND_STRIP_RE = re.compile(r"build[\s-]*a[\s-]*bear(?:\s*workshop)?|buildabear|babw|\bbab\b")
 
 
@@ -414,6 +466,27 @@ def attach_images(listings, data):
     return attached, path
 
 
+def carry_forward_for(data, item_ids, as_of=None):
+    """(kept, refused): data.json's listings for these items, each stamped with
+    the date it was really fetched; rows past V.LISTINGS_MAX_AGE_DAYS refused."""
+    import datetime
+    wanted = set(item_ids)
+    published_at = data.get("active_listings_fetched_at")
+    today = datetime.date.fromisoformat(as_of) if as_of else datetime.datetime.utcnow().date()
+    kept, refused = [], []
+    for row in data.get("active_listings") or []:
+        if row.get("item_id") not in wanted:
+            continue
+        row = OrderedDict(row)
+        row["fetched_at"] = row.get("fetched_at") or published_at
+        try:
+            age = (today - datetime.date.fromisoformat(str(row["fetched_at"])[:10])).days
+        except (TypeError, ValueError):
+            age = None
+        (refused if age is None or age > V.LISTINGS_MAX_AGE_DAYS else kept).append(row)
+    return kept, refused
+
+
 def run(args, searcher=None, token=None):
     with open(os.path.join(ROOT, "data.json")) as f:
         data = json.load(f)
@@ -423,6 +496,7 @@ def run(args, searcher=None, token=None):
         i["_has_sales"] = i["id"] in with_sales
 
     matcher = Matcher(data["items"])
+    operators = load_operator_identities()
 
     if args.query:
         targets = [{"id": None, "canonical_name": args.query, "release_year": None}]
@@ -447,7 +521,8 @@ def run(args, searcher=None, token=None):
 
     if searcher is None:
         cid = args.client_id or os.environ.get("EBAY_CLIENT_ID")
-        secret = args.client_secret or os.environ.get("EBAY_CLIENT_SECRET")
+        # Never a CLI flag (shell history, `ps`): environment or .env only.
+        secret = os.environ.get("EBAY_CLIENT_SECRET")
         if not cid or not secret:
             raise SystemExit(
                 "eBay credentials missing.\n\n"
@@ -460,8 +535,10 @@ def run(args, searcher=None, token=None):
         searcher = lambda q: search(token, q, args.per_item)  # noqa: E731
 
     listings, unmatched, errors = [], 0, []
+    failed_ids = []       # catalogue items whose query failed or never ran
     rejected = []
     seen = set()
+    in_a_row = 0          # consecutive failures; three in a row means eBay is down
 
     for n, (item, q) in enumerate(queries, start=1):
         if n > 1:
@@ -470,10 +547,16 @@ def run(args, searcher=None, token=None):
             payload = searcher(q)
         except EbayError as e:
             errors.append("%s: %s" % (q, e))
-            if len(errors) >= 3:
+            if item and item.get("id"):
+                failed_ids.append(item["id"])
+            in_a_row += 1
+            if in_a_row >= 3:
                 print("stopping after 3 consecutive failures", file=sys.stderr)
+                # The rest were never asked: treated like failed queries.
+                failed_ids.extend(i["id"] for i, _ in queries[n:] if i and i.get("id"))
                 break
             continue
+        in_a_row = 0
 
         summaries = payload.get("itemSummaries") or []
         print("  %-52s %d result(s)" % (q[:52], len(summaries)))
@@ -494,7 +577,7 @@ def run(args, searcher=None, token=None):
                 if not ok:
                     rejected.append((why, s.get("title") or ""))
                     continue
-            rec = normalise_listing(s, target)
+            rec = normalise_listing(s, target, operators)
             if rec is None:
                 continue
             if rec["id"] in seen:
@@ -525,9 +608,28 @@ def run(args, searcher=None, token=None):
         print("\ndry run - nothing written")
         return 0
 
+    # Items whose query failed keep the listings data.json already publishes
+    # for them, each row with the date it was really fetched, so one query
+    # eBay keeps refusing cannot empty the deal finder - nor pass old asks off
+    # as today's. Past V.LISTINGS_MAX_AGE_DAYS they are dropped.
+    carried = []
+    if failed_ids:
+        carried, refused = carry_forward_for(data, failed_ids)
+        names = ", ".join(sorted(set(failed_ids))[:20]) + (" ..." if len(set(failed_ids)) > 20 else "")
+        print("::warning::eBay queries failed for %d item(s): %s; carried forward %d of their "
+              "previous listing(s)" % (len(set(failed_ids)), names, len(carried)))
+        if refused:
+            print("::warning::NOT carrying forward %d listing(s) older than %d days for: %s"
+                  % (len(refused), V.LISTINGS_MAX_AGE_DAYS,
+                     ", ".join(sorted({r["item_id"] for r in refused})[:20])))
+        have = {r["id"] for r in listings}
+        listings.extend(r for r in carried if r["id"] not in have)
+    if errors and not failed_ids and not listings:
+        return 1   # a free-text search failed: nothing to write, nothing to keep
+
     if not listings:
         print("nothing to write")
-        return 0
+        return 1 if errors else 0
 
     payload = OrderedDict([
         ("fetched_at", time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())),
@@ -552,11 +654,12 @@ def run(args, searcher=None, token=None):
     return 0
 
 
-def main():
+def build_parser():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--client-id")
-    ap.add_argument("--client-secret")
+    ap.add_argument("--client-id",
+                    help="eBay App ID; defaults to EBAY_CLIENT_ID from the environment or .env. "
+                         "The client secret is read from EBAY_CLIENT_SECRET only.")
     ap.add_argument("--limit", type=int, default=20,
                     help="how many catalogue items to search for (default 20)")
     ap.add_argument("--per-item", type=int, default=20,
@@ -567,9 +670,10 @@ def main():
                     help="only items that already have sold comps, to measure the spread")
     ap.add_argument("--fuzzy", action="store_true")
     ap.add_argument("--images", action="store_true",
-                    help="also attach listing photos to items that have none. Opt-in: "
-                         "eBay images vanish when the listing ends, so they are a "
-                         "stopgap until you photograph your own stock.")
+                    help="also attach listing photos to items that have none, for a "
+                         "LOCAL PREVIEW only: the build ignores eBay-hosted images unless "
+                         "BEARCHART_ALLOW_HOTLINKED_IMAGES=1, so they never reach "
+                         "production. eBay images vanish when the listing ends.")
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--print-queries", action="store_true",
                     help="show the search strings and exit - no API call, no credentials")
@@ -577,7 +681,11 @@ def main():
                     help="add the release year to each query (narrows hard - eBay ANDs it)")
     ap.add_argument("--loose", action="store_true",
                     help="accept results whose title omits Build-A-Bear branding")
-    args = ap.parse_args()
+    return ap
+
+
+def main():
+    args = build_parser().parse_args()
     try:
         return run(args)
     except EbayError as e:

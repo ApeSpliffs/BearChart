@@ -1,0 +1,9 @@
+# Paths the daily workflow may commit to main. One per line. The data
+# workstream owns this list. Everything the browser loads (site-config.js,
+# data/, item/, sw.js) is generated at build time from data.json and never
+# committed; only the dataset of record and its by-products are.
+data.json
+seed.sql
+tools/catalogue_wiki.json
+recent_bears.js
+tools/imported_sales.json
