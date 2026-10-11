@@ -125,3 +125,35 @@ test('dark mode is the same tokens whether the device or the picker asks for it'
 test('no outline:none anywhere', () => {
   assert.doesNotMatch(CSS, /outline:\s*none/);
 });
+
+/** The declarations of the rule whose selector list starts with `selector`. */
+function rule(selector) {
+  const at = CSS.indexOf('\n' + selector);
+  assert.ok(at !== -1, 'no rule ' + selector);
+  return CSS.slice(CSS.indexOf('{', at) + 1, CSS.indexOf('}', at));
+}
+
+for (const [name, T] of [['light', LIGHT], ['dark', DARK]]) {
+  test(name + ': every stop of every primary-button background, hover included, passes with its text', () => {
+    for (const stop of ['btn-top', 'btn-bottom', 'btn-hover']) {
+      const r = ratio(T['on-brand'], T[stop]);
+      assert.ok(r >= 4.5, stop + ' ' + T[stop] + ' = ' + r.toFixed(2));
+    }
+    // Filled badges and chips with light text.
+    assert.ok(ratio(T['on-brand'], T['brand-red-deep']) >= 4.5, 'plan badge / step');
+    assert.ok(ratio(T['paper-2'], T['crimson-deep']) >= 4.5, 'nav pill / Power tag');
+  });
+}
+
+test('the primary button paints only from the checked stops', () => {
+  const base = rule('.btn-primary, button.primary {');
+  const hover = rule('.btn-primary:hover, button.primary:hover {');
+  const bg = (body) => (/background:\s*([^;]+);/.exec(body) || [])[1];
+  assert.strictEqual(bg(base), 'linear-gradient(180deg, var(--btn-top) 0%, var(--btn-bottom) 100%)');
+  assert.strictEqual(bg(hover), 'var(--btn-hover)');
+  assert.match(base, /color:\s*var\(--on-brand\)/);
+});
+
+test('[hidden] beats every display rule', () => {
+  assert.match(CSS, /\[hidden\]\s*\{\s*display:\s*none\s*!important;\s*\}/);
+});

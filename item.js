@@ -95,7 +95,6 @@
           ((canSubmit || quote)
             ? '<p class="unpriced-cta">' +
               (canSubmit ? '<a class="btn btn-primary" href="#submit-form">Add a sale you\'ve seen (1 minute)</a>' : '') +
-              (canSubmit && quote ? '<span class="cta-sep" aria-hidden="true">&middot;</span>' : '') +
               quote + '</p>'
             : '') +
           (quote ? BC.shopDisclosure() : '') +
@@ -433,7 +432,7 @@
         '<h2>Sold observations</h2>' +
         '<p class="fine">Every row is a completed or reported sale, never an asking price. ' +
         'Rows marked <em>excluded</em> fell outside the outlier fence and did not affect the value.</p>' +
-        '<div class="table-scroll"><table><thead><tr>' +
+        '<div class="table-scroll"><table class="sales-table"><thead><tr>' +
         '<th>Date</th><th class="num">Price</th><th>Condition</th><th>Completeness</th>' +
         '<th>Marketplace</th><th>Evidence</th><th>Notes</th>' +
         '</tr></thead><tbody>' +

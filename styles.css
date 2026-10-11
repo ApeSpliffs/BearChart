@@ -40,7 +40,10 @@
   --tan:            #e7a9a4;
   --rule:           #f3e0dc;
   --rule-strong:    #e8c3bd;
-  --on-brand:       #ffffff;   /* text on --brand-red-deep */
+  --on-brand:       #ffffff;   /* text on --brand-red-deep and every button stop */
+  --btn-top:        #e0242f;   /* primary button gradient, top stop */
+  --btn-bottom:     #b3131c;   /* ... bottom stop */
+  --btn-hover:      #b3131c;   /* ... solid on hover */
   --focus-ring:     var(--brand-red);
   --accent:         #b3131c;   /* was used, never defined: now = --brand-red-deep */
   --conf-high:      #35633a;
@@ -93,6 +96,9 @@
     --brand-red-deep: #e0242f;
     --brand-red-wash: #3a1d21;
     --brand-red-text: #ff5a63;
+    --btn-top:        #d92330;
+    --btn-bottom:     #b3131c;
+    --btn-hover:      #c41e29;
     --crimson:        #ff8a8f;
     --crimson-deep:   #ffd2cf;
     --berry:          #ff7fae;
@@ -131,6 +137,9 @@
   --brand-red-deep: #e0242f;
   --brand-red-wash: #3a1d21;
   --brand-red-text: #ff5a63;
+  --btn-top:        #d92330;
+  --btn-bottom:     #b3131c;
+  --btn-hover:      #c41e29;
   --crimson:        #ff8a8f;
   --crimson-deep:   #ffd2cf;
   --berry:          #ff7fae;
@@ -162,6 +171,7 @@
 }
 
 * { box-sizing: border-box; }
+
 
 body {
   margin: 0;
@@ -368,12 +378,13 @@ button, .btn {
 button:hover, .btn:hover { background: var(--honey-wash); border-color: var(--honey); }
 button:active, .btn:active { transform: translateY(1px); }
 .btn-primary, button.primary {
-  background: linear-gradient(180deg, var(--honey) 0%, var(--honey-deep) 100%);
+  /* Every stop is checked against the button text (tools/test_contrast.js). */
+  background: linear-gradient(180deg, var(--btn-top) 0%, var(--btn-bottom) 100%);
   border-color: var(--brand-red-deep); color: var(--on-brand);
   box-shadow: 0 2px 0 rgba(150, 16, 24, .35);
 }
 .btn-primary:hover, button.primary:hover {
-  background: var(--brand-red-deep);
+  background: var(--btn-hover);
   border-color: var(--brand-red-text);
 }
 
@@ -1400,7 +1411,7 @@ details.owner-help > summary {
 /* The Power-only export */
 .tag-power {
   display: inline-block; margin-left: 4px; padding: 1px 7px; border-radius: 999px;
-  background: var(--brown-deep); color: #fff; font-size: 10.5px; font-weight: 800;
+  background: var(--crimson-deep); color: var(--paper-2); font-size: 10.5px; font-weight: 800;
   letter-spacing: .04em; text-transform: uppercase; vertical-align: 1px;
 }
 .exports-note { margin: 8px 0 0; }
@@ -1454,7 +1465,6 @@ details.owner-help > summary {
 /* ---------- item page --------------------------------------------------------- */
 .headline .chip { align-self: center; }
 .unpriced-cta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 18px 0 0; }
-.cta-sep { color: var(--ink-faint); }
 .unpriced-form { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--rule); }
 /* Illustrations stay light; on dark they sit in a frame. */
 img.is-placeholder { border-radius: var(--radius-sm); }
@@ -1520,3 +1530,31 @@ img.hero.is-placeholder { border: 1px solid var(--rule); }
 .toolbar h1 { margin: 0; font-size: 26px; }
 .gate-locked { display: block; margin-top: 18px; }
 .sec-h { margin-top: 22px; }
+
+/* ---------- phone fit (390px) ---------------------------------------------- */
+@media (max-width: 720px) {
+  .brand { min-width: 0; flex: 1 1 auto; gap: 8px; }
+  .brand-mark { width: 36px; height: 36px; border-radius: 10px; }
+  .brand-name { font-size: 22px; }
+  .brand-name::after { display: none; }
+  .nav-bar { flex: none; }
+  .nav-current { max-width: none; }
+  .nav-toggle { white-space: nowrap; }
+}
+@media (max-width: 480px) {
+  .stat .v { font-size: 20px; white-space: nowrap; }
+}
+@media (max-width: 640px) {
+  /* Scroll the comps sideways rather than squeeze each row 300px tall. */
+  .sales-table { min-width: 640px; }
+  .sales-table td { padding: 7px 9px; }
+  .nudge { padding: 12px 14px 12px; }
+  .nudge h2 { font-size: 16px; margin-bottom: 4px; }
+  .nudge p { font-size: 13px; margin-bottom: 6px; }
+  .nudge .actions-stack { flex-direction: row; }
+  .nudge .btn { padding: 8px 12px; font-size: 13px; }
+}
+
+/* `hidden` always wins: component rules such as button { display:inline-block }
+   must never make a hidden element visible. Last in the file on purpose. */
+[hidden] { display: none !important; }
