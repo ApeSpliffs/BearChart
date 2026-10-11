@@ -77,8 +77,8 @@
         '<button type="button" id="do-link">Email me a sign-in link</button>' +
       '</p>' +
       '<p class="fine"><a href="#" id="do-reset">Forgot your password?</a></p>' +
-      '<p class="fine" style="margin-top:14px">You do not need an account to use ' +
-      'BearChart. Everything except syncing works signed out.</p>' +
+      '<p class="fine" style="margin-top:14px">You do not need an account to look up ' +
+      'prices. The deal finder, checklists and your collection need a free one.</p>' +
       '</div>';
   }
 

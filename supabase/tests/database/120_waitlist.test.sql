@@ -81,14 +81,15 @@ select ok((select ip_hash from public.waitlist where email = 'spoof7@x.co')
   'no fixed public salt');
 select is((select ip_hash from public.waitlist where email = 'spoof7@x.co'),
   encode(extensions.digest('10.9.9.1:' || (select salt from private.waitlist_salt), 'sha256'), 'hex'),
-  'fallback: the private random salt');
+  'hashed with the private random salt');
 select set_config('app.waitlist_salt', 'owner-secret', true);
 select tests.as_anon();
 select pg_temp.from_ip('203.0.113.77');
-select is(public.join_waitlist('salted@x.co'), 'ok', 'joins with the owner''s salt set');
+select is(public.join_waitlist('salted@x.co'), 'ok', 'joins with a readable GUC set');
 select tests.as_postgres();
 select is((select ip_hash from public.waitlist where email = 'salted@x.co'),
-  encode(extensions.digest('203.0.113.77:owner-secret', 'sha256'), 'hex'), 'the owner''s salt wins');
+  encode(extensions.digest('203.0.113.77:' || (select salt from private.waitlist_salt), 'sha256'), 'hex'),
+  'a readable GUC is never used as the salt');
 select tests.as_anon();
 select throws_ok($$ select salt from private.waitlist_salt $$, '42501', null, 'anon cannot read the salt');
 select tests.as_user('free');

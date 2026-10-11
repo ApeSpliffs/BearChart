@@ -3989,7 +3989,8 @@ test('no copy claims an on-the-way feature works today', async () => {
   const files = fs.readdirSync(ROOT).filter((f) => /\.(js|html)$/.test(f) &&
     !['site-config.js', 'sw.js', 'engine.js'].includes(f));
   const banned = [/get deal alerts/i, /before anyone else/i, /finds underpriced bears/i,
-    /found for them/i, /keeps it safe/i, /notify you when/i];
+    /found for them/i, /keeps it safe/i, /notify you when/i,
+    /everything except syncing/i];
   for (const f of files) {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     for (const re of banned) assert.doesNotMatch(src, re, f);

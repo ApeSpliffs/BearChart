@@ -1548,6 +1548,7 @@ img.hero.is-placeholder { border: 1px solid var(--rule); }
   /* Scroll the comps sideways rather than squeeze each row 300px tall. */
   .sales-table { min-width: 640px; }
   .sales-table td { padding: 7px 9px; }
+  .sales-table td:last-child { min-width: 280px; }
   .nudge { padding: 12px 14px 12px; }
   .nudge h2 { font-size: 16px; margin-bottom: 4px; }
   .nudge p { font-size: 13px; margin-bottom: 6px; }

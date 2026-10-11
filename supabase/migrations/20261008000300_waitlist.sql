@@ -19,10 +19,9 @@
 --     OWNER TODO: add a captcha or double opt-in if abuse ever appears.
 --
 -- The IP is never stored, only a salted hash of it for the rate limit. The
--- salt is private: app.waitlist_salt if the owner sets it (OWNER TODO, e.g.
--- `alter database postgres set app.waitlist_salt = '<random>'`), otherwise a
--- random salt generated once into private.waitlist_salt, which no API role can
--- read. Only the owner can read or delete rows (privacy.html#waitlist).
+-- salt is a random value generated once into private.waitlist_salt, which no
+-- API role can read. (Deliberately not a GUC such as app.waitlist_salt: any
+-- database role can read those with current_setting.) Only the owner can read or delete rows (privacy.html#waitlist).
 
 create extension if not exists pgcrypto with schema extensions;
 
@@ -73,8 +72,7 @@ declare
   xff   text[] := string_to_array(coalesce(hdrs ->> 'x-forwarded-for', ''), ',');
   -- Rightmost hop: appended by the proxy, not by the client.
   ip    text := trim(coalesce(xff[array_length(xff, 1)], ''));
-  salt  text := coalesce(nullif(current_setting('app.waitlist_salt', true), ''),
-                         (select s.salt from private.waitlist_salt s limit 1));
+  salt  text := (select s.salt from private.waitlist_salt s limit 1);
   ih    text := case when ip = '' then null
                      else encode(extensions.digest(ip || ':' || salt, 'sha256'), 'hex') end;
   hour  bigint;
