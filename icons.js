@@ -221,6 +221,24 @@
              'stroke-width="6" stroke-linecap="round"/>';
     },
 
+    // Round body, two pointed ears, and scalloped wings (three arcs a side)
+    // whose membrane takes the accent colour.
+    bat: function (fg, ac) {
+      return '<path d="M176 132 L84 104 Q100 138 86 170 Q108 156 122 178 Q136 158 152 182 ' +
+             'Q156 160 176 164 Z" fill="' + ac + '" stroke="' + fg + '" stroke-width="5" ' +
+             'stroke-linejoin="round"/>' +
+             '<path d="M224 132 L316 104 Q300 138 314 170 Q292 156 278 178 Q264 158 248 182 ' +
+             'Q244 160 224 164 Z" fill="' + ac + '" stroke="' + fg + '" stroke-width="5" ' +
+             'stroke-linejoin="round"/>' +
+             '<polygon points="172,112 178,72 196,104" fill="' + fg + '"/>' +
+             '<polygon points="228,112 222,72 204,104" fill="' + fg + '"/>' +
+             '<circle cx="200" cy="148" r="42" fill="' + fg + '"/>' +
+             '<circle cx="186" cy="136" r="7" fill="' + ac + '"/>' +
+             '<circle cx="214" cy="136" r="7" fill="' + ac + '"/>' +
+             '<path d="M192 162 l4 8 l4 -8 M200 162 l4 8 l4 -8" stroke="' + ac + '" ' +
+             'stroke-width="3" fill="none" stroke-linejoin="round"/>';
+    },
+
     penguin: function (fg, ac) {
       return '<ellipse cx="200" cy="152" rx="58" ry="70" fill="' + fg + '"/>' +
              '<ellipse cx="200" cy="166" rx="34" ry="50" fill="' + ac + '"/>' +
@@ -438,7 +456,8 @@
     Giraffe: 'giraffe', Okapi: 'giraffe',
     Koala: 'koala', Marsupial: 'koala', Kangaroo: 'koala', Wombat: 'koala',
     Sheep: 'sheep', Lamb: 'sheep', Goat: 'sheep', Ram: 'sheep', Alpaca2: 'sheep',
-    Chick: 'bird', Bird: 'bird', Owl: 'bird', Bat: 'bird', Flamingo: 'bird',
+    Chick: 'bird', Bird: 'bird', Owl: 'bird', Flamingo: 'bird',
+    Bat: 'bat', 'Fruit Bat': 'bat',
     Duck: 'bird', Chicken: 'bird', Eagle: 'bird', Parrot: 'bird',
     Penguin: 'penguin',
     Frog: 'frog', Amphibian: 'frog', Toad: 'frog', Newt: 'frog',
