@@ -34,10 +34,19 @@
   }
   if (!id) { notFound(); return; }
 
+  // item.html?id= has nothing to show until the bear loads; a generated page
+  // keeps its build-time article until then.
+  if (!root.children.length) {
+    root.setAttribute('aria-busy', 'true');
+    root.innerHTML = BC.skeleton('item') + '<p class="sr-only">Loading this bear…</p>';
+  }
+
   BC.withItem(id, function (detail) {
+    root.removeAttribute('aria-busy');
     if (!detail) { notFound(); return; }
     var item = detail.item;
-    document.title = item.canonical_name + ' — BearChart';
+    document.title = item.canonical_name + ' value — BearChart (independent price guide)';
+    if (BC.prompt) BC.prompt.noteItemView();
 
     // Offline and never opened: the value comes from the cached index summary,
     // and the comps behind it need a connection (bc-data.js partial mode).
@@ -59,57 +68,56 @@
 
     function valuationPanel() {
       if (!v.has_value) {
-        // This is one of the most-seen panels on the site: every item without
-        // sold data shows it. It used to be a warning box and an apology. It is the page
-        // a search lands somebody on, so it now leads with what IS known, and
-        // asks for the one thing that would change it.
+        // One panel for "no value": what is known, how to add a sale, and who
+        // to ask. It is the page a search lands somebody on, so it leads with
+        // what IS known and asks for the one thing that would change it.
         var known = [
           ['Released', item.release_year || null],
           ['Line', item.line || null],
           ['Animal', item.species || null],
           ['Franchise', item.franchise || null]
         ].filter(function (r) { return r[1]; });
+        var canSubmit = !!(S() && S().configured());
+        var quote = BC.shopLink('item_quote', { kind: 'quote', item: item, className: 'btn',
+          label: 'Ask Jay\'s Retro Exchange for a quote' });
 
-
-        return '<div class="panel unpriced">' +
-          '<p class="unpriced-eyebrow">No value published</p>' +
-          '<h2 class="unpriced-head">Nobody has told us what this one sells for</h2>' +
-          '<p class="unpriced-lede">BearChart has no recorded sold transactions for the ' +
-          BC.esc(item.canonical_name) + ', so it publishes <strong>no price</strong>. ' +
-          'An estimate with nothing behind it is a guess, and a guess printed next to a ' +
-          'dollar sign gets treated as a fact.</p>' +
-
+        return '<section class="panel unpriced" aria-labelledby="unpriced-h">' +
+          '<h2 id="unpriced-h" class="unpriced-head">No sold price on record yet</h2>' +
+          '<p class="unpriced-lede">We only publish a price when we have real sales behind it, ' +
+          'so there\'s no number here for the ' + BC.esc(item.canonical_name) + '.</p>' +
           (known.length
-            ? '<div class="unpriced-known">' +
-              '<h3>What is known</h3><dl class="kv">' +
+            ? '<div class="unpriced-known"><dl class="kv">' +
               known.map(function (r) {
                 return '<dt>' + BC.esc(r[0]) + '</dt><dd>' + BC.esc(r[1]) + '</dd>';
-              }).join('') + '</dl>' +
-              '</div>'
+              }).join('') + '</dl></div>'
             : '') +
-
           (item.notes ? '<p class="fine unpriced-note">' + BC.esc(item.notes) + '</p>' : '') +
-
-          // Only offer the jump when there is somewhere to jump to: the submit
-          // panel is absent when accounts are not configured for the site.
-          '<p class="unpriced-ask">One sourced sale is all it takes to change this page.' +
-          ((window.BearChartSubmissions && window.BearChartSubmissions.configured())
-            ? '<a class="unpriced-jump" href="#submit-panel">Know what one sold for?</a>'
-            : '') + '</p>' +
-          '</div>';
+          ((canSubmit || quote)
+            ? '<p class="unpriced-cta">' +
+              (canSubmit ? '<a class="btn btn-primary" href="#submit-form">Add a sale you\'ve seen (1 minute)</a>' : '') +
+              (canSubmit && quote ? '<span class="cta-sep" aria-hidden="true">&middot;</span>' : '') +
+              quote + '</p>'
+            : '') +
+          (quote ? BC.shopDisclosure() : '') +
+          (canSubmit ? '<div id="submit-form" class="unpriced-form" tabindex="-1">' + submitForm() + '</div>' : '') +
+          '</section>';
       }
 
+      var n = v.comparable_count;
       return '<div class="panel">' +
-        '<h3>Estimated market value</h3>' +
+        '<h2>Estimated market value</h2>' +
         '<div class="headline">' +
           '<span class="big">' + BC.range(v.range_low, v.range_high) + '</span>' +
-          '<span class="' + BC.confClass(v.confidence) + '">' + v.confidence + ' confidence</span>' +
-          '<span class="fine">' + v.comparable_count + ' comparable sale' +
-          (v.comparable_count === 1 ? '' : 's') +
+          BC.confChip(v.confidence, { link: true, n: n }) +
+          BC.freshness(v) +
+          '<span class="fine">' + n + ' comparable sale' + (n === 1 ? '' : 's') +
           (v.aggregate_count ? ' across ' + v.observation_count + ' observations' : '') +
           '</span>' +
         '</div>' +
-        '<p class="fine" style="margin-top:6px">Median sold ' + BC.exact(v.median_raw) +
+        (v.stale
+          ? '<p class="fine stale-note">No sale recorded recently. Treat this range as a starting point.</p>'
+          : '') +
+        '<p class="fine mt-1">Median sold ' + BC.exact(v.median_raw) +
         ' &middot; fair market value ' + BC.money(v.fair_market) +
         ' at Good condition with no extras.</p>' +
         // Show the footing, do not just assert it.
@@ -123,35 +131,60 @@
         '</div>';
     }
 
-    function sellPanel() {
-      if (!BC.businessEnabled() || !v.has_value) return '';
-      var b = BC.business;
-      var contact = '';
-      if (b.contact_url) {
-        // An unsafe contact_url renders no button at all, not bare text.
-        if (BC.safeUrl(b.contact_url, { schemes: ['https:'] })) {
-          contact = BC.extLink(b.contact_url, 'Get an offer',
-            { className: 'btn btn-primary', schemes: ['https:'] });
-        }
-      } else if (/^[^\s@<>"'?&]+@[^\s@<>"'?&]+$/.test(b.contact_email || '')) {
-        // No ? or & in the address: it must not be able to add mailto parameters.
-        contact = '<a class="btn btn-primary" href="mailto:' + BC.esc(b.contact_email) +
-          '?subject=' + encodeURIComponent('Selling: ' + item.canonical_name) +
-          '">Get an offer</a>';
-      }
+    /** The condition picked in the calculator ("Good" until someone changes it). */
+    function chosenCondition() {
+      var el = document.getElementById('c-cond');
+      return el ? el.value : 'Good';
+    }
 
-      return '<div class="panel">' +
-        '<h2>Sell yours to ' + BC.esc(b.name) + '</h2>' +
-        '<p class="fine">' + BC.esc(b.blurb) + '</p>' +
-        '<div class="headline" style="margin-top:10px">' +
-          '<span class="big">' + BC.range(v.buy_low, v.buy_high) + '</span>' +
-          '<span class="fine">for a copy in Good condition &mdash; more for NWT or ' +
-          'complete with extras</span>' +
+    /** The store's buttons; redrawn when the calculator's condition changes. */
+    function storeActions() {
+      var b = BC.business;
+      var offer = BC.shopLink('item_offer', { kind: 'offer', item: item,
+        condition: chosenCondition(), label: 'Get an offer' });
+      if (!offer && BC.businessEnabled() &&
+          /^[^\s@<>"'?&]+@[^\s@<>"'?&]+$/.test(b.contact_email || '')) {
+        // No shop link: an email instead. No ? or & in the address, so it
+        // cannot add mailto parameters.
+        offer = '<a class="btn btn-primary" href="mailto:' + BC.esc(b.contact_email) +
+          '?subject=' + encodeURIComponent('Selling: ' + item.canonical_name) + '">Get an offer</a>';
+      }
+      var find = BC.shopLink('item_search', { kind: 'search', item: item, className: 'btn',
+        label: 'Find it in the store' });
+      return offer + (offer && find ? ' ' : '') + find;
+    }
+
+    /**
+     * Jay's Retro Exchange, the store that runs this guide - after the
+     * evidence, never before it, and labelled as our store. The guide value
+     * comes first and is the same for everyone; the store's offer is its own
+     * card.
+     */
+    function storePanel() {
+      if (!v.has_value) return '';
+      var actions = storeActions();
+      if (!actions) return '';
+      var b = BC.business;
+      var n = v.comparable_count;
+      return '<section class="panel store-panel" aria-labelledby="store-h">' +
+        '<h2 id="store-h">Sell or buy this at Jay\'s Retro Exchange (our store)</h2>' +
+        '<div class="store-cards">' +
+          '<div class="store-card is-guide"><p class="k">Guide value &middot; Good condition</p>' +
+            '<p class="v">' + BC.range(v.range_low, v.range_high) + '</p>' +
+            '<p class="n">From ' + n + ' recorded sale' + (n === 1 ? '' : 's') +
+            '. The same for everyone.</p></div>' +
+          '<div class="store-card is-offer"><p class="k">Typical store offer</p>' +
+            '<p class="v">' + BC.range(v.buy_low, v.buy_high) + '</p>' +
+            '<p class="n">What a shop pays so it can resell. More for NWT or complete.</p></div>' +
         '</div>' +
-        '<p style="margin-top:14px">' + contact + '</p>' +
-        '<div class="notice" style="margin-top:14px"><strong>Disclosure.</strong> ' +
-        BC.esc(b.disclosure) + '</div>' +
-        '</div>';
+        (b.blurb ? '<p class="fine">' + BC.esc(b.blurb) + '</p>' : '') +
+        '<p class="actions-row store-actions">' + actions + '</p>' +
+        BC.shopDisclosure() +
+        (b.disclosure
+          ? '<details class="fine"><summary>Full disclosure</summary><p>' + BC.esc(b.disclosure) +
+            '</p></details>'
+          : '') +
+        '</section>';
     }
 
     // --- putting something back ------------------------------------------------
@@ -166,54 +199,65 @@
      * it cannot be checked, and an unverifiable price is what this whole guide
      * exists not to publish.
      */
-    function submitPanel() {
+    /** The sale form, or the sign-in prompt in its place. */
+    function submitForm() {
       if (!S() || !S().configured()) return '';
-      var signedIn = S().signedIn();
+      if (!S().signedIn()) {
+        return '<p class="mt-2"><a class="btn btn-primary" href="' +
+          BC.rel('account.html') + '">Sign in to add a sale</a></p>' +
+          '<p class="fine">An account is needed because a reviewer has to be able ' +
+          'to ask you about it. An anonymous price is not evidence, it is a rumour.</p>';
+      }
+      return '<div class="row mt-2">' +
+          '<div class="field"><label for="sub-price">Sold for (USD)</label>' +
+            '<input type="number" id="sub-price" min="0.01" step="0.01" ' +
+            'inputmode="decimal" placeholder="42.00"></div>' +
+          '<div class="field"><label for="sub-date">Date sold</label>' +
+            '<input type="date" id="sub-date"></div>' +
+          '<div class="field"><label for="sub-market">Where</label>' +
+            '<select id="sub-market">' +
+              '<option value="">Choose…</option>' +
+              '<option>eBay</option><option>Mercari</option>' +
+              '<option>Facebook Marketplace</option><option>Etsy</option>' +
+              '<option>Poshmark</option><option>In person</option>' +
+              '<option>Other</option>' +
+            '</select></div>' +
+        '</div>' +
+        '<div class="row">' +
+          '<div class="field"><label for="sub-cond">Condition</label>' +
+            '<select id="sub-cond"></select></div>' +
+          '<div class="field"><label for="sub-comp">Completeness</label>' +
+            '<select id="sub-comp"></select></div>' +
+          '<div class="field field-wide">' +
+            '<label for="sub-url">Listing link or id <span class="fine">(optional, ' +
+            'but it is what lets a reviewer confirm it)</span></label>' +
+            '<input type="url" id="sub-url" placeholder="https://www.ebay.com/itm/…"></div>' +
+        '</div>' +
+        '<p class="mt-2">' +
+          '<button type="button" class="primary" id="do-submit">Submit this sale</button>' +
+        '</p>' +
+        '<p id="submit-msg" class="fine" role="status" hidden></p>' +
+        '<div class="notice mt-2"><strong>What happens next.</strong> ' +
+        'Submissions go to a review queue. Nothing you enter here changes a ' +
+        'published value until a reviewer has checked it &mdash; including ' +
+        'submissions from the people who run this site.</div>';
+    }
 
+    /**
+     * "I know what one sold for."
+     *
+     * The most valuable thing a reader can give this site. The form asks for
+     * provenance rather than just a number, because a price with nothing behind
+     * it cannot be checked, and an unverifiable price is what this whole guide
+     * exists not to publish. An unpriced bear carries the form inside its one
+     * "no value" panel instead.
+     */
+    function submitPanel() {
+      if (!v.has_value || !S() || !S().configured()) return '';
       return '<div class="panel" id="submit-panel">' +
         '<h2>Know what one sold for?</h2>' +
-        '<p class="fine">' + (v.has_value
-          ? 'Every added sale narrows the range and raises the confidence on this page.'
-          : 'This item has no recorded sales, so BearChart publishes no value for it. ' +
-            'One sourced sale is all it takes to change that.') + '</p>' +
-        (signedIn
-          ? '<div class="row" style="margin-top:14px">' +
-              '<div class="field"><label for="sub-price">Sold for (USD)</label>' +
-                '<input type="number" id="sub-price" min="0.01" step="0.01" ' +
-                'inputmode="decimal" placeholder="42.00"></div>' +
-              '<div class="field"><label for="sub-date">Date sold</label>' +
-                '<input type="date" id="sub-date"></div>' +
-              '<div class="field"><label for="sub-market">Where</label>' +
-                '<select id="sub-market">' +
-                  '<option value="">Choose…</option>' +
-                  '<option>eBay</option><option>Mercari</option>' +
-                  '<option>Facebook Marketplace</option><option>Etsy</option>' +
-                  '<option>Poshmark</option><option>In person</option>' +
-                  '<option>Other</option>' +
-                '</select></div>' +
-            '</div>' +
-            '<div class="row">' +
-              '<div class="field"><label for="sub-cond">Condition</label>' +
-                '<select id="sub-cond"></select></div>' +
-              '<div class="field"><label for="sub-comp">Completeness</label>' +
-                '<select id="sub-comp"></select></div>' +
-              '<div class="field" style="flex:2 1 240px">' +
-                '<label for="sub-url">Listing link or id <span class="fine">(optional, ' +
-                'but it is what lets a reviewer confirm it)</span></label>' +
-                '<input type="url" id="sub-url" placeholder="https://www.ebay.com/itm/…"></div>' +
-            '</div>' +
-            '<p style="margin-top:12px">' +
-              '<button type="button" class="primary" id="do-submit">Submit this sale</button>' +
-            '</p>' +
-            '<p id="submit-msg" class="fine" hidden></p>' +
-            '<div class="notice" style="margin-top:12px"><strong>What happens next.</strong> ' +
-            'Submissions go to a review queue. Nothing you enter here changes a ' +
-            'published value until a reviewer has checked it &mdash; including ' +
-            'submissions from the people who run this site.</div>'
-          : '<p style="margin-top:12px"><a class="btn btn-primary" href="' +
-            BC.rel('account.html') + '">Sign in to add a sale</a></p>' +
-            '<p class="fine">An account is needed because a reviewer has to be able ' +
-            'to ask you about it. An anonymous price is not evidence, it is a rumour.</p>') +
+        '<p class="fine">Every added sale narrows the range and raises the confidence on this page.</p>' +
+        submitForm() +
         '</div>';
     }
 
@@ -221,23 +265,23 @@
     function reportPanel() {
       if (!S() || !S().configured()) return '';
       return '<details class="panel" id="report-panel">' +
-        '<summary style="cursor:pointer;font-weight:700;color:var(--brown-deep)">' +
+        '<summary class="summary-strong">' +
         'Something wrong on this page?</summary>' +
-        '<p class="fine" style="margin-top:10px">This catalogue was assembled from ' +
+        '<p class="fine mt-2">This catalogue was assembled from ' +
         'collector records and a community wiki, and some of it is certainly wrong. ' +
         'Telling us costs you a click and saves the next person.</p>' +
-        '<div class="row" style="margin-top:10px">' +
-          '<div class="field" style="flex:1 1 220px"><label for="rep-reason">What is wrong</label>' +
+        '<div class="row mt-2">' +
+          '<div class="field"><label for="rep-reason">What is wrong</label>' +
             '<select id="rep-reason">' + S().reasons.map(function (r) {
               return '<option value="' + BC.esc(r[0]) + '">' + BC.esc(r[1]) + '</option>';
             }).join('') + '</select></div>' +
-          '<div class="field" style="flex:2 1 260px"><label for="rep-note">Anything else ' +
+          '<div class="field field-wide"><label for="rep-note">Anything else ' +
             '<span class="fine">(optional)</span></label>' +
             '<input type="text" id="rep-note" maxlength="500" ' +
             'placeholder="e.g. this is the same bear as the 1999 one"></div>' +
         '</div>' +
-        '<p style="margin-top:10px"><button type="button" id="do-report">Send report</button></p>' +
-        '<p id="report-msg" class="fine" hidden></p>' +
+        '<p class="mt-2"><button type="button" id="do-report">Send report</button></p>' +
+        '<p id="report-msg" class="fine" role="status" hidden></p>' +
         '</details>';
     }
 
@@ -318,7 +362,7 @@
           'ships, early sales will be pre-orders and scalped copies - hype, not a settled ' +
           'market. Wait for the price to calm down before trusting it.</div>' +
           (item.announcement_source
-            ? '<p class="fine" style="margin-top:12px">Announcement: ' +
+            ? '<p class="fine mt-2">Announcement: ' +
               BC.extLink(item.announcement_source, 'source') +
               (item.expected_release ? ' &middot; expected ' + BC.esc(item.expected_release) : '') +
               '</p>'
@@ -332,7 +376,7 @@
           'before paying a premium &mdash; unless it is an exclusive that is already ' +
           'selling out.</div>' +
           (item.announcement_source
-            ? '<p class="fine" style="margin-top:12px">' +
+            ? '<p class="fine mt-2">' +
               BC.extLink(item.announcement_source, 'Announcement source') + '</p>'
             : '') +
           '</div>';
@@ -341,14 +385,15 @@
     }
 
     function whyPanel() {
-      if (!v.why.length) return '';
+      // An unpriced bear says why in its one "no value" panel.
+      if (!v.has_value || !v.why.length) return '';
       return '<div class="panel">' +
         '<h2>Why this value</h2>' +
         '<ul class="why">' + v.why.map(function (w) {
           return '<li>' + BC.esc(w) + '</li>';
         }).join('') + '</ul>' +
         (v.strong_evidence_count
-          ? '<p class="fine" style="margin-top:10px">' + v.strong_evidence_count +
+          ? '<p class="fine mt-2">' + v.strong_evidence_count +
             ' of these comps carry full provenance (date, marketplace and listing id).</p>'
           : '') +
         '</div>';
@@ -401,11 +446,10 @@
             mkt = BC.affiliateLink(s.source_url, mkt);
           }
           var notes = [];
-          if (s.first_party || s.seller_is_operator) {
+          if (BC.isOperatorSale(s)) {
             // Jay's Retro Exchange runs BearChart; its own sales are labelled and
             // capped, never presented as anyone else's.
-            notes.push('<span class="chip chip-operator">Seller: Jay\'s Retro Exchange ' +
-                       '(our store)</span>');
+            notes.push('<span class="chip chip-operator">' + BC.esc(BC.operatorLabel) + '</span>');
           }
           if (s.sample_size > 1) {
             notes.push('<strong>Average across ' + s.sample_size + ' sales</strong>');
@@ -428,7 +472,7 @@
         // (config.features.comps_export, off pending legal review). The comps
         // themselves stay listed above for everyone.
         (BC.feature('comps_export')
-          ? '<p style="margin-top:14px"><button type="button" id="export-item">Export this item to CSV</button></p>'
+          ? '<p class="mt-3"><button type="button" id="export-item">Export this item to CSV</button></p>'
           : '') +
         '</div>';
     }
@@ -507,7 +551,7 @@
           'in-line': 'Asking prices are broadly in line with the sold data ' +
             '(' + (pct >= 0 ? '+' : '') + pct + '%).'
         };
-        reading = '<p class="fine" style="margin-top:10px">' + words[spread.reading] + '</p>';
+        reading = '<p class="fine mt-2">' + words[spread.reading] + '</p>';
       }
 
       return '<div class="panel">' +
@@ -516,7 +560,7 @@
         'sellers are currently asking on eBay. BearChart does not price from asking ' +
         'prices and none of these affect the valuation above.</div>' +
         (spread
-          ? '<div class="bands" style="margin-top:14px">' +
+          ? '<div class="bands mt-3">' +
               priceRow('Median ask', BC.money(spread.median_ask), spread.count + ' live listing' +
                        (spread.count === 1 ? '' : 's')) +
               priceRow('Ask range', BC.range(spread.low_ask, spread.high_ask), 'Low to high') +
@@ -526,7 +570,7 @@
             '</div>'
           : '') +
         reading +
-        '<div class="table-scroll" style="margin-top:14px"><table><thead><tr>' +
+        '<div class="table-scroll mt-3"><table><thead><tr>' +
         '<th class="num">Asking</th><th>Title</th><th>Condition</th>' +
         '</tr></thead><tbody>' +
         listings.slice(0, 25).map(function (l) {
@@ -539,7 +583,7 @@
         }).join('') + '</tbody></table></div>' +
         BC.listingsAgeNote(detail.listings_fetched_at) +
         (detail.listings_fetched_at
-          ? '<p class="fine" style="margin-top:10px">Fetched ' +
+          ? '<p class="fine mt-2">Fetched ' +
             BC.esc(detail.listings_fetched_at) + ' via the eBay Browse API.</p>'
           : '') +
         '</div>';
@@ -581,7 +625,7 @@
         '<dl class="kv">' + rows.map(function (r) {
           return '<dt>' + BC.esc(r[0]) + '</dt><dd>' + BC.esc(r[1]) + '</dd>';
         }).join('') + '</dl>' +
-        (item.notes ? '<div class="notice" style="margin-top:14px">' + BC.esc(item.notes) + '</div>' : '') +
+        (item.notes ? '<div class="notice mt-3">' + BC.esc(item.notes) + '</div>' : '') +
         '</div>';
     }
 
@@ -604,7 +648,7 @@
 
     function calcPanel() {
       if (!v.has_value) return '';
-      return '<div class="panel"><h2>Value your copy</h2>' +
+      return '<div class="panel" id="calc-panel"><h2>Value your copy</h2>' +
         '<div class="row">' +
           '<div class="field"><label for="c-cond">Condition</label><select id="c-cond">' +
           CFG.condition_order.map(function (c) {
@@ -616,8 +660,8 @@
                    BC.esc(CFG.completeness_labels[k] || k) + '</option>';
           }).join('') + '</select></div>' +
         '</div>' +
-        '<div id="c-out" style="margin-top:16px"></div>' +
-        '<p style="margin-top:14px"><button type="button" id="add-collection">Add to my collection</button> ' +
+        '<div id="c-out" class="mt-3"></div>' +
+        '<p class="mt-3"><button type="button" id="add-collection">Add to my collection</button> ' +
         '<button type="button" id="add-wishlist" aria-pressed="false">Add to wishlist</button> ' +
         '<span class="fine" id="add-note"></span></p>' +
         '</div>';
@@ -629,8 +673,7 @@
       if (!rel.length) return '';
       return '<div class="panel"><h2>Related items</h2><div class="tags">' +
         rel.map(function (i) {
-          return '<a class="tag" href="' + BC.itemUrl(i.id) + '" style="text-transform:none;' +
-                 'font-size:12px;letter-spacing:0;text-decoration:none">' +
+          return '<a class="tag tag-link" href="' + BC.itemUrl(i.id) + '">' +
                  BC.esc(i.canonical_name) + '</a>';
         }).join('') + '</div></div>';
     }
@@ -638,16 +681,16 @@
     // --- render ---------------------------------------------------------------
 
     root.innerHTML =
-      '<p class="fine" style="margin:0 0 12px"><a href="' + BC.rel('index.html') + '">&larr; Price guide</a></p>' +
+      '<p class="fine backlink"><a href="' + BC.rel('index.html') + '">&larr; Price guide</a></p>' +
       '<div class="panel item-head">' +
         '<div class="item-hero">' + BC.imageHtml(item, 'hero') + BC.imageCredit(item) +
           (BC.hasImage(item) ? '' :
-            '<p class="fine img-credit">No photo on file yet.</p>' +
+            '<p class="fine img-credit">Illustration. No photo on file yet.</p>' +
             '<div id="photo-add" class="photo-add"></div>') +
         '</div>' +
         '<div class="item-headtext">' +
           '<h1>' + BC.esc(item.canonical_name) + '</h1>' +
-          '<p class="fine" style="margin:0 0 10px">' +
+          '<p class="fine item-meta">' +
           [item.release_year || 'Year unknown', BC.era(item), item.species, item.category]
             .filter(function (v, i, all) { return v && all.indexOf(v) === i; }).map(BC.esc).join(' &middot; ') + '</p>' +
           BC.tagsHtml(item) +
@@ -655,23 +698,22 @@
           // data a price guide should lead with - the same bear is listed under
           // three names, and knowing that is half of finding a comp.
           ((item.aliases && item.aliases.length)
-            ? '<p class="fine" style="margin:10px 0 0">Also listed as ' +
+            ? '<p class="fine item-aliases">Also listed as ' +
               item.aliases.map(BC.esc).join(', ') + '</p>'
             : '') +
         '</div>' +
       '</div>' +
       releasePanel() +
       valuationPanel() +
-      // An item with no comps has nothing else useful on it. An item with comps
-      // gets the "sell yours" panel further down instead, so nobody is shown
-      // both - one shop pitch per page is a promo, two is an advert.
-      (v.has_value ? '' : BC.shopPromo()) +
+      // Where the value is: the one place an account (or Pro) is offered.
+      (v.has_value ? BC.upsell('item_value', { item: item }) : '') +
       whyPanel() +
       calcPanel() +
-      sellPanel() +
       conditionPanel() +
       salesPanel() +
       historyPanel() +
+      // The store comes after the evidence, never before it - and only once.
+      storePanel() +
       askingPanel() +
       // Straight after the recorded sales, where a reader has just seen how thin
       // the evidence is and is best placed to add to it.
@@ -748,9 +790,12 @@
     function runCalc() {
       var a = E.adjust(v, document.getElementById('c-cond').value,
                        document.getElementById('c-comp').value, CFG);
+      // The store's offer link carries the condition picked here.
+      var acts = document.querySelector('.store-actions');
+      if (acts) acts.innerHTML = storeActions();
       document.getElementById('c-out').innerHTML =
         '<div class="headline"><span class="big">' + BC.range(a.range_low, a.range_high) +
-        '</span><span class="' + BC.confClass(a.confidence) + '">' + a.confidence + '</span></div>' +
+        '</span>' + BC.confChip(a.confidence, { link: false }) + '</div>' +
         '<p class="fine">Combined multiplier x' + (Math.round(a.multiplier * 100) / 100) +
         ' applied to a ' + BC.money(v.fair_market) + ' baseline.</p>' +
         '<div class="bands">' +
@@ -798,6 +843,7 @@
         try {
           localStorage.setItem(key, JSON.stringify(list));
           if (BC.cloud) BC.cloud.soon();
+          if (BC.prompt) BC.prompt.noteCollectionAdd();
           document.getElementById('add-note').innerHTML =
             'Added. <a href="' + BC.rel('collection.html') + '">View my collection &rarr;</a>';
         } catch (e) {

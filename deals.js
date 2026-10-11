@@ -120,20 +120,21 @@
   function renderStats(deals) {
     var listings = L.listings.length;
     var best = deals.length ? deals[0].margin : null;
-    var asOf = L.fetched_at ? L.fetched_at.slice(0, 10) : '--';
     // The oldest row decides: a row carried forward for a failed query keeps
-    // the date it was really fetched.
+    // the date it was really fetched. The run date alone would claim a check
+    // that may not have happened for every listing on screen.
     var oldest = L.listings.reduce(function (o, l) {
       var at = l.fetched_at || L.fetched_at;
       return at && (!o || at < o) ? at : o;
     }, null);
+    var asOf = oldest ? String(oldest).slice(0, 10) : '--';
     if ($('deal-age')) $('deal-age').innerHTML = L.listings.length ? BC.listingsAgeNote(oldest) : '';
 
     $('deal-stats').innerHTML = [
       [listings, 'Listings checked'],
       [deals.length, 'Deals found'],
       [best == null ? '--' : BC.money(best), 'Best profit'],
-      [BC.esc(asOf), 'Last checked']
+      [BC.esc(asOf), 'Listings checked since']
     ].map(function (c) {
       return '<div class="stat"><div class="v">' + c[0] + '</div><div class="k">' +
         BC.esc(c[1]) + '</div></div>';
@@ -176,15 +177,26 @@
       return;
     }
 
+    // Signed out (and accounts on): a teaser of three, then the invitation.
+    // The rest are not rendered at all.
+    var locked = BC.gate && BC.gate.locked();
+    var shown = locked ? deals.slice(0, 3) : deals;
+    var hidden = deals.length - shown.length;
+    var assumed = (CFG.reseller && CFG.reseller.assumed_inbound_shipping) || 0;
+
     // Column order matters to the tests: the fifth cell is the profit, which
     // moves when the fee assumption does.
-    $('deals').innerHTML = '<div class="table-scroll"><table class="stack-table deal-table">' +
+    $('deals').innerHTML =
+      '<p class="fine deal-basis">Profit is worked out from what the buyer pays: the asking ' +
+      'price <strong>plus shipping</strong>. Where a listing does not say what shipping costs, ' +
+      'we assume ' + BC.exact(assumed) + ' and mark it.</p>' +
+      '<div class="table-scroll"><table class="stack-table deal-table">' +
       '<thead><tr>' +
-      '<th>Listing</th><th class="num">Asking</th><th class="num">Usually sells for</th>' +
+      '<th>Listing</th><th class="num">Asking + shipping</th><th class="num">Usually sells for</th>' +
       '<th class="num">Net after fees</th><th class="num">Your profit</th>' +
       '<th>How sure</th>' +
       '</tr></thead><tbody>' +
-      deals.map(function (d) {
+      shown.map(function (d) {
         var title = BC.esc(d.listing.title || d.item_name);
         if (d.listing.source_url) {
           title = BC.affiliateLink(d.listing.source_url, title);
@@ -199,7 +211,7 @@
           '</td>' +
           '<td class="num price" data-label="Asking">' + BC.exact(d.ask) +
             '<div class="fine buyer-pays">' + (d.ship_assumed
-              ? '+ ' + BC.exact(d.buyer_total - d.ask) + ' shipping (assumed)'
+              ? '+ ' + BC.exact(d.buyer_total - d.ask) + ' shipping (not listed, assumed)'
               : (d.ship_price ? '+ ' + BC.exact(d.ship_price) + ' shipping' : 'free shipping')) +
             '<br>Buyer pays ' + BC.exact(d.buyer_total) + '</div></td>' +
           '<td class="num" data-label="Usually sells for">' + BC.money(d.gross_value) +
@@ -209,13 +221,16 @@
             BC.money(d.margin) + '</strong>' +
             '<div class="fine">' + Math.round(d.margin_pct) + '% on cost &middot; ' +
             Math.round(d.discount_pct) + '% below value</div></td>' +
-          '<td data-label="How sure"><span class="' + BC.confClass(d.confidence) + '">' +
-            d.confidence + '</span><div class="fine">' + d.comparable_count + ' sale' +
+          '<td data-label="How sure">' + BC.confChip(d.confidence, { link: true, n: d.comparable_count }) +
+            '<div class="fine">' + d.comparable_count + ' sale' +
             (d.comparable_count === 1 ? '' : 's') + ' on record</div></td>' +
           '</tr>';
-      }).join('') + '</tbody></table></div>';
+      }).join('') + '</tbody></table></div>' +
+      (hidden ? '<p class="sr-only">' + hidden + ' more deal' + (hidden === 1 ? '' : 's') +
+                ' with a free account.</p>' : '');
 
-    window.__deals = deals;
+    // The CSV holds what is on screen, no more.
+    window.__deals = shown;
   }
 
   // ---- events ---------------------------------------------------------------
@@ -266,8 +281,9 @@
   });
 
   renderInputs();
+  if (BC.gate) BC.gate.onChange(render);
   BC.withCatalogue(function (cat, listings) {
     L = listings;
     render();
-  }, { listings: true });
+  }, { listings: true, skeleton: [[$('deals'), 'table', 5]] });
 })();

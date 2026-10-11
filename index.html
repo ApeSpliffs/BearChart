@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BearChart — Build-A-Bear Price Guide</title>
-<meta name="description" content="An independent Build-A-Bear collector and reseller price guide built on completed sold transactions, not asking prices.">
+<title>BearChart — an independent price guide for Build-A-Bear collectibles</title>
+<meta name="description" content="An independent price guide for Build-A-Bear collectibles, built on real sold prices, not asking prices. Not affiliated with Build-A-Bear Workshop.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..900,0..100,0..1&family=Nunito+Sans:wght@400..800&display=swap">
@@ -15,14 +15,15 @@
 <link rel="icon" type="image/png" href="icons/icon-192.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BearChart">
-<meta property="og:title" content="BearChart — Build-A-Bear Price Guide">
-<meta property="og:description" content="An independent Build-A-Bear collector and reseller price guide built on completed sold transactions, not asking prices.">
+<meta property="og:title" content="BearChart — an independent price guide for Build-A-Bear collectibles">
+<meta property="og:description" content="An independent price guide for Build-A-Bear collectibles, built on real sold prices, not asking prices. Not affiliated with Build-A-Bear Workshop.">
 <meta property="og:image" content="/icons/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="BearChart">
+<script src="theme.js"></script>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,7 +31,7 @@
 <header class="masthead" id="masthead"></header>
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
-<main>
+<main id="main" tabindex="-1">
 <p class="fine bc-status" data-bc-status aria-live="polite" hidden></p>
   <div class="wrap">
 
@@ -38,23 +39,21 @@
          app.js, so it can never drift into a claim the data does not support. -->
     <section class="hero">
       <span class="hero-eyebrow">Independent &middot; collector-run</span>
-      <h2 class="hero-title">What your bear is <em>actually</em> worth.</h2>
-      <p class="hero-lede">
-        Every value here is built from <strong>what bears really sold for</strong> &mdash;
-        never asking prices, never guesses. Where the evidence is thin we say so
-        instead of inventing a number.
-      </p>
+      <h1 class="hero-title">What your bear is <em>actually</em> worth.</h1>
+      <!-- app.js fills in the count; without script this number-free line stays. -->
+      <p class="hero-lede" id="hero-lede">Real sold prices for Build-A-Bears, not asking prices.</p>
       <ul class="hero-proof" id="hero-proof"></ul>
 
-      <div class="searchbar">
-        <input type="search" id="q" placeholder="Search — try “brown teddy 1997”, “vanilla fudge bunny”, “WWF panda”, “axolotl”" autocomplete="off">
-        <button type="button" class="primary" id="clear-all">Reset</button>
+      <div class="searchbar" role="search">
+        <label for="q" class="sr-only">Search the price guide</label>
+        <input type="search" id="q" autocomplete="off" enterkeyhint="search" aria-describedby="result-count"
+               placeholder="Search bears, e.g. “vanilla fudge bunny”">
       </div>
 
       <div class="hero-cast" id="hero-cast" aria-hidden="true"></div>
     </section>
 
-    <button type="button" class="filter-toggle" id="filter-toggle">Show filters</button>
+    <button type="button" class="filter-toggle" id="filter-toggle" aria-expanded="false" aria-controls="sidebar">Show filters</button>
 
     <div class="columns">
 
@@ -72,14 +71,14 @@
         <div class="stats" id="stats"></div>
 
         <details class="panel" id="calc-panel">
-          <summary style="cursor:pointer;font-weight:600;color:var(--brown-deep)">Quick valuation calculator</summary>
-          <p class="fine" style="margin-top:10px">
+          <summary class="summary-strong">Quick valuation calculator</summary>
+          <p class="fine mt-2">
             Pick an item and describe the copy in front of you. The calculator adjusts the
             item's sold-data baseline by condition and completeness. Only items with sold
             comps are listed &mdash; without evidence there is no baseline to adjust.
           </p>
           <div class="row">
-            <div class="field" style="flex:2 1 260px">
+            <div class="field field-wide">
               <label for="calc-item">Item</label>
               <select id="calc-item"></select>
             </div>
@@ -92,11 +91,12 @@
               <select id="calc-comp"></select>
             </div>
           </div>
-          <div id="calc-out" style="margin-top:16px"></div>
+          <div id="calc-out" class="mt-3"></div>
         </details>
 
         <div class="toolbar">
-          <span class="result-count" id="result-count"></span>
+          <span class="result-count" id="result-count" role="status" aria-live="polite" aria-atomic="true"></span>
+          <button type="button" class="linkish" id="clear-all" hidden>Clear search and filters</button>
           <span class="grow"></span>
           <span class="sortwrap">
             <label for="sort">Sort</label>
@@ -115,7 +115,7 @@
 
         <div class="grid" id="results"></div>
         <button type="button" class="show-more" id="show-more" hidden></button>
-        <div class="empty" id="empty" hidden></div>
+        <div class="empty" id="empty" role="status" hidden></div>
 
         <!-- Below the results, because exporting is something you do after
              finding what you wanted, not before. Exports act on the full

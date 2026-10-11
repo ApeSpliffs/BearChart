@@ -19,15 +19,25 @@
     var proof = $('hero-proof');
     if (!proof) return;
 
-    // The build's figures (site-config stats): the hero needs no data load.
-    var stats = BC.catalogueStats();
-    var earliest = stats.year_min;
-    var latest = stats.year_max;
+    // The build's figures (BC.stats, from site-config): the hero needs no
+    // data load, and the footer and the unfiltered tile read the same numbers.
+    var stats = BC.stats();
+    var earliest = stats.yearMin;
+    var latest = stats.yearMax;
+
+    var lede = $('hero-lede');
+    if (lede) {
+      lede.textContent = 'Real sold prices for ' + BC.fmtInt(stats.items) +
+        ' Build-A-Bears, not asking prices. Search free; members track their whole ' +
+        'collection and get deal alerts.';
+    }
+    var q = $('q');
+    if (q) q.placeholder = 'Search ' + BC.fmtInt(stats.items) + ' bears, e.g. "vanilla fudge bunny"';
 
     var facts = [
-      [stats.items.toLocaleString('en-US'), 'furry friends catalogued'],
-      [stats.sold_transactions.toLocaleString('en-US'), 'sold transactions recorded'],
-      [stats.priced_items.toLocaleString('en-US'), 'priced on real evidence']
+      [BC.fmtInt(stats.items), 'furry friends catalogued'],
+      [BC.fmtInt(stats.comps), 'sold transactions recorded'],
+      [BC.fmtInt(stats.priced), 'priced on real evidence']
     ];
     if (earliest && latest) facts.push([earliest + '–' + latest, 'every year covered']);
 
@@ -225,11 +235,14 @@
           // With nothing typed, lead with the items that have evidence behind
           // them. The rest of the catalogue is real and worth browsing, but an
           // item we can price is the more useful thing to put first.
-          if (!state.q) {
-            var ha = BC.valuationFor(a.id).has_value ? 1 : 0;
-            var hb = BC.valuationFor(b.id).has_value ? 1 : 0;
-            if (ha !== hb) return hb - ha;
-          }
+          // Ties: priced first, then those with a photo, then the most
+          // evidence, then the name - with or without a query.
+          var ha = BC.valuationFor(a.id).has_value ? 1 : 0;
+          var hb = BC.valuationFor(b.id).has_value ? 1 : 0;
+          if (ha !== hb) return hb - ha;
+          var ia = BC.hasImage(a) ? 1 : 0;
+          var ib = BC.hasImage(b) ? 1 : 0;
+          if (ia !== ib) return ib - ia;
           var ca = BC.valuationFor(a.id).comparable_count;
           var cb = BC.valuationFor(b.id).comparable_count;
           return cb - ca || byName(a, b);
@@ -323,25 +336,21 @@
       // never between a reader and the results they came for.
       $('filters').innerHTML = html;
       var promo = document.getElementById('sidebar-promo');
-      if (promo && !promo.innerHTML) promo.innerHTML = BC.shopPromo('compact');
+      if (promo && !promo.innerHTML) promo.innerHTML = BC.shopPromo('compact', 'guide_sidebar');
       var mobile = document.getElementById('mobile-promo');
-      if (mobile && !mobile.innerHTML) mobile.innerHTML = BC.shopPromo();
+      if (mobile && !mobile.innerHTML) mobile.innerHTML = BC.shopPromo('', 'guide_mobile');
     }
 
     function renderStats(items) {
-      var withData = items.filter(function (i) { return BC.valuationFor(i.id).has_value; });
-      // Same function and label as the hero, so the unfiltered tile equals it.
-      var comps = BC.catalogueStats(items).sold_transactions;
-      var values = withData.map(function (i) { return BC.valuationFor(i.id).fair_market; });
-      var med = values.length ? E.median(values) : null;
-      var top = values.length ? Math.max.apply(null, values) : null;
-
+      // Same function and label as the hero and the footer (BC.statsFor), so
+      // the unfiltered tile equals them.
+      var st = BC.statsFor(items);
       var cells = [
-        [items.length, 'Items matching'],
-        [withData.length, 'With sold data'],
-        [comps.toLocaleString('en-US'), 'Sold transactions'],
-        [med == null ? '--' : BC.money(med), 'Median item value'],
-        [top == null ? '--' : BC.money(top), 'Highest value']
+        [BC.fmtInt(st.items), 'Items matching'],
+        [BC.fmtInt(st.priced), 'With sold data'],
+        [BC.fmtInt(st.comps), 'Sold transactions'],
+        [st.median == null ? '--' : BC.money(st.median), 'Median item value'],
+        [st.top == null ? '--' : BC.money(st.top), 'Highest value']
       ];
       $('stats').innerHTML = cells.map(function (c) {
         return '<div class="stat"><div class="v">' + BC.esc(c[0]) + '</div><div class="k">' +
@@ -356,13 +365,16 @@
 
       var value, sub;
       if (v.has_value) {
-        value = '<div class="value">' + BC.range(v.range_low, v.range_high) + '</div>';
+        value = '<div class="value-k">Good-condition value</div>' +
+                '<div class="value">' + BC.range(v.range_low, v.range_high) + '</div>';
         sub = '<div class="sub">Median sold ' + BC.exact(v.median_raw) + ' &middot; ' +
               v.comparable_count + ' comp' + (v.comparable_count === 1 ? '' : 's') + '</div>';
       } else {
         // One line, not two. On 97% of the catalogue the second was the same
         // sentence again, and repeating it two thousand times says less, not more.
-        value = '<div class="value none">No sold data yet</div>';
+        // Text only: the whole card is already a link.
+        value = '<div class="value none">No public sales yet. ' +
+                '<span class="value-ask">Know a price?</span></div>';
         sub = '';
       }
 
@@ -372,7 +384,9 @@
         '<div class="meta">' + meta + '</div>' +
         value + sub +
         BC.tagsHtml(item) +
-        '<footer><span class="' + BC.confClass(v.confidence) + '">' + v.confidence + '</span></footer>' +
+        // No shop link on a card, ever: the card is for the bear.
+        '<footer>' + BC.confChip(v.confidence, { link: false }) +
+          BC.freshness(v, { card: true }) + '</footer>' +
         '</a>';
     }
 
@@ -383,9 +397,12 @@
       renderStats(items);
 
       var page = items.slice(0, state.shown);
-      $('result-count').textContent = (page.length < items.length
+      var count = page.length < items.length
         ? page.length + ' of ' + items.length + ' matching'
-        : items.length + ' of ' + D.items.length + ' items');
+        : items.length + ' of ' + D.items.length + ' items';
+      // A live region: only write when it changed, or it re-announces.
+      if ($('result-count').textContent !== count) $('result-count').textContent = count;
+      $('clear-all').hidden = !searching();
       $('results').innerHTML = page.map(card).join('');
 
       var more = $('show-more');
@@ -400,8 +417,14 @@
         empty.hidden = true;
       } else {
         empty.hidden = false;
-        empty.innerHTML = '<p><strong>Nothing matches those filters.</strong></p>' +
-          '<p>Try a broader search, or reset the filters.</p>';
+        var suggest = BC.extLink(BC.site.meta.suggest_url, 'Tell us', { schemes: ['https:', 'mailto:'] });
+        empty.innerHTML = (state.q
+            ? '<p><strong>No bears match "' + BC.esc(state.q) + '".</strong></p>'
+            : '<p><strong>No bears match those filters.</strong></p>') +
+          '<p>Try a shorter name, or <button type="button" class="linkish" data-action="clear">' +
+          'clear filters</button>.</p>' +
+          // Only when the owner has set somewhere to send it (meta.suggest_url).
+          (suggest !== 'Tell us' ? '<p>Missing a bear? ' + suggest + '</p>' : '');
       }
 
       window.__lastResults = items; // used by the CSV buttons
@@ -478,11 +501,11 @@
       var a = E.adjust(v, $('calc-cond').value, $('calc-comp').value, CFG);
       out.innerHTML =
         '<div class="headline"><span class="big">' + BC.range(a.range_low, a.range_high) + '</span>' +
-        '<span class="' + BC.confClass(a.confidence) + '">' + a.confidence + ' confidence</span></div>' +
+        BC.confChip(a.confidence, { link: true, n: v.comparable_count }) + '</div>' +
         '<p class="fine">Adjusted from a baseline fair market value of ' + BC.money(v.fair_market) +
         ' by a combined multiplier of x' + (Math.round(a.multiplier * 100) / 100) + '.</p>' +
         bands(a) +
-        '<p class="fine" style="margin-top:12px"><a href="' + BC.itemUrl(id) + '">' +
+        '<p class="fine mt-2"><a href="' + BC.itemUrl(id) + '">' +
         'See the full record and every sold comp &rarr;</a></p>';
     }
 
@@ -556,17 +579,22 @@
       }
     });
 
-    $('clear-all').addEventListener('click', function () {
+    function clearAll() {
       state.q = ''; state.yearMin = ''; state.yearMax = ''; state.sort = 'relevance';
       GROUPS.forEach(function (g) { state.sel[g.key].clear(); });
       $('q').value = ''; $('sort').value = 'relevance';
       state.openGroups = {};
       reset();
+    }
+    $('clear-all').addEventListener('click', clearAll);
+    $('empty').addEventListener('click', function (e) {
+      if (e.target && e.target.getAttribute('data-action') === 'clear') clearAll();
     });
 
     $('filter-toggle').addEventListener('click', function () {
       var open = $('sidebar').classList.toggle('open');
       this.textContent = open ? 'Hide filters' : 'Show filters';
+      this.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
     $('csv-items').addEventListener('click', function () {
@@ -661,5 +689,5 @@
         if (n) render();
       });
     }
-  });
+  }, { skeleton: [[$('results'), 'cards', 12], [$('stats'), 'stats', 5]] });
 })();
