@@ -1744,6 +1744,22 @@ test('old asking prices are flagged as possibly out of date', async () => {
   assert.match(item.doc.getElementById('item-root').textContent, /may be out of date/);
 });
 
+test('the out-of-date note starts after 7 days, not before', async () => {
+  const hoursAgo = (h) => new Date(Date.now() - h * 3600000).toISOString();
+  const list = [activeFor('kennel-pals-calico-cat', 5)];
+  const at = async (h) => (await renderPage('deals.html', null, { mutate: (d) => {
+    d.active_listings = list; d.active_listings_fetched_at = hoursAgo(h);
+  } })).doc.getElementById('deal-age').textContent;
+  assert.strictEqual(await at(167), '', 'just under 7 days: current');
+  assert.match(await at(192), /last checked 8 days ago and may be out of date/);
+  // A row carried forward for a failed query is judged by its own date.
+  const carried = await renderPage('deals.html', null, { mutate: (d) => {
+    d.active_listings = [Object.assign({}, list[0], { fetched_at: hoursAgo(192) })];
+    d.active_listings_fetched_at = hoursAgo(1);
+  } });
+  assert.match(carried.doc.getElementById('deal-age').textContent, /8 days ago/);
+});
+
 test('with no listings loaded the deals page explains how to get some', async () => {
   const win = await renderDeals([]);
   const text = win.document.getElementById('deals').textContent;
