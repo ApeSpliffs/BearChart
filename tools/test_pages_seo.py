@@ -13,6 +13,7 @@ import json
 import os
 import re
 import sys
+import subprocess
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -178,7 +179,7 @@ SHOP = {"enabled": True, "name": "Jay's Retro Exchange",
         "shop_headline": "Buying and selling all week",
         "shop_blurb": "Browse what is in stock.",
         "shop_cta": "Visit the shop",
-        "shop_disclosure": "We buy and sell the same items this guide values."}
+        "shop_disclosure_short": "Jay's Retro Exchange is our store. It never changes a value in this guide."}
 
 
 class ShopPromoTests(unittest.TestCase):
@@ -192,7 +193,8 @@ class ShopPromoTests(unittest.TestCase):
     def test_it_is_labelled_and_discloses_the_conflict(self):
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
         self.assertIn("promo-eyebrow", html)
-        self.assertIn("We buy and sell the same items this guide values.", html)
+        self.assertIn("Jay&#x27;s Retro Exchange is our store. It never changes a value in this guide.", html)
+        self.assertIn('class="shop-disclosure fine"', html)
 
     def test_it_stays_off_a_priced_page(self):
         # Those pages carry the "sell yours to us" offer instead. One pitch per
@@ -205,11 +207,13 @@ class ShopPromoTests(unittest.TestCase):
 
     def test_the_outbound_link_is_safe(self):
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
-        self.assertIn('rel="noopener noreferrer"', html)
+        self.assertIn('rel="sponsored noopener noreferrer"', html)
+        self.assertIn('target="_blank"', html)
+        self.assertIn('<span class="sr-only"> (opens our shop)</span>', html)
 
     def test_the_shop_link_matches_the_site_rel_and_is_https_only(self):
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
-        self.assertIn('rel="noopener noreferrer"', html)
+        self.assertIn('rel="sponsored noopener noreferrer"', html)
         for bad in ("javascript:alert(1)", "http://jaysretroexchange.com", "//evil.test"):
             self.assertNotIn("promo-title", bp.page_html(UNPRICED, NO_VAL, [], "", "d", dict(SHOP, shop_url=bad)), bad)
 
@@ -222,6 +226,60 @@ class ShopPromoTests(unittest.TestCase):
         # An unpriced page must stay unpriced, shop panel or not.
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
         self.assertNotIn("$", html.split("</head>")[0])
+
+
+class ShopLinkParityTests(unittest.TestCase):
+    """The static pages' store link and common.js BC.shopHref build one URL."""
+
+    def js_href(self, business, placement, opts):
+        script = r"""
+const { JSDOM } = require('jsdom');
+const fs = require('fs');
+const [business, placement, opts] = JSON.parse(process.argv[1]);
+const dom = new JSDOM('<!doctype html><body></body>', { url: 'http://localhost/', runScripts: 'outside-only' });
+const w = dom.window;
+w.BEARCHART_CONFIG = { meta: { disclaimer: '' }, engine: {}, business, membership: {}, redirects: {}, stats: {} };
+for (const f of ['sanitize.js', 'bc-data.js', 'engine.js', 'common.js']) w.eval(fs.readFileSync(f, 'utf8'));
+process.stdout.write(w.BC.shopHref(placement, opts));
+"""
+        out = subprocess.run(["node", "-e", script, json.dumps([business, placement, opts])],
+                             cwd=ROOT, capture_output=True, text=True, check=True)
+        return out.stdout
+
+    def test_the_utm_tags_match_the_javascript_builder(self):
+        item = {"id": "classic-brown-teddy", "canonical_name": "Classic Brown Teddy"}
+        py = bp.shop_href(SHOP, "item_quote", item["id"], kind="quote")
+        self.assertEqual(py, self.js_href(SHOP, "item_quote", {"kind": "quote", "item": item}))
+        self.assertIn("utm_source=bearchart", py)
+        self.assertIn("utm_medium=referral", py)
+        self.assertIn("utm_content=item_quote", py)
+        self.assertIn("utm_term=classic-brown-teddy", py)
+
+    def test_templates_and_existing_parameters_match_too(self):
+        shop = dict(SHOP, shop_url="https://jaysretroexchange.com/?ref=x",
+                    shop_offer_url="https://jaysretroexchange.com/sell?item={item}&utm_source=old")
+        item = {"id": "a b&c", "canonical_name": "A"}
+        py = bp.shop_href(shop, "item_offer", item["id"], kind="offer")
+        self.assertEqual(py, self.js_href(shop, "item_offer", {"kind": "offer", "item": item}))
+        self.assertEqual(bp.shop_href(shop, "footer"), self.js_href(shop, "footer", {}))
+
+
+class PageShapeTests(unittest.TestCase):
+
+    def test_exactly_one_h1_and_a_main_landmark(self):
+        for html in (page(PRICED, VAL, SALES), page(UNPRICED, NO_VAL)):
+            self.assertEqual(len(re.findall(r"<h1\b", html)), 1)
+            self.assertIn('<main id="main" tabindex="-1">', html)
+
+    def test_the_title_says_value_and_independent_guide(self):
+        title = re.search(r"<title>([^<]*)</title>", page(PRICED, VAL, SALES)).group(1)
+        self.assertRegex(title, r" value \u2014 BearChart \(independent price guide\)$")
+
+    def test_the_theme_loads_in_the_head_before_the_stylesheet(self):
+        html = page(PRICED, VAL, SALES)
+        head = html.split("</head>")[0]
+        self.assertIn('<script src="../theme.js"></script>', head)
+        self.assertLess(head.index("theme.js"), head.index("styles.css"))
 
 
 class SitemapTests(unittest.TestCase):

@@ -36,6 +36,7 @@ import os
 import re
 import shutil
 from datetime import date
+from urllib.parse import parse_qsl, quote, urlencode, urlsplit, urlunsplit
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "item")
@@ -100,11 +101,10 @@ def describe(item, val):
 
 
 def title_for(item, val):
+    """"{name} value - BearChart (independent price guide)", the item.js title
+    too. The year stays: it is how collectors tell two bears of one name apart."""
     year = " (%s)" % item["release_year"] if item.get("release_year") else ""
-    if val and val.get("has_value"):
-        return "%s%s value - %s | BearChart" % (
-            item["canonical_name"], year, money(val["fair_market"]))
-    return "%s%s - Build-A-Bear value guide | BearChart" % (item["canonical_name"], year)
+    return "%s%s value \u2014 BearChart (independent price guide)" % (item["canonical_name"], year)
 
 
 def json_ld(item, val, url):
@@ -153,7 +153,7 @@ def value_block(item, val, sales):
     """The part a crawler reads. Priced items state the figure and its basis."""
     if not (val and val.get("has_value")):
         return (
-            '<h2>No sold data yet</h2>'
+            '<h2>No sold price on record yet</h2>'
             '<p>BearChart has no recorded sold transactions for the '
             '%s, so it publishes <strong>no value</strong> for it. '
             'An estimate with nothing behind it is a guess, and a guess printed '
@@ -187,35 +187,93 @@ def value_block(item, val, sales):
            e(money(val["median_raw"])), rows))
 
 
-def shop_promo(business, val):
+SHOP_REL = "sponsored noopener noreferrer"
+
+
+def _encode_component(text):
+    """JavaScript's encodeURIComponent."""
+    return quote(str(text), safe="-_.!~*'()")
+
+
+def shop_href(business, placement, item_id=None, kind="home", item_name=None, condition=None):
+    """The Python twin of common.js BC.shopHref: the same template choice, the
+    same UTM parameters in the same order, the same URL. tools/test_pages_seo.py
+    holds the two equal. '' when the shop is off or its URL is not https."""
+    if not business.get("enabled") or not business.get("shop_url"):
+        return ""
+    tpl = None
+    if kind == "search":
+        tpl = business.get("shop_search_url")
+    elif kind in ("offer", "quote"):
+        tpl = business.get("shop_offer_url")
+    raw = ((tpl or business["shop_url"])
+           .replace("{q}", _encode_component(item_name or ""))
+           .replace("{item}", _encode_component(item_id or ""))
+           .replace("{condition}", _encode_component(condition or "")))
+    safe = re.compile(r"^https://[^\s\"'<>\\]+$")
+    if not safe.match(raw):
+        raw = business["shop_url"]
+        if not safe.match(raw):
+            return ""
+    parts = urlsplit(raw)
+    params = parse_qsl(parts.query, keep_blank_values=True)
+
+    def put(key, value):
+        # URLSearchParams.set: replace the first in place, drop the rest, or append.
+        nonlocal params
+        out, done = [], False
+        for k, v in params:
+            if k == key:
+                if not done:
+                    out.append((k, value))
+                    done = True
+                continue
+            out.append((k, v))
+        if not done:
+            out.append((key, value))
+        params = out
+
+    put("utm_source", "bearchart")
+    put("utm_medium", "referral")
+    put("utm_campaign", "guide")
+    put("utm_content", placement)
+    if item_id:
+        put("utm_term", item_id)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path or "/", urlencode(params),
+                       parts.fragment))
+
+
+def shop_promo(business, val, item_id=None):
     """The operator's own shop, in the static markup.
 
-    Same rule as the live page: only where the item has no sold data, so a
-    reader never gets a shop pitch and a "sell yours to us" offer on one page.
-    Labelled as the shop behind the guide, because an unlabelled advert from
-    the person publishing the valuations is how a price guide loses its reader.
+    Only where the item has no sold data: a priced item gets the store panel
+    after its evidence once item.js runs. Labelled as our store, followed by
+    the one-line disclosure, rel="sponsored", UTM-tagged like every store link.
     """
-    shop_url = business.get("shop_url") or ""
-    # Same rule as sanitize.js: an https link or no promo at all.
-    if not (business.get("enabled") and re.match(r"^https://[^\s\"'<>\\]+$", shop_url)):
-        return ""
     if val and val.get("has_value"):
+        return ""
+    href = shop_href(business, "item_quote", item_id, kind="quote")
+    if not href:
         return ""
     return (
         '<aside class="promo">'
         '<p class="promo-eyebrow">%s</p>'
-        '<h3 class="promo-title">%s</h3>'
+        '<h2 class="promo-title">%s</h2>'
         '<p class="promo-blurb">%s</p>'
-        '<p class="promo-act"><a class="btn btn-primary" href="%s" '
-        'target="_blank" rel="noopener noreferrer">%s</a></p>'
-        '<p class="promo-note">%s</p>'
+        '<p class="promo-act"><a class="btn btn-primary" href="%s" target="_blank" rel="%s" '
+        'data-shop-placement="item_quote" data-shop-kind="quote" data-item="%s">%s'
+        '<span class="ext" aria-hidden="true"> &#8599;</span>'
+        '<span class="sr-only"> (opens our shop)</span></a></p>'
+        '<p class="shop-disclosure fine">%s <a href="../about.html#conflicts">How we keep it '
+        'separate</a></p>'
         '</aside>'
         % (e(business.get("shop_eyebrow") or business.get("name")),
            e(business.get("shop_headline") or business.get("name")),
            e(business.get("shop_blurb") or ""),
-           e(shop_url),
-           e(business.get("shop_cta") or "Visit the shop"),
-           e(business.get("shop_disclosure") or "")))
+           e(href), SHOP_REL, e(item_id or ""),
+           e("Ask Jay's Retro Exchange for a quote"),
+           e(business.get("shop_disclosure_short") or
+             "Jay's Retro Exchange is our store. It never changes a value in this guide.")))
 
 
 def page_html(item, val, sales, base_url, disclaimer, business=None):
@@ -247,6 +305,7 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 <meta property="og:site_name" content="BearChart">
 %(social)s
 %(fonts)s
+<script src="../theme.js"></script>
 <link rel="stylesheet" href="../styles.css">
 <script type="application/ld+json">
 %(jsonld)s
@@ -257,7 +316,7 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 <header class="masthead" id="masthead"></header>
 <div class="disclaimer-bar" id="disclaimer-bar"></div>
 
-<main>
+<main id="main" tabindex="-1">
   <p class="fine bc-status" data-bc-status aria-live="polite" hidden></p>
   <div class="wrap" id="item-root">
     <!-- Rendered at build time so this page says something before any
@@ -301,7 +360,7 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
         "facts": facts_list(item),
         "value": value_block(item, val, sales),
         "disclaimer": e(disclaimer),
-        "promo": shop_promo(business or {}, val),
+        "promo": shop_promo(business or {}, val, slug),
         "scripts": "\n".join('<script src="../%s"></script>' % s for s in SCRIPTS),
     }
 
