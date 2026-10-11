@@ -513,6 +513,7 @@ def run(args, searcher=None, token=None):
     listings, unmatched, errors = [], 0, []
     rejected = []
     seen = set()
+    in_a_row = 0          # consecutive failures; three in a row means eBay is down
 
     for n, (item, q) in enumerate(queries, start=1):
         if n > 1:
@@ -521,10 +522,12 @@ def run(args, searcher=None, token=None):
             payload = searcher(q)
         except EbayError as e:
             errors.append("%s: %s" % (q, e))
-            if len(errors) >= 3:
+            in_a_row += 1
+            if in_a_row >= 3:
                 print("stopping after 3 consecutive failures", file=sys.stderr)
                 break
             continue
+        in_a_row = 0
 
         summaries = payload.get("itemSummaries") or []
         print("  %-52s %d result(s)" % (q[:52], len(summaries)))
@@ -575,6 +578,17 @@ def run(args, searcher=None, token=None):
                                          rec["title"][:44], rec["item_id"]))
         print("\ndry run - nothing written")
         return 0
+
+    # A run where any query failed would publish a deal finder missing those
+    # bears under a fresh date. Write nothing instead: the build then keeps the
+    # listings data.json already publishes, with their honest older date
+    # (tools/build_data.py carried_forward_listings).
+    if errors:
+        print("%d of %d quer%s failed: not writing a partial %s; the build keeps the "
+              "previously published listings"
+              % (len(errors), len(queries), "y" if len(queries) == 1 else "ies",
+                 os.path.basename(OUT)), file=sys.stderr)
+        return 1
 
     if not listings:
         print("nothing to write")

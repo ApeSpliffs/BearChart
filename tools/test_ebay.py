@@ -242,6 +242,37 @@ class RunTests(unittest.TestCase):
         code, out = self.capture(Args(limit=50), searcher)
         self.assertLessEqual(len(calls), 3, "should give up after 3 failures")
 
+    def test_any_failed_query_writes_nothing(self):
+        # A partial fetch must not replace yesterday's complete one.
+        calls = []
+
+        def searcher(q):
+            calls.append(q)
+            if len(calls) == 2:
+                raise eb.EbayError("boom")
+            return {"itemSummaries": [summary(str(len(calls)), "Build-A-Bear " + q, 100)]}
+
+        buf = io.StringIO()
+        with contextlib.redirect_stderr(buf):
+            code, out = self.capture(Args(limit=5), searcher)
+        self.assertGreater(len(calls), 2, "one failure is not three in a row")
+        self.assertEqual(code, 1)
+        self.assertFalse(os.path.exists(eb.OUT))
+        self.assertIn("not writing a partial", buf.getvalue())
+
+    def test_failures_must_be_consecutive_to_stop_the_run(self):
+        calls = []
+
+        def searcher(q):
+            calls.append(q)
+            if len(calls) % 2 == 0:
+                raise eb.EbayError("boom")
+            return {"itemSummaries": []}
+
+        with contextlib.redirect_stderr(io.StringIO()):
+            self.capture(Args(limit=8), searcher)
+        self.assertGreater(len(calls), 3, "alternating failures are not consecutive")
+
     def test_unknown_item_id_is_rejected(self):
         with self.assertRaises(SystemExit):
             self.capture(Args(item="no-such-item"), lambda q: {"itemSummaries": []})
