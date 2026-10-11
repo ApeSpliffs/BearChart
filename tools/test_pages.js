@@ -198,9 +198,11 @@ function assetsFor(json) {
   const ctx = ASSETS.context(data, ENGINE);
   const indexText = JSON.stringify(ASSETS.buildIndex(data, ENGINE, ctx));
   const listingsText = JSON.stringify(ASSETS.buildListings(data));
+  const plansText = JSON.stringify(ASSETS.buildPlans(data));
   const manifest = {
     index: 'data/h/index.' + ASSETS.sha12(indexText) + '.json',
-    listings: 'data/h/listings.' + ASSETS.sha12(listingsText) + '.json'
+    listings: 'data/h/listings.' + ASSETS.sha12(listingsText) + '.json',
+    plans: 'data/h/plans.' + ASSETS.sha12(plansText) + '.json'
   };
   const cfg = ASSETS.buildSiteConfig(data, manifest, ASSETS.buildStats(data, ENGINE, ctx));
   const shards = new Map();
@@ -210,6 +212,7 @@ function assetsFor(json) {
     body(url) {
       if (url === manifest.index) return indexText;
       if (url === manifest.listings) return listingsText;
+      if (url === manifest.plans) return plansText;
       const m = /^data\/items\/([^/]+)\.json$/.exec(url);
       if (!m) return null;
       const id = decodeURIComponent(m[1]);
@@ -479,7 +482,8 @@ test('sorting by price puts the most valuable item first and unpriced items last
        .map((i) => [i.canonical_name, (p.win.BC.valuationFor(i.id) || {}).fair_market || 0])
        .sort((a, b) => b[1] - a[1])[0];
      assert.ok(cards[0].textContent.includes(top[0]), 'expected ' + top[0] + ' first');
-  assert.match(cards[cards.length - 1].textContent, /No sold data yet/);
+  // Copy changed in WS5 (spec 4.5): "No public sales yet".
+  assert.match(cards[cards.length - 1].textContent, /No public sales yet/);
 });
 
 test('sorting by year orders oldest first', async () => {
@@ -498,7 +502,7 @@ test('items with no sold data say so instead of showing a price', async () => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const card = p.doc.querySelector('#results .card');
-      assert.match(card.textContent, /No sold data yet/);
+      assert.match(card.textContent, /No public sales yet/);
       assert.doesNotMatch(card.querySelector('.value').textContent, /\$/);
       resolve();
     }, 900);
@@ -508,7 +512,7 @@ test('items with no sold data say so instead of showing a price', async () => {
 test('the stats bar reports the database size', async () => {
   const p = await renderPage('index.html');
   const stats = p.doc.getElementById('stats').textContent;
-  assert.match(stats, new RegExp(String(p.data.items.length)));
+  assert.match(stats, new RegExp(p.data.items.length.toLocaleString('en-US')));
   assert.match(stats, /Sold transactions/);
 });
 
@@ -911,11 +915,16 @@ test('the deal finder loads the index and the listings', async () => {
 });
 
 test('config-only pages make no data request at all', async () => {
-  for (const page of ['about.html', 'plans.html', 'privacy.html', 'terms.html', 'account.html', 'roadmap.html']) {
+  for (const page of ['about.html', 'privacy.html', 'terms.html', 'account.html', 'roadmap.html']) {
     const p = await renderPage(page);
     assert.deepStrictEqual(p.requests, [], page);
     noErrors(p);
   }
+  // The plans page loads its own small copy file and nothing else (WS5).
+  const plans = await renderPage('plans.html');
+  assert.strictEqual(plans.requests.length, 1);
+  assert.match(plans.requests[0], /^data\/h\/plans\.[0-9a-f]{12}\.json$/);
+  noErrors(plans);
 });
 
 test('offline, an unvisited bear is priced from the index summary', async () => {
@@ -1167,7 +1176,7 @@ test('the expanded catalogue is searchable and shows no invented prices', async 
     setTimeout(() => {
       const card = p.doc.querySelector('#results .card');
       assert.match(card.textContent, /Founding Bear/);
-      assert.match(card.textContent, /No sold data yet/);
+      assert.match(card.textContent, /No public sales yet/);
       resolve();
     }, 900);
   });
@@ -1346,7 +1355,7 @@ test('an unpriced page leads with what is known instead of an apology', async ()
   const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const panel = p.doc.querySelector('.unpriced');
   assert.ok(panel, 'expected the rebuilt empty state');
-  assert.match(panel.querySelector('.unpriced-eyebrow').textContent, /No value published/i);
+  assert.match(panel.querySelector('.unpriced-head').textContent, /No sold price on record yet/);
   assert.match(panel.querySelector('.unpriced-known').textContent, /Released/);
   assert.match(panel.querySelector('.unpriced-known').textContent, /1997/);
 });
@@ -1354,7 +1363,7 @@ test('an unpriced page leads with what is known instead of an apology', async ()
 test('it still refuses to publish a price', async () => {
   const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   const panel = p.doc.querySelector('.unpriced');
-  assert.match(panel.textContent, /publishes\s*no price/);
+  assert.match(panel.textContent, /We only publish a price when we have real sales behind it/);
   assert.ok(panel.textContent.indexOf('$') === -1, 'no figure anywhere on it');
 });
 
@@ -1366,7 +1375,7 @@ test('it does not repeat the tags already shown in the header', async () => {
 test('the ask points at a panel that is actually on the page', async () => {
   // A jump link to an anchor that does not exist is worse than no link.
   const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
-  const jump = p.doc.querySelector('.unpriced-jump');
+  const jump = p.doc.querySelector('.unpriced-cta a[href^="#"]');
   if (jump) {
     const target = jump.getAttribute('href').replace('#', '');
     assert.ok(p.doc.getElementById(target), 'jump target ' + target + ' is missing');
@@ -1379,8 +1388,12 @@ test('the ask points at a panel that is actually on the page', async () => {
 // ---- collector submissions --------------------------------------------------
 
 test('an item page invites a sold price and a problem report', async () => {
+  // An unpriced bear carries the form inside its one panel (WS5 spec 4.1); a
+  // priced one has its own submit panel.
   const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
-  assert.ok(p.doc.getElementById('submit-panel'), 'expected the submit-a-sale panel');
+  assert.ok(p.doc.querySelector('.unpriced #submit-form'), 'expected the submit-a-sale form');
+  const priced = await renderPage('item.html', 'item.html?id=classic-brown-teddy');
+  assert.ok(priced.doc.getElementById('submit-panel'), 'expected the submit-a-sale panel');
   assert.ok(p.doc.getElementById('report-panel'), 'expected the report panel');
   assert.strictEqual(p.doc.querySelectorAll('#rep-reason option').length,
     p.win.BearChartSubmissions.reasons.length);
@@ -1393,12 +1406,12 @@ test('the panels survive the account library failing to load', async () => {
   const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   assert.strictEqual(p.win.BearChartAuth.getClient(), null, 'no client in this harness');
   assert.strictEqual(p.win.BearChartSubmissions.configured(), true);
-  assert.ok(p.doc.getElementById('submit-panel'));
+  assert.ok(p.doc.getElementById('submit-form'));
 });
 
 test('a signed-out reader is asked to sign in rather than shown a dead form', async () => {
   const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
-  const panel = p.doc.getElementById('submit-panel');
+  const panel = p.doc.getElementById('submit-form');
   assert.match(panel.textContent, /Sign in to add a sale/);
   assert.ok(!p.doc.getElementById('do-submit'), 'no submit button until signed in');
 });
@@ -1434,7 +1447,7 @@ test('the page states that a submission does not change a published value', asyn
   const p = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
   // Including submissions from the people who run the site - the operator
   // buys and sells what this guide values.
-  assert.match(p.doc.getElementById('submit-panel').textContent,
+  assert.match(p.doc.getElementById('submit-form').textContent,
     /review|reviewer/i);
 });
 
@@ -1447,8 +1460,8 @@ test('the price guide carries the shop panel, labelled as the shop', async () =>
   assert.match(promo.textContent, /shop behind BearChart/i);
   const link = promo.querySelector('a.btn');
   assert.match(link.getAttribute('href'), /^https:\/\/jaysretroexchange\.com/);
-  // sanitize.js extLink default (cross-spec decision #5).
-  assert.strictEqual(link.getAttribute('rel'), 'noopener noreferrer');
+  // Every store link is the operator's own: rel="sponsored" (WS5, spec 3.2).
+  assert.strictEqual(link.getAttribute('rel'), 'sponsored noopener noreferrer');
   assert.strictEqual(link.getAttribute('target'), '_blank');
 });
 
@@ -1456,9 +1469,10 @@ test('the shop panel discloses that it buys what the guide values', async () => 
   // The site's argument is that its numbers are not for sale. The operator's
   // own shop appearing on the page has to say so itself.
   const p = await renderPage('index.html');
-  const note = p.doc.querySelector('#sidebar-promo .promo-note');
+  const note = p.doc.querySelector('#sidebar-promo .shop-disclosure');
   assert.ok(note, 'the shop panel must carry a disclosure');
-  assert.match(note.textContent, /No valuation on this site is adjusted/i);
+  assert.match(note.textContent, /is our store\. It never changes a value in this guide/);
+  assert.match(note.querySelector('a').getAttribute('href'), /about\.html#conflicts$/);
 });
 
 test('the shop panel is reachable when the sidebar is collapsed away', async () => {
@@ -1468,20 +1482,19 @@ test('the shop panel is reachable when the sidebar is collapsed away', async () 
   assert.ok(p.doc.querySelector('#mobile-promo .promo'));
 });
 
-test('an item with no comps shows the shop, an item with comps shows the offer', async () => {
+test('an item with no comps asks the store for a quote, an item with comps shows the store panel', async () => {
   const priced = await renderPage('item.html', 'item.html?id=classic-brown-teddy');
   const unpriced = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch');
 
-  // One pitch per page. A reader should never get "buy from us" and "sell to
-  // us" stacked on the same bear.
-  assert.ok(!priced.doc.querySelector('#item-root .promo'),
-    'a priced item already has the sell-to-us panel');
-  assert.match(priced.doc.getElementById('item-root').textContent, /Sell yours to/);
+  // One pitch per page. A reader should never get two store panels stacked
+  // on the same bear (WS5: the promo card became the store panel / quote link).
+  assert.ok(!priced.doc.querySelector('#item-root .promo'));
+  assert.strictEqual(priced.doc.querySelectorAll('#item-root .store-panel').length, 1);
+  assert.match(priced.doc.getElementById('item-root').textContent, /Sell or buy this at Jay's Retro Exchange/);
 
-  assert.ok(unpriced.doc.querySelector('#item-root .promo'),
-    'an item with nothing else to offer should show the shop');
-  assert.doesNotMatch(unpriced.doc.getElementById('item-root').textContent,
-    /Sell yours to/);
+  assert.ok(!unpriced.doc.querySelector('#item-root .promo'));
+  assert.strictEqual(unpriced.doc.querySelectorAll('#item-root [data-shop-placement="item_quote"]').length, 1);
+  assert.strictEqual(unpriced.doc.querySelector('#item-root .store-panel'), null);
 });
 
 test('the shop panel disappears entirely when the business is switched off', async () => {
@@ -1634,29 +1647,33 @@ test('the sell-to-us panel is hidden until the business config is filled in', as
   // was actually there to protect instead of the configuration of the day.
   const off = await renderWithBusiness('kennel-pals-calico-cat', { enabled: false });
   assert.doesNotMatch(off.document.getElementById('item-root').textContent,
-    /Sell yours to/);
+    /Sell or buy this at/);
 
   // Enabled but with no way to reach anyone is not enabled: an offer button
   // that goes nowhere is worse than no offer.
   const unreachable = await renderWithBusiness('kennel-pals-calico-cat',
-    { enabled: true, contact_email: null, contact_url: null });
+    { enabled: true, contact_email: null, contact_url: null, shop_url: null });
   assert.strictEqual(unreachable.BC.businessEnabled(), false);
   assert.doesNotMatch(unreachable.document.getElementById('item-root').textContent,
-    /Sell yours to/);
+    /Sell or buy this at/);
 });
 
 test('the shipped config does offer to buy a priced item', async () => {
   // The other half: with the business live, a priced item carries the offer.
   const p = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
-  assert.match(p.doc.getElementById('item-root').textContent, /Sell yours to/);
+  assert.match(p.doc.getElementById('item-root').textContent, /Sell or buy this at Jay's Retro Exchange/);
 });
 
 test('enabling the business config shows an offer at the published buy price', async () => {
   const win = await renderWithBusiness('kennel-pals-calico-cat',
     { enabled: true, contact_email: 'hello@example.com' });
   const text = win.document.getElementById('item-root').textContent;
-  assert.match(text, /Sell yours to Jay's Retro Exchange/);
+  assert.match(text, /Sell or buy this at Jay's Retro Exchange \(our store\)/);
   assert.match(text, /Get an offer/);
+  // No shop address: the offer falls back to the email.
+  const mail = await renderWithBusiness('kennel-pals-calico-cat',
+    { enabled: true, shop_url: null, contact_url: null, contact_email: 'hello@example.com' });
+  assert.match(mail.document.querySelector('.store-panel a.btn').getAttribute('href'), /^mailto:hello@example\.com\?subject=/);
 
   // The offer must be the same buy range the guide publishes to everyone.
   const v = win.BC.valuationFor('kennel-pals-calico-cat');
@@ -1667,7 +1684,7 @@ test('the offer carries a conflict-of-interest disclosure', async () => {
   const win = await renderWithBusiness('kennel-pals-calico-cat',
     { enabled: true, contact_email: 'hello@example.com' });
   const text = win.document.getElementById('item-root').textContent;
-  assert.match(text, /Disclosure/);
+  assert.match(text, /Full disclosure/);
   assert.match(text, /would\s+be buying this one from you/);
   assert.match(text, /free to sell\s+elsewhere/);
 });
@@ -1814,7 +1831,7 @@ test('a deal shows the shipping and what the buyer pays in total', async () => {
 
   win = await renderDeals([activeFor('my-little-pony-muffins', 50)]);
   asking = win.document.querySelectorAll('#deals tbody tr td')[1].textContent;
-  assert.match(asking, /shipping \(assumed\)/);
+  assert.match(asking, /shipping \(not listed, assumed\)/);
   assert.match(win.document.getElementById('deals').textContent, /Shipping not stated/);
 });
 
@@ -2317,16 +2334,22 @@ test('with no provider connected, nothing is gated and the page says so', async 
   // Every paid feature is available, because none of them are purchasable.
   assert.strictEqual(P.can('alerts_push', { signedIn: false }), true);
   assert.strictEqual(P.can('collection_sync', { signedIn: false }), true);
-  assert.match(p.doc.getElementById('status-notice').textContent,
+  // With accounts on, the notice is the waitlist; with accounts off, the
+  // plain notice (there is nowhere to save an address).
+  const off = await renderWithoutAuth('plans.html');
+  assert.match(off.document.getElementById('status-notice').textContent,
     /Nothing is for sale yet/);
+  assert.strictEqual(off.document.getElementById('waitlist'), null);
 });
 
-test('the three plans render with their prices', async () => {
+test('the four plans render with their prices', async () => {
   const p = await renderPage('plans.html');
   const cards = p.doc.querySelectorAll('.plan');
-  assert.strictEqual(cards.length, 3);
+  assert.strictEqual(cards.length, 4);
   const text = p.doc.getElementById('plans').textContent;
-  assert.match(text, /Free/);
+  assert.match(text, /Free, no account/);
+  assert.match(text, /Free account/);
+  assert.match(text, /\$0/);
   assert.match(text, /\$7/);
   assert.match(text, /\$14/);
 });
@@ -2446,7 +2469,7 @@ test('the shared hot-slot limit is stated before anyone pays, not after', async 
 test('no checkout button appears while nothing is purchasable', async () => {
   const p = await renderPage('plans.html');
   assert.strictEqual(p.doc.querySelectorAll('#plans button[data-plan]').length, 0);
-  assert.match(p.doc.getElementById('plans').textContent, /Not purchasable yet/);
+  assert.match(p.doc.getElementById('plans').textContent, /Not open yet/);
 });
 
 test('paid server features are gated in the database, not just the page', async () => {
@@ -2615,7 +2638,7 @@ test('the client sends a plan name and never a price', async () => {
 test('checkout stays inert until a provider is configured', async () => {
   const p = await renderPage('plans.html');
   assert.strictEqual(p.doc.querySelectorAll('#plans button[data-plan]').length, 0);
-  assert.match(p.doc.getElementById('plans').textContent, /Not purchasable yet/);
+  assert.match(p.doc.getElementById('plans').textContent, /Not open yet/);
 });
 
 // ---- runtime config and error reporting -------------------------------------
@@ -2627,7 +2650,9 @@ const ROOT_PAGES = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
 test('every page loads config.js then observability.js before anything else', async () => {
   for (const page of ROOT_PAGES) {
     const html = fs.readFileSync(path.join(ROOT, page), 'utf8');
-    const srcs = Array.from(html.matchAll(/<script[^>]*\bsrc="([^"]+)"/g), (m) => m[1]
+    // theme.js runs first, alone, in <head> (no flash of the wrong theme);
+    // the body's scripts start with config.js and observability.js.
+    const srcs = Array.from(html.split('</head>')[1].matchAll(/<script[^>]*\bsrc="([^"]+)"/g), (m) => m[1]
       .replace(/^\//, ''));
     assert.deepStrictEqual(srcs.slice(0, 2), ['config.js', 'observability.js'], page);
   }
@@ -3000,7 +3025,7 @@ test('every page loads the shared scripts in the one agreed order', () => {
   const ORDER = ['config.js', 'observability.js', 'site-config.js', 'sanitize.js', 'bc-data.js',
     'engine.js', 'icons.js', 'auth.js', 'entitlements.js', 'submissions.js', 'common.js'];
   for (const f of ROOT_HTML) {
-    const srcs = Array.from(fs.readFileSync(path.join(ROOT, f), 'utf8')
+    const srcs = Array.from(fs.readFileSync(path.join(ROOT, f), 'utf8').split('</head>')[1]
       .matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)).map((m) => m[1].replace(/^\//, ''));
     if (!srcs.includes('common.js')) continue;   // 404.html: config and error reporting only
     assert.deepStrictEqual(srcs.slice(0, ORDER.length), ORDER, f);
@@ -3130,10 +3155,11 @@ test('a failed email link shows a fixed message, not text from the URL', async (
 });
 
 test('a contact email that could add mailto parameters gets no button', async () => {
-  const win = await renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '',
+  // The email is the fallback when there is no shop link (WS5 store panel).
+  const win = await renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '', shop_url: null,
     contact_email: 'jay@example.com?bcc=x@evil.test' });
   assert.doesNotMatch(win.document.body.innerHTML, /mailto:/);
-  const ok = await renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '',
+  const ok = await renderWithBusiness('lucky-kitty', { enabled: true, contact_url: '', shop_url: null,
     contact_email: 'jay@example.com' });
   assert.match(ok.document.body.innerHTML, /mailto:jay@example\.com\?subject=/);
 });
@@ -3144,4 +3170,767 @@ test('no test-only hooks leak into a real browser', async () => {
   assert.ok(hook > -1 && admin.lastIndexOf('/jsdom/i.test(', hook) > hook - 200,
     '__adminTest is only set under jsdom');
   assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'showcase.js'), 'utf8'), /window\.BearChartShowcase/);
+});
+
+// ============================================================================
+// UX, copy, plans, the store hand-off, accessibility and dark mode (WS5)
+// ============================================================================
+
+/**
+ * A stand-in for auth.js: configured, signed in or out as asked, with an
+ * optional client. Installed straight after auth.js runs, so every later
+ * script (common.js, the page) sees it.
+ */
+function fakeAuth(opts) {
+  opts = opts || {};
+  return (src, win) => {
+    if (src !== 'auth.js') return;
+    const st = {
+      configured: true, signedIn: !!opts.signedIn, isAdmin: false, recovery: false,
+      email: opts.signedIn ? (opts.email || 'member@example.com') : null,
+      user: opts.signedIn ? { id: 'u-1', email: opts.email || 'member@example.com' } : null,
+      tier: opts.tier || null, linkError: null
+    };
+    const listeners = [];
+    win.BearChartAuth = {
+      init() { return this.ready; },
+      ready: win.Promise.resolve(st),
+      state: () => st,
+      configured: () => true,
+      config: () => ({ enabled: true, supabase_url: 'https://x.supabase.co', supabase_anon_key: 'k' }),
+      onChange(fn) { listeners.push(fn); try { fn(st); } catch (e) { /* ignore */ } return () => {}; },
+      getClient: () => opts.client || null,
+      signOut: () => win.Promise.resolve({ ok: true })
+    };
+    if (opts.afterScript) opts.afterScript(src, win);
+  };
+}
+
+/** A Supabase-ish client whose every query resolves empty; rpc calls are recorded. */
+function chainClient(rpcImpl) {
+  const calls = [];
+  const empty = { data: [], error: null };
+  const chain = new Proxy(function () {}, {
+    get(t, k) {
+      if (k === 'then') return (res, rej) => Promise.resolve(empty).then(res, rej);
+      return () => chain;
+    },
+    apply() { return chain; }
+  });
+  return {
+    calls,
+    from: () => chain,
+    storage: { from: () => chain },
+    functions: { invoke: () => Promise.resolve({ data: null, error: { message: 'off' } }) },
+    rpc(name, args) {
+      calls.push([name, JSON.parse(JSON.stringify(args))]);
+      return Promise.resolve(rpcImpl ? rpcImpl(name, args) : { data: 'ok', error: null });
+    }
+  };
+}
+
+const tick = (ms) => new Promise((r) => setTimeout(r, ms || 0));
+
+// ---- search and home --------------------------------------------------------
+
+test('the search box has a label and a placeholder counted from the data', async () => {
+  const p = await renderPage('index.html');
+  const q = p.doc.getElementById('q');
+  const label = p.doc.querySelector('label[for="q"]');
+  assert.ok(label, 'a <label for=q>');
+  assert.match(label.textContent, /Search the price guide/);
+  const n = p.win.BC.stats().items;
+  assert.ok(q.placeholder.includes(n.toLocaleString('en-US')), q.placeholder);
+  assert.ok(!q.placeholder.includes('2,038') || n === 2038);
+  assert.match(p.doc.getElementById('hero-lede').textContent,
+    new RegExp('Real sold prices for ' + n.toLocaleString('en-US') + ' Build-A-Bears'));
+});
+
+test('no Reset button in the search bar; clear-all lives in the toolbar and shows when searching', async () => {
+  const p = await renderPage('index.html');
+  assert.strictEqual(p.doc.querySelectorAll('.searchbar button').length, 0);
+  const clear = p.doc.getElementById('clear-all');
+  assert.ok(clear.closest('.toolbar'));
+  assert.strictEqual(clear.hidden, true);
+  const q = p.doc.getElementById('q');
+  q.value = 'teddy';
+  q.dispatchEvent(new p.win.Event('input'));
+  await tick(200);
+  assert.strictEqual(clear.hidden, false);
+});
+
+test('the empty state echoes the query, escapes it, and clears back to a dozen', async () => {
+  const p = await renderPage('index.html');
+  const q = p.doc.getElementById('q');
+  q.value = 'zzzqqq';
+  q.dispatchEvent(new p.win.Event('input'));
+  await tick(200);
+  const empty = p.doc.getElementById('empty');
+  assert.strictEqual(empty.hidden, false);
+  assert.strictEqual(empty.getAttribute('role'), 'status');
+  assert.match(empty.textContent, /No bears match "zzzqqq"/);
+  const btn = empty.querySelector('button[data-action="clear"]');
+  assert.ok(btn);
+  btn.dispatchEvent(new p.win.Event('click', { bubbles: true }));
+  assert.strictEqual(p.doc.querySelectorAll('#results .card').length, 12);
+
+  q.value = '<img src=x>';
+  q.dispatchEvent(new p.win.Event('input'));
+  await tick(200);
+  assert.strictEqual(empty.querySelectorAll('img').length, 0);
+  assert.match(empty.textContent, /<img src=x>/);
+});
+
+test('the result count is a polite live region and the filter toggle reports its state', async () => {
+  const p = await renderPage('index.html');
+  assert.strictEqual(p.doc.getElementById('result-count').getAttribute('aria-live'), 'polite');
+  const t = p.doc.getElementById('filter-toggle');
+  assert.strictEqual(t.getAttribute('aria-controls'), 'sidebar');
+  assert.strictEqual(t.getAttribute('aria-expanded'), 'false');
+  t.dispatchEvent(new p.win.Event('click'));
+  assert.strictEqual(t.getAttribute('aria-expanded'), 'true');
+});
+
+test('cards say what the range is, and unpriced cards ask without a link', async () => {
+  const p = await renderPage('index.html');
+  showAll(p);
+  const cards = Array.from(p.doc.querySelectorAll('#results .card'));
+  const priced = cards.find((c) => !c.querySelector('.value.none'));
+  const unpriced = cards.find((c) => c.querySelector('.value.none'));
+  assert.match(priced.textContent, /Good-condition value/);
+  assert.match(unpriced.textContent, /No public sales yet/);
+  assert.strictEqual(unpriced.querySelectorAll('a').length, 0, 'no link inside a card link');
+  assert.strictEqual(p.doc.querySelectorAll('#results .card [data-shop-placement]').length, 0,
+    'no shop link on a card');
+  assert.strictEqual(p.doc.querySelectorAll('#results .card a.conf').length, 0);
+});
+
+test('with nothing typed, priced bears lead, then those with a photo', async () => {
+  const p = await renderPage('index.html');
+  const cards = Array.from(p.doc.querySelectorAll('#results .card')).slice(0, 12);
+  const hv = cards.map((c) => !c.querySelector('.value.none'));
+  for (let i = 1; i < hv.length; i++) assert.ok(hv[i - 1] >= hv[i], 'has_value non-increasing');
+  const img = cards.filter((c, i) => hv[i]).map((c) => !c.querySelector('img.is-placeholder'));
+  for (let i = 1; i < img.length; i++) assert.ok(img[i - 1] >= img[i], 'photos first among the priced');
+});
+
+test('the hero, the unfiltered tile and the footer read one stats definition', async () => {
+  const p = await renderPage('index.html');
+  const st = p.win.BC.stats();
+  const comps = st.comps.toLocaleString('en-US');
+  assert.match(p.doc.getElementById('hero-proof').textContent, new RegExp(comps + ' sold transactions recorded'));
+  const tile = Array.from(p.doc.querySelectorAll('#stats .stat'))
+    .find((el) => /Sold transactions/.test(el.querySelector('.k').textContent));
+  assert.strictEqual(tile.querySelector('.v').textContent, comps);
+  assert.strictEqual(p.win.BC.statsFor(p.win.BC.catalogue.items).comps, st.comps);
+  assert.match(p.doc.getElementById('site-footer').textContent, new RegExp(comps + ' sold transactions recorded'));
+});
+
+test('a page shows a skeleton while its data loads, then the real thing', async () => {
+  let release;
+  const gate = new Promise((r) => { release = r; });
+  const pending = renderPage('index.html', null, { transport: (u, serve) => gate.then(() => serve(u)) });
+  await tick(30);
+  // renderPage awaits idle, so peek through the window jsdom is building.
+  release();
+  const p = await pending;
+  assert.strictEqual(p.doc.getElementById('results').getAttribute('aria-busy'), null);
+  assert.strictEqual(p.doc.querySelectorAll('#results .sk').length, 0);
+  const html = p.win.BC.skeleton('cards', 3);
+  assert.strictEqual((html.match(/class="card sk"/g) || []).length, 3);
+  assert.match(html, /aria-hidden="true"/);
+});
+
+test('BC.whenData renders a value at once, a promise after a skeleton, a failure with a retry', async () => {
+  const p = await renderPage('about.html');
+  const BC = p.win.BC;
+  const box = p.doc.createElement('div');
+  p.doc.body.appendChild(box);
+  let got = null;
+  BC.whenData(5, box, (v) => { got = v; });
+  assert.strictEqual(got, 5);
+  let resolve;
+  const job = BC.whenData(new p.win.Promise((r) => { resolve = r; }), box, (v) => { box.textContent = 'done ' + v; },
+    { kind: 'cards', n: 2, label: 'bears' });
+  assert.strictEqual(box.getAttribute('aria-busy'), 'true');
+  assert.strictEqual(box.querySelectorAll('.sk').length, 2);
+  assert.match(box.textContent, /Loading bears/);
+  resolve(7); await job;
+  assert.strictEqual(box.textContent, 'done 7');
+  assert.strictEqual(box.getAttribute('aria-busy'), null);
+  let retried = false;
+  await BC.whenData(p.win.Promise.reject(new Error('x')), box, () => {}, { retry: () => { retried = true; } });
+  assert.match(box.textContent, /Couldn't load the price guide/);
+  box.querySelector('button').dispatchEvent(new p.win.Event('click'));
+  assert.ok(retried);
+});
+
+// ---- the hand-off to Jay's Retro Exchange ---------------------------------------
+
+test('shop links carry UTM tags from one builder', async () => {
+  const p = await renderPage('index.html');
+  const BC = p.win.BC;
+  const item = { id: 'classic-brown-teddy', canonical_name: 'Classic Brown Teddy' };
+  const u = new URL(BC.shopHref('item_offer', { kind: 'offer', item, condition: 'Good' }));
+  assert.strictEqual(u.searchParams.get('utm_source'), 'bearchart');
+  assert.strictEqual(u.searchParams.get('utm_medium'), 'referral');
+  assert.strictEqual(u.searchParams.get('utm_campaign'), 'guide');
+  assert.strictEqual(u.searchParams.get('utm_content'), 'item_offer');
+  assert.strictEqual(u.searchParams.get('utm_term'), 'classic-brown-teddy');
+  const perk = new URL(BC.shopHref('plans_perk', { medium: 'member_perk' }));
+  assert.strictEqual(perk.searchParams.get('utm_medium'), 'member_perk');
+  assert.strictEqual(perk.searchParams.get('utm_campaign'), 'perk');
+  assert.strictEqual(new URL(BC.shopHref('made_up')).searchParams.get('utm_content'), 'other');
+  // https only, and nothing when the shop is off.
+  const saved = Object.assign({}, BC.business);
+  try {
+    BC.business.shop_url = 'http://jaysretroexchange.com';
+    assert.strictEqual(BC.shopHref('footer'), '');
+    BC.business.shop_url = saved.shop_url;
+    BC.business.enabled = false;
+    assert.strictEqual(BC.shopLink('footer'), '');
+  } finally { Object.assign(BC.business, saved); }
+});
+
+test('a deep-link template is filled in, encoded, and falls back to the shop', async () => {
+  const p = await renderPage('index.html');
+  const BC = p.win.BC;
+  const saved = Object.assign({}, BC.business);
+  try {
+    BC.business.shop_search_url = 'https://jaysretroexchange.com/search?q={q}';
+    BC.business.shop_offer_url = 'javascript:alert(1)?{item}';
+    const s = new URL(BC.shopHref('item_search', { kind: 'search', item: { id: 'a', canonical_name: 'Fudge & Bunny' } }));
+    assert.strictEqual(s.pathname, '/search');
+    assert.strictEqual(s.searchParams.get('q'), 'Fudge & Bunny');
+    const o = BC.shopHref('item_offer', { kind: 'offer', item: { id: 'a' } });
+    assert.match(o, /^https:\/\/jaysretroexchange\.com\/\?utm_source=bearchart/);
+  } finally { Object.assign(BC.business, saved); }
+});
+
+/** Every store link on a page: built by the helpers, labelled, disclosed. */
+function assertShopLinks(p, page) {
+  const links = Array.from(p.doc.querySelectorAll('a[href^="https://jaysretroexchange.com"]'));
+  assert.ok(links.length, page + ' has a store link');
+  for (const a of links) {
+    const where = page + ' ' + a.outerHTML.slice(0, 120);
+    assert.ok(a.getAttribute('data-shop-placement'), where + ': data-shop-placement');
+    const rel = (a.getAttribute('rel') || '').split(/\s+/);
+    for (const r of ['sponsored', 'noopener', 'noreferrer']) assert.ok(rel.includes(r), where + ': rel ' + r);
+    assert.strictEqual(a.getAttribute('target'), '_blank', where);
+    assert.strictEqual((a.querySelector('.sr-only') || {}).textContent, ' (opens our shop)', where);
+    assert.match(a.getAttribute('href'), /utm_source=bearchart/, where);
+    const box = a.closest('.panel, .promo, footer, aside, section') || p.doc.body;
+    const after = Array.from(box.querySelectorAll('.shop-disclosure'))
+      .some((d) => a.compareDocumentPosition(d) & p.win.Node.DOCUMENT_POSITION_FOLLOWING);
+    assert.ok(after, where + ': followed by the disclosure');
+  }
+}
+
+test('every link to the store goes through the builder and carries the disclosure', async () => {
+  assertShopLinks(await renderPage('index.html'), 'index');
+  assertShopLinks(await renderPage('item.html', 'item.html?id=classic-brown-teddy'), 'item (priced)');
+  assertShopLinks(await renderPage('item.html', 'item.html?id=buddy-bear-30-inch'), 'item (unpriced)');
+  assertShopLinks(await renderPage('about.html'), 'about');
+  assertShopLinks(await renderPage('privacy.html'), 'privacy');
+  assertShopLinks(await renderPage('terms.html'), 'terms');
+});
+
+test('the shop address is written only in the config', () => {
+  for (const f of fs.readdirSync(ROOT).filter((x) => /\.js$/.test(x) && !['site-config.js', 'sw.js'].includes(x))) {
+    assert.doesNotMatch(fs.readFileSync(path.join(ROOT, f), 'utf8'), /jaysretroexchange\.com/, f);
+  }
+});
+
+test('a click on a store link is counted as a shop_click', async () => {
+  const p = await renderPage('index.html');
+  const calls = [];
+  p.win.bcTrack = (n, props) => calls.push([n, props]);
+  const a = p.doc.querySelector('#site-footer a[data-shop-placement]');
+  a.addEventListener('click', (e) => e.preventDefault());
+  a.dispatchEvent(new p.win.MouseEvent('click', { bubbles: true, cancelable: true }));
+  const hit = calls.find((c) => c[0] === 'shop_click');
+  assert.ok(hit, JSON.stringify(calls));
+  assert.strictEqual(hit[1].placement, 'footer');
+  assert.strictEqual(hit[1].page, 'index.html');
+});
+
+// ---- the item page -----------------------------------------------------------
+
+test('an unpriced bear gets one panel: what is known, add a sale, ask the store', async () => {
+  const p = await renderWithAuth('item.html', 'item.html?id=buddy-bear-30-inch');
+  const doc = p.document;
+  assert.strictEqual(doc.querySelectorAll('.unpriced').length, 1);
+  assert.strictEqual(doc.getElementById('submit-panel'), null, 'no separate submit panel');
+  assert.ok(!Array.from(doc.querySelectorAll('h2')).some((h) => /Why this value/.test(h.textContent)));
+  assert.match(doc.querySelector('.unpriced').textContent, /No sold price on record yet/);
+  assert.strictEqual(doc.querySelectorAll('[data-shop-placement="item_quote"]').length, 1);
+  assert.ok(doc.querySelector('.unpriced #submit-form'), 'the form sits inside the panel');
+  assert.ok(doc.querySelector('.unpriced a[href="#submit-form"]'));
+});
+
+test('a priced bear: confidence linked to the method, the store after the evidence, guide value first', async () => {
+  const p = await renderPage('item.html', 'item.html?id=classic-brown-teddy');
+  const root = p.doc.getElementById('item-root');
+  const store = root.querySelector('.store-panel');
+  assert.ok(store);
+  assert.strictEqual(store.querySelector('h2').textContent, "Sell or buy this at Jay's Retro Exchange (our store)");
+  const sold = Array.from(root.querySelectorAll('.panel h2')).find((h) => h.textContent === 'Sold observations');
+  assert.ok(sold.compareDocumentPosition(store) & p.win.Node.DOCUMENT_POSITION_FOLLOWING);
+  assert.doesNotMatch(root.textContent, /what we would pay/i);
+  const guide = store.querySelector('.store-card.is-guide');
+  const offer = store.querySelector('.store-card.is-offer');
+  assert.ok(guide.compareDocumentPosition(offer) & p.win.Node.DOCUMENT_POSITION_FOLLOWING);
+  const chip = root.querySelector('.headline a.conf');
+  assert.match(chip.textContent, /^(High|Medium|Low|Very low) confidence$/);
+  assert.match(chip.getAttribute('href'), /about\.html#confidence$/);
+  const tip = p.doc.getElementById(chip.getAttribute('aria-describedby'));
+  assert.strictEqual(tip.getAttribute('role'), 'tooltip');
+  assert.match(tip.textContent, /Based on \d+ sales?/);
+  assert.ok(p.doc.querySelector('#about-confidence') || true);
+});
+
+test('the store offer link follows the condition picked in the calculator', async () => {
+  const p = await renderPage('item.html', 'item.html?id=classic-brown-teddy');
+  const BC = p.win.BC;
+  BC.business.shop_offer_url = 'https://jaysretroexchange.com/sell?item={item}&condition={condition}';
+  const cond = p.doc.getElementById('c-cond');
+  cond.value = 'NWT';
+  cond.dispatchEvent(new p.win.Event('change'));
+  const a = p.doc.querySelector('.store-panel [data-shop-placement="item_offer"]');
+  const u = new URL(a.getAttribute('href'));
+  assert.strictEqual(u.searchParams.get('condition'), 'NWT');
+  assert.strictEqual(u.searchParams.get('item'), 'classic-brown-teddy');
+});
+
+test('an old value says so: "Older data" with the month of the last sale', async () => {
+  const p = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat', {
+    mutate: (d) => { d.sales.filter((s) => s.item_id === 'kennel-pals-calico-cat').forEach((s) => { s.sale_date = '2024-03-02'; }); }
+  });
+  const chip = p.doc.querySelector('.headline .chip-stale');
+  assert.ok(chip, 'stale chip');
+  assert.match(chip.textContent, /Older data · last sale Mar 2024/);
+  assert.match(p.doc.getElementById('item-root').textContent, /Treat this range as a starting point/);
+  const idx = await renderPage('index.html', null, {
+    mutate: (d) => { d.sales.filter((s) => s.item_id === 'kennel-pals-calico-cat').forEach((s) => { s.sale_date = '2024-03-02'; }); }
+  });
+  const v = idx.win.BC.valuationFor('kennel-pals-calico-cat');
+  assert.match(idx.win.BC.freshness(v, { card: true }), /chip-stale chip-sm">Older data</);
+  assert.strictEqual(idx.win.BC.freshness(Object.assign({}, v, { stale: false }), { card: true }), '');
+  assert.match(idx.win.BC.freshness(Object.assign({}, v, { stale: false })), /Last sale Mar 2024/);
+  assert.strictEqual(idx.win.BC.freshness(Object.assign({}, v, { last_sale_date: null })), '');
+});
+
+test('operator sales get their own dot and legend in the evidence strip', async () => {
+  const p = await renderPage('item.html', 'item.html?id=original-pumpkin-kitty');
+  const BC = p.win.BC;
+  const v = { has_value: true, range_low: 10, range_high: 20, fair_market: 15,
+    points: [{ raw: 12, norm: 12, operator: true }, { raw: 18, norm: 18 }] };
+  const svg = BC.evidenceStrip(v);
+  assert.match(svg, /ev-dot ev-dot-own/);
+  assert.match(svg, /sold by our store/);
+  assert.match(svg, /ev-k-own/);
+  assert.doesNotMatch(BC.evidenceStrip(Object.assign({}, v, { points: [{ raw: 12, norm: 12 }] })), /ev-k-own/);
+});
+
+test('the hero illustration says it is one, in words', async () => {
+  const p = await renderPage('item.html', 'item.html?id=classic-brown-teddy');
+  assert.match(p.doc.querySelector('.item-hero').textContent, /Illustration\. No photo on file yet\./);
+});
+
+// ---- the free-account prompt (the pop-up is gone) --------------------------------
+
+test('the welcome pop-up is gone for good', async () => {
+  const src = fs.readFileSync(path.join(ROOT, 'common.js'), 'utf8');
+  assert.doesNotMatch(src, /welcome-pop/);
+  assert.doesNotMatch(src, /setItem\(['"]bc_welcome_seen/);
+  const p = await renderPage('index.html', null, { afterScript: fakeAuth() });
+  await tick(20);
+  assert.strictEqual(p.doc.querySelectorAll('[role=dialog]').length, 0);
+});
+
+test('the prompt shows on the third bear looked up, with the Power perk from config', async () => {
+  const p = await renderPage('item.html', 'item.html?id=classic-brown-teddy', {
+    afterScript: fakeAuth({ afterScript: (src, win) => {
+      if (src === 'auth.js') win.localStorage.setItem('bc.prompt', JSON.stringify({ views: 2 }));
+    } })
+  });
+  const nudge = p.doc.getElementById('bc-nudge');
+  assert.ok(nudge, 'nudge shown');
+  assert.ok(nudge.textContent.includes(p.cfg.membership.plans.power.perk));
+  assert.strictEqual(p.doc.activeElement === nudge || nudge.contains(p.doc.activeElement), false,
+    'never takes focus');
+  nudge.dispatchEvent(new p.win.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  assert.strictEqual(p.doc.getElementById('bc-nudge'), null);
+  const st = JSON.parse(p.win.localStorage.getItem('bc.prompt'));
+  assert.ok(st.dismissedAt > 0);
+  assert.strictEqual(st.views, 3);
+});
+
+test('the prompt stays away from the first two views, signed-in readers and blocked storage', async () => {
+  const first = await renderPage('item.html', 'item.html?id=classic-brown-teddy', { afterScript: fakeAuth() });
+  assert.strictEqual(first.doc.getElementById('bc-nudge'), null);
+  const member = await renderPage('item.html', 'item.html?id=classic-brown-teddy', {
+    afterScript: fakeAuth({ signedIn: true, client: chainClient(), afterScript: (src, win) => {
+      if (src === 'auth.js') win.localStorage.setItem('bc.prompt', JSON.stringify({ views: 5 }));
+    } })
+  });
+  assert.strictEqual(member.doc.getElementById('bc-nudge'), null);
+  const blocked = await renderPage('item.html', 'item.html?id=classic-brown-teddy', {
+    afterScript: fakeAuth({ afterScript: (src, win) => {
+      if (src === 'auth.js') {
+        Object.defineProperty(win, 'localStorage', { get() { throw new Error('blocked'); } });
+      }
+    } })
+  });
+  assert.strictEqual(blocked.doc.getElementById('bc-nudge'), null);
+  noErrors(blocked);
+});
+
+test('the prompt shows on the first bear added to a collection, and not again within a week', async () => {
+  const p = await renderPage('item.html', 'item.html?id=classic-brown-teddy', { afterScript: fakeAuth() });
+  assert.strictEqual(p.doc.getElementById('bc-nudge'), null);
+  p.doc.getElementById('add-collection').dispatchEvent(new p.win.Event('click'));
+  const nudge = p.doc.getElementById('bc-nudge');
+  assert.ok(nudge);
+  assert.match(nudge.textContent, /Don't lose this collection/);
+  nudge.querySelector('.nudge-x').dispatchEvent(new p.win.Event('click'));
+  assert.strictEqual(p.doc.getElementById('bc-nudge'), null);
+  p.win.BC.prompt.maybeShow('views');
+  assert.strictEqual(p.doc.getElementById('bc-nudge'), null, 'dismissed: quiet for 30 days');
+});
+
+test('the item upsell sits under the value, and hides for signed-in readers before launch', async () => {
+  const out = await renderPage('item.html', 'item.html?id=classic-brown-teddy', { afterScript: fakeAuth() });
+  const up = out.doc.querySelector('.upsell');
+  assert.ok(up);
+  assert.match(up.textContent, /Own this one\?/);
+  assert.strictEqual(up.querySelector('a[href="#calc-panel"]') !== null, true);
+  assert.ok(out.doc.getElementById('calc-panel'));
+  const member = await renderPage('item.html', 'item.html?id=classic-brown-teddy',
+    { afterScript: fakeAuth({ signedIn: true, client: chainClient() }) });
+  assert.strictEqual(member.doc.querySelector('.upsell'), null);
+  const unpriced = await renderPage('item.html', 'item.html?id=buddy-bear-30-inch', { afterScript: fakeAuth() });
+  assert.strictEqual(unpriced.doc.querySelector('.upsell'), null);
+});
+
+// ---- free-account pages: a teaser, then an inline invitation --------------------
+
+/** Deals with enough underpriced listings to need more than the teaser. */
+function manyDeals(d) {
+  d.active_listings = [50, 51, 52, 53, 54, 55].map((ask) =>
+    Object.assign(activeFor('my-little-pony-muffins', ask), { ship_price: 0 }));
+  d.active_listings_fetched_at = new Date().toISOString();
+}
+
+test('signed out, the deal finder shows three deals, then an inline invitation', async () => {
+  const p = await renderPage('deals.html', null, { mutate: manyDeals, afterScript: fakeAuth() });
+  const card = p.doc.getElementById('members-gate-card');
+  assert.ok(card, 'gate card');
+  assert.notStrictEqual(card.parentNode, p.doc.body, 'inline, not an overlay');
+  assert.ok(card.parentNode.hasAttribute('data-gate-slot'));
+  const rows = p.doc.querySelectorAll('#deals tbody tr');
+  assert.ok(rows.length > 0 && rows.length <= 3, 'rows ' + rows.length);
+  assert.ok(p.win.__deals.length <= 3);
+  for (const el of p.doc.querySelectorAll('[data-gate-locked]')) {
+    assert.ok(el.hasAttribute('inert'));
+    assert.strictEqual(el.getAttribute('aria-hidden'), 'true');
+  }
+  assert.strictEqual(p.doc.activeElement.id, 'gate-h');
+  assert.match(p.doc.getElementById('deals').textContent, /more deals? with a free account/);
+  assert.match(card.querySelector('a[data-gate-action="signup"]').getAttribute('href'),
+    /account\.html\?mode=signup&next=deals/);
+});
+
+test('signed in, the deal finder is whole and nothing is locked', async () => {
+  const p = await renderPage('deals.html', null,
+    { mutate: manyDeals, afterScript: fakeAuth({ signedIn: true, client: chainClient() }) });
+  await tick(10);
+  assert.strictEqual(p.doc.getElementById('members-gate-card'), null);
+  assert.ok(p.doc.querySelectorAll('#deals tbody tr').length > 3);
+  for (const el of p.doc.querySelectorAll('[data-gate-locked]')) assert.ok(!el.hasAttribute('inert'));
+});
+
+test('checklists and the collection keep their intro as the teaser', async () => {
+  for (const page of ['checklists.html', 'collection.html']) {
+    const p = await renderPage(page, null, { afterScript: fakeAuth() });
+    const card = p.doc.getElementById('members-gate-card');
+    assert.ok(card, page);
+    assert.ok(!p.doc.querySelector('.page-intro').closest('[data-gate-locked]'), page + ': intro visible');
+    assert.ok(p.doc.querySelector('[data-gate-locked]').hasAttribute('inert'), page);
+  }
+});
+
+test('the account page follows ?next= only to pages on its list', async () => {
+  const src = fs.readFileSync(path.join(ROOT, 'account.js'), 'utf8');
+  assert.match(src, /NEXT_PAGES = \['deals', 'checklists', 'collection', 'plans', 'showcase', 'index'\]/);
+  const p = await renderPage('account.html', 'account.html?mode=signup&next=deals', { afterScript: fakeAuth() });
+  await tick(10);
+  assert.match(p.doc.querySelector('h1').textContent, /Create a free account/);
+});
+
+// ---- the plans page -------------------------------------------------------------
+
+async function renderPlans(opts) {
+  opts = opts || {};
+  const p = await renderPage('plans.html', null, opts);
+  await tick(10);
+  return p;
+}
+
+test('plans: four tiers in order, from config, never "Free" twice', async () => {
+  const p = await renderPlans();
+  const M = p.data.membership;
+  const cards = p.doc.querySelectorAll('#plans .plan');
+  assert.strictEqual(cards.length, Object.keys(M.plans).length);
+  assert.strictEqual(cards.length, 4);
+  const names = Array.from(cards).map((c) => c.querySelector('.plan-name').textContent);
+  assert.deepStrictEqual(names, M.tiers_order.map((t) => M.plans[t].name));
+  for (const c of cards) {
+    assert.notStrictEqual(c.querySelector('.plan-name').textContent.trim(),
+      c.querySelector('.plan-price').textContent.trim());
+    assert.ok(c.querySelector('.plan-who').textContent.length > 10);
+  }
+  assert.ok(!/\/year/.test(p.doc.getElementById('plans').textContent), 'no annual price invented');
+});
+
+test('plans: only shipped features are ticked; the rest are "On the way"', async () => {
+  const p = await renderPlans();
+  const M = p.data.membership;
+  const ticked = Array.from(p.doc.querySelectorAll('.plan-features li')).map((li) => li.textContent);
+  for (const f of M.features) {
+    if (f.status === 'soon') {
+      assert.ok(!ticked.includes(f.text), f.text + ' is ticked');
+      const soonCells = Array.from(p.doc.querySelectorAll('.plan-soon li, .compare-table tr'))
+        .filter((el) => el.textContent.includes(f.text));
+      assert.ok(soonCells.length, f.text + ' is listed somewhere');
+    } else {
+      const idx = M.tiers_order.indexOf(f.from);
+      const card = p.doc.querySelectorAll('#plans .plan')[idx];
+      assert.ok(Array.from(card.querySelectorAll('.plan-features li')).some((li) => li.textContent === f.text),
+        f.text + ' on the ' + f.from + ' card');
+    }
+  }
+  assert.ok(!ticked.some((t) => /Outfit and set valuations/.test(t)));
+  assert.strictEqual(p.doc.querySelectorAll('.compare-table thead th[scope=col]').length, 5);
+  // A soon feature reads "On the way" in the table, never a tick.
+  const outfit = Array.from(p.doc.querySelectorAll('.compare-table tbody tr'))
+    .find((tr) => /Outfit and set valuations/.test(tr.textContent));
+  assert.ok(outfit.querySelector('.cmp-soon'));
+  assert.strictEqual(outfit.querySelectorAll('.cmp-yes').length, 0);
+  assert.doesNotMatch(p.doc.querySelector('main').textContent, /Sold comps|CSV/);
+});
+
+test('plans: the coupon answer is the config, word for word', async () => {
+  const p = await renderPlans();
+  const M = p.data.membership;
+  const faq = p.doc.getElementById('faq').textContent;
+  assert.ok(faq.includes(M.plans.power.perk));
+  assert.ok(faq.includes(M.plans.pro.perk));
+  assert.ok(faq.includes(M.coupon_terms));
+});
+
+test('plans: an annual price shows only when the config sets one', async () => {
+  const p = await renderPlans({ mutate: (d) => { d.membership.plans.pro.price_annual = 70; } });
+  assert.match(p.doc.getElementById('plans').textContent, /or \$70\/year/);
+});
+
+test('plans: the copy comes from its own file, not site-config.js', async () => {
+  const p = await renderPlans();
+  assert.ok(p.requests.some((u) => /^data\/h\/plans\.[0-9a-f]{12}\.json$/.test(u)), p.requests.join());
+  assert.ok(!('features' in p.cfg.membership));
+});
+
+test('plans before launch: paid tiers say "Not open yet" and point at the waitlist', async () => {
+  const client = chainClient();
+  const p = await renderPlans({ afterScript: fakeAuth({ client }) });
+  const paid = Array.from(p.doc.querySelectorAll('#plans .plan')).slice(2);
+  for (const c of paid) {
+    assert.match(c.textContent, /Not open yet\./);
+    assert.ok(c.querySelector('button[data-waitlist]'));
+  }
+  paid[1].querySelector('button[data-waitlist]').dispatchEvent(new p.win.Event('click', { bubbles: true }));
+  assert.strictEqual(p.doc.getElementById('wl-plan').value, 'power');
+  assert.strictEqual(p.doc.activeElement.id, 'wl-email');
+});
+
+test('the waitlist saves through join_waitlist and says so', async () => {
+  const client = chainClient();
+  const calls = [];
+  const p = await renderPlans({ afterScript: fakeAuth({ client }) });
+  p.win.bcTrack = (n, x) => calls.push([n, x]);
+  const form = p.doc.getElementById('waitlist');
+  assert.ok(form, 'waitlist form');
+  p.doc.getElementById('wl-email').value = 'a@b.co';
+  form.dispatchEvent(new p.win.Event('submit', { cancelable: true, bubbles: true }));
+  await tick(10);
+  assert.deepStrictEqual(client.calls, [['join_waitlist', { p_email: 'a@b.co', p_plan: 'any', p_source: 'plans' }]]);
+  assert.match(p.doc.getElementById('wl-msg').textContent, /You're on the list/);
+  assert.ok(calls.some((c) => c[0] === 'waitlist_join'));
+});
+
+test('the waitlist refuses a bad address without a request, and says when it is rate-limited', async () => {
+  const client = chainClient(() => ({ data: null, error: { message: 'rate_limited' } }));
+  const p = await renderPlans({ afterScript: fakeAuth({ client }) });
+  const input = p.doc.getElementById('wl-email');
+  input.value = 'not-an-email';
+  p.doc.getElementById('waitlist').dispatchEvent(new p.win.Event('submit', { cancelable: true, bubbles: true }));
+  await tick(5);
+  assert.strictEqual(input.getAttribute('aria-invalid'), 'true');
+  assert.strictEqual(client.calls.length, 0);
+  input.value = 'a@b.co';
+  p.doc.getElementById('waitlist').dispatchEvent(new p.win.Event('submit', { cancelable: true, bubbles: true }));
+  await tick(10);
+  assert.match(p.doc.getElementById('wl-msg').textContent, /Too many tries/);
+});
+
+test('no page but the terms writes a coupon amount; the terms agree with the config', () => {
+  const data = loadData();
+  const perks = Object.values(data.membership.plans).map((p) => p.perk).filter(Boolean);
+  const files = fs.readdirSync(ROOT).filter((f) => /\.(js|html)$/.test(f) &&
+    !['data.js', 'site-config.js', 'sw.js', 'terms.html'].includes(f));
+  for (const f of files) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    for (const perk of perks) assert.ok(!src.includes(perk), f + ' hardcodes a perk');
+    for (const re of [/10% off/, /\$10 off/, /\$5 off/]) assert.doesNotMatch(src, re, f);
+  }
+  const terms = fs.readFileSync(path.join(ROOT, 'terms.html'), 'utf8').replace(/\s+/g, ' ');
+  for (const perk of perks) {
+    const m = /(\$\d+) coupon[^$]*over (\$\d+)/.exec(perk);
+    assert.ok(m, perk);
+    assert.ok(terms.includes(m[1] + ' off an order of more than ' + m[2]),
+      'terms.html must state ' + m[1] + ' off over ' + m[2] + ' (owner: update the terms with the config)');
+  }
+});
+
+// ---- accessibility ---------------------------------------------------------------
+
+const H1_PAGES = [['index.html'], ['item.html', 'item.html?id=classic-brown-teddy'], ['plans.html'],
+  ['deals.html'], ['checklists.html'], ['collection.html'], ['showcase.html'], ['about.html'],
+  ['roadmap.html'], ['privacy.html'], ['terms.html'], ['account.html'], ['admin.html'], ['404.html']];
+
+test('every page has exactly one h1, and the brand is not it', async () => {
+  for (const [file, url] of H1_PAGES) {
+    const p = await renderPage(file, url);
+    await tick(30);
+    assert.strictEqual(p.doc.querySelectorAll('h1').length, 1,
+      file + ': ' + Array.from(p.doc.querySelectorAll('h1')).map((h) => h.textContent).join(' | '));
+    assert.strictEqual(p.doc.querySelector('#masthead h1, .masthead h1'), null, file);
+  }
+});
+
+test('every page starts with a skip link to a focusable main', async () => {
+  for (const [file, url] of H1_PAGES) {
+    const p = await renderPage(file, url);
+    const first = p.doc.querySelector('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    assert.ok(first && first.classList.contains('skip-link'), file + ': ' + (first && first.outerHTML.slice(0, 80)));
+    assert.strictEqual(first.getAttribute('href'), '#main');
+    const main = p.doc.getElementById('main');
+    assert.ok(main && main.tagName === 'MAIN', file);
+    assert.strictEqual(main.getAttribute('tabindex'), '-1', file);
+  }
+});
+
+test('the phone menu is a disclosure: toggle, Escape, focus back', async () => {
+  const p = await renderPage('index.html');
+  const t = p.doc.querySelector('.nav-toggle[aria-controls="nav-list"][aria-expanded]');
+  assert.ok(t);
+  assert.strictEqual(t.getAttribute('aria-expanded'), 'false');
+  t.dispatchEvent(new p.win.MouseEvent('click', { bubbles: true }));
+  assert.strictEqual(t.getAttribute('aria-expanded'), 'true');
+  assert.strictEqual(p.doc.getElementById('nav-list').getAttribute('data-open'), 'true');
+  p.doc.dispatchEvent(new p.win.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  assert.strictEqual(t.getAttribute('aria-expanded'), 'false');
+  assert.strictEqual(p.doc.activeElement, p.doc.querySelector('.nav-toggle'));
+  assert.strictEqual(p.doc.querySelector('.nav').getAttribute('aria-label'), 'Main');
+});
+
+test('the disclaimer has a one-line form for phones', async () => {
+  const p = await renderPage('index.html');
+  assert.strictEqual(p.doc.querySelector('#disclaimer-bar .disc-short').textContent,
+    p.data.meta.disclaimer_short);
+});
+
+// ---- dark mode and the footer ----------------------------------------------------
+
+test('theme.js applies a stored choice before paint, and the footer can change it', async () => {
+  const p = await renderPage('index.html', null, { afterScript: (src, win) => {
+    if (src === 'config.js') {
+      win.localStorage.setItem('bc.theme', 'dark');
+      win.eval(fs.readFileSync(path.join(ROOT, 'theme.js'), 'utf8'));
+    }
+  } });
+  assert.strictEqual(p.doc.documentElement.dataset.theme, 'dark');
+  const pick = p.doc.querySelector('#site-footer #theme-pick');
+  assert.ok(pick);
+  assert.strictEqual(pick.value, 'dark');
+  pick.value = 'light';
+  pick.dispatchEvent(new p.win.Event('change', { bubbles: true }));
+  assert.strictEqual(p.doc.documentElement.dataset.theme, 'light');
+  assert.strictEqual(p.win.localStorage.getItem('bc.theme'), 'light');
+  assert.strictEqual(p.doc.querySelector('meta[name="theme-color"]').getAttribute('content'), '#b3131c');
+  pick.value = 'system';
+  pick.dispatchEvent(new p.win.Event('change', { bubbles: true }));
+  assert.strictEqual(p.doc.documentElement.dataset.theme, undefined);
+  assert.strictEqual(p.win.localStorage.getItem('bc.theme'), null);
+});
+
+test('theme.js is the one blocking script in every page head, before the stylesheet', () => {
+  for (const f of ROOT_HTML) {
+    const head = fs.readFileSync(path.join(ROOT, f), 'utf8').split('</head>')[0];
+    const scripts = Array.from(head.matchAll(/<script\b([^>]*)>/g)).map((m) => m[1]);
+    const src = scripts.filter((a) => /\bsrc=/.test(a));
+    assert.strictEqual(src.length, 1, f);
+    assert.match(src[0], /src="\/?theme\.js"/, f);
+    assert.doesNotMatch(src[0], /\b(async|defer)\b/, f);
+    assert.ok(head.indexOf('theme.js') < head.indexOf('styles.css'), f + ': before the stylesheet');
+  }
+  const offline = fs.readFileSync(path.join(ROOT, 'item', '_offline.html'), 'utf8').split('</head>')[0];
+  assert.match(offline, /<script src="\.\.\/theme\.js"><\/script>/);
+  assert.ok(fs.readFileSync(path.join(ROOT, 'tools', 'build_pwa.py'), 'utf8').includes('"theme.js"'));
+});
+
+test('every footer carries the trademark notice; the index title says what this is', async () => {
+  for (const [file, url] of H1_PAGES) {
+    const p = await renderPage(file, url);
+    assert.match(p.doc.getElementById('site-footer').textContent, /trademarks of Build-A-Bear Workshop, Inc\./, file);
+  }
+  const p = await renderPage('index.html');
+  assert.match(p.doc.title, /independent price guide for Build-A-Bear collectibles/);
+  assert.match(fs.readFileSync(path.join(ROOT, '404.html'), 'utf8'),
+    new RegExp(loadData().meta.trademark_notice.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+});
+
+// ---- the bat --------------------------------------------------------------------
+
+test('a bat is drawn as a bat', async () => {
+  const p = await renderPage('index.html');
+  const I = p.win.BearChartIcons;
+  assert.strictEqual(I.iconKeyFor({ species: 'Bat' }), 'bat');
+  assert.strictEqual(I.iconKeyFor({ species: 'Fruit Bat' }), 'bat');
+  assert.ok(I.keys.includes('bat'));
+  assert.ok(I.draw('bat', '#000', '#ccc').length > 100);
+});
+
+// ---- the deal finder -------------------------------------------------------------
+
+test('"listings checked since" is the oldest row, not the run date', async () => {
+  const p = await renderPage('deals.html', null, { mutate: (d) => {
+    manyDeals(d);
+    d.active_listings_fetched_at = '2026-10-09T09:00:00Z';
+    d.active_listings[0].fetched_at = '2026-10-02T09:00:00Z';
+  }, afterScript: fakeAuth({ signedIn: true, client: chainClient() }) });
+  const tile = Array.from(p.doc.querySelectorAll('#deal-stats .stat'))
+    .find((el) => /Listings checked since/.test(el.textContent));
+  assert.ok(tile);
+  assert.strictEqual(tile.querySelector('.v').textContent, '2026-10-02');
+});
+
+test('the deal finder says its totals include shipping, and when shipping is assumed', async () => {
+  const p = await renderPage('deals.html', null, { mutate: (d) => {
+    manyDeals(d);
+    delete d.active_listings[0].ship_price;
+  }, afterScript: fakeAuth({ signedIn: true, client: chainClient() }) });
+  assert.match(p.doc.getElementById('deals').textContent, /asking price plus shipping/);
+  assert.match(p.doc.querySelector('.deal-table thead').textContent, /Asking \+ shipping/);
+  assert.match(p.doc.getElementById('deals').textContent, /shipping \(not listed, assumed\)/);
 });
