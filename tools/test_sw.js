@@ -186,3 +186,34 @@ test('a visited item file is kept for offline use', async () => {
   assert.ok(res && res.ok, 'served from the items cache offline');
   assert.strictEqual(env.state.fetched.length, fetch0);
 });
+
+test('a file the install missed is cached at runtime and served offline next time', async () => {
+  const env = makeEnv();
+  const pre = precacheFor(1);
+  const realFetch = env.fetch;
+  // app.js fails during install (a flaky connection), everything else loads.
+  env.fetch = async (req) => {
+    const url = typeof req === 'string' ? req : req.url;
+    if (/app\.js$/.test(url)) throw new Error('network');
+    return realFetch(req);
+  };
+  let w = worker(env, 'v1', pre);
+  await w.install();
+  await w.activate();
+  const shell = (await env.caches.all.get('bearchart-shell-v1').keys()).map((r) => r.url);
+  assert.ok(!shell.some((u) => u.endsWith('/app.js')), 'the install really missed it');
+  // Online again: served from the network and kept.
+  env.fetch = realFetch;
+  w = worker(env, 'v1', pre);
+  assert.ok((await w.fetch('app.js')).ok);
+  assert.ok((await runtimeUrls(env)).includes('app.js'));
+  // Offline: served from the runtime copy. item.html?id= uses its shell too.
+  env.fetch = async () => { throw new Error('offline'); };
+  w = worker(env, 'v1', pre);
+  const res = await w.fetch('app.js');
+  assert.ok(res && res.ok, 'served offline from the runtime copy');
+  // The next version precaches it; activate drops the runtime duplicate.
+  env.fetch = realFetch;
+  await deploy(env, 2);
+  assert.ok(!(await runtimeUrls(env)).includes('app.js'));
+});

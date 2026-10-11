@@ -301,10 +301,18 @@ async function staleWhileRevalidate(event, lookup, store) {
   return (await fetching) || Response.error();
 }
 
-/** This version's precached copy (item.html?id=... included), else the network. */
+/**
+ * This version's precached copy (item.html?id=... included). A file the
+ * install missed (it was offline, or the fetch failed) is fetched once and
+ * kept in the runtime cache under its plain path, so it is there next time.
+ */
 async function precached(request, rel) {
-  const hit = await fromAnyShell(revKey(rel));
-  return hit || fetch(request);
+  const hit = (await fromAnyShell(revKey(rel))) ||
+              (await (await caches.open(RUNTIME)).match(rel, { ignoreVary: true }));
+  if (hit) return hit;
+  const res = await fetch(request);
+  if (res && res.ok) await putRuntime(rel, res.clone());
+  return res;
 }
 
 async function navigate(event, rel) {
