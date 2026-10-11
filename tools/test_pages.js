@@ -1727,6 +1727,23 @@ test('the deals page renders without errors', async () => {
   noErrors(p);
 });
 
+test('old asking prices are flagged as possibly out of date', async () => {
+  const daysAgo = (n) => new Date(Date.now() - n * 86400000).toISOString();
+  const list = [activeFor('kennel-pals-calico-cat', 5)];
+  const old = await renderPage('deals.html', null, { mutate: (d) => {
+    d.active_listings = list; d.active_listings_fetched_at = daysAgo(12);
+  } });
+  assert.match(old.doc.getElementById('deal-age').textContent, /last checked 12 days ago and may be out of date/);
+  const fresh = await renderPage('deals.html', null, { mutate: (d) => {
+    d.active_listings = list; d.active_listings_fetched_at = daysAgo(1);
+  } });
+  assert.strictEqual(fresh.doc.getElementById('deal-age').textContent, '');
+  const item = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat', { mutate: (d) => {
+    d.active_listings = list; d.active_listings_fetched_at = daysAgo(30);
+  } });
+  assert.match(item.doc.getElementById('item-root').textContent, /may be out of date/);
+});
+
 test('with no listings loaded the deals page explains how to get some', async () => {
   const win = await renderDeals([]);
   const text = win.document.getElementById('deals').textContent;

@@ -171,6 +171,7 @@
         }
       }
     },
+    "listings_max_age_days": 7,
     "recency": {
       "window_days": 365,
       "min_recent": 10,

@@ -121,6 +121,7 @@
     var listings = L.listings.length;
     var best = deals.length ? deals[0].margin : null;
     var asOf = L.fetched_at ? L.fetched_at.slice(0, 10) : '--';
+    if ($('deal-age')) $('deal-age').innerHTML = L.listings.length ? BC.listingsAgeNote(L.fetched_at) : '';
 
     $('deal-stats').innerHTML = [
       [listings, 'Listings checked'],

@@ -2199,6 +2199,9 @@ CONFIG = OrderedDict([
     ("fees", V.FEE_SCHEDULE),
     # Prefer recent sales. as_of (the build date) is added in main(), so the
     # engine anchors on a date the data states rather than on the clock.
+    # Active listings older than this are flagged on the page and no longer
+    # carried forward by the build (carried_forward_listings).
+    ("listings_max_age_days", V.LISTINGS_MAX_AGE_DAYS),
     ("recency", OrderedDict([("window_days", V.RECENCY["window_days"]),
                              ("min_recent", V.RECENCY["min_recent"])])),
     # Sales by the operator (Jay's Retro Exchange) may make up at most this share
@@ -2782,7 +2785,7 @@ def merge_imported_sales(root, redirects=None):
 USER_DATA_FIELDS = ("seller", "seller_username", "username", "eiasToken", "userId")
 
 
-def load_active_listings(root):
+def load_active_listings(root, as_of=None):
     """Active eBay listings, kept in their own array.
 
     These are asking prices. They live apart from SALES so they cannot be
@@ -2794,7 +2797,7 @@ def load_active_listings(root):
         with open(path) as f:
             payload = json.load(f)
     else:
-        payload = carried_forward_listings(root)
+        payload = carried_forward_listings(root, as_of)
         if payload is None:
             return [], None
     known = {i["id"] for i in ITEMS}
@@ -2816,7 +2819,18 @@ def load_active_listings(root):
     return listings, payload.get("fetched_at")
 
 
-def carried_forward_listings(root):
+def listings_age_days(fetched_at, as_of):
+    """Whole days between a listings fetch and the build date, or None."""
+    import datetime
+    try:
+        fetched = datetime.date.fromisoformat(str(fetched_at)[:10])
+        today = datetime.date.fromisoformat(as_of) if as_of else datetime.datetime.utcnow().date()
+    except (TypeError, ValueError):
+        return None
+    return (today - fetched).days
+
+
+def carried_forward_listings(root, as_of=None):
     """The listings the committed data.json already publishes.
 
     tools/active_listings.json is local-only (gitignored), so a CI checkout
@@ -2831,6 +2845,16 @@ def carried_forward_listings(root):
         return None
     listings = prev.get("active_listings") or []
     if not listings:
+        return None
+    # A fetch that keeps failing (expired credentials, zero results write no
+    # file) must not keep last week's asks on the deal finder for ever.
+    age = listings_age_days(prev.get("active_listings_fetched_at"), as_of)
+    if age is None or age > V.LISTINGS_MAX_AGE_DAYS:
+        print("  WARNING: NOT carrying forward %d active listing(s) from data.json: fetched %s, "
+              "%s day(s) old (limit %d). The deal finder will be empty until a fetch "
+              "succeeds - check the eBay credentials and tools/ci/daily_fetch.sh."
+              % (len(listings), prev.get("active_listings_fetched_at"),
+                 "unknown" if age is None else age, V.LISTINGS_MAX_AGE_DAYS))
         return None
     print("  carried forward %d active listing(s) from data.json, fetched %s "
           "(tools/active_listings.json not present)"
@@ -3092,7 +3116,7 @@ def main(argv=None):
     assign_sizes_and_variants(ITEMS)
     apply_note_policy(ITEMS)
     open_questions = flag_open_questions()
-    active, active_fetched_at = load_active_listings(root)
+    active, active_fetched_at = load_active_listings(root, built_at)
     photos = apply_image_overrides(root)
     imported = merge_imported_sales(root, REDIRECTS)
     # Before anything else can fail on a missing comp: a build that lost the

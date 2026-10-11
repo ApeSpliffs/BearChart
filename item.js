@@ -537,6 +537,7 @@
           return '<tr><td class="num price">' + BC.exact(l.ask_price) + '</td><td>' + title +
                  '</td><td>' + BC.esc(l.condition || 'Unknown') + '</td></tr>';
         }).join('') + '</tbody></table></div>' +
+        BC.listingsAgeNote(detail.listings_fetched_at) +
         (detail.listings_fetched_at
           ? '<p class="fine" style="margin-top:10px">Fetched ' +
             BC.esc(detail.listings_fetched_at) + ' via the eBay Browse API.</p>'

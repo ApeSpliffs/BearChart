@@ -472,6 +472,26 @@
     return S.extLink(tagged, innerHtml, { sponsored: tagged !== url });
   }
 
+  /**
+   * How many days old a listings fetch is, when that is past the limit
+   * (config.listings_max_age_days); 0 while it is current or undated.
+   */
+  function listingsAge(fetchedAt) {
+    var t = Date.parse(fetchedAt || '');
+    if (!isFinite(t)) return 0;
+    var days = Math.floor((Date.now() - t) / 86400000);
+    return days > (CFG.listings_max_age_days || 7) ? days : 0;
+  }
+
+  /** The "may be out of date" note for old asking prices, or ''. */
+  function listingsAgeNote(fetchedAt) {
+    var days = listingsAge(fetchedAt);
+    return days
+      ? '<p class="notice warn listings-stale">These asking prices were last checked ' + days +
+        ' days ago and may be out of date. Listings sell or end every day.</p>'
+      : '';
+  }
+
   function businessEnabled() {
     return !!(BUSINESS.enabled && (BUSINESS.contact_email || BUSINESS.contact_url));
   }
@@ -1262,7 +1282,7 @@
     money: money, exact: exact, range: range, confClass: confClass, era: era, isVintage: isVintage,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,
-    membership: SITE.membership || {},
+    membership: SITE.membership || {}, listingsAge: listingsAge, listingsAgeNote: listingsAgeNote,
     business: BUSINESS, affiliate: affiliate, affiliateLink: affiliateLink, businessEnabled: businessEnabled,
     shopEnabled: shopEnabled, shopPromo: shopPromo,
     hasImage: hasImage, imageHtml: imageHtml, imageCredit: imageCredit,

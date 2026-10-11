@@ -87,11 +87,31 @@ class ListingsCarryForward(unittest.TestCase):
     def test_missing_file_carries_forward_the_published_listings(self):
         self.write_data([self.row], "2026-10-01T06:15:00Z")
         with contextlib.redirect_stdout(io.StringIO()) as out:
-            listings, fetched = self.B.load_active_listings(self.tmp)
+            listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-08")
         self.assertEqual([l["id"] for l in listings], ["active-1"])
         self.assertEqual(fetched, "2026-10-01T06:15:00Z", "the age stays visible")
         self.assertNotIn("seller", listings[0], "user data is still stripped")
         self.assertIn("carried forward 1 active listing", out.getvalue())
+
+    def test_listings_older_than_the_limit_are_not_carried_forward(self):
+        self.write_data([self.row], "2026-10-01T06:15:00Z")
+        limit = self.B.V.LISTINGS_MAX_AGE_DAYS
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            got = self.B.load_active_listings(self.tmp, "2026-10-%02d" % (1 + limit + 1))
+        self.assertEqual(got, ([], None))
+        self.assertIn("WARNING: NOT carrying forward 1 active listing", out.getvalue())
+        with contextlib.redirect_stdout(io.StringIO()):
+            kept, _ = self.B.load_active_listings(self.tmp, "2026-10-%02d" % (1 + limit))
+        self.assertEqual(len(kept), 1, "exactly the limit is still carried")
+        self.write_data([self.row], None)
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(self.B.load_active_listings(self.tmp, "2026-10-02"), ([], None),
+                             "undated listings cannot prove their age")
+
+    def test_the_limit_is_published_for_the_pages(self):
+        with open(os.path.join(ROOT, "data.json")) as f:
+            d = json.load(f)
+        self.assertEqual(d["config"]["listings_max_age_days"], self.B.V.LISTINGS_MAX_AGE_DAYS)
 
     def test_a_present_file_is_authoritative(self):
         self.write_data([self.row], "2026-10-01T06:15:00Z")
