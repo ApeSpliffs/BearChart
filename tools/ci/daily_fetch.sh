@@ -4,7 +4,7 @@
 # Exits 0 when credentials are missing or the source is down. The CI checkout
 # has no tools/active_listings.json (it is gitignored), so the build then
 # carries forward the listings the committed data.json already publishes
-# (tools/build_data.py carried_forward_listings), with their original
+# (tools/build_data.py load_active_listings), with their original
 # fetched_at date - stale, never silently empty.
 set -euo pipefail
 if [ -n "${EBAY_CLIENT_ID:-}" ] && [ -n "${EBAY_CLIENT_SECRET:-}" ]; then

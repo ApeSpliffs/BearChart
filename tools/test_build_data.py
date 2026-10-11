@@ -118,9 +118,39 @@ class ListingsCarryForward(unittest.TestCase):
         fresh = dict(self.row, id="active-2", listing_id="2")
         with open(os.path.join(self.tmp, "tools", "active_listings.json"), "w") as f:
             json.dump({"fetched_at": "2026-10-10T06:15:00Z", "listings": [fresh]}, f)
-        listings, fetched = self.B.load_active_listings(self.tmp)
+        listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10")
         self.assertEqual([l["id"] for l in listings], ["active-2"])
         self.assertEqual(fetched, "2026-10-10T06:15:00Z")
+
+    def write_file(self, rows, fetched):
+        with open(os.path.join(self.tmp, "tools", "active_listings.json"), "w") as f:
+            json.dump({"fetched_at": fetched, "listings": rows}, f)
+
+    def test_an_older_local_file_loses_to_the_published_listings(self):
+        self.write_data([self.row], "2026-10-09T06:15:00Z")
+        self.write_file([dict(self.row, id="active-old", listing_id="9")], "2026-10-02T06:15:00Z")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10")
+        self.assertEqual([l["id"] for l in listings], ["active-1"])
+        self.assertEqual(fetched, "2026-10-09T06:15:00Z")
+        self.assertIn("is older than the listings in data.json", out.getvalue())
+
+    def test_a_stale_local_file_is_capped_too(self):
+        self.write_file([self.row], "2026-09-01T06:15:00Z")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            got = self.B.load_active_listings(self.tmp, "2026-10-10")
+        self.assertEqual(got, ([], None))
+        self.assertIn("WARNING: NOT carrying forward 1 active listing(s) from "
+                      "tools/active_listings.json", out.getvalue())
+
+    def test_rows_carried_with_their_own_date_expire_on_their_own(self):
+        old = dict(self.row, id="active-old", listing_id="9", fetched_at="2026-09-20T06:15:00Z")
+        ok = dict(self.row, id="active-ok", listing_id="8", fetched_at="2026-10-08T06:15:00Z")
+        self.write_file([self.row, old, ok], "2026-10-10T06:15:00Z")
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10")
+        self.assertEqual(sorted(l["id"] for l in listings), ["active-1", "active-ok"])
+        self.assertIn("dropped 1 carried-forward listing", out.getvalue())
 
     def test_nothing_to_carry_is_still_empty(self):
         self.write_data([], None)

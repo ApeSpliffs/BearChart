@@ -2200,7 +2200,7 @@ CONFIG = OrderedDict([
     # Prefer recent sales. as_of (the build date) is added in main(), so the
     # engine anchors on a date the data states rather than on the clock.
     # Active listings older than this are flagged on the page and no longer
-    # carried forward by the build (carried_forward_listings).
+    # carried forward by the build (load_active_listings).
     ("listings_max_age_days", V.LISTINGS_MAX_AGE_DAYS),
     ("recency", OrderedDict([("window_days", V.RECENCY["window_days"]),
                              ("min_recent", V.RECENCY["min_recent"])])),
@@ -2785,25 +2785,72 @@ def merge_imported_sales(root, redirects=None):
 USER_DATA_FIELDS = ("seller", "seller_username", "username", "eiasToken", "userId")
 
 
+def _listings_payload(path):
+    try:
+        with open(path) as f:
+            payload = json.load(f)
+    except (OSError, ValueError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
 def load_active_listings(root, as_of=None):
     """Active eBay listings, kept in their own array.
 
     These are asking prices. They live apart from SALES so they cannot be
     swept into a valuation by accident - a second line of defence behind the
     engine's own evidence-type filter.
+
+    Two sources: tools/active_listings.json (written by ebay_active.py, local
+    and gitignored) and the listings the committed data.json already
+    publishes. The newer fetched_at wins, so neither a CI checkout (no file)
+    nor a forgotten local file ever publishes older asks than are live. Asks
+    older than V.LISTINGS_MAX_AGE_DAYS are not published at all - per run, and
+    per row for rows ebay_active.py carried forward with their own date.
     """
     path = os.path.join(root, "tools", "active_listings.json")
-    if os.path.exists(path):
-        with open(path) as f:
-            payload = json.load(f)
-    else:
-        payload = carried_forward_listings(root, as_of)
-        if payload is None:
-            return [], None
+    local = _listings_payload(path) if os.path.exists(path) else None
+    prev_data = _listings_payload(os.path.join(root, "data.json")) or {}
+    prev = ({"fetched_at": prev_data.get("active_listings_fetched_at"),
+             "listings": prev_data.get("active_listings") or []}
+            if prev_data.get("active_listings") else None)
+    payload = local
+    if prev and (local is None or str(prev.get("fetched_at") or "") > str(local.get("fetched_at") or "")):
+        payload = prev
+        if local is not None:
+            print("  tools/active_listings.json (fetched %s) is older than the listings in "
+                  "data.json (fetched %s): keeping data.json's"
+                  % (local.get("fetched_at"), prev.get("fetched_at")))
+    if payload is None or not payload.get("listings"):
+        return [], None
+    source = "data.json" if payload is prev else "tools/active_listings.json"
+    # A fetch that keeps failing (expired credentials, zero results write no
+    # file) must not keep last week's asks on the deal finder for ever.
+    age = listings_age_days(payload.get("fetched_at"), as_of)
+    if age is None or age > V.LISTINGS_MAX_AGE_DAYS:
+        print("  WARNING: NOT carrying forward %d active listing(s) from %s: fetched %s, "
+              "%s day(s) old (limit %d). The deal finder will be empty until a fetch "
+              "succeeds - check the eBay credentials and tools/ci/daily_fetch.sh."
+              % (len(payload["listings"]), source, payload.get("fetched_at"),
+                 "unknown" if age is None else age, V.LISTINGS_MAX_AGE_DAYS))
+        return [], None
+    if payload is prev:
+        print("  carried forward %d active listing(s) from data.json, fetched %s%s"
+              % (len(prev["listings"]), prev.get("fetched_at"),
+                 "" if local is not None else " (tools/active_listings.json not present)"))
     known = {i["id"] for i in ITEMS}
     for l in payload.get("listings", []):
         l["item_id"] = REDIRECTS.get(l.get("item_id"), l.get("item_id"))
     listings = [l for l in payload.get("listings", []) if l.get("item_id") in known]
+    # Rows ebay_active.py carried forward for an item whose query failed keep
+    # their own fetched_at; past the limit they go too.
+    expired = [l for l in listings if l.get("fetched_at")
+               and (listings_age_days(l["fetched_at"], as_of) or 0) > V.LISTINGS_MAX_AGE_DAYS]
+    if expired:
+        print("  WARNING: dropped %d carried-forward listing(s) older than %d days (%s)"
+              % (len(expired), V.LISTINGS_MAX_AGE_DAYS,
+                 ", ".join(sorted({l["item_id"] for l in expired})[:10])))
+        listings = [l for l in listings if l not in expired]
     for l in listings:
         assert l.get("evidence_type") == "active_listing", \
             "active_listings.json contained a non-listing row: %s" % l.get("id")
@@ -2828,38 +2875,6 @@ def listings_age_days(fetched_at, as_of):
     except (TypeError, ValueError):
         return None
     return (today - fetched).days
-
-
-def carried_forward_listings(root, as_of=None):
-    """The listings the committed data.json already publishes.
-
-    tools/active_listings.json is local-only (gitignored), so a CI checkout
-    never has it: when the eBay fetch is skipped or fails, the daily build would
-    otherwise publish a deal finder with nothing in it. Yesterday's asks are
-    better than none, and their fetched_at keeps saying how old they are.
-    """
-    try:
-        with open(os.path.join(root, "data.json")) as f:
-            prev = json.load(f)
-    except (OSError, ValueError):
-        return None
-    listings = prev.get("active_listings") or []
-    if not listings:
-        return None
-    # A fetch that keeps failing (expired credentials, zero results write no
-    # file) must not keep last week's asks on the deal finder for ever.
-    age = listings_age_days(prev.get("active_listings_fetched_at"), as_of)
-    if age is None or age > V.LISTINGS_MAX_AGE_DAYS:
-        print("  WARNING: NOT carrying forward %d active listing(s) from data.json: fetched %s, "
-              "%s day(s) old (limit %d). The deal finder will be empty until a fetch "
-              "succeeds - check the eBay credentials and tools/ci/daily_fetch.sh."
-              % (len(listings), prev.get("active_listings_fetched_at"),
-                 "unknown" if age is None else age, V.LISTINGS_MAX_AGE_DAYS))
-        return None
-    print("  carried forward %d active listing(s) from data.json, fetched %s "
-          "(tools/active_listings.json not present)"
-          % (len(listings), prev.get("active_listings_fetched_at") or "at an unknown time"))
-    return {"fetched_at": prev.get("active_listings_fetched_at"), "listings": listings}
 
 
 OPEN_QUESTION = re.compile(
