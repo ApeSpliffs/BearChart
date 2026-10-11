@@ -2249,22 +2249,26 @@ BUSINESS = OrderedDict([
     # the item pages that have nothing to offer a visitor. Priced
     # items get the "sell yours" panel below instead, so nobody sees both.
     ("shop_url", "https://jaysretroexchange.com"),
+    # Deep-link patterns for the store. Null until the owner confirms the real
+    # ones; every link then falls back to shop_url, so nothing breaks before.
+    #   shop_search_url  e.g. "https://jaysretroexchange.com/search?q={q}"
+    #   shop_offer_url   e.g. "https://jaysretroexchange.com/pages/sell?item={item}&condition={condition}"
+    ("shop_search_url", None),
+    ("shop_offer_url", None),
     ("shop_eyebrow", "The shop behind BearChart"),
     ("shop_headline", "Buying and selling Build-A-Bear all week"),
     ("shop_blurb", "BearChart is built and run by Jay's Retro Exchange. Shop what is "
                    "in stock, sell your own bears on the Jay's Retro Exchange "
                    "marketplace, or send us a collection and we will make an offer "
                    "on it."),
-    ("shop_cta", "Shop or sell your bears"),
-    # Said plainly, because the site's whole argument is that its numbers are
-    # not for sale. A reader who works out for themselves that the person
-    # publishing the valuations also buys at them will trust nothing else here.
-    ("shop_disclosure", "We buy and sell the same items this guide values. No "
-                        "valuation on this site is adjusted because of it - the "
-                        "numbers come from recorded sold transactions, and you can "
-                        "see every one of them."),
-    ("blurb", "We buy Build-A-Bear collections. The range below is what we would pay, "
-              "calculated from the same sold data shown on this page."),
+    ("shop_cta", "Buy or sell at Jay's Retro Exchange"),
+    # Said plainly under every link to the store, because the site's whole
+    # argument is that its numbers are not for sale. The full statement is on
+    # about.html#conflicts, which this line links to.
+    ("shop_disclosure_short", "Jay's Retro Exchange is our store. It never changes a value "
+                              "in this guide."),
+    ("blurb", "Jay's Retro Exchange, the store that runs BearChart, buys and sells "
+              "Build-A-Bear. Its offers start from the same sold prices shown above."),
     ("disclosure", "Jay's Retro Exchange buys and sells Build-A-Bear items, and would "
                    "be buying this one from you. Our offer is generated from the same "
                    "public sold-comp data you can see above - we do not adjust a "
@@ -2362,23 +2366,42 @@ COMPS_EXPORT_FEATURE = OrderedDict([
              "stay free on every bear's page; this is a convenience download"),
     ("from", "power"), ("status", "included"), ("entitlement", "comps_export")])
 
+# The four tiers, in tiers_order. "guest" and "free" both cost nothing and
+# unlock nothing on the server: "guest" is a display tier only (no account) and
+# is never sent to the server. who_for is the one-line "who it's for" on each
+# card. "price_annual" is rendered only when present; none is set, so none is
+# shown - do not invent one.
 PLANS = OrderedDict([
-    ("free", OrderedDict([
-        ("name", "Free"),
+    ("guest", OrderedDict([
+        ("name", "Free, no account"),
+        ("short", "No account"),
         ("price_monthly", 0),
-        ("audience", "For looking things up"),
+        ("who_for", "For looking up a bear's value in seconds."),
         ("badge", None),
         ("perk", None),
-        ("blurb", "Price any bear, any time. No account needed."),
+        ("blurb", "Price any bear, any time. No sign-up."),
+        ("entitlements", []),
+    ])),
+    ("free", OrderedDict([
+        ("name", "Free account"),
+        ("short", "Free account"),
+        ("price_monthly", 0),
+        ("who_for", "For collectors keeping a list and hunting deals."),
+        ("badge", None),
+        ("perk", None),
+        ("blurb", "Your checklists, collection and the deal finder, free."),
         ("entitlements", []),
     ])),
     ("pro", OrderedDict([
         ("name", "Pro"),
+        ("short", "Pro"),
         ("price_monthly", 7),
-        ("audience", "For collectors"),
+        ("who_for", "For collectors who want their collection's value on every device."),
         ("badge", "Recommended"),
         # A shop perk, honoured by Jay's Retro Exchange at the till rather than by
-        # anything on this site - see ENTITLEMENTS["shop_discount"].
+        # anything on this site - see ENTITLEMENTS["shop_discount"]. The ONLY
+        # place the coupon amounts are written (tests hold every page to it;
+        # terms.html is checked against these numbers).
         ("perk", "A $5 coupon every month for the Jay's Retro Exchange store, on orders over $40. Not valid on marketplace sellers' items."),
         ("blurb", "Know what your collection is worth, on every device."),
         ("entitlements", [
@@ -2388,8 +2411,9 @@ PLANS = OrderedDict([
     ])),
     ("power", OrderedDict([
         ("name", "Power"),
+        ("short", "Power"),
         ("price_monthly", 14),
-        ("audience", "For resellers"),
+        ("who_for", "For resellers who want underpriced bears found for them."),
         ("badge", None),
         ("perk", "A $10 coupon every month for the Jay's Retro Exchange store, on orders over $75. Not valid on marketplace sellers' items."),
         ("blurb", "Find underpriced bears before anyone else does."),
@@ -2442,6 +2466,12 @@ MEMBERSHIP = OrderedDict([
     ("plans", PLANS),
     ("features", FEATURES),
     ("entitlements", ENTITLEMENTS),
+    # The coupon rules, shown with the perks on the plans page. Amounts live
+    # only in the perks above.
+    ("coupon_terms", "One code per billing month, for one order. Order total counted "
+                     "before tax and shipping. Works on items Jay's Retro Exchange sells "
+                     "itself, not on other sellers' marketplace items. Cannot be shared "
+                     "or combined, and expires at the end of the billing month."),
     # Hot polling slots are shared across the whole platform, not per subscriber.
     # A default eBay key affords about three 60-second queries in total, so
     # "60-second polling on anything you like" is a promise that cannot be kept
@@ -3155,6 +3185,16 @@ def main(argv=None):
         ("site_url", ""),
             ("disclaimer", "BearChart is an independent collector/reseller research tool and "
                            "is not affiliated with Build-A-Bear Workshop. Market values fluctuate."),
+            # The one-line version for the bar under the masthead on a phone.
+            ("disclaimer_short", "Independent guide \u00b7 not affiliated with Build-A-Bear Workshop."),
+            # In the footer of every page.
+            ("trademark_notice", "Build-A-Bear Workshop\u00ae, Build-A-Bear\u00ae and related names "
+                                 "are trademarks of Build-A-Bear Workshop, Inc. BearChart is "
+                                 "independent and is not affiliated with, sponsored or endorsed by "
+                                 "Build-A-Bear Workshop, Inc. Names are used only to identify items."),
+            # Where "Missing a bear? Tell us" goes from an empty search: a form
+            # URL or a mailto. None hides the sentence. OWNER: fill in.
+            ("suggest_url", None),
             ("item_count", len(ITEMS)),
             ("photo_count", sum(1 for i in ITEMS if i.get("image_url"))),
             ("sale_count", len(SALES)),

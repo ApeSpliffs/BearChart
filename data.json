@@ -7,6 +7,9 @@
     "built_at": "2026-10-09",
     "site_url": "",
     "disclaimer": "BearChart is an independent collector/reseller research tool and is not affiliated with Build-A-Bear Workshop. Market values fluctuate.",
+    "disclaimer_short": "Independent guide \u00b7 not affiliated with Build-A-Bear Workshop.",
+    "trademark_notice": "Build-A-Bear Workshop\u00ae, Build-A-Bear\u00ae and related names are trademarks of Build-A-Bear Workshop, Inc. BearChart is independent and is not affiliated with, sponsored or endorsed by Build-A-Bear Workshop, Inc. Names are used only to identify items.",
+    "suggest_url": null,
     "item_count": 1959,
     "photo_count": 0,
     "sale_count": 17584,
@@ -221,12 +224,14 @@
     "contact_email": null,
     "contact_url": "https://jaysretroexchange.com",
     "shop_url": "https://jaysretroexchange.com",
+    "shop_search_url": null,
+    "shop_offer_url": null,
     "shop_eyebrow": "The shop behind BearChart",
     "shop_headline": "Buying and selling Build-A-Bear all week",
     "shop_blurb": "BearChart is built and run by Jay's Retro Exchange. Shop what is in stock, sell your own bears on the Jay's Retro Exchange marketplace, or send us a collection and we will make an offer on it.",
-    "shop_cta": "Shop or sell your bears",
-    "shop_disclosure": "We buy and sell the same items this guide values. No valuation on this site is adjusted because of it - the numbers come from recorded sold transactions, and you can see every one of them.",
-    "blurb": "We buy Build-A-Bear collections. The range below is what we would pay, calculated from the same sold data shown on this page.",
+    "shop_cta": "Buy or sell at Jay's Retro Exchange",
+    "shop_disclosure_short": "Jay's Retro Exchange is our store. It never changes a value in this guide.",
+    "blurb": "Jay's Retro Exchange, the store that runs BearChart, buys and sells Build-A-Bear. Its offers start from the same sold prices shown above.",
     "disclosure": "Jay's Retro Exchange buys and sells Build-A-Bear items, and would be buying this one from you. Our offer is generated from the same public sold-comp data you can see above - we do not adjust a valuation because we want to buy it. You are free to sell elsewhere, and the guide will tell you the same number if you do.",
     "ebay_campaign_id": "5339219665",
     "affiliate_disclosure": "Some links to eBay listings are affiliate links. They do not affect any valuation on this site, and they never influence which listings are shown."
@@ -246,19 +251,31 @@
       "power"
     ],
     "plans": {
-      "free": {
-        "name": "Free",
+      "guest": {
+        "name": "Free, no account",
+        "short": "No account",
         "price_monthly": 0,
-        "audience": "For looking things up",
+        "who_for": "For looking up a bear's value in seconds.",
         "badge": null,
         "perk": null,
-        "blurb": "Price any bear, any time. No account needed.",
+        "blurb": "Price any bear, any time. No sign-up.",
+        "entitlements": []
+      },
+      "free": {
+        "name": "Free account",
+        "short": "Free account",
+        "price_monthly": 0,
+        "who_for": "For collectors keeping a list and hunting deals.",
+        "badge": null,
+        "perk": null,
+        "blurb": "Your checklists, collection and the deal finder, free.",
         "entitlements": []
       },
       "pro": {
         "name": "Pro",
+        "short": "Pro",
         "price_monthly": 7,
-        "audience": "For collectors",
+        "who_for": "For collectors who want their collection's value on every device.",
         "badge": "Recommended",
         "perk": "A $5 coupon every month for the Jay's Retro Exchange store, on orders over $40. Not valid on marketplace sellers' items.",
         "blurb": "Know what your collection is worth, on every device.",
@@ -273,8 +290,9 @@
       },
       "power": {
         "name": "Power",
+        "short": "Power",
         "price_monthly": 14,
-        "audience": "For resellers",
+        "who_for": "For resellers who want underpriced bears found for them.",
         "badge": null,
         "perk": "A $10 coupon every month for the Jay's Retro Exchange store, on orders over $75. Not valid on marketplace sellers' items.",
         "blurb": "Find underpriced bears before anyone else does.",
@@ -468,6 +486,7 @@
         "enforced": "server"
       }
     },
+    "coupon_terms": "One code per billing month, for one order. Order total counted before tax and shipping. Works on items Jay's Retro Exchange sells itself, not on other sellers' marketplace items. Cannot be shared or combined, and expires at the end of the billing month.",
     "hot_slots_total": 3,
     "hot_slot_note": "Hot slots are shared. The most-watched items across all members get the 60-second queue; watching an item nobody else watches puts it in the 30-minute tier."
   },

@@ -107,6 +107,21 @@ class PlansSellOnlyEnforcedFeatures(unittest.TestCase):
         for pid in M["plans"]:
             self.assertIn(pid, M["tiers_order"])
 
+    def test_every_tier_is_a_plan_with_a_who_for_line(self):
+        self.assertEqual(list(M["plans"].keys()), M["tiers_order"])
+        for pid, plan in M["plans"].items():
+            self.assertTrue(plan.get("who_for"), pid)
+            self.assertTrue(plan.get("short"), pid)
+            self.assertNotIn("price_annual", plan, "no annual price is set; do not invent one")
+        self.assertEqual(M["plans"]["guest"]["entitlements"], [])
+        self.assertEqual(M["plans"]["guest"]["price_monthly"], 0)
+
+    def test_coupon_amounts_live_only_in_the_perks(self):
+        self.assertTrue(M["coupon_terms"])
+        self.assertNotRegex(M["coupon_terms"], r"\$\d")
+        for pid in ("pro", "power"):
+            self.assertRegex(M["plans"][pid]["perk"], r"\$\d+ coupon .* over \$\d+")
+
     def test_no_coupon_amounts_in_the_shop_label(self):
         self.assertNotRegex(M["entitlements"]["shop_discount"]["label"], r"\$\d")
 
