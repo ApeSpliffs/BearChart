@@ -580,7 +580,11 @@ test('an item page shows its valuation, reasoning and sold comps', async () => {
   assert.match(text, /Why this value/);
   // What it sold for, never a price to act on (eBay API License Agreement s9.5).
   assert.doesNotMatch(text, /High-end ask|Trade-in credit|What to pay|Patient seller|Typical store offer/);
-  assert.strictEqual(p.doc.querySelector('#item-root .bands'), null);
+  // The valuation panel has no bands (the asking-price panel keeps its own).
+  const valuation = Array.from(p.doc.querySelectorAll('#item-root .panel'))
+    .find((el) => /Estimated market value/.test(el.querySelector('h2') ? el.querySelector('h2').textContent : ''));
+  assert.ok(valuation);
+  assert.strictEqual(valuation.querySelector('.bands'), null);
   assert.match(text, /Sold observations/);
   assert.match(text, /\$60/);
 });
