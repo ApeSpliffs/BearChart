@@ -578,9 +578,9 @@ test('an item page shows its valuation, reasoning and sold comps', async () => {
   const text = p.doc.getElementById('item-root').textContent;
   assert.match(text, /Estimated market value/);
   assert.match(text, /Why this value/);
-  assert.match(text, /Buy/);
-  assert.match(text, /Trade/);
-  assert.match(text, /High-end ask/);
+  // What it sold for, never a price to act on (eBay API License Agreement s9.5).
+  assert.doesNotMatch(text, /High-end ask|Trade-in credit|What to pay|Patient seller|Typical store offer/);
+  assert.strictEqual(p.doc.querySelector('#item-root .bands'), null);
   assert.match(text, /Sold observations/);
   assert.match(text, /\$60/);
 });
@@ -744,7 +744,9 @@ test('adding an item to the collection totals it', async () => {
   assert.match(p.doc.getElementById('collection-body').textContent, /Kennel Pals Calico Cat/);
   const totals = p.doc.getElementById('totals').textContent;
   assert.match(totals, /Median value/);
-  assert.match(totals, /Conservative/);
+  assert.match(totals, /Low end/);
+  assert.match(totals, /Top of the sold range/);
+  assert.doesNotMatch(totals, /patient sale|sold them quickly/i, 'history, not selling advice');
   assert.match(totals, /2/);
 });
 
@@ -851,24 +853,13 @@ test('the old query-string item url still works', async () => {
   assert.match(p.doc.getElementById('item-root').textContent, /Classic Brown Teddy/);
 });
 
-test('the CSV export builds a header and one row per item', async () => {
+test('no bulk CSV of the catalogue or of sold comps can be built', async () => {
+  // eBay API License Agreement s8.5: no bulk download of eBay-derived data.
   const p = await renderPage('index.html');
-  const csv = p.win.BC.itemsCsv(p.data.items);
-  const lines = csv.trim().split('\r\n');
-  assert.strictEqual(lines.length, p.data.items.length + 1);
-  assert.match(lines[0], /^id,canonical_name,aliases/);
-  assert.match(lines[0], /confidence/);
-});
-
-test('the sales CSV keeps provenance columns', async () => {
-  const p = await renderPage('index.html');
-  // Pure: the caller passes the sales it loaded (item files), keyed by item.
-  const byId = {};
-  for (const sale of p.data.sales) (byId[sale.item_id] = byId[sale.item_id] || []).push(sale);
-  const csv = p.win.BC.salesCsv(p.data.items, byId);
-  assert.match(csv.split('\r\n')[0], /listing_id/);
-  assert.match(csv, /364353106238/);
-  assert.strictEqual(csv.trim().split('\r\n').length, p.data.sales.length + 1);
+  assert.strictEqual(p.win.BC.itemsCsv, undefined);
+  assert.strictEqual(p.win.BC.salesCsv, undefined);
+  assert.strictEqual(p.doc.getElementById('csv-items'), null);
+  assert.doesNotMatch(p.doc.body.textContent, /Items CSV|Export the current results/);
 });
 
 test('CSV values containing commas are quoted', async () => {
@@ -1088,10 +1079,6 @@ test('admin queues a permitted photo and previews it', async () => {
   assert.match(draft, /Lucky Kitty/);
 });
 
-test('the items CSV carries an image_url column', async () => {
-  const p = await renderPage('index.html');
-  assert.match(p.win.BC.itemsCsv(p.data.items).split('\r\n')[0], /image_url/);
-});
 
 // ---- asking prices ---------------------------------------------------------
 
@@ -1099,7 +1086,8 @@ test('the items CSV carries an image_url column', async () => {
 async function renderWithListings(itemId, listings) {
   const p = await renderPage('item.html', 'item.html?id=' + itemId, { mutate: (data) => {
     data.active_listings = listings;
-    data.active_listings_fetched_at = '2026-09-08T12:00:00Z';
+    // An hour old: listings past six hours are never shown.
+    data.active_listings_fetched_at = new Date(Date.now() - 3600000).toISOString();
   } });
   return p.doc;
 }
@@ -1675,9 +1663,11 @@ test('enabling the business config shows an offer at the published buy price', a
     { enabled: true, shop_url: null, contact_url: null, contact_email: 'hello@example.com' });
   assert.match(mail.document.querySelector('.store-panel a.btn').getAttribute('href'), /^mailto:hello@example\.com\?subject=/);
 
-  // The offer must be the same buy range the guide publishes to everyone.
+  // The panel shows the guide's sold range, never a buy price of its own.
   const v = win.BC.valuationFor('kennel-pals-calico-cat');
-  assert.ok(text.includes(win.BC.range(v.buy_low, v.buy_high)));
+  assert.ok(text.includes(win.BC.range(v.range_low, v.range_high)));
+  assert.doesNotMatch(text, /Typical store offer|What a shop pays/);
+  assert.strictEqual(win.document.querySelector('.store-card.is-offer'), null);
 });
 
 test('the offer carries a conflict-of-interest disclosure', async () => {
@@ -1727,7 +1717,7 @@ test('an affiliate id cannot reach the valuation or reorder listings', async () 
 async function renderDeals(listings) {
   const p = await renderPage('deals.html', null, { mutate: (data) => {
     data.active_listings = listings || [];
-    data.active_listings_fetched_at = '2026-09-10T09:00:00Z';
+    data.active_listings_fetched_at = new Date(Date.now() - 3600000).toISOString();
   } });
   return p.win;
 }
@@ -1744,37 +1734,43 @@ test('the deals page renders without errors', async () => {
   noErrors(p);
 });
 
-test('old asking prices are flagged as possibly out of date', async () => {
-  const daysAgo = (n) => new Date(Date.now() - n * 86400000).toISOString();
-  const list = [activeFor('kennel-pals-calico-cat', 5)];
-  const old = await renderPage('deals.html', null, { mutate: (d) => {
-    d.active_listings = list; d.active_listings_fetched_at = daysAgo(12);
-  } });
-  assert.match(old.doc.getElementById('deal-age').textContent, /last checked 12 days ago and may be out of date/);
-  const fresh = await renderPage('deals.html', null, { mutate: (d) => {
-    d.active_listings = list; d.active_listings_fetched_at = daysAgo(1);
-  } });
-  assert.strictEqual(fresh.doc.getElementById('deal-age').textContent, '');
-  const item = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat', { mutate: (d) => {
-    d.active_listings = list; d.active_listings_fetched_at = daysAgo(30);
-  } });
-  assert.match(item.doc.getElementById('item-root').textContent, /may be out of date/);
-});
+// eBay API License Agreement s8.1(c): listing data at most six hours old.
+const hoursAgo = (h) => new Date(Date.now() - h * 3600000).toISOString();
 
-test('the out-of-date note starts after 7 days, not before', async () => {
-  const hoursAgo = (h) => new Date(Date.now() - h * 3600000).toISOString();
-  const list = [activeFor('kennel-pals-calico-cat', 5)];
-  const at = async (h) => (await renderPage('deals.html', null, { mutate: (d) => {
-    d.active_listings = list; d.active_listings_fetched_at = hoursAgo(h);
-  } })).doc.getElementById('deal-age').textContent;
-  assert.strictEqual(await at(167), '', 'just under 7 days: current');
-  assert.match(await at(192), /last checked 8 days ago and may be out of date/);
-  // A row carried forward for a failed query is judged by its own date.
-  const carried = await renderPage('deals.html', null, { mutate: (d) => {
-    d.active_listings = [Object.assign({}, list[0], { fetched_at: hoursAgo(192) })];
+test('asking prices checked more than six hours ago are never shown', async () => {
+  const list = [activeFor('my-little-pony-muffins', 50)];
+  const stale = await renderPage('deals.html', null, { mutate: (d) => {
+    d.active_listings = list; d.active_listings_fetched_at = hoursAgo(6.2);
+  } });
+  assert.match(stale.doc.getElementById('deals').textContent, /Listing prices are being refreshed/);
+  assert.strictEqual(stale.doc.querySelectorAll('#deals tbody tr').length, 0);
+  assert.strictEqual(stale.doc.getElementById('deal-age').textContent, '');
+  const fresh = await renderPage('deals.html', null, { mutate: (d) => {
+    d.active_listings = list; d.active_listings_fetched_at = hoursAgo(5.8);
+  } });
+  assert.match(fresh.doc.getElementById('deal-age').textContent, /Prices updated .+ from eBay/);
+  assert.match(fresh.doc.getElementById('deal-age').textContent, /every 4 hours/);
+  const oldItem = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat', { mutate: (d) => {
+    d.active_listings = [activeFor('kennel-pals-calico-cat', 5)];
+    d.active_listings_fetched_at = hoursAgo(7);
+  } });
+  assert.doesNotMatch(oldItem.doc.getElementById('item-root').textContent, /Current asking prices/);
+  const newItem = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat', { mutate: (d) => {
+    d.active_listings = [activeFor('kennel-pals-calico-cat', 5)];
     d.active_listings_fetched_at = hoursAgo(1);
   } });
-  assert.match(carried.doc.getElementById('deal-age').textContent, /8 days ago/);
+  assert.match(newItem.doc.getElementById('item-root').textContent, /Current asking prices/);
+  assert.match(newItem.doc.getElementById('item-root').textContent, /Prices updated/);
+});
+
+test('a row carried forward is judged by its own fetch time', async () => {
+  const p = await renderPage('deals.html');
+  const BC = p.win.BC;
+  const rows = [{ id: 'old', fetched_at: hoursAgo(8) }, { id: 'ok' }, { id: 'undated', fetched_at: 'n/a' }];
+  assert.deepStrictEqual(BC.freshListings(rows, hoursAgo(1)).map((r) => r.id), ['ok']);
+  assert.deepStrictEqual(BC.freshListings([{ id: 'x' }], null), [], 'no time, no proof of age');
+  assert.strictEqual(BC.freshListings([{ id: 'x' }], hoursAgo(5.9)).length, 1);
+  assert.strictEqual(BC.freshListings([{ id: 'x' }], hoursAgo(6.1)).length, 0);
 });
 
 test('with no listings loaded the deals page explains how to get some', async () => {
@@ -2367,8 +2363,13 @@ test('entitlements resolve by tier once a provider exists', async () => {
   // carries a different Array prototype, which deepStrictEqual rejects.
   assert.strictEqual(free.entitlements.length, 0, 'the free tier unlocks nothing paid');
   assert.ok(pro.entitlements.includes('collection_sync'));
-  assert.ok(!pro.entitlements.includes('alerts_push'), 'alerts are Power only');
-  assert.ok(power.entitlements.includes('alerts_push'));
+  assert.ok(!pro.entitlements.includes('showcase'), 'the showcase is Power only');
+  assert.ok(power.entitlements.includes('showcase'));
+  for (const plan of plans) {
+    for (const e of ['alerts_push', 'alerts_email', 'poll_priority', 'wishlist_alerts', 'api_access', 'comps_export']) {
+      assert.ok(!plan.entitlements.includes(e), plan.id + ' sells ' + e);
+    }
+  }
   // Power is a superset of Pro: upgrading never removes something.
   for (const e of pro.entitlements) assert.ok(power.entitlements.includes(e), e);
 });
@@ -2377,7 +2378,8 @@ test('an upgrade prompt names the cheapest plan that includes the feature', asyn
   const p = await renderPage('plans.html');
   const P = p.win.BearChartPlans;
   assert.strictEqual(P.requiredPlan('collection_sync').id, 'pro');
-  assert.strictEqual(P.requiredPlan('alerts_push').id, 'power');
+  assert.strictEqual(P.requiredPlan('showcase').id, 'power');
+  assert.strictEqual(P.requiredPlan('alerts_push'), null, 'no plan sells eBay alerts');
   assert.strictEqual(P.requiredPlan('not_a_feature'), null);
 });
 
@@ -2410,60 +2412,30 @@ test('plans tick only what works today; the rest is "On the way"', async () => {
   assert.ok(P.onTheWay().some((f) => f.id === 'outfits'));
 });
 
-test('the sold-comps CSV appears nowhere while its flag is off', async () => {
-  assert.strictEqual(loadData().config.features.comps_export, false);
+test('no page offers a download of eBay-derived data', async () => {
+  assert.deepStrictEqual(loadData().config.features, {});
   const index = await renderPage('index.html');
-  assert.strictEqual(index.doc.getElementById('csv-sales'), null);
-  assert.ok(index.doc.getElementById('exports-note'), 'the note stays for other export messages');
+  for (const id of ['csv-items', 'csv-sales', 'exports-note']) {
+    assert.strictEqual(index.doc.getElementById(id), null, id);
+  }
   const item = await renderPage('item.html', 'item.html?id=kennel-pals-calico-cat');
   assert.strictEqual(item.doc.getElementById('export-item'), null);
-  assert.ok(item.doc.querySelectorAll('.panel table tbody tr').length > 0, 'the comps themselves stay listed');
+  assert.ok(item.doc.querySelectorAll('.panel table tbody tr').length > 0, 'the comps stay listed');
+  const deals = await renderPage('deals.html');
+  assert.strictEqual(deals.doc.getElementById('export-deals'), null);
   const plans = await renderPage('plans.html');
-  assert.doesNotMatch(plans.doc.getElementById('plans').textContent, /CSV/);
-  const P = plans.win.BearChartPlans;
-  assert.ok(!P.plan('power').entitlements.includes('comps_export'));
+  assert.doesNotMatch(plans.doc.getElementById('plans').textContent, /CSV|export|alert|scann/i);
+  assert.strictEqual(plans.doc.getElementById('hot-slots'), null);
+  for (const f of ['app.js', 'item.js', 'deals.js', 'common.js', 'index.html', 'site-config.js']) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    assert.doesNotMatch(src, /csv-items|Items CSV|export-comps/, f);
+  }
 });
 
-test('with the flag on, the CSV button asks the export-comps function', async () => {
-  const win = await renderWithAuth('index.html', null, null, (d) => { d.config.features.comps_export = true; });
-  const btn = win.document.getElementById('csv-sales');
-  assert.ok(btn, 'the button is added');
-  const invoked = [];
-  const client = mockClient({});
-  client.functions = { invoke: (name, opts) => {
-    invoked.push([name, opts.body.item_ids.length]);
-    return Promise.resolve({ data: null, error: { context: { status: 403 } } });
-  } };
-  await win.BearChartAuth._setClientForTests(client, { user: { id: 'u1', email: 'a@b.test' } });
-  btn.dispatchEvent(new win.Event('click'));
-  await new Promise((r) => setTimeout(r, 10));
-  assert.strictEqual(invoked.length, 1);
-  assert.strictEqual(invoked[0][0], 'export-comps');
-  assert.ok(invoked[0][1] > 0 && invoked[0][1] <= 500);
-  const note = win.document.getElementById('exports-note');
-  assert.strictEqual(note.hidden, false);
-  assert.match(note.textContent, /Power/);
-  assert.match(note.textContent, /free/);
-
-  // A larger result than one request covers is said, not silently cut.
-  client.functions.invoke = (name, opts) => {
-    invoked.push([name, opts.body.item_ids.length]);
-    return Promise.resolve({ data: 'sale_id\r\n', error: null });
-  };
-  win.BC.download = () => {};
-  win.__lastResults = Array.from({ length: 501 }, (_, k) => ({ id: 'bear-' + k }));
-  btn.dispatchEvent(new win.Event('click'));
-  await new Promise((r) => setTimeout(r, 10));
-  assert.strictEqual(invoked[1][1], 500);
-  assert.match(note.textContent, /first 500 of 501 matching bears/);
-});
-
-test('the shared hot-slot limit is stated before anyone pays, not after', async () => {
-  const p = await renderPage('plans.html');
-  const text = p.doc.getElementById('hot-slots').textContent;
-  assert.match(text, /shared, not personal/);
-  assert.match(text, /for the whole site/);
-  assert.match(text, /breaks at the fourth customer/);
+test('the checklist download is the list, without values', async () => {
+  const src = fs.readFileSync(path.join(ROOT, 'checklists.js'), 'utf8');
+  const block = src.slice(src.indexOf("$('export-set')"), src.indexOf("BC.download('bearchart-checklist-"));
+  assert.doesNotMatch(block, /fair_market|valuationFor|'value'/);
 });
 
 test('no checkout button appears while nothing is purchasable', async () => {
@@ -3442,12 +3414,12 @@ test('every link to the store goes through the builder and carries the disclosur
   assertShopLinks(await renderPage('item.html', 'item.html?id=classic-brown-teddy'), 'item (priced)');
   assertShopLinks(await renderPage('item.html', 'item.html?id=buddy-bear-30-inch'), 'item (unpriced)');
   assertShopLinks(await renderPage('about.html'), 'about');
-  // The contact links on the legal pages are not shop links: no tags, no
-  // sponsored rel, no disclosure (WS5 QA).
+  // The contact links on the legal pages are an email, not shop links: no
+  // tags, no sponsored rel, no disclosure (WS5 QA).
   for (const page of ['privacy.html', 'terms.html']) {
     const p = await renderPage(page);
-    const links = p.doc.querySelectorAll('main a[href*="jaysretroexchange.com"]');
-    assert.ok(links.length, page);
+    assert.ok(p.doc.querySelectorAll('main a[href="mailto:hello@plushpriceguide.com"]').length, page);
+    const links = p.doc.querySelectorAll('main a[href*="jaysretroexchange.com"], main a[href^="mailto:"]');
     for (const a of links) {
       assert.strictEqual(a.getAttribute('data-shop-placement'), null, page);
       assert.doesNotMatch(a.getAttribute('href'), /utm_/, page);
@@ -3500,9 +3472,8 @@ test('a priced bear: confidence linked to the method, the store after the eviden
   const sold = Array.from(root.querySelectorAll('.panel h2')).find((h) => h.textContent === 'Sold observations');
   assert.ok(sold.compareDocumentPosition(store) & p.win.Node.DOCUMENT_POSITION_FOLLOWING);
   assert.doesNotMatch(root.textContent, /what we would pay/i);
-  const guide = store.querySelector('.store-card.is-guide');
-  const offer = store.querySelector('.store-card.is-offer');
-  assert.ok(guide.compareDocumentPosition(offer) & p.win.Node.DOCUMENT_POSITION_FOLLOWING);
+  assert.ok(store.querySelector('.store-card.is-guide'));
+  assert.strictEqual(store.querySelector('.store-card.is-offer'), null, 'no buy price');
   const chip = root.querySelector('.headline a.conf');
   assert.match(chip.textContent, /^(High|Medium|Low|Very low) confidence$/);
   assert.match(chip.getAttribute('href'), /about\.html#confidence$/);
@@ -3937,16 +3908,18 @@ test('a bat is drawn as a bat', async () => {
 
 // ---- the deal finder -------------------------------------------------------------
 
-test('"listings checked since" is the oldest row, not the run date', async () => {
+test('"prices updated" is the oldest row on screen, not the run time', async () => {
+  const run = new Date(Date.now() - 3600000).toISOString();
+  const older = new Date(Date.now() - 3 * 3600000).toISOString();
   const p = await renderPage('deals.html', null, { mutate: (d) => {
     manyDeals(d);
-    d.active_listings_fetched_at = '2026-10-09T09:00:00Z';
-    d.active_listings[0].fetched_at = '2026-10-02T09:00:00Z';
+    d.active_listings_fetched_at = run;
+    d.active_listings[0].fetched_at = older;
   }, afterScript: fakeAuth({ signedIn: true, client: chainClient() }) });
   const tile = Array.from(p.doc.querySelectorAll('#deal-stats .stat'))
-    .find((el) => /Listings checked since/.test(el.textContent));
+    .find((el) => /Prices updated/.test(el.textContent));
   assert.ok(tile);
-  assert.strictEqual(tile.querySelector('.v').textContent, '2026-10-02');
+  assert.strictEqual(tile.querySelector('.v').textContent, p.win.BC.fetchedTime(older));
 });
 
 test('the deal finder says its totals include shipping, and when shipping is assumed', async () => {
@@ -4022,12 +3995,10 @@ test('the fine print never shows an unbuilt feature as enforced', async () => {
   const p = await renderPage('plans.html');
   const rows = Array.from(p.doc.querySelectorAll('#enforcement tbody tr'));
   const row = (label) => rows.find((r) => r.cells[0].textContent === label);
-  for (const label of ['Email deal alerts', 'Push deal alerts', 'Wishlist alerts', 'Scanning priority']) {
-    const r = row(label);
-    assert.ok(r, label);
-    assert.match(r.textContent, /On the way/, label);
-    assert.match(r.textContent, /Not built yet/, label);
-    assert.doesNotMatch(r.textContent, /refuses this/, label);
+  // Nothing paid is built on eBay data: these are not on the way, they are gone.
+  for (const label of ['Email deal alerts', 'Push deal alerts', 'Wishlist alerts', 'Scanning priority',
+                       'Export and API access']) {
+    assert.strictEqual(row(label), undefined, label);
   }
   assert.doesNotMatch(row('Collection sync').textContent, /Not built yet/);
   assert.match(row('Collection sync').textContent, /refuses this/);
@@ -4040,4 +4011,42 @@ test('the coupon answer says which perk is Pro and which is Power', async () => 
   const M = p.data.membership.plans;
   assert.ok(dd.includes('Pro: ' + M.pro.perk), dd);
   assert.ok(dd.includes('Power: ' + M.power.perk), dd);
+});
+
+// ---- eBay API License Agreement: attribution, privacy, contact ----------------
+
+test('every page footer attributes eBay and links its policies', async () => {
+  for (const page of ['index.html', 'deals.html', 'about.html', 'privacy.html']) {
+    const p = await renderPage(page);
+    const foot = p.doc.getElementById('site-footer');
+    assert.match(foot.textContent, /Sold-price and listing data from eBay\. eBay is a trademark of eBay Inc\./, page);
+    assert.match(foot.textContent, /not affiliated with or endorsed by eBay/, page);
+    const hrefs = Array.from(foot.querySelectorAll('a')).map((a) => a.getAttribute('href'));
+    assert.ok(hrefs.some((h) => /ebay\.com\/help\/policies\/.+user-agreement\?id=4259/.test(h)), page);
+    assert.ok(hrefs.some((h) => /ebay\.com\/help\/policies\/.+user-privacy-notice.+\?id=4260/.test(h)), page);
+    assert.ok(hrefs.some((h) => /privacy\.html$/.test(h)) && hrefs.some((h) => /terms\.html$/.test(h)), page);
+    assert.ok(hrefs.includes('mailto:hello@plushpriceguide.com'), page);
+  }
+});
+
+test('the privacy policy has an eBay data section', async () => {
+  const src = fs.readFileSync(path.join(ROOT, 'privacy.html'), 'utf8');
+  assert.match(src, /<h3>eBay data<\/h3>/);
+  assert.match(src, /Marketplace Account Deletion/);
+  assert.match(src, /do not collect or store any eBay buyer's or seller's personal data/);
+  assert.match(src, /user-privacy-notice-privacy-policy\?id=4260/);
+});
+
+test('a contact email is published on About, Privacy and Terms', async () => {
+  assert.strictEqual(loadData().business.contact_email, 'hello@plushpriceguide.com');
+  for (const f of ['about.html', 'privacy.html', 'terms.html']) {
+    assert.match(fs.readFileSync(path.join(ROOT, f), 'utf8'), /mailto:hello@plushpriceguide\.com/, f);
+  }
+});
+
+test('the sources say how often listings refresh and that sold prices are manual research', async () => {
+  const s = loadData().sources;
+  assert.match(s.find((x) => /Terapeak/.test(x.name)).role, /researched manually/);
+  assert.match(s.find((x) => /Browse API/.test(x.name)).role, /every 4 hours.+6 hours/);
+  assert.doesNotMatch(JSON.stringify(s), /refreshed daily/);
 });

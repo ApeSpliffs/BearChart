@@ -334,13 +334,13 @@
 
     $('export-set').addEventListener('click', function () {
       var have = ownedIds();
-      var rows = [['set', 'item_id', 'canonical_name', 'release_year', 'owned',
-        'value', 'confidence']];
+      // The checklist itself, not the values: a whole set's prices in one file
+      // would be a bulk download of eBay-derived data (eBay API License
+      // Agreement s8.5). Values stay on the page and on every bear's page.
+      var rows = [['set', 'item_id', 'canonical_name', 'release_year', 'owned']];
       current.items.forEach(function (i) {
-        var v = BC.valuationFor(i.id);
         rows.push([current.name, i.id, i.canonical_name, i.release_year,
-          have.has(i.id) ? 'yes' : 'no',
-          v.has_value ? BC.r2(v.fair_market) : '', v.confidence]);
+          have.has(i.id) ? 'yes' : 'no']);
       });
       BC.download('bearchart-checklist-' + current.id + '-' + BC.stamp() + '.csv',
         BC.toCsv(rows));

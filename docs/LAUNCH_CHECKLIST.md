@@ -89,10 +89,9 @@ wording in `tools/build_data.py` (plans) or the page scripts.
       "Missing a bear? Tell us".
 
 ### Legal
-- [ ] Review the sold-comps CSV before switching it on. To enable: set
-      `COMPS_EXPORT_ENABLED=true` on the `export-comps` function, flip
-      `comps_export` in `tools/build_data.py`, deploy the function. Also decides
-      whether the per-item CSV on item pages comes back.
+- [x] The sold-comps CSV is removed, not paused (eBay API License Agreement
+      s8.5). Leave `COMPS_EXPORT_ENABLED` unset on the `export-comps` function, or
+      undeploy it.
 - [ ] Review showing sale links/listing IDs on item pages.
 - [ ] Review the privacy page's new waitlist section and decide how long the list
       is kept. `terms.html` was not changed; a test fails if its coupon amounts stop

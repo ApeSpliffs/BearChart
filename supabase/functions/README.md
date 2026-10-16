@@ -139,13 +139,17 @@ refunds change nothing. Charges with no invoice, or on an invoice that is not
 for one of our prices, are ignored. The switches are `REVOKE_ON_DISPUTE` and
 `REVOKE_ON_FULL_REFUND` in `_shared/billing/policy.ts`.
 
-## Sold comps export (`export-comps`, off)
+## Sold comps export (`export-comps`, retired)
+
+**Do not switch this on.** eBay's API License Agreement (s8.5) forbids letting
+eBay-derived data be downloaded in bulk, raw or aggregated, so the site no longer
+has the button, the flag or the plan line, and no plan sells `comps_export`. The
+function answers 404 unless `COMPS_EXPORT_ENABLED=true`; keep that unset, or
+undeploy it (`supabase functions delete export-comps`). What follows documents the
+code that is still here.
 
 `export-comps` (JWT required) returns the sold comps of 1-500 catalogue items
-as a CSV, for Power members and admins. It is **switched off** pending the
-owner's legal review, twice over: the site shows no button while
-`config.features.comps_export` is false (`tools/build_data.py` FEATURE_FLAGS),
-and the function answers 404 unless `COMPS_EXPORT_ENABLED=true`.
+as a CSV, for Power members and admins.
 
 | Answer | When |
 |---|---|
@@ -163,9 +167,7 @@ anyone read the `sales` table. When it is switched on, the plans copy must say
 (it does: `COMPS_EXPORT_FEATURE` in `tools/build_data.py`). Legal review should
 also cover the comps' `source_url`/`listing_id` on item pages, not only the CSV.
 
-To switch it on: deploy (`supabase functions deploy export-comps`), set
-`supabase secrets set COMPS_EXPORT_ENABLED=true`, set FEATURE_FLAGS
-`comps_export` to True and rebuild.
+There is no supported way to switch it back on (see above).
 
 The domain is `_shared/comps_export/service.ts` (pure; `tools/test_comps_export.mjs`),
 the Supabase adapter `_shared/comps_export/supabase_adapter.ts` runs under the

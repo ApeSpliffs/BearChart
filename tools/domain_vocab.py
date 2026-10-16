@@ -186,9 +186,12 @@ OPERATOR_EVIDENCE_CAP = 0.25
 # Prefer recent sales; flag a value whose newest sale is outside the window.
 RECENCY = {"window_days": 365, "min_recent": 10}
 
-# Asking prices older than this are out of date: the build stops carrying them
-# forward from data.json, and the deal finder and item pages say so.
-LISTINGS_MAX_AGE_DAYS = 7
+# eBay's API License Agreement (s8.1(c)): listing information shown may not be
+# more than six hours older than eBay's. Past this, an asking price is not
+# published by the build, carried forward by ebay_active.py, or shown by any
+# page (bc-data.js drops it in the browser, against the visitor's clock). The
+# refresh runs every four hours (.github/workflows/daily.yml) for a buffer.
+LISTINGS_MAX_AGE_HOURS = 6
 
 MARKET_EVIDENCE_TYPES = ["completed_sale", "auction_result", "collector_report",
                          "historical_archive"]

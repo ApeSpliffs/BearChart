@@ -174,10 +174,41 @@
     return indexPromise;
   }
 
+  // --- eBay listings: never shown more than six hours old ---------------------
+  // eBay's API License Agreement (s8.1(c)): listing information may not be
+  // more than six hours older than eBay's. The build already drops older rows,
+  // but a page can be served (or left open) long after the build, so the
+  // browser checks again against its own clock, every time it renders.
+
+  var LISTINGS_MAX_AGE_HOURS = 6;
+
+  function listingsMaxAgeMs() {
+    var h = hasConfig() && config().engine && config().engine.listings_max_age_hours;
+    return (typeof h === 'number' && h > 0 ? Math.min(h, LISTINGS_MAX_AGE_HOURS)
+                                           : LISTINGS_MAX_AGE_HOURS) * 3600000;
+  }
+
+  /** True when a fetch time is known and under the limit. */
+  function listingIsFresh(fetchedAt, now) {
+    var t = Date.parse(fetchedAt || '');
+    if (!isFinite(t)) return false;           // an undated ask cannot prove its age
+    var age = (now == null ? Date.now() : now) - t;
+    return age <= listingsMaxAgeMs() && age > -3600000;   // tolerate clock skew
+  }
+
+  /** Only the rows fetched within the limit; a row's own fetched_at wins. */
+  function freshListings(rows, runFetchedAt, now) {
+    return (rows || []).filter(function (l) {
+      return listingIsFresh(l.fetched_at || runFetchedAt, now);
+    });
+  }
+
   var listingsPromise = null;
   function loadListings() {
     if (!listingsPromise) {
       listingsPromise = fetchJson(config().data.listings).then(function (j) {
+        // Unfiltered here: callers filter at render time with freshListings(),
+        // so a page left open still drops rows as they age.
         return { fetched_at: j.fetched_at || null, listings: j.listings || [] };
       });
       listingsPromise.catch(function () { listingsPromise = null; });
@@ -215,7 +246,7 @@
     return {
       item: json.item,
       sales: json.sales || [],
-      listings: json.listings || [],
+      listings: freshListings(json.listings, json.listings_fetched_at),
       listings_fetched_at: json.listings_fetched_at || null,
       related: json.related || [],
       retail_reference: json.retail_reference || null,
@@ -294,6 +325,8 @@
     loadItem: loadItem,
     loadItems: loadItems,
     loadListings: loadListings,
+    freshListings: freshListings,
+    listingIsFresh: listingIsFresh,
     loadPlans: loadPlans,
     state: function () { return current; },
     onState: function (fn) { listeners.push(fn); },

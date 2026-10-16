@@ -234671,8 +234671,6 @@ insert into valuation_config (key, value) values ('completeness_labels', '{"comp
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('modifiers', '{"multiplicative": {"birth_certificate": 1.15, "hang_tag": 1.1, "tush_tag_missing": 0.7, "customised": 0.8}, "additive_usd": {"sound_module": 7.0, "scent_chip": 6.0}, "labels": {"birth_certificate": "Birth certificate present", "hang_tag": "Hang tag attached", "tush_tag_missing": "Tush tag missing or cut", "customised": "Customised or altered", "sound_module": "Sound module fitted", "scent_chip": "Scent chip fitted"}, "exclusive_with": {"hang_tag": ["NWT"]}, "max_combined_multiplier": 1.45}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('bands', '{"buy": [0.55, 0.7], "trade": [0.75, 0.9], "high_ask": [1.1, 1.3]}'::jsonb)
-on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('confidence', '{"high_min": 10, "medium_min": 4, "low_min": 1}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('auth', '{"enabled": true, "supabase_url": "https://stfkxfhffblajqbbyqze.supabase.co", "supabase_anon_key": "sb_publishable___jAIp9os6_gs7v9N8JD7A_Tj67O96i"}'::jsonb)
@@ -234689,13 +234687,13 @@ insert into valuation_config (key, value) values ('reseller', '{"platform": "eba
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('fees', '{"as_of": "2026-10", "default_platform": "ebay", "platforms": {"ebay": {"label": "eBay", "pct": 0.136, "fixed_over": 0.4, "fixed_under": 0.3, "fixed_threshold": 10.0, "applies_to": "item_plus_shipping", "verify": "VERIFY on https://www.ebay.com/help/selling/fees-credits-invoices/selling-fees?id=4822 (category rate; eBay also charges on sales tax - approximated as item+shipping)"}, "mercari": {"label": "Mercari", "pct": 0.1, "fixed_over": 0, "fixed_under": 0, "fixed_threshold": 0, "applies_to": "item_plus_shipping", "verify": "VERIFY on Mercari fee page"}}}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('listings_max_age_days', '7'::jsonb)
+insert into valuation_config (key, value) values ('listings_max_age_hours', '6'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('recency', '{"window_days": 365, "min_recent": 10, "as_of": "2026-10-15"}'::jsonb)
+insert into valuation_config (key, value) values ('recency', '{"window_days": 365, "min_recent": 10, "as_of": "2026-10-16"}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('operator_cap', '0.25'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('features', '{"comps_export": false}'::jsonb)
+insert into valuation_config (key, value) values ('features', '{}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('multiplier_basis', '{"condition": {"NWT": {"configured": 1.25, "measured": 1.532, "items": 409, "used": 1.52}, "NWOT": {"configured": 1.15, "measured": 1.018, "items": 5, "used": 1.1}, "Mint": {"configured": 1.15, "measured": 1.428, "items": 280, "used": 1.42}, "Excellent": {"configured": 1.1, "measured": 1.124, "items": 70, "used": 1.12}, "Good": {"configured": 1.0, "measured": null, "items": 0, "used": 1.0}, "Fair": {"configured": 0.75, "measured": null, "items": 0, "used": 0.75}, "Poor": {"configured": 0.5, "measured": null, "items": 0, "used": 0.5}, "Damaged": {"configured": 0.35, "measured": null, "items": 0, "used": 0.35}, "Incomplete": {"configured": 0.6, "measured": null, "items": 0, "used": 0.6}, "Unknown": {"configured": 1.0, "measured": null, "items": 0, "used": 1.0}}, "completeness": {"complete": {"configured": 1.15, "measured": null, "items": 0, "used": 1.15}, "packaged": {"configured": 1.15, "measured": null, "items": 0, "used": 1.15}, "some_originals": {"configured": 1.05, "measured": 1.153, "items": 406, "used": 1.15}, "bare": {"configured": 1.0, "measured": null, "items": 0, "used": 1.0}, "unstuffed": {"configured": 1.0, "measured": 1.118, "items": 125, "used": 1.11}, "altered": {"configured": 0.85, "measured": null, "items": 0, "used": 0.85}, "unknown": {"configured": 1.0, "measured": null, "items": 0, "used": 1.0}}}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();

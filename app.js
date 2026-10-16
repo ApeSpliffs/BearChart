@@ -427,7 +427,6 @@
           (suggest !== 'Tell us' ? '<p>Missing a bear? ' + suggest + '</p>' : '');
       }
 
-      window.__lastResults = items; // used by the CSV buttons
       syncUrl();
     }
 
@@ -504,23 +503,11 @@
         BC.confChip(a.confidence, { link: true, n: v.comparable_count }) + '</div>' +
         '<p class="fine">Adjusted from a baseline fair market value of ' + BC.money(v.fair_market) +
         ' by a combined multiplier of x' + (Math.round(a.multiplier * 100) / 100) + '.</p>' +
-        bands(a) +
         '<p class="fine mt-2"><a href="' + BC.itemUrl(id) + '">' +
         'See the full record and every sold comp &rarr;</a></p>';
     }
 
-    function bands(a) {
-      var rows = [
-        ['Buy', BC.range(a.buy_low, a.buy_high), 'What to pay'],
-        ['Trade', BC.range(a.trade_low, a.trade_high), 'Trade-in credit'],
-        ['Fair sell', BC.range(a.range_low, a.range_high), 'Realistic sale'],
-        ['High-end ask', BC.money(a.ask_low) + '+', 'Patient seller']
-      ];
-      return '<div class="bands">' + rows.map(function (r) {
-        return '<div class="band"><div class="k">' + r[0] + '</div><div class="v">' + r[1] +
-               '</div><div class="n">' + r[2] + '</div></div>';
-      }).join('') + '</div>';
-    }
+
 
     // -------------------------------------------------------------------------
     // Wiring
@@ -597,82 +584,8 @@
       this.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
-    $('csv-items').addEventListener('click', function () {
-      BC.download('bearchart-items-' + BC.stamp() + '.csv', BC.itemsCsv(window.__lastResults));
-    });
-    // The sold-comps CSV (Power). Off unless config.features.comps_export is on,
-    // and then served by the export-comps edge function, which checks the
-    // membership and a daily quota on the server. That enforces the convenience
-    // of one bulk download, not access: every comp stays listed, free, on its
-    // bear's page.
-    if (BC.feature('comps_export')) initCompsExport();
-
-    function initCompsExport() {
-      var MAX_ITEMS = 500;   // export-comps accepts 1-500 item ids per request
-      var bar = document.querySelector('.exports');
-      if (!bar) return;
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.id = 'csv-sales';
-      btn.innerHTML = 'Sold comps CSV <span class="tag-power">Power</span>';
-      bar.appendChild(btn);
-      btn.addEventListener('click', function () {
-        var all = window.__lastResults || [];
-        exportComps(all.slice(0, MAX_ITEMS).map(function (i) { return i.id; })).then(function (ok) {
-          // One request covers up to 500 bears; say so rather than cut silently.
-          if (ok && all.length > MAX_ITEMS) {
-            exportNote('Downloaded the sold comps for the first ' + MAX_ITEMS + ' of ' +
-              all.length + ' matching bears. Narrow the search to get the rest.');
-          }
-        });
-      });
-    }
-
-    function exportNote(html) {
-      var note = $('exports-note');
-      if (!note) return;
-      note.hidden = !html;
-      note.innerHTML = html || '';
-    }
-
-    function exportComps(itemIds) {
-      var A = window.BearChartAuth;
-      var P = window.BearChartPlans;
-      var client = A && A.configured && A.configured() && A.getClient ? A.getClient() : null;
-      var s = A && A.state ? A.state() : null;
-      if (!client || !s || !s.signedIn) {
-        exportNote('<a href="' + BC.rel('account.html') + '">Sign in</a> to download the sold comps.');
-        return Promise.resolve(false);
-      }
-      if (!itemIds.length) { exportNote('Nothing to export.'); return Promise.resolve(false); }
-      var fn = ((BC.membership || {}).export_function) || 'export-comps';
-      return client.functions.invoke(fn, { body: { item_ids: itemIds } }).then(function (res) {
-        var status = res && res.error
-          ? ((res.error.context && res.error.context.status) || 500) : 200;
-        if (status === 200) {
-          exportNote('');
-          BC.download('bearchart-sales-' + BC.stamp() + '.csv', String(res.data || ''));
-          return true;
-        }
-        if (status === 401) {
-          exportNote('<a href="' + BC.rel('account.html') + '">Sign in</a> to download the sold comps.');
-        } else if (status === 403) {
-          var lock = P && P.lockMessage ? P.lockMessage('comps_export', s) : null;
-          exportNote(BC.esc(lock ? lock.text : 'The sold comps download is part of Power.') +
-            ' <a href="' + BC.rel('plans.html') + '">See membership</a>. ' +
-            'Every sale is still listed on each bear\'s page for free.');
-          if (window.bcTrack) window.bcTrack('comps_export_locked', {});
-        } else if (status === 429) {
-          exportNote('You have reached today\'s download limit. It resets within 24 hours.');
-        } else {
-          exportNote('The download is not available right now. Try again later.');
-        }
-        return false;
-      }, function () {
-        exportNote('The download is not available right now. Try again later.');
-        return false;
-      });
-    }
+    // No export of the results: eBay's API License Agreement (s8.5) forbids
+    // letting eBay-derived data be downloaded in bulk, raw or aggregated.
 
     // Restore state from the URL so searches are shareable.
     var params = new URLSearchParams(location.search);

@@ -117,15 +117,6 @@
         <button type="button" class="show-more" id="show-more" hidden></button>
         <div class="empty" id="empty" role="status" hidden></div>
 
-        <!-- Below the results, because exporting is something you do after
-             finding what you wanted, not before. Exports act on the full
-             filtered set, not just the page on screen. The sold-comps CSV is
-             added by app.js only while config.features.comps_export is on. -->
-        <div class="exports">
-          <span class="fine">Export the current results:</span>
-          <button type="button" id="csv-items">Items CSV</button>
-        </div>
-        <p class="fine exports-note" id="exports-note" role="status" hidden></p>
 
         <!-- The sidebar is hidden below 860px, so the shop needs somewhere
              else to live on a phone. Only one of the two is ever visible. -->

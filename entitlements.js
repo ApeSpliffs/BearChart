@@ -235,8 +235,7 @@
     enforcedAt: enforcedAt,
     label: label,
     lockMessage: lockMessage,
-    hotSlots: M.hot_slots_total || 0,
-    hotSlotNote: function () { return COPY.hot_slot_note || ''; }
+    // No hot-slot / scanning copy: no plan sells eBay scanning or alerts.
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = root.BearChartPlans;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

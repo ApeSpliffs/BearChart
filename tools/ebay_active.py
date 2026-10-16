@@ -545,11 +545,17 @@ def attach_images(listings, data):
 
 def carry_forward_for(data, item_ids, as_of=None):
     """(kept, refused): data.json's listings for these items, each stamped with
-    the date it was really fetched; rows past V.LISTINGS_MAX_AGE_DAYS refused."""
+    the time it was really fetched; rows past V.LISTINGS_MAX_AGE_HOURS refused.
+    as_of is an ISO timestamp (tests); None means now."""
     import datetime
+
+    def utc(stamp):
+        t = datetime.datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+        return t if t.tzinfo else t.replace(tzinfo=datetime.timezone.utc)
+
     wanted = set(item_ids)
     published_at = data.get("active_listings_fetched_at")
-    today = datetime.date.fromisoformat(as_of) if as_of else datetime.datetime.utcnow().date()
+    now = utc(as_of) if as_of else datetime.datetime.now(datetime.timezone.utc)
     kept, refused = [], []
     for row in data.get("active_listings") or []:
         if row.get("item_id") not in wanted:
@@ -557,10 +563,11 @@ def carry_forward_for(data, item_ids, as_of=None):
         row = OrderedDict(row)
         row["fetched_at"] = row.get("fetched_at") or published_at
         try:
-            age = (today - datetime.date.fromisoformat(str(row["fetched_at"])[:10])).days
+            age = ((now - utc(row["fetched_at"])).total_seconds() / 3600.0
+                   if "T" in str(row["fetched_at"] or "") else None)
         except (TypeError, ValueError):
             age = None
-        (refused if age is None or age > V.LISTINGS_MAX_AGE_DAYS else kept).append(row)
+        (refused if age is None or age > V.LISTINGS_MAX_AGE_HOURS else kept).append(row)
     return kept, refused
 
 
@@ -688,7 +695,7 @@ def run(args, searcher=None, token=None):
     # Items whose query failed keep the listings data.json already publishes
     # for them, each row with the date it was really fetched, so one query
     # eBay keeps refusing cannot empty the deal finder - nor pass old asks off
-    # as today's. Past V.LISTINGS_MAX_AGE_DAYS they are dropped.
+    # as today's. Past V.LISTINGS_MAX_AGE_HOURS they are dropped.
     carried = []
     if failed_ids:
         carried, refused = carry_forward_for(data, failed_ids)
@@ -696,8 +703,8 @@ def run(args, searcher=None, token=None):
         print("::warning::eBay queries failed for %d item(s): %s; carried forward %d of their "
               "previous listing(s)" % (len(set(failed_ids)), names, len(carried)))
         if refused:
-            print("::warning::NOT carrying forward %d listing(s) older than %d days for: %s"
-                  % (len(refused), V.LISTINGS_MAX_AGE_DAYS,
+            print("::warning::NOT carrying forward %d listing(s) older than %d hours for: %s"
+                  % (len(refused), V.LISTINGS_MAX_AGE_HOURS,
                      ", ".join(sorted({r["item_id"] for r in refused})[:20])))
         have = {r["id"] for r in listings}
         listings.extend(r for r in carried if r["id"] not in have)

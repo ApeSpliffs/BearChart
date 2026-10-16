@@ -683,24 +683,55 @@
       { sponsored: tagged !== url || /^https?:\/\/(www\.)?ebay\./i.test(String(url || '')) });
   }
 
-  /**
-   * How many days old a listings fetch is, when that is past the limit
-   * (config.listings_max_age_days); 0 while it is current or undated.
-   */
-  function listingsAge(fetchedAt) {
-    var t = Date.parse(fetchedAt || '');
-    if (!isFinite(t)) return 0;
-    var days = Math.floor((Date.now() - t) / 86400000);
-    return days > (CFG.listings_max_age_days || 7) ? days : 0;
+  /** A fetch time as the visitor's local date and time ("Oct 16, 9:15 AM"). */
+  function fetchedTime(fetchedAt) {
+    var t = new Date(fetchedAt || '');
+    if (!isFinite(t.getTime())) return '';
+    try {
+      return t.toLocaleString(undefined, { month: 'short', day: 'numeric',
+                                          hour: 'numeric', minute: '2-digit' });
+    } catch (e) {
+      return t.toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+    }
   }
 
-  /** The "may be out of date" note for old asking prices, or ''. */
-  function listingsAgeNote(fetchedAt) {
-    var days = listingsAge(fetchedAt);
-    return days
-      ? '<p class="notice warn listings-stale">These asking prices were last checked ' + days +
-        ' days ago and may be out of date. Listings sell or end every day.</p>'
-      : '';
+  /**
+   * The "Prices updated <time>" stamp for eBay asking prices, or ''. Pass the
+   * OLDEST fetch time among the rows on screen: that is the honest age of
+   * the set. Rows past six hours never get here (BD.freshListings).
+   */
+  function listingsUpdatedNote(fetchedAt) {
+    var when = fetchedTime(fetchedAt);
+    if (!when) return '';
+    return '<p class="fine listings-updated">Prices updated <time datetime="' +
+      esc(new Date(fetchedAt).toISOString()) + '">' + esc(when) + '</time> from eBay. ' +
+      'Listings are rechecked every 4 hours and hidden once a check is more than ' +
+      '6 hours old.</p>';
+  }
+
+  /** The rows of a listings set still fresh enough to show (see bc-data.js). */
+  function freshListings(rows, runFetchedAt) {
+    return BD.freshListings(rows, runFetchedAt);
+  }
+
+  /** The oldest fetch time among these rows (a row's own time wins). */
+  function oldestFetch(rows, runFetchedAt) {
+    return (rows || []).reduce(function (o, l) {
+      var at = l.fetched_at || runFetchedAt;
+      return at && (!o || at < o) ? at : o;
+    }, null);
+  }
+
+  // eBay's own policies, linked from every page footer (eBay API License
+  // Agreement s8.2: our privacy policy must be consistent with eBay's).
+  var EBAY_USER_AGREEMENT =
+    'https://www.ebay.com/help/policies/member-behaviour-policies/user-agreement?id=4259';
+  var EBAY_PRIVACY_NOTICE =
+    'https://www.ebay.com/help/policies/member-behaviour-policies/user-privacy-notice-privacy-policy?id=4260';
+
+  /** A plain address only: no ? or & that could add mailto parameters. */
+  function safeEmail(email) {
+    return /^[^\s@<>"'?&]+@[^\s@<>"'?&]+$/.test(email || '');
   }
 
   function businessEnabled() {
@@ -1021,47 +1052,6 @@
     a.click();
     document.body.removeChild(a);
     setTimeout(function () { URL.revokeObjectURL(url); }, 0);
-  }
-
-  /** One row per item, with its valuation - the export section 1.26 asks for. */
-  function itemsCsv(items) {
-    var head = ['id', 'canonical_name', 'aliases', 'category', 'species', 'release_year',
-      'era', 'version', 'licensed', 'franchise', 'limited_edition', 'employee_exclusive',
-      'vault_release', 'mini_bean', 'retired', 'comparable_sales', 'confidence',
-      'fair_market_value', 'range_low', 'range_high', 'median_sold', 'buy_low', 'buy_high',
-      'trade_low', 'trade_high', 'ask_low', 'ask_high', 'image_url', 'notes'];
-    var rows = [head];
-    items.forEach(function (i) {
-      var v = valuationFor(i.id);
-      rows.push([i.id, i.canonical_name, (i.aliases || []).join(' | '), i.category, i.species,
-        i.release_year, era(i), i.version, i.licensed, i.franchise, i.limited_edition,
-        i.employee_exclusive, i.vault_release, i.mini_bean, i.retired,
-        v.comparable_count, v.confidence,
-        r2(v.fair_market), r2(v.range_low), r2(v.range_high), r2(v.median_raw),
-        r2(v.buy_low), r2(v.buy_high), r2(v.trade_low), r2(v.trade_high),
-        r2(v.ask_low), r2(v.ask_high), i.image_url, i.notes]);
-    });
-    return toCsv(rows);
-  }
-
-  /**
-   * One row per sold observation, provenance intact. Pure: the caller passes
-   * the sales ({item_id: [sale]}), from the item files it loaded. The same
-   * columns as the export-comps edge function's CSV.
-   */
-  function salesCsv(items, salesById) {
-    var head = ['sale_id', 'item_id', 'canonical_name', 'sale_date', 'sold_price',
-      'price_high', 'ranged', 'currency', 'condition', 'completeness', 'marketplace',
-      'listing_id', 'evidence_type', 'source_url', 'notes'];
-    var rows = [head];
-    items.forEach(function (i) {
-      ((salesById || {})[i.id] || []).forEach(function (s) {
-        rows.push([s.id, s.item_id, i.canonical_name, s.sale_date, s.sold_price, s.price_high,
-          s.ranged, s.currency, s.condition, s.completeness, s.marketplace, s.listing_id,
-          s.evidence_type, s.source_url, s.notes]);
-      });
-    });
-    return toCsv(rows);
   }
 
   function r2(n) { return n == null ? '' : Math.round(n * 100) / 100; }
@@ -1869,9 +1859,18 @@
           ? shopLink('footer', { className: '', label: BUSINESS.name })
           : esc(BUSINESS.name)) + '.</p>' +
         shopDisclosure() +
+        // eBay attribution, on every page: the guide shows eBay-derived data.
+        '<p class="fine ebay-attribution">Sold-price and listing data from eBay. eBay is a ' +
+        'trademark of eBay Inc. Plush Price Guide is not affiliated with or endorsed by eBay.</p>' +
         '<p class="fine legal-links"><a href="' + rel('privacy.html') + '">Privacy</a>' +
         '<a href="' + rel('terms.html') + '">Terms</a>' +
-        '<a href="' + rel('about.html') + '">How prices work</a></p>' +
+        '<a href="' + rel('about.html') + '">How prices work</a>' +
+        '<a href="' + EBAY_USER_AGREEMENT + '" rel="noopener" target="_blank">eBay User Agreement</a>' +
+        '<a href="' + EBAY_PRIVACY_NOTICE + '" rel="noopener" target="_blank">eBay User Privacy Notice</a>' +
+        (safeEmail(BUSINESS.contact_email)
+          ? '<a href="mailto:' + esc(BUSINESS.contact_email) + '">' + esc(BUSINESS.contact_email) + '</a>'
+          : '') +
+        '</p>' +
         '<p class="fine">Database: ' + fmtInt(st.items) + ' items, ' +
           fmtInt(st.comps) + ' sold transactions recorded. ' +
           'Schema v' + SITE.meta.schema_version + '.</p>' +
@@ -1925,7 +1924,8 @@
     isOperatorSale: isOperatorSale, operatorLabel: OPERATOR_LABEL,
     conditionLabel: conditionLabel, completenessLabel: completenessLabel, dateLabel: dateLabel,
     tagsFor: tagsFor, tagsHtml: tagsHtml, esc: esc, itemUrl: itemUrl, matches: matches,
-    membership: SITE.membership || {}, listingsAge: listingsAge, listingsAgeNote: listingsAgeNote,
+    membership: SITE.membership || {}, listingsUpdatedNote: listingsUpdatedNote,
+    freshListings: freshListings, oldestFetch: oldestFetch, fetchedTime: fetchedTime,
     business: BUSINESS, affiliate: affiliate, affiliateLink: affiliateLink, businessEnabled: businessEnabled,
     shopEnabled: shopEnabled, shopPromo: shopPromo, shopHref: shopHref, shopLink: shopLink,
     shopDisclosure: shopDisclosure, upgradeShopLinks: upgradeShopLinks, SHOP_PLACEMENTS: SHOP_PLACEMENTS,
@@ -1934,7 +1934,7 @@
     placeholderImage: placeholderImage,
     safeUrl: S.safeUrl, extLink: S.extLink, safeRedirect: S.safeRedirect,
     csvCell: S.csvCell, scrubUrl: S.scrubUrl,
-    toCsv: toCsv, download: download, itemsCsv: itemsCsv, salesCsv: salesCsv,
+    toCsv: toCsv, download: download,
     r2: r2, stamp: stamp, renderChrome: renderChrome, wishlist: wishlist, cloud: cloud
   };
 })(window);

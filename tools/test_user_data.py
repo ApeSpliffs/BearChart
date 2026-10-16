@@ -33,7 +33,7 @@ class StripsUserDataOnLoad(unittest.TestCase):
     def write(self, listing):
         path = os.path.join(self.tmp, "tools", "active_listings.json")
         with open(path, "w") as f:
-            json.dump({"fetched_at": "2026-01-01", "listings": [listing]}, f)
+            json.dump({"fetched_at": "2026-01-01T06:00:00Z", "listings": [listing]}, f)
 
     def legacy_listing(self, **extra):
         row = {
@@ -47,24 +47,24 @@ class StripsUserDataOnLoad(unittest.TestCase):
 
     def test_a_legacy_seller_username_is_stripped(self):
         self.write(self.legacy_listing(seller="someseller"))
-        listings, _ = build_data.load_active_listings(self.tmp, "2026-01-02")
+        listings, _ = build_data.load_active_listings(self.tmp, "2026-01-01T08:00:00Z")
         self.assertEqual(len(listings), 1)
         self.assertNotIn("seller", listings[0])
         self.assertNotIn("someseller", json.dumps(listings[0]))
 
     def test_every_known_user_field_is_stripped(self):
         self.write(self.legacy_listing(**{f: "x" for f in build_data.USER_DATA_FIELDS}))
-        listings, _ = build_data.load_active_listings(self.tmp, "2026-01-02")
+        listings, _ = build_data.load_active_listings(self.tmp, "2026-01-01T08:00:00Z")
         for field in build_data.USER_DATA_FIELDS:
             self.assertNotIn(field, listings[0])
 
     def test_the_listing_itself_survives(self):
         """Stripping must not quietly drop the asking price we came for."""
         self.write(self.legacy_listing(seller="someseller"))
-        listings, fetched = build_data.load_active_listings(self.tmp, "2026-01-02")
+        listings, fetched = build_data.load_active_listings(self.tmp, "2026-01-01T08:00:00Z")
         self.assertEqual(listings[0]["ask_price"], 10.0)
         self.assertEqual(listings[0]["evidence_type"], "active_listing")
-        self.assertEqual(fetched, "2026-01-01")
+        self.assertEqual(fetched, "2026-01-01T06:00:00Z")
 
 
 class ShippedDataIsClean(unittest.TestCase):

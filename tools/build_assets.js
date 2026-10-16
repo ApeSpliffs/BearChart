@@ -191,7 +191,7 @@ function buildStats(data, E, ctx) {
 }
 
 // Membership keys only the plans page reads (see buildPlans).
-const PLANS_ONLY = ['features', 'coupon_terms', 'hot_slot_note'];
+const PLANS_ONLY = ['features', 'coupon_terms'];
 
 /**
  * The plans page's copy, split out of the membership config: the feature

@@ -264,9 +264,9 @@
       var count = list.reduce(function (n, e) { return n + (e.qty || 1); }, 0);
       $('totals').innerHTML = [
         [count, 'Bears', 'In your collection'],
-        [BC.money(totals.median), 'Median value', 'What they usually sell for'],
-        [BC.money(totals.conservative), 'Conservative', 'If you sold them quickly'],
-        [BC.money(totals.high), 'High-end', 'With a patient sale'],
+        [BC.money(totals.median), 'Median value', 'What they usually sold for'],
+        [BC.money(totals.conservative), 'Low end', 'Bottom of the sold range'],
+        [BC.money(totals.high), 'High end', 'Top of the sold range'],
         [totals.unpriced, 'No price yet', 'Not enough sales to value']
       ].map(function (c) {
         return '<div class="stat"><div class="v">' + c[0] + '</div><div class="k">' +
@@ -328,7 +328,7 @@
 
     $('export-collection').addEventListener('click', function () {
       var rows = [['item_id', 'canonical_name', 'release_year', 'condition', 'completeness',
-        'qty', 'value_each', 'line_total', 'conservative_each', 'high_end_each', 'confidence']];
+        'qty', 'value_each', 'line_total', 'sold_range_low_each', 'sold_range_high_each', 'confidence']];
       list.forEach(function (e) {
         var item = BC.itemById(e.item_id);
         if (!item) return;
@@ -337,7 +337,7 @@
         rows.push([e.item_id, item.canonical_name, item.release_year, e.condition,
           e.completeness, p.qty,
           a ? BC.r2(a.fair_market) : '', a ? BC.r2(a.fair_market * p.qty) : '',
-          a ? BC.r2(a.range_low) : '', a ? BC.r2(a.ask_high) : '',
+          a ? BC.r2(a.range_low) : '', a ? BC.r2(a.range_high) : '',
           p.valuation.confidence]);
       });
       BC.download('bearchart-collection-' + BC.stamp() + '.csv', BC.toCsv(rows));

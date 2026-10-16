@@ -126,38 +126,40 @@ class PlansSellOnlyEnforcedFeatures(unittest.TestCase):
         self.assertNotRegex(M["entitlements"]["shop_discount"]["label"], r"\$\d")
 
 
-class CompsExportFlag(unittest.TestCase):
+class NothingPaidIsBuiltOnEbayData(unittest.TestCase):
+    """eBay's API License Agreement (s8.5): no bulk download of eBay-derived
+    data, and no paid tools built on it without eBay's written consent."""
 
-    def test_the_flag_ships_off(self):
-        self.assertIs(FLAGS.get("comps_export"), False)
+    EBAY_DRIVEN = {"comps_export", "alerts_push", "alerts_email", "poll_priority",
+                   "wishlist_alerts", "api_access"}
 
-    def test_comps_export_is_absent_from_plans_while_off(self):
-        self.assertFalse(FLAGS.get("comps_export"))
-        for plan in M["plans"].values():
-            self.assertNotIn("comps_export", plan["entitlements"])
-        text = " ".join(f["text"] for f in M["features"])
-        self.assertNotRegex(text, r"(?i)sold-price records|CSV")
-        self.assertEqual(M["entitlements"]["comps_export"]["enforced"], "server")
+    def test_no_feature_switches_remain(self):
+        self.assertEqual(FLAGS, {}, "the comps export is gone, not paused behind a flag")
 
-    def test_the_flag_moves_the_card_and_the_gate_together(self):
-        import build_data as B
-        on = B.apply_feature_flags(copy.deepcopy(B.MEMBERSHIP), {"comps_export": True})
-        self.assertIn("comps_export", on["plans"]["power"]["entitlements"])
-        self.assertNotIn("comps_export", on["plans"]["pro"]["entitlements"])
-        line = [f for f in on["features"] if f.get("entitlement") == "comps_export"]
-        self.assertEqual(len(line), 1)
-        self.assertEqual(line[0]["status"], "included")
-        self.assertIn("stay free on every bear's page", line[0]["text"])
-        # Applying twice changes nothing.
-        again = B.apply_feature_flags(copy.deepcopy(on), {"comps_export": True})
-        self.assertEqual(again, on)
-        off = B.apply_feature_flags(copy.deepcopy(B.MEMBERSHIP), {"comps_export": False})
-        self.assertNotIn("comps_export", off["plans"]["power"]["entitlements"])
+    def test_no_plan_sells_an_ebay_driven_feature(self):
+        for pid, plan in M["plans"].items():
+            self.assertFalse(self.EBAY_DRIVEN & set(plan["entitlements"]), pid)
+        self.assertFalse(self.EBAY_DRIVEN & set(M["entitlements"]))
+        for f in M["features"]:
+            self.assertNotIn(f.get("entitlement"), self.EBAY_DRIVEN, f["id"])
 
-    def test_the_database_grants_comps_export_to_power_only(self):
-        _, lists = has_entitlement_lists()
-        self.assertIn("comps_export", lists["power"])
-        self.assertNotIn("comps_export", lists["pro"])
+    def test_no_feature_promises_exports_alerts_or_scanning(self):
+        paid = " ".join(f["text"] for f in M["features"] if f["from"] in ("pro", "power"))
+        self.assertNotRegex(paid, r"(?i)CSV|export|download|alert|scann|API access|deal|eBay|listing")
+        blurbs = " ".join((p.get("blurb") or "") for p in M["plans"].values())
+        self.assertNotRegex(blurbs, r"(?i)alert|scann|export")
+
+    def test_the_export_endpoint_is_not_configured(self):
+        self.assertNotIn("export_function", M)
+        self.assertNotIn("hot_slot_note", M)
+        self.assertNotIn("hot_slots_total", M)
+
+    def test_membership_stays_off(self):
+        self.assertIs(M["enabled"], False)
+
+    def test_values_and_the_deal_finder_are_free(self):
+        free = {f["id"] for f in M["features"] if f["from"] in ("guest", "free")}
+        self.assertTrue({"values", "calculator", "deals"} <= free)
 
 
 if __name__ == "__main__":

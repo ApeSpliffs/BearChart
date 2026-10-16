@@ -60,21 +60,12 @@
       ['shipped', 'Ask-versus-sold spread',
        'What sellers want against what things actually fetch, shown on every item ' +
        'page that has both.', CAPS.deals],
-      ['next', 'Scheduled polling',
-       'A shared query pool on a heat schedule. One person watching an item and a ' +
-       'thousand people watching it cost the same quota, which is the only way this ' +
-       'works at more than three users.'],
-      ['next', 'Alert delivery',
-       'Push and email digests, with quiet hours and a volume ceiling. One ' +
-       'noisy night trains someone to mute the app permanently.'],
       ['next', 'Outfit assembly',
        'Group clothing, shoes and accessories onto a specific bear and value the ' +
        'whole. Comps are already normalised to bare, so the parts add up without ' +
        'double-counting.'],
-      ['constrained', 'Sub-60-second detection',
-       'Possible, but not across the whole catalogue. A default API key affords ' +
-       'roughly three continuously-polled queries for the entire site, so only the ' +
-       'most-watched items get a 60-second slot.']
+      // No eBay polling or alert features: eBay's API License Agreement (s8.5)
+      // needs eBay's written consent for paid tools built on its data.
     ],
     p4: [
       ['shipped', 'Accounts',

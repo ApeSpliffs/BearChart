@@ -89,10 +89,16 @@
     return c;
   }
 
+  // Only asks checked within the last six hours (eBay API License Agreement
+  // s8.1(c)), re-checked on every render so an open tab drops them as they age.
+  function freshRows() {
+    return BC.freshListings(L.listings, L.fetched_at);
+  }
+
   function findDeals() {
     return E.findDeals({
       config: config(),
-      listings: L.listings,
+      listings: freshRows(),
       itemById: BC.itemById,
       valuationFor: BC.valuationFor
     });
@@ -118,23 +124,20 @@
   }
 
   function renderStats(deals) {
-    var listings = L.listings.length;
+    var rows = freshRows();
+    var listings = rows.length;
     var best = deals.length ? deals[0].margin : null;
     // The oldest row decides: a row carried forward for a failed query keeps
-    // the date it was really fetched. The run date alone would claim a check
-    // that may not have happened for every listing on screen.
-    var oldest = L.listings.reduce(function (o, l) {
-      var at = l.fetched_at || L.fetched_at;
-      return at && (!o || at < o) ? at : o;
-    }, null);
-    var asOf = oldest ? String(oldest).slice(0, 10) : '--';
-    if ($('deal-age')) $('deal-age').innerHTML = L.listings.length ? BC.listingsAgeNote(oldest) : '';
+    // the time it was really fetched, so the stamp never claims a check that
+    // did not happen for every listing on screen.
+    var oldest = BC.oldestFetch(rows, L.fetched_at);
+    if ($('deal-age')) $('deal-age').innerHTML = listings ? BC.listingsUpdatedNote(oldest) : '';
 
     $('deal-stats').innerHTML = [
       [listings, 'Listings checked'],
       [deals.length, 'Deals found'],
       [best == null ? '--' : BC.money(best), 'Best profit'],
-      [BC.esc(asOf), 'Listings checked since']
+      [oldest ? BC.esc(BC.fetchedTime(oldest)) : '--', 'Prices updated']
     ].map(function (c) {
       return '<div class="stat"><div class="v">' + c[0] + '</div><div class="k">' +
         BC.esc(c[1]) + '</div></div>';
@@ -142,15 +145,22 @@
   }
 
   function emptyState() {
+    if (L.listings.length && !freshRows().length) {
+      return '<div class="empty">' +
+        '<p><strong>Listing prices are being refreshed.</strong></p>' +
+        '<p>eBay asking prices are only shown for 6 hours after they are checked, and the ' +
+        'latest check is older than that. They are rechecked every 4 hours; ' +
+        'check back soon.</p></div>';
+    }
     if (!L.listings.length) {
       return '<div class="empty">' +
         '<p><strong>No active listings loaded yet.</strong></p>' +
-        '<p>Deals appear here once today\'s eBay listings have been checked. ' +
+        '<p>Deals appear here once eBay listings have been checked. ' +
         'Check back soon.</p>' +
         '<details class="owner-help"><summary>Site owner: how to turn this on</summary>' +
         '<p class="fine">Add <span class="mono">EBAY_CLIENT_ID</span> and ' +
         '<span class="mono">EBAY_CLIENT_SECRET</span> as repository secrets on GitHub and ' +
-        'the daily refresh fetches listings automatically. To fetch them by hand:</p>' +
+        'the refresh (every 4 hours) fetches listings automatically. To fetch them by hand:</p>' +
         '<p class="mono">export EBAY_CLIENT_ID=\u2026 EBAY_CLIENT_SECRET=\u2026<br>' +
         'npm run ebay -- --priced-only --limit 40<br>npm run build</p>' +
         '<p class="fine">A free key takes a few minutes at developer.ebay.com.</p>' +
@@ -266,24 +276,15 @@
     render();
   });
 
-  $('export-deals').addEventListener('click', function () {
-    var rows = [['item_id', 'item_name', 'listing_title', 'ask', 'shipping', 'buyer_total', 'condition',
-      'gross_value', 'net_after_fees', 'margin', 'margin_pct_on_cost',
-      'discount_pct', 'confidence', 'comparable_sales', 'listing_url', 'risks']];
-    (window.__deals || []).forEach(function (d) {
-      rows.push([d.item_id, d.item_name, d.listing.title, BC.r2(d.ask),
-        d.ship_assumed ? '' : BC.r2(d.ship_price || 0), BC.r2(d.buyer_total), d.condition,
-        BC.r2(d.gross_value), BC.r2(d.net_proceeds), BC.r2(d.margin),
-        Math.round(d.margin_pct), Math.round(d.discount_pct), d.confidence,
-        d.comparable_count, d.listing.source_url, d.risks.join(' | ')]);
-    });
-    BC.download('bearchart-deals-' + BC.stamp() + '.csv', BC.toCsv(rows));
-  });
+  // No download of the deals: they are eBay listing data (eBay API License
+  // Agreement s8.5 forbids bulk download, raw or aggregated).
 
   renderInputs();
   if (BC.gate) BC.gate.onChange(render);
   BC.withCatalogue(function (cat, listings) {
     L = listings;
     render();
+    // Re-check every five minutes, so rows leave the page as they pass six hours.
+    setInterval(render, 5 * 60 * 1000);
   }, { listings: true, skeleton: [[$('deals'), 'table', 5]] });
 })();

@@ -2145,12 +2145,9 @@ CONFIG = OrderedDict([
         ("exclusive_with", OrderedDict(V.MODIFIERS["exclusive_with"])),
         ("max_combined_multiplier", V.MODIFIERS["max_combined_multiplier"]),
     ])),
-    # Section 8 - buy / trade / sell bands, as fractions of fair market value.
-    ("bands", OrderedDict([
-        ("buy", [0.55, 0.70]),
-        ("trade", [0.75, 0.90]),
-        ("high_ask", [1.10, 1.30]),
-    ])),
+    # No buy / trade / high-ask bands. Derived prices to act on (what to pay,
+    # what to list at) are a pricing model built on eBay data, which eBay's API
+    # License Agreement (s9.5) forbids; the guide shows what bears sold for.
     # Section 3 / 17 - confidence thresholds by comparable sale count.
     ("confidence", OrderedDict([
         ("high_min", 10), ("medium_min", 4), ("low_min", 1),
@@ -2200,9 +2197,9 @@ CONFIG = OrderedDict([
     ("fees", V.FEE_SCHEDULE),
     # Prefer recent sales. as_of (the build date) is added in main(), so the
     # engine anchors on a date the data states rather than on the clock.
-    # Active listings older than this are flagged on the page and no longer
-    # carried forward by the build (load_active_listings).
-    ("listings_max_age_days", V.LISTINGS_MAX_AGE_DAYS),
+    # Active listings older than this many hours are not shown anywhere: the
+    # build drops them (load_active_listings) and so does the browser.
+    ("listings_max_age_hours", V.LISTINGS_MAX_AGE_HOURS),
     ("recency", OrderedDict([("window_days", V.RECENCY["window_days"]),
                              ("min_recent", V.RECENCY["min_recent"])])),
     # Sales by the operator (Jay's Retro Exchange) may make up at most this share
@@ -2242,7 +2239,7 @@ RETAIL_REFERENCE = OrderedDict([
 BUSINESS = OrderedDict([
     ("enabled", True),
     ("name", "Jay's Retro Exchange"),
-    ("contact_email", None),
+    ("contact_email", "hello@plushpriceguide.com"),
     ("contact_url", "https://jaysretroexchange.com"),
 
     # The shop promo. Shown where it is useful rather than everywhere: in the
@@ -2306,16 +2303,19 @@ BUSINESS = OrderedDict([
 # Switches for features that are built but not offered. One flag each, read by
 # the plans page, the gates and the buttons (config.features). Off means the
 # feature appears nowhere on the site.
-FEATURE_FLAGS = OrderedDict([
-    # The sold-comps CSV (Power). Paused by the owner pending legal review; the
-    # edge function export-comps also needs COMPS_EXPORT_ENABLED=true.
-    ("comps_export", False),
-])
+# None today. The sold-comps CSV that used to sit here is gone, not paused: eBay's
+# API License Agreement (s8.5) forbids letting eBay-derived data be downloaded
+# in bulk, raw or aggregated, so there is no switch to turn it back on.
+FEATURE_FLAGS = OrderedDict()
 
 # Display order of the tiers. "guest" (no account) is a display tier only: it
 # is never sent to the server, and it unlocks nothing a free account does not.
 TIERS_ORDER = ["guest", "free", "pro", "power"]
 
+# Nothing paid is built on eBay data (eBay API License Agreement s8.5): every
+# value, every comp and the deal finder are free, and no plan sells alerts,
+# scanning, exports or API access over eBay listings or sold prices.
+#
 # The membership feature catalogue: one list drives the plan cards and the
 # comparison. "from" is the lowest tier that gets a feature (higher tiers
 # inherit it). status "included" works today; "soon" is being built, is not
@@ -2343,31 +2343,15 @@ FEATURES = [
     OrderedDict([("id", "insurance"),
                  ("text", "Insurance-ready valuation report, with the evidence behind every figure"),
                  ("from", "pro"), ("status", "included"), ("entitlement", "insurance_archive")]),
-    OrderedDict([("id", "wl_alerts"), ("text", "Wishlist alerts: an email when a bear you want is listed"),
-                 ("from", "pro"), ("status", "soon"), ("entitlement", "wishlist_alerts")]),
     OrderedDict([("id", "id_help"), ("text", "Bear identification help, answered first"),
                  ("from", "pro"), ("status", "soon"), ("entitlement", "id_priority")]),
     OrderedDict([("id", "showcase"), ("text", "A showcase of your top 12 bears, shared with other members"),
                  ("from", "power"), ("status", "included"), ("entitlement", "showcase")]),
-    OrderedDict([("id", "deal_alerts"), ("text", "Instant deal alerts by push and email, after fees"),
-                 ("from", "power"), ("status", "soon"), ("entitlement", "alerts_push")]),
-    OrderedDict([("id", "poll"), ("text", "Your watched bears checked first in the scanning queue"),
-                 ("from", "power"), ("status", "soon"), ("entitlement", "poll_priority")]),
     OrderedDict([("id", "digest"), ("text", "A monthly email with what your collection is worth now"),
                  ("from", "power"), ("status", "soon"), ("entitlement", "value_digest")]),
     OrderedDict([("id", "outfits"), ("text", "Outfit and set valuations"),
                  ("from", "power"), ("status", "soon"), ("entitlement", "outfit_assembly")]),
-    OrderedDict([("id", "api"), ("text", "Export and API access to your own data"),
-                 ("from", "power"), ("status", "soon"), ("entitlement", "api_access")]),
 ]
-
-# Only switched on together with FEATURE_FLAGS["comps_export"] (see
-# apply_feature_flags), so the flag controls the plan card and the gate at once.
-COMPS_EXPORT_FEATURE = OrderedDict([
-    ("id", "comps_csv"),
-    ("text", "Download the sold-price records behind any search (CSV). The records "
-             "stay free on every bear's page; this is a convenience download"),
-    ("from", "power"), ("status", "included"), ("entitlement", "comps_export")])
 
 # The four tiers, in tiers_order. "guest" and "free" both cost nothing and
 # unlock nothing on the server: "guest" is a display tier only (no account) and
@@ -2408,7 +2392,7 @@ PLANS = OrderedDict([
         ("perk", "A $5 coupon every month for the Jay's Retro Exchange store, on orders over $40. Not valid on marketplace sellers' items."),
         ("blurb", "Know what your collection is worth, on every device."),
         ("entitlements", [
-            "collection_sync", "hosted_history", "wishlist_alerts",
+            "collection_sync", "hosted_history",
             "insurance_archive", "id_priority", "shop_discount",
         ]),
     ])),
@@ -2419,11 +2403,10 @@ PLANS = OrderedDict([
         ("who_for", "For collectors who want a showcase of their best bears, plus everything in Pro."),
         ("badge", None),
         ("perk", "A $10 coupon every month for the Jay's Retro Exchange store, on orders over $75. Not valid on marketplace sellers' items."),
-        ("blurb", "Show your top 12 bears to other members. Deal alerts are on the way."),
+        ("blurb", "Show your top 12 bears to other members."),
         ("entitlements", [
-            "collection_sync", "hosted_history", "value_digest", "wishlist_alerts",
-            "insurance_archive", "id_priority", "shop_discount",
-            "alerts_push", "alerts_email", "poll_priority", "api_access", "showcase",
+            "collection_sync", "hosted_history", "value_digest",
+            "insurance_archive", "id_priority", "shop_discount", "showcase",
         ]),
     ])),
 ])
@@ -2437,22 +2420,13 @@ ENTITLEMENTS = OrderedDict([
     ("collection_sync", OrderedDict([("label", "Collection sync"), ("enforced", "server")])),
     ("hosted_history", OrderedDict([("label", "Server-side collection history"), ("enforced", "server")])),
     ("value_digest", OrderedDict([("label", "Monthly collection value email"), ("enforced", "server")])),
-    ("wishlist_alerts", OrderedDict([("label", "Wishlist alerts"), ("enforced", "server")])),
     ("insurance_archive", OrderedDict([("label", "Insurance valuation reports"), ("enforced", "server")])),
     ("id_priority", OrderedDict([("label", "Identification help, answered first"), ("enforced", "server")])),
     ("shop_discount", OrderedDict([("label", "Monthly coupon for the Jay's Retro Exchange store"), ("enforced", "shop")])),
-    ("alerts_push", OrderedDict([("label", "Push deal alerts"), ("enforced", "server")])),
-    ("alerts_email", OrderedDict([("label", "Email deal alerts"), ("enforced", "server")])),
-    ("poll_priority", OrderedDict([("label", "Scanning priority"), ("enforced", "server")])),
     ("outfit_assembly", OrderedDict([("label", "Outfit and set valuations"), ("enforced", "ux"),
                                      ("status", "planned")])),
-    ("api_access", OrderedDict([("label", "Export and API access"), ("enforced", "server")])),
     # The showcase is saved by save_showcase(), which refuses without it.
     ("showcase", OrderedDict([("label", "Member showcase"), ("enforced", "server")])),
-    # The export-comps edge function checks it (and a daily quota). The records
-    # themselves stay public on every item page; this sells the bulk download.
-    ("comps_export", OrderedDict([("label", "Sold comps download (CSV), when available"),
-                                  ("enforced", "server")])),
 ])
 
 MEMBERSHIP = OrderedDict([
@@ -2464,7 +2438,6 @@ MEMBERSHIP = OrderedDict([
     # session against the secret key, and open the billing portal.
     ("checkout_function", "create-checkout"),
     ("portal_function", "create-portal"),
-    ("export_function", "export-comps"),
     ("tiers_order", TIERS_ORDER),
     ("plans", PLANS),
     ("features", FEATURES),
@@ -2475,33 +2448,9 @@ MEMBERSHIP = OrderedDict([
                      "before tax and shipping. Works on items Jay's Retro Exchange sells "
                      "itself, not on other sellers' marketplace items. Cannot be shared "
                      "or combined, and expires at the end of the billing month."),
-    # Hot polling slots are shared across the whole platform, not per subscriber.
-    # A default eBay key affords about three 60-second queries in total, so
-    # "60-second polling on anything you like" is a promise that cannot be kept
-    # past the third customer. What a subscriber actually buys is PRIORITY: the
-    # scarce hot slots go to the most-subscribed items, so a hundred people
-    # watching one bear share one query and all get it fast.
-    ("hot_slots_total", 3),
-    ("hot_slot_note",
-     "Hot slots are shared. The most-watched items across all members get the "
-     "60-second queue; watching an item nobody else watches puts it in the "
-     "30-minute tier."),
 ])
 
 
-def apply_feature_flags(membership, flags):
-    """A flagged feature is sold only while its flag is on: the plan card line
-    and the Power entitlement are added here, so one switch moves both."""
-    if flags.get("comps_export"):
-        power = membership["plans"]["power"]["entitlements"]
-        if "comps_export" not in power:
-            power.append("comps_export")
-        if not any(f["id"] == COMPS_EXPORT_FEATURE["id"] for f in membership["features"]):
-            membership["features"].append(COMPS_EXPORT_FEATURE)
-    return membership
-
-
-apply_feature_flags(MEMBERSHIP, FEATURE_FLAGS)
 CONFIG["features"] = FEATURE_FLAGS
 
 # ---------------------------------------------------------------------------
@@ -2620,12 +2569,14 @@ WIKI_ADDED, WIKI_SKIPPED = load_wiki_catalogue()
 SOURCES = [
     {"name": "eBay sold listings (Terapeak Product Research)",
      "url": "https://www.ebay.com/sh/research",
-     "role": "Main price source: completed eBay sales from the last three years, each matched "
-             "to a bear by its title and checked by hand. Item price only, shipping left out"},
+     "role": "Main price source: completed eBay sales from the last three years, researched "
+             "manually in Terapeak (eBay Seller Hub), each matched to a bear by its title and "
+             "checked by hand. Not pulled from an API. Item price only, shipping left out"},
     {"name": "eBay Browse API",
      "url": "https://developer.ebay.com/api-docs/buy/browse/overview.html",
-     "role": "Live asking prices for the Deal finder, refreshed daily. An asking price is never "
-             "used to set a value"},
+     "role": "Current asking prices for the Deal finder, refreshed every 4 hours; a listing "
+             "checked more than 6 hours ago is not shown. An asking price is never used to set "
+             "a value"},
     {"name": "CollectionHero (Build-A-Bear)", "url": "https://buildabear.collectionhero.com/",
      "role": "Historical sales index used in early research - corroborating evidence, not sole authority"},
     {"name": "The Build-A-Bear Wiki", "url": "https://buildabearwiki.info/",
@@ -2838,8 +2789,9 @@ def load_active_listings(root, as_of=None):
     and gitignored) and the listings the committed data.json already
     publishes. The newer fetched_at wins, so neither a CI checkout (no file)
     nor a forgotten local file ever publishes older asks than are live. Asks
-    older than V.LISTINGS_MAX_AGE_DAYS are not published at all - per run, and
-    per row for rows ebay_active.py carried forward with their own date.
+    older than V.LISTINGS_MAX_AGE_HOURS are not published at all - per run, and
+    per row for rows ebay_active.py carried forward with their own time.
+    as_of is an ISO timestamp (tests); None means now.
     """
     path = os.path.join(root, "tools", "active_listings.json")
     local = _listings_payload(path) if os.path.exists(path) else None
@@ -2859,13 +2811,13 @@ def load_active_listings(root, as_of=None):
     source = "data.json" if payload is prev else "tools/active_listings.json"
     # A fetch that keeps failing (expired credentials, zero results write no
     # file) must not keep last week's asks on the deal finder for ever.
-    age = listings_age_days(payload.get("fetched_at"), as_of)
-    if age is None or age > V.LISTINGS_MAX_AGE_DAYS:
+    age = listings_age_hours(payload.get("fetched_at"), as_of)
+    if age is None or age > V.LISTINGS_MAX_AGE_HOURS:
         print("  WARNING: NOT carrying forward %d active listing(s) from %s: fetched %s, "
-              "%s day(s) old (limit %d). The deal finder will be empty until a fetch "
+              "%s hour(s) old (limit %d). The deal finder will be empty until a fetch "
               "succeeds - check the eBay credentials and tools/ci/daily_fetch.sh."
               % (len(payload["listings"]), source, payload.get("fetched_at"),
-                 "unknown" if age is None else age, V.LISTINGS_MAX_AGE_DAYS))
+                 "unknown" if age is None else "%.1f" % age, V.LISTINGS_MAX_AGE_HOURS))
         return [], None
     if payload is prev:
         print("  carried forward %d active listing(s) from data.json, fetched %s%s"
@@ -2878,10 +2830,10 @@ def load_active_listings(root, as_of=None):
     # Rows ebay_active.py carried forward for an item whose query failed keep
     # their own fetched_at; past the limit they go too.
     expired = [l for l in listings if l.get("fetched_at")
-               and (listings_age_days(l["fetched_at"], as_of) or 0) > V.LISTINGS_MAX_AGE_DAYS]
+               and (listings_age_hours(l["fetched_at"], as_of) or 0) > V.LISTINGS_MAX_AGE_HOURS]
     if expired:
-        print("  WARNING: dropped %d carried-forward listing(s) older than %d days (%s)"
-              % (len(expired), V.LISTINGS_MAX_AGE_DAYS,
+        print("  WARNING: dropped %d carried-forward listing(s) older than %d hours (%s)"
+              % (len(expired), V.LISTINGS_MAX_AGE_HOURS,
                  ", ".join(sorted({l["item_id"] for l in expired})[:10])))
         listings = [l for l in listings if l not in expired]
     for l in listings:
@@ -2899,15 +2851,29 @@ def load_active_listings(root, as_of=None):
     return listings, payload.get("fetched_at")
 
 
-def listings_age_days(fetched_at, as_of):
-    """Whole days between a listings fetch and the build date, or None."""
+def _utc(stamp):
+    """An ISO timestamp ("2026-10-15T11:32:29Z") as an aware UTC datetime."""
     import datetime
+    t = datetime.datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+    if t.tzinfo is None:
+        t = t.replace(tzinfo=datetime.timezone.utc)
+    return t
+
+
+def listings_age_hours(fetched_at, as_of=None):
+    """Hours between a listings fetch and as_of (now when None), or None.
+
+    A date with no time cannot prove it is under six hours old, so it is
+    unknown (None) rather than counted from midnight."""
+    import datetime
+    if not fetched_at or "T" not in str(fetched_at):
+        return None
     try:
-        fetched = datetime.date.fromisoformat(str(fetched_at)[:10])
-        today = datetime.date.fromisoformat(as_of) if as_of else datetime.datetime.utcnow().date()
+        fetched = _utc(fetched_at)
+        now = _utc(as_of) if as_of else datetime.datetime.now(datetime.timezone.utc)
     except (TypeError, ValueError):
         return None
-    return (today - fetched).days
+    return (now - fetched).total_seconds() / 3600.0
 
 
 OPEN_QUESTION = re.compile(
@@ -3183,7 +3149,8 @@ def main(argv=None):
     assign_sizes_and_variants(ITEMS)
     apply_note_policy(ITEMS)
     open_questions = flag_open_questions()
-    active, active_fetched_at = load_active_listings(root, built_at)
+    # Listing freshness is wall-clock, not the build date: six hours, not a day.
+    active, active_fetched_at = load_active_listings(root)
     photos = apply_image_overrides(root)
     imported = merge_imported_sales(root, REDIRECTS)
     # Before anything else can fail on a missing comp: a build that lost the

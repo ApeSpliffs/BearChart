@@ -247,7 +247,8 @@ class RunTests(unittest.TestCase):
         # dress old asks up as today's.
         import datetime
         import shutil
-        today = datetime.datetime.utcnow().date()
+        now = datetime.datetime.now(datetime.timezone.utc)
+        stamp = lambda t: t.strftime("%Y-%m-%dT%H:%M:%SZ")
         orig_root = eb.ROOT
         try:
             eb.ROOT = self.tmp
@@ -260,8 +261,8 @@ class RunTests(unittest.TestCase):
                  "evidence_type": "active_listing", "title": "x", "condition": "Good"},
                 {"id": "old-2", "item_id": failing, "listing_id": "old2", "ask_price": 9.5,
                  "evidence_type": "active_listing", "title": "x", "condition": "Good",
-                 "fetched_at": (today - datetime.timedelta(days=30)).isoformat()}]
-            data["active_listings_fetched_at"] = (today - datetime.timedelta(days=2)).isoformat() + "T06:00:00Z"
+                 "fetched_at": stamp(now - datetime.timedelta(days=30))}]
+            data["active_listings_fetched_at"] = stamp(now - datetime.timedelta(hours=2))
             with open(os.path.join(self.tmp, "data.json"), "w") as f:
                 json.dump(data, f)
             os.makedirs(os.path.join(self.tmp, "tools"), exist_ok=True)
@@ -291,14 +292,14 @@ class RunTests(unittest.TestCase):
 
     def test_carry_forward_for_stamps_and_caps(self):
         data = {"active_listings_fetched_at": "2026-10-08T06:00:00Z", "active_listings": [
-            {"id": "a", "item_id": "x"}, {"id": "b", "item_id": "x", "fetched_at": "2026-09-01"},
+            {"id": "a", "item_id": "x"}, {"id": "b", "item_id": "x", "fetched_at": "2026-10-07T23:00:00Z"},
             {"id": "c", "item_id": "y"}]}
-        kept, refused = eb.carry_forward_for(data, ["x"], as_of="2026-10-10")
+        kept, refused = eb.carry_forward_for(data, ["x"], as_of="2026-10-08T10:00:00Z")
         self.assertEqual([r["id"] for r in kept], ["a"])
         self.assertEqual(kept[0]["fetched_at"], "2026-10-08T06:00:00Z")
-        self.assertEqual([r["id"] for r in refused], ["b"])
-        kept, refused = eb.carry_forward_for(data, ["x"], as_of="2026-10-20")
-        self.assertEqual(kept, [])
+        self.assertEqual([r["id"] for r in refused], ["b"], "11 hours old: refused")
+        kept, refused = eb.carry_forward_for(data, ["x"], as_of="2026-10-08T12:01:00Z")
+        self.assertEqual(kept, [], "past six hours nothing is carried")
 
     def test_when_every_query_fails_and_nothing_is_published_nothing_is_written(self):
         orig_root = eb.ROOT

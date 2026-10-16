@@ -98,7 +98,7 @@ npm run build:dev  # the generated site files: site-config.js, data/, item pages
 | `tools/ebay_active.py` | eBay Browse API adapter — current asking prices |
 | `tools/poll_engine.py` | Scheduled polling: shared query pool, heat tiers, quota budget |
 | `tools/test_poll.py` | Scheduler tests (no network) |
-| `tools/daily_update.sh` | Daily refresh: fetch, rebuild, verify, publish or roll back |
+| `tools/daily_update.sh` | Listings refresh (CI runs it every 4 hours): fetch, rebuild, verify, publish or roll back |
 | `tools/README-automation.md` | cron / systemd / GitHub Actions setup |
 | `tools/test_engine.js` | Engine + data-integrity tests |
 | `tools/test_pages.js` | Page tests, rendered in jsdom |
@@ -118,8 +118,7 @@ npm run build:dev  # the generated site files: site-config.js, data/, item pages
 4. Take the **median**. Never the mean, never a single sale.
 5. Publish the 25th–75th percentile as the range; under four comps, show the full
    observed spread instead, because quartiles of three points are noise.
-6. Derive buy (55–70%), trade (75–90%) and high-end ask (110–130%) from that value.
-7. Assign confidence from the comp count: **10+ HIGH · 4–9 MEDIUM · 1–3 LOW · 0 VERY LOW**.
+6. Assign confidence from the comp count: **10+ HIGH · 4–9 MEDIUM · 1–3 LOW · 0 VERY LOW**.
 
 **Recency and staleness.** Every build states its date (`meta.built_at`, also
 `config.recency.as_of`), and valuations anchor on that date rather than on the clock or on
@@ -747,16 +746,23 @@ can run in the browser is simply on, for everyone, with no account.
 
 | | | |
 |---|---|---|
-| **Free** | $0 | Catalogue, valuations, every comp, checklists, local collection, deal finder, items CSV |
+| **Free** | $0 | Catalogue, valuations, every comp, checklists, local collection, deal finder |
 | **Pro** | $7/mo | Collection sync, server-side portfolio history, archived insurance schedules |
-| **Power** | $14/mo | Showcase, plus deal alerts, polling priority and API access (on the way) |
+| **Power** | $14/mo | Showcase and a monthly value email, plus everything in Pro |
 
 Plan cards come from one feature catalogue (`FEATURES` in `tools/build_data.py`): what
 works today is ticked; anything still being built is listed under "On the way" and is
 not part of what anyone pays for. `tools/test_membership.py` fails the build if a plan
-sells an entitlement the server does not enforce. The sold-comps CSV is built
-(`export-comps`, server-checked, rate limited) but switched off by one flag,
-`FEATURE_FLAGS["comps_export"]`, pending legal review.
+sells an entitlement the server does not enforce.
+
+**eBay API License Agreement.** Nothing paid is built on eBay data (s8.5): no plan
+sells alerts, eBay scanning, exports or API access, and every value, comp and the deal
+finder stay free. Nothing on the site downloads eBay-derived data in bulk: the items
+CSV, the per-item and sold-comps CSVs and the deals CSV are gone, and the checklist
+download carries no values. No buy / trade / asking-price figures are derived from the
+sold data (s9.5). eBay listings are refreshed every 4 hours and never shown more than
+6 hours after they were checked (s8.1(c); `bc-data.js` re-checks in the browser).
+`tools/test_membership.py` and `tools/test_pages.js` hold all of this.
 
 ### Why the free tier is this generous
 

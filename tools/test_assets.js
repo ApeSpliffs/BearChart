@@ -144,7 +144,7 @@ test('a rebuild from the same data.json is byte-identical', () => {
 
 test('site-config.js evaluates and points at files that exist', () => {
   assert.ok(CFG.auth && 'supabase_url' in CFG.auth, 'auth settings');
-  assert.strictEqual(CFG.features.comps_export, false);
+  assert.deepStrictEqual(CFG.features, {}, 'no feature switches: the comps export is gone, not paused');
   assert.ok(!('auth' in CFG.engine) && !('features' in CFG.engine), 'engine config is the engine\'s only');
   assert.ok(CFG.engine.condition_multipliers && CFG.engine.recency.as_of);
   for (const [k, p] of Object.entries(CFG.engine.fees.platforms)) {

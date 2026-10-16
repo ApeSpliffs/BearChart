@@ -84,71 +84,80 @@ class ListingsCarryForward(unittest.TestCase):
         with open(os.path.join(self.tmp, "data.json"), "w") as f:
             json.dump({"active_listings": listings, "active_listings_fetched_at": fetched}, f)
 
+    # Listing freshness is in hours: eBay's API License Agreement (s8.1(c))
+    # allows listing data at most six hours older than eBay's.
+    RUN = "2026-10-10T06:15:00Z"
+
     def test_missing_file_carries_forward_the_published_listings(self):
-        self.write_data([self.row], "2026-10-01T06:15:00Z")
+        self.write_data([self.row], self.RUN)
         with contextlib.redirect_stdout(io.StringIO()) as out:
-            listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-08")
+            listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10T08:15:00Z")
         self.assertEqual([l["id"] for l in listings], ["active-1"])
-        self.assertEqual(fetched, "2026-10-01T06:15:00Z", "the age stays visible")
+        self.assertEqual(fetched, self.RUN, "the age stays visible")
         self.assertNotIn("seller", listings[0], "user data is still stripped")
         self.assertIn("carried forward 1 active listing", out.getvalue())
 
     def test_listings_older_than_the_limit_are_not_carried_forward(self):
-        self.write_data([self.row], "2026-10-01T06:15:00Z")
-        limit = self.B.V.LISTINGS_MAX_AGE_DAYS
+        self.assertEqual(self.B.V.LISTINGS_MAX_AGE_HOURS, 6)
+        self.write_data([self.row], self.RUN)
         with contextlib.redirect_stdout(io.StringIO()) as out:
-            got = self.B.load_active_listings(self.tmp, "2026-10-%02d" % (1 + limit + 1))
+            got = self.B.load_active_listings(self.tmp, "2026-10-10T12:16:00Z")
         self.assertEqual(got, ([], None))
         self.assertIn("WARNING: NOT carrying forward 1 active listing", out.getvalue())
         with contextlib.redirect_stdout(io.StringIO()):
-            kept, _ = self.B.load_active_listings(self.tmp, "2026-10-%02d" % (1 + limit))
-        self.assertEqual(len(kept), 1, "exactly the limit is still carried")
+            kept, _ = self.B.load_active_listings(self.tmp, "2026-10-10T12:15:00Z")
+        self.assertEqual(len(kept), 1, "exactly six hours is still carried")
         self.write_data([self.row], None)
         with contextlib.redirect_stdout(io.StringIO()):
-            self.assertEqual(self.B.load_active_listings(self.tmp, "2026-10-02"), ([], None),
-                             "undated listings cannot prove their age")
+            self.assertEqual(self.B.load_active_listings(self.tmp, "2026-10-10T07:00:00Z"),
+                             ([], None), "undated listings cannot prove their age")
+        self.write_data([self.row], "2026-10-10")
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(self.B.load_active_listings(self.tmp, "2026-10-10T01:00:00Z"),
+                             ([], None), "a date with no time cannot prove it is under 6 hours")
 
     def test_the_limit_is_published_for_the_pages(self):
         with open(os.path.join(ROOT, "data.json")) as f:
             d = json.load(f)
-        self.assertEqual(d["config"]["listings_max_age_days"], self.B.V.LISTINGS_MAX_AGE_DAYS)
+        self.assertEqual(d["config"]["listings_max_age_hours"], self.B.V.LISTINGS_MAX_AGE_HOURS)
+        self.assertNotIn("listings_max_age_days", d["config"])
 
     def test_a_present_file_is_authoritative(self):
-        self.write_data([self.row], "2026-10-01T06:15:00Z")
+        self.write_data([self.row], "2026-10-10T02:15:00Z")
         fresh = dict(self.row, id="active-2", listing_id="2")
         with open(os.path.join(self.tmp, "tools", "active_listings.json"), "w") as f:
-            json.dump({"fetched_at": "2026-10-10T06:15:00Z", "listings": [fresh]}, f)
-        listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10")
+            json.dump({"fetched_at": self.RUN, "listings": [fresh]}, f)
+        listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10T07:15:00Z")
         self.assertEqual([l["id"] for l in listings], ["active-2"])
-        self.assertEqual(fetched, "2026-10-10T06:15:00Z")
+        self.assertEqual(fetched, self.RUN)
 
     def write_file(self, rows, fetched):
         with open(os.path.join(self.tmp, "tools", "active_listings.json"), "w") as f:
             json.dump({"fetched_at": fetched, "listings": rows}, f)
 
     def test_an_older_local_file_loses_to_the_published_listings(self):
-        self.write_data([self.row], "2026-10-09T06:15:00Z")
-        self.write_file([dict(self.row, id="active-old", listing_id="9")], "2026-10-02T06:15:00Z")
+        self.write_data([self.row], "2026-10-10T05:15:00Z")
+        self.write_file([dict(self.row, id="active-old", listing_id="9")], "2026-10-10T03:15:00Z")
         with contextlib.redirect_stdout(io.StringIO()) as out:
-            listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10")
+            listings, fetched = self.B.load_active_listings(self.tmp, self.RUN)
         self.assertEqual([l["id"] for l in listings], ["active-1"])
-        self.assertEqual(fetched, "2026-10-09T06:15:00Z")
+        self.assertEqual(fetched, "2026-10-10T05:15:00Z")
         self.assertIn("is older than the listings in data.json", out.getvalue())
 
     def test_a_stale_local_file_is_capped_too(self):
-        self.write_file([self.row], "2026-09-01T06:15:00Z")
+        self.write_file([self.row], "2026-10-09T06:15:00Z")
         with contextlib.redirect_stdout(io.StringIO()) as out:
-            got = self.B.load_active_listings(self.tmp, "2026-10-10")
+            got = self.B.load_active_listings(self.tmp, self.RUN)
         self.assertEqual(got, ([], None))
         self.assertIn("WARNING: NOT carrying forward 1 active listing(s) from "
                       "tools/active_listings.json", out.getvalue())
 
     def test_rows_carried_with_their_own_date_expire_on_their_own(self):
-        old = dict(self.row, id="active-old", listing_id="9", fetched_at="2026-09-20T06:15:00Z")
-        ok = dict(self.row, id="active-ok", listing_id="8", fetched_at="2026-10-08T06:15:00Z")
-        self.write_file([self.row, old, ok], "2026-10-10T06:15:00Z")
+        old = dict(self.row, id="active-old", listing_id="9", fetched_at="2026-10-09T23:00:00Z")
+        ok = dict(self.row, id="active-ok", listing_id="8", fetched_at="2026-10-10T02:15:00Z")
+        self.write_file([self.row, old, ok], self.RUN)
         with contextlib.redirect_stdout(io.StringIO()) as out:
-            listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10")
+            listings, fetched = self.B.load_active_listings(self.tmp, "2026-10-10T06:30:00Z")
         self.assertEqual(sorted(l["id"] for l in listings), ["active-1", "active-ok"])
         self.assertIn("dropped 1 carried-forward listing", out.getvalue())
 
@@ -158,11 +167,15 @@ class ListingsCarryForward(unittest.TestCase):
         os.remove(os.path.join(self.tmp, "data.json"))
         self.assertEqual(self.B.load_active_listings(self.tmp), ([], None))
 
-    def test_the_committed_data_keeps_its_listings(self):
+    def test_the_committed_listings_are_timestamped(self):
+        """Empty is allowed (a failed fetch publishes none rather than stale
+        ones); what is published must carry a time the browser can check."""
         with open(os.path.join(ROOT, "data.json")) as f:
             d = json.load(f)
-        self.assertTrue(d["active_listings"], "data.json should carry listings")
-        self.assertTrue(d["active_listings_fetched_at"])
+        if d["active_listings"]:
+            self.assertIn("T", d["active_listings_fetched_at"] or "")
+            for l in d["active_listings"]:
+                self.assertIn("T", l.get("fetched_at") or d["active_listings_fetched_at"])
 
 
 if __name__ == "__main__":

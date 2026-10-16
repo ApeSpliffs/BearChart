@@ -121,12 +121,8 @@
         ' at Good condition with no extras.</p>' +
         // Show the footing, do not just assert it.
         BC.evidenceStrip(v) +
-        '<div class="bands">' +
-          priceRow('Buy', BC.range(v.buy_low, v.buy_high), 'What to pay') +
-          priceRow('Trade', BC.range(v.trade_low, v.trade_high), 'Trade-in credit') +
-          priceRow('Fair sell', BC.range(v.sell_low, v.sell_high), 'Realistic sale') +
-          priceRow('High-end ask', BC.money(v.ask_low) + '+', 'Patient seller') +
-        '</div>' +
+        // What it sold for, and nothing derived from it to act on: no buy,
+        // trade or asking-price figures (eBay API License Agreement s9.5).
         '</div>';
     }
 
@@ -172,9 +168,6 @@
             '<p class="v">' + BC.range(v.range_low, v.range_high) + '</p>' +
             '<p class="n">From ' + n + ' recorded sale' + (n === 1 ? '' : 's') +
             '. The same for everyone.</p></div>' +
-          '<div class="store-card is-offer"><p class="k">Typical store offer</p>' +
-            '<p class="v">' + BC.range(v.buy_low, v.buy_high) + '</p>' +
-            '<p class="n">What a shop pays so it can resell. More for NWT or complete.</p></div>' +
         '</div>' +
         (b.blurb ? '<p class="fine">' + BC.esc(b.blurb) + '</p>' : '') +
         '<p class="actions-row store-actions">' + actions + '</p>' +
@@ -467,12 +460,8 @@
             '</tr>';
         }).join('') +
         '</tbody></table></div>' +
-        // A raw-comps download, so it follows the same switch as the Power CSV
-        // (config.features.comps_export, off pending legal review). The comps
-        // themselves stay listed above for everyone.
-        (BC.feature('comps_export')
-          ? '<p class="mt-3"><button type="button" id="export-item">Export this item to CSV</button></p>'
-          : '') +
+        // Listed for everyone to read; never offered as a download (eBay API
+        // License Agreement s8.5: no bulk download of eBay data).
         '</div>';
     }
 
@@ -533,7 +522,8 @@
     }
 
     function askingPanel() {
-      var listings = detail.listings || [];
+      // Checked again at render: a row past six hours is never shown.
+      var listings = BC.freshListings(detail.listings, detail.listings_fetched_at);
       if (!listings.length) return '';
       var spread = E.askSpread(v, listings);
 
@@ -580,11 +570,8 @@
           return '<tr><td class="num price">' + BC.exact(l.ask_price) + '</td><td>' + title +
                  '</td><td>' + BC.esc(l.condition || 'Unknown') + '</td></tr>';
         }).join('') + '</tbody></table></div>' +
-        BC.listingsAgeNote(detail.listings_fetched_at) +
-        (detail.listings_fetched_at
-          ? '<p class="fine mt-2">Fetched ' +
-            BC.esc(detail.listings_fetched_at) + ' via the eBay Browse API.</p>'
-          : '') +
+        BC.listingsUpdatedNote(BC.oldestFetch(listings, detail.listings_fetched_at)) +
+        '<p class="fine">From the eBay Browse API.</p>' +
         '</div>';
     }
 
@@ -796,13 +783,7 @@
         '<div class="headline"><span class="big">' + BC.range(a.range_low, a.range_high) +
         '</span>' + BC.confChip(a.confidence, { link: false }) + '</div>' +
         '<p class="fine">Combined multiplier x' + (Math.round(a.multiplier * 100) / 100) +
-        ' applied to a ' + BC.money(v.fair_market) + ' baseline.</p>' +
-        '<div class="bands">' +
-          priceRow('Buy', BC.range(a.buy_low, a.buy_high), 'What to pay') +
-          priceRow('Trade', BC.range(a.trade_low, a.trade_high), 'Trade-in credit') +
-          priceRow('Fair sell', BC.range(a.range_low, a.range_high), 'Realistic sale') +
-          priceRow('High-end ask', BC.money(a.ask_low) + '+', 'Patient seller') +
-        '</div>';
+        ' applied to a ' + BC.money(v.fair_market) + ' baseline.</p>';
     }
 
     if (v.has_value) {
@@ -852,13 +833,5 @@
       });
     }
 
-    var exportBtn = document.getElementById('export-item');
-    if (exportBtn) {
-      exportBtn.addEventListener('click', function () {
-        var byId = {};
-        byId[item.id] = sales;
-        BC.download('bearchart-' + item.id + '-' + BC.stamp() + '.csv', BC.salesCsv([item], byId));
-      });
-    }
   });
 })();

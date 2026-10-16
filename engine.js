@@ -344,10 +344,6 @@
       range_low: null,
       range_high: null,
       median_raw: null,
-      buy_low: null, buy_high: null,
-      trade_low: null, trade_high: null,
-      sell_low: null, sell_high: null,
-      ask_low: null, ask_high: null,
       strong_evidence_count: 0,
       ranged_count: 0,
       lower_bound: null,
@@ -489,15 +485,8 @@
                ', the range shows the full observed spread rather than a percentile band.');
     }
 
-    var b = config.bands;
-    result.buy_low = fmv * b.buy[0];
-    result.buy_high = fmv * b.buy[1];
-    result.trade_low = fmv * b.trade[0];
-    result.trade_high = fmv * b.trade[1];
-    result.sell_low = result.range_low;
-    result.sell_high = result.range_high;
-    result.ask_low = fmv * b.high_ask[0];
-    result.ask_high = fmv * b.high_ask[1];
+    // No buy / trade / asking-price bands: what bears sold for, not what to
+    // pay or list at (eBay API License Agreement s9.5).
 
     // Per-condition medians, so a NWT comp never quietly sets a used price.
     kept.forEach(function (p) {
@@ -642,7 +631,6 @@
     var chain = modifierChain(mods, config, condition);
     mult *= chain.factor;
 
-    var b = config.bands;
     // Detachable components are added at their own market price AFTER the
     // multipliers, so a $7 sound chip stays $7 rather than being scaled by the
     // value of the bear it happens to be inside.
@@ -656,9 +644,6 @@
       modifiers: chain,
       range_low: valuation.range_low * mult + chain.additive,
       range_high: valuation.range_high * mult + chain.additive,
-      buy_low: fmv * b.buy[0], buy_high: fmv * b.buy[1],
-      trade_low: fmv * b.trade[0], trade_high: fmv * b.trade[1],
-      ask_low: fmv * b.high_ask[0], ask_high: fmv * b.high_ask[1],
       confidence: valuation.confidence
     };
   }
@@ -1037,7 +1022,7 @@
       var adj = e.adjusted || e.valuation;
       acc.conservative += (adj.range_low || 0) * qty;
       acc.median += (adj.fair_market || 0) * qty;
-      acc.high += (adj.ask_high || 0) * qty;
+      acc.high += (adj.range_high || 0) * qty;
       acc.priced += qty;
       return acc;
     }, { conservative: 0, median: 0, high: 0, priced: 0, unpriced: 0 });
@@ -1080,12 +1065,10 @@
    * two thousand times on every visit. Numbers are NOT rounded, so collection
    * history does not drift.
    *
-   * The buy / trade / sell / high-ask bands are left out: they are fixed
-   * multiples of fair_market (config.bands) and the range, so storing them
-   * would only make the index bigger. withBands() puts them back - the same
-   * arithmetic valuate() does, so the numbers are identical - and adjust(),
-   * findDeals(), collectionSnapshot() and catalogueStats() all work on the
-   * result.
+   * withBands() turns a summary back into a valuation-shaped object (with its
+   * item_id) that adjust(), findDeals(), collectionSnapshot() and
+   * catalogueStats() all work on. There are no derived buy / trade / asking
+   * bands any more (see valuate()); the name stays for its callers.
    */
   var SUMMARY_KEYS = [
     'has_value', 'confidence', 'comparable_count', 'observation_count',
@@ -1104,21 +1087,10 @@
     return out;
   }
 
-  /** A summary with item_id and the price bands restored (see summary()). */
-  function withBands(s, itemId, config) {
+  /** A summary with its item_id, shaped like a valuation (see summary()). */
+  function withBands(s, itemId) {
     var out = { item_id: itemId };
     Object.keys(s || {}).forEach(function (k) { out[k] = s[k]; });
-    var fmv = out.fair_market;
-    var b = config.bands;
-    var priced = out.has_value && typeof fmv === 'number';
-    out.buy_low = priced ? fmv * b.buy[0] : null;
-    out.buy_high = priced ? fmv * b.buy[1] : null;
-    out.trade_low = priced ? fmv * b.trade[0] : null;
-    out.trade_high = priced ? fmv * b.trade[1] : null;
-    out.sell_low = priced ? out.range_low : null;
-    out.sell_high = priced ? out.range_high : null;
-    out.ask_low = priced ? fmv * b.high_ask[0] : null;
-    out.ask_high = priced ? fmv * b.high_ask[1] : null;
     return out;
   }
 

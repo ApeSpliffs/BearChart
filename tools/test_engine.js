@@ -145,17 +145,18 @@ test('condition grades are reported separately, not blended away', () => {
   assert.strictEqual(v.by_condition.Good.median, 45);
 });
 
-test('buy sits below fair market and high ask sits above it', () => {
-  const v = valueOf('original-pumpkin-kitty');
-  assert.ok(v.buy_high < v.fair_market, 'buy price must be under FMV');
-  assert.ok(v.trade_high < v.ask_low, 'trade must sit under the high-end ask');
-  assert.ok(v.ask_low > v.fair_market, 'high-end ask must exceed FMV');
-});
+// eBay API License Agreement s9.5: no suggested prices built on eBay data.
+const DERIVED_PRICE_KEYS = ['buy_low', 'buy_high', 'trade_low', 'trade_high',
+  'sell_low', 'sell_high', 'ask_low', 'ask_high'];
 
-test('band arithmetic matches the configured percentages', () => {
-  const v = valueOf('original-pumpkin-kitty');
-  assert.ok(Math.abs(v.buy_low - v.fair_market * CFG.bands.buy[0]) < 1e-9);
-  assert.ok(Math.abs(v.ask_high - v.fair_market * CFG.bands.high_ask[1]) < 1e-9);
+test('a valuation carries no buy, trade or asking-price figures', () => {
+  assert.ok(!('bands' in CFG), 'no band percentages in the config');
+  for (const id of ['original-pumpkin-kitty', 'grey-panda-mini-beans']) {
+    const v = valueOf(id);
+    for (const k of DERIVED_PRICE_KEYS) assert.ok(!(k in v), id + ' has ' + k);
+    const a = E.adjust(v, 'NWT', 'bare', CFG);
+    for (const k of DERIVED_PRICE_KEYS) assert.ok(!(k in a), id + ' adjusted has ' + k);
+  }
 });
 
 test('an item with two comps reports LOW confidence and the full spread', () => {
@@ -1382,15 +1383,15 @@ test('adjust() of a summary equals adjust() of the full valuation', () => {
   }
 });
 
-test('withBands() restores exactly the bands valuate() computed', () => {
+test('withBands() restores the summary fields valuate() computed, and no derived prices', () => {
   for (const i of DATA.items.slice(0, 400)) {
     const v = valueOf(i.id);
     const w = E.withBands(E.summary(v), i.id, CFG);
     assert.strictEqual(w.item_id, i.id);
-    for (const k of ['buy_low', 'buy_high', 'trade_low', 'trade_high', 'sell_low', 'sell_high',
-                     'ask_low', 'ask_high', 'fair_market', 'range_low', 'confidence']) {
+    for (const k of ['fair_market', 'range_low', 'range_high', 'confidence']) {
       assert.strictEqual(w[k], v[k], i.id + '.' + k);
     }
+    for (const k of DERIVED_PRICE_KEYS) assert.ok(!(k in w), i.id + ' has ' + k);
   }
 });
 

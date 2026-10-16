@@ -1,6 +1,11 @@
-name: Daily refresh
+name: Listings refresh
 # Refreshes eBay ASKING prices only. Sold comps are not obtainable from any API
 # we can use, so valuations do not change here - see README, "Live data".
+#
+# Every 4 hours. eBay's API License Agreement (s8.1(c)) allows listing data at
+# most 6 hours older than eBay's; the site also hides any listing checked more
+# than 6 hours ago (bc-data.js), so a late or failed run empties the deal
+# finder rather than showing stale asks. Each push to main redeploys Netlify.
 #
 # Two jobs, so the job that runs repo code never holds a write token:
 #   refresh  - read-only checkout, fetch, build, npm test; uploads the changed
@@ -10,7 +15,7 @@ name: Daily refresh
 #              commit, the push fails rather than publishing untested data.
 on:
   schedule:
-    - cron: '15 6 * * *'
+    - cron: '15 */4 * * *'
   workflow_dispatch:
 
 permissions: {}
@@ -47,10 +52,11 @@ jobs:
       # Mondays: add any bears newly listed on The Build-A-Bear Wiki. It only
       # ever adds (never removes) and keeps the catalogue as-is if the wiki is
       # down.
-      - name: Weekly new-bear check (Mondays)
+      - name: Weekly new-bear check (Mondays, 08:15 UTC run only)
         run: |
-          if [ "$(date -u +%u)" = 1 ]; then python3 tools/update_wiki_catalogue.py
-          else echo "Not Monday; skipping"; fi
+          if [ "$(date -u +%u)" = 1 ] && [ "$(date -u +%H)" = 08 ]; then
+            python3 tools/update_wiki_catalogue.py
+          else echo "Not the Monday 08:15 run; skipping"; fi
 
       # data.json + seed.sql, then the generated site files the tests read
       # (site-config.js, data/, item pages, sw.js; none of them committed).
@@ -124,7 +130,7 @@ jobs:
           git config user.email "bearchart-bot@users.noreply.github.com"
           git add -- "${allow[@]}"
           git diff --staged --quiet && { echo "No changes"; exit 0; }
-          git commit -m "Daily refresh: rebuild data $(date -u +%Y-%m-%d)"
+          git commit -m "Listings refresh: rebuild data $(date -u +%Y-%m-%dT%H:%MZ)"
           # Fast-forward only: if main moved since the tested commit, fail rather
           # than publish data built and tested against a different tree.
           git push origin HEAD:refs/heads/main

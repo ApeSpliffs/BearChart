@@ -250,21 +250,6 @@
 
   // --- the fine print ---------------------------------------------------------------
 
-  function renderHotSlots() {
-    // Still stated before anyone pays - just in the fine print rather than
-    // ahead of the plans.
-    $('hot-slots').innerHTML =
-      '<strong>Deal alerts are not built yet. When they arrive, alert speed is shared, not personal.</strong> ' +
-      'Scanning eBay for new listings costs API quota, and the budget covers about ' +
-      '<strong>' + P.hotSlots + ' continuously-scanned searches for the whole site</strong> ' +
-      '&mdash; not ' + P.hotSlots + ' each. So Power cannot promise 60-second checks on ' +
-      'anything you like; that is a promise that breaks at the fourth customer.' +
-      (P.hotSlotNote() ? '<br><br>' + BC.esc(P.hotSlotNote()) : '') +
-      '<br><br>In practice this works in your favour on the bears people chase: everyone ' +
-      'watching the same bear shares one fast search and hears about a deal at the same ' +
-      'moment.';
-  }
-
   var ENFORCED = {
     server: ['vintage', 'Server',
       'The database refuses this without a live membership, however the request is made.'],
@@ -381,7 +366,6 @@
     renderPlans();
     renderCompare();
     renderFaq();
-    renderHotSlots();
     renderEnforcement();
   }
 
