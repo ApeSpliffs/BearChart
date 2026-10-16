@@ -1,4 +1,4 @@
-/* BearChart price-guide index: search, filters, sorting, stats, calculator, CSV. */
+/* Plush Price Guide price-guide index: search, filters, sorting, stats, calculator, CSV. */
 (function () {
   'use strict';
 
@@ -60,7 +60,7 @@
   // Everything below needs the catalogue (every item and its value summary).
   BC.withCatalogue(function (D) {
     // -------------------------------------------------------------------------
-    // Rarity ranking. Derived from recorded flags only - BearChart does not
+    // Rarity ranking. Derived from recorded flags only - Plush Price Guide does not
     // invent a rarity grade for items where the research recorded none.
     // -------------------------------------------------------------------------
     function rarityRank(item) {
@@ -493,7 +493,7 @@
       var v = BC.valuationFor(id);
       if (!v.has_value) {
         out.innerHTML = '<div class="notice warn"><strong>' + BC.esc(item.canonical_name) +
-          '</strong> has no sold observations on record, so BearChart will not publish a ' +
+          '</strong> has no sold observations on record, so Plush Price Guide will not publish a ' +
           'value for it. Add a sourced comp and it becomes priceable.</div>';
         return;
       }

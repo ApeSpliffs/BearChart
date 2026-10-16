@@ -84,7 +84,7 @@ export function createBillingService(deps: BillingServiceDeps): BillingService {
       ours.map((s) => s.metadataUserId).find(isUuid) ?? null;
 
     if (!userId) {
-      if (ours.length === 0) return ignored("not a BearChart customer");
+      if (ours.length === 0) return ignored("not a Plush Price Guide customer");
       // Ours, but the link has not landed yet: fail so Stripe retries rather
       // than silently dropping somebody's membership.
       throw new Error("no user for stripe customer");

@@ -1,4 +1,4 @@
-/* BearChart membership page. Driven by the same config the gates read, so the
+/* Plush Price Guide membership page. Driven by the same config the gates read, so the
    pricing table cannot drift away from what is actually enforced.
 
    Four tiers in tiers_order (Free, no account / Free account / Pro / Power),

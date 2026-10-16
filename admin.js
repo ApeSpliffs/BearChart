@@ -1,4 +1,4 @@
-/* BearChart admin. Drafts items and sales locally and exports them as JSON or SQL.
+/* Plush Price Guide admin. Drafts items and sales locally and exports them as JSON or SQL.
    The forms and validation are the same shape the Supabase-backed admin will use. */
 (function () {
   'use strict';
@@ -270,7 +270,7 @@
     }
 
     $('export-sql').addEventListener('click', function () {
-      var lines = ['-- BearChart pending entries, generated ' + BC.stamp(),
+      var lines = ['-- Plush Price Guide pending entries, generated ' + BC.stamp(),
         '-- Run against the schema in supabase/migrations/.', ''];
 
       draft.items.forEach(function (i) {
@@ -723,7 +723,7 @@
             item_slug: row.item_slug,
             // Versioned, so a replaced photo is never served stale from a cache.
             image_url: pub + '?v=' + Date.now(),
-            credit: 'Photo by a BearChart member',
+            credit: 'Photo by a Plush Price Guide member',
             submission_id: row.id,
             approved_at: new Date().toISOString()
           });

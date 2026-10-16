@@ -1,4 +1,4 @@
-/* BearChart roadmap: what is built, what is planned, and what is not possible.
+/* Plush Price Guide roadmap: what is built, what is planned, and what is not possible.
    Status is derived from the codebase where it can be, so this page cannot
    quietly claim something is shipped after it has been removed. */
 (function () {

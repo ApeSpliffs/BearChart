@@ -1,4 +1,4 @@
-/* BearChart collector submissions.
+/* Plush Price Guide collector submissions.
  *
  * Two ways for a reader to put something back: a sold price they know about,
  * and a problem they have spotted on a page.
@@ -159,7 +159,7 @@
   // The database enforces all of that (supabase/migrations/20261008000003_photos.sql) -
   // these functions only make it pleasant to use.
 
-  var PHOTO_CREDIT = 'Photo by a BearChart member';
+  var PHOTO_CREDIT = 'Photo by a Plush Price Guide member';
   var PHOTO_MAX_SIDE = 1400;
 
   // Through auth.js, so a deploy's config.js override (e.g. a preview with

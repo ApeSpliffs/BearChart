@@ -1,5 +1,5 @@
 /*
- * BearChart item illustrations.
+ * Plush Price Guide item illustrations.
  *
  * No item in this database ships with a photograph — official Build-A-Bear
  * product imagery is copyrighted and there is no lawful bulk source for photos

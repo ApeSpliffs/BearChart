@@ -21,11 +21,12 @@ command -v python3 >/dev/null || {
 node tools/build_assets.js
 
 # The sitemap needs absolute URLs, so the base address has to come from the
-# host (Vercel). Vercel's carries no scheme.
-if [ "${VERCEL_ENV:-}" = "production" ] && [ -n "${VERCEL_PROJECT_PRODUCTION_URL:-}" ]; then
-  BASE="https://$VERCEL_PROJECT_PRODUCTION_URL"  # Vercel production
-elif [ -n "${VERCEL_URL:-}" ]; then
-  BASE="https://$VERCEL_URL"                     # Vercel preview
+# host. Netlify sets URL to the primary domain (https://plushpriceguide.com)
+# and DEPLOY_PRIME_URL to this deploy's own address, schemes included.
+if [ "${CONTEXT:-}" = "production" ] && [ -n "${URL:-}" ]; then
+  BASE="$URL"                                    # Netlify production
+elif [ -n "${DEPLOY_PRIME_URL:-}" ]; then
+  BASE="$DEPLOY_PRIME_URL"                       # Netlify deploy preview / branch deploy
 else
   BASE=""                                        # local build; no sitemap, not an error
 fi
@@ -54,7 +55,7 @@ cp -r item icons images vendor "$DIST"/
 # The browser's data: hashed index/listings and per-item files. Not
 # data/manifest.json (a build input), and never data.json itself.
 cp -r data/h data/items "$DIST/data/"
-cp ./*.html ./*.js ./*.css favicon.ico manifest.webmanifest robots.txt "$DIST"/
+cp ./*.html ./*.js ./*.css favicon.ico manifest.webmanifest robots.txt _headers "$DIST"/
 [ -f sitemap.xml ] && cp sitemap.xml "$DIST"/
 
 cp "$RUNTIME_CONFIG" "$DIST/config.js"
@@ -62,7 +63,7 @@ cp "$RUNTIME_CONFIG" "$DIST/config.js"
 # Link previews (Facebook, iMessage, Discord) need an absolute image address,
 # which only the host knows. The pages carry a root-relative one for local use.
 if [ -n "$BASE" ]; then
-  sed -i "s#content=\"/icons/og-image.png\"#content=\"${BASE%/}/icons/og-image.png\"#" "$DIST"/*.html
+  sed -i "s#content=\"/icons/ppg-og-image.png\"#content=\"${BASE%/}/icons/ppg-og-image.png\"#" "$DIST"/*.html
 fi
 
 echo "dist/: $(find "$DIST" -type f | wc -l) files"

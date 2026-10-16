@@ -12,7 +12,7 @@ HOW THIS READS THE WIKI
     about forty-five requests for the entire site, against a crawl that would be
     two thousand page fetches. It identifies itself, and it pauses between calls.
 
-    The wiki is CC BY-SA 4.0 and BearChart credits it in SOURCES. What comes
+    The wiki is CC BY-SA 4.0 and Plush Price Guide credits it in SOURCES. What comes
     back is names and category tags - facts about what exists - and nothing
     that could be mistaken for a price.
 """
@@ -24,7 +24,7 @@ import urllib.parse
 import urllib.request
 
 API = "https://buildabearwiki.info/w/api.php"
-UA = "BearChart-catalogue-research/1.0 (Build-A-Bear collector price guide)"
+UA = "PlushPriceGuide-catalogue-research/1.0 (Build-A-Bear collector price guide)"
 DELAY = 0.4
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

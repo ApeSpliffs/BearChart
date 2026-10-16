@@ -47,7 +47,7 @@ function sigHeader(body, overrides) {
   return Buffer.from(JSON.stringify(h)).toString('base64');
 }
 
-/** Minimal stand-in for the Vercel response object. */
+/** Minimal stand-in for a Node-style (req, res) response object. */
 function mockRes() {
   const res = { statusCode: null, body: null, headers: {}, ended: false };
   res.status = (c) => { res.statusCode = c; return res; };
@@ -465,4 +465,52 @@ test('concurrent requests for the same kid share one fetch', async () => {
   const results = await Promise.all([fetchKey(KID), fetchKey(KID), fetchKey(KID)]);
   results.forEach((r) => assert.deepStrictEqual(r, EBAY_KEY));
   assert.strictEqual(f.calls.filter((c) => c.url.includes('/public_key/')).length, 1);
+});
+
+// ---- Netlify entry point (netlify/functions/ebay-deletion.mjs) --------------
+
+const NETLIFY_FN = path.join(__dirname, '..', 'netlify', 'functions', 'ebay-deletion.mjs');
+const loadNetlify = () => import(require('url').pathToFileURL(NETLIFY_FN).href);
+const URL_BASE = 'https://plushpriceguide.com/api/ebay-deletion';
+
+test('netlify: served at the URL registered with eBay', async () => {
+  const fn = await loadNetlify();
+  assert.strictEqual(fn.config.path, '/api/ebay-deletion');
+  assert.strictEqual(typeof fn.default, 'function');
+});
+
+test('netlify: the challenge answers exactly as the node handler does', async () => {
+  const fn = await loadNetlify();
+  const handler = createHandler({ env: ENV, keyFetcher: async () => EBAY_KEY, log: capturingLog() });
+  const res = await fn.handleRequest(new Request(URL_BASE + '?challenge_code=abc123'), handler);
+  assert.strictEqual(res.status, 200);
+  assert.match(res.headers.get('content-type'), /application\/json/);
+  assert.deepStrictEqual(await res.json(), { challengeResponse: challengeResponse('abc123', TOKEN, ENDPOINT) });
+});
+
+test('netlify: a signed notification gets an empty 204, the raw bytes are what is verified', async () => {
+  const fn = await loadNetlify();
+  const log = capturingLog();
+  const handler = createHandler({ env: ENV, keyFetcher: async () => EBAY_KEY, log });
+  const res = await fn.handleRequest(new Request(URL_BASE, {
+    method: 'POST', body: BODY,
+    headers: { 'Content-Type': 'application/json', 'X-EBAY-SIGNATURE': sigHeader(BODY) },
+  }), handler);
+  assert.strictEqual(res.status, 204);
+  assert.strictEqual(await res.text(), '');
+  const logged = log.lines.join('\n');
+  assert.match(logged, /notif-1/);
+  assert.doesNotMatch(logged, new RegExp(USER_ID));
+});
+
+test('netlify: unsigned, oversized and wrong-verb requests are refused', async () => {
+  const fn = await loadNetlify();
+  const handler = createHandler({ env: ENV, keyFetcher: async () => EBAY_KEY, log: capturingLog() });
+  const unsigned = await fn.handleRequest(new Request(URL_BASE, { method: 'POST', body: BODY }), handler);
+  assert.strictEqual(unsigned.status, 412);
+  const big = await fn.handleRequest(new Request(URL_BASE, { method: 'POST', body: 'x'.repeat(64 * 1024 + 1) }), handler);
+  assert.strictEqual(big.status, 413);
+  const put = await fn.handleRequest(new Request(URL_BASE, { method: 'PUT', body: '{}' }), handler);
+  assert.strictEqual(put.status, 405);
+  assert.strictEqual(put.headers.get('allow'), 'GET, POST');
 });

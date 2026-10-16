@@ -10,15 +10,16 @@ string it lands in.
 
 Environment (see docs/ENVIRONMENTS.md):
   BEARCHART_ENV                 development | preview | production
-                                (falls back to VERCEL_ENV, then development)
+                                (falls back to Netlify's CONTEXT, then development)
   BEARCHART_SUPABASE_URL        } both set: accounts point at that project
   BEARCHART_SUPABASE_ANON_KEY   }
   BEARCHART_SENTRY_DSN          error reporting (observability.js); off if unset
   BEARCHART_POSTHOG_KEY         analytics project key; default is common.js's
   BEARCHART_POSTHOG_ON_PREVIEW  "1" to keep analytics on for previews
-  VERCEL_GIT_COMMIT_SHA         release tag for error reports
+  COMMIT_REF                    release tag for error reports (set by Netlify)
 
-A preview (VERCEL_ENV=preview, whatever BEARCHART_ENV says) with no Supabase
+A preview (a Netlify deploy preview or branch deploy, whatever BEARCHART_ENV
+says) with no Supabase
 settings gets accounts switched OFF: a preview must never talk to the
 production database. Production with none falls back to
 data.json's config (the behaviour before this file existed).
@@ -35,20 +36,31 @@ class ConfigError(ValueError):
     pass
 
 
+# Netlify's CONTEXT for each kind of build, mapped onto ours.
+NETLIFY_CONTEXTS = {
+    "production": "production",
+    "deploy-preview": "preview",
+    "branch-deploy": "preview",
+    "dev": "development",
+}
+
+
+def netlify_env(environ):
+    return NETLIFY_CONTEXTS.get((environ.get("CONTEXT") or "").strip().lower())
+
+
 def deploy_env(environ):
-    for key in ("BEARCHART_ENV", "VERCEL_ENV"):
-        value = (environ.get(key) or "").strip().lower()
-        if value in ENVS:
-            return value
-    return "development"
+    value = (environ.get("BEARCHART_ENV") or "").strip().lower()
+    if value in ENVS:
+        return value
+    return netlify_env(environ) or "development"
 
 
 def is_preview(environ):
-    """A Vercel preview build is a preview whatever BEARCHART_ENV says: a
-    mis-scoped BEARCHART_ENV=production must not point a preview at the
-    production database."""
-    vercel = (environ.get("VERCEL_ENV") or "").strip().lower()
-    return vercel == "preview" or deploy_env(environ) == "preview"
+    """A Netlify deploy preview or branch deploy is a preview whatever
+    BEARCHART_ENV says: a mis-scoped BEARCHART_ENV=production must not point a
+    preview at the production database."""
+    return netlify_env(environ) == "preview" or deploy_env(environ) == "preview"
 
 
 def _local_url(url):
@@ -80,7 +92,7 @@ def build(environ):
         runtime["posthog_key"] = posthog_key
     if preview and environ.get("BEARCHART_POSTHOG_ON_PREVIEW") != "1":
         runtime["posthog_enabled"] = False
-    release = (environ.get("VERCEL_GIT_COMMIT_SHA") or "").strip()
+    release = (environ.get("COMMIT_REF") or "").strip()
     if release:
         runtime["release"] = release
     return runtime

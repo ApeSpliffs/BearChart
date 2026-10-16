@@ -13,7 +13,7 @@ Where to get the file:
 
 WHAT THESE ROWS ARE, AND HOW THEY ARE COUNTED
 =============================================
-These are sales by Jay's Retro Exchange, the store that runs BearChart. The
+These are sales by Jay's Retro Exchange, the store that runs Plush Price Guide. The
 condition and contents are known rather than inferred, but a price guide run by
 a store that also sells has a conflict of interest in its own sales. So every
 row is marked first_party and seller_is_operator, and the engine CAPS them:

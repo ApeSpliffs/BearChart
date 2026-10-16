@@ -1,4 +1,4 @@
-/* BearChart item detail page. */
+/* Plush Price Guide item detail page. */
 (function () {
   'use strict';
 
@@ -45,7 +45,7 @@
     root.removeAttribute('aria-busy');
     if (!detail) { notFound(); return; }
     var item = detail.item;
-    document.title = item.canonical_name + ' value — BearChart (independent price guide)';
+    document.title = item.canonical_name + ' value — Plush Price Guide (independent)';
     if (BC.prompt) BC.prompt.noteItemView();
 
     // Offline and never opened: the value comes from the cached index summary,
@@ -357,7 +357,7 @@
       if (item.release_status === 'upcoming') {
         return '<div class="panel"><h2>Not released yet</h2>' +
           '<div class="notice warn"><strong>This item has been announced but is not out.</strong> ' +
-          'There is no secondary market for it, so BearChart publishes no value. Once it ' +
+          'There is no secondary market for it, so Plush Price Guide publishes no value. Once it ' +
           'ships, early sales will be pre-orders and scalped copies - hype, not a settled ' +
           'market. Wait for the price to calm down before trusting it.</div>' +
           (item.announcement_source
@@ -446,7 +446,7 @@
           }
           var notes = [];
           if (BC.isOperatorSale(s)) {
-            // Jay's Retro Exchange runs BearChart; its own sales are labelled and
+            // Jay's Retro Exchange runs Plush Price Guide; its own sales are labelled and
             // capped, never presented as anyone else's.
             notes.push('<span class="chip chip-operator">' + BC.esc(BC.operatorLabel) + '</span>');
           }
@@ -556,7 +556,7 @@
       return '<div class="panel">' +
         '<h2>Current asking prices</h2>' +
         '<div class="notice warn"><strong>These are not sales.</strong> They are what ' +
-        'sellers are currently asking on eBay. BearChart does not price from asking ' +
+        'sellers are currently asking on eBay. Plush Price Guide does not price from asking ' +
         'prices and none of these affect the valuation above.</div>' +
         (spread
           ? '<div class="bands mt-3">' +

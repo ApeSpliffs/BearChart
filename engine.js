@@ -1,5 +1,5 @@
 /*
- * BearChart valuation engine.
+ * Plush Price Guide valuation engine.
  *
  * Pure functions, no DOM. Loaded as a plain script in the browser
  * (sets globalThis.BearChartEngine) and required directly by the Node tests,
@@ -366,7 +366,7 @@
     };
 
     if (!usable.length) {
-      why.push('No sold observations are recorded for this item yet, so BearChart ' +
+      why.push('No sold observations are recorded for this item yet, so Plush Price Guide ' +
                'does not publish a value. An estimate without evidence would be a guess.');
       result.caveats.push('no-data');
       return result;
@@ -407,7 +407,7 @@
     result.outlier_note = verdict.note;
     if (!kept.length) kept = points; // never throw away every comp
 
-    // Jay's Retro Exchange runs BearChart. Its own sales are capped, never
+    // Jay's Retro Exchange runs Plush Price Guide. Its own sales are capped, never
     // boosted, and on their own they publish nothing.
     var capped = capOperator(kept, config);
     if (!capped.third) {
@@ -542,7 +542,7 @@
     if (result.operator_count || result.operator_excluded.length) {
       why.push(result.operator_count + ' of these comps ' +
                (result.operator_count === 1 ? 'was' : 'were') + ' sold by Jay\'s Retro ' +
-               'Exchange, which runs BearChart; operator sales are capped at ' +
+               'Exchange, which runs Plush Price Guide; operator sales are capped at ' +
                Math.round((config.operator_cap || 0) * 100) + '% of the comps behind a value' +
                (result.operator_excluded.length
                  ? ', so ' + result.operator_excluded.length + ' more ' +

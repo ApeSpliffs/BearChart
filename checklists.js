@@ -1,4 +1,4 @@
-/* BearChart collector checklists. Sets are derived from the catalogue itself,
+/* Plush Price Guide collector checklists. Sets are derived from the catalogue itself,
    so a checklist grows automatically as the database does. */
 (function () {
   'use strict';

@@ -54,7 +54,7 @@ def write_csv(rows, header):
 
 
 class CsvRoundTripTests(unittest.TestCase):
-    """BearChart's own CSV exports guard formula cells with a leading quote
+    """Plush Price Guide's own CSV exports guard formula cells with a leading quote
     (sanitize.js csvCell); importing one of those files gives the text back."""
 
     def test_guarded_cells_are_restored(self):

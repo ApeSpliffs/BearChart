@@ -1,4 +1,4 @@
-# Running BearChart daily
+# Running Plush Price Guide daily
 
 `tools/daily_update.sh` refreshes asking prices, rebuilds the data files, runs the
 full test suite, and only publishes if everything passes. If anything fails it
@@ -21,7 +21,7 @@ crontab -e
 Add, adjusting the path:
 
 ```cron
-# BearChart — refresh asking prices every morning at 06:15
+# Plush Price Guide — refresh asking prices every morning at 06:15
 EBAY_CLIENT_ID=your-app-id
 EBAY_CLIENT_SECRET=your-cert-id
 15 6 * * * /home/jakebassett1030/bearchart/tools/daily_update.sh
@@ -40,7 +40,7 @@ Logs land in `logs/daily-YYYY-MM-DD.log`, kept for 14 days.
 
 ```ini
 [Unit]
-Description=BearChart daily refresh
+Description=Plush Price Guide daily refresh
 
 [Service]
 Type=oneshot
@@ -54,7 +54,7 @@ ExecStart=%h/bearchart/tools/daily_update.sh
 
 ```ini
 [Unit]
-Description=Run BearChart refresh daily
+Description=Run Plush Price Guide refresh daily
 
 [Timer]
 OnCalendar=*-*-* 06:15:00
@@ -112,11 +112,11 @@ Optional extras:
   that is the only bypass actor on a protected `main`. Store `BOT_APP_ID` as a
   variable and `BOT_APP_PRIVATE_KEY` as a secret in a `production-data`
   environment limited to `main`. Without it the job uses the workflow token.
-- **Deploy hook.** `VERCEL_DEPLOY_HOOK_URL` (secret) is called after publishing.
-  Vercel redeploys on every push to `main` anyway; the hook matters once the data
+- **Deploy hook.** `NETLIFY_BUILD_HOOK_URL` (secret) is called after publishing.
+  Netlify redeploys on every push to `main` anyway; the hook matters once the data
   is produced at build time and nothing is committed.
 
-If you deploy from that repo to Vercel, the site redeploys itself on every
+If you deploy from that repo to Netlify, the site redeploys itself on every
 refresh — which is as close to "live daily" as this data honestly gets.
 
 ---

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Turn the Build-A-Bear Wiki's article index into BearChart catalogue entries.
+Turn the Build-A-Bear Wiki's article index into Plush Price Guide catalogue entries.
 
     python3 tools/fetch_wiki.py            # refresh tools/research/*.json
     python3 tools/build_wiki_catalogue.py  # -> tools/catalogue_wiki.json
@@ -120,7 +120,7 @@ FRANCHISE = {
     "kabu": "Kabu", "trudi": "Trudi", "casdon": "Casdon",
 }
 
-# Product line -> (BearChart category, variant label, is a mini bean)
+# Product line -> (Plush Price Guide category, variant label, is a mini bean)
 LINES = {
     "mini beans": ("Mini Bean", "Mini Beans", True),
     "build-a-bear mini beans": ("Mini Bean", "Mini Beans", True),

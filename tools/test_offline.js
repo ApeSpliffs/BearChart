@@ -1,4 +1,4 @@
-/* Does BearChart actually work with the network off?
+/* Does Plush Price Guide actually work with the network off?
  *
  * The offline promise is the whole argument for installing this thing, and it
  * is not something jsdom can answer - service workers, caches and a real
@@ -126,7 +126,7 @@ function check(name, ok, detail) {
     await wait(4000);
   };
 
-  console.log('BearChart offline test');
+  console.log('Plush Price Guide offline test');
   await go(BASE + '/index.html');
 
   const ready = await evaluate(

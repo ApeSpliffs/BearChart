@@ -2,7 +2,7 @@
   "name": "bearchart",
   "version": "1.0.0",
   "private": true,
-  "description": "BearChart — an independent price guide for Build-A-Bear collectibles, built on real sold prices, not asking prices.",
+  "description": "Plush Price Guide — an independent price guide for Build-A-Bear collectibles, built on real sold prices, not asking prices.",
   "engines": {
     "node": "22.x"
   },
@@ -45,7 +45,7 @@
     "test:seo": "python3 tools/test_pages_seo.py",
     "shot": "node tools/shot.js",
     "pwa": "python3 tools/build_pwa.py",
-    "icons": "node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=192\" icons/icon-192.png --width=192 --height=192 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=512\" icons/icon-512.png --width=512 --height=512 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=512&safe=1\" icons/icon-maskable-512.png --width=512 --height=512 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=180\" icons/apple-touch-icon.png --width=180 --height=180 --dpr=1",
+    "icons": "node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=192\" icons/ppg-icon-192.png --width=192 --height=192 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=512\" icons/ppg-icon-512.png --width=512 --height=512 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=512&safe=1\" icons/ppg-icon-maskable-512.png --width=512 --height=512 --dpr=1 && node tools/shot.js \"http://localhost:5173/tools/icon_source.html?size=180\" icons/ppg-apple-touch-icon.png --width=180 --height=180 --dpr=1",
     "test:offline": "node tools/test_offline.js",
     "test:submissions": "python3 tools/test_submissions.py",
     "build:site": "./tools/build_site.sh",

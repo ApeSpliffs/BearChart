@@ -1,5 +1,5 @@
 /*
- * BearChart data access. The ONLY module that knows where the data lives, what
+ * Plush Price Guide data access. The ONLY module that knows where the data lives, what
  * format it is in, or that it arrives over fetch().
  *
  *   site-config.js (globalThis.BEARCHART_CONFIG)  config, membership, redirects,
@@ -24,7 +24,7 @@
 
   function config() {
     var c = root.BEARCHART_CONFIG;
-    if (!c) throw new Error('BearChart: site-config.js did not load (run npm run build:dev).');
+    if (!c) throw new Error('Plush Price Guide: site-config.js did not load (run npm run build:dev).');
     return c;
   }
 
@@ -68,7 +68,7 @@
   function defaultTransport(url) {
     if (root.location && root.location.protocol === 'file:') {
       return Promise.reject(DataUnavailableError(
-        'Open BearChart through npm start; browsers block data files opened from disk.',
+        'Open Plush Price Guide through npm start; browsers block data files opened from disk.',
         { file: true }));
     }
     if (typeof root.fetch !== 'function') {
@@ -79,7 +79,7 @@
                                               { status: res.status });
       return res.json();
     }, function () {
-      throw DataUnavailableError('Could not reach BearChart to load ' + url + '.', { offline: true });
+      throw DataUnavailableError('Could not reach Plush Price Guide to load ' + url + '.', { offline: true });
     });
   }
 
@@ -118,7 +118,7 @@
 
   function engine() {
     var E = root.BearChartEngine;
-    if (!E) throw new Error('BearChart: engine.js did not load.');
+    if (!E) throw new Error('Plush Price Guide: engine.js did not load.');
     return E;
   }
 

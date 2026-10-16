@@ -1,4 +1,4 @@
-name: BearChart toolchain
+name: Plush Price Guide toolchain
 description: Node + Python from repo pins, npm deps without lifecycle scripts.
 inputs:
   install:

@@ -1,5 +1,5 @@
 /*
- * BearChart authentication.
+ * Plush Price Guide authentication.
  *
  * Real auth, or none at all. There is deliberately no client-side password
  * check, no "signed in" flag in localStorage, and no fake session: on a static
@@ -12,7 +12,7 @@
  * in supabase/migrations/ - not by this file. If someone bypasses this UI
  * entirely and calls the API directly, RLS still stops them.
  *
- * Until config.auth is filled in, BearChart runs exactly as it does today:
+ * Until config.auth is filled in, Plush Price Guide runs exactly as it does today:
  * anonymous, with collections kept in the browser. Nothing here breaks that.
  * A deploy can override config.auth per environment through config.js
  * (BEARCHART_RUNTIME.auth) - that is how a preview is kept off production.
@@ -183,7 +183,7 @@
         // A misconfigured backend must not take the whole site down: fall back
         // to anonymous, which is a fully working mode.
         if (root.console && console.warn) {
-          console.warn('BearChart auth unavailable, continuing anonymously:', err.message);
+          console.warn('Plush Price Guide auth unavailable, continuing anonymously:', err.message);
         }
         client = null;
         readyResolve(state());

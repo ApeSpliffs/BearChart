@@ -34,8 +34,8 @@ __pycache__/
 supabase/.branches/
 supabase/.temp/
 supabase/.env
-# Vercel CLI
-.vercel/
+# Netlify CLI
+.netlify/
 # Never commit env files other than the example
 .env.*
 !.env.example

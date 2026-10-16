@@ -193,7 +193,7 @@ test('6. an unmapped customer with only foreign prices is ignored without throwi
   t.gateway.subs.cus_s = [sub({ customerId: 'cus_s', priceId: 'price_store' })];
   const r = await t.service.handle(ev('customer.subscription.updated', { customer: 'cus_s' }));
   assert.equal(r.status, 'ignored');
-  assert.match(r.reason, /not a BearChart customer/);
+  assert.match(r.reason, /not a Plush Price Guide customer/);
   assert.equal(t.repo.rows.length, 0);
 });
 

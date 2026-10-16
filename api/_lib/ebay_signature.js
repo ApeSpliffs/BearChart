@@ -6,7 +6,7 @@
  * fetched from eBay's Notification API (see ebay_public_keys.js), and
  * `signature` is a base64 DER ECDSA signature over the raw request body.
  *
- * Files under api/ whose name starts with "_" are not routes on Vercel.
+ * Shared by api/ebay-deletion.js; not an endpoint itself.
  */
 'use strict';
 

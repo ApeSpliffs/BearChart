@@ -1,4 +1,4 @@
-# BearChart
+# Plush Price Guide
 
 **Build-A-Bear Price Guide** — Collector • Buy • Sell • Trade
 
@@ -13,7 +13,7 @@ Built as a collector and reseller research tool for Jay's Retro Exchange.
 
 > **Completed sold transactions outrank active asking prices — always.**
 
-BearChart will not tell you an item is worth $200 because somebody listed it at $200.
+Plush Price Guide will not tell you an item is worth $200 because somebody listed it at $200.
 An asking price is a hope; a sold price is evidence. The engine refuses to treat
 `active_listing` or `retail_reference` rows as market evidence, and a test fails the
 build if that ever changes.
@@ -260,7 +260,7 @@ bar of signal: *is this worth the four dollars they want for it?* A price guide
 that needs a connection is no use at the moment you need it. The catalogue index —
 every bear and its value summary — is about 125KB gzipped, so it fits in a cache.
 
-Installed from the browser ("Add to Home Screen"), BearChart opens, searches and
+Installed from the browser ("Add to Home Screen"), Plush Price Guide opens, searches and
 prices any bear in the catalogue in aeroplane mode.
 
 **How the offline item pages work.** Precaching every generated page would be
@@ -332,7 +332,7 @@ claim, read by more people than the page itself: anyone who only ever sees the
 search result. So an item with no sold comps says so in its title, its
 description, its body and its structured data, and quotes no figure anywhere.
 The structured data carries no `offers` either, on priced items included —
-schema.org offers assert something is for sale at that price, BearChart sells
+schema.org offers assert something is for sale at that price, Plush Price Guide sells
 nothing, and a rich snippet is not worth a false statement. `tools/test_pages_seo.py`
 holds all of that in place.
 
@@ -518,7 +518,7 @@ with a year you can read off a tush tag, and a price that actually happened.
 
 ## Live data — what is and isn't possible
 
-**Nothing in BearChart is live.** It is a database you feed, not a feed you watch.
+**Nothing in Plush Price Guide is live.** It is a database you feed, not a feed you watch.
 
 That is not an implementation gap, it is the state of the market:
 
@@ -535,7 +535,7 @@ So the honest routes to volume are, in order of practicality:
 1. **Terapeak, typed in by hand.** Terapeak (rebranded "Product Research" in Seller Hub)
    is free and shows up to 3 years of genuine sold data — but **it has no CSV export**.
    eBay's downloadable reports cover your own orders and listings, not market data. What
-   Terapeak gives you on screen is an *average sold price across N sales*, and BearChart
+   Terapeak gives you on screen is an *average sold price across N sales*, and Plush Price Guide
    records exactly that: see "Research averages" below.
 2. **eBay Browse API** for *active* listings — **built**, see below.
 3. **Marketplace Insights**, if you ever get approved. The importer's normalisation and
@@ -554,7 +554,7 @@ Get a key at [developer.ebay.com](https://developer.ebay.com) — create an appl
 and use the Production App ID and Cert ID. Browse is general release, unlike Marketplace
 Insights.
 
-**These are asking prices, and BearChart treats them as such.** They are stored with
+**These are asking prices, and Plush Price Guide treats them as such.** They are stored with
 `evidence_type: "active_listing"`, which the engine refuses as market evidence. Three
 independent guards enforce that:
 
@@ -717,7 +717,7 @@ npm run import:mine -- orders.csv --condition Good
 ```
 
 eBay Seller Hub → Reports → Downloads → Orders. These are sales by **Jay's Retro
-Exchange, the store that runs BearChart** — which is exactly why they are not treated as
+Exchange, the store that runs Plush Price Guide** — which is exactly why they are not treated as
 the best evidence. A price guide run by a store that also sells has a conflict of interest
 in its own sales, so every row is marked `first_party` and `seller_is_operator` and the
 engine **caps** them: operator sales make up at most 25% of the comps behind any value
@@ -873,7 +873,7 @@ scrubbed of codes before analytics can see it. supabase-js is **vendored**
 (`vendor/supabase-js-<version>.min.js`, loaded with Subresource Integrity; upgrade with
 `tools/vendor_supabase.sh`), so the site loads no third-party script for sign-in.
 
-**Browser hardening** (`vercel.json`): a Content-Security-Policy with no inline or
+**Browser hardening** (`_headers`): a Content-Security-Policy with no inline or
 eval'd script (every page script is a file; outbound links and image addresses go through
 `sanitize.js`), HSTS, a Permissions-Policy that switches off camera/microphone/location,
 and no framing. Allowed third parties: PostHog, Sentry (error reporting, inert without a
@@ -953,7 +953,7 @@ now. Tick what you own and it lands in your collection, so the totals there stay
 ## Research averages
 
 Terapeak does not hand you a list of transactions. It hands you "average sold price
-$54.00, 12 sold". That is real evidence of twelve sales, and BearChart records it as
+$54.00, 12 sold". That is real evidence of twelve sales, and Plush Price Guide records it as
 such rather than pretending it is one sale or throwing it away.
 
 Set **sales averaged** to 12 in the admin form (or include a `Quantity Sold` column in a
@@ -985,7 +985,7 @@ Set it up as a cron job, a systemd timer, or the included GitHub Actions workflo
 `tools/README-automation.md` has all three. On Actions (`.github/workflows/daily.yml`) a
 read-only job fetches, builds (`npm run build:daily`) and runs `npm test`; only if that
 passes does a separate job — which runs no repo code — commit the files listed in
-`tools/daily_outputs.txt` to `main`, fast-forward only, so a Vercel deployment
+`tools/daily_outputs.txt` to `main`, fast-forward only, so the Netlify site
 redeploys itself daily. If `main` moved during the run, nothing is published.
 
 **What refreshes daily: asking prices. What does not: sold prices, and therefore
@@ -1039,8 +1039,11 @@ when the listing ends, so your own inventory photographs remain the durable answ
 
 ## Deploying
 
-**Vercel** (the only host). The project builds with `npm run build:site` into `dist/`
-(vercel.json); `api/ebay-deletion.js` is deployed as a serverless function. Item pages,
+**Netlify** (the only host; project in the Digital Hound Studios team, served at
+https://plushpriceguide.com). The project builds with `npm run build:site` into `dist/`
+(netlify.toml); response headers come from `_headers`, and
+`netlify/functions/ebay-deletion.mjs` serves `api/ebay-deletion.js` at
+`/api/ebay-deletion`. Item pages,
 sitemap and service worker are generated at build time, so deploying the repo without
 the build command serves a site with no item pages. Environment variables:
 `docs/ENVIRONMENTS.md`.

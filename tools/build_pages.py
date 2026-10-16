@@ -25,7 +25,7 @@ WHAT IT WILL NOT DO
     description is still a claim - arguably the most-read claim on the page.
 
     The structured data carries no "offers" either. schema.org offers mean
-    something is for sale at that price; BearChart sells nothing and these are
+    something is for sale at that price; Plush Price Guide sells nothing and these are
     estimates from past sales. Rich snippets are not worth a false statement.
 """
 
@@ -96,15 +96,15 @@ def describe(item, val):
                    "sale" if val["comparable_count"] == 1 else "sales",
                    val["confidence"].title()))
     return ("%s Build-A-Bear collector reference. No sold data recorded yet, so "
-            "BearChart publishes no value for it - identification, release year "
+            "Plush Price Guide publishes no value for it - identification, release year "
             "and line details only." % name)
 
 
 def title_for(item, val):
-    """"{name} value - BearChart (independent price guide)", the item.js title
+    """"{name} value - Plush Price Guide (independent)", the item.js title
     too. The year stays: it is how collectors tell two bears of one name apart."""
     year = " (%s)" % item["release_year"] if item.get("release_year") else ""
-    return "%s%s value \u2014 BearChart (independent price guide)" % (item["canonical_name"], year)
+    return "%s%s value \u2014 Plush Price Guide (independent)" % (item["canonical_name"], year)
 
 
 def json_ld(item, val, url):
@@ -154,7 +154,7 @@ def value_block(item, val, sales):
     if not (val and val.get("has_value")):
         return (
             '<h2>No sold price on record yet</h2>'
-            '<p>BearChart has no recorded sold transactions for the '
+            '<p>Plush Price Guide has no recorded sold transactions for the '
             '%s, so it publishes <strong>no value</strong> for it. '
             'An estimate with nothing behind it is a guess, and a guess printed '
             'next to a dollar sign gets treated as a fact.</p>'
@@ -294,15 +294,15 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
 <meta name="description" content="%(desc)s">
 %(canonical)s<meta name="theme-color" content="#b3131c">
 <link rel="manifest" href="../manifest.webmanifest">
-<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="../icons/ppg-apple-touch-icon.png">
 <link rel="icon" href="../favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="../icons/icon-192.png">
+<link rel="icon" type="image/png" href="../icons/ppg-icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="BearChart">
+<meta name="apple-mobile-web-app-title" content="Plush Price">
 <meta property="og:type" content="article">
 <meta property="og:title" content="%(title)s">
 <meta property="og:description" content="%(desc)s">
-<meta property="og:site_name" content="BearChart">
+<meta property="og:site_name" content="Plush Price Guide">
 %(social)s
 %(fonts)s
 <script src="../theme.js"></script>
@@ -345,7 +345,7 @@ def page_html(item, val, sales, base_url, disclaimer, business=None):
         "canonical": ('<link rel="canonical" href="%s">\n' % e(url)) if url else "",
         # The large preview card needs an absolute image address, so it only
         # appears when the site address is known.
-        "social": ('<meta property="og:image" content="%s/icons/og-image.png">\n'
+        "social": ('<meta property="og:image" content="%s/icons/ppg-og-image.png">\n'
                    '<meta property="og:image:width" content="1200">\n'
                    '<meta property="og:image:height" content="630">\n'
                    '<meta name="twitter:card" content="summary_large_image">'
@@ -394,7 +394,7 @@ def redirect_stub_html(old_id, new_item, base_url):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>%(name)s - BearChart</title>
+<title>%(name)s - Plush Price Guide</title>
 <link rel="canonical" href="%(canonical)s">
 <meta http-equiv="refresh" content="0; url=%(target)s">
 <script src="../redirect.js"></script>

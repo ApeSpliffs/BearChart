@@ -1,0 +1,20 @@
+# Plush Price Guide - static site, built by tools/build_site.sh.
+#
+# The item pages, sitemap and split catalogue are generated from data.json at
+# build time rather than committed, so this needs a real build command;
+# deploying the repo as-is would serve a site with no data at all.
+#
+# Response headers (cache rules, CSP, HSTS) live in _headers, which the build
+# copies into dist/. Environment variables: docs/ENVIRONMENTS.md.
+
+[build]
+  command = "npm run build:site"
+  publish = "dist"
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+  NODE_VERSION = "22"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

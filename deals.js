@@ -1,4 +1,4 @@
-/* BearChart deal finder: active listings priced below their sold-data value. */
+/* Plush Price Guide deal finder: active listings priced below their sold-data value. */
 (function () {
   'use strict';
 

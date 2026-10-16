@@ -1,4 +1,4 @@
-/* BearChart - a collector's price guide that wants to feel like a shelf of
+/* Plush Price Guide - a collector's price guide that wants to feel like a shelf of
    toys rather than a spreadsheet.
 
    Warm, bright and friendly on purpose: the subject is stuffed animals, and a
@@ -232,7 +232,7 @@ main:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: -3px;
   font-weight: 900;
   font-variation-settings: "SOFT" 40, "WONK" 1;
 }
-/* The chart in BearChart: a small rising bar, which is the whole promise of
+/* The chart in Plush Price Guide: a small rising bar, which is the whole promise of
    the site in four rectangles. */
 .brand-name::after {
   content: "";

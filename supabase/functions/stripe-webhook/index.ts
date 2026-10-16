@@ -2,7 +2,7 @@
  * Stripe webhook -> subscriptions table. Wiring only; the logic lives in
  * _shared/billing/ (webhook_handler -> service -> policy, behind ports).
  *
- * This is the only thing in BearChart that may grant a paid tier. Two rules:
+ * This is the only thing in Plush Price Guide that may grant a paid tier. Two rules:
  *  1. Verify the signature before reading the body (webhook_handler.ts).
  *  2. Never take the user id or the tier from the request (service.ts,
  *     policy.ts): the user comes from the recorded customer, the tier from the

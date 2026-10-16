@@ -253,7 +253,7 @@ async function renderPage(file, url, opts) {
     // The no-network fallback this harness forces on purpose (the Supabase
     // client cannot load here, see __BEARCHART_SCRIPT_TIMEOUT_MS). Now that a
     // render waits for its data, that timeout lands inside the test.
-    if (/^BearChart auth unavailable, continuing anonymously: timed out loading vendor\//.test(msg)) return;
+    if (/^Plush Price Guide auth unavailable, continuing anonymously: timed out loading vendor\//.test(msg)) return;
     errors.push('console.warn: ' + msg);
   });
 
@@ -408,7 +408,7 @@ test('filtering also brings up more, and resetting goes back to a dozen', async 
 
 test('the masthead, disclaimer and footer are present', async () => {
   const p = await renderPage('index.html');
-  assert.match(p.doc.getElementById('masthead').textContent, /BearChart/);
+  assert.match(p.doc.getElementById('masthead').textContent, /Plush Price Guide/);
   assert.match(p.doc.getElementById('disclaimer-bar').textContent,
     /not affiliated with Build-A-Bear Workshop/);
   assert.match(p.doc.getElementById('site-footer').textContent, /Jay's Retro Exchange/);
@@ -1457,7 +1457,7 @@ test('the price guide carries the shop panel, labelled as the shop', async () =>
   const p = await renderPage('index.html');
   const promo = p.doc.querySelector('#sidebar-promo .promo');
   assert.ok(promo, 'expected the shop panel in the sidebar');
-  assert.match(promo.textContent, /shop behind BearChart/i);
+  assert.match(promo.textContent, /shop behind Plush Price Guide/i);
   const link = promo.querySelector('a.btn');
   assert.match(link.getAttribute('href'), /^https:\/\/jaysretroexchange\.com/);
   // Every store link is the operator's own: rel="sponsored" (WS5, spec 3.2).
@@ -2705,12 +2705,24 @@ test('the service worker writes a version key only at install, never for a runti
   assert.match(sw, /const RUNTIME = 'bearchart-runtime-v1'/);
 });
 
+/** Netlify's _headers file as { path: { Header: value } }. */
+function loadHeaders() {
+  const rules = {};
+  let current = null;
+  for (const line of fs.readFileSync(path.join(ROOT, '_headers'), 'utf8').split(/\r?\n/)) {
+    if (!line.trim() || line.trim().startsWith('#')) continue;
+    if (!/^\s/.test(line)) { current = rules[line.trim()] = {}; continue; }
+    const i = line.indexOf(':');
+    current[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+  }
+  return rules;
+}
+
 test('cache headers: hashed data is immutable, the manifest and item files revalidate', () => {
-  const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
-  const cc = (src) => ((vercel.headers.find((h) => h.source === src) || { headers: [] }).headers
-    .find((h) => h.key === 'Cache-Control') || {}).value;
-  assert.strictEqual(cc('/data/h/(.*)'), 'public, max-age=31536000, immutable');
-  assert.strictEqual(cc('/data/items/(.*)'), 'public, max-age=0, must-revalidate');
+  const rules = loadHeaders();
+  const cc = (src) => (rules[src] || {})['Cache-Control'];
+  assert.strictEqual(cc('/data/h/*'), 'public, max-age=31536000, immutable');
+  assert.strictEqual(cc('/data/items/*'), 'public, max-age=0, must-revalidate');
   assert.strictEqual(cc('/site-config.js'), 'public, max-age=0, must-revalidate');
   assert.strictEqual(cc('/sw.js'), 'public, max-age=0, must-revalidate');
 });
@@ -2749,7 +2761,7 @@ function observabilityWindow(runtime, url) {
   const dom = track(new JSDOM('<!doctype html><html><head></head><body></body></html>', {
     url: url || 'https://preview.bearchart.test/item/x.html?q=bear#access_token=secret',
     runScripts: 'outside-only',
-    resources: new OfflineLoader({ userAgent: 'Mozilla/5.0 (BearChart test browser)' })
+    resources: new OfflineLoader({ userAgent: 'Mozilla/5.0 (Plush Price Guide test browser)' })
   }));
   dom.window.BEARCHART_RUNTIME = runtime;
   dom.window.eval(fs.readFileSync(path.join(ROOT, 'observability.js'), 'utf8'));
@@ -2834,7 +2846,7 @@ test('member photos follow the deploy override: accounts off means no request at
   // A browser-like window (not jsdom's UA), so only the config can stop the fetch.
   const dom = track(new JSDOM('<!doctype html><html><head></head><body></body></html>', {
     url: 'https://preview.bearchart.test/item/x.html', runScripts: 'outside-only',
-    resources: new OfflineLoader({ userAgent: 'Mozilla/5.0 (BearChart test browser)' })
+    resources: new OfflineLoader({ userAgent: 'Mozilla/5.0 (Plush Price Guide test browser)' })
   }));
   const win = dom.window;
   win.BEARCHART_CONFIG = { auth: { enabled: true,
@@ -2949,10 +2961,9 @@ test('no script builds markup with an inline event handler', async () => {
 });
 
 test('the CSP and security headers are set for every path', async () => {
-  const vercel = JSON.parse(fs.readFileSync(path.join(ROOT, 'vercel.json'), 'utf8'));
-  const all = vercel.headers.find((h) => h.source === '/(.*)');
+  const all = loadHeaders()['/*'];
   assert.ok(all, 'a catch-all header block');
-  const get = (k) => (all.headers.find((h) => h.key === k) || {}).value || '';
+  const get = (k) => all[k] || '';
   const csp = get('Content-Security-Policy');
   const directive = (name) => (csp.split(';').map((d) => d.trim())
     .find((d) => d.split(/\s+/)[0] === name) || '');

@@ -1,4 +1,4 @@
-/* BearChart colour theme. Loaded as a blocking script in every page's <head>,
+/* Plush Price Guide colour theme. Loaded as a blocking script in every page's <head>,
    before the stylesheet paints, so a dark page never flashes light (and the
    reverse). The device setting decides unless the visitor picked a theme in
    the footer (localStorage 'bc.theme': 'light' | 'dark' | 'system').

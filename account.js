@@ -1,4 +1,4 @@
-/* BearChart account page: sign up, sign in, sign out, and syncing your
+/* Plush Price Guide account page: sign up, sign in, sign out, and syncing your
    collection to the account so it follows you between devices. */
 (function () {
   'use strict';
@@ -33,7 +33,7 @@
   function notConfigured() {
     return '<div class="panel">' +
       '<h1>Accounts are not switched on</h1>' +
-      '<div class="notice">BearChart runs as a static site with no server of its own, ' +
+      '<div class="notice">Plush Price Guide runs as a static site with no server of its own, ' +
       'so there is nothing here to sign in to yet. Your collection and checklists are ' +
       'kept in this browser and work exactly as they do now &mdash; they just do not ' +
       'follow you to another device.</div>' +

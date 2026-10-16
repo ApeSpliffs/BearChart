@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# BearChart daily refresh.
+# Plush Price Guide daily refresh.
 #
 #   ./tools/daily_update.sh
 #
@@ -37,7 +37,7 @@ find "$LOG_DIR" -name 'daily-*.log' -mtime +14 -delete 2>/dev/null || true
 exec > >(tee -a "$LOG") 2>&1
 
 echo "=============================================================="
-echo "BearChart daily refresh - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+echo "Plush Price Guide daily refresh - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 echo "=============================================================="
 
 PATH="/usr/local/bin:$PATH"

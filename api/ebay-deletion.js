@@ -19,7 +19,7 @@
  * key (fetched with this app's client credentials and cached) and carries an
  * ECDSA signature over the raw body. Anything unsigned or mis-signed is a 412.
  *
- * BearChart stores no eBay seller usernames or ids (tools/ebay_active.py drops
+ * Plush Price Guide stores no eBay seller usernames or ids (tools/ebay_active.py drops
  * the seller), so a verified notification has nothing to delete. Only the
  * notification id is logged - never userId, username or eiasToken.
  */
@@ -59,7 +59,7 @@ function readStream(req) {
 async function rawBodyOf(req) {
   if (typeof req.rawBody === 'string') return req.rawBody;
   if (Buffer.isBuffer(req.rawBody)) return req.rawBody.toString('utf8');
-  // Read the stream before touching req.body: on Vercel, req.body is a lazy
+  // Read the stream before touching req.body: on some hosts req.body is a lazy
   // getter that consumes (and re-serialises) it.
   if (req.readable) return readStream(req);
   return JSON.stringify(req.body === undefined ? null : req.body);
@@ -140,7 +140,7 @@ function createHandler({ env, keyFetcher, log }) {
       } catch (e) { /* signed but not JSON - still acknowledged */ }
 
       // Only the id: never userId, username or eiasToken. Logged BEFORE
-      // responding: Vercel may freeze the function once the response is sent.
+      // responding: a host may freeze the function once the response is sent.
       log.info('ebay-deletion: closure notification verified id=%s', notificationId);
       res.status(204).end();
       return;

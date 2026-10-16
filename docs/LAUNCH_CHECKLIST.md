@@ -26,7 +26,7 @@ the first section blocks launch.
 - [ ] Decide on dropping `collections`, `portfolio_flows`, `holding_snapshots`
       (if all are empty) — writes to them are already blocked.
 - [ ] Auth → URL Configuration: Site URL, and `https://<domain>/account.html`
-      plus the Vercel preview pattern in Redirect URLs.
+      plus the Netlify deploy-preview pattern in Redirect URLs.
 - [ ] Auth → Email Templates (confirm signup, magic link, reset):
       `{{ .SiteURL }}/account.html?token_hash={{ .TokenHash }}&type=<email|recovery>`.
 - [ ] Auth → Email provider: minimum password length ≥ 10 (then raise
@@ -51,16 +51,16 @@ the first section blocks launch.
       refund (`supabase/functions/_shared/billing/policy.ts`).
 - [ ] Run the README's Stripe CLI test-mode pass after deploying.
 
-### Vercel
-- [ ] Set `BEARCHART_*` variables separately for Preview and Production.
+### Netlify
+- [ ] Set `BEARCHART_*` variables separately for deploy previews and production.
 - [ ] Set `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET` (production keyset),
       `EBAY_VERIFICATION_TOKEN`, `EBAY_DELETION_ENDPOINT` — Production too (the
       deletion endpoint verifies signatures with them).
-- [ ] Deployment Protection for previews. Remove any Netlify site still connected.
+- [ ] Password-protect deploy previews. Remove the old Vercel project.
 - [ ] First deploy: check the build log shows python3 available and ~4,000 output
       files deployed.
 - [ ] Previews against the staging Supabase project need its host added to the CSP
-      `connect-src` in `vercel.json` (it names production only).
+      `connect-src` in `_headers` (it names production only).
 
 ### Sentry (optional; the site runs fine without it)
 - [ ] Create the org/project, set the DSNs (US region — the CSP allows only

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-BearChart seed-data builder.
+Plush Price Guide seed-data builder.
 
 Transcribes the research in BuildaBear1.md (sections 9-12, 26) into data.json.
 
@@ -89,7 +89,7 @@ def I(name, category, species=None, year=None, month=None, aliases=None, **flags
     # collectionhero | mini_beans_guide. Unset here means "derive it at build"
     # (see assign_catalogue_source); the wiki loader sets it explicitly.
     item["catalogue_source"] = flags.pop("catalogue_source", None)
-    # Images: BearChart ships with none. Official Build-A-Bear product photography
+    # Images: Plush Price Guide ships with none. Official Build-A-Bear product photography
     # is copyrighted, so nothing is hotlinked or bundled. Attach your own photos, or
     # images you have the right to use, via the admin tools or tools/attach_images.py.
     # Every image carries its credit and source so provenance survives, exactly as
@@ -2155,7 +2155,7 @@ CONFIG = OrderedDict([
     ("confidence", OrderedDict([
         ("high_min", 10), ("medium_min", 4), ("low_min", 1),
     ])),
-    # Accounts. OFF until a Supabase project exists. While off, BearChart runs
+    # Accounts. OFF until a Supabase project exists. While off, Plush Price Guide runs
     # anonymously and keeps collections in the browser - a fully working mode.
     #
     # The anon key belongs in client code: it is public by design and grants only
@@ -2229,7 +2229,7 @@ RETAIL_REFERENCE = OrderedDict([
 # ---------------------------------------------------------------------------
 # Business configuration
 #
-# Everything here is OFF until it is filled in. Nothing about BearChart's
+# Everything here is OFF until it is filled in. Nothing about Plush Price Guide's
 # valuations changes when it is switched on: the buy range shown to a seller is
 # the same number the engine publishes to everybody, from the same sold data.
 #
@@ -2256,9 +2256,9 @@ BUSINESS = OrderedDict([
     #   shop_offer_url   e.g. "https://jaysretroexchange.com/pages/sell?item={item}&condition={condition}"
     ("shop_search_url", None),
     ("shop_offer_url", None),
-    ("shop_eyebrow", "The shop behind BearChart"),
+    ("shop_eyebrow", "The shop behind Plush Price Guide"),
     ("shop_headline", "Buying and selling Build-A-Bear all week"),
-    ("shop_blurb", "BearChart is built and run by Jay's Retro Exchange. Shop what is "
+    ("shop_blurb", "Plush Price Guide is built and run by Jay's Retro Exchange. Shop what is "
                    "in stock, sell your own bears on the Jay's Retro Exchange "
                    "marketplace, or send us a collection and we will make an offer "
                    "on it."),
@@ -2268,7 +2268,7 @@ BUSINESS = OrderedDict([
     # about.html#conflicts, which this line links to.
     ("shop_disclosure_short", "Jay's Retro Exchange is our store. It never changes a value "
                               "in this guide."),
-    ("blurb", "Jay's Retro Exchange, the store that runs BearChart, buys and sells "
+    ("blurb", "Jay's Retro Exchange, the store that runs Plush Price Guide, buys and sells "
               "Build-A-Bear. Its offers start from the same sold prices shown above."),
     ("disclosure", "Jay's Retro Exchange buys and sells Build-A-Bear items, and would "
                    "be buying this one from you. Our offer is generated from the same "
@@ -2288,7 +2288,7 @@ BUSINESS = OrderedDict([
 # The rule: a plan sells only what a SERVER enforces. That is a consequence of
 # the architecture, not a philosophy.
 #
-# BearChart ships as static files. The catalogue is split (site-config.js, a
+# Plush Price Guide ships as static files. The catalogue is split (site-config.js, a
 # hashed index of every item's value summary, one JSON file per item with its
 # comps) so a visitor downloads only what a page needs - but every value and
 # every comp is still public, on purpose: the evidence behind a price is free.
@@ -3196,7 +3196,7 @@ def main(argv=None):
     apply_measured_multipliers(SALES, ITEMS)
     out = OrderedDict([
         ("meta", OrderedDict([
-            ("name", "BearChart"),
+            ("name", "Plush Price Guide"),
             ("subtitle", "Build-A-Bear Price Guide"),
             ("generated_by", "tools/build_data.py"),
             ("schema_version", 1),
@@ -3206,13 +3206,13 @@ def main(argv=None):
         # links and the sitemap; both are absolute by specification, and a
         # sitemap full of wrong URLs is worse than no sitemap at all.
         ("site_url", ""),
-            ("disclaimer", "BearChart is an independent collector/reseller research tool and "
+            ("disclaimer", "Plush Price Guide is an independent collector/reseller research tool and "
                            "is not affiliated with Build-A-Bear Workshop. Market values fluctuate."),
             # The one-line version for the bar under the masthead on a phone.
             ("disclaimer_short", "Independent guide \u00b7 not affiliated with Build-A-Bear Workshop."),
             # In the footer of every page.
             ("trademark_notice", "Build-A-Bear Workshop\u00ae, Build-A-Bear\u00ae and related names "
-                                 "are trademarks of Build-A-Bear Workshop, Inc. BearChart is "
+                                 "are trademarks of Build-A-Bear Workshop, Inc. Plush Price Guide is "
                                  "independent and is not affiliated with, sponsored or endorsed by "
                                  "Build-A-Bear Workshop, Inc. Names are used only to identify items."),
             # Where "Missing a bear? Tell us" goes from an empty search: a form

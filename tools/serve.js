@@ -61,7 +61,7 @@ http.createServer((req, res) => {
     res.writeHead(200, headers).end(buf);
   });
 }).listen(PORT, () => {
-  console.log('BearChart running at http://localhost:' + PORT);
+  console.log('Plush Price Guide running at http://localhost:' + PORT);
   if (!fs.existsSync(path.join(ROOT, 'site-config.js'))) {
     console.log('No site-config.js yet: run `npm run build:dev` so the pages have data.');
   }

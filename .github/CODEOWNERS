@@ -4,4 +4,6 @@
 /supabase/migrations/  @ApeSpliffs @JXSan
 /supabase/functions/   @ApeSpliffs @JXSan
 /api/                  @ApeSpliffs
-/vercel.json           @ApeSpliffs
+/netlify.toml          @ApeSpliffs
+/_headers              @ApeSpliffs
+/netlify/              @ApeSpliffs

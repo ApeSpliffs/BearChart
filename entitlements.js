@@ -1,9 +1,9 @@
 /*
- * BearChart membership entitlements.
+ * Plush Price Guide membership entitlements.
  *
  * READ THIS BEFORE ADDING A GATE
  * ==============================
- * This file cannot enforce anything. BearChart ships as static files: every
+ * This file cannot enforce anything. Plush Price Guide ships as static files: every
  * value and every comp is published (the evidence behind a price is free), so
  * a check in this file is a hint to the interface, not a lock - anyone can flip
  * it from a devtools console in about four seconds.

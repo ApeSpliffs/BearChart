@@ -19,7 +19,7 @@ history and in `ps` output for every user on the machine.
 WHAT THIS IS NOT
 =============================================================================
 These are ASKING PRICES. They are what somebody hopes to get, not what anything
-sold for. BearChart stores them as evidence_type "active_listing", which the
+sold for. Plush Price Guide stores them as evidence_type "active_listing", which the
 valuation engine refuses to treat as market evidence — a rule with a test behind
 it (see tools/test_engine.js, "active listings are never treated as market
 evidence"). They can never move a valuation.
@@ -239,7 +239,7 @@ def normalise_listing(summary, item, operators=None):
         # Deletion obligation - every closure notice would mean rebuilding and
         # redeploying a static site to erase a name. The ask-vs-sold signal
         # this file exists for does not need to know who is asking.
-        # Listed by Jay's Retro Exchange, which runs BearChart: never a "deal"
+        # Listed by Jay's Retro Exchange, which runs Plush Price Guide: never a "deal"
         # and never in the ask spread.
         ("seller_is_operator", is_operator_seller(seller, operators, "ebay")),
         # The whole point: this can never be mistaken for a sale.

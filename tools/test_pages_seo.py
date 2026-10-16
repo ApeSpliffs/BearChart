@@ -111,7 +111,7 @@ class PricedPageTests(unittest.TestCase):
         node = json.loads(re.search(
             r'application/ld\+json">\s*(\{.*?\})\s*</script>', self.html, re.S).group(1))
         # schema.org offers assert something is for sale at that price.
-        # BearChart sells nothing, and these are estimates from past sales.
+        # Plush Price Guide sells nothing, and these are estimates from past sales.
         self.assertNotIn("offers", node)
         self.assertEqual(node["brand"]["name"], "Build-A-Bear Workshop")
 
@@ -162,7 +162,7 @@ class PageShapeTests(unittest.TestCase):
         self.assertNotIn("<script>x()", html)
 
     def test_no_inline_executable_script(self):
-        # The CSP (vercel.json) allows no inline script; JSON-LD is data, not code.
+        # The CSP (_headers) allows no inline script; JSON-LD is data, not code.
         html = page(PRICED, VAL, SALES)
         for attrs in re.findall(r"<script\b([^>]*)>", html):
             self.assertTrue("src=" in attrs or 'type="application/ld+json"' in attrs, attrs)
@@ -175,7 +175,7 @@ class PageShapeTests(unittest.TestCase):
 
 SHOP = {"enabled": True, "name": "Jay's Retro Exchange",
         "shop_url": "https://jaysretroexchange.com",
-        "shop_eyebrow": "The shop behind BearChart",
+        "shop_eyebrow": "The shop behind Plush Price Guide",
         "shop_headline": "Buying and selling all week",
         "shop_blurb": "Browse what is in stock.",
         "shop_cta": "Visit the shop",
@@ -188,7 +188,7 @@ class ShopPromoTests(unittest.TestCase):
     def test_it_appears_on_a_page_with_nothing_else_to_offer(self):
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
         self.assertIn("https://jaysretroexchange.com", html)
-        self.assertIn("The shop behind BearChart", html)
+        self.assertIn("The shop behind Plush Price Guide", html)
 
     def test_it_is_labelled_and_discloses_the_conflict(self):
         html = bp.page_html(UNPRICED, NO_VAL, [], "", "d", SHOP)
@@ -273,7 +273,7 @@ class PageShapeTests(unittest.TestCase):
 
     def test_the_title_says_value_and_independent_guide(self):
         title = re.search(r"<title>([^<]*)</title>", page(PRICED, VAL, SALES)).group(1)
-        self.assertRegex(title, r" value \u2014 BearChart \(independent price guide\)$")
+        self.assertRegex(title, r" value \u2014 Plush Price Guide \(independent\)$")
 
     def test_the_theme_loads_in_the_head_before_the_stylesheet(self):
         html = page(PRICED, VAL, SALES)

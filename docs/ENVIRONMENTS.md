@@ -1,12 +1,12 @@
 # Environments
 
-BearChart runs in three places. Each one gets its own database, payment keys and
+Plush Price Guide runs in three places. Each one gets its own database, payment keys and
 error-reporting tag, so a preview build can never write to production data or
 take real money.
 
 | | Local | Preview (staging) | Production |
 |---|---|---|---|
-| Site | `npm start` / `supabase start` | Vercel Preview deployments | Vercel Production (`main`) |
+| Site | `npm start` / `supabase start` | Netlify deploy previews | Netlify production (`main`) |
 | Supabase | local CLI stack | project `bearchart-staging` | project `stfkxfhffblajqbbyqze` |
 | Stripe | test keys, `stripe listen` | test-mode keys and test prices | live keys and live prices |
 | Sentry `environment` | (off) | `preview` | `production` |
@@ -38,20 +38,20 @@ deploy uses the cached copy and refreshes it in the background, and the next loa
 uses the new one. (The paywall/data workstream's service-worker rewrite makes the
 runtime config network-first.) A brand-new visitor always gets the current file.
 
-## Vercel variables
+## Netlify variables
 
 Set separately for the **Preview** and **Production** scopes.
 
 | Variable | Preview | Production | Notes |
 |---|---|---|---|
-| `BEARCHART_ENV` | `preview` | `production` | Falls back to `VERCEL_ENV` |
+| `BEARCHART_ENV` | `preview` | `production` | Falls back to Netlify's `CONTEXT` |
 | `BEARCHART_SUPABASE_URL` | staging URL | production URL | https only |
 | `BEARCHART_SUPABASE_ANON_KEY` | staging anon key | production anon key | Public by design; RLS is the boundary |
 | `BEARCHART_SENTRY_DSN` | DSN | DSN | Omit to keep error reporting off |
 | `BEARCHART_POSTHOG_KEY` | optional | optional | Defaults to the key in `common.js` |
 | `BEARCHART_POSTHOG_ON_PREVIEW` | `1` to opt in | — | Analytics are off on previews otherwise |
 
-**Content-Security-Policy.** `vercel.json` sends one CSP for every deployment, and its
+**Content-Security-Policy.** `_headers` sends one CSP for every deployment, and its
 `connect-src` names only the production Supabase host (`https://` and `wss://`). A
 preview pointed at the staging project needs the staging host added there too
 (`https://<staging-ref>.supabase.co wss://<staging-ref>.supabase.co`) or sign-in on the
@@ -61,8 +61,8 @@ preview is blocked by the browser. A Sentry DSN must be on `*.ingest.us.sentry.i
 | `EBAY_DELETION_ENDPOINT` | — | required | The public URL registered with eBay |
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET` | — | required | Production keyset; `api/ebay-deletion.js` uses them to fetch eBay's signing keys and verify each notification (unsigned POSTs get 412) |
 
-Vercel provides `VERCEL_ENV`, `VERCEL_URL`, `VERCEL_PROJECT_PRODUCTION_URL` and
-`VERCEL_GIT_COMMIT_SHA` (used as the error-report `release`) itself. The Node version
+Netlify provides `CONTEXT`, `URL` (the primary domain, used for the sitemap),
+`DEPLOY_PRIME_URL` and `COMMIT_REF` (used as the error-report `release`) itself. The Node version
 comes from `engines.node` in `package.json`.
 
 ## Sentry project settings
@@ -103,7 +103,7 @@ Supabase.
 | `EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET` | secret | `daily.yml` (refresh job, one step, env only) |
 | `BOT_APP_ID` | variable (`production-data` env) | `daily.yml` publish job |
 | `BOT_APP_PRIVATE_KEY` | secret (`production-data` env) | `daily.yml` publish job |
-| `VERCEL_DEPLOY_HOOK_URL` | secret | `daily.yml` publish job (optional) |
+| `NETLIFY_BUILD_HOOK_URL` | secret | `daily.yml` publish job (optional) |
 | `BACKUP_DATABASE_URL`, `BACKUP_S3_BUCKET`, `BACKUP_S3_ENDPOINT`, `BACKUP_S3_ACCESS_KEY_ID`, `BACKUP_S3_SECRET_ACCESS_KEY` | secrets (`backups` env) | `backup.yml` |
 | `BACKUP_AGE_RECIPIENT` | variable (`backups` env) | `backup.yml` (public key only) |
 
@@ -112,8 +112,8 @@ Supabase.
 1. Open a PR. `CI / ci-ok` runs `npm test`, and — when the paths changed — the
    Supabase job (migrations, lint, pgTAP RLS suite, idempotent re-apply) and the
    edge-function job (`deno task ci`).
-2. Vercel builds a preview against **staging**. Check it.
-3. Merge to `main`; Vercel deploys production.
+2. Netlify builds a deploy preview against **staging**. Check it.
+3. Merge to `main`; Netlify deploys production.
 4. Database changes: `supabase db push` to **staging** first, then production
    (see README, "Database migrations" — production needs a one-time
    reconciliation before its first push).

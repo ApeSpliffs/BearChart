@@ -1,5 +1,5 @@
 """
-BearChart's domain vocabulary: the one definition of every code the pipeline,
+Plush Price Guide's domain vocabulary: the one definition of every code the pipeline,
 the engine config and the database share.
 
 Plain data, no side effects, no imports beyond the standard library. Consumers:
@@ -179,7 +179,7 @@ SIZE_TOLERANCE_IN = 1.5
 # Evidence policy
 # ---------------------------------------------------------------------------
 
-# Sales made by the operator (Jay's Retro Exchange, which runs BearChart) may
+# Sales made by the operator (Jay's Retro Exchange, which runs Plush Price Guide) may
 # make up at most this share of the points behind any published value.
 OPERATOR_EVIDENCE_CAP = 0.25
 

@@ -133,7 +133,7 @@ jobs:
       # commit above is what publishes; the hook covers a host not watching main.
       - name: Trigger deploy (inert without a hook)
         env:
-          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
         run: |
           [ -n "$HOOK" ] || { echo "No deploy hook configured"; exit 0; }
           curl -fsS -X POST "$HOOK" > /dev/null

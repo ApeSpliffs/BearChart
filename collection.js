@@ -1,4 +1,4 @@
-/* BearChart collection tracker. Local to the browser; no account required. */
+/* Plush Price Guide collection tracker. Local to the browser; no account required. */
 (function () {
   'use strict';
 

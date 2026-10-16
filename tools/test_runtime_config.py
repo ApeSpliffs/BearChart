@@ -14,31 +14,34 @@ SUPA = {"BEARCHART_SUPABASE_URL": "https://staging.supabase.co",
 
 
 class RuntimeConfig(unittest.TestCase):
-    def test_environment_falls_back_to_vercel_then_development(self):
+    def test_environment_falls_back_to_netlify_context_then_development(self):
         self.assertEqual(rc.deploy_env({}), "development")
-        self.assertEqual(rc.deploy_env({"VERCEL_ENV": "preview"}), "preview")
-        self.assertEqual(rc.deploy_env({"BEARCHART_ENV": "production", "VERCEL_ENV": "preview"}), "production")
+        self.assertEqual(rc.deploy_env({"CONTEXT": "deploy-preview"}), "preview")
+        self.assertEqual(rc.deploy_env({"CONTEXT": "branch-deploy"}), "preview")
+        self.assertEqual(rc.deploy_env({"CONTEXT": "production"}), "production")
+        self.assertEqual(rc.deploy_env({"CONTEXT": "dev"}), "development")
+        self.assertEqual(rc.deploy_env({"BEARCHART_ENV": "production", "CONTEXT": "deploy-preview"}), "production")
         self.assertEqual(rc.deploy_env({"BEARCHART_ENV": "nonsense"}), "development")
 
     def test_preview_without_supabase_settings_has_accounts_off(self):
-        out = rc.build({"VERCEL_ENV": "preview"})
+        out = rc.build({"CONTEXT": "deploy-preview"})
         self.assertEqual(out["auth"], {"enabled": False})
         self.assertIs(out["posthog_enabled"], False)
 
-    def test_a_vercel_preview_is_a_preview_whatever_bearchart_env_says(self):
-        out = rc.build({"VERCEL_ENV": "preview", "BEARCHART_ENV": "production"})
+    def test_a_netlify_preview_is_a_preview_whatever_bearchart_env_says(self):
+        out = rc.build({"CONTEXT": "deploy-preview", "BEARCHART_ENV": "production"})
         self.assertEqual(out["auth"], {"enabled": False})
         self.assertIs(out["posthog_enabled"], False)
-        out = rc.build(dict(SUPA, VERCEL_ENV="preview", BEARCHART_ENV="production"))
+        out = rc.build(dict(SUPA, CONTEXT="deploy-preview", BEARCHART_ENV="production"))
         self.assertEqual(out["auth"]["supabase_url"], "https://staging.supabase.co")
 
     def test_production_without_settings_falls_back_to_data_json(self):
-        out = rc.build({"VERCEL_ENV": "production"})
+        out = rc.build({"CONTEXT": "production"})
         self.assertNotIn("auth", out)
         self.assertNotIn("posthog_enabled", out)
 
     def test_supabase_settings_are_used_when_both_are_set(self):
-        out = rc.build(dict(SUPA, VERCEL_ENV="preview"))
+        out = rc.build(dict(SUPA, CONTEXT="deploy-preview"))
         self.assertEqual(out["auth"], {"enabled": True, "supabase_url": "https://staging.supabase.co",
                                        "supabase_anon_key": "anon"})
 
@@ -50,9 +53,9 @@ class RuntimeConfig(unittest.TestCase):
                       "BEARCHART_SUPABASE_ANON_KEY": "a", "BEARCHART_ENV": "production"})
 
     def test_optional_fields(self):
-        out = rc.build({"VERCEL_ENV": "preview", "BEARCHART_POSTHOG_ON_PREVIEW": "1",
+        out = rc.build({"CONTEXT": "deploy-preview", "BEARCHART_POSTHOG_ON_PREVIEW": "1",
                         "BEARCHART_SENTRY_DSN": "https://k@o1.ingest.us.sentry.io/1",
-                        "BEARCHART_POSTHOG_KEY": "phc_x", "VERCEL_GIT_COMMIT_SHA": "abc"})
+                        "BEARCHART_POSTHOG_KEY": "phc_x", "COMMIT_REF": "abc"})
         self.assertNotIn("posthog_enabled", out)
         self.assertEqual(out["sentry_dsn"], "https://k@o1.ingest.us.sentry.io/1")
         self.assertEqual(out["posthog_key"], "phc_x")

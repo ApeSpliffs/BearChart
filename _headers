@@ -1,0 +1,33 @@
+# HTTP headers for every deploy (Netlify reads this from the publish directory;
+# tools/build_site.sh copies it into dist/). Paths use Netlify's * splat.
+# tools/test_pages.js checks the cache rules and the CSP here.
+
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/data/h/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/data/items/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/site-config.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/config.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/icons/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/vendor/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://us-assets.i.posthog.com https://browser.sentry-cdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://stfkxfhffblajqbbyqze.supabase.co wss://stfkxfhffblajqbbyqze.supabase.co https://us.i.posthog.com https://us-assets.i.posthog.com https://*.ingest.us.sentry.io; worker-src 'self'; manifest-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), serial=(), bluetooth=(), hid=(), magnetometer=(), gyroscope=(), accelerometer=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin

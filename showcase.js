@@ -161,7 +161,7 @@
       var details = sc.details || {};
       var theme = themeOf(sc.theme);
       var top = bears.slice().sort(function (a, b) { return (valueOf(b) || 0) - (valueOf(a) || 0); })[0];
-      document.title = sc.display_name + "'s showcase - BearChart";
+      document.title = sc.display_name + "'s showcase - Plush Price Guide";
       $('sc-main').innerHTML =
         '<p class="fine backlink"><a href="' + BC.rel('showcase.html') + '">&larr; All showcases</a></p>' +
         '<section class="sc-hero theme-' + theme + '">' +
@@ -183,7 +183,7 @@
           ? bearTile(bears[0], details, true) +
             (bears.length > 1 ? '<div class="sc-grid">' + bears.slice(1).map(function (id) { return bearTile(id, details, false); }).join('') + '</div>' : '')
           : '<div class="panel"><p class="fine">No bears picked yet.</p></div>') +
-        '<p class="fine mt-3">Values are BearChart\'s current estimates from recorded sold prices. ' +
+        '<p class="fine mt-3">Values are Plush Price Guide\'s current estimates from recorded sold prices. ' +
           'Photos marked &ldquo;Their photo&rdquo; were taken by this member.</p>';
       wireLike(sc);
     }
@@ -222,7 +222,7 @@
       if (!signedIn()) {
         $('sc-list-panel').hidden = true;
         $('sc-main').innerHTML = '<div class="panel"><h2>Member showcases</h2>' +
-          '<p>See the top bears BearChart members are proudest of, in their own photos, and what they are worth. ' +
+          '<p>See the top bears Plush Price Guide members are proudest of, in their own photos, and what they are worth. ' +
           'Showcases are for members &mdash; make a free account to browse them.</p>' +
           '<p class="fine">Power members can also share a showcase of their own.</p>' +
           '<p><a class="btn btn-primary" href="' + BC.rel('account.html') + '">Sign in or create a free account</a> ' +
@@ -355,7 +355,7 @@
       return '<h2>Share your own showcase</h2>' +
         '<p>Power members get a showcase page with up to ' + MAX + ' of their favourite bears &mdash; ' +
         'in their own photos, with a note on each, a featured bear and their own page colour &mdash; ' +
-        'shared with every BearChart member.</p>' +
+        'shared with every Plush Price Guide member.</p>' +
         '<p><a class="btn btn-primary" href="' + BC.rel('plans.html') + '">See Power membership</a></p>';
     }
 

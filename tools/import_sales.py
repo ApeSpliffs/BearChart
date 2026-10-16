@@ -69,7 +69,7 @@ COLUMNS = OrderedDict([
 
 def load_operator_identities(path=None):
     """{platform: set(lowercased usernames)} for Jay's Retro Exchange, the store
-    that runs BearChart. Committed, filled in by the owner, never emitted."""
+    that runs Plush Price Guide. Committed, filled in by the owner, never emitted."""
     p = path or OPERATOR_IDS
     if not os.path.exists(p):
         return {}
@@ -88,7 +88,7 @@ def is_operator_seller(username, identities, platform=None):
         return u in identities[str(platform).lower()]
     return any(u in names for names in identities.values())
 
-# Free-text condition and completeness wording -> BearChart's vocabulary. The
+# Free-text condition and completeness wording -> Plush Price Guide's vocabulary. The
 # patterns live in tools/domain_vocab.py, the one definition shared with the
 # build, the engine config and the database checks. Order matters: the first
 # pattern that matches wins. Re-exported here under the names
@@ -181,7 +181,7 @@ def match_pattern(patterns, text, default):
 
 
 def map_headers(fieldnames, overrides):
-    """Map this file's headers onto BearChart's field names."""
+    """Map this file's headers onto Plush Price Guide's field names."""
     mapping = {}
     lookup = {}
     for field, aliases in COLUMNS.items():
@@ -289,7 +289,7 @@ class Matcher:
 
 
 def unneutralise(v):
-    """Undo the CSV-injection guard BearChart's own exports add.
+    """Undo the CSV-injection guard Plush Price Guide's own exports add.
 
     sanitize.js prefixes a cell starting with = + - @ tab or CR with a single
     quote so a spreadsheet will not run it as a formula. Reading one of those

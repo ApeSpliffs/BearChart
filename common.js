@@ -1,12 +1,12 @@
-/* Shared helpers for every BearChart page. Loaded after site-config.js,
+/* Shared helpers for every Plush Price Guide page. Loaded after site-config.js,
    sanitize.js, bc-data.js and engine.js; before the page's own script. */
 (function (root) {
   'use strict';
 
   var BD = root.BearChartData;
-  if (!BD) throw new Error('BearChart: bc-data.js did not load.');
+  if (!BD) throw new Error('Plush Price Guide: bc-data.js did not load.');
   var S = root.BearChartSanitize;
-  if (!S) throw new Error('BearChart: sanitize.js did not load.');
+  if (!S) throw new Error('Plush Price Guide: sanitize.js did not load.');
 
   // The site manifest (site-config.js). Synchronous: config-only pages
   // (about, plans, account, roadmap, privacy, terms) never load any data.
@@ -22,7 +22,7 @@
   // nothing to answer from, and say so loudly rather than guess.
 
   function notLoaded() {
-    throw new Error('BearChart: the catalogue is not loaded yet (use BC.withCatalogue).');
+    throw new Error('Plush Price Guide: the catalogue is not loaded yet (use BC.withCatalogue).');
   }
 
   var catalogue = null;
@@ -129,7 +129,7 @@
     box.setAttribute('data-bc-error', '');
     box.setAttribute('role', 'alert');
     box.innerHTML = err && err.file
-      ? '<strong>Open BearChart through <code>npm start</code>.</strong> Browsers block ' +
+      ? '<strong>Open Plush Price Guide through <code>npm start</code>.</strong> Browsers block ' +
         'data files opened straight from disk.'
       : '<strong>Couldn\'t load ' + esc(what || 'the price guide') + '.</strong> ' +
         'Check your connection and try again. ' +
@@ -387,7 +387,7 @@
   /**
    * The evidence behind a number, drawn.
    *
-   * BearChart's whole argument is that a price comes with its footing, and
+   * Plush Price Guide's whole argument is that a price comes with its footing, and
    * until now that footing was a grey pill reading "LOW". This plots it: the
    * published range as a band, the median as a line, and every recorded sale
    * as a dot where it actually sits.
@@ -712,7 +712,7 @@
   }
 
   // --- the hand-off to Jay's Retro Exchange ----------------------------------
-  // BearChart sells nothing but memberships. Buying and selling a bear happens
+  // Plush Price Guide sells nothing but memberships. Buying and selling a bear happens
   // at Jay's Retro Exchange, the store that runs the guide, and every link
   // there is built here: UTM-tagged, https only, opened in a new tab, marked
   // rel="sponsored", announced to screen readers, counted as a shop_click and
@@ -729,7 +729,7 @@
   function shopPlacement(p) {
     if (SHOP_PLACEMENTS.indexOf(p) !== -1) return p;
     if (root.console && console.warn && /^(localhost|127\.0\.0\.1)$/.test((root.location || {}).hostname || '')) {
-      console.warn('BearChart: unknown shop placement "' + p + '"');
+      console.warn('Plush Price Guide: unknown shop placement "' + p + '"');
     }
     return 'other';
   }
@@ -1829,9 +1829,9 @@
       head.innerHTML =
         '<div class="wrap">' +
           '<a class="brand" href="' + rel('index.html') + '">' +
-            '<img class="brand-mark" src="' + rel('icons/icon-192.png') + '" alt="" width="52" height="52">' +
+            '<img class="brand-mark" src="' + rel('icons/ppg-icon-192.png') + '" alt="" width="52" height="52">' +
             '<div class="brand-text">' +
-              '<span class="brand-name">BearChart</span>' +
+              '<span class="brand-name">Plush Price Guide</span>' +
               '<div class="sub">Independent Build-A-Bear price guide</div>' +
             '</div>' +
           '</a>' +
@@ -1860,9 +1860,9 @@
     if (foot) {
       var st = statsFor();
       foot.innerHTML = '<div class="wrap">' +
-        '<p><strong>BearChart</strong> &mdash; ' + esc(SITE.meta.disclaimer) + '</p>' +
+        '<p><strong>Plush Price Guide</strong> &mdash; ' + esc(SITE.meta.disclaimer) + '</p>' +
         '<p>Values are derived from completed/sold transactions only. Active asking ' +
-        'prices are never treated as market value. Where no sold data exists, BearChart ' +
+        'prices are never treated as market value. Where no sold data exists, Plush Price Guide ' +
         'publishes no price.</p>' +
         '<p>Built as a collector and reseller research tool for ' +
         (shopEnabled()
@@ -1886,7 +1886,7 @@
   /**
    * Register the service worker.
    *
-   * This is what makes BearChart work with no signal - which is the moment it
+   * This is what makes Plush Price Guide work with no signal - which is the moment it
    * is actually needed, standing in a shop holding a bear. Everything is
    * guarded: no service worker support, opened from a file:// path, or
    * registration refused all fall back to an ordinary website rather than
