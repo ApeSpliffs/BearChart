@@ -66,7 +66,8 @@ test('the filter is abandoned rather than gutting the sample', () => {
 
 test('a NWT sale normalises down to the Good baseline', () => {
   const s = { sold_price: 125, condition: 'NWT', completeness: 'bare' };
-  assert.strictEqual(E.normalisedPrice(s, CFG), 100);
+  assert.ok(CFG.condition_multipliers.NWT > 1);
+  assert.ok(Math.abs(E.normalisedPrice(s, CFG) - 125 / CFG.condition_multipliers.NWT) < 1e-9);
 });
 
 test('a complete-with-extras sale normalises down by the completeness multiplier', () => {
@@ -200,7 +201,10 @@ test('a versioned item warns against averaging versions', () => {
 test('the calculator scales a valuation by condition and completeness', () => {
   const v = valueOf('original-pumpkin-kitty');
   const a = E.adjust(v, 'NWT', 'complete', CFG);
-  assert.ok(Math.abs(a.multiplier - 1.25 * 1.15) < 1e-9);
+  // The figures are measured at build time (tools/fit_multipliers.py), so the
+  // test reads them from the config rather than pinning a number.
+  const m = CFG.condition_multipliers.NWT * CFG.completeness_multipliers.complete;
+  assert.ok(Math.abs(a.multiplier - m) < 1e-9);
   assert.ok(a.fair_market > v.fair_market);
 });
 
@@ -1263,7 +1267,9 @@ test('a hang tag is not counted twice on a copy already graded NWT', () => {
 
 test('unstuffed is a completeness grade, not a second calculator modifier', () => {
   assert.strictEqual(CFG.modifiers.multiplicative.unstuffed, undefined);
-  assert.strictEqual(CFG.completeness_multipliers.unstuffed, 1);
+  // Its figure is measured from the comps (tools/fit_multipliers.py), not pinned.
+  assert.strictEqual(CFG.completeness_multipliers.unstuffed,
+                     CFG.multiplier_basis.completeness.unstuffed.used);
 });
 
 test('a new-without-tags sale normalises by its own multiplier', () => {

@@ -4,18 +4,29 @@
   BC.renderChrome('about.html');
   var CFG = BC.config;
 
+  // Where each figure came from: measured from the comps (and from how many
+  // items), or still the configured judgement call because too few items show it.
+  var basis = CFG.multiplier_basis || {};
+  function basisCell(axis, code) {
+    var b = (basis[axis] || {})[code];
+    if (!b || b.measured == null) return '<td class="fine">Configured</td>';
+    return '<td class="fine">Measured on ' + b.items + ' item' + (b.items === 1 ? '' : 's') +
+           ' (was &times;' + b.configured + ')</td>';
+  }
+  var head = '<th class="num">Multiplier</th><th>Basis</th></tr></thead><tbody>';
+
   document.getElementById('cond-table').innerHTML =
-    '<thead><tr><th>Grade</th><th class="num">Multiplier</th></tr></thead><tbody>' +
+    '<thead><tr><th>Grade</th>' + head +
     CFG.condition_order.map(function (c) {
       return '<tr><td>' + c + '</td><td class="num">&times;' +
-             CFG.condition_multipliers[c] + '</td></tr>';
+             CFG.condition_multipliers[c] + '</td>' + basisCell('condition', c) + '</tr>';
     }).join('') + '</tbody>';
 
   document.getElementById('comp-table').innerHTML =
-    '<thead><tr><th>State</th><th class="num">Multiplier</th></tr></thead><tbody>' +
+    '<thead><tr><th>State</th>' + head +
     Object.keys(CFG.completeness_multipliers).map(function (k) {
       return '<tr><td>' + BC.esc(CFG.completeness_labels[k] || k) + '</td><td class="num">&times;' +
-             CFG.completeness_multipliers[k] + '</td></tr>';
+             CFG.completeness_multipliers[k] + '</td>' + basisCell('completeness', k) + '</tr>';
     }).join('') + '</tbody>';
 
   // Only shown once something is actually earning - no point disclosing nothing.

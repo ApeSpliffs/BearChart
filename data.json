@@ -22,10 +22,10 @@
   },
   "config": {
     "condition_multipliers": {
-      "NWT": 1.25,
-      "NWOT": 1.15,
-      "Mint": 1.15,
-      "Excellent": 1.1,
+      "NWT": 1.52,
+      "NWOT": 1.1,
+      "Mint": 1.42,
+      "Excellent": 1.12,
       "Good": 1.0,
       "Fair": 0.75,
       "Poor": 0.5,
@@ -48,9 +48,9 @@
     "completeness_multipliers": {
       "complete": 1.15,
       "packaged": 1.15,
-      "some_originals": 1.05,
+      "some_originals": 1.15,
       "bare": 1.0,
-      "unstuffed": 1.0,
+      "unstuffed": 1.11,
       "altered": 0.85,
       "unknown": 1.0
     },
@@ -183,6 +183,114 @@
     "operator_cap": 0.25,
     "features": {
       "comps_export": false
+    },
+    "multiplier_basis": {
+      "condition": {
+        "NWT": {
+          "configured": 1.25,
+          "measured": 1.532,
+          "items": 409,
+          "used": 1.52
+        },
+        "NWOT": {
+          "configured": 1.15,
+          "measured": 1.018,
+          "items": 5,
+          "used": 1.1
+        },
+        "Mint": {
+          "configured": 1.15,
+          "measured": 1.428,
+          "items": 280,
+          "used": 1.42
+        },
+        "Excellent": {
+          "configured": 1.1,
+          "measured": 1.124,
+          "items": 70,
+          "used": 1.12
+        },
+        "Good": {
+          "configured": 1.0,
+          "measured": null,
+          "items": 0,
+          "used": 1.0
+        },
+        "Fair": {
+          "configured": 0.75,
+          "measured": null,
+          "items": 0,
+          "used": 0.75
+        },
+        "Poor": {
+          "configured": 0.5,
+          "measured": null,
+          "items": 0,
+          "used": 0.5
+        },
+        "Damaged": {
+          "configured": 0.35,
+          "measured": null,
+          "items": 0,
+          "used": 0.35
+        },
+        "Incomplete": {
+          "configured": 0.6,
+          "measured": null,
+          "items": 0,
+          "used": 0.6
+        },
+        "Unknown": {
+          "configured": 1.0,
+          "measured": null,
+          "items": 0,
+          "used": 1.0
+        }
+      },
+      "completeness": {
+        "complete": {
+          "configured": 1.15,
+          "measured": null,
+          "items": 0,
+          "used": 1.15
+        },
+        "packaged": {
+          "configured": 1.15,
+          "measured": null,
+          "items": 0,
+          "used": 1.15
+        },
+        "some_originals": {
+          "configured": 1.05,
+          "measured": 1.153,
+          "items": 406,
+          "used": 1.15
+        },
+        "bare": {
+          "configured": 1.0,
+          "measured": null,
+          "items": 0,
+          "used": 1.0
+        },
+        "unstuffed": {
+          "configured": 1.0,
+          "measured": 1.118,
+          "items": 125,
+          "used": 1.11
+        },
+        "altered": {
+          "configured": 0.85,
+          "measured": null,
+          "items": 0,
+          "used": 0.85
+        },
+        "unknown": {
+          "configured": 1.0,
+          "measured": null,
+          "items": 0,
+          "used": 1.0
+        }
+      }
     }
   },
   "retail_reference": {

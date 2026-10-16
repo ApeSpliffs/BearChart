@@ -27,6 +27,7 @@ from urllib.parse import urlparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import domain_vocab as V  # noqa: E402
 import sale_attributes as SA  # noqa: E402
+import fit_multipliers as FM  # noqa: E402
 
 ITEMS = []
 SALES = []
@@ -3152,6 +3153,25 @@ def build_date(arg=None):
     return datetime.datetime.utcnow().date().isoformat()
 
 
+def apply_measured_multipliers(sales, items):
+    """Replace the judgement-call multipliers with ones measured from the comps.
+
+    tools/fit_multipliers.py says how. domain_vocab.py's values are the prior:
+    kept outright where too few items measure a grade, and shrunk toward where
+    some do. config.multiplier_basis records all three numbers per grade, so the
+    about page can say which figures were measured and from how much.
+    """
+    configured = {
+        "condition": OrderedDict((c["code"], c["multiplier"]) for c in V.CONDITIONS),
+        "completeness": OrderedDict((c["code"], c["multiplier"]) for c in V.COMPLETENESS),
+    }
+    basis = FM.fit(sales, items, configured, CONFIG["market_evidence_types"])
+    for axis, rows in basis.items():
+        CONFIG[axis + "_multipliers"] = OrderedDict((g, r["used"]) for g, r in rows.items())
+    CONFIG["multiplier_basis"] = basis
+    return basis
+
+
 def main(argv=None):
     args = parse_args(argv)
     root = args.root or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -3173,6 +3193,7 @@ def main(argv=None):
                                                 REDIRECTS)
     attributed = backfill_sale_attributes(SALES)
     assert_sales_are_sold_evidence(SALES)
+    apply_measured_multipliers(SALES, ITEMS)
     out = OrderedDict([
         ("meta", OrderedDict([
             ("name", "BearChart"),
@@ -3250,6 +3271,10 @@ def main(argv=None):
     with_photo = sum(1 for i in ITEMS if i.get("image_url"))
     print("  photos: %d attached (%d items still showing a placeholder)"
           % (with_photo, len(ITEMS) - with_photo))
+    measured = ["%s x%.2f (%d items)" % (g, r["used"], r["items"])
+                for rows in CONFIG["multiplier_basis"].values()
+                for g, r in rows.items() if r["measured"] is not None]
+    print("  multipliers measured from comps: %s" % (", ".join(measured) or "none"))
 
 
 if __name__ == "__main__":

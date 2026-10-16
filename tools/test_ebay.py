@@ -450,6 +450,80 @@ class TitleConfirmationTests(unittest.TestCase):
         self.assertFalse(ok)
         self.assertIn("generic", why)
 
+    def test_a_happy_meal_toy_is_refused_however_mcdonalds_is_spelled(self):
+        fudge = {"id": "vanilla-fudge-bunny", "canonical_name": "Vanilla Fudge Bunny"}
+        for t in ("McDonald's Build A Bear Vanilla Fudge Bunny",
+                  "Mc Donald’s Build A Bear Vanilla Fudge Bunny & Spring Bear"):
+            self.assertFalse(self.ok(fudge, t), t)
+
+    def test_an_outfit_named_before_the_bear_is_the_outfit(self):
+        pup = {"id": "patchwork-hearts-puppy", "canonical_name": "Patchwork Hearts Puppy"}
+        ok, why = eb.title_confirms(
+            pup, "Build a Bear Pink Outfit Complete Patchwork Puppy Kitten Hearts Pink Slippers")
+        self.assertFalse(ok)
+        self.assertIn("clothing", why)
+
+    def test_a_bear_named_first_and_wearing_clothes_is_still_the_bear(self):
+        pup = {"id": "patchwork-hearts-puppy", "canonical_name": "Patchwork Hearts Puppy"}
+        umb = {"id": "umbreon", "canonical_name": "Umbreon"}
+        bat = {"id": "halloween-teddy", "canonical_name": "Halloween Teddy"}
+        self.assertTrue(self.ok(pup, "Build a Bear Patchwork Hearts Puppy w/ Pink Outfit"))
+        self.assertTrue(self.ok(umb, "UMBREON Build A Bear Plush - Includes sleeper, cape"))
+        self.assertTrue(self.ok(bat, "Build a Bear w/ Pumpkin Costume Halloween Teddy"))
+
+    def catalogue(self, *items):
+        items = [dict(i) for i in items]
+        eb.mark_generic_aliases(items)
+        return items
+
+    def test_a_title_naming_a_different_catalogued_item_is_refused(self):
+        fudge, _ = self.catalogue(
+            {"id": "vanilla-fudge-bunny", "canonical_name": "Vanilla Fudge Bunny"},
+            {"id": "vanilla-cream-bunny", "canonical_name": "Vanilla Cream Bunny"})
+        ok, why = eb.title_confirms(
+            fudge, "Build-A-Bear Vanilla Cream Bunny Plush HTF Vanilla Fudge Trio 16\"")
+        self.assertFalse(ok)
+        self.assertIn("vanilla cream bunny", why)
+        self.assertTrue(self.ok(fudge, "Build-A-Bear Vanilla Fudge Bunny 16\""))
+
+    def test_a_later_version_is_another_item(self):
+        first, _ = self.catalogue(
+            {"id": "centennial-teddy", "canonical_name": "Centennial Teddy"},
+            {"id": "centennial-teddy-bear-iii", "canonical_name": "Centennial Teddy Bear III"})
+        self.assertFalse(self.ok(first, "Build-A-Bear 2002 Centennial Teddy Bear III"))
+
+    def test_a_franchise_namesake_is_context_but_a_sibling_is_not(self):
+        sonic, knuckles, _ = self.catalogue(
+            {"id": "sonic", "canonical_name": "Sonic the Hedgehog", "franchise": "Sonic"},
+            {"id": "knuckles", "canonical_name": "Knuckles", "franchise": "Sonic"},
+            {"id": "super-sonic", "canonical_name": "Super Sonic", "franchise": "Sonic"})
+        self.assertTrue(self.ok(knuckles, "Sonic the Hedgehog 2 Knuckles Build-A-Bear Plush"))
+        self.assertFalse(self.ok(sonic, "Sonic The Hedgehog 2 Build A Bear Super Sonic"))
+
+    def test_the_franchise_in_front_of_the_name_is_not_another_item(self):
+        trixie, _ = self.catalogue(
+            {"id": "trixie", "canonical_name": "Trixie Lulamoon", "franchise": "My Little Pony"},
+            {"id": "mlp-trixie", "canonical_name": "My Little Pony Trixie",
+             "franchise": "My Little Pony"})
+        self.assertTrue(self.ok(trixie, "Build A Bear My Little Pony Trixie Lulamoon Plush"))
+
+    def test_a_name_made_of_this_items_own_words_is_not_another_item(self):
+        teddy, _ = self.catalogue(
+            {"id": "classic-brown-teddy", "canonical_name": "Classic Brown Teddy"},
+            {"id": "teddy-bear", "canonical_name": "Teddy Bear"})
+        self.assertTrue(self.ok(teddy, "Build-A-Bear Classic Brown Teddy Bear 16\""))
+
+    def test_an_alias_shared_with_one_other_item_is_not_proof(self):
+        cat, _ = self.catalogue(
+            self.CAT, {"id": "promise-pets-calico-cat", "canonical_name": "Promise Pets Calico Cat"})
+        self.assertFalse(self.ok(cat, "Build A Bear Workshop Calico Cat Green Eyes 11\" Plush"))
+        self.assertFalse(self.ok(cat, "Build-A-Bear Promise Pets Calico Cat Plush"))
+        self.assertTrue(self.ok(cat, "Build-A-Bear Kennel Pals Calico Cat 2001 Plush"))
+
+    def test_a_plush_set_is_a_lot(self):
+        k = {"id": "knuckles", "canonical_name": "Knuckles"}
+        self.assertFalse(self.ok(k, "Build A Bear Sonic 2 Plush Set Sonic Tails Knuckles"))
+
 
 class ImagePolicyTests(unittest.TestCase):
     def test_images_are_off_by_default_and_never_in_the_daily_jobs(self):

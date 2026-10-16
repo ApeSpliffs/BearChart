@@ -21,7 +21,8 @@
     deals: typeof E.findDeals === 'function',
     auth: !!BC.site.auth,
     activeListings: !!ST.active_listing_count,
-    firstParty: !!ST.has_first_party
+    firstParty: !!ST.has_first_party,
+    measuredMultipliers: !!(BC.config && BC.config.multiplier_basis)
   };
 
   var PHASES = {
@@ -44,10 +45,10 @@
        'per line, the evidence trail behind each figure, and the confidence stated ' +
        'plainly. A valuation without its evidence is worth less in a claim than a ' +
        'shoebox of receipts.'],
-      ['next', 'Empirically estimated multipliers',
-       'Replace the fixed 1.25-for-NWT style constants with premiums measured from ' +
-       'the data, shrunk toward a category prior so two sales cannot imply a 3x ' +
-       'premium.'],
+      ['shipped', 'Empirically estimated multipliers',
+       'Condition and completeness premiums are measured from the sold comps, within ' +
+       'each item, and shrunk toward the configured value by how many items show ' +
+       'them, so two sales cannot imply a 3x premium.', CAPS.measuredMultipliers],
       ['blocked', 'Continuous sold-price ingestion',
        'Needs an API that is closed to non-partners. Sold comps arrive by import ' +
        'or by hand until that changes.']

@@ -289,7 +289,7 @@ def build_query(item, with_year=False):
 # A wrongly-attached one is bad data wearing the right label.
 
 LOT_RE = re.compile(
-    r"\b(lots?|bundles?|job\s*lot|set\s+of\s+\d|\d+\s*pcs?\b|x\s?\d+\b"
+    r"\b(lots?|bundles?|job\s*lot|set\s+of\s+\d|plush\s+set|\d+\s*pcs?\b|x\s?\d+\b"
     r"|your\s+choice|choose\s+\w+|pick\s+\d)\b")
 BRAND_RE = re.compile(r"buildabear|babw")
 
@@ -297,7 +297,7 @@ BRAND_RE = re.compile(r"buildabear|babw")
 # Kennel Pals food bowls, pet carriers, McDonald's Happy Meal versions and
 # keychains all arrived attached to $150+ bears and showed up as 90%-off deals.
 JUNK_RE = re.compile(
-    r"mcdonald|happy\s*meal|\bbowls?\b|\bmats?\b|pet\s*(?:house|bed|carrier)|carrying\s*case"
+    r"mc\s*donald|happy\s*meal|\bbowls?\b|\bmats?\b|pet\s*(?:house|bed|carrier)|carrying\s*case"
     r"|\bcarrier\b|key\s*chain|keychain|key\s*ring|ornament|magnet|sticker|figurine"
     r"|cookie\s*cutter|trading\s*card|\bpins?\b|\bbook\b"
     r"|(?:outfit|clothes|clothing|shoes|accessor(?:y|ies)|costume|box|tags?|certificate)\s+only"
@@ -311,6 +311,12 @@ SMALL_RE = re.compile(
 CLOTHING_RE = re.compile(
     r"\b(?:outfits?|costumes?|clothes|clothing|shoes|sneakers|boots|pajamas?|pjs|sleeper"
     r"|dress|skirt|shirt|hoodie|jacket|hat)\s+(?:set|only|\d+\s*(?:pc|piece))")
+# Clothing named BEFORE the bear is clothing for that bear: "Pink Outfit Complete
+# Patchwork Puppy Slippers" is an outfit, and arrived as a $450-margin deal on a
+# $700 puppy. A bear wearing clothes is named first: "Patchwork Puppy w/ outfit".
+CLOTHING_WORD_RE = re.compile(
+    r"\b(?:outfits?|costumes?|clothes|clothing|shoes|slippers|sneakers|boots|pajamas?"
+    r"|pjs|sleeper|dress|skirt|tutu|shirt|hoodie|jacket)\b")
 from sale_attributes import FITS_RE  # noqa: E402  (one definition, shared)
 BRAND_STRIP_RE = re.compile(r"build[\s-]*a[\s-]*bear(?:\s*workshop)?|buildabear|babw|\bbab\b")
 
@@ -329,6 +335,33 @@ def _not_the_bear(item, title):
         bare = BRAND_STRIP_RE.sub(" ", low)
         if FITS_RE.search(bare) or CLOTHING_RE.search(bare):
             return "clothing or accessory, not the bear"
+        worn = _clothing_before_name(low, own)
+        if worn:
+            return "clothing named before the bear (%s)" % worn
+    return None
+
+
+def _clothing_before_name(low, own):
+    """'Build a Bear Pink Outfit Complete Patchwork Puppy' -> 'outfit'.
+
+    Only between the brand and the name, and not after "with" or "w/": "Bear
+    w/ Pumpkin Costume Halloween Teddy" is a bear wearing one, and "Hoodie &
+    Build-A-Bear Mew" puts the hoodie in front of the brand, not the name.
+    """
+    brand = BRAND_STRIP_RE.search(low)
+    if not brand:
+        return None
+    name_tokens = {_stem(t) for t in tokens(own)}
+    # "UMBREON Build A Bear Plush - Includes sleeper": named first, so a bear.
+    if {_stem(w) for w in _words(low[:brand.start()])} & name_tokens:
+        return None
+    for word in re.sub(r"[^a-z0-9/& ]", " ", low[brand.end():]).split():
+        if word in ("w/", "w", "with", "wearing", "in", "and", "&"):
+            return None
+        if _stem(word) in name_tokens:
+            return None
+        if CLOTHING_WORD_RE.fullmatch(word) and word not in own:
+            return word
     return None
 
 
@@ -349,16 +382,56 @@ def _phrase(text):
 # Aliases that name a product line rather than one bear. "Kennel Pals" is an
 # alias of the Calico Cat and part of the name of thirty-odd other items, so a
 # Kennel Pals dog, a pet coat and a food set all "named the item" and showed up
-# as Calico Cat deals. load_items() marks each item's line-wide aliases on the
-# item itself (like _has_sales), so one catalogue never leaks into another
-# check; an item that was never marked skips nothing.
+# as Calico Cat deals. One other item is enough: "Calico Cat" is also inside
+# "Promise Pets Calico Cat", so it cannot tell the two apart on its own.
+# load_items() marks each item's line-wide aliases on the item itself (like
+# _has_sales), so one catalogue never leaks into another check; an item that was
+# never marked skips nothing.
+#
+# It also hands every item the catalogue's names, so a title naming a DIFFERENT
+# catalogued bear can be refused: "Vanilla Cream Bunny ... Vanilla Fudge Trio"
+# has every word of Vanilla Fudge Bunny in it and is not one.
 def mark_generic_aliases(items):
     names = [_phrase(i.get("canonical_name")) for i in items]
+    catalogue = [(n, i["id"], i.get("franchise")) for n, i in zip(names, items)
+                 if len(n.split()) >= 2 and tokens(n)]
     for item in items:
         own = _phrase(item.get("canonical_name"))
         item["_generic_aliases"] = sorted(
             p for p in (_phrase(a) for a in item.get("aliases") or [])
-            if p.strip() and sum(1 for n in names if n != own and p in n) >= 2)
+            if p.strip() and any(n != own and p in n for n in names))
+        item["_catalogue_names"] = catalogue
+
+
+def _names_another_item(item, title_words):
+    """The first other catalogued item this title names, or None.
+
+    A name inside this item's own name or aliases is not another item ("Polar
+    Bear" inside "WWF Polar Bear"), and neither is one whose distinctive words
+    are all this item's ("Teddy Bear" in a Classic Brown Teddy listing). A
+    longer name that CONTAINS this one is another item - a version or a sequel
+    ("Vanilla Fudge Bunny II") is priced separately.
+
+    A franchise's namesake sharing no word with this item is context, not a
+    rival: "Sonic the Hedgehog 2 Knuckles" is a Knuckles. One sharing a word is
+    a sibling that prices differently: "Super Sonic" is not a Sonic.
+    """
+    own = [_phrase(item.get("canonical_name"))] + [_phrase(a) for a in item.get("aliases") or []]
+    own_tokens = {_stem(w) for w in tokens(item.get("canonical_name"))}
+    # "My Little Pony Trixie" is Trixie Lulamoon with her franchise in front.
+    line_tokens = {_stem(w) for w in tokens(item.get("franchise"))}
+    for name, other_id, franchise in item.get("_catalogue_names") or ():
+        if other_id == item.get("id") or name not in title_words:
+            continue
+        if any(name in o for o in own):
+            continue
+        theirs = {_stem(w) for w in tokens(name)}
+        if theirs - line_tokens <= own_tokens:
+            continue
+        if franchise and franchise == item.get("franchise") and not theirs & own_tokens:
+            continue
+        return name.strip()
+    return None
 
 
 def title_confirms(item, title, loose=False):
@@ -390,8 +463,12 @@ def title_confirms(item, title, loose=False):
         # a match. Checked before containment, or "Bear" would match everything.
         return False, "item name too generic to confirm"
 
-    # The canonical name, or a specific alias, appearing whole is proof enough.
     title_words = _phrase(title)
+    rival = _names_another_item(item, title_words)
+    if rival:
+        return False, "names a different item (%s)" % rival
+
+    # The canonical name, or a specific alias, appearing whole is proof enough.
     canonical = item.get("canonical_name")
     if canonical and (_phrase(canonical) in title_words
                       or (len(normalise(canonical)) >= 10 and normalise(canonical) in norm)):

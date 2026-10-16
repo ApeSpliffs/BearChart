@@ -234661,11 +234661,11 @@ select i.id, '2025-09-11', 48.99, null, 'USD', 'Unknown', 'unknown', 'eBay', 'ht
       and s.listing_id is not distinct from '406193377050'
       and s.notes is not distinct from 'Terapeak (eBay Product Research) sold listing; matched by title with automated checks (second pass); item price, shipping excluded; title: Hello Kitty Build A Bear Pink Flower Original Tropical Sunkissed BAB');
 
-insert into valuation_config (key, value) values ('condition_multipliers', '{"NWT": 1.25, "NWOT": 1.15, "Mint": 1.15, "Excellent": 1.1, "Good": 1.0, "Fair": 0.75, "Poor": 0.5, "Damaged": 0.35, "Incomplete": 0.6, "Unknown": 1.0}'::jsonb)
+insert into valuation_config (key, value) values ('condition_multipliers', '{"NWT": 1.52, "NWOT": 1.1, "Mint": 1.42, "Excellent": 1.12, "Good": 1.0, "Fair": 0.75, "Poor": 0.5, "Damaged": 0.35, "Incomplete": 0.6, "Unknown": 1.0}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('condition_labels', '{"NWT": "New with tags", "NWOT": "New without tags", "Mint": "Mint / like new, used", "Excellent": "Excellent", "Good": "Good", "Fair": "Fair", "Poor": "Poor", "Damaged": "Damaged", "Incomplete": "Incomplete", "Unknown": "Unknown"}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('completeness_multipliers', '{"complete": 1.15, "packaged": 1.15, "some_originals": 1.05, "bare": 1.0, "unstuffed": 1.0, "altered": 0.85, "unknown": 1.0}'::jsonb)
+insert into valuation_config (key, value) values ('completeness_multipliers', '{"complete": 1.15, "packaged": 1.15, "some_originals": 1.15, "bare": 1.0, "unstuffed": 1.11, "altered": 0.85, "unknown": 1.0}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('completeness_labels', '{"complete": "Complete - outfit + extras", "packaged": "With original packaging", "some_originals": "Some originals present", "bare": "Bare bear", "unstuffed": "Unstuffed", "altered": "Missing / altered", "unknown": "Not recorded"}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
@@ -234696,6 +234696,8 @@ on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('operator_cap', '0.25'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('features', '{"comps_export": false}'::jsonb)
+on conflict (key) do update set value = excluded.value, updated_at = now();
+insert into valuation_config (key, value) values ('multiplier_basis', '{"condition": {"NWT": {"configured": 1.25, "measured": 1.532, "items": 409, "used": 1.52}, "NWOT": {"configured": 1.15, "measured": 1.018, "items": 5, "used": 1.1}, "Mint": {"configured": 1.15, "measured": 1.428, "items": 280, "used": 1.42}, "Excellent": {"configured": 1.1, "measured": 1.124, "items": 70, "used": 1.12}, "Good": {"configured": 1.0, "measured": null, "items": 0, "used": 1.0}, "Fair": {"configured": 0.75, "measured": null, "items": 0, "used": 0.75}, "Poor": {"configured": 0.5, "measured": null, "items": 0, "used": 0.5}, "Damaged": {"configured": 0.35, "measured": null, "items": 0, "used": 0.35}, "Incomplete": {"configured": 0.6, "measured": null, "items": 0, "used": 0.6}, "Unknown": {"configured": 1.0, "measured": null, "items": 0, "used": 1.0}}, "completeness": {"complete": {"configured": 1.15, "measured": null, "items": 0, "used": 1.15}, "packaged": {"configured": 1.15, "measured": null, "items": 0, "used": 1.15}, "some_originals": {"configured": 1.05, "measured": 1.153, "items": 406, "used": 1.15}, "bare": {"configured": 1.0, "measured": null, "items": 0, "used": 1.0}, "unstuffed": {"configured": 1.0, "measured": 1.118, "items": 125, "used": 1.11}, "altered": {"configured": 0.85, "measured": null, "items": 0, "used": 0.85}, "unknown": {"configured": 1.0, "measured": null, "items": 0, "used": 1.0}}}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 
 commit;

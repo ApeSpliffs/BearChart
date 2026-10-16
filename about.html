@@ -51,8 +51,8 @@
       <ol class="why">
         <li>Collect every sold observation for the exact item — versions and variants are
           kept apart, never averaged together.</li>
-        <li>Normalise each sale to a common baseline (Good condition, no extras) using the
-          configured condition and completeness multipliers.</li>
+        <li>Normalise each sale to a common baseline (Good condition, no extras) using
+          condition and completeness multipliers measured from the sold comps themselves.</li>
         <li>Drop outliers beyond 1.5× the interquartile range — but only once there are at
           least five sales. With three, the odd one out is often the real market.</li>
         <li>Take the <strong>median</strong>, never the mean and never a single sale.</li>
@@ -113,8 +113,11 @@
 
     <div class="panel">
       <h2>Condition and completeness</h2>
-      <p class="fine">Multipliers are configuration, not code. They live in
-        <span class="mono">config</span> in data.json and can be retuned as the database grows.</p>
+      <p class="fine">Each multiplier is measured within the same bear: what copies in that
+        grade sold for against copies of the same item sold as Good or with no condition
+        stated, taken as the median across every item that has both. A grade seen on only a
+        handful of items is pulled most of the way back to its configured starting value, and
+        one seen on fewer than five keeps it outright, so two sales cannot set a premium.</p>
       <div class="columns columns-even">
         <div><h3>Condition</h3><div class="table-scroll"><table id="cond-table"></table></div></div>
         <div><h3>Completeness</h3><div class="table-scroll"><table id="comp-table"></table></div></div>
