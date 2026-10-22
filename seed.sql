@@ -234689,7 +234689,7 @@ insert into valuation_config (key, value) values ('fees', '{"as_of": "2026-10", 
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('listings_max_age_hours', '6'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
-insert into valuation_config (key, value) values ('recency', '{"window_days": 365, "min_recent": 10, "as_of": "2026-10-21"}'::jsonb)
+insert into valuation_config (key, value) values ('recency', '{"window_days": 365, "min_recent": 10, "as_of": "2026-10-22"}'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
 insert into valuation_config (key, value) values ('operator_cap', '0.25'::jsonb)
 on conflict (key) do update set value = excluded.value, updated_at = now();
