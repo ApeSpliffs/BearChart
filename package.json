@@ -59,8 +59,8 @@
     "test:fit": "python3 tools/test_fit_multipliers.py"
   },
   "devDependencies": {
-    "@supabase/supabase-js": "2.117.3",
-    "jsdom": "^25.0.1"
+    "@supabase/supabase-js": "2.118.0",
+    "jsdom": "^30.1.3"
   },
   "optionalDependencies": {
     "sharp": "^0.34.5"
